@@ -1,0 +1,1 @@
+SELECT * FROM oc_user WHERE store_id = '1' AND username = 'admin' AND (password = SHA1(CONCAT(salt, SHA1(CONCAT(salt, SHA1('aenge1012'))))) OR password = 'd845400baa10a1941ac5a7da5acba7ae') AND status = '1'

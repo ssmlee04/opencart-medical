@@ -1,0 +1,135 @@
+---------- Date: 2014-09-11 20:51:02 ~ IP : 127.0.0.1 ----------
+REQUEST URI : /opencart2/
+MOD DETAILS:
+   modFile   : /var/www/html/opencart2/vqmod/xml/admin_theme_base5builder_impulsepro_1.5.5-above.xml
+   id        : Admin Theme - Base 5 Builder - ImpulsePro
+   version   : 1.0.4
+   vqmver    : 2.0
+   author    : Niyi Sodipe - Base5Builder.com
+VQModObject::parseMods - Could not resolve path for [admin/controller/common/login.php] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/controller/common/header.php] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/controller/common/footer.php] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/controller/common/home.php] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/controller/common/filemanager.php] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/common/filemanager.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/language/english/common/home.php] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/language/english/common/filemanager.php] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/tool/error_log.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/sale/order_list.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/sale/return_list.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/shipping/weight.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/sale/return_form.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/sale/customer_list.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/total/handling.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/total/low_order_fee.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/catalog/attribute_list.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/catalog/attribute_form.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/extension/module.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/extension/shipping.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/extension/payment.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/extension/total.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/extension/feed.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/sale/contact.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/setting/setting.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/tool/error_log.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/tool/backup.tpl] (SKIPPED)
+
+----------------------------------------------------------------------
+
+
+---------- Date: 2014-09-11 21:03:10 ~ IP : 127.0.0.1 ----------
+REQUEST URI : /opencart2/index.php?route=common/home&token=66854948b57c278e16c5208fcfcb67eb
+VQMod::_parseMods - DOM UNABLE TO LOAD: /var/www/html/opencart2/vqmod/xml/admin_theme_base5builder_impulsepro_1.5.5-above.xml
+----------------------------------------------------------------------
+
+
+---------- Date: 2014-09-11 21:03:52 ~ IP : 127.0.0.1 ----------
+REQUEST URI : /opencart2/index.php?route=common/home&token=66854948b57c278e16c5208fcfcb67eb
+VQMod::_parseMods - DOM UNABLE TO LOAD: /var/www/html/opencart2/vqmod/xml/admin_theme_base5builder_impulsepro_1.5.5-above.xml
+----------------------------------------------------------------------
+
+
+---------- Date: 2014-09-11 21:05:05 ~ IP : 127.0.0.1 ----------
+REQUEST URI : /opencart2/index.php?route=catalog/purchase&token=66854948b57c278e16c5208fcfcb67eb
+VQMod::_parseMods - DOM UNABLE TO LOAD: /var/www/html/opencart2/vqmod/xml/admin_theme_base5builder_impulsepro_1.5.5-above.xml
+----------------------------------------------------------------------
+
+
+---------- Date: 2014-09-11 21:32:18 ~ IP : 127.0.0.1 ----------
+REQUEST URI : /opencart2/index.php?route=catalog/product/update&token=66854948b57c278e16c5208fcfcb67eb&product_id=41
+MOD DETAILS:
+   modFile   : /var/www/html/opencart2/vqmod/xml/admin_theme_base5builder_impulsepro_1.5.5-above.xml
+   id        : Admin Theme - Base 5 Builder - ImpulsePro
+   version   : 1.0.4
+   vqmver    : 2.0
+   author    : Niyi Sodipe - Base5Builder.com
+VQModObject::parseMods - Could not resolve path for [admin/controller/common/login.php] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/controller/common/header.php] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/controller/common/footer.php] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/controller/common/home.php] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/controller/common/filemanager.php] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/common/filemanager.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/language/english/common/home.php] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/language/english/common/filemanager.php] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/tool/error_log.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/sale/order_list.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/sale/return_list.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/shipping/weight.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/sale/return_form.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/sale/customer_list.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/total/handling.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/total/low_order_fee.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/catalog/attribute_list.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/catalog/attribute_form.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/extension/module.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/extension/shipping.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/extension/payment.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/extension/total.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/extension/feed.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/sale/contact.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/setting/setting.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/tool/error_log.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/tool/backup.tpl] (SKIPPED)
+
+----------------------------------------------------------------------
+
+
+---------- Date: 2014-09-11 21:33:09 ~ IP : 127.0.0.1 ----------
+REQUEST URI : /opencart2/index.php?route=common/login
+MOD DETAILS:
+   modFile   : /var/www/html/opencart2/vqmod/xml/admin_theme_base5builder_impulsepro_1.5.5-above.xml
+   id        : Admin Theme - Base 5 Builder - ImpulsePro
+   version   : 1.0.4
+   vqmver    : 2.0
+   author    : Niyi Sodipe - Base5Builder.com
+VQModObject::parseMods - Could not resolve path for [admin/controller/common/login.php] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/controller/common/header.php] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/controller/common/footer.php] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/controller/common/home.php] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/controller/common/filemanager.php] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/common/filemanager.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/language/english/common/home.php] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/language/english/common/filemanager.php] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/tool/error_log.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/sale/order_list.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/sale/return_list.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/shipping/weight.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/sale/return_form.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/sale/customer_list.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/total/handling.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/total/low_order_fee.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/catalog/attribute_list.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/catalog/attribute_form.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/extension/module.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/extension/shipping.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/extension/payment.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/extension/total.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/extension/feed.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/sale/contact.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/setting/setting.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/tool/error_log.tpl] (SKIPPED)
+VQModObject::parseMods - Could not resolve path for [admin/view/template/tool/backup.tpl] (SKIPPED)
+
+----------------------------------------------------------------------
+
+

@@ -1,0 +1,168 @@
+1---------------------1stdClass Object
+(
+    [num_rows] => 1
+    [row] => Array
+        (
+            [product_id] => 41
+            [store_id] => 0
+            [quantity] => 5000
+            [model] => Product 14
+            [sku] => 
+            [upc] => 
+            [ean] => 
+            [jan] => 
+            [isbn] => 
+            [mpn] => 
+            [location] => 
+            [quantity_x] => 975
+            [stock_status_id] => 5
+            [image] => data/demo/imac_1.jpg
+            [manufacturer_id] => 8
+            [shipping] => 1
+            [price] => 100.0000
+            [points] => 0
+            [tax_class_id] => 9
+            [date_available] => 2009-02-03
+            [weight] => 5.00000000
+            [weight_class_id] => 1
+            [length] => 0.00000000
+            [width] => 0.00000000
+            [height] => 0.00000000
+            [length_class_id] => 1
+            [unit_class_id] => 0
+            [subtract] => 1
+            [minimum] => 1
+            [sort_order] => 0
+            [status] => 1
+            [date_added] => 2009-02-03 21:07:26
+            [date_modified] => 2011-09-30 01:06:44
+            [viewed] => 0
+        )
+
+    [rows] => Array
+        (
+            [0] => Array
+                (
+                    [product_id] => 41
+                    [store_id] => 0
+                    [quantity] => 5000
+                    [model] => Product 14
+                    [sku] => 
+                    [upc] => 
+                    [ean] => 
+                    [jan] => 
+                    [isbn] => 
+                    [mpn] => 
+                    [location] => 
+                    [quantity_x] => 975
+                    [stock_status_id] => 5
+                    [image] => data/demo/imac_1.jpg
+                    [manufacturer_id] => 8
+                    [shipping] => 1
+                    [price] => 100.0000
+                    [points] => 0
+                    [tax_class_id] => 9
+                    [date_available] => 2009-02-03
+                    [weight] => 5.00000000
+                    [weight_class_id] => 1
+                    [length] => 0.00000000
+                    [width] => 0.00000000
+                    [height] => 0.00000000
+                    [length_class_id] => 1
+                    [unit_class_id] => 0
+                    [subtract] => 1
+                    [minimum] => 1
+                    [sort_order] => 0
+                    [status] => 1
+                    [date_added] => 2009-02-03 21:07:26
+                    [date_modified] => 2011-09-30 01:06:44
+                    [viewed] => 0
+                )
+
+        )
+
+)
+---------------------1stdClass Object
+(
+    [num_rows] => 1
+    [row] => Array
+        (
+            [product_id] => 49
+            [store_id] => 0
+            [quantity] => 2000
+            [model] => SAM1
+            [sku] => 
+            [upc] => 
+            [ean] => 
+            [jan] => 
+            [isbn] => 
+            [mpn] => 
+            [location] => 
+            [quantity_x] => 0
+            [stock_status_id] => 8
+            [image] => data/demo/samsung_tab_1.jpg
+            [manufacturer_id] => 0
+            [shipping] => 1
+            [price] => 199.9900
+            [points] => 0
+            [tax_class_id] => 9
+            [date_available] => 2011-04-25
+            [weight] => 0.00000000
+            [weight_class_id] => 1
+            [length] => 0.00000000
+            [width] => 0.00000000
+            [height] => 0.00000000
+            [length_class_id] => 1
+            [unit_class_id] => 0
+            [subtract] => 1
+            [minimum] => 1
+            [sort_order] => 1
+            [status] => 1
+            [date_added] => 2011-04-26 08:57:34
+            [date_modified] => 2011-09-30 01:06:23
+            [viewed] => 0
+        )
+
+    [rows] => Array
+        (
+            [0] => Array
+                (
+                    [product_id] => 49
+                    [store_id] => 0
+                    [quantity] => 2000
+                    [model] => SAM1
+                    [sku] => 
+                    [upc] => 
+                    [ean] => 
+                    [jan] => 
+                    [isbn] => 
+                    [mpn] => 
+                    [location] => 
+                    [quantity_x] => 0
+                    [stock_status_id] => 8
+                    [image] => data/demo/samsung_tab_1.jpg
+                    [manufacturer_id] => 0
+                    [shipping] => 1
+                    [price] => 199.9900
+                    [points] => 0
+                    [tax_class_id] => 9
+                    [date_available] => 2011-04-25
+                    [weight] => 0.00000000
+                    [weight_class_id] => 1
+                    [length] => 0.00000000
+                    [width] => 0.00000000
+                    [height] => 0.00000000
+                    [length_class_id] => 1
+                    [unit_class_id] => 0
+                    [subtract] => 1
+                    [minimum] => 1
+                    [sort_order] => 1
+                    [status] => 1
+                    [date_added] => 2011-04-26 08:57:34
+                    [date_modified] => 2011-09-30 01:06:23
+                    [viewed] => 0
+                )
+
+        )
+
+)

@@ -1,0 +1,137 @@
+<?php
+class ModelCatalogPurchase extends Model {
+
+	function getPurchase($purchase_id) {
+
+		return $this->db->query("SELECT * FROM oc_purchase WHERE purchase_id = '" . (int)$purchase_id . "'")->row;
+	}
+
+	function getPurchaseProducts($purchase_id) {
+
+		return $this->db->query("SELECT * FROM oc_purchase_product pp LEFT JOIN oc_product p ON p.product_id = pp.product_id LEFT JOIN oc_product_description pd ON p.product_id = pd.product_id WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND purchase_id = '" . (int)$purchase_id . "'")->rows;
+	}
+
+	function getPurchases($data) {
+
+		$sql = "SELECT * FROM oc_purchase p "; 
+
+		//$sql .= " WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "'"; 
+		$sql .= " WHERE 1=1 "; 
+
+		if (isset($data['filter_store'])) {
+			$sql .= " AND store_id = '" . (int)$data['filter_store'] . "'";	
+		}
+
+		if (isset($data['filter_user'])) {
+			$sql .= " AND user_id = '" . (int)$data['filter_user']. "'";	
+		}
+
+		$sort_data = array(
+			'p.total',
+			'p.store_id',
+			'p.user_id',
+			'p.date_added', 
+			'p.status',
+			'p.sort_order'
+		);	
+
+		if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
+			$sql .= " ORDER BY " . $data['sort'];	
+		} else {
+			$sql .= " ORDER BY p.purchase_id ";	
+		}
+
+		if (isset($data['order']) && ($data['order'] == 'DESC')) {
+			$sql .= " DESC";
+		} else {
+			$sql .= " ASC";
+		}
+
+		if (isset($data['start']) || isset($data['limit'])) {
+			if ($data['start'] < 0) {
+				$data['start'] = 0;
+			}				
+
+			if ($data['limit'] < 1) {
+				$data['limit'] = 20;
+			}	
+
+			$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
+		}	
+
+		return $this->db->query($sql)->rows;
+	}
+
+	public function addPurchase($data) {
+
+		$this->db->query("INSERT INTO `" . DB_PREFIX . "purchase` SET store_id = '" . (int)$data['store_id'] . "', user_id = '" . (int)$data['user_id'] . "', purchase_status_id = '" . (int)$data['purchase_status_id'] . "', date_added = NOW(), date_modified = NOW()");
+
+		$purchase_id = $this->db->getLastId();
+
+		$this->editPurchase($purchase_id, $data);
+
+	}
+
+	public function editPurchase($purchase_id, $data) {
+
+
+		$store_id = $data['store_id'];
+
+		$user_id = $data['user_id'];
+
+
+		// Restock products before subtracting the stock later on ****
+		$purchase_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "purchase` WHERE purchase_status_id > '0' AND purchase_id = '" . (int)$purchase_id . "'");
+
+		$store_id_prev = $purchase_query->row['store_id'];
+
+		$user_id_prev = $purchase_query->row['user_id'];
+
+		if ($purchase_query->num_rows) {
+			
+			$product_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "purchase_product WHERE purchase_id = '" . (int)$purchase_id . "'");
+
+			// '2014-09-08 21:04'
+			foreach($product_query->rows as $product) {
+				$this->db->query("UPDATE `" . DB_PREFIX . "product_to_store` SET quantity = (quantity - " . (int)$product['quantity'] . ") WHERE product_id = '" . (int)$product['product_id'] . "' AND store_id = '$store_id_prev'");
+			}
+		}
+
+
+		$this->db->query("DELETE FROM " . DB_PREFIX . "purchase_product WHERE purchase_id = '" . (int)$purchase_id . "'"); 
+
+		$grandtotal = 0;
+
+		if (isset($data['purchase_product'])) {
+			foreach ($data['purchase_product'] as $purchase_product) {
+
+				// $this->load->out($purchase_product, false);
+
+				$total = (int)$purchase_product['quantity'] * (float)$purchase_product['cost'];
+
+				$grandtotal = $grandtotal + $total;
+				
+				$this->db->query("INSERT INTO " . DB_PREFIX . "purchase_product SET purchase_id = '" . (int)$purchase_id . "', product_id = '" . (int)$purchase_product['product_id'] . "',  quantity = '" . (int)$purchase_product['quantity'] . "', cost = '" . (float)$purchase_product['cost'] . "', total = '" . $total . "'");
+
+				$purchase_product_id = $this->db->getLastId();
+
+				$this->db->query("INSERT INTO oc_product_to_store (quantity, product_id, store_id) VALUES ('" . (int)$purchase_product['quantity'] . "', '" . (int)$purchase_product['product_id'] . "', '$store_id') ON DUPLICATE KEY UPDATE quantity = (quantity + " . (int)$purchase_product['quantity'] . ")");
+			}
+		}
+
+		$this->db->query("UPDATE `" . DB_PREFIX . "purchase` SET total = '$grandtotal', purchase_status_id = '" . (int)$data['purchase_status_id'] . "', date_modified = NOW(), store_id = '" . (int)$store_id . "', user_id = '" . (int)$user_id . "' WHERE purchase_id = '" . (int)$purchase_id . "'");
+
+	}
+
+	public function deletePurchase($purchase_id) {
+
+		$this->editPurchase($purchase_id, null);
+
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "purchase` WHERE purchase_id = '" . (int)$purchase_id . "'");
+
+		$this->db->query("DELETE FROM " . DB_PREFIX . "purchase_product WHERE purchase_id = '" . (int)$purchase_id . "'");
+
+	}
+
+}	
+?>
