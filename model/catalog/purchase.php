@@ -105,8 +105,6 @@ class ModelCatalogPurchase extends Model {
 		if (isset($data['purchase_product'])) {
 			foreach ($data['purchase_product'] as $purchase_product) {
 
-				// $this->load->out($purchase_product, false);
-
 				$total = (int)$purchase_product['quantity'] * (float)$purchase_product['cost'];
 
 				$grandtotal = $grandtotal + $total;

@@ -28,6 +28,7 @@ $_['text_separator']          = ' &gt; ';
 $_['text_edit']               = '編輯';
 $_['text_view']               = '查看';
 $_['text_home']               = '首頁';
+$_['text_voucher']               = '購物禮券';
 
 // Button
 $_['button_insert']           = '新增';
@@ -51,7 +52,7 @@ $_['button_add_address']      = '新增地址';
 $_['button_add_attribute']    = '新增屬性';
 $_['button_add_banner']       = '新增橫幅廣告';
 $_['button_add_product']      = '新增商品';
-// $_['button_add_voucher']      = '新增購物禮券(Add Voucher)';
+$_['button_add_voucher']      = '新增購物禮券';
 // $_['button_add_option']       = '新增選項(Add Option)';
 // $_['button_add_option_value'] = '新增選項值(Add Option Value)';
 // $_['button_add_discount']     = '新增(Add)';
@@ -59,7 +60,7 @@ $_['button_add_product']      = '新增商品';
 $_['button_add_image']        = '新增圖片';
 // $_['button_add_geo_zone']     = '新增區域(Add Geo Zone)';
 // $_['button_add_history']      = '新增訂單記錄(Add Order History)';
-$_['button_add_transaction']  = '新增帳戶資金';
+$_['button_add_transaction']  = '新增交易';
 $_['button_add_total']        = '新增總計';
 // $_['button_add_reward']       = '新增紅利點數(Add Reward Points)';
 // $_['button_add_route']        = '新增路徑(Add Route)';
@@ -100,9 +101,10 @@ $_['tab_product']             = '商品';
 // $_['tab_reward']              = '紅利(Reward Points)';
 // $_['tab_shipping']            = '配送細節(Shipping Details)';
 $_['tab_total']               = '總計';
-$_['tab_transaction']         = '帳戶資金';
-// $_['tab_voucher']             = '購物禮券(Vouchers)';
-// $_['tab_voucher_history']     = '購物禮券細節(Voucher History)';
+$_['tab_history']               = '歷史記錄';
+$_['tab_transaction']         = '交易記錄';
+$_['tab_voucher']             = '購物禮券';
+$_['tab_voucher_history']     = '購物禮券細節';
 
 // Error
 $_['error_upload_1']          = '上傳的檔案超過了在php.ini指令中的上傳檔案大小上限';

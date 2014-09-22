@@ -63,7 +63,7 @@ class ControllerCheckoutManual extends Controller {
 					$product_info = $this->model_catalog_product->getProduct($order_product['product_id']);
 
 					if ($product_info) {	
-						$option_data = array();
+						//$option_data = array();
 
 						// if (isset($order_product['order_option'])) {
 						// 	foreach ($order_product['order_option'] as $option) {
@@ -77,15 +77,14 @@ class ControllerCheckoutManual extends Controller {
 						// 	}
 						// }
 
-						$this->cart->add($order_product['product_id'], $order_product['quantity'], $option_data);
+						$this->cart->add($order_product['product_id'], $order_product['quantity'], null);
 					}
 				}
 			}
 
+
 			if (isset($this->request->post['product_id'])) {
 				$product_info = $this->model_catalog_product->getProduct($this->request->post['product_id']);
-
-				//$this->load->out($product_info);
 
 				if ($product_info) {
 					if (isset($this->request->post['quantity'])) {
@@ -94,19 +93,20 @@ class ControllerCheckoutManual extends Controller {
 						$quantity = 1;
 					}
 
-					if (isset($this->request->post['option'])) {
-						$option = array_filter($this->request->post['option']);
-					} else {
-						$option = array();	
-					}
+					$option = array();	
+					// if (isset($this->request->post['option'])) {
+					// 	$option = array_filter($this->request->post['option']);
+					// } else {
+					// 	$option = array();	
+					// }
 
-					$product_options = $this->model_catalog_product->getProductOptions($this->request->post['product_id']);
+					// $product_options = $this->model_catalog_product->getProductOptions($this->request->post['product_id']);
 
-					foreach ($product_options as $product_option) {
-						if ($product_option['required'] && empty($option[$product_option['product_option_id']])) {
-							$json['error']['product']['option'][$product_option['product_option_id']] = sprintf($this->language->get('error_required'), $product_option['name']);
-						}
-					}
+					// foreach ($product_options as $product_option) {
+					// 	if ($product_option['required'] && empty($option[$product_option['product_option_id']])) {
+					// 		$json['error']['product']['option'][$product_option['product_option_id']] = sprintf($this->language->get('error_required'), $product_option['name']);
+					// 	}
+					// }
 
 					if (!isset($json['error']['product']['option'])) {
 						$this->cart->add($this->request->post['product_id'], $quantity, $option);
@@ -142,6 +142,8 @@ class ControllerCheckoutManual extends Controller {
 
 			$products = $this->cart->getProducts();
 
+			$subtotal = 0;
+// $this->load->out($this->request->post['order_product']);
 			foreach ($products as $product) {
 				$product_total = 0;
 
@@ -150,6 +152,14 @@ class ControllerCheckoutManual extends Controller {
 						$product_total += $product_2['quantity'];
 					}
 				}	
+
+				$price = 0;
+				if (!empty($this->request->post['order_product']))
+				foreach ($this->request->post['order_product'] as $product_3) {
+					if ($product_3['product_id'] == $product['product_id']) {
+						$price = $product_3['price'];
+					}
+				}
 
 				if ($product['minimum'] > $product_total) {
 					$json['error']['product']['minimum'][] = sprintf($this->language->get('error_minimum'), $product['name'], $product['minimum']);
@@ -178,6 +188,8 @@ class ControllerCheckoutManual extends Controller {
 				// 	);
 				// }
 
+				$total = $price *  $product['quantity'];
+				$subtotal += $total;
 				$json['order_product'][] = array(
 					'product_id' => $product['product_id'],
 					'name'       => $product['name'],
@@ -186,110 +198,113 @@ class ControllerCheckoutManual extends Controller {
 					// 'download'   => $download_data,
 					'quantity'   => $product['quantity'],
 					'stock'      => $product['stock'],
-					'price'      => $product['price'],	
-					'total'      => $product['total'],	
+					'ref_price'      => $product['price'],	
+					'price'      => $price,
+					'total'      => $total,	
 					'tax'        => $this->tax->getTax($product['price'], $product['tax_class_id']),
 					// 'reward'     => $product['reward']				
 				);
 			}
 
 			// Voucher
-			// $this->session->data['vouchers'] = array();
+			$this->session->data['vouchers'] = array();
 
-			// if (isset($this->request->post['order_voucher'])) {
-			// 	foreach ($this->request->post['order_voucher'] as $voucher) {
-			// 		$this->session->data['vouchers'][] = array(
-			// 			'voucher_id'       => $voucher['voucher_id'],
-			// 			'description'      => $voucher['description'],
-			// 			'code'             => substr(md5(mt_rand()), 0, 10),
-			// 			'from_name'        => $voucher['from_name'],
-			// 			'from_email'       => $voucher['from_email'],
-			// 			'to_name'          => $voucher['to_name'],
-			// 			'to_email'         => $voucher['to_email'],
-			// 			'voucher_theme_id' => $voucher['voucher_theme_id'], 
-			// 			'message'          => $voucher['message'],
-			// 			'amount'           => $voucher['amount']    
-			// 		);
-			// 	}
-			// }
+			if (isset($this->request->post['order_voucher'])) {
+				foreach ($this->request->post['order_voucher'] as $voucher) {
+					$this->session->data['vouchers'][] = array(
+						'voucher_id'       => $voucher['voucher_id'],
+						'description'      => $voucher['description'],
+						'code'             => substr(md5(mt_rand()), 0, 10),
+						// 'from_name'        => $voucher['from_name'],
+						// 'from_email'       => $voucher['from_email'],
+						// 'to_name'          => $voucher['to_name'],
+						// 'to_email'         => $voucher['to_email'],
+						'voucher_theme_id' => $voucher['voucher_theme_id'], 
+						'message'          => $voucher['message'],
+						'amount'           => $voucher['amount']    
+					);
+				}
+			}
 
 			// Add a new voucher if set
-			// if (isset($this->request->post['from_name']) && isset($this->request->post['from_email']) && isset($this->request->post['to_name']) && isset($this->request->post['to_email']) && isset($this->request->post['amount'])) {
-			// 	if ((utf8_strlen($this->request->post['from_name']) < 1) || (utf8_strlen($this->request->post['from_name']) > 64)) {
-			// 		$json['error']['vouchers']['from_name'] = $this->language->get('error_from_name');
-			// 	}  
+			if (isset($this->request->post['amount']) && (float)$this->request->post['amount'] > 0) {
+				// if ((utf8_strlen($this->request->post['from_name']) < 1) || (utf8_strlen($this->request->post['from_name']) > 64)) {
+				// 	$json['error']['vouchers']['from_name'] = $this->language->get('error_from_name');
+				// }  
 
-			// 	if ((utf8_strlen($this->request->post['from_email']) > 96) || !preg_match('/^[^\@]+@.*\.[a-z]{2,6}$/i', $this->request->post['from_email'])) {
-			// 		$json['error']['vouchers']['from_email'] = $this->language->get('error_email');
-			// 	}
+				// if ((utf8_strlen($this->request->post['from_email']) > 96) || !preg_match('/^[^\@]+@.*\.[a-z]{2,6}$/i', $this->request->post['from_email'])) {
+				// 	$json['error']['vouchers']['from_email'] = $this->language->get('error_email');
+				// }
 
-			// 	if ((utf8_strlen($this->request->post['to_name']) < 1) || (utf8_strlen($this->request->post['to_name']) > 64)) {
-			// 		$json['error']['vouchers']['to_name'] = $this->language->get('error_to_name');
-			// 	}       
+				// if ((utf8_strlen($this->request->post['to_name']) < 1) || (utf8_strlen($this->request->post['to_name']) > 64)) {
+				// 	$json['error']['vouchers']['to_name'] = $this->language->get('error_to_name');
+				// }       
 
-			// 	if ((utf8_strlen($this->request->post['to_email']) > 96) || !preg_match('/^[^\@]+@.*\.[a-z]{2,6}$/i', $this->request->post['to_email'])) {
-			// 		$json['error']['vouchers']['to_email'] = $this->language->get('error_email');
-			// 	}
+				// if ((utf8_strlen($this->request->post['to_email']) > 96) || !preg_match('/^[^\@]+@.*\.[a-z]{2,6}$/i', $this->request->post['to_email'])) {
+				// 	$json['error']['vouchers']['to_email'] = $this->language->get('error_email');
+				// }
 
-			// 	if (($this->request->post['amount'] < 1) || ($this->request->post['amount'] > 1000)) {
-			// 		$json['error']['vouchers']['amount'] = sprintf($this->language->get('error_amount'), $this->currency->format(1, false, 1), $this->currency->format(1000, false, 1) . ' ' . $this->config->get('config_currency'));
-			// 	}
 
-			// 	if (!isset($json['error']['vouchers'])) { 
-			// 		$voucher_data = array(
-			// 			'order_id'         => 0,
-			// 			'code'             => substr(md5(mt_rand()), 0, 10),
-			// 			'from_name'        => $this->request->post['from_name'],
-			// 			'from_email'       => $this->request->post['from_email'],
-			// 			'to_name'          => $this->request->post['to_name'],
-			// 			'to_email'         => $this->request->post['to_email'],
-			// 			'voucher_theme_id' => $this->request->post['voucher_theme_id'], 
-			// 			'message'          => $this->request->post['message'],
-			// 			'amount'           => $this->request->post['amount'],
-			// 			'status'           => true             
-			// 		); 
+				if (($this->request->post['amount'] < 1) || ($this->request->post['amount'] > 1000)) {
+					$json['error']['vouchers']['amount'] = sprintf($this->language->get('error_amount'), $this->currency->format(1, false, 1), $this->currency->format(1000, false, 1) . ' ' . $this->config->get('config_currency'));
+				}
 
-			// 		$this->load->model('checkout/voucher');
+				if (!isset($json['error']['vouchers'])) { 
+					$voucher_data = array(
+						'order_id'         => 0,
+						'code'             => substr(md5(mt_rand()), 0, 10),
+						// 'from_name'        => $this->request->post['from_name'],
+						// 'from_email'       => $this->request->post['from_email'],
+						// 'to_name'          => $this->request->post['to_name'],
+						// 'to_email'         => $this->request->post['to_email'],
+						'voucher_theme_id' => $this->request->post['voucher_theme_id'], 
+						'message'          => $this->request->post['message'],
+						'amount'           => $this->request->post['amount'],
+						'status'           => true             
+					); 
+			
 
-			// 		$voucher_id = $this->model_checkout_voucher->addVoucher(0, $voucher_data);  
+					$this->load->model('checkout/voucher');
 
-			// 		$this->session->data['vouchers'][] = array(
-			// 			'voucher_id'       => $voucher_id,
-			// 			'description'      => sprintf($this->language->get('text_for'), $this->currency->format($this->request->post['amount'], $this->config->get('config_currency')), $this->request->post['to_name']),
-			// 			'code'             => substr(md5(mt_rand()), 0, 10),
-			// 			'from_name'        => $this->request->post['from_name'],
-			// 			'from_email'       => $this->request->post['from_email'],
-			// 			'to_name'          => $this->request->post['to_name'],
-			// 			'to_email'         => $this->request->post['to_email'],
-			// 			'voucher_theme_id' => $this->request->post['voucher_theme_id'], 
-			// 			'message'          => $this->request->post['message'],
-			// 			'amount'           => $this->request->post['amount']            
-			// 		); 
-			// 	}
-			// }
+					$voucher_id = $this->model_checkout_voucher->addVoucher(0, $voucher_data);  
 
-			// $json['order_voucher'] = array();
+					$this->session->data['vouchers'][] = array(
+						'voucher_id'       => $voucher_id,
+						'description'      => sprintf($this->language->get('text_for'), $this->currency->format($this->request->post['amount'], $this->config->get('config_currency')), '' /*$this->request->post['to_name']*/),
+						'code'             => substr(md5(mt_rand()), 0, 10),
+						// 'from_name'        => $this->request->post['from_name'],
+						// 'from_email'       => $this->request->post['from_email'],
+						// 'to_name'          => $this->request->post['to_name'],
+						// 'to_email'         => $this->request->post['to_email'],
+						'voucher_theme_id' => $this->request->post['voucher_theme_id'], 
+						'message'          => $this->request->post['message'],
+						'amount'           => $this->request->post['amount']            
+					); 
+				}
+			}
 
-			// foreach ($this->session->data['vouchers'] as $voucher) {
-			// 	$json['order_voucher'][] = array(
-			// 		'voucher_id'       => $voucher['voucher_id'],
-			// 		'description'      => $voucher['description'],
-			// 		'code'             => $voucher['code'],
-			// 		'from_name'        => $voucher['from_name'],
-			// 		'from_email'       => $voucher['from_email'],
-			// 		'to_name'          => $voucher['to_name'],
-			// 		'to_email'         => $voucher['to_email'],
-			// 		'voucher_theme_id' => $voucher['voucher_theme_id'], 
-			// 		'message'          => $voucher['message'],
-			// 		'amount'           => $voucher['amount']    
-			// 	);
-			// }
+			$json['order_voucher'] = array();
+
+			foreach ($this->session->data['vouchers'] as $voucher) {
+				$json['order_voucher'][] = array(
+					'voucher_id'       => $voucher['voucher_id'],
+					'description'      => $voucher['description'],
+					'code'             => $voucher['code'],
+					// 'from_name'        => $voucher['from_name'],
+					// 'from_email'       => $voucher['from_email'],
+					// 'to_name'          => $voucher['to_name'],
+					// 'to_email'         => $voucher['to_email'],
+					'voucher_theme_id' => $voucher['voucher_theme_id'], 
+					'message'          => $voucher['message'],
+					'amount'           => $voucher['amount']    
+				);
+			}
 
 			$this->load->model('setting/extension');
 
-			$this->load->model('localisation/country');
+			// $this->load->model('localisation/country');
 
-			$this->load->model('localisation/zone');
+			// $this->load->model('localisation/zone');
 
 			// Shipping
 			// $json['shipping_method'] = array();
@@ -455,35 +470,75 @@ class ControllerCheckoutManual extends Controller {
 			// }
 
 			// Totals
-			$json['order_total'] = array();					
-			$total = 0;
-			$taxes = $this->cart->getTaxes();
+			$json['order_total'] = array();		
 
-			$sort_order = array(); 
+			// $total = 0;
+			// $taxes = $this->cart->getTaxes();
 
-			$results = $this->model_setting_extension->getExtensions('total');
+			// $sort_order = array(); 
 
-			foreach ($results as $key => $value) {
-				$sort_order[$key] = $this->config->get($value['code'] . '_sort_order');
-			}
+			// $results = $this->model_setting_extension->getExtensions('total');
 
-			array_multisort($sort_order, SORT_ASC, $results);
+			// foreach ($results as $key => $value) {
+			// 	$sort_order[$key] = $this->config->get($value['code'] . '_sort_order');
+			// }
 
-			foreach ($results as $result) {
-				if ($this->config->get($result['code'] . '_status')) {
-					$this->load->model('total/' . $result['code']);
+			// array_multisort($sort_order, SORT_ASC, $results);
 
-					$this->{'model_total_' . $result['code']}->getTotal($json['order_total'], $total, $taxes);
-				}
+			// foreach ($results as $result) {
+			// 	if ($this->config->get($result['code'] . '_status')) {
+			// 		$this->load->model('total/' . $result['code']);
 
-				$sort_order = array(); 
+			// 		$this->{'model_total_' . $result['code']}->getTotal($json['order_total'], $total, $taxes);
+			// 	}
 
-				foreach ($json['order_total'] as $key => $value) {
-					$sort_order[$key] = $value['sort_order'];
-				}
+			// 	$sort_order = array(); 
 
-				array_multisort($sort_order, SORT_ASC, $json['order_total']);				
-			}
+			// 	foreach ($json['order_total'] as $key => $value) {
+			// 		$sort_order[$key] = $value['sort_order'];
+			// 	}
+
+			// 	array_multisort($sort_order, SORT_ASC, $json['order_total']);				
+			// }
+
+			$json['order_total'] = array();
+
+			// $json['order_total'][] = array(
+			// 	'code' => 'sub_total',
+			// 	'title' => '小計',
+			// 	'text' => $subtotal,
+			// 	'value' => $subtotal,
+			// 	'sort_order' => '1',
+			// 	);
+
+			$json['order_total'][] = array(
+				'code' => 'total',
+				'title' => '訂單計算項目',
+				'text' => $subtotal,
+				'value' => $subtotal,
+				'sort_order' => '9',
+				);			
+// Array
+// (
+//     [0] => Array
+//         (
+//             [code] => sub_total
+//             [title] => 小計
+//             [text] => $209,100.00
+//             [value] => 209100
+//             [sort_order] => 1
+//         )
+
+//     [1] => Array
+//         (
+//             [code] => total
+//             [title] => 訂單計算項目
+//             [text] => $209,100.00
+//             [value] => 209100
+//             [sort_order] => 9
+//         )
+
+// )
 
 			// Payment
 			// if ($this->request->post['payment_country_id'] == '') {
@@ -594,7 +649,7 @@ class ControllerCheckoutManual extends Controller {
 			$json['error']['warning'] = $this->language->get('error_permission');
 		}
 
-		$this->load->out($json, false);
+		// $this->load->out($json, false);
 
 		$this->response->setOutput(json_encode($json));	
 	}

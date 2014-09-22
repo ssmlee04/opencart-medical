@@ -1,5 +1,6 @@
 <?php
 class ModelSaleCustomer extends Model {
+	
 	public function addCustomer($data) {
 		$this->db->query("INSERT INTO " . DB_PREFIX . "customer SET firstname = '" . $this->db->escape($data['firstname']) . "', lastname = '" . $this->db->escape($data['lastname']) . "', email = '" . $this->db->escape($data['email']) . "', telephone = '" . $this->db->escape($data['telephone']) . "', fax = '" . $this->db->escape($data['fax']) . "', newsletter = '" . (int)$data['newsletter'] . "', customer_group_id = '" . (int)$data['customer_group_id'] . "', salt = '" . $this->db->escape($salt = substr(md5(uniqid(rand(), true)), 0, 9)) . "', password = '" . $this->db->escape(sha1($salt . sha1($salt . sha1($data['password'])))) . "', status = '" . (int)$data['status'] . "', date_added = NOW()");
 
@@ -332,8 +333,13 @@ class ModelSaleCustomer extends Model {
 		return $query->row['total'];
 	}
 
-	public function addHistory($customer_id, $comment) {
-		$this->db->query("INSERT INTO " . DB_PREFIX . "customer_history SET customer_id = '" . (int)$customer_id . "', comment = '" . $this->db->escape(strip_tags($comment)) . "', date_added = NOW()");
+	public function addHistory($customer_id, $comment, $user_id = 0, $reminder=null, $reminder_date=null) {
+
+		$subsql = ($reminder ? " reminder = 1, reminder_date = '$reminder_date', user_id = " . (int)$user_id . ', ' : '');
+
+		$sql = "INSERT INTO " . DB_PREFIX . "customer_history SET $subsql customer_id = '" . (int)$customer_id . "', comment = '" . $this->db->escape(strip_tags($comment)) . "', date_added = NOW()";
+
+		$this->db->query($sql);
 	}	
 
 	public function getHistories($customer_id, $start = 0, $limit = 10) { 
@@ -356,19 +362,24 @@ class ModelSaleCustomer extends Model {
 		return $query->row['total'];
 	}	
 
+	// minus transaction
 	public function addTransaction2($customer_id, $product_id, $subquantity) {
-
-		//$this->load->out($customer_id . ' ' . $product_id . ' ' . $subquantity);
 		
 		if ($product_id <= 0) return false;
 		
-		if ($subquantity == 0) return false;
+		if ($subquantity <= 0) return false;
 
 		if ($customer_id <= 0) return false;
 
+		$this->load->language('sale/history');
+
+		$user_id = $this->user->getId();
+
 		$order_id = 0;
 
-		$query = $this->db->query("SELECT * FROM oc_product p LEFT JOIN oc_unit_class_description ucd ON ucd.unit_class_id = p.unit_class_id WHERE product_id = '$product_id' AND ucd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
+// $this->load->out("SELECT * FROM oc_product p LEFT JOIN oc_product_description pd ON p.product_id = pd.product_id LEFT JOIN oc_unit_class_description ucd ON ucd.unit_class_id = p.unit_class_id AND pd.language_id = ucd.language_id WHERE p.product_id = '$product_id' AND ucd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
+		$query = $this->db->query("SELECT * FROM oc_product p LEFT JOIN oc_product_description pd ON p.product_id = pd.product_id LEFT JOIN oc_unit_class_description ucd ON ucd.unit_class_id = p.unit_class_id AND pd.language_id = ucd.language_id WHERE p.product_id = '$product_id' AND ucd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
+
 
 		$unit_quantity = $query->row['unit_quantity'];
 
@@ -378,7 +389,22 @@ class ModelSaleCustomer extends Model {
 
 		$amount = 0;
 
-		$this->db->query("INSERT INTO " . DB_PREFIX . "customer_transaction SET customer_id = '" . (int)$customer_id . "', product_id = '" . (int)$product_id . "', subquantity = '" . (int)$subquantity . "', order_id = '" . (int)$order_id . "', quantity = '" . (float)$quantity . "', unit_class_id = '" . (int)$unit_class_id . "', amount = '" . (float)$amount . "', type = '2', date_added = NOW()");
+		$this->db->query("INSERT INTO " . DB_PREFIX . "customer_transaction SET customer_id = '" . (int)$customer_id . "', product_id = '" . (int)$product_id . "', subquantity = '" . -(int)$subquantity . "', order_id = '" . (int)$order_id . "', quantity = '" . -(float)$quantity . "', unit_class_id = '" . (int)$unit_class_id . "', amount = '" . (float)$amount . "', type = '2', date_added = NOW()");
+
+		$reminder = $query->row['reminder']; 
+
+		if ($reminder) {
+
+
+			$reminder_days = $query->row['reminder_days'];
+
+			$reminder_date = date('Y-m-d', strtotime("+" . $reminder_days . " days"));
+
+			$text_treatment_reminder = sprintf($this->language->get('text_treatment_reminder'), $reminder_days, $query->row['name']);
+
+			//$comment, $user_id = 0, $reminder=null, $reminder_date=null
+			$this->addHistory($customer_id, $text_treatment_reminder, $user_id, 1, $reminder_date);
+		}
 
 		return $this->db->countAffected();
 
@@ -396,8 +422,6 @@ class ModelSaleCustomer extends Model {
 		if ($customer_info && $order_product_info) { 
 
 			$this->db->query("DELETE FROM oc_customer_transaction WHERE order_id = '$order_id' AND customer_id = '$customer_id'");
-
-			$this->load->out($order_product_info, false);
 
 			foreach ($order_product_info as $product_info) {
 

@@ -16,7 +16,9 @@
     <div class="content">
       <div id="htabs" class="htabs"><a href="#tab-general"><?php echo $tab_general; ?></a>
         <?php if ($customer_id) { ?>
-        <a href="#tab-history"><?php echo $tab_history; ?></a><a href="#tab-transaction"><?php echo $tab_transaction; ?></a>
+        <a href="#tab-history"><?php echo $tab_history; ?></a>
+        <a href="#tab-transaction"><?php echo $tab_transaction; ?></a>
+        <a href="#tab-image"><?php echo $tab_image; ?></a>
 
         <!-- <a href="#tab-reward"><php echo $tab_reward; ?></a> -->
 
@@ -263,6 +265,9 @@
               <td><textarea name="comment" cols="40" rows="8" style="width: 99%;"></textarea></td>
             </tr>
             <tr>
+              <td colspan="2" style="text-align: right;"><input type='date_available' name='reminder_date' class='date'/><span><?php echo $text_reminder; ?></span><input type='checkbox' value='1' name='reminder'/></td>
+            </tr>
+            <tr>
               <td colspan="2" style="text-align: right;"><a id="button-history" class="button"><span><?php echo $button_add_history; ?></span></a></td>
             </tr>
           </table>
@@ -289,6 +294,38 @@
           <div id="transaction"></div>
 
         </div>
+        <div id="tab-image">
+          <table id="images" class="list">
+            <thead>
+              <tr>
+                <td class="left"><?php echo $entry_image; ?></td>
+                <td class="right"><?php echo $entry_sort_order; ?></td>
+                <td></td>
+              </tr>
+            </thead>
+            <?php $image_row = 0; ?>
+            <?php foreach ($customer_images as $customer_image) { ?>
+            <tbody id="image-row<?php echo $image_row; ?>">
+              <tr>
+                <td class="left"><div class="image"><img src="<?php echo $customer_image['thumb']; ?>" alt="" id="thumb<?php echo $image_row; ?>" />
+                    <input type="hidden" name="customer_image[<?php echo $image_row; ?>][image]" value="<?php echo $customer_image['image']; ?>" id="image<?php echo $image_row; ?>" />
+                    <br />
+                    <a onclick="image_upload('image<?php echo $image_row; ?>', 'thumb<?php echo $image_row; ?>');"><?php echo $text_browse; ?></a>&nbsp;&nbsp;|&nbsp;&nbsp;<a onclick="$('#thumb<?php echo $image_row; ?>').attr('src', '<?php echo $no_image; ?>'); $('#image<?php echo $image_row; ?>').attr('value', '');"><?php echo $text_clear; ?></a></div></td>
+                <td class="right"><input type="text" name="customer_image[<?php echo $image_row; ?>][sort_order]" value="<?php echo $customer_image['sort_order']; ?>" size="2" /></td>
+                <td class="left"><a onclick="$('#image-row<?php echo $image_row; ?>').remove();" class="button"><?php echo $button_remove; ?></a></td>
+              </tr>
+            </tbody>
+            <?php $image_row++; ?>
+            <?php } ?>
+            <tfoot>
+              <tr>
+                <td colspan="2"></td>
+                <td class="left"><a onclick="addImage();" class="button"><?php echo $button_add_image; ?></a></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+
         <!-- <div id="tab-reward">
           <table class="form">
             <tr>
@@ -342,7 +379,18 @@
     </div>
   </div>
 </div>
+<script type="text/javascript" src="view/javascript/jquery/ui/jquery-ui-timepicker-addon.js"></script> 
+
 <script type="text/javascript"><!--
+
+
+$('.date').datepicker({dateFormat: 'yy-mm-dd'});
+$('.datetime').datetimepicker({
+  dateFormat: 'yy-mm-dd',
+  timeFormat: 'h:m'
+});
+$('.time').timepicker({timeFormat: 'h:m'});
+
 $('select[name=\'customer_group_id\']').live('change', function() {
 	var customer_group = [];
 	
@@ -505,7 +553,8 @@ $('#button-history').bind('click', function() {
 		url: 'index.php?route=sale/customer/history&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>',
 		type: 'post',
 		dataType: 'html',
-		data: 'comment=' + encodeURIComponent($('#tab-history textarea[name=\'comment\']').val()),
+		data: 'reminder=' + $('input[name=reminder]').attr('checked') + 
+          '&reminder_date=' + encodeURIComponent($('input[name=reminder_date]').val()) + '&comment=' + encodeURIComponent($('#tab-history textarea[name=\'comment\']').val()),
 		beforeSend: function() {
 			$('.success, .warning').remove();
 			$('#button-history').attr('disabled', true);
@@ -592,75 +641,93 @@ $('#button-transaction').bind('click', function() {
 // 	});
 // }
 
-function addBanIP(ip) {
-	var id = ip.replace(/\./g, '-');
+// function addBanIP(ip) {
+// 	var id = ip.replace(/\./g, '-');
 	
-	$.ajax({
-		url: 'index.php?route=sale/customer/addbanip&token=<?php echo $token; ?>',
-		type: 'post',
-		dataType: 'json',
-		data: 'ip=' + encodeURIComponent(ip),
-		beforeSend: function() {
-			$('.success, .warning').remove();
+// 	$.ajax({
+// 		url: 'index.php?route=sale/customer/addbanip&token=<?php echo $token; ?>',
+// 		type: 'post',
+// 		dataType: 'json',
+// 		data: 'ip=' + encodeURIComponent(ip),
+// 		beforeSend: function() {
+// 			$('.success, .warning').remove();
 			
-			$('.box').before('<div class="attention"><img src="view/image/loading.gif" alt="" /> <?php echo $text_wait; ?></div>');		
-		},
-		complete: function() {
+// 			$('.box').before('<div class="attention"><img src="view/image/loading.gif" alt="" /> <?php echo $text_wait; ?></div>');		
+// 		},
+// 		complete: function() {
 			
-		},			
-		success: function(json) {
-			$('.attention').remove();
+// 		},			
+// 		success: function(json) {
+// 			$('.attention').remove();
 			
-			if (json['error']) {
-				 $('.box').before('<div class="warning" style="display: none;">' + json['error'] + '</div>');
+// 			if (json['error']) {
+// 				 $('.box').before('<div class="warning" style="display: none;">' + json['error'] + '</div>');
 				
-				$('.warning').fadeIn('slow');
-			}
+// 				$('.warning').fadeIn('slow');
+// 			}
 						
-			if (json['success']) {
-                $('.box').before('<div class="success" style="display: none;">' + json['success'] + '</div>');
+// 			if (json['success']) {
+//                 $('.box').before('<div class="success" style="display: none;">' + json['success'] + '</div>');
 				
-				$('.success').fadeIn('slow');
+// 				$('.success').fadeIn('slow');
 				
-				$('#' + id).replaceWith('<a id="' + id + '" onclick="removeBanIP(\'' + ip + '\');"><?php echo $text_remove_ban_ip; ?></a>');
-			}
-		}
-	});	
-}
+// 				$('#' + id).replaceWith('<a id="' + id + '" onclick="removeBanIP(\'' + ip + '\');"><?php echo $text_remove_ban_ip; ?></a>');
+// 			}
+// 		}
+// 	});	
+// }
 
-function removeBanIP(ip) {
-	var id = ip.replace(/\./g, '-');
+// function removeBanIP(ip) {
+// 	var id = ip.replace(/\./g, '-');
 	
-	$.ajax({
-		url: 'index.php?route=sale/customer/removebanip&token=<?php echo $token; ?>',
-		type: 'post',
-		dataType: 'json',
-		data: 'ip=' + encodeURIComponent(ip),
-		beforeSend: function() {
-			$('.success, .warning').remove();
+// 	$.ajax({
+// 		url: 'index.php?route=sale/customer/removebanip&token=<?php echo $token; ?>',
+// 		type: 'post',
+// 		dataType: 'json',
+// 		data: 'ip=' + encodeURIComponent(ip),
+// 		beforeSend: function() {
+// 			$('.success, .warning').remove();
 			
-			$('.box').before('<div class="attention"><img src="view/image/loading.gif" alt="" /> <?php echo $text_wait; ?></div>');					
-		},	
-		success: function(json) {
-			$('.attention').remove();
+// 			$('.box').before('<div class="attention"><img src="view/image/loading.gif" alt="" /> <?php echo $text_wait; ?></div>');					
+// 		},	
+// 		success: function(json) {
+// 			$('.attention').remove();
 			
-			if (json['error']) {
-				 $('.box').before('<div class="warning" style="display: none;">' + json['error'] + '</div>');
+// 			if (json['error']) {
+// 				 $('.box').before('<div class="warning" style="display: none;">' + json['error'] + '</div>');
 				
-				$('.warning').fadeIn('slow');
-			}
+// 				$('.warning').fadeIn('slow');
+// 			}
 			
-			if (json['success']) {
-				 $('.box').before('<div class="success" style="display: none;">' + json['success'] + '</div>');
+// 			if (json['success']) {
+// 				 $('.box').before('<div class="success" style="display: none;">' + json['success'] + '</div>');
 				
-				$('.success').fadeIn('slow');
+// 				$('.success').fadeIn('slow');
 				
-				$('#' + id).replaceWith('<a id="' + id + '" onclick="addBanIP(\'' + ip + '\');"><?php echo $text_add_ban_ip; ?></a>');
-			}
-		}
-	});	
-};
+// 				$('#' + id).replaceWith('<a id="' + id + '" onclick="addBanIP(\'' + ip + '\');"><?php echo $text_add_ban_ip; ?></a>');
+// 			}
+// 		}
+// 	});	
+// };
 //--></script> 
+<script type="text/javascript"><!--
+var image_row = <?php echo $image_row; ?>;
+
+function addImage() {
+    html  = '<tbody id="image-row' + image_row + '">';
+  html += '  <tr>';
+  html += '    <td class="left"><div class="image"><img src="<?php echo $no_image; ?>" alt="" id="thumb' + image_row + '" /><input type="hidden" name="product_image[' + image_row + '][image]" value="" id="image' + image_row + '" /><br /><a onclick="image_upload(\'image' + image_row + '\', \'thumb' + image_row + '\');"><?php echo $text_browse; ?></a>&nbsp;&nbsp;|&nbsp;&nbsp;<a onclick="$(\'#thumb' + image_row + '\').attr(\'src\', \'<?php echo $no_image; ?>\'); $(\'#image' + image_row + '\').attr(\'value\', \'\');"><?php echo $text_clear; ?></a></div></td>';
+  html += '    <td class="right"><input type="text" name="product_image[' + image_row + '][sort_order]" value="" size="2" /></td>';
+  html += '    <td class="left"><a onclick="$(\'#image-row' + image_row  + '\').remove();" class="button"><?php echo $button_remove; ?></a></td>';
+  html += '  </tr>';
+  html += '</tbody>';
+  
+  $('#images tfoot').before(html);
+  
+  image_row++;
+}
+//--></script> 
+
 <script type="text/javascript"><!--
 $('.htabs a').tabs();
 $('.vtabs a').tabs();

@@ -65,6 +65,8 @@ class ControllerCommonHeader extends Controller {
 		$this->data['text_opencart'] = $this->language->get('text_opencart');
 		$this->data['text_payment'] = $this->language->get('text_payment');
 		$this->data['text_product'] = $this->language->get('text_product'); 
+		$this->data['text_waste_product'] = $this->language->get('text_waste_product'); 
+		$this->data['text_treatment_product'] = $this->language->get('text_treatment_product'); 
 		$this->data['text_profile'] = $this->language->get('text_profile');
 		$this->data['text_reports'] = $this->language->get('text_reports');
 		$this->data['text_report_sale_order'] = $this->language->get('text_report_sale_order');
@@ -102,6 +104,7 @@ class ControllerCommonHeader extends Controller {
 		$this->data['text_voucher'] = $this->language->get('text_voucher');
 		$this->data['text_voucher_theme'] = $this->language->get('text_voucher_theme');
 		$this->data['text_weight_class'] = $this->language->get('text_weight_class');
+		$this->data['text_unit_class'] = $this->language->get('text_unit_class');
 		$this->data['text_length_class'] = $this->language->get('text_length_class');
 		$this->data['text_zone'] = $this->language->get('text_zone');
 		$this->data['text_openbay_extension'] = $this->language->get('text_openbay_extension');
@@ -165,7 +168,9 @@ class ControllerCommonHeader extends Controller {
 			$this->data['order'] = $this->url->link('sale/order', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['order_status'] = $this->url->link('localisation/order_status', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['payment'] = $this->url->link('extension/payment', 'token=' . $this->session->data['token'], 'SSL');
-			$this->data['product'] = $this->url->link('catalog/product', 'token=' . $this->session->data['token'], 'SSL');
+			$this->data['product'] = $this->url->link('catalog/product&type=1', 'token=' . $this->session->data['token'], 'SSL');
+			$this->data['treatment_product'] = $this->url->link('catalog/product&type=2', 'token=' . $this->session->data['token'], 'SSL');
+			$this->data['waste_product'] = $this->url->link('catalog/product&type=3', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['profile'] = $this->url->link('catalog/profile', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['report_sale_order'] = $this->url->link('report/sale_order', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['report_sale_tax'] = $this->url->link('report/sale_tax', 'token=' . $this->session->data['token'], 'SSL');
@@ -196,6 +201,7 @@ class ControllerCommonHeader extends Controller {
 			$this->data['voucher'] = $this->url->link('sale/voucher', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['voucher_theme'] = $this->url->link('sale/voucher_theme', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['weight_class'] = $this->url->link('localisation/weight_class', 'token=' . $this->session->data['token'], 'SSL');
+			$this->data['unit_class'] = $this->url->link('localisation/unit_class', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['length_class'] = $this->url->link('localisation/length_class', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['zone'] = $this->url->link('localisation/zone', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['purchase'] = $this->url->link('catalog/purchase', 'token=' . $this->session->data['token'], 'SSL');

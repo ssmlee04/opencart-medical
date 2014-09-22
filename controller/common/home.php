@@ -9,6 +9,7 @@ class ControllerCommonHome extends Controller {
 
 		$this->data['text_overview'] = $this->language->get('text_overview');
 		$this->data['text_statistics'] = $this->language->get('text_statistics');
+		$this->data['text_latest_messages'] = $this->language->get('text_latest_messages');
 		$this->data['text_latest_10_orders'] = $this->language->get('text_latest_10_orders');
 		$this->data['text_total_sale'] = $this->language->get('text_total_sale');
 		$this->data['text_total_sale_year'] = $this->language->get('text_total_sale_year');
@@ -23,8 +24,10 @@ class ControllerCommonHome extends Controller {
 		$this->data['text_month'] = $this->language->get('text_month');
 		$this->data['text_year'] = $this->language->get('text_year');
 		$this->data['text_no_results'] = $this->language->get('text_no_results');
+		$this->data['button_record_history'] = $this->language->get('button_record_history');
 
 		$this->data['column_order'] = $this->language->get('column_order');
+		$this->data['column_message'] = $this->language->get('column_message');
 		$this->data['column_customer'] = $this->language->get('column_customer');
 		$this->data['column_status'] = $this->language->get('column_status');
 		$this->data['column_date_added'] = $this->language->get('column_date_added');
@@ -136,6 +139,8 @@ class ControllerCommonHome extends Controller {
 		);
 
 		$this->data['token'] = $this->session->data['token'];
+		$this->load->model('user/user');
+		$this->data['messages'] = $this->model_user_user->getUnfinishedMessages($this->user->getId());
 
 		$this->load->model('sale/order');
 
@@ -167,6 +172,11 @@ class ControllerCommonHome extends Controller {
 			'limit' => 10
 		);
 
+		$this->data['user_group_id'] = 2; //$this->user->getUserGroupId();
+		$this->data['reminder_classes'] = $this->model_user_user->getReminderActions();
+
+		// $this->load->test($this->data['reminder_classes']);
+		
 		$results = $this->model_sale_order->getOrders($data);
 
 		foreach ($results as $result) {

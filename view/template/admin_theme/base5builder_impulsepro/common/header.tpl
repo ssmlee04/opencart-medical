@@ -166,6 +166,8 @@ if(array_intersect($page_name, $get_route)){
 					<li id="catalog"><a class="top"><?php echo $text_product; ?></a>
 				        <ul>
 				          <li><a href="<?php echo $product; ?>"><?php echo $text_product; ?></a></li>
+				          <li><a href="<?php echo $treatment_product; ?>"><?php echo $text_treatment_product; ?></a></li>
+				          <li><a href="<?php echo $waste_product; ?>"><?php echo $text_waste_product; ?></a></li>
 				        </ul>
 				      </li>
 				      <li id="human_resource"><a class="top"><?php echo $text_human_resource; ?></a>
@@ -196,8 +198,10 @@ if(array_intersect($page_name, $get_route)){
             <ul>
               <li><a href="<?php echo $stock_status; ?>"><?php echo $text_stock_status; ?></a></li>
               <li><a href="<?php echo $order_status; ?>"><?php echo $text_order_status; ?></a></li>
-              <li><a href="<?php echo $length_class; ?>"><?php echo $text_length_class; ?></a></li>
-              <li><a href="<?php echo $weight_class; ?>"><?php echo $text_weight_class; ?></a></li>
+              <!-- <li><a href="<php echo $length_class; ?>"><php echo $text_length_class; ?></a></li>
+              <li><a href="<php echo $weight_class; ?>"><php echo $text_weight_class; ?></a></li> -->
+              <li><a href="<?php echo $language; ?>"><?php echo $text_language; ?></a></li>
+              <li><a href="<?php echo $unit_class; ?>"><?php echo $text_unit_class; ?></a></li>
             </ul>
           </li>
           <li><a href="<?php echo $error_log; ?>"><?php echo $text_error_log; ?></a></li>
@@ -218,23 +222,23 @@ if(array_intersect($page_name, $get_route)){
 							</li>
 							<li><a class="parent"><?php echo $text_product; ?></a>
 								<ul>
-									<li><a href="<?php echo $report_product_viewed; ?>"><?php echo $text_report_product_viewed; ?></a></li>
+									<!-- <li><a href="php echo $report_product_viewed; ?>"><php echo $text_report_product_viewed; ?></a></li> -->
 									<li><a href="<?php echo $report_product_purchased; ?>"><?php echo $text_report_product_purchased; ?></a></li>
 								</ul>
 							</li>
 							<li><a class="parent"><?php echo $text_customer; ?></a>
 								<ul>
-									<li><a href="<?php echo $report_customer_online; ?>"><?php echo $text_report_customer_online; ?></a></li>
+									<!-- <li><a href="<php echo $report_customer_online; ?>"><php echo $text_report_customer_online; ?></a></li> -->
 									<li><a href="<?php echo $report_customer_order; ?>"><?php echo $text_report_customer_order; ?></a></li>
-									<li><a href="<?php echo $report_customer_reward; ?>"><?php echo $text_report_customer_reward; ?></a></li>
-									<li><a href="<?php echo $report_customer_credit; ?>"><?php echo $text_report_customer_credit; ?></a></li>
+									<!-- <li><a href="<php echo $report_customer_reward; ?>"><php echo $text_report_customer_reward; ?></a></li> -->
+									<!-- <li><a href="<php echo $report_customer_credit; ?>"><php echo $text_report_customer_credit; ?></a></li> -->
 								</ul>
 							</li>
-							<li><a class="parent"><?php echo $text_affiliate; ?></a>
+							<!-- <li><a class="parent"><php echo $text_affiliate; ?></a>
 								<ul>
-									<li><a href="<?php echo $report_affiliate_commission; ?>"><?php echo $text_report_affiliate_commission; ?></a></li>
+									<li><a href="<php echo $report_affiliate_commission; ?>"><php echo $text_report_affiliate_commission; ?></a></li>
 								</ul>
-							</li>
+							</li> -->
 						</ul>
 					</li>
 					<li id="help"><a class="top"><?php echo $text_help; ?></a>

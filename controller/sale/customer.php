@@ -605,6 +605,7 @@ class ControllerSaleCustomer extends Controller {
 		$this->data['text_wait'] = $this->language->get('text_wait');
 		$this->data['text_no_results'] = $this->language->get('text_no_results');
 		$this->data['text_add_ban_ip'] = $this->language->get('text_add_ban_ip');
+		$this->data['text_reminder'] = $this->language->get('text_reminder');
 		$this->data['text_remove_ban_ip'] = $this->language->get('text_remove_ban_ip');
 
 		$this->data['column_ip'] = $this->language->get('column_ip');
@@ -661,6 +662,7 @@ class ControllerSaleCustomer extends Controller {
 		$this->data['button_add_reward'] = $this->language->get('button_add_reward');
 		$this->data['button_remove'] = $this->language->get('button_remove');
 
+		$this->data['tab_image'] = $this->language->get('tab_image');
 		$this->data['tab_general'] = $this->language->get('tab_general');
 		$this->data['tab_address'] = $this->language->get('tab_address');
 		$this->data['tab_history'] = $this->language->get('tab_history');
@@ -1031,6 +1033,12 @@ class ControllerSaleCustomer extends Controller {
 		$this->response->setOutput($this->render());
 	}
 
+	protected function validateDate($date, $format = 'Y-m-d')
+	{
+	    $d = DateTime::createFromFormat($format, $date);
+	    return $d && $d->format($format) == $date;
+	}
+
 	protected function validateForm() {
 		if (!$this->user->hasPermission('modify', 'sale/customer')) {
 			$this->error['warning'] = $this->language->get('error_permission');
@@ -1213,8 +1221,15 @@ class ControllerSaleCustomer extends Controller {
 
 		$this->load->model('sale/customer');
 
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->user->hasPermission('modify', 'sale/customer')) { 
-			$this->model_sale_customer->addHistory($this->request->get['customer_id'], $this->request->post['comment']);
+		$reminder = (isset($this->request->post['reminder']) ? $this->request->post['reminder'] : null); 
+		$reminder_date = (isset($this->request->post['reminder_date']) ? $this->request->post['reminder_date'] : null); 
+
+		$user_id = $this->user->getId();
+		if (!$this->validateDate($reminder_date)) {
+			$this->data['success'] = 'date is incorrect';
+		}
+		else if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->user->hasPermission('modify', 'sale/customer')) { 
+			$this->model_sale_customer->addHistory($this->request->get['customer_id'], $this->request->post['comment'], $user_id, $reminder, $reminder_date);
 
 			$this->data['success'] = $this->language->get('text_success');
 		} else {
@@ -1352,6 +1367,8 @@ class ControllerSaleCustomer extends Controller {
 			$product_id = $result['product_id'];
 
 			$product = $this->model_catalog_product->getProduct($product_id);
+			
+			$unit = $this->model_catalog_product->getProductUnit($product_id);
 
 			$this->data['transactions'][] = array(
 				'amount'      => $this->currency->format($result['amount'], $this->config->get('config_currency')),
@@ -1359,7 +1376,7 @@ class ControllerSaleCustomer extends Controller {
 				'subquantity' => $result['subquantity'],
 				'customer_transaction_id' => $result['customer_transaction_id'],
 				'quantity' => $result['quantity'],
-				'unit' => $product['unit'],
+				'unit' => $unit,
 				'type' => $result['type'],
 				'date_added'  => date($this->language->get('date_format_short'), strtotime($result['date_added']))
 			);
@@ -1367,7 +1384,7 @@ class ControllerSaleCustomer extends Controller {
 			$groupresults[$product_id]['name'] = $product['name'];
 			$groupresults[$product_id]['subquantity'] = (isset($groupresults[$product_id]['subquantity']) ? $groupresults[$product_id]['subquantity'] + $result['subquantity'] : $result['subquantity']);
 			$groupresults[$product_id]['quantity'] = (isset($groupresults[$product_id]['quantity']) ? $groupresults[$product_id]['quantity'] + $result['quantity'] : $result['quantity']);
-			$groupresults[$product_id]['unit'] = $product['unit'];
+			$groupresults[$product_id]['unit'] = $unit;
 		}
 
 		$this->data['grouptransactions'] = $groupresults;

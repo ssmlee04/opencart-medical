@@ -1,6 +1,6 @@
 <?php
 // Heading
-$_['heading_title']           = '商店設置(Store Settings)';
+$_['heading_title']           = '商店設置';
 
 // Text
 $_['text_success']            = '已成功修改商店的設置';
@@ -9,34 +9,34 @@ $_['text_tax']                     = 'Taxes';
 $_['text_account']                 = 'Account';
 $_['text_checkout']                = 'Checkout';
 $_['text_stock']                   = 'Stock';
-$_['text_image_manager']      = '圖像管理(Image Manager)';
+$_['text_image_manager']      = '圖像管理';
 $_['text_browse']            = '瀏覽';
 $_['text_clear']             = '清除';
 $_['text_shipping']            = '配送地址';
 $_['text_payment']             = '付款地址';
 
 // Column
-$_['column_name']               = '商店名稱(Store Name)';
-$_['column_url']	            = '商店網址(Store URL)';
-$_['column_action']             = '動作(Action)';
+$_['column_name']               = '商店名稱';
+$_['column_url']	            = '商店網址';
+$_['column_action']             = '動作';
 
 // Entry
-$_['entry_url']               = '商店網址(Store URL)<br /><span class="help">請輸入你商店的完整網址. 注意在最後加上 \'/\' . 例 http//www.yourdomain.com/path/</span>';
-$_['entry_ssl']               = '使用SSL加密(Use SSL)<br /><span class="help">要使用SSL，你需要在主機安裝SSL及在設定檔內設定SSL地址(To use SSL check with your host if a SSL certificate is installed and added the SSL URL to the admin config file.)</span>';
-$_['entry_name']              = '商店名稱(Store Name)';
-$_['entry_owner']               = '商店負責人(Store Owner)';
-$_['entry_address']             = '地址(Address)';
+$_['entry_url']               = '商店網址<br /><span class="help">請輸入你商店的完整網址. 注意在最後加上 \'/\' . 例 http//www.yourdomain.com/path/</span>';
+$_['entry_ssl']               = '使用SSL加密<br /><span class="help">要使用SSL，你需要在主機安裝SSL及在設定檔內設定SSL地址(To use SSL check with your host if a SSL certificate is installed and added the SSL URL to the admin config file.)</span>';
+$_['entry_name']              = '商店名稱';
+$_['entry_owner']               = '商店負責人';
+$_['entry_address']             = '地址';
 $_['entry_email']          = '電子郵件';
 $_['entry_telephone']      = '聯繫電話';
 $_['entry_fax']            = '傳真電話';
-$_['entry_title']             = '首頁標題(Title)';
-$_['entry_meta_description']  = 'SEO 關鍵內容(Meta Tag Description)';
-$_['entry_layout']              = '預設規劃(Default Layout)';
-$_['entry_template']          = '模板(Template)';
-$_['entry_country']           = '國家(Country)';
-$_['entry_zone']              = '地區(Region / State)';
-$_['entry_language']          = '語言(Language)';
-$_['entry_currency']          = '貨幣(Currency)';
+$_['entry_title']             = '首頁標題';
+// $_['entry_meta_description']  = 'SEO 關鍵內容(Meta Tag Description)';
+// $_['entry_layout']              = '預設規劃(Default Layout)';
+$_['entry_template']          = '模板';
+$_['entry_country']           = '國家';
+$_['entry_zone']              = '地區';
+$_['entry_language']          = '語言';
+$_['entry_currency']          = '貨幣';
 $_['entry_catalog_limit'] 	  = '前台列表每頁商品顯示的數量(Default Items per Page (Catalog))<br /><span class="help">商品分類中每頁顯示多少商品(Determines how many catalog items are shown per page (products, categories, etc))</span>';
 $_['entry_tax']               = '顯示含稅價格(Display Prices With Tax)';
 $_['entry_tax_default']        = '使用商店當地稅率(Use Store Tax Address)<br /><span class="help">Use the store address to calculate taxes if no one is logged in. You can choose to use the store address for the customers shipping or payment address.</span>';

@@ -103,6 +103,8 @@ $(document).ready(function(){
           </li>
           <li><a class="parent"><?php echo $text_localisation; ?></a>
             <ul>
+              <li><a href="<?php echo $language; ?>"><?php echo $text_language; ?></a></li>
+              
               <li><a href="<?php echo $stock_status; ?>"><?php echo $text_stock_status; ?></a></li>
               <li><a href="<?php echo $order_status; ?>"><?php echo $text_order_status; ?></a></li>
               <li><a href="<?php echo $length_class; ?>"><?php echo $text_length_class; ?></a></li>

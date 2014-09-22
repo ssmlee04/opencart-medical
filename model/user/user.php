@@ -104,6 +104,18 @@ class ModelUserUser extends Model {
 		return $query->row['total'];
 	}
 
+	//'2014-09-22 15:25'
+	public function getUnfinishedMessages($user_id) {
+		$query = $this->db->query("SELECT * FROM oc_customer_history WHERE user_id = $user_id AND reminder = 1 AND reminder_status = 0 AND reminder_date <= NOW()");
+
+		return $query->rows;
+	}
+
+	// '2014-09-22 15:25'
+	public function getReminderActions() {
+		return $this->db->query("SELECT * FROM oc_reminder_class rc LEFT JOIN oc_reminder_class_description rcd ON rc.reminder_class_id = rcd.reminder_class_id AND language_id = '" .  (int)$this->config->get('config_language_id') ."'")->rows;
+	}
+
 	public function getTotalUsersByGroupId($user_group_id) {
 		$query = $this->db->query("SELECT COUNT(*) AS total FROM `" . DB_PREFIX . "user` WHERE user_group_id = '" . (int)$user_group_id . "'");
 

@@ -1,25 +1,25 @@
 <?php
 // Heading
-$_['heading_title']     = '語言(Language)';  
+$_['heading_title']     = '語言';  
 
 // Text
 $_['text_success']      = '已成功修改語言設置'; 
 
 // Column
-$_['column_name']       = '名稱(Language Name)';
-$_['column_code']       = '代碼(Code)';
-$_['column_sort_order'] = '排序(Sort Order)';
-$_['column_action']     = '動作(Action)';
+$_['column_name']       = '名稱';
+$_['column_code']       = '代碼';
+$_['column_sort_order'] = '排序';
+$_['column_action']     = '動作';
 
 // Entry
-$_['entry_name']        = '語言名稱(Language Name)';
-$_['entry_code']        = '代碼(Code)<br /><span class="help">如果已經設置為預設語言請不要更改,或先設為非預設語言再更改(Do not change if this is your default language.)</span>';
-$_['entry_locale']      = '區域(Locale)';
-$_['entry_image']       = '圖片(Image)';
-$_['entry_directory']   = '檔案目錄(Directory)';
-$_['entry_filename']    = '檔案名稱(Filename)';
-$_['entry_status']      = '狀態(Status)';
-$_['entry_sort_order']  = '排序(Sort Order)';
+$_['entry_name']        = '語言名稱';
+$_['entry_code']        = '代碼<br /><span class="help">如果已經設置為預設語言請不要更改,或先設為非預設語言再更改</span>';
+$_['entry_locale']      = '區域';
+$_['entry_image']       = '圖片';
+$_['entry_directory']   = '檔案目錄';
+$_['entry_filename']    = '檔案名稱';
+$_['entry_status']      = '狀態';
+$_['entry_sort_order']  = '排序';
 
 // Error
 $_['error_permission']  = '您沒有權限更改語言設置';

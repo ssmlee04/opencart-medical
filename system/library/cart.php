@@ -20,16 +20,6 @@ class Cart {
 
 	public function getProducts() {
 
-
- 	// 	$file = 'people.txt';
-		// // Open the file to get existing content
-		// $current = file_get_contents($file);
-		// // Append a new person to the file
-		// $current = print_r($this->session->data['cart'], true);
-		// // Write the contents back to the file
-		// file_put_contents($file, $current);
-
-
 		if (!$this->data) {
 			foreach ($this->session->data['cart'] as $key => $quantity) {
 				$product = explode(':', $key);
@@ -37,20 +27,21 @@ class Cart {
 				$stock = true;
 
 				// Options
-				if (!empty($product[1])) {
-					$options = unserialize(base64_decode($product[1]));
-				} else {
-					$options = array();
-				} 
+				// if (!empty($product[1])) {
+				// 	$options = unserialize(base64_decode($product[1]));
+				// } else {
+				// 	$options = array();
+				// } 
 
 				// Profile
-				if (!empty($product[2])) {
-					$profile_id = $product[2];
-				} else {
-					$profile_id = 0;
-				}
+				// if (!empty($product[2])) {
+				// 	$profile_id = $product[2];
+				// } else {
+				// 	$profile_id = 0;
+				// }
 
 				$product_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) WHERE p.product_id = '" . (int)$product_id . "' AND pd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND p.date_available <= NOW() AND p.status = '1'");
+		
 
 				if ($product_query->num_rows) {
 					$option_price = 0;
@@ -184,37 +175,37 @@ class Cart {
 					$price = $product_query->row['price'];
 
 					// Product Discounts
-					$discount_quantity = 0;
+					// $discount_quantity = 0;
 
-					foreach ($this->session->data['cart'] as $key_2 => $quantity_2) {
-						$product_2 = explode(':', $key_2);
+					// foreach ($this->session->data['cart'] as $key_2 => $quantity_2) {
+					// 	$product_2 = explode(':', $key_2);
 
-						if ($product_2[0] == $product_id) {
-							$discount_quantity += $quantity_2;
-						}
-					}
+					// 	if ($product_2[0] == $product_id) {
+					// 		$discount_quantity += $quantity_2;
+					// 	}
+					// }
 
-					$product_discount_query = $this->db->query("SELECT price FROM " . DB_PREFIX . "product_discount WHERE product_id = '" . (int)$product_id . "' AND customer_group_id = '" . (int)$customer_group_id . "' AND quantity <= '" . (int)$discount_quantity . "' AND ((date_start = '0000-00-00' OR date_start < NOW()) AND (date_end = '0000-00-00' OR date_end > NOW())) ORDER BY quantity DESC, priority ASC, price ASC LIMIT 1");
+					// $product_discount_query = $this->db->query("SELECT price FROM " . DB_PREFIX . "product_discount WHERE product_id = '" . (int)$product_id . "' AND customer_group_id = '" . (int)$customer_group_id . "' AND quantity <= '" . (int)$discount_quantity . "' AND ((date_start = '0000-00-00' OR date_start < NOW()) AND (date_end = '0000-00-00' OR date_end > NOW())) ORDER BY quantity DESC, priority ASC, price ASC LIMIT 1");
 
-					if ($product_discount_query->num_rows) {
-						$price = $product_discount_query->row['price'];
-					}
+					// if ($product_discount_query->num_rows) {
+					// 	$price = $product_discount_query->row['price'];
+					// }
 
 					// Product Specials
-					$product_special_query = $this->db->query("SELECT price FROM " . DB_PREFIX . "product_special WHERE product_id = '" . (int)$product_id . "' AND customer_group_id = '" . (int)$customer_group_id . "' AND ((date_start = '0000-00-00' OR date_start < NOW()) AND (date_end = '0000-00-00' OR date_end > NOW())) ORDER BY priority ASC, price ASC LIMIT 1");
+					// $product_special_query = $this->db->query("SELECT price FROM " . DB_PREFIX . "product_special WHERE product_id = '" . (int)$product_id . "' AND customer_group_id = '" . (int)$customer_group_id . "' AND ((date_start = '0000-00-00' OR date_start < NOW()) AND (date_end = '0000-00-00' OR date_end > NOW())) ORDER BY priority ASC, price ASC LIMIT 1");
 
-					if ($product_special_query->num_rows) {
-						$price = $product_special_query->row['price'];
-					}						
+					// if ($product_special_query->num_rows) {
+					// 	$price = $product_special_query->row['price'];
+					// }						
 
 					// Reward Points
-					$product_reward_query = $this->db->query("SELECT points FROM " . DB_PREFIX . "product_reward WHERE product_id = '" . (int)$product_id . "' AND customer_group_id = '" . (int)$customer_group_id . "'");
+					// $product_reward_query = $this->db->query("SELECT points FROM " . DB_PREFIX . "product_reward WHERE product_id = '" . (int)$product_id . "' AND customer_group_id = '" . (int)$customer_group_id . "'");
 
-					if ($product_reward_query->num_rows) {	
-						$reward = $product_reward_query->row['points'];
-					} else {
-						$reward = 0;
-					}
+					// if ($product_reward_query->num_rows) {	
+					// 	$reward = $product_reward_query->row['points'];
+					// } else {
+					// 	$reward = 0;
+					// }
 
 					// Downloads		
 					// $download_data = array();     		

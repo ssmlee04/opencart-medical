@@ -14,6 +14,7 @@ $_['text_customer_group']     = '會員群組';
 $_['text_email']              = 'E-Mail';
 $_['text_telephone']          = '電話';
 $_['text_fax']                = '傳真';
+$_['text_sub_total']                = '小計';
 // $_['text_shipping_method']    = '配送方式(Shipping Method)';
 // $_['text_payment_method']     = '付款方式(Payment Method)';
 $_['text_total']              = '金額';
