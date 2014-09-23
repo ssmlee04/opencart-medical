@@ -299,8 +299,8 @@
             <thead>
               <tr>
                 <td class="left"><?php echo $entry_image; ?></td>
-                <td class="right"><?php echo $entry_sort_order; ?></td>
-                <td></td>
+                <td class="left"></td>
+                <td class="right"></td>
               </tr>
             </thead>
             <?php $image_row = 0; ?>

@@ -36,7 +36,6 @@ class ModelLocalisationUnitClass extends Model {
 			$sql = "SELECT * FROM " . DB_PREFIX . "unit_class wc LEFT JOIN " . DB_PREFIX . "unit_class_description wcd ON (wc.unit_class_id = wcd.unit_class_id) WHERE wcd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
 
 			$sort_data = array(
-				'title',
 				'unit',
 				'value'
 			);	
@@ -44,7 +43,7 @@ class ModelLocalisationUnitClass extends Model {
 			if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
 				$sql .= " ORDER BY " . $data['sort'];	
 			} else {
-				$sql .= " ORDER BY title";	
+				$sql .= " ORDER BY unit";	
 			}
 
 			if (isset($data['order']) && ($data['order'] == 'DESC')) {

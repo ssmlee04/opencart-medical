@@ -113,7 +113,7 @@ class ModelUserUser extends Model {
 
 	// '2014-09-22 15:25'
 	public function getReminderActions() {
-		return $this->db->query("SELECT * FROM oc_reminder_class rc LEFT JOIN oc_reminder_class_description rcd ON rc.reminder_class_id = rcd.reminder_class_id AND language_id = '" .  (int)$this->config->get('config_language_id') ."'")->rows;
+		return $this->db->query("SELECT * FROM oc_reminder_status rc WHERE language_id = '" .  (int)$this->config->get('config_language_id') ."'")->rows;
 	}
 
 	public function getTotalUsersByGroupId($user_group_id) {

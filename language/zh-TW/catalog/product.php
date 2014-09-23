@@ -43,6 +43,8 @@ $_['entry_bonus_percent']            = '提成比例';
 // $_['entry_location']         = '組裝地';
 // $_['entry_manufacturer']     = '品牌';
 $_['entry_shipping']         = '需要配送?'; 
+$_['entry_reminder']         = '是否提醒'; 
+$_['entry_reminder_days']         = '天'; 
 $_['entry_date_available']   = '上架日期';
 $_['entry_quantity']         = '數量';
 $_['entry_minimum']          = '最少購買量<br/><span class="help">客戶最少一次須購買幾件</span>';

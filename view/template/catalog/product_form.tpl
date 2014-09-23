@@ -21,6 +21,7 @@
 
       </div>
       <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
+        <!-- <input type='' name='type' value='<php echo $type;?>'/> -->
         <!-- <div id="tab-general">
         </div> -->
         <div id="tab-data">
@@ -149,18 +150,18 @@
                 </select></td>
             </tr>
 
-            <tr>
-              <td><?php echo $entry_subtract; ?></td>
+            <!-- <tr>
+              <td><php echo $entry_subtract; ?></td>
               <td><select name="subtract">
-                  <?php if ($subtract) { ?>
-                  <option value="1" selected="selected"><?php echo $text_yes; ?></option>
-                  <option value="0"><?php echo $text_no; ?></option>
-                  <?php } else { ?>
-                  <option value="1"><?php echo $text_yes; ?></option>
-                  <option value="0" selected="selected"><?php echo $text_no; ?></option>
-                  <?php } ?>
+                  <php if ($subtract) { ?>
+                  <option value="1" selected="selected"><php echo $text_yes; ?></option>
+                  <option value="0"><php echo $text_no; ?></option>
+                  <php } else { ?>
+                  <option value="1"><php echo $text_yes; ?></option>
+                  <option value="0" selected="selected"><php echo $text_no; ?></option>
+                  <php } ?>
                 </select></td>
-            </tr>
+            </tr> -->
             <!-- <tr>
               <td><php echo $entry_stock_status; ?></td>
               <td><select name="stock_status_id">

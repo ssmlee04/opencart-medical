@@ -15,6 +15,7 @@ $_['text_yes']                = '是';
 $_['text_no']                 = '否';
 $_['text_enabled']            = '啟用';
 $_['text_disabled']           = '停用';
+$_['text_deleted']           = '已刪除';
 $_['text_none']               = ' --- 無 --- ';
 $_['text_select']             = ' --- 請選擇 --- ';
 $_['text_select_all']         = '全部選取';
@@ -115,4 +116,5 @@ $_['error_upload_6']          = '缺少暫存資料夾';
 $_['error_upload_7']          = '無法寫入檔案';
 $_['error_upload_8']          = '檔案上傳終止';
 $_['error_upload_999']        = '沒有可提供的錯誤代碼';
+
 ?>

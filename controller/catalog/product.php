@@ -92,6 +92,8 @@ class ControllerCatalogProduct extends Controller {
 
 		$type = $this->request->get['product_type_id'];
 
+		// $this->load->test($this->request->get);
+
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
 
 			$this->model_catalog_product->editProduct($this->request->get['product_id'], $this->request->post);
@@ -151,10 +153,12 @@ class ControllerCatalogProduct extends Controller {
 
 		$this->load->model('catalog/product');
 
+		$type = $this->request->get['type'];
+
 		if (isset($this->request->post['selected']) && $this->validateDelete()) {
 			foreach ($this->request->post['selected'] as $product_id) {
 				$this->model_catalog_product->deleteProduct($product_id);
-				$this->openbay->deleteProduct($product_id);
+				// $this->openbay->deleteProduct($product_id);
 			}
 
 			$this->session->data['success'] = $this->language->get('text_success');
@@ -193,7 +197,7 @@ class ControllerCatalogProduct extends Controller {
 				$url .= '&page=' . $this->request->get['page'];
 			}
 
-			$this->redirect($this->url->link('catalog/product', 'token=' . $this->session->data['token'] . $url, 'SSL'));
+			$this->redirect($this->url->link('catalog/product&type=' . $type, 'token=' . $this->session->data['token'] . $url, 'SSL'));
 		}
 
 		$this->getList();
@@ -263,6 +267,8 @@ class ControllerCatalogProduct extends Controller {
 
 		if (!$product_type_id) $this->redirect($this->url->link('catalog/product&type=1', 'token=' . $this->session->data['token'] . $url, 'SSL'));
 
+		$this->data['type'] = $product_type_id;
+		// $this->load->test($product_type_id);
 
 		if (isset($this->request->get['filter_name'])) {
 			$filter_name = $this->request->get['filter_name'];
@@ -359,10 +365,10 @@ class ControllerCatalogProduct extends Controller {
 			'href'      => $this->url->link('catalog/product', 'token=' . $this->session->data['token'] . $url, 'SSL'),       		
 			'separator' => ' :: '
 		);
-
+// $this->load->out($product_type_id);
 		$this->data['insert'] = $this->url->link('catalog/product/insert&type=' . $product_type_id, 'token=' . $this->session->data['token'] . $url, 'SSL');
 		$this->data['copy'] = $this->url->link('catalog/product/copy&type=' . $product_type_id, 'token=' . $this->session->data['token'] . $url, 'SSL');	
-		$this->data['delete'] = $this->url->link('catalog/product/delete', 'token=' . $this->session->data['token'] . $url, 'SSL');
+		$this->data['delete'] = $this->url->link('catalog/product/delete&type=' . $product_type_id, 'token=' . $this->session->data['token'] . $url, 'SSL');
 
 		$this->data['products'] = array();
 
@@ -390,7 +396,7 @@ class ControllerCatalogProduct extends Controller {
 
 			$action[] = array(
 				'text' => $this->language->get('text_edit'),
-				'href' => $this->url->link('catalog/product/update', 'token=' . $this->session->data['token'] . '&product_id=' . $result['product_id'] . $url, 'SSL')
+				'href' => $this->url->link('catalog/product/update&type=' . $product_type_id, 'token=' . $this->session->data['token'] . '&product_id=' . $result['product_id'] . $url, 'SSL')
 			);
 
 			if ($result['image'] && file_exists(DIR_IMAGE . $result['image'])) {
@@ -427,7 +433,7 @@ class ControllerCatalogProduct extends Controller {
 				'special'    => $special,
 				'image'      => $image,
 				'quantity'   => $quantity,
-				'status'     => ($result['status'] ? $this->language->get('text_enabled') : $this->language->get('text_disabled')),
+				'status'     => ($result['status']==1 ? $this->language->get('text_enabled') : ($result['status']==0 ? $this->language->get('text_disabled') :  $this->language->get('text_deleted'))),
 				'selected'   => isset($this->request->post['selected']) && in_array($result['product_id'], $this->request->post['selected']),
 				'action'     => $action
 			);
@@ -771,8 +777,14 @@ class ControllerCatalogProduct extends Controller {
 			'separator' => ' :: '
 		);
 
-		$type = $this->request->get['type'];
-		$this->data['type'] = $this->request->get['type'];
+		$type = $this->request->post['type'];
+		// $this->data['type'] = $this->request->get['type'];
+
+		if (!isset($this->request->post['type'])) {
+			$this->data['type'] = 1;
+		} else {
+			$this->data['type'] = $this->request->post['type'];
+		}
 
 		if (!isset($this->request->get['product_id'])) {
 			$this->data['action'] = $this->url->link('catalog/product/insert&type=' . $type, 'token=' . $this->session->data['token'] . $url, 'SSL');
@@ -822,6 +834,12 @@ class ControllerCatalogProduct extends Controller {
 			$this->data['reminder_days'] = $product_info['reminder_days'];
 		} else {
 			$this->data['reminder_days'] = '';
+		}
+
+		if (isset($this->request->get['type'])) {
+			$this->data['type'] = $this->request->get['type'];
+		} else {
+			$this->data['type'] = 1;
 		}
 
 		if (isset($this->request->post['bonus'])) {

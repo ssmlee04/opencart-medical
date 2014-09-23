@@ -20,6 +20,7 @@
     </div>
     <div class="content">
       <form action="<?php echo $delete; ?>" method="post" enctype="multipart/form-data" id="form">
+        <!-- <input type='' name='type' value='<php echo $type;?>'/> -->
         <table class="list">
           <thead>
             <tr>

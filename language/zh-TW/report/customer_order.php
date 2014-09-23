@@ -7,16 +7,16 @@ $_['text_all_status']       = '所有狀態';
 
 // Column
 $_['column_customer']       = '會員名稱';
-$_['column_email']          = '電子郵件(E-Mail)';
-$_['column_customer_group'] = '會員群組(Customer Group)';
-$_['column_status']     = '狀態(Status)';
-$_['column_orders']     = '訂單數量(No. Orders)';
-$_['column_products']       = '商品數量(No. Products)';
-$_['column_total']      = '總計(Total)';
-$_['column_action']     = '動作(Action)';
+$_['column_email']          = '電子郵件';
+$_['column_customer_group'] = '會員群組';
+$_['column_status']     = '狀態';
+$_['column_orders']     = '訂單數量';
+$_['column_products']       = '商品數量';
+$_['column_total']      = '總計';
+$_['column_action']     = '動作';
 
 // Entry
-$_['entry_date_start']  = '開始日期(Date Start)';
-$_['entry_date_end']    = '結束日期(Date End)';
-$_['entry_status']          = '訂單狀態(Order Status)';
+$_['entry_date_start']  = '開始日期';
+$_['entry_date_end']    = '結束日期';
+$_['entry_status']          = '訂單狀態';
 ?>

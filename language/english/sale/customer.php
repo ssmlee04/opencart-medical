@@ -34,6 +34,7 @@ $_['column_quantity']         = 'Quantity';
 $_['column_total_units']         = 'Total Units';
 $_['column_delete']         = 'Delete';
 $_['column_unit']         = 'Unit';
+$_['column_ssn']         = 'column_ssn';
 
 // Entry
 $_['entry_firstname']       = 'First Name:';

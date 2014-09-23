@@ -273,6 +273,12 @@ class ControllerSaleCustomer extends Controller {
 			$filter_name = null;
 		}
 
+		if (isset($this->request->get['filter_ssn'])) {
+			$filter_ssn = $this->request->get['filter_ssn'];
+		} else {
+			$filter_ssn = null;
+		}
+
 		if (isset($this->request->get['filter_email'])) {
 			$filter_email = $this->request->get['filter_email'];
 		} else {
@@ -333,6 +339,10 @@ class ControllerSaleCustomer extends Controller {
 			$url .= '&filter_name=' . urlencode(html_entity_decode($this->request->get['filter_name'], ENT_QUOTES, 'UTF-8'));
 		}
 
+		if (isset($this->request->get['filter_ssn'])) {
+			$url .= '&filter_ssn=' . urlencode(html_entity_decode($this->request->get['filter_ssn'], ENT_QUOTES, 'UTF-8'));
+		}
+
 		if (isset($this->request->get['filter_email'])) {
 			$url .= '&filter_email=' . urlencode(html_entity_decode($this->request->get['filter_email'], ENT_QUOTES, 'UTF-8'));
 		}
@@ -391,6 +401,7 @@ class ControllerSaleCustomer extends Controller {
 
 		$data = array(
 			'filter_name'              => $filter_name, 
+			'filter_ssn'               => $filter_ssn, 
 			'filter_email'             => $filter_email, 
 			'filter_customer_group_id' => $filter_customer_group_id, 
 			'filter_status'            => $filter_status, 
@@ -438,6 +449,7 @@ class ControllerSaleCustomer extends Controller {
 		$this->data['text_select'] = $this->language->get('text_select');	
 		$this->data['text_default'] = $this->language->get('text_default');		
 		$this->data['text_no_results'] = $this->language->get('text_no_results');
+		$this->data['text_search_customer'] = $this->language->get('text_search_customer');
 
 		$this->data['column_name'] = $this->language->get('column_name');
 		$this->data['column_email'] = $this->language->get('column_email');
@@ -448,6 +460,7 @@ class ControllerSaleCustomer extends Controller {
 		$this->data['column_date_added'] = $this->language->get('column_date_added');
 		$this->data['column_login'] = $this->language->get('column_login');
 		$this->data['column_action'] = $this->language->get('column_action');		
+		$this->data['column_ssn'] = $this->language->get('column_ssn');		
 
 		$this->data['button_approve'] = $this->language->get('button_approve');
 		$this->data['button_insert'] = $this->language->get('button_insert');
@@ -474,6 +487,10 @@ class ControllerSaleCustomer extends Controller {
 
 		if (isset($this->request->get['filter_name'])) {
 			$url .= '&filter_name=' . urlencode(html_entity_decode($this->request->get['filter_name'], ENT_QUOTES, 'UTF-8'));
+		}
+
+		if (isset($this->request->get['filter_ssn'])) {
+			$url .= '&filter_ssn=' . urlencode(html_entity_decode($this->request->get['filter_ssn'], ENT_QUOTES, 'UTF-8'));
 		}
 
 		if (isset($this->request->get['filter_email'])) {
@@ -524,6 +541,10 @@ class ControllerSaleCustomer extends Controller {
 			$url .= '&filter_name=' . urlencode(html_entity_decode($this->request->get['filter_name'], ENT_QUOTES, 'UTF-8'));
 		}
 
+		if (isset($this->request->get['filter_ssn'])) {
+			$url .= '&filter_ssn=' . urlencode(html_entity_decode($this->request->get['filter_ssn'], ENT_QUOTES, 'UTF-8'));
+		}
+
 		if (isset($this->request->get['filter_email'])) {
 			$url .= '&filter_email=' . urlencode(html_entity_decode($this->request->get['filter_email'], ENT_QUOTES, 'UTF-8'));
 		}
@@ -566,6 +587,7 @@ class ControllerSaleCustomer extends Controller {
 		$this->data['pagination'] = $pagination->render();
 
 		$this->data['filter_name'] = $filter_name;
+		$this->data['filter_ssn'] = $filter_ssn;
 		$this->data['filter_email'] = $filter_email;
 		$this->data['filter_customer_group_id'] = $filter_customer_group_id;
 		$this->data['filter_status'] = $filter_status;
@@ -658,6 +680,7 @@ class ControllerSaleCustomer extends Controller {
 		$this->data['button_add_address'] = $this->language->get('button_add_address');
 		$this->data['button_add_history'] = $this->language->get('button_add_history');
 		$this->data['button_add_transaction'] = $this->language->get('button_add_transaction');
+		$this->data['button_add_image'] = $this->language->get('button_add_image');
 		$this->data['button_add_transaction2'] = $this->language->get('button_add_transaction2');
 		$this->data['button_add_reward'] = $this->language->get('button_add_reward');
 		$this->data['button_remove'] = $this->language->get('button_remove');
@@ -767,6 +790,8 @@ class ControllerSaleCustomer extends Controller {
 		} else {
 			$this->data['error_address_zone'] = '';
 		}
+
+		$this->data['customer_images'] = '';
 
 		$url = '';
 
@@ -1225,26 +1250,25 @@ class ControllerSaleCustomer extends Controller {
 		$reminder_date = (isset($this->request->post['reminder_date']) ? $this->request->post['reminder_date'] : null); 
 
 		$user_id = $this->user->getId();
-		if (!$this->validateDate($reminder_date)) {
-			$this->data['success'] = 'date is incorrect';
+
+		if (!$this->validateDate($reminder_date) && $reminder=='checked') {
+			$this->data['error_warning'] = $this->language->get('text_date_incorrect');
 		}
-		else if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->user->hasPermission('modify', 'sale/customer')) { 
+		else if (($this->request->server['REQUEST_METHOD'] == 'POST') && !$this->user->hasPermission('modify', 'sale/customer')) {
+			$this->data['error_warning'] = $this->language->get('error_permission');
+		} else if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->user->hasPermission('modify', 'sale/customer')) { 
 			$this->model_sale_customer->addHistory($this->request->get['customer_id'], $this->request->post['comment'], $user_id, $reminder, $reminder_date);
 
 			$this->data['success'] = $this->language->get('text_success');
 		} else {
-			$this->data['success'] = '';
+			$this->data['success'] = '.';
 		}
 
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && !$this->user->hasPermission('modify', 'sale/customer')) {
-			$this->data['error_warning'] = $this->language->get('error_permission');
-		} else {
-			$this->data['error_warning'] = '';
-		}		
 
 		$this->data['text_no_results'] = $this->language->get('text_no_results');
 
 		$this->data['column_date_added'] = $this->language->get('column_date_added');
+		$this->data['column_reminder_date'] = $this->language->get('column_reminder_date');
 		$this->data['column_comment'] = $this->language->get('column_comment');
 
 		if (isset($this->request->get['page'])) {
@@ -1260,6 +1284,7 @@ class ControllerSaleCustomer extends Controller {
 		foreach ($results as $result) {
 			$this->data['histories'][] = array(
 				'comment'     => $result['comment'],
+				'reminder_date'     => ($result['reminder_date'] == '0000-00-00' ? '' : $result['reminder_date']),
 				'date_added'  => date($this->language->get('date_format_short'), strtotime($result['date_added']))
 			);
 		}
@@ -1276,7 +1301,7 @@ class ControllerSaleCustomer extends Controller {
 		$this->data['pagination'] = $pagination->render();
 
 		$this->template = 'sale/customer_history.tpl';		
-
+// $this->load->test($this->data);
 		$this->response->setOutput($this->render());
 	}
 

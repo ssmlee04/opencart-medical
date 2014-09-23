@@ -17,7 +17,33 @@
       <div class="buttons"><a onclick="$('form').attr('action', '<?php echo $approve; ?>'); $('form').submit();" class="button"><?php echo $button_approve; ?></a><a href="<?php echo $insert; ?>" class="button"><?php echo $button_insert; ?></a><a onclick="$('form').attr('action', '<?php echo $delete; ?>'); $('form').submit();" class="button"><?php echo $button_delete; ?></a></div>
     </div>
     <div class="content">
+
       <form action="" method="post" enctype="multipart/form-data" id="form">
+
+        <table class="list">
+          <thead>
+            <tr><td colspan='2'><?php echo $text_search_customer; ?></td></tr>
+          </thead>
+          <tr>
+            <td><?php echo $column_name; ?></td>
+            <td><input type="text" name="filter_name" value="<?php echo $filter_name; ?>" /></td></tr>
+          <tr>
+            <td><?php echo $column_ssn; ?></td>
+            <td><input type="text" name="filter_ssn" value="<?php echo $filter_ssn; ?>" /></td>
+          </tr>
+          <tr><td colspan='2'>
+            <a onclick="filter();" class="button"><?php echo $button_filter; ?></a>
+          </td>
+          <td style='display:none'>
+            <select name="filter_customer_group_id"><option value='*'></option></select>
+            <select name="filter_approved"><option value='*'></option></select>
+            <select name="filter_status"><option value='*'></option></select>
+          </td>
+              </tr>
+        </table>
+
+        <br>
+        <?php if (true) { ?>
         <table class="list">
           <thead>
             <tr>
@@ -42,11 +68,11 @@
                 <?php } else { ?>
                 <a href="<?php echo $sort_status; ?>"><?php echo $column_status; ?></a>
                 <?php } ?></td>
-              <td class="left"><?php if ($sort == 'c.approved') { ?>
-                <a href="<?php echo $sort_approved; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_approved; ?></a>
-                <?php } else { ?>
-                <a href="<?php echo $sort_approved; ?>"><?php echo $column_approved; ?></a>
-                <?php } ?></td>
+              <!-- <td class="left"><php if ($sort == 'c.approved') { ?>
+                <a href="<php echo $sort_approved; ?>" class="<php echo strtolower($order); ?>"><php echo $column_approved; ?></a>
+                <php } else { ?>
+                <a href="<php echo $sort_approved; ?>"><php echo $column_approved; ?></a>
+                <php } ?></td> -->
               <!-- <td class="left"><php if ($sort == 'c.ip') { ?>
                 <a href="<php echo $sort_ip; ?>" class="<php echo strtolower($order); ?>"><php echo $column_ip; ?></a>
                 <php } else { ?>
@@ -62,51 +88,41 @@
             </tr>
           </thead>
           <tbody>
-            <tr class="filter">
+
+
+          <!--   <tr class="filter">
               <td></td>
-              <td><input type="text" name="filter_name" value="<?php echo $filter_name; ?>" /></td>
-              <td><input type="text" name="filter_email" value="<?php echo $filter_email; ?>" /></td>
+              <td><input type="text" name="filter_name" value="<php echo $filter_name; ?>" /></td>
+              <td><input type="text" name="filter_ssn" value="<php echo $filter_ssn; ?>" /></td>
+              <td><input type="text" name="filter_email" value="<php echo $filter_email; ?>" /></td>
               <td><select name="filter_customer_group_id">
                   <option value="*"></option>
-                  <?php foreach ($customer_groups as $customer_group) { ?>
-                  <?php if ($customer_group['customer_group_id'] == $filter_customer_group_id) { ?>
-                  <option value="<?php echo $customer_group['customer_group_id']; ?>" selected="selected"><?php echo $customer_group['name']; ?></option>
-                  <?php } else { ?>
-                  <option value="<?php echo $customer_group['customer_group_id']; ?>"><?php echo $customer_group['name']; ?></option>
-                  <?php } ?>
-                  <?php } ?>
+                  <php foreach ($customer_groups as $customer_group) { ?>
+                  <php if ($customer_group['customer_group_id'] == $filter_customer_group_id) { ?>
+                  <option value="<hp echo $customer_group['customer_group_id']; ?>" selected="selected"><php echo $customer_group['name']; ?></option>
+                  <php } else { ?>
+                  <option value="<php echo $customer_group['customer_group_id']; ?>"><php echo $customer_group['name']; ?></option>
+                  <php } ?>
+                  <php } ?>
                 </select></td>
               <td><select name="filter_status">
                   <option value="*"></option>
-                  <?php if ($filter_status) { ?>
-                  <option value="1" selected="selected"><?php echo $text_enabled; ?></option>
-                  <?php } else { ?>
-                  <option value="1"><?php echo $text_enabled; ?></option>
-                  <?php } ?>
-                  <?php if (!is_null($filter_status) && !$filter_status) { ?>
-                  <option value="0" selected="selected"><?php echo $text_disabled; ?></option>
-                  <?php } else { ?>
-                  <option value="0"><?php echo $text_disabled; ?></option>
-                  <?php } ?>
+                  <php if ($filter_status) { ?>
+                  <option value="1" selected="selected"><php echo $text_enabled; ?></option>
+                  <php } else { ?>
+                  <option value="1"><php echo $text_enabled; ?></option>
+                  <php } ?>
+                  <php if (!is_null($filter_status) && !$filter_status) { ?>
+                  <option value="0" selected="selected"><php echo $text_disabled; ?></option>
+                  <php } else { ?>
+                  <option value="0"><php echo $text_disabled; ?></option>
+                  <php } ?>
                 </select></td>
-              <td><select name="filter_approved">
-                  <option value="*"></option>
-                  <?php if ($filter_approved) { ?>
-                  <option value="1" selected="selected"><?php echo $text_yes; ?></option>
-                  <?php } else { ?>
-                  <option value="1"><?php echo $text_yes; ?></option>
-                  <?php } ?>
-                  <?php if (!is_null($filter_approved) && !$filter_approved) { ?>
-                  <option value="0" selected="selected"><?php echo $text_no; ?></option>
-                  <?php } else { ?>
-                  <option value="0"><?php echo $text_no; ?></option>
-                  <?php } ?>
-                </select></td>
-              <!-- <td><input type="text" name="filter_ip" value="<?php echo $filter_ip; ?>" /></td> -->
-              <td><input type="text" name="filter_date_added" value="<?php echo $filter_date_added; ?>" size="12" id="date" /></td>
-              <!-- <td></td> -->
-              <td align="right"><a onclick="filter();" class="button"><?php echo $button_filter; ?></a></td>
+              <td><input type="text" name="filter_date_added" value="<php echo $filter_date_added; ?>" size="12" id="date" /></td>
+              <td align="right"><a onclick="filter();" class="button"><php echo $button_filter; ?></a></td>
             </tr>
+ -->
+
             <?php if ($customers) { ?>
             <?php foreach ($customers as $customer) { ?>
             <tr>
@@ -119,7 +135,7 @@
               <td class="left"><?php echo $customer['email']; ?></td>
               <td class="left"><?php echo $customer['customer_group']; ?></td>
               <td class="left"><?php echo $customer['status']; ?></td>
-              <td class="left"><?php echo $customer['approved']; ?></td>
+              <!-- <td class="left"><php echo $customer['approved']; ?></td> -->
               <!-- <td class="left"><php echo $customer['ip']; ?></td> -->
               <td class="left"><?php echo $customer['date_added']; ?></td>
               <!-- <td class="left"><select onchange="((this.value !== '') ? window.open('index.php?route=sale/customer/login&token=<php echo $token; ?>&customer_id=<php echo $customer['customer_id']; ?>&store_id=' + this.value) : null); this.value = '';">
@@ -141,8 +157,13 @@
             <?php } ?>
           </tbody>
         </table>
+        <?php } ?>
+        
+
       </form>
+      <?php if ($filter_name) { ?>
       <div class="pagination"><?php echo $pagination; ?></div>
+      <?php } ?>
     </div>
   </div>
 </div>
@@ -156,6 +177,13 @@ function filter() {
 		url += '&filter_name=' + encodeURIComponent(filter_name);
 	}
 	
+  var filter_ssn = $('input[name=\'filter_ssn\']').attr('value');
+  
+  if (filter_ssn) {
+    url += '&filter_ssn=' + encodeURIComponent(filter_ssn);
+  }
+  
+
 	var filter_email = $('input[name=\'filter_email\']').attr('value');
 	
 	if (filter_email) {

@@ -8,8 +8,11 @@ $_['text_default']          = '預設';
 $_['text_approved']           = '您已核准%s 個會員的申請';
 $_['text_wait']             = '請稍等';
 $_['text_balance']          = '餘額';
-// $_['text_add_blacklist']    = '加入ip封鎖名單';
-// $_['text_remove_blacklist'] = '解除封鎖';
+$_['text_search_customer']          = '會員搜尋';
+$_['text_date_incorrect']    = '日期輸入有誤';
+$_['text_reminder'] = '是否提醒';
+$_['button_add_image'] = '增加圖片';
+$_['button_add_history'] = '提醒設定';
 
 // Column
 $_['column_name']             = '會員名稱';
@@ -25,6 +28,10 @@ $_['column_points']         = '紅利點數';
 $_['column_ip']             = 'IP位址';
 $_['column_total']          = '會員數量';
 $_['column_action']           = '動作';
+$_['column_ssn']           = '身份證';
+$_['column_comment']           = '內容';
+$_['column_reminder_date']           = '提醒日期';
+
 
 
 // Entry
@@ -53,6 +60,7 @@ $_['entry_unit']          = '單位';
 $_['entry_points']          = '點數';
 $_['entry_description']     = '項目';
 $_['entry_comment']                           = '備註';
+$_['entry_image']                           = '診療圖片';
 
 // Error
 $_['error_warning']         = '警告發生錯誤，請再確認';

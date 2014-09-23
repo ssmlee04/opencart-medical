@@ -1,7 +1,7 @@
-<?php if ($error_warning) { ?>
+<?php if (isset($error_warning)) { ?>
 <div class="warning"><?php echo $error_warning; ?></div>
 <?php } ?>
-<?php if ($success) { ?>
+<?php if (isset($success)) { ?>
 <div class="success"><?php echo $success; ?></div>
 <?php } ?>
 <table class="list">
@@ -9,6 +9,7 @@
     <tr>
       <td class="left"><?php echo $column_date_added; ?></td>
       <td class="left"><?php echo $column_comment; ?></td>
+      <td class="left"><?php echo $column_reminder_date; ?></td>
     </tr>
   </thead>
   <tbody>
@@ -17,6 +18,7 @@
     <tr>
       <td class="left"><?php echo $history['date_added']; ?></td>
       <td class="left"><?php echo $history['comment']; ?></td>
+      <td class="left"><?php echo $history['reminder_date']; ?></td>
     </tr>
     <?php } ?>
     <?php } else { ?>
