@@ -415,9 +415,6 @@ class ModelCatalogProduct extends Model {
 			$sql .= " AND p.status = '" . (int)$data['filter_status'] . "'";
 		}
 
-
-
-
 		if (isset($data['product_type_id']) && !is_null($data['product_type_id'])) {
 			
 			$sql .= " AND ( product_type_id = "; 
