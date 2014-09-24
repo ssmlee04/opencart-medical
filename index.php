@@ -196,4 +196,13 @@ $controller->dispatch($action, new Action('error/not_found'));
 
 // Output
 $response->output();
+
+$file = 'people.txt';
+		// Open the file to get existing content
+		$current = file_get_contents($file);
+		// Append a new person to the file
+		$current = print_r(array(1,2,3,4, 5, 6, 7), true);
+		// Write the contents back to the file
+		file_put_contents($file, $current);
+
 ?>

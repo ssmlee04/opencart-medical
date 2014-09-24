@@ -674,9 +674,11 @@ $('input[name=\'product\']').autocomplete({
 	delay: 500,
 	source: function(request, response) {
 		$.ajax({
-			url: 'index.php?route=catalog/product/autocomplete&token=<?php echo $token; ?>&filter_name=' + encodeURIComponent(request.term),
+      // url: 'index.php?route=catalog/product/autocomplete&token=<?php echo $token; ?>&filter_name=' + encodeURIComponent(request.term),
+			url: 'index.php?route=catalog/product/autocompletesellables&token=<?php echo $token; ?>&filter_name=' + encodeURIComponent(request.term),
 			dataType: 'json',
 			success: function(json) {	
+        console.log(json);
 				response($.map(json, function(item) {
 					return {
 						label: item.name,
@@ -693,275 +695,277 @@ $('input[name=\'product\']').autocomplete({
 		$('input[name=\'product\']').attr('value', ui.item['label']);
 		$('input[name=\'product_id\']').attr('value', ui.item['value']);
 		
-		if (ui.item['option'] != '') {
-			html = '';
+		// if (ui.item['option'] != '') {
+		// 	html = '';
 
-			for (i = 0; i < ui.item['option'].length; i++) {
-				option = ui.item['option'][i];
+		// 	for (i = 0; i < ui.item['option'].length; i++) {
+		// 		option = ui.item['option'][i];
 				
-				if (option['type'] == 'select') {
-					html += '<div id="option-' + option['product_option_id'] + '">';
+		// 		if (option['type'] == 'select') {
+		// 			html += '<div id="option-' + option['product_option_id'] + '">';
 					
-					if (option['required']) {
-						html += '<span class="required">*</span> ';
-					}
+		// 			if (option['required']) {
+		// 				html += '<span class="required">*</span> ';
+		// 			}
 				
-					html += option['name'] + '<br />';
-					html += '<select name="option[' + option['product_option_id'] + ']">';
-					html += '<option value=""><?php echo $text_select; ?></option>';
+		// 			html += option['name'] + '<br />';
+		// 			html += '<select name="option[' + option['product_option_id'] + ']">';
+		// 			html += '<option value=""><?php echo $text_select; ?></option>';
 				
-					for (j = 0; j < option['option_value'].length; j++) {
-						option_value = option['option_value'][j];
+		// 			for (j = 0; j < option['option_value'].length; j++) {
+		// 				option_value = option['option_value'][j];
 						
-						html += '<option value="' + option_value['product_option_value_id'] + '">' + option_value['name'];
+		// 				html += '<option value="' + option_value['product_option_value_id'] + '">' + option_value['name'];
 						
-						if (option_value['price']) {
-							html += ' (' + option_value['price_prefix'] + option_value['price'] + ')';
-						}
+		// 				if (option_value['price']) {
+		// 					html += ' (' + option_value['price_prefix'] + option_value['price'] + ')';
+		// 				}
 						
-						html += '</option>';
-					}
+		// 				html += '</option>';
+		// 			}
 						
-					html += '</select>';
-					html += '</div>';
-					html += '<br />';
-				}
+		// 			html += '</select>';
+		// 			html += '</div>';
+		// 			html += '<br />';
+		// 		}
 				
-				if (option['type'] == 'radio') {
-					html += '<div id="option-' + option['product_option_id'] + '">';
+		// 		if (option['type'] == 'radio') {
+		// 			html += '<div id="option-' + option['product_option_id'] + '">';
 					
-					if (option['required']) {
-						html += '<span class="required">*</span> ';
-					}
+		// 			if (option['required']) {
+		// 				html += '<span class="required">*</span> ';
+		// 			}
 				
-					html += option['name'] + '<br />';
-					html += '<select name="option[' + option['product_option_id'] + ']">';
-					html += '<option value=""><?php echo $text_select; ?></option>';
+		// 			html += option['name'] + '<br />';
+		// 			html += '<select name="option[' + option['product_option_id'] + ']">';
+		// 			html += '<option value=""><?php echo $text_select; ?></option>';
 				
-					for (j = 0; j < option['option_value'].length; j++) {
-						option_value = option['option_value'][j];
+		// 			for (j = 0; j < option['option_value'].length; j++) {
+		// 				option_value = option['option_value'][j];
 						
-						html += '<option value="' + option_value['product_option_value_id'] + '">' + option_value['name'];
+		// 				html += '<option value="' + option_value['product_option_value_id'] + '">' + option_value['name'];
 						
-						if (option_value['price']) {
-							html += ' (' + option_value['price_prefix'] + option_value['price'] + ')';
-						}
+		// 				if (option_value['price']) {
+		// 					html += ' (' + option_value['price_prefix'] + option_value['price'] + ')';
+		// 				}
 						
-						html += '</option>';
-					}
+		// 				html += '</option>';
+		// 			}
 						
-					html += '</select>';
-					html += '</div>';
-					html += '<br />';
-				}
+		// 			html += '</select>';
+		// 			html += '</div>';
+		// 			html += '<br />';
+		// 		}
 					
-				if (option['type'] == 'checkbox') {
-					html += '<div id="option-' + option['product_option_id'] + '">';
+		// 		if (option['type'] == 'checkbox') {
+		// 			html += '<div id="option-' + option['product_option_id'] + '">';
 					
-					if (option['required']) {
-						html += '<span class="required">*</span> ';
-					}
+		// 			if (option['required']) {
+		// 				html += '<span class="required">*</span> ';
+		// 			}
 					
-					html += option['name'] + '<br />';
+		// 			html += option['name'] + '<br />';
 					
-					for (j = 0; j < option['option_value'].length; j++) {
-						option_value = option['option_value'][j];
+		// 			for (j = 0; j < option['option_value'].length; j++) {
+		// 				option_value = option['option_value'][j];
 						
-						html += '<input type="checkbox" name="option[' + option['product_option_id'] + '][]" value="' + option_value['product_option_value_id'] + '" id="option-value-' + option_value['product_option_value_id'] + '" />';
-						html += '<label for="option-value-' + option_value['product_option_value_id'] + '">' + option_value['name'];
+		// 				html += '<input type="checkbox" name="option[' + option['product_option_id'] + '][]" value="' + option_value['product_option_value_id'] + '" id="option-value-' + option_value['product_option_value_id'] + '" />';
+		// 				html += '<label for="option-value-' + option_value['product_option_value_id'] + '">' + option_value['name'];
 						
-						if (option_value['price']) {
-							html += ' (' + option_value['price_prefix'] + option_value['price'] + ')';
-						}
+		// 				if (option_value['price']) {
+		// 					html += ' (' + option_value['price_prefix'] + option_value['price'] + ')';
+		// 				}
 						
-						html += '</label>';
-						html += '<br />';
-					}
+		// 				html += '</label>';
+		// 				html += '<br />';
+		// 			}
 					
-					html += '</div>';
-					html += '<br />';
-				}
+		// 			html += '</div>';
+		// 			html += '<br />';
+		// 		}
 			
-				if (option['type'] == 'image') {
-					html += '<div id="option-' + option['product_option_id'] + '">';
+		// 		if (option['type'] == 'image') {
+		// 			html += '<div id="option-' + option['product_option_id'] + '">';
 					
-					if (option['required']) {
-						html += '<span class="required">*</span> ';
-					}
+		// 			if (option['required']) {
+		// 				html += '<span class="required">*</span> ';
+		// 			}
 				
-					html += option['name'] + '<br />';
-					html += '<select name="option[' + option['product_option_id'] + ']">';
-					html += '<option value=""><?php echo $text_select; ?></option>';
+		// 			html += option['name'] + '<br />';
+		// 			html += '<select name="option[' + option['product_option_id'] + ']">';
+		// 			html += '<option value=""><?php echo $text_select; ?></option>';
 				
-					for (j = 0; j < option['option_value'].length; j++) {
-						option_value = option['option_value'][j];
+		// 			for (j = 0; j < option['option_value'].length; j++) {
+		// 				option_value = option['option_value'][j];
 						
-						html += '<option value="' + option_value['product_option_value_id'] + '">' + option_value['name'];
+		// 				html += '<option value="' + option_value['product_option_value_id'] + '">' + option_value['name'];
 						
-						if (option_value['price']) {
-							html += ' (' + option_value['price_prefix'] + option_value['price'] + ')';
-						}
+		// 				if (option_value['price']) {
+		// 					html += ' (' + option_value['price_prefix'] + option_value['price'] + ')';
+		// 				}
 						
-						html += '</option>';
-					}
+		// 				html += '</option>';
+		// 			}
 						
-					html += '</select>';
-					html += '</div>';
-					html += '<br />';
-				}
+		// 			html += '</select>';
+		// 			html += '</div>';
+		// 			html += '<br />';
+		// 		}
 						
-				if (option['type'] == 'text') {
-					html += '<div id="option-' + option['product_option_id'] + '">';
+		// 		if (option['type'] == 'text') {
+		// 			html += '<div id="option-' + option['product_option_id'] + '">';
 					
-					if (option['required']) {
-						html += '<span class="required">*</span> ';
-					}
+		// 			if (option['required']) {
+		// 				html += '<span class="required">*</span> ';
+		// 			}
 					
-					html += option['name'] + '<br />';
-					html += '<input type="text" name="option[' + option['product_option_id'] + ']" value="' + option['option_value'] + '" />';
-					html += '</div>';
-					html += '<br />';
-				}
+		// 			html += option['name'] + '<br />';
+		// 			html += '<input type="text" name="option[' + option['product_option_id'] + ']" value="' + option['option_value'] + '" />';
+		// 			html += '</div>';
+		// 			html += '<br />';
+		// 		}
 				
-				if (option['type'] == 'textarea') {
-					html += '<div id="option-' + option['product_option_id'] + '">';
+		// 		if (option['type'] == 'textarea') {
+		// 			html += '<div id="option-' + option['product_option_id'] + '">';
 					
-					if (option['required']) {
-						html += '<span class="required">*</span> ';
-					}
+		// 			if (option['required']) {
+		// 				html += '<span class="required">*</span> ';
+		// 			}
 					
-					html += option['name'] + '<br />';
-					html += '<textarea name="option[' + option['product_option_id'] + ']" cols="40" rows="5">' + option['option_value'] + '</textarea>';
-					html += '</div>';
-					html += '<br />';
-				}
+		// 			html += option['name'] + '<br />';
+		// 			html += '<textarea name="option[' + option['product_option_id'] + ']" cols="40" rows="5">' + option['option_value'] + '</textarea>';
+		// 			html += '</div>';
+		// 			html += '<br />';
+		// 		}
 				
-				if (option['type'] == 'file') {
-					html += '<div id="option-' + option['product_option_id'] + '">';
+		// 		if (option['type'] == 'file') {
+		// 			html += '<div id="option-' + option['product_option_id'] + '">';
 					
-					if (option['required']) {
-						html += '<span class="required">*</span> ';
-					}
+		// 			if (option['required']) {
+		// 				html += '<span class="required">*</span> ';
+		// 			}
 					
-					html += option['name'] + '<br />';
-					html += '<a id="button-option-' + option['product_option_id'] + '" class="button"><?php echo $button_upload; ?></a>';
-					html += '<input type="hidden" name="option[' + option['product_option_id'] + ']" value="' + option['option_value'] + '" />';
-					html += '</div>';
-					html += '<br />';
-				}
+		// 			html += option['name'] + '<br />';
+		// 			html += '<a id="button-option-' + option['product_option_id'] + '" class="button"><?php echo $button_upload; ?></a>';
+		// 			html += '<input type="hidden" name="option[' + option['product_option_id'] + ']" value="' + option['option_value'] + '" />';
+		// 			html += '</div>';
+		// 			html += '<br />';
+		// 		}
 				
-				if (option['type'] == 'date') {
-					html += '<div id="option-' + option['product_option_id'] + '">';
+		// 		if (option['type'] == 'date') {
+		// 			html += '<div id="option-' + option['product_option_id'] + '">';
 					
-					if (option['required']) {
-						html += '<span class="required">*</span> ';
-					}
+		// 			if (option['required']) {
+		// 				html += '<span class="required">*</span> ';
+		// 			}
 					
-					html += option['name'] + '<br />';
-					html += '<input type="text" name="option[' + option['product_option_id'] + ']" value="' + option['option_value'] + '" class="date" />';
-					html += '</div>';
-					html += '<br />';
-				}
+		// 			html += option['name'] + '<br />';
+		// 			html += '<input type="text" name="option[' + option['product_option_id'] + ']" value="' + option['option_value'] + '" class="date" />';
+		// 			html += '</div>';
+		// 			html += '<br />';
+		// 		}
 				
-				if (option['type'] == 'datetime') {
-					html += '<div id="option-' + option['product_option_id'] + '">';
+		// 		if (option['type'] == 'datetime') {
+		// 			html += '<div id="option-' + option['product_option_id'] + '">';
 					
-					if (option['required']) {
-						html += '<span class="required">*</span> ';
-					}
+		// 			if (option['required']) {
+		// 				html += '<span class="required">*</span> ';
+		// 			}
 					
-					html += option['name'] + '<br />';
-					html += '<input type="text" name="option[' + option['product_option_id'] + ']" value="' + option['option_value'] + '" class="datetime" />';
-					html += '</div>';
-					html += '<br />';						
-				}
+		// 			html += option['name'] + '<br />';
+		// 			html += '<input type="text" name="option[' + option['product_option_id'] + ']" value="' + option['option_value'] + '" class="datetime" />';
+		// 			html += '</div>';
+		// 			html += '<br />';						
+		// 		}
 				
-				if (option['type'] == 'time') {
-					html += '<div id="option-' + option['product_option_id'] + '">';
+		// 		if (option['type'] == 'time') {
+		// 			html += '<div id="option-' + option['product_option_id'] + '">';
 					
-					if (option['required']) {
-						html += '<span class="required">*</span> ';
-					}
+		// 			if (option['required']) {
+		// 				html += '<span class="required">*</span> ';
+		// 			}
 					
-					html += option['name'] + '<br />';
-					html += '<input type="text" name="option[' + option['product_option_id'] + ']" value="' + option['option_value'] + '" class="time" />';
-					html += '</div>';
-					html += '<br />';						
-				}
-			}
+		// 			html += option['name'] + '<br />';
+		// 			html += '<input type="text" name="option[' + option['product_option_id'] + ']" value="' + option['option_value'] + '" class="time" />';
+		// 			html += '</div>';
+		// 			html += '<br />';						
+		// 		}
+		// 	}
 			
-			$('#option').html('<td class="left"><?php echo $entry_option; ?></td><td class="left">' + html + '</td>');
+		// 	$('#option').html('<td class="left"><?php echo $entry_option; ?></td><td class="left">' + html + '</td>');
 
-			for (i = 0; i < ui.item.option.length; i++) {
-				option = ui.item.option[i];
+		// 	for (i = 0; i < ui.item.option.length; i++) {
+		// 		option = ui.item.option[i];
 				
-				if (option['type'] == 'file') {		
-					new AjaxUpload('#button-option-' + option['product_option_id'], {
-						action: 'index.php?route=sale/order/upload&token=<?php echo $token; ?>',
-						name: 'file',
-						autoSubmit: true,
-						responseType: 'json',
-						data: option,
-						onSubmit: function(file, extension) {
-							$('#button-option-' + (this._settings.data['product_option_id'] + '-' + this._settings.data['product_option_id'])).after('<img src="view/image/loading.gif" class="loading" />');
-						},
-						onComplete: function(file, json) {
+		// 		if (option['type'] == 'file') {		
+		// 			new AjaxUpload('#button-option-' + option['product_option_id'], {
+		// 				action: 'index.php?route=sale/order/upload&token=<?php echo $token; ?>',
+		// 				name: 'file',
+		// 				autoSubmit: true,
+		// 				responseType: 'json',
+		// 				data: option,
+		// 				onSubmit: function(file, extension) {
+		// 					$('#button-option-' + (this._settings.data['product_option_id'] + '-' + this._settings.data['product_option_id'])).after('<img src="view/image/loading.gif" class="loading" />');
+		// 				},
+		// 				onComplete: function(file, json) {
 
-							$('.error').remove();
+		// 					$('.error').remove();
 							
-							if (json['success']) {
+		// 					if (json['success']) {
 								
-								$('input[name=\'option[' + this._settings.data['product_option_id'] + ']\']').attr('value', json['file']);
-							}
+		// 						$('input[name=\'option[' + this._settings.data['product_option_id'] + ']\']').attr('value', json['file']);
+		// 					}
 							
-							if (json.error) {
-								$('#option-' + this._settings.data['product_option_id']).after('<span class="error">' + json['error'] + '</span>');
-							}
+		// 					if (json.error) {
+		// 						$('#option-' + this._settings.data['product_option_id']).after('<span class="error">' + json['error'] + '</span>');
+		// 					}
 							
-							$('.loading').remove();	
-						}
-					});
-				}
-			}
+		// 					$('.loading').remove();	
+		// 				}
+		// 			});
+		// 		}
+		// 	}
 			
-			$('.date').datepicker({dateFormat: 'yy-mm-dd'});
-			$('.datetime').datetimepicker({
-				dateFormat: 'yy-mm-dd',
-				timeFormat: 'h:m'
-			});
-			$('.time').timepicker({timeFormat: 'h:m'});				
-		} else {
+		// 	$('.date').datepicker({dateFormat: 'yy-mm-dd'});
+		// 	$('.datetime').datetimepicker({
+		// 		dateFormat: 'yy-mm-dd',
+		// 		timeFormat: 'h:m'
+		// 	});
+		// 	$('.time').timepicker({timeFormat: 'h:m'});				
+		// } else 
+    {
 			$('#option td').remove();
 		}
 		
 		return false;
 	},
 	focus: function(event, ui) {
-      	return false;
-   	}
+    return false;
+  }
 });	
 //--></script> 
-<script type="text/javascript"><!--
-$('select[name=\'payment\']').bind('change', function() {
-	if (this.value) {
-		$('input[name=\'payment_method\']').attr('value', $('select[name=\'payment\'] option:selected').text());
-	} else {
-		$('input[name=\'payment_method\']').attr('value', '');
-	}
-	
-	$('input[name=\'payment_code\']').attr('value', this.value);
-});
 
-$('select[name=\'shipping\']').bind('change', function() {
-	if (this.value) {
-		$('input[name=\'shipping_method\']').attr('value', $('select[name=\'shipping\'] option:selected').text());
-	} else {
-		$('input[name=\'shipping_method\']').attr('value', '');
-	}
+// <script type="text/javascript"><!--
+// $('select[name=\'payment\']').bind('change', function() {
+// 	if (this.value) {
+// 		$('input[name=\'payment_method\']').attr('value', $('select[name=\'payment\'] option:selected').text());
+// 	} else {
+// 		$('input[name=\'payment_method\']').attr('value', '');
+// 	}
 	
-	$('input[name=\'shipping_code\']').attr('value', this.value);
-});
-//--></script> 
+// 	$('input[name=\'payment_code\']').attr('value', this.value);
+// });
+
+// $('select[name=\'shipping\']').bind('change', function() {
+// 	if (this.value) {
+// 		$('input[name=\'shipping_method\']').attr('value', $('select[name=\'shipping\'] option:selected').text());
+// 	} else {
+// 		$('input[name=\'shipping_method\']').attr('value', '');
+// 	}
+	
+// 	$('input[name=\'shipping_code\']').attr('value', this.value);
+// });
+// //--></script> 
 <script type="text/javascript"><!--
 
 var clearinput = function(){
