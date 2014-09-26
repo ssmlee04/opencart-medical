@@ -12,7 +12,7 @@ $_['text_wait']           = '請稍等...(Please Wait)';
 $_['text_return_id']      = '退換貨單號(Return ID)';
 $_['text_order_id']       = '訂單號碼(Order ID)';
 $_['text_date_ordered']   = '購買日期(Order Date)';
-$_['text_customer']       = '會員(Customer)';
+$_['text_customer']       = '客戶(Customer)';
 $_['text_email']          = '電子郵件(E-Mail)';
 $_['text_telephone']      = '電話(Telephone)';
 $_['text_return_status']  = '退換貨狀態(Return Status)';
@@ -28,18 +28,18 @@ $_['text_comment']        = '備註(Comment)';
 // Column
 $_['column_return_id']     = '退換貨單號(Return ID)';
 $_['column_order_id']      = '訂單號碼(Order ID)';
-$_['column_customer']      = '會員(Customer)';
+$_['column_customer']      = '客戶(Customer)';
 $_['column_product']       = '商品(Product)';
 $_['column_model']         = '型號(Model)';
 $_['column_status']        = '狀態(Status)';
 $_['column_date_added']    = '申請日期(Date Added)';
 $_['column_date_modified'] = '修改日期(Date Modified)';
 $_['column_comment']       = '備註(Comment)';
-$_['column_notify']        = '通知會員(Customer Notified)';
+$_['column_notify']        = '通知客戶(Customer Notified)';
 $_['column_action']        = '處理方式(Action)';
 
 // Entry
-$_['entry_customer']      = '會員(Customer)';
+$_['entry_customer']      = '客戶(Customer)';
 $_['entry_order_id']      = '訂單號碼(Order ID)';
 $_['entry_date_ordered']  = '購買日期(Order Date)';
 $_['entry_firstname']     = '名字(First Name)';
@@ -53,7 +53,7 @@ $_['entry_reason']        = '原因(Return Reason)';
 $_['entry_opened']        = '已開封(Opened)';
 $_['entry_comment']       = '備註(Comment)';
 $_['entry_return_status'] = '退換貨狀態(Return Status)';
-$_['entry_notify']        = '通知會員(Notify Customer)';
+$_['entry_notify']        = '通知客戶(Notify Customer)';
 $_['entry_action']        = '處理方式(Return Action)';
 
 // Error

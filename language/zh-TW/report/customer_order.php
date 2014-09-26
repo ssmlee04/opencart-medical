@@ -1,14 +1,14 @@
 <?php
 // Heading
-$_['heading_title']         = '會員訂單報表';
+$_['heading_title']         = '客戶訂單報表';
 
 // Text
 $_['text_all_status']       = '所有狀態';
 
 // Column
-$_['column_customer']       = '會員名稱';
+$_['column_customer']       = '客戶名稱';
 $_['column_email']          = '電子郵件';
-$_['column_customer_group'] = '會員群組';
+$_['column_customer_group'] = '客戶群組';
 $_['column_status']     = '狀態';
 $_['column_orders']     = '訂單數量';
 $_['column_products']       = '商品數量';

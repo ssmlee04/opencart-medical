@@ -164,20 +164,22 @@
 					<div class="dashboard-heading"><?php echo $text_latest_messages; ?></div>
 					<div class="dashboard-content">
 						<table class="list">
-							<thead>
+								<?php if ($messages) { ?>
+								<?php foreach ($messages as $message) { ?>
+							<thead class='r<?php echo $message['customer_history_id']; ?>'>
 								<tr>
 									<td class="left"><?php echo $column_customer; ?></td>
 									<td class="left"><?php echo $column_date_added; ?></td>
+									<td class="right"><?php echo $column_user; ?></td>
 									<td class="right"><?php echo $column_message; ?></td>
 								</tr>
 							</thead>
 							<tbody>
-								<?php if ($messages) { ?>
-								<?php foreach ($messages as $message) { ?>
 								<tr class='r<?php echo $message['customer_history_id']; ?>'>
-									<td class="left"><input type='hidden' value='<?php echo $message['customer_history_id']; ?>'/><?php echo $message['customer_id']; ?></td>
+									<td class="left"><input type='hidden' value='<?php echo $message['customer_history_id']; ?>'/><?php echo $message['clastname'] . ' ' . $message['cfirstname']; ?></td>
 									
 									<td class="left"><?php echo $message['reminder_date']; ?></td>
+									<td class="left"><?php echo $message['ulastname'] . ' ' . $message['ufirstname']; ?></td>
 
 
 									<td class="right">
@@ -192,13 +194,17 @@
 									</td>
 									</tr>
 									<tr class='r<?php echo $message['customer_history_id']; ?>'>
-										<td class="left" colspan='3'><?php echo $message['comment']; ?></td>
+										<td class="left" colspan='4'><?php echo $message['comment']; ?></td>
 									</tr>
-									<tr class='r<?php echo $message['customer_history_id']; ?>'><td colspan='3' style='background-color:lightgray'></td></tr>
+
+									<tr class='r<?php echo $message['customer_history_id']; ?>'>
+										<td colspan='4' style='background-color:white'></td>
+									</tr>
+
 									<?php } ?>
 									<?php } else { ?>
 									<tr>
-										<td class="center" colspan="3"><?php echo $text_no_results; ?></td>
+										<td class="center" colspan='4'><?php echo $text_no_results; ?></td>
 									</tr>
 
 								<?php } ?>

@@ -184,12 +184,29 @@ ul.mainnav > li > a{
 	z-index: 999;
 }
 
+
 ul.mainnav > li#dashboard > a{
 	background: url("../../../image/admin_theme/base5builder_impulsepro/css-sprite-icons.png") no-repeat scroll 16px -258px;
 }
 
-ul.mainnav > li#catalog > a{
+ul.mainnav > li#treatment > a{
+	background: url("../../../image/admin_theme/base5builder_impulsepro/css-sprite-icons.png") no-repeat scroll 16px -258px;
+}
+
+ul.mainnav > li#imagemanage > a{
+	background: url("../../../image/admin_theme/base5builder_impulsepro/css-sprite-icons.png") no-repeat scroll 16px -258px;
+}
+
+ul.mainnav > li#bonus > a{
+	background: url("../../../image/admin_theme/base5builder_impulsepro/css-sprite-icons.png") no-repeat scroll 16px -258px;
+}
+
+ul.mainnav > li#history > a{
 	background: url("../../../image/admin_theme/base5builder_impulsepro/css-sprite-icons.png") no-repeat scroll 16px -176px;
+}
+
+ul.mainnav > li#catalog > a{
+	background: url("../../../image/admin_theme/base5builder_impulsepro/css-sprite-icons.png") no-repeat scroll 16px -340px;
 }
 
 ul.mainnav > li#extension > a{
@@ -232,6 +249,11 @@ ul.mainnav > li > a:focus{
 
 ul.mainnav > li#dashboard > a:hover,
 ul.mainnav > li#dashboard > a:focus{
+	background: url("../../../image/admin_theme/base5builder_impulsepro/css-sprite-icons.png") no-repeat scroll -270px -258px #00a99d;
+}
+
+ul.mainnav > li#treatment > a:hover,
+ul.mainnav > li#treatment > a:focus{
 	background: url("../../../image/admin_theme/base5builder_impulsepro/css-sprite-icons.png") no-repeat scroll -270px -258px #00a99d;
 }
 
@@ -291,6 +313,10 @@ ul.mainnav > li.selected > a{
 }
 
 ul.mainnav > li#dashboard.selected > a{
+	background: url("../../../image/admin_theme/base5builder_impulsepro/css-sprite-icons.png") no-repeat scroll -551px -258px #FFFFFF;
+}
+
+ul.mainnav > li#treatment.selected > a{
 	background: url("../../../image/admin_theme/base5builder_impulsepro/css-sprite-icons.png") no-repeat scroll -551px -258px #FFFFFF;
 }
 

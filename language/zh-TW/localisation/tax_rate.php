@@ -20,7 +20,7 @@ $_['column_action']        = '動作(Action)';
 $_['entry_name']           = '稅率名稱(Tax Name)';
 $_['entry_rate']           = '稅率(Tax Rate)';
 $_['entry_type']           = '方式(Type)';
-$_['entry_customer_group'] = '會員群組(Customer Group)';
+$_['entry_customer_group'] = '客戶群組(Customer Group)';
 $_['entry_geo_zone']       = '適用地區(Geo Zone)';
 
 // Error

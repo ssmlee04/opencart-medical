@@ -23,6 +23,6 @@ $_['error_name']             = '區域名稱必須在3至128個字元之間';
 $_['error_default']          = '不能刪除預設區域';
 $_['error_store']            = '不能刪除，因為有 %s 間商店已使用';
 $_['error_address']          = '不能刪除，因為有 %s 筆地址簿中包含此區域';
-$_['error_affiliate']        = '不能刪除，因為有 %s 個推薦會員屬於此區域';
+$_['error_affiliate']        = '不能刪除，因為有 %s 個推薦客戶屬於此區域';
 $_['error_zone_to_geo_zone'] = '不能刪除，因為有 %s 個區域群組包含此區域';
 ?>

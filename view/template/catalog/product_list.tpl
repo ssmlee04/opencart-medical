@@ -86,12 +86,7 @@
               <td class="center"><img src="<?php echo $product['image']; ?>" alt="<?php echo $product['name']; ?>" style="padding: 1px; border: 1px solid #DDDDDD;" /></td>
               <td class="left"><?php echo $product['name']; ?></td>
               <td class="left"><?php echo $product['model']; ?></td>
-              <td class="left"><?php if ($product['special']) { ?>
-                <span style="text-decoration: line-through;"><?php echo $product['price']; ?></span><br/>
-                <span style="color: #b00;"><?php echo $product['special']; ?></span>
-                <?php } else { ?>
-                <?php echo $product['price']; ?>
-                <?php } ?></td>
+              <td class="left"><?php echo $product['price']; ?></td>
               <td class="right"><?php if ($product['quantity'] <= 0) { ?>
                 <span style="color: #FF0000;"><?php echo $product['quantity']; ?></span>
                 <?php } elseif ($product['quantity'] <= 5) { ?>

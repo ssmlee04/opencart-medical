@@ -105,8 +105,27 @@ class ModelUserUser extends Model {
 	}
 
 	//'2014-09-22 15:25'
-	public function getUnfinishedMessages($user_id) {
-		$query = $this->db->query("SELECT * FROM oc_customer_history WHERE user_id = $user_id AND reminder = 1 AND reminder_status = 0 AND reminder_date <= NOW() ORDER BY date_added DESC");
+	public function getReminderMessages($data) {
+
+		$sql = "SELECT ch.*, u.firstname as ufirstname, u.lastname as ulastname, u.store_id, c.firstname as cfirstname, c.lastname as clastname FROM oc_customer_history ch LEFT JOIN oc_user u ON u.user_id = ch.user_id LEFT JOIN oc_customer c ON c.customer_id = ch.customer_id ";
+
+		$sql .= " WHERE reminder = 1 "; 
+
+		if (isset($data['filter_reminder_status'])) {
+			$sql .= " AND reminder_status = '" . (int)$data['filter_reminder_status'] . "'";
+		} 
+
+		if (isset($data['filter_treatment'])) {
+			$sql .= " AND if_treatment = '" . (int)$data['filter_treatment'] . "'";
+		} 
+
+		if (isset($data['filter_user_id'])) {
+			$sql .= " AND ch.user_id = '" . (int)$data['filter_user_id'] . "'"; 
+		}
+
+		$sql .= " ORDER BY date_added DESC";
+
+		$query = $this->db->query($sql);
 
 		return $query->rows;
 	}

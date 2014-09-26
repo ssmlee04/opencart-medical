@@ -15,7 +15,7 @@ $_['entry_name']       = '項目名稱(Download Name)';
 $_['entry_filename']   = '檔案名稱(Filename)';
 $_['entry_mask']       = '別名(Mask)';
 $_['entry_remaining']  = '可下載次數(Total Downloads Allowed)';
-$_['entry_update']     = '提供之前購買過的會員免費升級<br /><span class="help">這是原商品的升級版,提供之前購買過的會員免費在下載區下載.</span>';
+$_['entry_update']     = '提供之前購買過的客戶免費升級<br /><span class="help">這是原商品的升級版,提供之前購買過的客戶免費在下載區下載.</span>';
 
 // Error
 $_['error_permission'] = '您沒有權限更改下載設置';

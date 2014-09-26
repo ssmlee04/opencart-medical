@@ -8,6 +8,7 @@
   <thead>
     <tr>
       <td class="left"><?php echo $column_date_added; ?></td>
+      <td class="left"><?php echo $column_user; ?></td>
       <td class="left"><?php echo $column_comment; ?></td>
       <td class="left"><?php echo $column_reminder_date; ?></td>
     </tr>
@@ -17,6 +18,7 @@
     <?php foreach ($histories as $history) { ?>
     <tr>
       <td class="left"><?php echo $history['date_added']; ?></td>
+      <td class="left"><?php echo $history['ulastname'] . ' ' . $history['ufirstname']; ?></td>
       <td class="left"><?php echo $history['comment']; ?></td>
       <td class="left"><?php echo $history['reminder_date']; ?></td>
     </tr>

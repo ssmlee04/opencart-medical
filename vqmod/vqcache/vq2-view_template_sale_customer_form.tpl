@@ -16,7 +16,7 @@
       <div class="buttons"><a onclick="$('#form').submit();" class="button"><?php echo $button_save; ?></a><a href="<?php echo $cancel; ?>" class="button"><?php echo $button_cancel; ?></a></div>
     </div>
     <div class="content">
-      <div id="htabs" class="htabs"><a href="#tab-general"><?php echo $tab_general; ?></a>
+      <div id="htabs" class="htabs"><a style="display:none" href="#tab-general"><?php echo $tab_general; ?></a>
         <?php if ($customer_id) { ?>
         <a href="#tab-history"><?php echo $tab_history; ?></a>
         <a href="#tab-transaction"><?php echo $tab_transaction; ?></a>
@@ -28,14 +28,11 @@
         <!-- <a href="#tab-ip"><php echo $tab_ip; ?></a> -->
       </div>
       <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
-        <div id="tab-general">
+        <div id="tab-general" >
           <div id="vtabs" class="vtabs"><a href="#tab-customer"><?php echo $tab_general; ?></a>
-            <?php $address_row = 1; ?>
-            <?php foreach ($addresses as $address) { ?>
-            <a href="#tab-address-<?php echo $address_row; ?>" id="address-<?php echo $address_row; ?>"><?php echo $tab_address . ' ' . $address_row; ?>&nbsp;<img src="view/image/delete.png" alt="" onclick="$('#vtabs a:first').trigger('click'); $('#address-<?php echo $address_row; ?>').remove(); $('#tab-address-<?php echo $address_row; ?>').remove(); return false;" /></a>
-            <?php $address_row++; ?>
-            <?php } ?>
-            <span id="address-add"><?php echo $button_add_address; ?>&nbsp;<img src="view/image/add.png" alt="" onclick="addAddress();" /></span></div>
+            
+
+            <!-- <span id="address-add"><php echo $button_add_address; ?>&nbsp;<img src="view/image/add.png" alt="" onclick="addAddress();" /></span> --></div>
           <div id="tab-customer" class="vtabs-content">
             <table class="form">
               <tr>
@@ -71,8 +68,10 @@
                 <td><input type="text" name="fax" value="<?php echo $fax; ?>" /></td>
               </tr>
               <tr>
-                <td><?php echo $entry_dob; ?></td>
-                <td><input type="date" name="dob" value="<?php echo $dob; ?>" /></td>
+                <td><span class="required">*</span> <?php echo $entry_dob; ?></td>
+                <td><input type="date_available" name="dob" class='date' value="<?php echo $dob; ?>" />
+                <span class="error"><?php echo $error_dob; ?></span>
+              </td>
               </tr>
               <tr>
                 <td><?php echo $entry_line_id; ?></td>
@@ -162,67 +161,35 @@
                     <?php } ?>
                   </select></td>
               </tr>
-            </table>
-          </div>
-          <?php $address_row = 1; ?>
-          <?php foreach ($addresses as $address) { ?>
-          <div id="tab-address-<?php echo $address_row; ?>" class="vtabs-content">
-            <input type="hidden" name="address[<?php echo $address_row; ?>][address_id]" value="<?php echo $address['address_id']; ?>" />
-            <table class="form">
-              <tr>
-                <td><span class="required">*</span> <?php echo $entry_firstname; ?></td>
-                <td><input type="text" name="address[<?php echo $address_row; ?>][firstname]" value="<?php echo $address['firstname']; ?>" />
-                  <?php if (isset($error_address_firstname[$address_row])) { ?>
-                  <span class="error"><?php echo $error_address_firstname[$address_row]; ?></span>
-                  <?php } ?></td>
-              </tr>
-              <tr>
-                <td><span class="required">*</span> <?php echo $entry_lastname; ?></td>
-                <td><input type="text" name="address[<?php echo $address_row; ?>][lastname]" value="<?php echo $address['lastname']; ?>" />
-                  <?php if (isset($error_address_lastname[$address_row])) { ?>
-                  <span class="error"><?php echo $error_address_lastname[$address_row]; ?></span>
-                  <?php } ?></td>
-              </tr>
-              <tr>
-                <td><?php echo $entry_company; ?></td>
-                <td><input type="text" name="address[<?php echo $address_row; ?>][company]" value="<?php echo $address['company']; ?>" /></td>
-              </tr>
-              <tr class="company-id-display">
-                <td><?php echo $entry_company_id; ?></td>
-                <td><input type="text" name="address[<?php echo $address_row; ?>][company_id]" value="<?php echo $address['company_id']; ?>" /></td>
-              </tr>
-              <tr class="tax-id-display">
-                <td><?php echo $entry_tax_id; ?></td>
-                <td><input type="text" name="address[<?php echo $address_row; ?>][tax_id]" value="<?php echo $address['tax_id']; ?>" />
-                  <?php if (isset($error_address_tax_id[$address_row])) { ?>
-                  <span class="error"><?php echo $error_address_tax_id[$address_row]; ?></span>
-                  <?php } ?></td>
-              </tr>
+              </table>
+              <hr>
+              <table class="form">
+              <?php $address_row = 1; ?>
               <tr>
                 <td><span class="required">*</span> <?php echo $entry_address_1; ?></td>
-                <td><input type="text" name="address[<?php echo $address_row; ?>][address_1]" value="<?php echo $address['address_1']; ?>" />
-                  <?php if (isset($error_address_address_1[$address_row])) { ?>
-                  <span class="error"><?php echo $error_address_address_1[$address_row]; ?></span>
+                <td><input type="text" name="address[address_1]" value="<?php echo $address['address_1']; ?>" />
+                  <?php if (isset($error_address_address_1)) { ?>
+                  <span class="error"><?php echo $error_address_address_1; ?></span>
                   <?php } ?></td>
               </tr>
               <tr>
                 <td><?php echo $entry_address_2; ?></td>
-                <td><input type="text" name="address[<?php echo $address_row; ?>][address_2]" value="<?php echo $address['address_2']; ?>" /></td>
+                <td><input type="text" name="address[address_2]" value="<?php echo $address['address_2']; ?>" /></td>
               </tr>
               <tr>
                 <td><span class="required">*</span> <?php echo $entry_city; ?></td>
-                <td><input type="text" name="address[<?php echo $address_row; ?>][city]" value="<?php echo $address['city']; ?>" />
-                  <?php if (isset($error_address_city[$address_row])) { ?>
-                  <span class="error"><?php echo $error_address_city[$address_row]; ?></span>
+                <td><input type="text" name="address[city]" value="<?php echo $address['city']; ?>" />
+                  <?php if (isset($error_address_city)) { ?>
+                  <span class="error"><?php echo $error_address_city; ?></span>
                   <?php } ?></td>
               </tr>
               <tr>
-                <td><span id="postcode-required<?php echo $address_row; ?>" class="required">*</span> <?php echo $entry_postcode; ?></td>
-                <td><input type="text" name="address[<?php echo $address_row; ?>][postcode]" value="<?php echo $address['postcode']; ?>" /></td>
+                <td><span id="postcode-required" class="required">*</span> <?php echo $entry_postcode; ?></td>
+                <td><input type="text" name="address[postcode]" value="<?php echo $address['postcode']; ?>" /></td>
               </tr>
               <tr>
                 <td><span class="required">*</span> <?php echo $entry_country; ?></td>
-                <td><select name="address[<?php echo $address_row; ?>][country_id]" onchange="country(this, '<?php echo $address_row; ?>', '<?php echo $address['zone_id']; ?>');">
+                <td><select name="address[country_id]" onchange="country(this, '', '<?php echo $address['zone_id']; ?>');">
                     <option value=""><?php echo $text_select; ?></option>
                     <?php foreach ($countries as $country) { ?>
                     <?php if ($country['country_id'] == $address['country_id']) { ?>
@@ -232,31 +199,22 @@
                     <?php } ?>
                     <?php } ?>
                   </select>
-                  <?php if (isset($error_address_country[$address_row])) { ?>
-                  <span class="error"><?php echo $error_address_country[$address_row]; ?></span>
+                  <?php if (isset($error_address_country)) { ?>
+                  <span class="error"><?php echo $error_address_country; ?></span>
                   <?php } ?></td>
               </tr>
               <tr>
                 <td><span class="required">*</span> <?php echo $entry_zone; ?></td>
-                <td><select name="address[<?php echo $address_row; ?>][zone_id]">
+                <td><select name="address[zone_id]">
                   </select>
-                  <?php if (isset($error_address_zone[$address_row])) { ?>
-                  <span class="error"><?php echo $error_address_zone[$address_row]; ?></span>
+                  <?php if (isset($error_address_zone)) { ?>
+                  <span class="error"><?php echo $error_address_zone; ?></span>
                   <?php } ?></td>
-              </tr>
-              <tr>
-                <td><?php echo $entry_default; ?></td>
-                <td><?php if (($address['address_id'] == $address_id) || !$addresses) { ?>
-                  <input type="radio" name="address[<?php echo $address_row; ?>][default]" value="<?php echo $address_row; ?>" checked="checked" /></td>
-                <?php } else { ?>
-                <input type="radio" name="address[<?php echo $address_row; ?>][default]" value="<?php echo $address_row; ?>" />
-                  </td>
-                <?php } ?>
               </tr>
             </table>
           </div>
-          <?php $address_row++; ?>
-          <?php } ?>
+
+          
         </div>
         <?php if ($customer_id) { ?>
         <div id="tab-history">
@@ -421,6 +379,7 @@ $('select[name=\'customer_group_id\']').trigger('change');
 //--></script> 
 <script type="text/javascript"><!--
 function country(element, index, zone_id) {
+
   if (element.value != '') {
 		$.ajax({
 			url: 'index.php?route=sale/customer/country&token=<?php echo $token; ?>&country_id=' + element.value,
@@ -432,6 +391,7 @@ function country(element, index, zone_id) {
 				$('.wait').remove();
 			},			
 			success: function(json) {
+
 				if (json['postcode_required'] == '1') {
 					$('#postcode-required' + index).show();
 				} else {
@@ -439,7 +399,7 @@ function country(element, index, zone_id) {
 				}
 				
 				html = '<option value=""><?php echo $text_select; ?></option>';
-				
+				console.log(json['zone']);
 				if (json['zone'] != '') {
 					for (i = 0; i < json['zone'].length; i++) {
 						html += '<option value="' + json['zone'][i]['zone_id'] + '"';
@@ -453,8 +413,8 @@ function country(element, index, zone_id) {
 				} else {
 					html += '<option value="0"><?php echo $text_none; ?></option>';
 				}
-				
-				$('select[name=\'address[' + index + '][zone_id]\']').html(html);
+				console.log(html);
+				$('select[name=\'address[zone_id]\']').html(html);
 			},
 			error: function(xhr, ajaxOptions, thrownError) {
 				alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
@@ -464,82 +424,6 @@ function country(element, index, zone_id) {
 }
 
 $('select[name$=\'[country_id]\']').trigger('change');
-//--></script> 
-<script type="text/javascript"><!--
-var address_row = <?php echo $address_row; ?>;
-
-function addAddress() {	
-	html  = '<div id="tab-address-' + address_row + '" class="vtabs-content" style="display: none;">';
-	html += '  <input type="hidden" name="address[' + address_row + '][address_id]" value="" />';
-	html += '  <table class="form">'; 
-	html += '    <tr>';
-    html += '	   <td><span class="required">*</span> <?php echo $entry_firstname; ?></td>';
-    html += '	   <td><input type="text" name="address[' + address_row + '][firstname]" value="" /></td>';
-    html += '    </tr>';
-    html += '    <tr>';
-    html += '      <td><span class="required">*</span> <?php echo $entry_lastname; ?></td>';
-    html += '      <td><input type="text" name="address[' + address_row + '][lastname]" value="" /></td>';
-    html += '    </tr>';
-    html += '    <tr>';
-    html += '      <td><?php echo $entry_company; ?></td>';
-    html += '      <td><input type="text" name="address[' + address_row + '][company]" value="" /></td>';
-    html += '    </tr>';	
-    html += '    <tr class="company-id-display">';
-    html += '      <td><?php echo $entry_company_id; ?></td>';
-    html += '      <td><input type="text" name="address[' + address_row + '][company_id]" value="" /></td>';
-    html += '    </tr>';
-    html += '    <tr class="tax-id-display">';
-    html += '      <td><?php echo $entry_tax_id; ?></td>';
-    html += '      <td><input type="text" name="address[' + address_row + '][tax_id]" value="" /></td>';
-    html += '    </tr>';			
-    html += '    <tr>';
-    html += '      <td><span class="required">*</span> <?php echo $entry_address_1; ?></td>';
-    html += '      <td><input type="text" name="address[' + address_row + '][address_1]" value="" /></td>';
-    html += '    </tr>';
-    html += '    <tr>';
-    html += '      <td><?php echo $entry_address_2; ?></td>';
-    html += '      <td><input type="text" name="address[' + address_row + '][address_2]" value="" /></td>';
-    html += '    </tr>';
-    html += '    <tr>';
-    html += '      <td><span class="required">*</span> <?php echo $entry_city; ?></td>';
-    html += '      <td><input type="text" name="address[' + address_row + '][city]" value="" /></td>';
-    html += '    </tr>';
-    html += '    <tr>';
-    html += '      <td><span id="postcode-required' + address_row + '" class="required">*</span> <?php echo $entry_postcode; ?></td>';
-    html += '      <td><input type="text" name="address[' + address_row + '][postcode]" value="" /></td>';
-    html += '    </tr>';
-	html += '    <tr>';
-    html += '      <td><span class="required">*</span> <?php echo $entry_country; ?></td>';
-    html += '      <td><select name="address[' + address_row + '][country_id]" onchange="country(this, \'' + address_row + '\', \'0\');">';
-    html += '         <option value=""><?php echo $text_select; ?></option>';
-    <?php foreach ($countries as $country) { ?>
-    html += '         <option value="<?php echo $country['country_id']; ?>"><?php echo addslashes($country['name']); ?></option>';
-    <?php } ?>
-    html += '      </select></td>';
-    html += '    </tr>';
-    html += '    <tr>';
-    html += '      <td><span class="required">*</span> <?php echo $entry_zone; ?></td>';
-    html += '      <td><select name="address[' + address_row + '][zone_id]"><option value="false"><?php echo $this->language->get('text_none'); ?></option></select></td>';
-    html += '    </tr>';
-	html += '    <tr>';
-    html += '      <td><?php echo $entry_default; ?></td>';
-    html += '      <td><input type="radio" name="address[' + address_row + '][default]" value="1" /></td>';
-    html += '    </tr>';
-    html += '  </table>';
-    html += '</div>';
-	
-	$('#tab-general').append(html);
-	
-	$('select[name=\'address[' + address_row + '][country_id]\']').trigger('change');	
-	
-	$('#address-add').before('<a href="#tab-address-' + address_row + '" id="address-' + address_row + '"><?php echo $tab_address; ?> ' + address_row + '&nbsp;<img src="view/image/delete.png" alt="" onclick="$(\'#vtabs a:first\').trigger(\'click\'); $(\'#address-' + address_row + '\').remove(); $(\'#tab-address-' + address_row + '\').remove(); return false;" /></a>');
-		 
-	$('.vtabs a').tabs();
-	
-	$('#address-' + address_row).trigger('click');
-	
-	address_row++;
-}
 //--></script> 
 <script type="text/javascript"><!--
 $('#history .pagination a').live('click', function() {
@@ -760,246 +644,246 @@ $('input[name=\'product\']').autocomplete({
     $('input[name=\'product\']').attr('value', ui.item['label']);
     $('input[name=\'product_id\']').attr('value', ui.item['value']);
     
-    if (ui.item['option'] != '') {
-      html = '';
+    // if (ui.item['option'] != '') {
+    //   html = '';
 
-      for (i = 0; i < ui.item['option'].length; i++) {
-        option = ui.item['option'][i];
+    //   for (i = 0; i < ui.item['option'].length; i++) {
+    //     option = ui.item['option'][i];
         
-        if (option['type'] == 'select') {
-          html += '<div id="option-' + option['product_option_id'] + '">';
+    //     if (option['type'] == 'select') {
+    //       html += '<div id="option-' + option['product_option_id'] + '">';
           
-          if (option['required']) {
-            html += '<span class="required">*</span> ';
-          }
+    //       if (option['required']) {
+    //         html += '<span class="required">*</span> ';
+    //       }
         
-          html += option['name'] + '<br />';
-          html += '<select name="option[' + option['product_option_id'] + ']">';
-          html += '<option value=""><?php echo $text_select; ?></option>';
+    //       html += option['name'] + '<br />';
+    //       html += '<select name="option[' + option['product_option_id'] + ']">';
+    //       html += '<option value=""><?php echo $text_select; ?></option>';
         
-          for (j = 0; j < option['option_value'].length; j++) {
-            option_value = option['option_value'][j];
+    //       for (j = 0; j < option['option_value'].length; j++) {
+    //         option_value = option['option_value'][j];
             
-            html += '<option value="' + option_value['product_option_value_id'] + '">' + option_value['name'];
+    //         html += '<option value="' + option_value['product_option_value_id'] + '">' + option_value['name'];
             
-            if (option_value['price']) {
-              html += ' (' + option_value['price_prefix'] + option_value['price'] + ')';
-            }
+    //         if (option_value['price']) {
+    //           html += ' (' + option_value['price_prefix'] + option_value['price'] + ')';
+    //         }
             
-            html += '</option>';
-          }
+    //         html += '</option>';
+    //       }
             
-          html += '</select>';
-          html += '</div>';
-          html += '<br />';
-        }
+    //       html += '</select>';
+    //       html += '</div>';
+    //       html += '<br />';
+    //     }
         
-        if (option['type'] == 'radio') {
-          html += '<div id="option-' + option['product_option_id'] + '">';
+    //     if (option['type'] == 'radio') {
+    //       html += '<div id="option-' + option['product_option_id'] + '">';
           
-          if (option['required']) {
-            html += '<span class="required">*</span> ';
-          }
+    //       if (option['required']) {
+    //         html += '<span class="required">*</span> ';
+    //       }
         
-          html += option['name'] + '<br />';
-          html += '<select name="option[' + option['product_option_id'] + ']">';
-          html += '<option value=""><?php echo $text_select; ?></option>';
+    //       html += option['name'] + '<br />';
+    //       html += '<select name="option[' + option['product_option_id'] + ']">';
+    //       html += '<option value=""><?php echo $text_select; ?></option>';
         
-          for (j = 0; j < option['option_value'].length; j++) {
-            option_value = option['option_value'][j];
+    //       for (j = 0; j < option['option_value'].length; j++) {
+    //         option_value = option['option_value'][j];
             
-            html += '<option value="' + option_value['product_option_value_id'] + '">' + option_value['name'];
+    //         html += '<option value="' + option_value['product_option_value_id'] + '">' + option_value['name'];
             
-            if (option_value['price']) {
-              html += ' (' + option_value['price_prefix'] + option_value['price'] + ')';
-            }
+    //         if (option_value['price']) {
+    //           html += ' (' + option_value['price_prefix'] + option_value['price'] + ')';
+    //         }
             
-            html += '</option>';
-          }
+    //         html += '</option>';
+    //       }
             
-          html += '</select>';
-          html += '</div>';
-          html += '<br />';
-        }
+    //       html += '</select>';
+    //       html += '</div>';
+    //       html += '<br />';
+    //     }
           
-        if (option['type'] == 'checkbox') {
-          html += '<div id="option-' + option['product_option_id'] + '">';
+    //     if (option['type'] == 'checkbox') {
+    //       html += '<div id="option-' + option['product_option_id'] + '">';
           
-          if (option['required']) {
-            html += '<span class="required">*</span> ';
-          }
+    //       if (option['required']) {
+    //         html += '<span class="required">*</span> ';
+    //       }
           
-          html += option['name'] + '<br />';
+    //       html += option['name'] + '<br />';
           
-          for (j = 0; j < option['option_value'].length; j++) {
-            option_value = option['option_value'][j];
+    //       for (j = 0; j < option['option_value'].length; j++) {
+    //         option_value = option['option_value'][j];
             
-            html += '<input type="checkbox" name="option[' + option['product_option_id'] + '][]" value="' + option_value['product_option_value_id'] + '" id="option-value-' + option_value['product_option_value_id'] + '" />';
-            html += '<label for="option-value-' + option_value['product_option_value_id'] + '">' + option_value['name'];
+    //         html += '<input type="checkbox" name="option[' + option['product_option_id'] + '][]" value="' + option_value['product_option_value_id'] + '" id="option-value-' + option_value['product_option_value_id'] + '" />';
+    //         html += '<label for="option-value-' + option_value['product_option_value_id'] + '">' + option_value['name'];
             
-            if (option_value['price']) {
-              html += ' (' + option_value['price_prefix'] + option_value['price'] + ')';
-            }
+    //         if (option_value['price']) {
+    //           html += ' (' + option_value['price_prefix'] + option_value['price'] + ')';
+    //         }
             
-            html += '</label>';
-            html += '<br />';
-          }
+    //         html += '</label>';
+    //         html += '<br />';
+    //       }
           
-          html += '</div>';
-          html += '<br />';
-        }
+    //       html += '</div>';
+    //       html += '<br />';
+    //     }
       
-        if (option['type'] == 'image') {
-          html += '<div id="option-' + option['product_option_id'] + '">';
+    //     if (option['type'] == 'image') {
+    //       html += '<div id="option-' + option['product_option_id'] + '">';
           
-          if (option['required']) {
-            html += '<span class="required">*</span> ';
-          }
+    //       if (option['required']) {
+    //         html += '<span class="required">*</span> ';
+    //       }
         
-          html += option['name'] + '<br />';
-          html += '<select name="option[' + option['product_option_id'] + ']">';
-          html += '<option value=""><?php echo $text_select; ?></option>';
+    //       html += option['name'] + '<br />';
+    //       html += '<select name="option[' + option['product_option_id'] + ']">';
+    //       html += '<option value=""><?php echo $text_select; ?></option>';
         
-          for (j = 0; j < option['option_value'].length; j++) {
-            option_value = option['option_value'][j];
+    //       for (j = 0; j < option['option_value'].length; j++) {
+    //         option_value = option['option_value'][j];
             
-            html += '<option value="' + option_value['product_option_value_id'] + '">' + option_value['name'];
+    //         html += '<option value="' + option_value['product_option_value_id'] + '">' + option_value['name'];
             
-            if (option_value['price']) {
-              html += ' (' + option_value['price_prefix'] + option_value['price'] + ')';
-            }
+    //         if (option_value['price']) {
+    //           html += ' (' + option_value['price_prefix'] + option_value['price'] + ')';
+    //         }
             
-            html += '</option>';
-          }
+    //         html += '</option>';
+    //       }
             
-          html += '</select>';
-          html += '</div>';
-          html += '<br />';
-        }
+    //       html += '</select>';
+    //       html += '</div>';
+    //       html += '<br />';
+    //     }
             
-        if (option['type'] == 'text') {
-          html += '<div id="option-' + option['product_option_id'] + '">';
+    //     if (option['type'] == 'text') {
+    //       html += '<div id="option-' + option['product_option_id'] + '">';
           
-          if (option['required']) {
-            html += '<span class="required">*</span> ';
-          }
+    //       if (option['required']) {
+    //         html += '<span class="required">*</span> ';
+    //       }
           
-          html += option['name'] + '<br />';
-          html += '<input type="text" name="option[' + option['product_option_id'] + ']" value="' + option['option_value'] + '" />';
-          html += '</div>';
-          html += '<br />';
-        }
+    //       html += option['name'] + '<br />';
+    //       html += '<input type="text" name="option[' + option['product_option_id'] + ']" value="' + option['option_value'] + '" />';
+    //       html += '</div>';
+    //       html += '<br />';
+    //     }
         
-        if (option['type'] == 'textarea') {
-          html += '<div id="option-' + option['product_option_id'] + '">';
+    //     if (option['type'] == 'textarea') {
+    //       html += '<div id="option-' + option['product_option_id'] + '">';
           
-          if (option['required']) {
-            html += '<span class="required">*</span> ';
-          }
+    //       if (option['required']) {
+    //         html += '<span class="required">*</span> ';
+    //       }
           
-          html += option['name'] + '<br />';
-          html += '<textarea name="option[' + option['product_option_id'] + ']" cols="40" rows="5">' + option['option_value'] + '</textarea>';
-          html += '</div>';
-          html += '<br />';
-        }
+    //       html += option['name'] + '<br />';
+    //       html += '<textarea name="option[' + option['product_option_id'] + ']" cols="40" rows="5">' + option['option_value'] + '</textarea>';
+    //       html += '</div>';
+    //       html += '<br />';
+    //     }
         
-        if (option['type'] == 'file') {
-          html += '<div id="option-' + option['product_option_id'] + '">';
+    //     if (option['type'] == 'file') {
+    //       html += '<div id="option-' + option['product_option_id'] + '">';
           
-          if (option['required']) {
-            html += '<span class="required">*</span> ';
-          }
+    //       if (option['required']) {
+    //         html += '<span class="required">*</span> ';
+    //       }
           
-          html += option['name'] + '<br />';
-          html += '<a id="button-option-' + option['product_option_id'] + '" class="button"><?php echo $button_upload; ?></a>';
-          html += '<input type="hidden" name="option[' + option['product_option_id'] + ']" value="' + option['option_value'] + '" />';
-          html += '</div>';
-          html += '<br />';
-        }
+    //       html += option['name'] + '<br />';
+    //       html += '<a id="button-option-' + option['product_option_id'] + '" class="button"><?php echo $button_upload; ?></a>';
+    //       html += '<input type="hidden" name="option[' + option['product_option_id'] + ']" value="' + option['option_value'] + '" />';
+    //       html += '</div>';
+    //       html += '<br />';
+    //     }
         
-        if (option['type'] == 'date') {
-          html += '<div id="option-' + option['product_option_id'] + '">';
+    //     if (option['type'] == 'date') {
+    //       html += '<div id="option-' + option['product_option_id'] + '">';
           
-          if (option['required']) {
-            html += '<span class="required">*</span> ';
-          }
+    //       if (option['required']) {
+    //         html += '<span class="required">*</span> ';
+    //       }
           
-          html += option['name'] + '<br />';
-          html += '<input type="text" name="option[' + option['product_option_id'] + ']" value="' + option['option_value'] + '" class="date" />';
-          html += '</div>';
-          html += '<br />';
-        }
+    //       html += option['name'] + '<br />';
+    //       html += '<input type="text" name="option[' + option['product_option_id'] + ']" value="' + option['option_value'] + '" class="date" />';
+    //       html += '</div>';
+    //       html += '<br />';
+    //     }
         
-        if (option['type'] == 'datetime') {
-          html += '<div id="option-' + option['product_option_id'] + '">';
+    //     if (option['type'] == 'datetime') {
+    //       html += '<div id="option-' + option['product_option_id'] + '">';
           
-          if (option['required']) {
-            html += '<span class="required">*</span> ';
-          }
+    //       if (option['required']) {
+    //         html += '<span class="required">*</span> ';
+    //       }
           
-          html += option['name'] + '<br />';
-          html += '<input type="text" name="option[' + option['product_option_id'] + ']" value="' + option['option_value'] + '" class="datetime" />';
-          html += '</div>';
-          html += '<br />';           
-        }
+    //       html += option['name'] + '<br />';
+    //       html += '<input type="text" name="option[' + option['product_option_id'] + ']" value="' + option['option_value'] + '" class="datetime" />';
+    //       html += '</div>';
+    //       html += '<br />';           
+    //     }
         
-        if (option['type'] == 'time') {
-          html += '<div id="option-' + option['product_option_id'] + '">';
+    //     if (option['type'] == 'time') {
+    //       html += '<div id="option-' + option['product_option_id'] + '">';
           
-          if (option['required']) {
-            html += '<span class="required">*</span> ';
-          }
+    //       if (option['required']) {
+    //         html += '<span class="required">*</span> ';
+    //       }
           
-          html += option['name'] + '<br />';
-          html += '<input type="text" name="option[' + option['product_option_id'] + ']" value="' + option['option_value'] + '" class="time" />';
-          html += '</div>';
-          html += '<br />';           
-        }
-      }
+    //       html += option['name'] + '<br />';
+    //       html += '<input type="text" name="option[' + option['product_option_id'] + ']" value="' + option['option_value'] + '" class="time" />';
+    //       html += '</div>';
+    //       html += '<br />';           
+    //     }
+    //   }
       
-      $('#option').html('<td class="left"><?php echo $entry_option; ?></td><td class="left">' + html + '</td>');
+    //   $('#option').html('<td class="left"><?php echo $entry_option; ?></td><td class="left">' + html + '</td>');
 
-      for (i = 0; i < ui.item.option.length; i++) {
-        option = ui.item.option[i];
+    //   for (i = 0; i < ui.item.option.length; i++) {
+    //     option = ui.item.option[i];
         
-        if (option['type'] == 'file') {   
-          new AjaxUpload('#button-option-' + option['product_option_id'], {
-            action: 'index.php?route=sale/order/upload&token=<?php echo $token; ?>',
-            name: 'file',
-            autoSubmit: true,
-            responseType: 'json',
-            data: option,
-            onSubmit: function(file, extension) {
-              $('#button-option-' + (this._settings.data['product_option_id'] + '-' + this._settings.data['product_option_id'])).after('<img src="view/image/loading.gif" class="loading" />');
-            },
-            onComplete: function(file, json) {
+    //     if (option['type'] == 'file') {   
+    //       new AjaxUpload('#button-option-' + option['product_option_id'], {
+    //         action: 'index.php?route=sale/order/upload&token=<?php echo $token; ?>',
+    //         name: 'file',
+    //         autoSubmit: true,
+    //         responseType: 'json',
+    //         data: option,
+    //         onSubmit: function(file, extension) {
+    //           $('#button-option-' + (this._settings.data['product_option_id'] + '-' + this._settings.data['product_option_id'])).after('<img src="view/image/loading.gif" class="loading" />');
+    //         },
+    //         onComplete: function(file, json) {
 
-              $('.error').remove();
+    //           $('.error').remove();
               
-              if (json['success']) {
+    //           if (json['success']) {
                 
-                $('input[name=\'option[' + this._settings.data['product_option_id'] + ']\']').attr('value', json['file']);
-              }
+    //             $('input[name=\'option[' + this._settings.data['product_option_id'] + ']\']').attr('value', json['file']);
+    //           }
               
-              if (json.error) {
-                $('#option-' + this._settings.data['product_option_id']).after('<span class="error">' + json['error'] + '</span>');
-              }
+    //           if (json.error) {
+    //             $('#option-' + this._settings.data['product_option_id']).after('<span class="error">' + json['error'] + '</span>');
+    //           }
               
-              $('.loading').remove(); 
-            }
-          });
-        }
-      }
+    //           $('.loading').remove(); 
+    //         }
+    //       });
+    //     }
+    //   }
       
-      $('.date').datepicker({dateFormat: 'yy-mm-dd'});
-      $('.datetime').datetimepicker({
-        dateFormat: 'yy-mm-dd',
-        timeFormat: 'h:m'
-      });
-      $('.time').timepicker({timeFormat: 'h:m'});       
-    } else {
-      $('#option td').remove();
-    }
+    //   $('.date').datepicker({dateFormat: 'yy-mm-dd'});
+    //   $('.datetime').datetimepicker({
+    //     dateFormat: 'yy-mm-dd',
+    //     timeFormat: 'h:m'
+    //   });
+    //   $('.time').timepicker({timeFormat: 'h:m'});       
+    // } else {
+    //   $('#option td').remove();
+    // }
     
     return false;
   },

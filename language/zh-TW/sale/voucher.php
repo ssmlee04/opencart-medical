@@ -17,7 +17,7 @@ $_['column_theme']      = '樣式(Theme)';
 $_['column_amount']     = '金額(Amount)';
 $_['column_status']     = '狀態(Status)';
 $_['column_order_id']   = '訂單號碼(Order ID)';
-$_['column_customer']   = '會員';
+$_['column_customer']   = '客戶';
 $_['column_date_added'] = '購買日期(Date Added)';
 $_['column_action']     = '動作(Action)';
 

@@ -1,6 +1,8 @@
 <?php
 class ControllerReportProductPurchased extends Controller { 
 	public function index() {   
+
+
 		$this->language->load('report/product_purchased');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -9,6 +11,12 @@ class ControllerReportProductPurchased extends Controller {
 			$filter_date_start = $this->request->get['filter_date_start'];
 		} else {
 			$filter_date_start = '';
+		}
+
+		if (isset($this->request->get['type'])) {
+			$filter_type = $this->request->get['type'];
+		} else {
+			$filter_type = '';
 		}
 
 		if (isset($this->request->get['filter_date_end'])) {
@@ -68,6 +76,7 @@ class ControllerReportProductPurchased extends Controller {
 		$data = array(
 			'filter_date_start'	     => $filter_date_start, 
 			'filter_date_end'	     => $filter_date_end, 
+			'filter_type'            => $filter_type,
 			'filter_order_status_id' => $filter_order_status_id,
 			'start'                  => ($page - 1) * $this->config->get('config_admin_limit'),
 			'limit'                  => $this->config->get('config_admin_limit')

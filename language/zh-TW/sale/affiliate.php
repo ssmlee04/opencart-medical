@@ -1,10 +1,10 @@
 <?php
 // Heading
-$_['heading_title']             = '推薦會員(Affiliate)';
+$_['heading_title']             = '推薦客戶(Affiliate)';
 
 // Text
-$_['text_success']              = '已成功修改推薦會員的設置';
-$_['text_approved']             = '您已核准%s 個推薦會員的申請';
+$_['text_success']              = '已成功修改推薦客戶的設置';
+$_['text_approved']             = '您已核准%s 個推薦客戶的申請';
 $_['text_wait']             = '請稍等(Please Wait)';
 $_['text_balance']          = '餘額(Balance)';
 $_['text_cheque']               = '支票(Cheque)';
@@ -12,7 +12,7 @@ $_['text_paypal']               = 'PayPal';
 $_['text_bank']                 = '銀行轉帳(Bank Transfer)';
 
 // Column
-$_['column_name']               = '會員名稱(Affiliate Name)';
+$_['column_name']               = '客戶名稱(Affiliate Name)';
 $_['column_email']            = 'E-Mail';
 $_['column_code']               = '追蹤碼(Tracking Code)';
 $_['column_balance']            = '餘額(Balance)';
@@ -54,7 +54,7 @@ $_['entry_amount']          = '金額(Amount)';
 $_['entry_description']     = '項目(Description)';
 
 // Error
-$_['error_permission']     = '您沒有權限更改推薦會員的設置';
+$_['error_permission']     = '您沒有權限更改推薦客戶的設置';
 $_['error_exists']              = '此信箱已經被註冊';
 $_['error_firstname']      = '名字必須在1至32個字元之間';
 $_['error_lastname']       = '姓氏必須在1至32個字元之間';

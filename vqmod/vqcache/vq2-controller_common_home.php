@@ -50,6 +50,7 @@ class ControllerCommonHome extends Controller {
 		$this->data['text_no_results'] = $this->language->get('text_no_results');
 		$this->data['button_record_history'] = $this->language->get('button_record_history');
 
+		$this->data['column_user'] = $this->language->get('column_user');
 		$this->data['column_order'] = $this->language->get('column_order');
 		$this->data['column_message'] = $this->language->get('column_message');
 		$this->data['column_customer'] = $this->language->get('column_customer');
@@ -164,7 +165,12 @@ class ControllerCommonHome extends Controller {
 
 		$this->data['token'] = $this->session->data['token'];
 		$this->load->model('user/user');
-		$this->data['messages'] = $this->model_user_user->getUnfinishedMessages($this->user->getId());
+
+		$data = array(
+			'filter_user_id' => $this->user->getId(),
+			'filter_reminder_status' => 0
+		);
+		$this->data['messages'] = $this->model_user_user->getReminderMessages($data);
 
 		$this->load->model('sale/order');
 

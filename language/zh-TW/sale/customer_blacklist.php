@@ -7,7 +7,7 @@ $_['text_success']     = '已成功修改IP 封鎖名單的設置';
 
 // Column
 $_['column_ip']        = '封鎖的IP';
-$_['column_customer']  = '會員數量(Customers)';
+$_['column_customer']  = '客戶數量(Customers)';
 $_['column_action']    = '動作(Action)';
 
 // Entry
