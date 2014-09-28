@@ -445,10 +445,12 @@ class Cart {
 	}
 
 	public function hasStock() {
-		$stock = true;
 
+		$stock = true;
 		foreach ($this->getProducts() as $product) {
-			if (!$product['stock']) {
+
+			//'2014-09-28 10:50'
+			if (!$product['stock'] && $product['subtract']) {
 				$stock = false;
 			}
 		}

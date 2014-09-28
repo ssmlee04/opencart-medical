@@ -14,6 +14,8 @@ $_['text_option']            = '選項';
 $_['text_option_value']      = '選項值';
 $_['text_percent']           = '百分比';
 $_['text_amount']            = '固定數';
+$_['text_cannot_delete']            = '這個產品有交易記錄不能刪除';
+$_['text_recover']            = '還原';
 
 // Column
 $_['column_name']            = '商品名稱';
@@ -48,7 +50,7 @@ $_['entry_reminder_days']         = '天';
 $_['entry_date_available']   = '上架日期';
 $_['entry_quantity']         = '數量';
 $_['entry_minimum']          = '最少購買量<br/><span class="help">客戶最少一次須購買幾件</span>';
-$_['entry_unit_quantity']    = '計量單位';
+$_['entry_unit_quantity']    = '內涵單位';
 $_['entry_stock_status']     = '庫存狀況<br/><span class="help">缺貨時前台顯示的狀態</span>';
 $_['entry_price']            = '價格';
 // $_['entry_tax_class']        = '稅率種類';

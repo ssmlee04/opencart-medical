@@ -2107,177 +2107,177 @@ class ControllerSaleOrder extends Controller {
 		$this->response->setOutput(json_encode($json));
 	}
 
-	public function addCredit() {
-		$this->language->load('sale/order');
+	// public function addCredit() {
+	// 	$this->language->load('sale/order');
 
-		$json = array();
+	// 	$json = array();
 
-		if (!$this->user->hasPermission('modify', 'sale/order')) {
-			$json['error'] = $this->language->get('error_permission');
-		} elseif (isset($this->request->get['order_id'])) {
-			$this->load->model('sale/order');
+	// 	if (!$this->user->hasPermission('modify', 'sale/order')) {
+	// 		$json['error'] = $this->language->get('error_permission');
+	// 	} elseif (isset($this->request->get['order_id'])) {
+	// 		$this->load->model('sale/order');
 
-			$order_info = $this->model_sale_order->getOrder($this->request->get['order_id']);
+	// 		$order_info = $this->model_sale_order->getOrder($this->request->get['order_id']);
 
-			if ($order_info && $order_info['customer_id']) {
-				$this->load->model('sale/customer');
+	// 		if ($order_info && $order_info['customer_id']) {
+	// 			$this->load->model('sale/customer');
 
-				$credit_total = $this->model_sale_customer->getTotalTransactionsByOrderId($this->request->get['order_id']);
+	// 			$credit_total = $this->model_sale_customer->getTotalTransactionsByOrderId($this->request->get['order_id']);
 
-				if (!$credit_total) {
-					$this->model_sale_customer->addTransaction($order_info['customer_id'], $this->language->get('text_order_id') . ' #' . $this->request->get['order_id'], $order_info['total'], $this->request->get['order_id']);
+	// 			if (!$credit_total) {
+	// 				$this->model_sale_customer->addTransaction($order_info['customer_id'], $this->language->get('text_order_id') . ' #' . $this->request->get['order_id'], $order_info['total'], $this->request->get['order_id']);
 
-					$json['success'] = $this->language->get('text_credit_added');
-				} else {
-					$json['error'] = $this->language->get('error_action');
-				}
-			}
-		}
+	// 				$json['success'] = $this->language->get('text_credit_added');
+	// 			} else {
+	// 				$json['error'] = $this->language->get('error_action');
+	// 			}
+	// 		}
+	// 	}
 
-		$this->response->setOutput(json_encode($json));
-	}
+	// 	$this->response->setOutput(json_encode($json));
+	// }
 
-	public function removeCredit() {
-		$this->language->load('sale/order');
+	// public function removeCredit() {
+	// 	$this->language->load('sale/order');
 
-		$json = array();
+	// 	$json = array();
 
-		if (!$this->user->hasPermission('modify', 'sale/order')) {
-			$json['error'] = $this->language->get('error_permission');
-		} elseif (isset($this->request->get['order_id'])) {
-			$this->load->model('sale/order');
+	// 	if (!$this->user->hasPermission('modify', 'sale/order')) {
+	// 		$json['error'] = $this->language->get('error_permission');
+	// 	} elseif (isset($this->request->get['order_id'])) {
+	// 		$this->load->model('sale/order');
 
-			$order_info = $this->model_sale_order->getOrder($this->request->get['order_id']);
+	// 		$order_info = $this->model_sale_order->getOrder($this->request->get['order_id']);
 
-			if ($order_info && $order_info['customer_id']) {
-				$this->load->model('sale/customer');
+	// 		if ($order_info && $order_info['customer_id']) {
+	// 			$this->load->model('sale/customer');
 
-				$this->model_sale_customer->deleteTransaction($this->request->get['order_id']);
+	// 			$this->model_sale_customer->deleteTransaction($this->request->get['order_id']);
 
-				$json['success'] = $this->language->get('text_credit_removed');
-			} else {
-				$json['error'] = $this->language->get('error_action');
-			}
-		}
+	// 			$json['success'] = $this->language->get('text_credit_removed');
+	// 		} else {
+	// 			$json['error'] = $this->language->get('error_action');
+	// 		}
+	// 	}
 
-		$this->response->setOutput(json_encode($json));
-	}
+	// 	$this->response->setOutput(json_encode($json));
+	// }
 
-	public function addReward() {
-		$this->language->load('sale/order');
+	// public function addReward() {
+	// 	$this->language->load('sale/order');
 
-		$json = array();
+	// 	$json = array();
 
-		if (!$this->user->hasPermission('modify', 'sale/order')) {
-			$json['error'] = $this->language->get('error_permission');
-		} elseif (isset($this->request->get['order_id'])) {
-			$this->load->model('sale/order');
+	// 	if (!$this->user->hasPermission('modify', 'sale/order')) {
+	// 		$json['error'] = $this->language->get('error_permission');
+	// 	} elseif (isset($this->request->get['order_id'])) {
+	// 		$this->load->model('sale/order');
 
-			$order_info = $this->model_sale_order->getOrder($this->request->get['order_id']);
+	// 		$order_info = $this->model_sale_order->getOrder($this->request->get['order_id']);
 
-			if ($order_info && $order_info['customer_id']) {
-				$this->load->model('sale/customer');
+	// 		if ($order_info && $order_info['customer_id']) {
+	// 			$this->load->model('sale/customer');
 
-				$reward_total = $this->model_sale_customer->getTotalCustomerRewardsByOrderId($this->request->get['order_id']);
+	// 			$reward_total = $this->model_sale_customer->getTotalCustomerRewardsByOrderId($this->request->get['order_id']);
 
-				if (!$reward_total) {
-					$this->model_sale_customer->addReward($order_info['customer_id'], $this->language->get('text_order_id') . ' #' . $this->request->get['order_id'], $order_info['reward'], $this->request->get['order_id']);
+	// 			if (!$reward_total) {
+	// 				$this->model_sale_customer->addReward($order_info['customer_id'], $this->language->get('text_order_id') . ' #' . $this->request->get['order_id'], $order_info['reward'], $this->request->get['order_id']);
 
-					$json['success'] = $this->language->get('text_reward_added');
-				} else {
-					$json['error'] = $this->language->get('error_action');
-				}
-			} else {
-				$json['error'] = $this->language->get('error_action');
-			}
-		}
+	// 				$json['success'] = $this->language->get('text_reward_added');
+	// 			} else {
+	// 				$json['error'] = $this->language->get('error_action');
+	// 			}
+	// 		} else {
+	// 			$json['error'] = $this->language->get('error_action');
+	// 		}
+	// 	}
 
-		$this->response->setOutput(json_encode($json));
-	}
+	// 	$this->response->setOutput(json_encode($json));
+	// }
 
-	public function removeReward() {
-		$this->language->load('sale/order');
+	// public function removeReward() {
+	// 	$this->language->load('sale/order');
 
-		$json = array();
+	// 	$json = array();
 
-		if (!$this->user->hasPermission('modify', 'sale/order')) {
-			$json['error'] = $this->language->get('error_permission');
-		} elseif (isset($this->request->get['order_id'])) {
-			$this->load->model('sale/order');
+	// 	if (!$this->user->hasPermission('modify', 'sale/order')) {
+	// 		$json['error'] = $this->language->get('error_permission');
+	// 	} elseif (isset($this->request->get['order_id'])) {
+	// 		$this->load->model('sale/order');
 
-			$order_info = $this->model_sale_order->getOrder($this->request->get['order_id']);
+	// 		$order_info = $this->model_sale_order->getOrder($this->request->get['order_id']);
 
-			if ($order_info && $order_info['customer_id']) {
-				$this->load->model('sale/customer');
+	// 		if ($order_info && $order_info['customer_id']) {
+	// 			$this->load->model('sale/customer');
 
-				$this->model_sale_customer->deleteReward($this->request->get['order_id']);
+	// 			$this->model_sale_customer->deleteReward($this->request->get['order_id']);
 
-				$json['success'] = $this->language->get('text_reward_removed');
-			} else {
-				$json['error'] = $this->language->get('error_action');
-			}
-		}
+	// 			$json['success'] = $this->language->get('text_reward_removed');
+	// 		} else {
+	// 			$json['error'] = $this->language->get('error_action');
+	// 		}
+	// 	}
 
-		$this->response->setOutput(json_encode($json));
-	}
+	// 	$this->response->setOutput(json_encode($json));
+	// }
 
-	public function addCommission() {
-		$this->language->load('sale/order');
+	// public function addCommission() {
+	// 	$this->language->load('sale/order');
 
-		$json = array();
+	// 	$json = array();
 
-		if (!$this->user->hasPermission('modify', 'sale/order')) {
-			$json['error'] = $this->language->get('error_permission');
-		} elseif (isset($this->request->get['order_id'])) {
-			$this->load->model('sale/order');
+	// 	if (!$this->user->hasPermission('modify', 'sale/order')) {
+	// 		$json['error'] = $this->language->get('error_permission');
+	// 	} elseif (isset($this->request->get['order_id'])) {
+	// 		$this->load->model('sale/order');
 
-			$order_info = $this->model_sale_order->getOrder($this->request->get['order_id']);
+	// 		$order_info = $this->model_sale_order->getOrder($this->request->get['order_id']);
 
-			if ($order_info && $order_info['affiliate_id']) {
-				$this->load->model('sale/affiliate');
+	// 		if ($order_info && $order_info['affiliate_id']) {
+	// 			$this->load->model('sale/affiliate');
 
-				$affiliate_total = $this->model_sale_affiliate->getTotalTransactionsByOrderId($this->request->get['order_id']);
+	// 			$affiliate_total = $this->model_sale_affiliate->getTotalTransactionsByOrderId($this->request->get['order_id']);
 
-				if (!$affiliate_total) {
-					$this->model_sale_affiliate->addTransaction($order_info['affiliate_id'], $this->language->get('text_order_id') . ' #' . $this->request->get['order_id'], $order_info['commission'], $this->request->get['order_id']);
+	// 			if (!$affiliate_total) {
+	// 				$this->model_sale_affiliate->addTransaction($order_info['affiliate_id'], $this->language->get('text_order_id') . ' #' . $this->request->get['order_id'], $order_info['commission'], $this->request->get['order_id']);
 
-					$json['success'] = $this->language->get('text_commission_added');
-				} else {
-					$json['error'] = $this->language->get('error_action');
-				}
-			} else {
-				$json['error'] = $this->language->get('error_action');
-			}
-		}
+	// 				$json['success'] = $this->language->get('text_commission_added');
+	// 			} else {
+	// 				$json['error'] = $this->language->get('error_action');
+	// 			}
+	// 		} else {
+	// 			$json['error'] = $this->language->get('error_action');
+	// 		}
+	// 	}
 
-		$this->response->setOutput(json_encode($json));
-	}
+	// 	$this->response->setOutput(json_encode($json));
+	// }
 
-	public function removeCommission() {
-		$this->language->load('sale/order');
+	// public function removeCommission() {
+	// 	$this->language->load('sale/order');
 
-		$json = array();
+	// 	$json = array();
 
-		if (!$this->user->hasPermission('modify', 'sale/order')) {
-			$json['error'] = $this->language->get('error_permission');
-		} elseif (isset($this->request->get['order_id'])) {
-			$this->load->model('sale/order');
+	// 	if (!$this->user->hasPermission('modify', 'sale/order')) {
+	// 		$json['error'] = $this->language->get('error_permission');
+	// 	} elseif (isset($this->request->get['order_id'])) {
+	// 		$this->load->model('sale/order');
 
-			$order_info = $this->model_sale_order->getOrder($this->request->get['order_id']);
+	// 		$order_info = $this->model_sale_order->getOrder($this->request->get['order_id']);
 
-			if ($order_info && $order_info['affiliate_id']) {
-				$this->load->model('sale/affiliate');
+	// 		if ($order_info && $order_info['affiliate_id']) {
+	// 			$this->load->model('sale/affiliate');
 
-				$this->model_sale_affiliate->deleteTransaction($this->request->get['order_id']);
+	// 			$this->model_sale_affiliate->deleteTransaction($this->request->get['order_id']);
 
-				$json['success'] = $this->language->get('text_commission_removed');
-			} else {
-				$json['error'] = $this->language->get('error_action');
-			}
-		}
+	// 			$json['success'] = $this->language->get('text_commission_removed');
+	// 		} else {
+	// 			$json['error'] = $this->language->get('error_action');
+	// 		}
+	// 	}
 
-		$this->response->setOutput(json_encode($json));
-	}
+	// 	$this->response->setOutput(json_encode($json));
+	// }
 
 	public function history() {
 		$this->language->load('sale/order');
@@ -2341,141 +2341,141 @@ class ControllerSaleOrder extends Controller {
 		$this->response->setOutput($this->render());
 	}
 
-	public function download() {
-		$this->load->model('sale/order');
+	// public function download() {
+	// 	$this->load->model('sale/order');
 
-		if (isset($this->request->get['order_option_id'])) {
-			$order_option_id = $this->request->get['order_option_id'];
-		} else {
-			$order_option_id = 0;
-		}
+	// 	if (isset($this->request->get['order_option_id'])) {
+	// 		$order_option_id = $this->request->get['order_option_id'];
+	// 	} else {
+	// 		$order_option_id = 0;
+	// 	}
 
-		$option_info = $this->model_sale_order->getOrderOption($this->request->get['order_id'], $order_option_id);
+	// 	$option_info = $this->model_sale_order->getOrderOption($this->request->get['order_id'], $order_option_id);
 
-		if ($option_info && $option_info['type'] == 'file') {
-			$file = DIR_DOWNLOAD . $option_info['value'];
-			$mask = basename(utf8_substr($option_info['value'], 0, utf8_strrpos($option_info['value'], '.')));
+	// 	if ($option_info && $option_info['type'] == 'file') {
+	// 		$file = DIR_DOWNLOAD . $option_info['value'];
+	// 		$mask = basename(utf8_substr($option_info['value'], 0, utf8_strrpos($option_info['value'], '.')));
 
-			if (!headers_sent()) {
-				if (file_exists($file)) {
-					header('Content-Type: application/octet-stream');
-					header('Content-Description: File Transfer');
-					header('Content-Disposition: attachment; filename="' . ($mask ? $mask : basename($file)) . '"');
-					header('Content-Transfer-Encoding: binary');
-					header('Expires: 0');
-					header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-					header('Pragma: public');
-					header('Content-Length: ' . filesize($file));
+	// 		if (!headers_sent()) {
+	// 			if (file_exists($file)) {
+	// 				header('Content-Type: application/octet-stream');
+	// 				header('Content-Description: File Transfer');
+	// 				header('Content-Disposition: attachment; filename="' . ($mask ? $mask : basename($file)) . '"');
+	// 				header('Content-Transfer-Encoding: binary');
+	// 				header('Expires: 0');
+	// 				header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+	// 				header('Pragma: public');
+	// 				header('Content-Length: ' . filesize($file));
 
-					readfile($file, 'rb');
-					exit;
-				} else {
-					exit('Error: Could not find file ' . $file . '!');
-				}
-			} else {
-				exit('Error: Headers already sent out!');
-			}
-		} else {
-			$this->language->load('error/not_found');
+	// 				readfile($file, 'rb');
+	// 				exit;
+	// 			} else {
+	// 				exit('Error: Could not find file ' . $file . '!');
+	// 			}
+	// 		} else {
+	// 			exit('Error: Headers already sent out!');
+	// 		}
+	// 	} else {
+	// 		$this->language->load('error/not_found');
 
-			$this->document->setTitle($this->language->get('heading_title'));
+	// 		$this->document->setTitle($this->language->get('heading_title'));
 
-			$this->data['heading_title'] = $this->language->get('heading_title');
+	// 		$this->data['heading_title'] = $this->language->get('heading_title');
 
-			$this->data['text_not_found'] = $this->language->get('text_not_found');
+	// 		$this->data['text_not_found'] = $this->language->get('text_not_found');
 
-			$this->data['breadcrumbs'] = array();
+	// 		$this->data['breadcrumbs'] = array();
 
-			$this->data['breadcrumbs'][] = array(
-				'text'      => $this->language->get('text_home'),
-				'href'      => $this->url->link('common/home', 'token=' . $this->session->data['token'], 'SSL'),
-				'separator' => false
-			);
+	// 		$this->data['breadcrumbs'][] = array(
+	// 			'text'      => $this->language->get('text_home'),
+	// 			'href'      => $this->url->link('common/home', 'token=' . $this->session->data['token'], 'SSL'),
+	// 			'separator' => false
+	// 		);
 
-			$this->data['breadcrumbs'][] = array(
-				'text'      => $this->language->get('heading_title'),
-				'href'      => $this->url->link('error/not_found', 'token=' . $this->session->data['token'], 'SSL'),
-				'separator' => ' :: '
-			);
+	// 		$this->data['breadcrumbs'][] = array(
+	// 			'text'      => $this->language->get('heading_title'),
+	// 			'href'      => $this->url->link('error/not_found', 'token=' . $this->session->data['token'], 'SSL'),
+	// 			'separator' => ' :: '
+	// 		);
 
-			$this->template = 'error/not_found.tpl';
-			$this->children = array(
-				'common/header',
-				'common/footer'
-			);
+	// 		$this->template = 'error/not_found.tpl';
+	// 		$this->children = array(
+	// 			'common/header',
+	// 			'common/footer'
+	// 		);
 
-			$this->response->setOutput($this->render());
-		}
-	}
+	// 		$this->response->setOutput($this->render());
+	// 	}
+	// }
 
-	public function upload() {
-		$this->language->load('sale/order');
+	// public function upload() {
+	// 	$this->language->load('sale/order');
 
-		$json = array();
+	// 	$json = array();
 
-		if ($this->request->server['REQUEST_METHOD'] == 'POST') {
-			if (!empty($this->request->files['file']['name'])) {
-				$filename = html_entity_decode($this->request->files['file']['name'], ENT_QUOTES, 'UTF-8');
+	// 	if ($this->request->server['REQUEST_METHOD'] == 'POST') {
+	// 		if (!empty($this->request->files['file']['name'])) {
+	// 			$filename = html_entity_decode($this->request->files['file']['name'], ENT_QUOTES, 'UTF-8');
 
-				if ((utf8_strlen($filename) < 3) || (utf8_strlen($filename) > 128)) {
-					$json['error'] = $this->language->get('error_filename');
-				}
+	// 			if ((utf8_strlen($filename) < 3) || (utf8_strlen($filename) > 128)) {
+	// 				$json['error'] = $this->language->get('error_filename');
+	// 			}
 
-				// Allowed file extension types
-				$allowed = array();
+	// 			// Allowed file extension types
+	// 			$allowed = array();
 
-				$filetypes = explode("\n", $this->config->get('config_file_extension_allowed'));
+	// 			$filetypes = explode("\n", $this->config->get('config_file_extension_allowed'));
 
-				foreach ($filetypes as $filetype) {
-					$allowed[] = trim($filetype);
-				}
+	// 			foreach ($filetypes as $filetype) {
+	// 				$allowed[] = trim($filetype);
+	// 			}
 
-				if (!in_array(substr(strrchr($filename, '.'), 1), $allowed)) {
-					$json['error'] = $this->language->get('error_filetype');
-				}
+	// 			if (!in_array(substr(strrchr($filename, '.'), 1), $allowed)) {
+	// 				$json['error'] = $this->language->get('error_filetype');
+	// 			}
 
-				// Allowed file mime types
-				$allowed = array();
+	// 			// Allowed file mime types
+	// 			$allowed = array();
 
-				$filetypes = explode("\n", $this->config->get('config_file_mime_allowed'));
+	// 			$filetypes = explode("\n", $this->config->get('config_file_mime_allowed'));
 
-				foreach ($filetypes as $filetype) {
-					$allowed[] = trim($filetype);
-				}
+	// 			foreach ($filetypes as $filetype) {
+	// 				$allowed[] = trim($filetype);
+	// 			}
 
-				if (!in_array($this->request->files['file']['type'], $allowed)) {
-					$json['error'] = $this->language->get('error_filetype');
-				}
+	// 			if (!in_array($this->request->files['file']['type'], $allowed)) {
+	// 				$json['error'] = $this->language->get('error_filetype');
+	// 			}
 
-				// Check to see if any PHP files are trying to be uploaded
-				$content = file_get_contents($this->request->files['file']['tmp_name']);
+	// 			// Check to see if any PHP files are trying to be uploaded
+	// 			$content = file_get_contents($this->request->files['file']['tmp_name']);
 
-				if (preg_match('/\<\?php/i', $content)) {
-					$json['error'] = $this->language->get('error_filetype');
-				}
+	// 			if (preg_match('/\<\?php/i', $content)) {
+	// 				$json['error'] = $this->language->get('error_filetype');
+	// 			}
 
-				if ($this->request->files['file']['error'] != UPLOAD_ERR_OK) {
-					$json['error'] = $this->language->get('error_upload_' . $this->request->files['file']['error']);
-				}
-			} else {
-				$json['error'] = $this->language->get('error_upload');
-			}
+	// 			if ($this->request->files['file']['error'] != UPLOAD_ERR_OK) {
+	// 				$json['error'] = $this->language->get('error_upload_' . $this->request->files['file']['error']);
+	// 			}
+	// 		} else {
+	// 			$json['error'] = $this->language->get('error_upload');
+	// 		}
 
-			if (!isset($json['error'])) {
-				if (is_uploaded_file($this->request->files['file']['tmp_name']) && file_exists($this->request->files['file']['tmp_name'])) {
-					$file = basename($filename) . '.' . md5(mt_rand());
+	// 		if (!isset($json['error'])) {
+	// 			if (is_uploaded_file($this->request->files['file']['tmp_name']) && file_exists($this->request->files['file']['tmp_name'])) {
+	// 				$file = basename($filename) . '.' . md5(mt_rand());
 
-					$json['file'] = $file;
+	// 				$json['file'] = $file;
 
-					move_uploaded_file($this->request->files['file']['tmp_name'], DIR_DOWNLOAD . $file);
-				}
+	// 				move_uploaded_file($this->request->files['file']['tmp_name'], DIR_DOWNLOAD . $file);
+	// 			}
 
-				$json['success'] = $this->language->get('text_upload');
-			}
-		}
+	// 			$json['success'] = $this->language->get('text_upload');
+	// 		}
+	// 	}
 
-		$this->response->setOutput(json_encode($json));
-	}
+	// 	$this->response->setOutput(json_encode($json));
+	// }
 
 	public function invoice() {
 		$this->language->load('sale/order');

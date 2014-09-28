@@ -143,7 +143,7 @@ class ControllerCheckoutManual extends Controller {
 			$products = $this->cart->getProducts();
 
 			$subtotal = 0;
-// $this->load->out($this->request->post['order_product']);
+
 			foreach ($products as $product) {
 				$product_total = 0;
 

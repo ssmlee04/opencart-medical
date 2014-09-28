@@ -43,4 +43,5 @@ $_['button_copy']           = '複製';
 $_['button_rename']         = '重命名';
 $_['button_upload']         = '上傳';
 $_['button_refresh']        = '刷新';
+$_['button_select']        = '選取';
 ?>

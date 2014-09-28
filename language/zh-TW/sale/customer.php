@@ -14,6 +14,13 @@ $_['text_date_incorrect']    = '日期輸入有誤';
 $_['text_reminder'] = '是否提醒';
 $_['button_add_image'] = '增加圖片';
 $_['button_add_history'] = '提醒設定';
+$_['text_delete_lending_success'] = '成功刪除療程轉讓';
+$_['text_delete_lending_error'] = '刪除療程轉讓錯誤';
+$_['text_delete_transaction_success'] = '成功刪除交易';
+$_['text_delete_transaction_error'] = '刪除交易錯誤';
+$_['text_delete_history_success'] = '成功刪除訊息';
+$_['text_delete_history_error'] = '刪除訊息錯誤';
+$_['text_error_lending'] = '療程轉讓失敗';
 
 // Column
 $_['column_name']             = '客戶名稱';
@@ -33,11 +40,13 @@ $_['column_action']           = '動作';
 $_['column_ssn']           = '身份證';
 $_['column_comment']           = '內容';
 $_['column_reminder_date']           = '提醒日期';
-
+$_['text_error']         = '錯誤';
+$_['text_cannot_use_inventory']         = '增加交易錯誤';
 
 
 // Entry
 $_['entry_firstname']         = '名字';
+$_['entry_nickname']         = '昵稱';
 $_['entry_lastname']          = '姓氏';
 $_['entry_email']             = '電子郵件';
 $_['entry_telephone']         = '電話';
@@ -62,7 +71,16 @@ $_['entry_unit']          = '單位';
 $_['entry_points']          = '點數';
 $_['entry_description']     = '項目';
 $_['entry_comment']                           = '備註';
-$_['entry_image']                           = '診療圖片';
+$_['entry_image']                           = '圖片';
+$_['entry_treatment_image']                           = '診療圖片';
+$_['entry_dob']         = '出生年月日';
+$_['entry_outsource']         = 'entry_outsource ????????????????????';
+$_['entry_ssn']         = '身份證字號';
+$_['entry_line_id']         = 'Line id';
+$_['entry_counselor_id']         = 'entry_counselor_id ????????????????';
+$_['entry_fb_id']         = 'Facebook id';
+$_['entry_misc']         = 'entry_misc ??????????????????';
+$_['entry_store']         = '對應商店';
 
 // Error
 $_['error_warning']         = '警告發生錯誤，請再確認';
@@ -83,5 +101,6 @@ $_['error_postcode']        = '郵遞區號必須在2到10個字元之間';
 $_['error_country']           = '請選擇國家';
 $_['error_zone']              = '請選擇區域或省';
 $_['error_dob']            = '出生年日月有誤';
+$_['error_store']            = '商店設定有誤';
 
 ?>

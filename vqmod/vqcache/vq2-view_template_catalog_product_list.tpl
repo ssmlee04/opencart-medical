@@ -16,7 +16,9 @@
       
 			<h1><img src="view/image/admin_theme/base5builder_impulsepro/icon-products-large.png" alt="" /> <?php echo $heading_title; ?></h1>
 			
-      <div class="buttons"><a href="<?php echo $insert; ?>" class="button"><?php echo $button_insert; ?></a><a onclick="$('#form').attr('action', '<?php echo $copy; ?>'); $('#form').submit();" class="button"><?php echo $button_copy; ?></a><a onclick="$('form').submit();" class="button"><?php echo $button_delete; ?></a></div>
+      <div class="buttons"><a href="<?php echo $insert; ?>" class="button"><?php echo $button_insert; ?></a>
+        <!-- <a onclick="$('#form').attr('action', '<php echo $copy; ?>'); $('#form').submit();" class="button"><php echo $button_copy; ?></a> -->
+        <a onclick="$('form').submit();" class="button"><?php echo $button_delete; ?></a></div>
     </div>
     <div class="content">
       <form action="<?php echo $delete; ?>" method="post" enctype="multipart/form-data" id="form">
@@ -89,14 +91,21 @@
               <td class="left"><?php echo $product['name']; ?></td>
               <td class="left"><?php echo $product['model']; ?></td>
               <td class="left"><?php echo $product['price']; ?></td>
-              <td class="right"><?php if ($product['quantity'] <= 0) { ?>
+              <td class="right"><?php if ($product['product_type_id'] == 2) { ?>
+                <span style="color: #FF0000;">-</span>
+              <?php } elseif ($product['quantity'] <= 0) { ?>
                 <span style="color: #FF0000;"><?php echo $product['quantity']; ?></span>
                 <?php } elseif ($product['quantity'] <= 5) { ?>
                 <span style="color: #FFA500;"><?php echo $product['quantity']; ?></span>
                 <?php } else { ?>
                 <span style="color: #008000;"><?php echo $product['quantity']; ?></span>
                 <?php } ?></td>
-              <td class="left"><?php echo $product['status']; ?></td>
+              <td class="left"><?php echo $product['status']; ?>
+                <?php if (isset($product['deleteaction'])) { ?>
+                <?php foreach ($product['deleteaction'] as $action) { ?>
+                [ <a href="<?php echo $action['href']; ?>"><?php echo $action['text']; ?></a> ]
+                <?php } ?>  
+                <?php } ?></td>
               <td class="right"><?php foreach ($product['action'] as $action) { ?>
                 [ <a href="<?php echo $action['href']; ?>"><?php echo $action['text']; ?></a> ]
                 <?php } ?></td>

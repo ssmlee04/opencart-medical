@@ -16,8 +16,10 @@
     <div class="content">
       <div id="htabs" class="htabs"><a style="display:none" href="#tab-general"><?php echo $tab_general; ?></a>
         <?php if ($customer_id) { ?>
-        <a href="#tab-history"><?php echo $tab_history; ?></a>
-        <a href="#tab-transaction"><?php echo $tab_transaction; ?></a>
+        <a href="#tab-history" id='tab-history-link'><?php echo $tab_history; ?></a>
+        <a href="#tab-transaction" id='tab-transaction-link'><?php echo $tab_transaction; ?></a>
+        <a href="#tab-lendto" id='tab-lendto-link'><?php echo $tab_lendto; ?></a>
+        <a href="#tab-payment"><?php echo $tab_payment; ?></a>
         <a href="#tab-image"><?php echo $tab_image; ?></a>
 
         <!-- <a href="#tab-reward"><php echo $tab_reward; ?></a> -->
@@ -124,16 +126,25 @@
                   <php  } ?></td>
               </tr> -->
               <tr>
-                <td><?php echo $entry_newsletter; ?></td>
-                <td><select name="newsletter">
-                    <?php if ($newsletter) { ?>
-                    <option value="1" selected="selected"><?php echo $text_enabled; ?></option>
-                    <option value="0"><?php echo $text_disabled; ?></option>
+                <td><?php echo $entry_store; ?></td>
+                <td><select name="store">
+                  <option value=""></option>
+                    <?php if ($stores) { ?>
+                    <?php foreach ($stores as $st) { ?>
+                    <?php if ($st['store_id'] == $store) { ?>
+                      <option value="<?php echo $st['store_id']; ?>" selected><?php echo $st['name']; ?></option>
                     <?php } else { ?>
-                    <option value="1"><?php echo $text_enabled; ?></option>
-                    <option value="0" selected="selected"><?php echo $text_disabled; ?></option>
+                      <option value="<?php echo $st['store_id']; ?>"><?php echo $st['name']; ?></option>
                     <?php } ?>
-                  </select></td>
+                    
+
+                    <?php } ?>
+                    <?php } ?>
+                  </select>
+                  <?php if ($error_store) { ?>
+                  <span class="error"><?php echo $error_store; ?></span>
+                  <?php  } ?></td>
+                </td>
               </tr>
               <tr>
                 <td><?php echo $entry_customer_group; ?></td>
@@ -215,6 +226,7 @@
           
         </div>
         <?php if ($customer_id) { ?>
+        
         <div id="tab-history">
           <div id="history"></div>
           <table class="form">
@@ -230,6 +242,7 @@
             </tr>
           </table>
         </div>
+
         <div id="tab-transaction">
           <table class="form">
             <tr>
@@ -245,13 +258,37 @@
               <td><input type="text" name="amount" value="" /></td>
             </tr> -->
             <tr>
-              <td colspan="2" style="text-align: right;"><a id="button-transaction" class="button" onclick="addTransaction();"><span><?php echo $button_add_transaction; ?></span></a></td>
+              <td colspan="2" style="text-align: right;"><a id="button-transaction" class="button"><span><?php echo $button_add_transaction; ?></span></a></td>
               <!-- <td colspan="2" style="text-align: right;"><a id="button-transaction" class="button" onclick="addTransaction2();"><span><php echo $button_add_transaction2; ?></span></a></td> -->
             </tr>
           </table>
           <div id="transaction"></div>
-
         </div>
+
+        <div id="tab-lendto">
+          <div id="lendto"></div>
+          <table class="form">
+            <tr>
+              <td><?php echo $entry_lendto; ?></td>
+              <td><input type="text" name="lendto_customer" value="" />
+                <input type="hidden" name="lendto_customer_id" value="" /></td>
+            </tr>
+            <tr>
+              <td><?php echo $entry_product; ?></td>
+              <td><input type="text" name="lendto_product" value="" />
+                <input type="hidden" name="lendto_product_id" value="" /></td>
+            </tr>
+            <tr>
+              <td><?php echo $entry_quantity; ?></td>
+              <td><input type="text" name="lendto_quantity" value="" /></td>
+            </tr>
+            <tr>
+              <td colspan="2" style="text-align: right;"><a id="button-lendto" class="button"><span><?php echo $button_lendto; ?></span></a></td>
+            </tr>
+          </table>
+        </div>
+
+
         <div id="tab-image">
           <table id="images" class="list">
             <thead>
@@ -397,7 +434,6 @@ function country(element, index, zone_id) {
 				}
 				
 				html = '<option value=""><?php echo $text_select; ?></option>';
-				console.log(json['zone']);
 				if (json['zone'] != '') {
 					for (i = 0; i < json['zone'].length; i++) {
 						html += '<option value="' + json['zone'][i]['zone_id'] + '"';
@@ -411,7 +447,7 @@ function country(element, index, zone_id) {
 				} else {
 					html += '<option value="0"><?php echo $text_none; ?></option>';
 				}
-				console.log(html);
+				
 				$('select[name=\'address[zone_id]\']').html(html);
 			},
 			error: function(xhr, ajaxOptions, thrownError) {
@@ -464,6 +500,20 @@ $('#transaction .pagination a').live('click', function() {
 	return false;
 });			
 
+$('#tab-transaction-link').on('click', function(){
+  $('#button-transaction').click();
+});
+
+
+$('#tab-history-link').on('click', function(){
+  $('textarea[name=\'comment\']').val('');
+  $('#button-history').click();
+});
+
+$('#tab-lendto-link').on('click', function(){
+  // $('#button-lendto').click();
+});
+
 $('#transaction').load('index.php?route=sale/customer/transaction&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>');
 
 $('#button-transaction').bind('click', function() {
@@ -485,12 +535,48 @@ $('#button-transaction').bind('click', function() {
 		success: function(html) {
 
 			$('#transaction').html(html);
-			
-			$('#tab-transaction input[name=\'amount\']').val('');
-			$('#tab-transaction input[name=\'description\']').val('');
+
+			$('#tab-transaction input[name=\'product_id\']').val('');
+      $('#tab-transaction input[name=\'product\']').val('');
+      $('#tab-transaction input[name=\'unitspend\']').val('');
+
 		}
 	});
 });
+
+
+
+$('#lendto').load('index.php?route=sale/customer/lendings&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>');
+
+$('#button-lendto').bind('click', function() {
+
+  $.ajax({
+    url: 'index.php?route=sale/customer/lendings&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>',
+    type: 'post',
+    dataType: 'html',
+    data: 'lendto_customer_id=' + encodeURIComponent($('#tab-lendto input[name=\'lendto_customer_id\']').val()) + '&lendto_quantity=' + encodeURIComponent($('#tab-lendto input[name=\'lendto_quantity\']').val()) + '&lendto_product_id=' + encodeURIComponent($('#tab-lendto input[name=\'lendto_product_id\']').val()),
+    beforeSend: function() {
+      $('.success, .warning').remove();
+      $('#button-lendto').attr('disabled', true);
+      $('#lendto').before('<div class="attention"><img src="view/image/loading.gif" alt="" /> <?php echo $text_wait; ?></div>');
+    },
+    complete: function() {
+      $('#button-lendto').attr('disabled', false);
+      $('.attention').remove();
+    },
+    success: function(html) {
+
+      $('#lendto').html(html);
+
+      $('#tab-lendto input[name=\'lendto_product_id\']').val('');
+      $('#tab-lendto input[name=\'lendto_product\']').val('');
+      $('#tab-lendto input[name=\'lendto_customer\']').val('');
+      $('#tab-lendto input[name=\'lendto_customer_id\']').val('');
+
+    }
+  });
+});
+
 //--></script> 
 <script type="text/javascript"><!--
 // $('#reward .pagination a').live('click', function() {
@@ -618,6 +704,8 @@ $('.vtabs a').tabs();
 //--></script> 
 
 <script type="text/javascript"><!--
+
+
 $('input[name=\'product\']').autocomplete({
   delay: 500,
   source: function(request, response) {
@@ -625,7 +713,7 @@ $('input[name=\'product\']').autocomplete({
       url: 'index.php?route=catalog/product/autocomplete&token=<?php echo $token; ?>&filter_name=' + encodeURIComponent(request.term),
       dataType: 'json',
       success: function(json) { 
-        console.log(json);
+        
         response($.map(json, function(item) {
           return {
             label: item.name,
@@ -642,246 +730,37 @@ $('input[name=\'product\']').autocomplete({
     $('input[name=\'product\']').attr('value', ui.item['label']);
     $('input[name=\'product_id\']').attr('value', ui.item['value']);
     
-    // if (ui.item['option'] != '') {
-    //   html = '';
+    return false;
+  },
+  focus: function(event, ui) {
+        return false;
+    }
+}); 
 
-    //   for (i = 0; i < ui.item['option'].length; i++) {
-    //     option = ui.item['option'][i];
-        
-    //     if (option['type'] == 'select') {
-    //       html += '<div id="option-' + option['product_option_id'] + '">';
-          
-    //       if (option['required']) {
-    //         html += '<span class="required">*</span> ';
-    //       }
-        
-    //       html += option['name'] + '<br />';
-    //       html += '<select name="option[' + option['product_option_id'] + ']">';
-    //       html += '<option value=""><?php echo $text_select; ?></option>';
-        
-    //       for (j = 0; j < option['option_value'].length; j++) {
-    //         option_value = option['option_value'][j];
-            
-    //         html += '<option value="' + option_value['product_option_value_id'] + '">' + option_value['name'];
-            
-    //         if (option_value['price']) {
-    //           html += ' (' + option_value['price_prefix'] + option_value['price'] + ')';
-    //         }
-            
-    //         html += '</option>';
-    //       }
-            
-    //       html += '</select>';
-    //       html += '</div>';
-    //       html += '<br />';
-    //     }
-        
-    //     if (option['type'] == 'radio') {
-    //       html += '<div id="option-' + option['product_option_id'] + '">';
-          
-    //       if (option['required']) {
-    //         html += '<span class="required">*</span> ';
-    //       }
-        
-    //       html += option['name'] + '<br />';
-    //       html += '<select name="option[' + option['product_option_id'] + ']">';
-    //       html += '<option value=""><?php echo $text_select; ?></option>';
-        
-    //       for (j = 0; j < option['option_value'].length; j++) {
-    //         option_value = option['option_value'][j];
-            
-    //         html += '<option value="' + option_value['product_option_value_id'] + '">' + option_value['name'];
-            
-    //         if (option_value['price']) {
-    //           html += ' (' + option_value['price_prefix'] + option_value['price'] + ')';
-    //         }
-            
-    //         html += '</option>';
-    //       }
-            
-    //       html += '</select>';
-    //       html += '</div>';
-    //       html += '<br />';
-    //     }
-          
-    //     if (option['type'] == 'checkbox') {
-    //       html += '<div id="option-' + option['product_option_id'] + '">';
-          
-    //       if (option['required']) {
-    //         html += '<span class="required">*</span> ';
-    //       }
-          
-    //       html += option['name'] + '<br />';
-          
-    //       for (j = 0; j < option['option_value'].length; j++) {
-    //         option_value = option['option_value'][j];
-            
-    //         html += '<input type="checkbox" name="option[' + option['product_option_id'] + '][]" value="' + option_value['product_option_value_id'] + '" id="option-value-' + option_value['product_option_value_id'] + '" />';
-    //         html += '<label for="option-value-' + option_value['product_option_value_id'] + '">' + option_value['name'];
-            
-    //         if (option_value['price']) {
-    //           html += ' (' + option_value['price_prefix'] + option_value['price'] + ')';
-    //         }
-            
-    //         html += '</label>';
-    //         html += '<br />';
-    //       }
-          
-    //       html += '</div>';
-    //       html += '<br />';
-    //     }
-      
-    //     if (option['type'] == 'image') {
-    //       html += '<div id="option-' + option['product_option_id'] + '">';
-          
-    //       if (option['required']) {
-    //         html += '<span class="required">*</span> ';
-    //       }
-        
-    //       html += option['name'] + '<br />';
-    //       html += '<select name="option[' + option['product_option_id'] + ']">';
-    //       html += '<option value=""><?php echo $text_select; ?></option>';
-        
-    //       for (j = 0; j < option['option_value'].length; j++) {
-    //         option_value = option['option_value'][j];
-            
-    //         html += '<option value="' + option_value['product_option_value_id'] + '">' + option_value['name'];
-            
-    //         if (option_value['price']) {
-    //           html += ' (' + option_value['price_prefix'] + option_value['price'] + ')';
-    //         }
-            
-    //         html += '</option>';
-    //       }
-            
-    //       html += '</select>';
-    //       html += '</div>';
-    //       html += '<br />';
-    //     }
-            
-    //     if (option['type'] == 'text') {
-    //       html += '<div id="option-' + option['product_option_id'] + '">';
-          
-    //       if (option['required']) {
-    //         html += '<span class="required">*</span> ';
-    //       }
-          
-    //       html += option['name'] + '<br />';
-    //       html += '<input type="text" name="option[' + option['product_option_id'] + ']" value="' + option['option_value'] + '" />';
-    //       html += '</div>';
-    //       html += '<br />';
-    //     }
-        
-    //     if (option['type'] == 'textarea') {
-    //       html += '<div id="option-' + option['product_option_id'] + '">';
-          
-    //       if (option['required']) {
-    //         html += '<span class="required">*</span> ';
-    //       }
-          
-    //       html += option['name'] + '<br />';
-    //       html += '<textarea name="option[' + option['product_option_id'] + ']" cols="40" rows="5">' + option['option_value'] + '</textarea>';
-    //       html += '</div>';
-    //       html += '<br />';
-    //     }
-        
-    //     if (option['type'] == 'file') {
-    //       html += '<div id="option-' + option['product_option_id'] + '">';
-          
-    //       if (option['required']) {
-    //         html += '<span class="required">*</span> ';
-    //       }
-          
-    //       html += option['name'] + '<br />';
-    //       html += '<a id="button-option-' + option['product_option_id'] + '" class="button"><?php echo $button_upload; ?></a>';
-    //       html += '<input type="hidden" name="option[' + option['product_option_id'] + ']" value="' + option['option_value'] + '" />';
-    //       html += '</div>';
-    //       html += '<br />';
-    //     }
-        
-    //     if (option['type'] == 'date') {
-    //       html += '<div id="option-' + option['product_option_id'] + '">';
-          
-    //       if (option['required']) {
-    //         html += '<span class="required">*</span> ';
-    //       }
-          
-    //       html += option['name'] + '<br />';
-    //       html += '<input type="text" name="option[' + option['product_option_id'] + ']" value="' + option['option_value'] + '" class="date" />';
-    //       html += '</div>';
-    //       html += '<br />';
-    //     }
-        
-    //     if (option['type'] == 'datetime') {
-    //       html += '<div id="option-' + option['product_option_id'] + '">';
-          
-    //       if (option['required']) {
-    //         html += '<span class="required">*</span> ';
-    //       }
-          
-    //       html += option['name'] + '<br />';
-    //       html += '<input type="text" name="option[' + option['product_option_id'] + ']" value="' + option['option_value'] + '" class="datetime" />';
-    //       html += '</div>';
-    //       html += '<br />';           
-    //     }
-        
-    //     if (option['type'] == 'time') {
-    //       html += '<div id="option-' + option['product_option_id'] + '">';
-          
-    //       if (option['required']) {
-    //         html += '<span class="required">*</span> ';
-    //       }
-          
-    //       html += option['name'] + '<br />';
-    //       html += '<input type="text" name="option[' + option['product_option_id'] + ']" value="' + option['option_value'] + '" class="time" />';
-    //       html += '</div>';
-    //       html += '<br />';           
-    //     }
-    //   }
-      
-    //   $('#option').html('<td class="left"><?php echo $entry_option; ?></td><td class="left">' + html + '</td>');
 
-    //   for (i = 0; i < ui.item.option.length; i++) {
-    //     option = ui.item.option[i];
+$('input[name=\'lendto_product\']').autocomplete({
+  delay: 500,
+  source: function(request, response) {
+    $.ajax({
+      url: 'index.php?route=catalog/product/autocomplete&token=<?php echo $token; ?>&filter_name=' + encodeURIComponent(request.term),
+      dataType: 'json',
+      success: function(json) { 
         
-    //     if (option['type'] == 'file') {   
-    //       new AjaxUpload('#button-option-' + option['product_option_id'], {
-    //         action: 'index.php?route=sale/order/upload&token=<?php echo $token; ?>',
-    //         name: 'file',
-    //         autoSubmit: true,
-    //         responseType: 'json',
-    //         data: option,
-    //         onSubmit: function(file, extension) {
-    //           $('#button-option-' + (this._settings.data['product_option_id'] + '-' + this._settings.data['product_option_id'])).after('<img src="view/image/loading.gif" class="loading" />');
-    //         },
-    //         onComplete: function(file, json) {
-
-    //           $('.error').remove();
-              
-    //           if (json['success']) {
-                
-    //             $('input[name=\'option[' + this._settings.data['product_option_id'] + ']\']').attr('value', json['file']);
-    //           }
-              
-    //           if (json.error) {
-    //             $('#option-' + this._settings.data['product_option_id']).after('<span class="error">' + json['error'] + '</span>');
-    //           }
-              
-    //           $('.loading').remove(); 
-    //         }
-    //       });
-    //     }
-    //   }
-      
-    //   $('.date').datepicker({dateFormat: 'yy-mm-dd'});
-    //   $('.datetime').datetimepicker({
-    //     dateFormat: 'yy-mm-dd',
-    //     timeFormat: 'h:m'
-    //   });
-    //   $('.time').timepicker({timeFormat: 'h:m'});       
-    // } else {
-    //   $('#option td').remove();
-    // }
+        response($.map(json, function(item) {
+          return {
+            label: item.name,
+            value: item.product_id,
+            model: item.model,
+            option: item.option,
+            price: item.price
+          }
+        }));
+      }
+    });
+  }, 
+  select: function(event, ui) {
+    $('input[name=\'lendto_product\']').attr('value', ui.item['label']);
+    $('input[name=\'lendto_product_id\']').attr('value', ui.item['value']);
     
     return false;
   },
@@ -889,6 +768,40 @@ $('input[name=\'product\']').autocomplete({
         return false;
     }
 }); 
+
+
+
+
+$('input[name=\'lendto_customer\']').autocomplete({
+  delay: 500,
+  source: function(request, response) {
+    $.ajax({
+      url: 'index.php?route=sale/customer/autocomplete&token=<?php echo $token; ?>&filter_name=' + encodeURIComponent(request.term),
+      dataType: 'json',
+      success: function(json) { 
+        
+        response($.map(json, function(item) {
+          return {
+            // label: item.name,
+            label: item.lastname + item.firstname + ' ' + item.ssn,
+            value: item.customer_id
+            // option: item.option,
+            // price: item.price
+          }
+        }));
+      }
+    });
+  }, 
+  select: function(event, ui) {
+    $('input[name=\'lendto_customer\']').attr('value', ui.item['label']);
+    $('input[name=\'lendto_customer_id\']').attr('value', ui.item['value']);
+    return false;
+  },
+  focus: function(event, ui) {
+        return false;
+    }
+}); 
+
 //--></script> 
 
 <script type="text/javascript"><!--
@@ -917,6 +830,8 @@ function image_upload(field, thumb) {
     modal: false
   });
 };
+
+
 //--></script> 
 
 <?php echo $footer; ?>

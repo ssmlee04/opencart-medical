@@ -30,6 +30,8 @@ $_['text_edit']               = '編輯';
 $_['text_view']               = '查看';
 $_['text_home']               = '首頁';
 $_['text_voucher']               = '購物禮券';
+$_['text_browse']               = '瀏覽';
+$_['text_clear']               = '清除';
 
 // Button
 $_['button_insert']           = '新增';
@@ -71,6 +73,7 @@ $_['button_add_rule' ]        = '新增規則';
 $_['button_update_total']     = '更新';
 $_['button_approve']          = '核准';
 $_['button_reset']            = '送出';
+$_['button_lendto']            = '轉讓';
 
 // Tab
 $_['tab_address']             = '地址';
@@ -95,7 +98,8 @@ $_['tab_mail']                = '郵件主機';
 $_['tab_module']              = '樣式';
 $_['tab_order']               = '訂單細節';
 $_['tab_order_history']             = '訂單紀錄';
-// $_['tab_payment']             = '付款細節';
+$_['tab_payment']             = '付款細節';
+$_['tab_lendto']             = '療程轉讓';
 $_['tab_product']             = '商品';
 // $_['tab_return']              = '退換貨細節';
 // $_['tab_return_history']      = '退換貨記錄';
@@ -106,6 +110,18 @@ $_['tab_history']               = '歷史記錄';
 $_['tab_transaction']         = '交易記錄';
 $_['tab_voucher']             = '購物禮券';
 $_['tab_voucher_history']     = '購物禮券細節';
+
+$_['text_payment']             = '付款';
+$_['column_quantity']             = '數量';
+$_['column_unit_quantity']             = '總內涵數量';
+$_['column_unit']             = '單位';
+$_['column_product']             = '商品';
+$_['entry_quantity']             = '數量';
+$_['entry_product']             = '商品';
+$_['entry_lendto']             = '轉讓人';
+$_['entry_unit_used']             = '使用多少單位';
+$_['text_service_not_rendered']             = '剩餘可用療程';
+
 
 // Error
 $_['error_upload_1']          = '上傳的檔案超過了在php.ini指令中的上傳檔案大小上限';

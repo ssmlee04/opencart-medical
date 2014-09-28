@@ -41,10 +41,16 @@
                 <a href="<?php echo $sort_total; ?>"><?php echo $column_total; ?></a>
                 <?php } ?></td>
 
-                <td class="left"><?php if ($sort == 'p.date_added') { ?>
-                <a href="<?php echo $sort_date_added; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_date_added; ?></a>
+                <td class="left"><?php if ($sort == 'p.date_purchased') { ?>
+                <a href="<?php echo $sort_date_purchased; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_date_purchased; ?></a>
                 <?php } else { ?>
-                <a href="<?php echo $sort_date_added; ?>"><?php echo $column_date_added; ?></a>
+                <a href="<?php echo $sort_date_purchased; ?>"><?php echo $column_date_purchased; ?></a>
+                <?php } ?></td>
+
+                <td class="left"><?php if ($sort == 'p.date_added') { ?>
+                <a href="<?php echo $sort_date_added; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_date_purchased; ?></a>
+                <?php } else { ?>
+                <a href="<?php echo $sort_date_added; ?>"><?php echo $column_date_added ?></a>
                 <?php } ?></td>
  
 <!--               <td class="left"><php if ($sort == 'p.status') { ?>
@@ -87,6 +93,8 @@
 
                 <td align="left"><input type="text" name="filter_total" value="<?php echo $filter_total; ?>" size="8"/></td>
 
+                <td align="left"><input type="date_available" class='date' name="filter_date_purchased" value="<?php echo $filter_date_purchased; ?>" size=""/></td>
+
                 <td align="left"><input type="date_available" class='date' name="filter_date_added" value="<?php echo $filter_date_added; ?>" size=""/></td>
 
               <td align="right"><a onclick="filter();" class="button"><?php echo $button_filter; ?></a></td>
@@ -106,6 +114,7 @@
               <td class="left"><?php echo $purchase['store']; ?></td>
               <td class="left"><?php echo $purchase['name']; ?></td>
               <td class="left"><?php echo $purchase['total']; ?></td>
+              <td class="left"><?php echo $purchase['date_purchased']; ?></td>
               <td class="left"><?php echo $purchase['date_added']; ?></td>
             
               <td class="right"><?php foreach ($purchase['action'] as $action) { ?>
@@ -115,7 +124,7 @@
             <?php } ?>
             <?php } else { ?>
             <tr>
-              <td class="center" colspan="8"><?php echo $text_no_results; ?></td>
+              <td class="center" colspan="7"><?php echo $text_no_results; ?></td>
             </tr>
             <?php } ?>
           </tbody>
@@ -135,6 +144,12 @@ function filter() {
     url += '&filter_total=' + encodeURIComponent(filter_total);
   }
   
+  var filter_date_purchased = $('input[name=\'filter_date_purchased\']').attr('value');
+  
+  if (filter_date_purchased) {
+    url += '&filter_date_purchased=' + encodeURIComponent(filter_date_purchased);
+  } 
+
   var filter_date_added = $('input[name=\'filter_date_added\']').attr('value');
   
   if (filter_date_added) {
@@ -153,11 +168,11 @@ function filter() {
     url += '&filter_store=' + encodeURIComponent(filter_store);
   }
 
-	var filter_status = $('select[name=\'filter_status\']').attr('value');
+	// var filter_status = $('select[name=\'filter_status\']').attr('value');
 	
-	if (filter_status != '*') {
-		url += '&filter_status=' + encodeURIComponent(filter_status);
-	}
+	// if (filter_status != '*') {
+	// 	url += '&filter_status=' + encodeURIComponent(filter_status);
+	// }
 
 	location = url;
 

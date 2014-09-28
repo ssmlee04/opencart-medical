@@ -1,7 +1,7 @@
-<?php if ($error_warning) { ?>
+<?php if (isset($error_warning) && $error_warning) { ?>
 <div class="warning"><?php echo $error_warning; ?></div>
 <?php } ?>
-<?php if ($success) { ?>
+<?php if (isset($success) && $success) { ?>
 <div class="success"><?php echo $success; ?></div>
 <?php } ?>
 <table class="list">
@@ -26,6 +26,12 @@
       <td class="left"><?php echo $transaction['subquantity']; ?></td>
       <td class="left"><?php echo $transaction['unit']; ?></td>
       <td class="right" style="width: 3px;">
+        <?php if ($transaction['customer_lending_id'] != 0) { ?>
+          <span>borrow </span>
+        <?php } ?>
+        <?php if ($transaction['type'] == 2) { ?>
+          <span>treatment</span>
+        <?php } ?>
         <?php if ($transaction['type'] == 2) { ?>
         <img src="view/image/delete.png" title="<?php echo $button_remove; ?>" alt="<?php echo $button_remove; ?>" style="cursor: pointer;" onclick="$(this).parent().parent().remove(); deleteCustomerTransaction('<?php echo $transaction['customer_transaction_id']; ?>')" />
         <?php } ?>
@@ -40,7 +46,7 @@
     </tr>
     <?php } else { ?>
     <tr>
-      <td class="center" colspan="3"><?php echo $text_no_results; ?></td>
+      <td class="center" colspan="6"><?php echo $text_no_results; ?></td>
     </tr>
     <?php } ?>
   </tbody>
@@ -76,7 +82,7 @@
     </tr>
     <?php } else { ?>
     <tr>
-      <td class="center" colspan="3"><?php echo $text_no_results; ?></td>
+      <td class="center" colspan="4"><?php echo $text_no_results; ?></td>
     </tr>
     <?php } ?>
   </tbody>
@@ -97,28 +103,18 @@ function deleteCustomerTransaction(id) {
       },
       success: function(json) {
         
-        $('.attention, .success').remove();
+        $('.attention, .success, .warning').remove();
 
         if (json['error']) {
 
-          $('#transaction').before('<div class="attention"><?php echo $text_error; ?></div>');
-
-          // $('#transaction').html('<div class="error" style="display: none;">' + json['error'] + '</div>');
-                    
-          //   $('.error').fadeIn('slow');
-
-          //   $('html, body').animate({ scrollTop: 0 }, 'slow'); 
+          $('#transaction').before('<div class="warning">' + json['error'] + '</div>');
         }
 
         if (json['success']) {
 
-          $('#transaction').before('<div class="success"><?php echo $text_success; ?></div>');
+          $('#button-transaction').click();
 
-          // $('#transaction').html('<div class="success" style="display: none;">' + json['success'] + '</div>');
-                    
-          //   $('.success').fadeIn('slow');
-
-          //   $('html, body').animate({ scrollTop: 0 }, 'slow'); 
+          $('#transaction').before('<div class="success">' + json['success'] + '</div>');
         }
       },
       error: function(xhr, ajaxOptions, thrownError) {

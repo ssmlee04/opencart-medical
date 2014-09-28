@@ -31,12 +31,14 @@ class ModelSaleCustomer extends Model {
 
 	public function editCustomer($customer_id, $data) {
 		$this->db->query("UPDATE " . DB_PREFIX . "customer SET firstname = '" . $this->db->escape($data['firstname']) . "', lastname = '" . $this->db->escape($data['lastname']) . "', email = '" . $this->db->escape($data['email']) . "', telephone = '" . $this->db->escape($data['telephone']) . "', fax = '" . $this->db->escape($data['fax']) . "'
-			, dob = '" . (int)$data['dob'] . "'
-			, ssn = '" . (int)$data['ssn'] . "'
+			, dob = '" . $this->db->escape($data['dob']) . "'
+			, ssn = '" . $this->db->escape($data['ssn']) . "'
+			, image = '" . $this->db->escape($data['image']) . "'
+			, store_id = '" . (int)$data['store'] . "'
 			, outsource = '" . (int)$data['outsource'] . "'
-			, nickname = '" . (int)$data['nickname'] . "'
-			, line_id = '" . (int)$data['line_id'] . "'
-			, fb_id = '" . (int)$data['fb_id'] . "'
+			, nickname = '" . $this->db->escape($data['nickname']) . "'
+			, line_id = '" . $this->db->escape($data['line_id']) . "'
+			, fb_id = '" . $this->db->escape($data['fb_id']) . "'
 			, newsletter = '" . (int)$data['newsletter'] . "'
 			, customer_group_id = '" . (int)$data['customer_group_id'] . "', status = '" . (int)$data['status'] . "' WHERE customer_id = '" . (int)$customer_id . "'");
 
@@ -353,16 +355,40 @@ class ModelSaleCustomer extends Model {
 		return $query->row['total'];
 	}
 
-	public function addHistory($customer_id, $comment, $user_id = 0, $reminder=null, $reminder_date=null, $if_treatment = false) {
+	public function addHistory($customer_id, $comment, $user_id = 0, $reminder=null, $reminder_date=null, $if_treatment = false, $customer_transaction_id = '') {
 
 		$subsql = ($reminder ? " reminder = 1, reminder_date = '$reminder_date', user_id = " . (int)$user_id . ', ' : '');
 
 		$subsql .= ($if_treatment ? " if_treatment = 1, " : '');
 
+		$subsql .= ($customer_transaction_id ? " customer_transaction_id = '" . (int)$customer_transaction_id . "', " : '');
+
 		$sql = "INSERT INTO " . DB_PREFIX . "customer_history SET $subsql customer_id = '" . (int)$customer_id . "', comment = '" . $this->db->escape(strip_tags($comment)) . "', date_added = NOW()";
 
 		$this->db->query($sql);
 	}	
+
+	public function getLendings($customer_id, $start = 0, $limit = 10) { 
+		if ($start < 0) {
+			$start = 0;
+		}
+
+		if ($limit < 1) {
+			$limit = 10;
+		}	
+
+		$query = $this->db->query("SELECT cl.*, /*pd.name as product_name,*/ u.firstname as ufirstname, u.lastname as ulastname,
+		c1.firstname as borrowerfirstname, c1.lastname as borrowerlastname,
+		c2.firstname as lenderfirstname, c2.lastname as lenderlastname FROM oc_customer_lending cl 
+			LEFT JOIN oc_user u ON u.user_id = cl.user_id 
+			LEFT JOIN oc_customer c1 ON c1.customer_id = cl.borrower_id 
+			LEFT JOIN oc_customer c2 ON c2.customer_id = cl.lender_id 
+			-- LEFT JOIN oc_product p ON p.product_id = cl.product_id 
+			-- LEFT JOIN oc_product_description pd ON p.product_id = pd.product_id 
+			WHERE /*pd.language_id = '" . (int)$this->config->get('config_language_id') ."' AND*/ cl.lender_id = '" . (int)$customer_id . "' ORDER BY cl.date_added DESC LIMIT " . (int)$start . "," . (int)$limit);
+
+		return $query->rows;
+	}
 
 	public function getHistories($customer_id, $start = 0, $limit = 10) { 
 		if ($start < 0) {
@@ -384,8 +410,51 @@ class ModelSaleCustomer extends Model {
 		return $query->row['total'];
 	}	
 
+	public function getTotalLendings($customer_id) {
+		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "customer_lending WHERE lender_id = '" . (int)$customer_id . "'");
+
+		return $query->row['total'];
+	}	
+
+	public function addLending($customer_id, $lendto_customer_id, $lendto_product_id, $lendto_subquantity) {
+		$this->db->query("INSERT INTO oc_customer_lending SET 
+			lender_id='" . (int)$customer_id . "', 
+			product_id='" . (int)$lendto_product_id . "', 
+			subquantity='" . (int)$lendto_subquantity . "', 
+			borrower_id='" . (int)$lendto_customer_id . "', date_added = NOW()");
+
+		$customer_lending_id = $this->db->getLastId();
+
+		if ($this->addTransaction2($customer_id, $lendto_product_id, $lendto_subquantity, $customer_lending_id, $lendto_customer_id)) {
+			$this->addTransaction3($lendto_customer_id, $lendto_product_id, $lendto_subquantity, $customer_lending_id, $customer_id);
+			
+			return true;
+		}	
+
+		return false;
+	}
+
+
+	public function hasInventory($customer_id, $product_id, $subquantity) {
+
+		$this->load->model('sale/customer');
+
+		$results = $this->model_sale_customer->getTransactionsGroupById($customer_id);
+
+		$hasInventory = false;
+		foreach ($results as $result) {
+			if ($result['product_id'] == $product_id) {
+				if ($result['subquantity'] >= $subquantity) {
+					$hasInventory = true;
+				}
+			}
+		}
+
+		return $hasInventory;
+	}
+
 	// minus transaction
-	public function addTransaction2($customer_id, $product_id, $subquantity) {
+	public function addTransaction2($customer_id, $product_id, $subquantity, $customer_lending_id = 0, $lender_id = 0, $status = 0) {
 		
 		if ($product_id <= 0) return false;
 		
@@ -393,15 +462,17 @@ class ModelSaleCustomer extends Model {
 
 		if ($customer_id <= 0) return false;
 
+		$this->load->model('sale/customer');
+
+		if (!$this->hasInventory($customer_id, $product_id, $subquantity)) return false;
+
 		$this->load->language('sale/history');
 
 		$user_id = $this->user->getId();
 
 		$order_id = 0;
 
-// $this->load->out("SELECT * FROM oc_product p LEFT JOIN oc_product_description pd ON p.product_id = pd.product_id LEFT JOIN oc_unit_class_description ucd ON ucd.unit_class_id = p.unit_class_id AND pd.language_id = ucd.language_id WHERE p.product_id = '$product_id' AND ucd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
 		$query = $this->db->query("SELECT * FROM oc_product p LEFT JOIN oc_product_description pd ON p.product_id = pd.product_id LEFT JOIN oc_unit_class_description ucd ON ucd.unit_class_id = p.unit_class_id AND pd.language_id = ucd.language_id WHERE p.product_id = '$product_id' AND ucd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
-
 
 		$unit_quantity = $query->row['unit_quantity'];
 
@@ -411,12 +482,19 @@ class ModelSaleCustomer extends Model {
 
 		$amount = 0;
 
-		$this->db->query("INSERT INTO " . DB_PREFIX . "customer_transaction SET customer_id = '" . (int)$customer_id . "', product_id = '" . (int)$product_id . "', subquantity = '" . -(int)$subquantity . "', order_id = '" . (int)$order_id . "', quantity = '" . -(float)$quantity . "', unit_class_id = '" . (int)$unit_class_id . "', amount = '" . (float)$amount . "', type = '2', date_added = NOW()");
+		$this->db->query("INSERT INTO " . DB_PREFIX . "customer_transaction SET 
+			customer_id = '" . (int)$customer_id . "', 
+			status = '" . (int)$status . "', 
+			customer_lending_id = '" . (int)$customer_lending_id . "', 
+			lender_id = '" . (int)$lender_id . "', 
+			product_id = '" . (int)$product_id . "', 
+			subquantity = '" . -(int)$subquantity . "', order_id = '" . (int)$order_id . "', quantity = '" . -(float)$quantity . "', unit_class_id = '" . (int)$unit_class_id . "', amount = '" . (float)$amount . "', type = '2', date_added = NOW()");
+
+		$customer_transaction_id = $this->db->getLastId();
 
 		$reminder = $query->row['reminder']; 
 
-		if ($reminder) {
-
+		if ($reminder && !$customer_lending_id) {
 
 			$reminder_days = $query->row['reminder_days'];
 
@@ -425,12 +503,68 @@ class ModelSaleCustomer extends Model {
 			$text_treatment_reminder = sprintf($this->language->get('text_treatment_reminder'), $reminder_days, $query->row['name']);
 
 			//$comment, $user_id = 0, $reminder=null, $reminder_date=null
-			$this->addHistory($customer_id, $text_treatment_reminder, $user_id, 1, $reminder_date, 1);
+			$this->addHistory($customer_id, $text_treatment_reminder, $user_id, 1, $reminder_date, 1, $customer_transaction_id);
 		}
 
 		return $this->db->countAffected();
 
 	}
+
+
+	// plus transaction
+	public function addTransaction3($customer_id, $product_id, $subquantity, $customer_lending_id = 0, $lender_id = 0) {
+		
+		if ($product_id <= 0) return false;
+		
+		if ($subquantity <= 0) return false;
+
+		if ($customer_id <= 0) return false;
+
+		$this->load->model('sale/customer');
+
+		$this->load->language('sale/history');
+
+		$user_id = $this->user->getId();
+
+		$order_id = 0;
+
+		$query = $this->db->query("SELECT * FROM oc_product p LEFT JOIN oc_product_description pd ON p.product_id = pd.product_id LEFT JOIN oc_unit_class_description ucd ON ucd.unit_class_id = p.unit_class_id AND pd.language_id = ucd.language_id WHERE p.product_id = '$product_id' AND ucd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
+
+		$unit_quantity = $query->row['unit_quantity'];
+
+		$unit_class_id = $query->row['unit_class_id'];
+
+		$quantity = (float)$subquantity / (float)$unit_quantity;
+
+		$amount = 0;
+
+		$this->db->query("INSERT INTO " . DB_PREFIX . "customer_transaction SET 
+			customer_id = '" . (int)$customer_id . "', 
+			customer_lending_id = '" . (int)$customer_lending_id . "', 
+			lender_id = '" . (int)$lender_id . "', 
+			product_id = '" . (int)$product_id . "', 
+			subquantity = '" . (int)$subquantity . "', order_id = '" . (int)$order_id . "', quantity = '" . (float)$quantity . "', unit_class_id = '" . (int)$unit_class_id . "', amount = '" . (float)$amount . "', type = '2', date_added = NOW()");
+
+		$customer_transaction_id = $this->db->getLastId();
+
+		// $reminder = $query->row['reminder']; 
+
+		// if ($reminder) {
+
+		// 	$reminder_days = $query->row['reminder_days'];
+
+		// 	$reminder_date = date('Y-m-d', strtotime("+" . $reminder_days . " days"));
+
+		// 	$text_treatment_reminder = sprintf($this->language->get('text_treatment_reminder'), $reminder_days, $query->row['name']);
+
+		// 	//$comment, $user_id = 0, $reminder=null, $reminder_date=null
+		// 	$this->addHistory($customer_id, $text_treatment_reminder, $user_id, 1, $reminder_date, 1, $customer_transaction_id);
+		// }
+
+		return $this->db->countAffected();
+
+	}
+
 
 	public function addTransaction($customer_id, $description = '', $amount = '', $order_id = 0) {
 			
@@ -438,6 +572,7 @@ class ModelSaleCustomer extends Model {
 		$customer_info = $this->getCustomer($customer_id);
 
 		$this->load->model('sale/order');
+		$this->load->model('catalog/product');
 		
 		$order_product_info = $this->model_sale_order->getOrderProducts($order_id);
 
@@ -448,6 +583,10 @@ class ModelSaleCustomer extends Model {
 			foreach ($order_product_info as $product_info) {
 
 				$product_id = $product_info['product_id'];
+
+				$product = $this->model_catalog_product->getProduct($product_id);
+
+				$product_type_id = $product['product_type_id'];
 
 				$quantity = $product_info['quantity'];
 
@@ -461,54 +600,102 @@ class ModelSaleCustomer extends Model {
 
 				$this->db->query("INSERT INTO " . DB_PREFIX . "customer_transaction SET quantity = '" . (int)$quantity . "', customer_id = '" . (int)$customer_id . "', product_id = '" . (int)$product_id . "', subquantity = '" . (int)$subquantity . "', order_id = '" . (int)$order_id . "', unit_class_id = '" . (int)$unit_class_id . "', amount = '" . (float)$amount . "', date_added = NOW()");
 
+				if ($product_type_id == 2) {
+
+					$temp = 1 / $subquantity; 
+					for ($i = 0; $i < $subquantity; $i++) {
+						$this->db->query("INSERT INTO " . DB_PREFIX . "customer_transaction SET status = -1, quantity = '" . -$temp . "', customer_id = '" . (int)$customer_id . "', product_id = '" . (int)$product_id . "', subquantity = '" . -1 . "',  order_id = '" . (int)$order_id . "', unit_class_id = '" . (int)$unit_class_id . "', date_added = NOW()");						
+					}
+				}
+
 			}
 
 
-			$this->language->load('mail/customer');
+			// $this->language->load('mail/customer');
 
-			if ($customer_info['store_id']) {
-				$this->load->model('setting/store');
+			// if ($customer_info['store_id']) {
+			// 	$this->load->model('setting/store');
 
-				$store_info = $this->model_setting_store->getStore($customer_info['store_id']);
+			// 	$store_info = $this->model_setting_store->getStore($customer_info['store_id']);
 
-				if ($store_info) {
-					$store_name = $store_info['name'];
-				} else {
-					$store_name = $this->config->get('config_name');
-				}	
-			} else {
-				$store_name = $this->config->get('config_name');
-			}
+			// 	if ($store_info) {
+			// 		$store_name = $store_info['name'];
+			// 	} else {
+			// 		$store_name = $this->config->get('config_name');
+			// 	}	
+			// } else {
+			// 	$store_name = $this->config->get('config_name');
+			// }
 
-			$message  = sprintf($this->language->get('text_transaction_received'), $this->currency->format($amount, $this->config->get('config_currency'))) . "\n\n";
-			$message .= sprintf($this->language->get('text_transaction_total'), $this->currency->format($this->getTransactionTotal($customer_id)));
+			// $message  = sprintf($this->language->get('text_transaction_received'), $this->currency->format($amount, $this->config->get('config_currency'))) . "\n\n";
+			// $message .= sprintf($this->language->get('text_transaction_total'), $this->currency->format($this->getTransactionTotal($customer_id)));
 
-			$mail = new Mail();
-			$mail->protocol = $this->config->get('config_mail_protocol');
-			$mail->parameter = $this->config->get('config_mail_parameter');
-			$mail->hostname = $this->config->get('config_smtp_host');
-			$mail->username = $this->config->get('config_smtp_username');
-			$mail->password = $this->config->get('config_smtp_password');
-			$mail->port = $this->config->get('config_smtp_port');
-			$mail->timeout = $this->config->get('config_smtp_timeout');
-			$mail->setTo($customer_info['email']);
-			$mail->setFrom($this->config->get('config_email'));
-			$mail->setSender($store_name);
-			$mail->setSubject(html_entity_decode(sprintf($this->language->get('text_transaction_subject'), $this->config->get('config_name')), ENT_QUOTES, 'UTF-8'));
-			$mail->setText(html_entity_decode($message, ENT_QUOTES, 'UTF-8'));
-			$mail->send();
+			// $mail = new Mail();
+			// $mail->protocol = $this->config->get('config_mail_protocol');
+			// $mail->parameter = $this->config->get('config_mail_parameter');
+			// $mail->hostname = $this->config->get('config_smtp_host');
+			// $mail->username = $this->config->get('config_smtp_username');
+			// $mail->password = $this->config->get('config_smtp_password');
+			// $mail->port = $this->config->get('config_smtp_port');
+			// $mail->timeout = $this->config->get('config_smtp_timeout');
+			// $mail->setTo($customer_info['email']);
+			// $mail->setFrom($this->config->get('config_email'));
+			// $mail->setSender($store_name);
+			// $mail->setSubject(html_entity_decode(sprintf($this->language->get('text_transaction_subject'), $this->config->get('config_name')), ENT_QUOTES, 'UTF-8'));
+			// $mail->setText(html_entity_decode($message, ENT_QUOTES, 'UTF-8'));
+			// $mail->send();
 		}
 	}
 
 	public function deleteTransaction($order_id) {
 		$this->db->query("DELETE FROM " . DB_PREFIX . "customer_transaction WHERE order_id = '" . (int)$order_id . "' AND type = '2'");
+
+	}
+
+	public function deleteCustomerLending($customer_lending_id) {
+
+		$query = $this->db->query("SELECT * FROM oc_customer_lending WHERE customer_lending_id = '$customer_lending_id'");
+
+		if (!$query->num_rows) return false;
+
+		$subquantity = $query->row['subquantity'];
+		$borrower_id = $query->row['borrower_id'];
+		$product_id = $query->row['product_id'];
+
+		if ($this->hasInventory($borrower_id, $product_id, $subquantity)) {
+
+			$this->db->query("DELETE FROM " . DB_PREFIX . "customer_lending WHERE customer_lending_id = '" . (int)$customer_lending_id . "'");
+			$this->db->query("DELETE FROM " . DB_PREFIX . "customer_transaction WHERE customer_lending_id = '" . (int)$customer_lending_id . "'");
+
+			return true;		
+		} else {
+			return false;
+		}	
+
+	}
+
+	public function deleteCustomerHistory($customer_history_id) {
+		$this->db->query("DELETE FROM " . DB_PREFIX . "customer_history WHERE customer_history_id = '" . (int)$customer_history_id . "'");
+
+		return $this->db->countAffected();
+
 	}
 
 	public function deleteCustomerTransaction($customer_transaction_id) {
 
+		$this->db->query("DELETE FROM oc_customer_history WHERE customer_transaction_id = '" . (int)$customer_transaction_id . "'");
+		
 		$this->db->query("DELETE FROM " . DB_PREFIX . "customer_transaction WHERE customer_transaction_id = '" . (int)$customer_transaction_id . "' AND type = '2'");
 
 		return $this->db->countAffected();
+	}
+
+	// '2014-09-28 11:14' track customer stock
+	public function getTransactionsGroupById($customer_id) {
+
+		$query = $this->db->query("SELECT product_id, sum(quantity) as quantity, customer_id, sum(subquantity) as subquantity FROM " . DB_PREFIX . "customer_transaction WHERE customer_id = '" . (int)$customer_id . "' GROUP BY product_id");
+
+		return $query->rows;
 	}
 
 	public function getTransactions($customer_id, $start = 0, $limit = 10) {
@@ -543,69 +730,69 @@ class ModelSaleCustomer extends Model {
 		return $query->row['total'];
 	}	
 
-	public function addReward($customer_id, $description = '', $points = '', $order_id = 0) {
-		$customer_info = $this->getCustomer($customer_id);
+	// public function addReward($customer_id, $description = '', $points = '', $order_id = 0) {
+	// 	$customer_info = $this->getCustomer($customer_id);
 
-		if ($customer_info) { 
-			$this->db->query("INSERT INTO " . DB_PREFIX . "customer_reward SET customer_id = '" . (int)$customer_id . "', order_id = '" . (int)$order_id . "', points = '" . (int)$points . "', description = '" . $this->db->escape($description) . "', date_added = NOW()");
+	// 	if ($customer_info) { 
+	// 		$this->db->query("INSERT INTO " . DB_PREFIX . "customer_reward SET customer_id = '" . (int)$customer_id . "', order_id = '" . (int)$order_id . "', points = '" . (int)$points . "', description = '" . $this->db->escape($description) . "', date_added = NOW()");
 
-			$this->language->load('mail/customer');
+	// 		$this->language->load('mail/customer');
 
-			if ($order_id) {
-				$this->load->model('sale/order');
+	// 		if ($order_id) {
+	// 			$this->load->model('sale/order');
 
-				$order_info = $this->model_sale_order->getOrder($order_id);
+	// 			$order_info = $this->model_sale_order->getOrder($order_id);
 
-				if ($order_info) {
-					$store_name = $order_info['store_name'];
-				} else {
-					$store_name = $this->config->get('config_name');
-				}	
-			} else {
-				$store_name = $this->config->get('config_name');
-			}		
+	// 			if ($order_info) {
+	// 				$store_name = $order_info['store_name'];
+	// 			} else {
+	// 				$store_name = $this->config->get('config_name');
+	// 			}	
+	// 		} else {
+	// 			$store_name = $this->config->get('config_name');
+	// 		}		
 
-			$message  = sprintf($this->language->get('text_reward_received'), $points) . "\n\n";
-			$message .= sprintf($this->language->get('text_reward_total'), $this->getRewardTotal($customer_id));
+	// 		$message  = sprintf($this->language->get('text_reward_received'), $points) . "\n\n";
+	// 		$message .= sprintf($this->language->get('text_reward_total'), $this->getRewardTotal($customer_id));
 
-			$mail = new Mail();
-			$mail->protocol = $this->config->get('config_mail_protocol');
-			$mail->parameter = $this->config->get('config_mail_parameter');
-			$mail->hostname = $this->config->get('config_smtp_host');
-			$mail->username = $this->config->get('config_smtp_username');
-			$mail->password = $this->config->get('config_smtp_password');
-			$mail->port = $this->config->get('config_smtp_port');
-			$mail->timeout = $this->config->get('config_smtp_timeout');
-			$mail->setTo($customer_info['email']);
-			$mail->setFrom($this->config->get('config_email'));
-			$mail->setSender($store_name);
-			$mail->setSubject(html_entity_decode(sprintf($this->language->get('text_reward_subject'), $store_name), ENT_QUOTES, 'UTF-8'));
-			$mail->setText(html_entity_decode($message, ENT_QUOTES, 'UTF-8'));
-			$mail->send();
-		}
-	}
+	// 		$mail = new Mail();
+	// 		$mail->protocol = $this->config->get('config_mail_protocol');
+	// 		$mail->parameter = $this->config->get('config_mail_parameter');
+	// 		$mail->hostname = $this->config->get('config_smtp_host');
+	// 		$mail->username = $this->config->get('config_smtp_username');
+	// 		$mail->password = $this->config->get('config_smtp_password');
+	// 		$mail->port = $this->config->get('config_smtp_port');
+	// 		$mail->timeout = $this->config->get('config_smtp_timeout');
+	// 		$mail->setTo($customer_info['email']);
+	// 		$mail->setFrom($this->config->get('config_email'));
+	// 		$mail->setSender($store_name);
+	// 		$mail->setSubject(html_entity_decode(sprintf($this->language->get('text_reward_subject'), $store_name), ENT_QUOTES, 'UTF-8'));
+	// 		$mail->setText(html_entity_decode($message, ENT_QUOTES, 'UTF-8'));
+	// 		$mail->send();
+	// 	}
+	// }
 
-	public function deleteReward($order_id) {
-		$this->db->query("DELETE FROM " . DB_PREFIX . "customer_reward WHERE order_id = '" . (int)$order_id . "'");
-	}
+	// public function deleteReward($order_id) {
+	// 	$this->db->query("DELETE FROM " . DB_PREFIX . "customer_reward WHERE order_id = '" . (int)$order_id . "'");
+	// }
 
-	public function getRewards($customer_id, $start = 0, $limit = 10) {
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "customer_reward WHERE customer_id = '" . (int)$customer_id . "' ORDER BY date_added DESC LIMIT " . (int)$start . "," . (int)$limit);
+	// public function getRewards($customer_id, $start = 0, $limit = 10) {
+	// 	$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "customer_reward WHERE customer_id = '" . (int)$customer_id . "' ORDER BY date_added DESC LIMIT " . (int)$start . "," . (int)$limit);
 
-		return $query->rows;
-	}
+	// 	return $query->rows;
+	// }
 
-	public function getTotalRewards($customer_id) {
-		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "customer_reward WHERE customer_id = '" . (int)$customer_id . "'");
+	// public function getTotalRewards($customer_id) {
+	// 	$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "customer_reward WHERE customer_id = '" . (int)$customer_id . "'");
 
-		return $query->row['total'];
-	}
+	// 	return $query->row['total'];
+	// }
 
-	public function getRewardTotal($customer_id) {
-		$query = $this->db->query("SELECT SUM(points) AS total FROM " . DB_PREFIX . "customer_reward WHERE customer_id = '" . (int)$customer_id . "'");
+	// public function getRewardTotal($customer_id) {
+	// 	$query = $this->db->query("SELECT SUM(points) AS total FROM " . DB_PREFIX . "customer_reward WHERE customer_id = '" . (int)$customer_id . "'");
 
-		return $query->row['total'];
-	}		
+	// 	return $query->row['total'];
+	// }		
 
 	public function getTotalCustomerRewardsByOrderId($order_id) {
 		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "customer_reward WHERE order_id = '" . (int)$order_id . "'");

@@ -1,7 +1,7 @@
-<?php if (isset($error_warning)) { ?>
+<?php if (isset($error_warning) && $error_warning) { ?>
 <div class="warning"><?php echo $error_warning; ?></div>
 <?php } ?>
-<?php if (isset($success)) { ?>
+<?php if (isset($success) && $success) { ?>
 <div class="success"><?php echo $success; ?></div>
 <?php } ?>
 <table class="list">
@@ -11,6 +11,7 @@
       <td class="left"><?php echo $column_user; ?></td>
       <td class="left"><?php echo $column_comment; ?></td>
       <td class="left"><?php echo $column_reminder_date; ?></td>
+      <td class="right"></td>
     </tr>
   </thead>
   <tbody>
@@ -21,13 +22,56 @@
       <td class="left"><?php echo $history['ulastname'] . ' ' . $history['ufirstname']; ?></td>
       <td class="left"><?php echo $history['comment']; ?></td>
       <td class="left"><?php echo $history['reminder_date']; ?></td>
+       <td class="right" style="width: 3px;">
+        <?php if ($history['if_treatment'] != 1) { ?>
+        <img src="view/image/delete.png" title="<?php echo $button_remove; ?>" alt="<?php echo $button_remove; ?>" style="cursor: pointer;" onclick="$(this).parent().parent().remove(); deleteCustomerHistory('<?php echo $history['customer_history_id']; ?>')" />
+        <?php } ?>
+      </td>
     </tr>
     <?php } ?>
     <?php } else { ?>
     <tr>
-      <td class="center" colspan="2"><?php echo $text_no_results; ?></td>
+      <td class="center" colspan="5"><?php echo $text_no_results; ?></td>
     </tr>
     <?php } ?>
   </tbody>
 </table>
 <div class="pagination"><?php echo $pagination; ?></div>
+
+
+
+<script type="text/javascript">  
+
+function deleteCustomerHistory(id) {
+
+  $.ajax({
+      url: 'index.php?route=sale/customer/deletecustomerhistory&token=<?php echo $token; ?>&customer_history_id=' + id,
+      type: 'post',
+      data: 'customer_history_id=' + id,
+      dataType: 'json',
+      beforeSend: function(){
+      
+      },
+      success: function(json) {
+        
+        $('.attention, .success, .warning').remove();
+
+        if (json['error']) {
+
+          $('#history').before('<div class="warning">' + json['error'] + '</div>');
+        }
+
+        if (json['success']) {
+
+          $('#history').before('<div class="success">' + json['success'] + '</div>');
+        }
+      },
+      error: function(xhr, ajaxOptions, thrownError) {
+        
+      } 
+    });
+
+}
+
+</script>
+

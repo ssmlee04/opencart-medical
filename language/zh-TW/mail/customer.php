@@ -11,4 +11,5 @@ $_['text_transaction_total']    = '目前的帳戶餘額 %s，下次購物時將
 $_['text_reward_subject']       = '%s - 您有新增紅利點數';
 $_['text_reward_received']      = '您有一筆 %s 點的新增紅利';
 $_['text_reward_total']         = '目前的紅利點數 %s.' . "\n\n";
+
 ?>

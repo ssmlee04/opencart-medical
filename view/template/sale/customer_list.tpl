@@ -152,7 +152,7 @@
             <?php } ?>
             <?php } else { ?>
             <tr>
-              <td class="center" colspan="10"><?php echo $text_no_results; ?></td>
+              <td class="center" colspan="7"><?php echo $text_no_results; ?></td>
             </tr>
             <?php } ?>
           </tbody>

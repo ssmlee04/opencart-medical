@@ -8,6 +8,7 @@
   <?php if ($error_warning) { ?>
   <div class="warning"><?php echo $error_warning; ?></div>
   <?php } ?>
+  <div id = 'notification'></div>
   <div class="box">
     <div class="heading">
       <h1><img src="view/image/order.png" alt="" /> <?php echo $heading_title; ?></h1>
@@ -23,8 +24,11 @@
           <table class="form">
             <tr>
               <td class="left"><?php echo $entry_date; ?></td>
-              <td class="left"><input type='date_available' name='date_added' class='date'/></td>
-              <!-- <td class="left"><a name='set_today'><php echo $text_today; ?></a></td> -->
+              <td class="left"><input type='date_available' name='date_purchased' class='date' value='<?php echo $date_purchased; ?>'/>
+                <?php if ($error_date) { ?>
+                  <span class="error"><?php echo $error_date; ?></span>
+                <?php } ?></td>
+              <td class="left"><a onclick='setToday()'><?php echo $text_today; ?></a></td>
             </tr>
 
             <tr>
@@ -59,7 +63,7 @@
                   <span class="error"><?php echo $error_user; ?></span>
                   <?php } ?></td>
             </tr>
-            <tr>
+            <tr style='display:none'>
                 <td class="left"><?php echo $entry_purchase_status; ?></td>
                 <td class="left"><select name="purchase_status_id">
                     <?php foreach ($purchase_statuses as $purchase_status) { ?>
@@ -106,7 +110,7 @@
                 <td class="right"><?php echo $purchase_product['cost']; ?>
                   <input type="hidden" name="purchase_product[<?php echo $product_row; ?>][cost]" value="<?php echo $purchase_product['cost']; ?>" /></td>
                 <td class="right"><?php echo $purchase_product['total']; ?>
-                  <input type="hidden" name="purchase_product[<?php echo $product_row; ?>][total]" value="<?php echo $purchase_product['total']; ?>" />
+                  <input type="hidden" class='total' name="purchase_product[<?php echo $product_row; ?>][total]" value="<?php echo $purchase_product['total']; ?>" />
                 <!--   <input type="hidden" name="purchase_product[<php echo $product_row; ?>][tax]" value="<php echo $purchase_product['tax']; ?>" />
                   <input type="hidden" name="purchase_product[<php echo $product_row; ?>][reward]" value="<php echo $purchase_product['reward']; ?>" /> --></td>
               </tr>
@@ -160,7 +164,7 @@
 // $('a[name=\'set_today\']').on('click', function(){
 //   alert(123);
 //   $('input[name=\'product\']').val('01/01/2014');
-//   $('input[name=\'date_added\']').val('01/01/2014');
+//   $('input[name=\'date_purchased\']').val('01/01/2014');
 // alert(234);
 // })
     
@@ -182,59 +186,59 @@ $.widget('custom.catcomplete', $.ui.autocomplete, {
   }
 });
 
-$('input[name=\'user\']').catcomplete({
-  delay: 500,
-  source: function(request, response) {
-    $.ajax({
-      url: 'index.php?route=sale/user/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request.term),
-      dataType: 'json',
-      success: function(json) { 
-        response($.map(json, function(item) {
-          return {
-            category: item['user_group'],
-            label: item['name'],
-            value: item['user_id'],
-            user_group_id: item['user_group_id'],
-            firstname: item['firstname'],
-            lastname: item['lastname'],
-            email: item['email'],
-            telephone: item['telephone'],
-            fax: item['fax'],
-            address: item['address']
-          }
-        }));
-      }
-    });
-  }, 
-  select: function(event, ui) { 
-    $('input[name=\'user\']').attr('value', ui.item['label']);
-    $('input[name=\'user_id\']').attr('value', ui.item['value']);
-    $('input[name=\'firstname\']').attr('value', ui.item['firstname']);
-    $('input[name=\'lastname\']').attr('value', ui.item['lastname']);
-    $('input[name=\'email\']').attr('value', ui.item['email']);
-    $('input[name=\'telephone\']').attr('value', ui.item['telephone']);
-    $('input[name=\'fax\']').attr('value', ui.item['fax']);
+// $('input[name=\'user\']').catcomplete({
+//   delay: 500,
+//   source: function(request, response) {
+//     $.ajax({
+//       url: 'index.php?route=sale/user/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request.term),
+//       dataType: 'json',
+//       success: function(json) { 
+//         response($.map(json, function(item) {
+//           return {
+//             category: item['user_group'],
+//             label: item['name'],
+//             value: item['user_id'],
+//             user_group_id: item['user_group_id'],
+//             firstname: item['firstname'],
+//             lastname: item['lastname'],
+//             email: item['email'],
+//             telephone: item['telephone'],
+//             fax: item['fax'],
+//             address: item['address']
+//           }
+//         }));
+//       }
+//     });
+//   }, 
+//   select: function(event, ui) { 
+//     $('input[name=\'user\']').attr('value', ui.item['label']);
+//     $('input[name=\'user_id\']').attr('value', ui.item['value']);
+//     $('input[name=\'firstname\']').attr('value', ui.item['firstname']);
+//     $('input[name=\'lastname\']').attr('value', ui.item['lastname']);
+//     $('input[name=\'email\']').attr('value', ui.item['email']);
+//     $('input[name=\'telephone\']').attr('value', ui.item['telephone']);
+//     $('input[name=\'fax\']').attr('value', ui.item['fax']);
       
-    html = '<option value="0"><?php echo $text_none; ?></option>'; 
+//     html = '<option value="0"><?php echo $text_none; ?></option>'; 
       
-    for (i in  ui.item['address']) {
-      html += '<option value="' + ui.item['address'][i]['address_id'] + '">' + ui.item['address'][i]['firstname'] + ' ' + ui.item['address'][i]['lastname'] + ', ' + ui.item['address'][i]['address_1'] + ', ' + ui.item['address'][i]['city'] + ', ' + ui.item['address'][i]['country'] + '</option>';
-    }
+//     for (i in  ui.item['address']) {
+//       html += '<option value="' + ui.item['address'][i]['address_id'] + '">' + ui.item['address'][i]['firstname'] + ' ' + ui.item['address'][i]['lastname'] + ', ' + ui.item['address'][i]['address_1'] + ', ' + ui.item['address'][i]['city'] + ', ' + ui.item['address'][i]['country'] + '</option>';
+//     }
     
-    $('select[name=\'shipping_address\']').html(html);
-    $('select[name=\'payment_address\']').html(html);
+//     $('select[name=\'shipping_address\']').html(html);
+//     $('select[name=\'payment_address\']').html(html);
     
-    $('select[id=\'user_group_id\']').attr('disabled', false);
-    $('select[id=\'user_group_id\']').attr('value', ui.item['user_group_id']);
-    $('select[id=\'user_group_id\']').trigger('change');
-    $('select[id=\'user_group_id\']').attr('disabled', true); 
+//     $('select[id=\'user_group_id\']').attr('disabled', false);
+//     $('select[id=\'user_group_id\']').attr('value', ui.item['user_group_id']);
+//     $('select[id=\'user_group_id\']').trigger('change');
+//     $('select[id=\'user_group_id\']').attr('disabled', true); 
             
-    return false; 
-  },
-  focus: function(event, ui) {
-        return false;
-    }
-});
+//     return false; 
+//   },
+//   focus: function(event, ui) {
+//         return false;
+//     }
+// });
 
 //--></script> 
 <script type="text/javascript"><!--
@@ -301,7 +305,16 @@ $('#button-product, #button-voucher, #button-update').live('click', function() {
         success: function(json) { 
 
           $('.noresult').remove();
+          $('input[name=\'product\']').val('');
+          $('input[name=\'cost\']').val('');
+          $('input[name=\'quantity\']').val('');
+          $('input[name=\'product_id\']').val('');
           if (json['success']) {
+
+            $('#notification').before('<div class="success" style="display: none;">' + json['success'] + '</div>');
+        
+            $('.success').fadeIn('slow');
+
             product_row++;
             var html = '<tr>';
             html += '<td class="center" style="width: 3px;"><img src="view/image/delete.png" title="<?php echo $button_remove; ?>" alt="<?php echo $button_remove; ?>" style="cursor: pointer;" onclick="$(this).parent().parent().remove();" /></td>';
@@ -309,9 +322,14 @@ $('#button-product, #button-voucher, #button-update').live('click', function() {
             html += "<td class=\"left\">" + product + "<input type='hidden' name=\"purchase_product[" + product_row + "][purchase_product_id]\" value='' /><input type='hidden' name=\"purchase_product[" + product_row + "][product_id]\" value='" + product_id + "' /><input type='hidden' name=\"purchase_product[" + product_row + "][name]\" value='" + product + "' /></td>";
             html += "<td class=\"right\">" + quantity + "<input type='hidden' name=\"purchase_product[" + product_row + "][quantity]\" value='" + quantity + "' /></td>";
             html += "<td class=\"right\">" + cost + "<input type='hidden' name=\"purchase_product[" + product_row + "][cost]\" value='" + cost + "' /></td>";
-            html += "<td class=\"right\">" + total + "<input type='hidden' name=\"purchase_product[" + product_row + "][total]\" value='" + total + "' /></td>";
+            html += "<td class=\"right\">" + total + "<input type='hidden' name='\"purchase_product[" + product_row + "][total]\"' class='total' value='" + total + "' /></td>";
             html += '</tr>';
             $('tbody#product').append(html);
+
+            // $("input[name^= 'purchase_product']").filter($('.total')).each(function(d){
+            //   alert(d)});
+            // });
+
           } else {
             $('.box').before('<div class="warning"><?php echo $text_product_unavailable; ?></div>');
           }
@@ -326,6 +344,7 @@ $('#button-product, #button-voucher, #button-update').live('click', function() {
 }); 
 //--></script> 
 <script type="text/javascript" src="view/javascript/jquery/ui/jquery-ui-timepicker-addon.js"></script> 
+<script type="text/javascript" src="view/javascript/moment/moment.min.js"></script> 
 <script type="text/javascript"><!--
 
 $('.date').datepicker({dateFormat: 'yy-mm-dd'});
@@ -337,5 +356,10 @@ $('.time').timepicker({timeFormat: 'h:m'});
 //--></script> 
 <script type="text/javascript"><!--
 $('.vtabs a').tabs();
+
+function setToday() {
+  $('input[name=\'date_purchased\']').val(moment().format("YYYY-MM-DD"));
+}
+
 //--></script> 
 <?php echo $footer; ?>

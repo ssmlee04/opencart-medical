@@ -1,11 +1,13 @@
 <?php
 class ModelCatalogPurchase extends Model {
 
+	// '2014-09-27 03:16'
 	function getPurchase($purchase_id) {
 
 		return $this->db->query("SELECT * FROM oc_purchase WHERE purchase_id = '" . (int)$purchase_id . "'")->row;
 	}
 
+	// '2014-09-27 03:16'
 	function getPurchaseProducts($purchase_id) {
 
 		return $this->db->query("SELECT * FROM oc_purchase_product pp LEFT JOIN oc_product p ON p.product_id = pp.product_id LEFT JOIN oc_product_description pd ON p.product_id = pd.product_id WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND purchase_id = '" . (int)$purchase_id . "'")->rows;
@@ -24,6 +26,18 @@ class ModelCatalogPurchase extends Model {
 
 		if (isset($data['filter_user'])) {
 			$sql .= " AND user_id = '" . (int)$data['filter_user']. "'";	
+		}
+
+		if (isset($data['filter_date_purchased'])) {
+			$sql .= " AND date_purchased = '" . $this->db->escape($data['filter_date_purchased']) . "'";	
+		}
+
+		if (isset($data['filter_date_added'])) {
+			$sql .= " AND date_added = '" . $this->db->escape($data['filter_date_added']) . "'";	
+		}
+
+		if (isset($data['filter_total'])) {
+			$sql .= " AND total > '" . (int)$data['filter_total']. "'";	
 		}
 
 		$sort_data = array(
@@ -62,9 +76,10 @@ class ModelCatalogPurchase extends Model {
 		return $this->db->query($sql)->rows;
 	}
 
+	// '2014-09-27 03:16'
 	public function addPurchase($data) {
 
-		$this->db->query("INSERT INTO `" . DB_PREFIX . "purchase` SET store_id = '" . (int)$data['store_id'] . "', user_id = '" . (int)$data['user_id'] . "', purchase_status_id = '" . (int)$data['purchase_status_id'] . "', date_added = NOW(), date_modified = NOW()");
+		$this->db->query("INSERT INTO `" . DB_PREFIX . "purchase` SET store_id = '" . (int)$data['store_id'] . "', user_id = '" . (int)$data['user_id'] . "', purchase_status_id = '" . (int)$data['purchase_status_id'] . "', date_purchased = '" . $this->db->escape($data['date_purchased']) . "', date_added = NOW(), date_modified = NOW()");
 
 		$purchase_id = $this->db->getLastId();
 
@@ -72,6 +87,7 @@ class ModelCatalogPurchase extends Model {
 
 	}
 
+	// '2014-09-27 03:16'
 	public function editPurchase($purchase_id, $data) {
 
 
@@ -117,11 +133,12 @@ class ModelCatalogPurchase extends Model {
 			}
 		}
 
-		$this->db->query("UPDATE `" . DB_PREFIX . "purchase` SET total = '$grandtotal', purchase_status_id = '" . (int)$data['purchase_status_id'] . "', date_modified = NOW(), store_id = '" . (int)$store_id . "', user_id = '" . (int)$user_id . "' WHERE purchase_id = '" . (int)$purchase_id . "'");
+		$this->db->query("UPDATE `" . DB_PREFIX . "purchase` SET total = '$grandtotal', purchase_status_id = '" . (int)$data['purchase_status_id'] . "', date_purchased = '" . $this->db->escape($data['date_purchased']) . "', date_modified = NOW(), store_id = '" . (int)$store_id . "', user_id = '" . (int)$user_id . "' WHERE purchase_id = '" . (int)$purchase_id . "'");
 
 	}
 
-	public function deletePurchase($purchase_id) {
+	// '2014-09-27 03:17'
+	public function deletePurchase($purchase_id, $remove_from_db = false) {
 
 		$this->editPurchase($purchase_id, null);
 

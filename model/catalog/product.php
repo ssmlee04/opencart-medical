@@ -209,8 +209,19 @@ class ModelCatalogProduct extends Model {
 		}
 	}
 
+	// '2014-09-27 00:33'
+	public function recoverProduct($product_id) {
+
+		$this->db->query("UPDATE oc_product SET status = 0 WHERE product_id = '" . (int)$product_id . "'");
+	}
+
 	// '2014-09-26 18:44'
 	public function deleteProduct($product_id, $remove_from_db = false) {
+
+		$query = $this->db->query("SELECT * FROM oc_product WHERE product_id = '" . (int)$product_id . "'");
+
+		// force delete this product
+		if ($query->row['status'] == -1) $remove_from_db = true;
 
 		$this->db->query("UPDATE oc_product SET status = -1 WHERE product_id = '" . (int)$product_id . "'");
 
@@ -218,8 +229,11 @@ class ModelCatalogProduct extends Model {
 
 			// check transaction history, if it exists then you cannot delete this product
 			$query1 = $this->db->query("SELECT * FROM oc_purchase_product WHERE product_id = '" . (int)$product_id . "'");
-			$query2 = $this->db->query("SELECT * FROM oc_porder_product WHERE product_id = '" . (int)$product_id . "'");
-			if ($query1->num_rows || $query2->num_rows) {
+			$query2 = $this->db->query("SELECT * FROM oc_customer_transaction WHERE product_id = '" . (int)$product_id . "'");
+			$query3 = $this->db->query("SELECT * FROM oc_order_product WHERE product_id = '" . (int)$product_id . "'");
+			// $query4 = $this->db->query("SELECT * FROM oc_customer_borrow WHERE product_id = '" . (int)$product_id . "'");
+			$query5 = $this->db->query("SELECT * FROM oc_product_to_store WHERE product_id = '" . (int)$product_id . "'");
+			if ($query1->num_rows || $query2->num_rows || $query3->num_rows /*|| $query4->num_rows */ || $query5->num_rows) {
 				return false;
 			}
 
@@ -246,6 +260,8 @@ class ModelCatalogProduct extends Model {
 
 			$this->cache->delete('product');
 		}
+
+		return true;
 	}
 
 	// '2014-09-26 18:44'

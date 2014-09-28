@@ -46,6 +46,10 @@ class ControllerCatalogPurchase extends Controller {
 				$url .= '&filter_total=' . $this->request->get['filter_total'];
 			}
 
+			if (isset($this->request->get['filter_date_purchased'])) {
+				$url .= '&filter_date_purchased=' . $this->request->get['filter_date_purchased'];
+			}
+
 			if (isset($this->request->get['filter_date_added'])) {
 				$url .= '&filter_date_added=' . $this->request->get['filter_date_added'];
 			}
@@ -104,6 +108,10 @@ class ControllerCatalogPurchase extends Controller {
 
 			if (isset($this->request->get['filter_total'])) {
 				$url .= '&filter_total=' . $this->request->get['filter_total'];
+			}
+
+			if (isset($this->request->get['filter_date_purchased'])) {
+				$url .= '&filter_date_purchased=' . $this->request->get['filter_date_purchased'];
 			}
 
 			if (isset($this->request->get['filter_date_added'])) {
@@ -169,6 +177,10 @@ class ControllerCatalogPurchase extends Controller {
 				$url .= '&filter_total=' . $this->request->get['filter_total'];
 			}
 
+			if (isset($this->request->get['filter_date_purchased'])) {
+				$url .= '&filter_date_purchased=' . $this->request->get['filter_date_purchased'];
+			}
+
 			if (isset($this->request->get['filter_date_added'])) {
 				$url .= '&filter_date_added=' . $this->request->get['filter_date_added'];
 			}
@@ -215,16 +227,22 @@ class ControllerCatalogPurchase extends Controller {
 			$filter_store = null;
 		}
 
-		if (isset($this->request->get['filter_purchase_status_id'])) {
-			$filter_purchase_status_id = $this->request->get['filter_purchase_status_id'];
-		} else {
-			$filter_purchase_status_id = null;
-		}
+		// if (isset($this->request->get['filter_purchase_status_id'])) {
+		// 	$filter_purchase_status_id = $this->request->get['filter_purchase_status_id'];
+		// } else {
+		// 	$filter_purchase_status_id = null;
+		// }
 
 		if (isset($this->request->get['filter_total'])) {
 			$filter_total = $this->request->get['filter_total'];
 		} else {
 			$filter_total = null;
+		}
+
+		if (isset($this->request->get['filter_date_purchased'])) {
+			$filter_date_purchased = $this->request->get['filter_date_purchased'];
+		} else {
+			$filter_date_purchased = null;
 		}
 
 		if (isset($this->request->get['filter_date_added'])) {
@@ -233,11 +251,11 @@ class ControllerCatalogPurchase extends Controller {
 			$filter_date_added = null;
 		}
 
-		if (isset($this->request->get['filter_date_modified'])) {
-			$filter_date_modified = $this->request->get['filter_date_modified'];
-		} else {
-			$filter_date_modified = null;
-		}
+		// if (isset($this->request->get['filter_date_modified'])) {
+		// 	$filter_date_modified = $this->request->get['filter_date_modified'];
+		// } else {
+		// 	$filter_date_modified = null;
+		// }
 
 		if (isset($this->request->get['sort'])) {
 			$sort = $this->request->get['sort'];
@@ -271,12 +289,16 @@ class ControllerCatalogPurchase extends Controller {
 			$url .= '&filter_store=' . urlencode(html_entity_decode($this->request->get['filter_store'], ENT_QUOTES, 'UTF-8'));
 		}
 
-		if (isset($this->request->get['filter_purchase_status_id'])) {
-			$url .= '&filter_purchase_status_id=' . $this->request->get['filter_purchase_status_id'];
-		}
+		// if (isset($this->request->get['filter_purchase_status_id'])) {
+		// 	$url .= '&filter_purchase_status_id=' . $this->request->get['filter_purchase_status_id'];
+		// }
 
 		if (isset($this->request->get['filter_total'])) {
 			$url .= '&filter_total=' . $this->request->get['filter_total'];
+		}
+
+		if (isset($this->request->get['filter_date_purchased'])) {
+			$url .= '&filter_date_purchased=' . $this->request->get['filter_date_purchased'];
 		}
 
 		if (isset($this->request->get['filter_date_added'])) {
@@ -324,6 +346,7 @@ class ControllerCatalogPurchase extends Controller {
 			'filter_user'	     => $filter_user,
 			'filter_store' 			=> $filter_store,
 			'filter_total'           => $filter_total,
+			'filter_date_purchased'      => $filter_date_purchased,
 			'filter_date_added'      => $filter_date_added,
 			'filter_date_modified'   => $filter_date_modified,
 			'sort'                   => $sort,
@@ -346,6 +369,8 @@ class ControllerCatalogPurchase extends Controller {
 
 		$this->data['stores'] = $stores;		
 
+// $this->load->test($data, false);
+
 		$results = $this->model_catalog_purchase->getPurchases($data);
 
 		foreach ($results as $result) {
@@ -361,7 +386,7 @@ class ControllerCatalogPurchase extends Controller {
 				'href' => $this->url->link('catalog/purchase/update', 'token=' . $this->session->data['token'] . '&purchase_id=' . $result['purchase_id'] . $url, 'SSL')
 			);
 
-			// if (strtotime($result['date_added']) > strtotime('-' . (int)$this->config->get('config_purchase_edit') . ' day')) {
+			// if (strtotime($result['date_purchased']) > strtotime('-' . (int)$this->config->get('config_purchase_edit') . ' day')) {
 			// 	$action[] = array(
 			// 		'text' => $this->language->get('text_edit'),
 			// 		'href' => $this->url->link('catalog/purchase/update', 'token=' . $this->session->data['token'] . '&purchase_id=' . $result['purchase_id'] . $url, 'SSL')
@@ -379,7 +404,8 @@ class ControllerCatalogPurchase extends Controller {
 				'name'      => $userinfo['lastname'] . ' ' . $userinfo['firstname'],
 				// 'status'        => $result['status'],
 				'total'         => $result['total'],// //$this->currency->format($result['total'], $result['currency_code'], $result['currency_value']),
-				'date_added'    => $result['date_added'], //date($this->language->get('date_format_short'), strtotime($result['date_added'])),
+				'date_added'    => $result['date_added'], //date($this->language->get('date_format_short'), strtotime($result['date_purchased'])),
+				'date_purchased'    => $result['date_purchased'], //date($this->language->get('date_format_short'), strtotime($result['date_purchased'])),
 				'date_modified' => $result['date_modified'], //date($this->language->get('date_format_short'), strtotime($result['date_modified'])),
 				'selected'      => isset($this->request->post['selected']) && in_array($result['purchase_id'], $this->request->post['selected']),
 				'action'        => $action
@@ -395,6 +421,7 @@ class ControllerCatalogPurchase extends Controller {
 		$this->data['column_customer'] = $this->language->get('column_customer');
 		$this->data['column_status'] = $this->language->get('column_status');
 		$this->data['column_total'] = $this->language->get('column_total');
+		$this->data['column_date_purchased'] = $this->language->get('column_date_purchased');
 		$this->data['column_date_added'] = $this->language->get('column_date_added');
 		$this->data['column_date_modified'] = $this->language->get('column_date_modified');
 		$this->data['column_name'] = $this->language->get('column_name');
@@ -442,6 +469,10 @@ class ControllerCatalogPurchase extends Controller {
 			$url .= '&filter_total=' . $this->request->get['filter_total'];
 		}
 
+		if (isset($this->request->get['filter_date_purchased'])) {
+			$url .= '&filter_date_purchased=' . $this->request->get['filter_date_purchased'];
+		}	
+
 		if (isset($this->request->get['filter_date_added'])) {
 			$url .= '&filter_date_added=' . $this->request->get['filter_date_added'];
 		}
@@ -464,7 +495,7 @@ class ControllerCatalogPurchase extends Controller {
 		$this->data['sort_customer'] = $this->url->link('catalog/purchase', 'token=' . $this->session->data['token'] . '&sort=customer' . $url, 'SSL');
 		$this->data['sort_status'] = $this->url->link('catalog/purchase', 'token=' . $this->session->data['token'] . '&sort=status' . $url, 'SSL');
 		$this->data['sort_total'] = $this->url->link('catalog/purchase', 'token=' . $this->session->data['token'] . '&sort=o.total' . $url, 'SSL');
-		$this->data['sort_date_added'] = $this->url->link('catalog/purchase', 'token=' . $this->session->data['token'] . '&sort=o.date_added' . $url, 'SSL');
+		$this->data['sort_date_purchased'] = $this->url->link('catalog/purchase', 'token=' . $this->session->data['token'] . '&sort=o.date_purchased' . $url, 'SSL');
 		$this->data['sort_date_modified'] = $this->url->link('catalog/purchase', 'token=' . $this->session->data['token'] . '&sort=o.date_modified' . $url, 'SSL');
 
 		$url = '';
@@ -487,6 +518,10 @@ class ControllerCatalogPurchase extends Controller {
 
 		if (isset($this->request->get['filter_total'])) {
 			$url .= '&filter_total=' . $this->request->get['filter_total'];
+		}
+
+		if (isset($this->request->get['filter_date_purchased'])) {
+			$url .= '&filter_date_purchased=' . $this->request->get['filter_date_purchased'];
 		}
 
 		if (isset($this->request->get['filter_date_added'])) {
@@ -515,6 +550,7 @@ class ControllerCatalogPurchase extends Controller {
 		$this->data['filter_store'] = $filter_store;
 		$this->data['filter_purchase_status_id'] = $filter_purchase_status_id;
 		$this->data['filter_total'] = $filter_total;
+		$this->data['filter_date_purchased'] = $filter_date_purchased;
 		$this->data['filter_date_added'] = $filter_date_added;
 		$this->data['filter_date_modified'] = $filter_date_modified;
 
@@ -623,6 +659,12 @@ class ControllerCatalogPurchase extends Controller {
 			$this->data['error_store'] = $this->error['store'];
 		} else {
 			$this->data['error_store'] = '';
+		}
+
+		if (isset($this->error['date'])) {
+			$this->data['error_date'] = $this->error['date'];
+		} else {
+			$this->data['error_date'] = '';
 		}
 
 		if (isset($this->error['user'])) {
@@ -781,6 +823,10 @@ class ControllerCatalogPurchase extends Controller {
 			$url .= '&filter_total=' . $this->request->get['filter_total'];
 		}
 
+		if (isset($this->request->get['filter_date_purchased'])) {
+			$url .= '&filter_date_purchased=' . $this->request->get['filter_date_purchased'];
+		}
+
 		if (isset($this->request->get['filter_date_added'])) {
 			$url .= '&filter_date_added=' . $this->request->get['filter_date_added'];
 		}
@@ -839,6 +885,14 @@ class ControllerCatalogPurchase extends Controller {
 			$this->data['purchase_id'] = $this->request->get['purchase_id'];
 		} else {
 			$this->data['purchase_id'] = 0;
+		}
+
+		if (isset($this->request->post['date_purchased'])) {
+			$this->data['date_purchased'] = $this->request->post['date_purchased'];
+		} elseif (!empty($purchase_info)) {
+			$this->data['date_purchased'] = $purchase_info['date_purchased'];
+		} else {
+			$this->data['date_purchased'] = '';
 		}
 
 		$this->load->model('setting/store');
@@ -914,7 +968,7 @@ class ControllerCatalogPurchase extends Controller {
 				'name'             => $purchase_product['name'],
 				'quantity'         => $purchase_product['quantity'],
 				'cost'            => $purchase_product['cost'],
-				'total'            => $purchase_product['total']
+				'total'            => $purchase_product['quantity'] * $purchase_product['cost'], //$purchase_product['total']
 				// 'tax'              => $purchase_product['tax'],
 				// 'reward'           => $purchase_product['reward']
 			);
@@ -939,6 +993,12 @@ class ControllerCatalogPurchase extends Controller {
 		$this->response->setOutput($this->render());
 	}
 
+	protected function validateDate($date, $format = 'Y-m-d')
+	{
+	    $d = DateTime::createFromFormat($format, $date);
+	    return $d && $d->format($format) == $date;
+	}
+
 	protected function validateForm() {
 		if (!$this->user->hasPermission('modify', 'catalog/purchase')) {
 			$this->error['warning'] = $this->language->get('error_permission');
@@ -946,6 +1006,10 @@ class ControllerCatalogPurchase extends Controller {
 
 		if (utf8_strlen($this->request->post['user_id']) <= 0) {
 			$this->error['user'] = $this->language->get('error_user');
+		}
+
+		if (!$this->validateDate($this->request->post['date_purchased'])) {
+			$this->error['date'] = $this->language->get('error_date');
 		}
 
 		if (utf8_strlen($this->request->post['store_id']) <= 0) {
@@ -1009,7 +1073,7 @@ class ControllerCatalogPurchase extends Controller {
 			$purchase_id = 0;
 		}
 
-		$purchase_info = $this->model_catalog_purchase->getpurchase($purchase_id);
+		$purchase_info = $this->model_catalog_purchase->getPurchase($purchase_id);
 
 		if ($purchase_info) {
 			$this->language->load('catalog/purchase');
@@ -1044,7 +1108,7 @@ class ControllerCatalogPurchase extends Controller {
 			$this->data['text_forwarded_ip'] = $this->language->get('text_forwarded_ip');
 			$this->data['text_user_agent'] = $this->language->get('text_user_agent');
 			$this->data['text_accept_language'] = $this->language->get('text_accept_language');
-			$this->data['text_date_added'] = $this->language->get('text_date_added');
+			$this->data['text_date_purchased'] = $this->language->get('text_date_purchased');
 			$this->data['text_date_modified'] = $this->language->get('text_date_modified');
 			$this->data['text_firstname'] = $this->language->get('text_firstname');
 			$this->data['text_lastname'] = $this->language->get('text_lastname');
@@ -1166,6 +1230,10 @@ class ControllerCatalogPurchase extends Controller {
 				$url .= '&filter_total=' . $this->request->get['filter_total'];
 			}
 
+			if (isset($this->request->get['filter_date_purchased'])) {
+				$url .= '&filter_date_purchased=' . $this->request->get['filter_date_purchased'];
+			}
+
 			if (isset($this->request->get['filter_date_added'])) {
 				$url .= '&filter_date_added=' . $this->request->get['filter_date_added'];
 			}
@@ -1284,7 +1352,7 @@ class ControllerCatalogPurchase extends Controller {
 			$this->data['forwarded_ip'] = $purchase_info['forwarded_ip'];
 			$this->data['user_agent'] = $purchase_info['user_agent'];
 			$this->data['accept_language'] = $purchase_info['accept_language'];
-			$this->data['date_added'] = $purchase_info['date_added']; //date($this->language->get('date_format_short'), strtotime($purchase_info['date_added']));
+			$this->data['date_purchased'] = $purchase_info['date_purchased']; //date($this->language->get('date_format_short'), strtotime($purchase_info['date_purchased']));
 			$this->data['date_modified'] = $purchase_info['date_modified']; //date($this->language->get('date_format_short'), strtotime($purchase_info['date_modified']));
 			$this->data['payment_firstname'] = $purchase_info['payment_firstname'];
 			$this->data['payment_lastname'] = $purchase_info['payment_lastname'];
@@ -1446,7 +1514,7 @@ class ControllerCatalogPurchase extends Controller {
 
 		$this->data['text_no_results'] = $this->language->get('text_no_results');
 
-		$this->data['column_date_added'] = $this->language->get('column_date_added');
+		$this->data['column_date_purchased'] = $this->language->get('column_date_purchased');
 		$this->data['column_status'] = $this->language->get('column_status');
 		$this->data['column_notify'] = $this->language->get('column_notify');
 		$this->data['column_comment'] = $this->language->get('column_comment');
@@ -1466,7 +1534,7 @@ class ControllerCatalogPurchase extends Controller {
 				'notify'     => $result['notify'] ? $this->language->get('text_yes') : $this->language->get('text_no'),
 				'status'     => $result['status'],
 				'comment'    => nl2br($result['comment']),
-				'date_added' => date($this->language->get('date_format_short'), strtotime($result['date_added']))
+				'date_purchased' => date($this->language->get('date_format_short'), strtotime($result['date_purchased']))
 			);
 		}
 
@@ -1574,7 +1642,7 @@ class ControllerCatalogPurchase extends Controller {
 		$this->data['text_purchase_id'] = $this->language->get('text_purchase_id');
 		$this->data['text_invoice_no'] = $this->language->get('text_invoice_no');
 		$this->data['text_invoice_date'] = $this->language->get('text_invoice_date');
-		$this->data['text_date_added'] = $this->language->get('text_date_added');
+		$this->data['text_date_purchased'] = $this->language->get('text_date_purchased');
 		$this->data['text_telephone'] = $this->language->get('text_telephone');
 		$this->data['text_fax'] = $this->language->get('text_fax');
 		$this->data['text_to'] = $this->language->get('text_to');
@@ -1745,7 +1813,7 @@ class ControllerCatalogPurchase extends Controller {
 				$this->data['purchases'][] = array(
 					'purchase_id'	         => $purchase_id,
 					'invoice_no'         => $invoice_no,
-					'date_added'         => date($this->language->get('date_format_short'), strtotime($purchase_info['date_added'])),
+					'date_purchased'         => date($this->language->get('date_format_short'), strtotime($purchase_info['date_purchased'])),
 					'store_name'         => $purchase_info['store_name'],
 					'store_url'          => rtrim($purchase_info['store_url'], '/'),
 					'store_address'      => nl2br($store_address),

@@ -13,12 +13,13 @@ $_['text_browse']            = 'Browse';
 $_['text_clear']             = 'Clear';
 // $_['text_option']            = 'Option';
 // $_['text_option_value']      = 'Option Value';
-$_['text_percent']           = 'Percentage';
-$_['text_amount']            = 'Fixed Amount';
+// $_['text_percent']           = 'Percentage';
+// $_['text_amount']            = 'Fixed Amount';
 $_['text_product_unavailable']            = '商品設定有誤，請重新設定.';
 $_['text_duplicate']            = '商品重複.';
 $_['text_error']            = '設定有誤，請重新設定.';
 $_['text_product']            = '商品.';
+$_['text_today']            = '設爲今天日期';
 
 // Column
 $_['column_name']            = '採購';
@@ -30,7 +31,8 @@ $_['column_status']          = '狀態';
 $_['column_action']          = '動作';
 $_['column_cost']          = '成本';
 $_['column_total']          = '金額';
-$_['column_date_added']          = '日期';
+$_['column_date_purchased']          = '採購發生日期';
+$_['column_date_added']          = '登錄日期';
 $_['column_product']          = '商品';
 
 // Entry
@@ -73,11 +75,11 @@ $_['entry_customer_group']   = 'Customer Group:';
 $_['entry_date_start']       = 'Date Start:';
 $_['entry_date_end']         = 'Date End:';
 $_['entry_priority']         = 'Priority:';
-$_['entry_attribute']        = 'Attribute:';
-$_['entry_attribute_group']  = 'Attribute Group:';
+// $_['entry_attribute']        = 'Attribute:';
+// $_['entry_attribute_group']  = 'Attribute Group:';
 $_['entry_text']             = 'Text:';
-$_['entry_option']           = 'Option:';
-$_['entry_option_value']     = 'Option Value:';
+// $_['entry_option']           = 'Option:';
+// $_['entry_option_value']     = 'Option Value:';
 $_['entry_required']         = 'Required:';
 $_['entry_status']           = 'Status:';
 $_['entry_sort_purchase']       = 'Sort Purchase:';
@@ -92,29 +94,12 @@ $_['entry_profile']          = 'Profile:';
 $_['entry_unit_class']          = 'Unit Class:';
 $_['entry_user']          = '採買人員:';
 
-$_['text_recurring_help']    = 'Recurring amounts are calculated by the frequency and cycles. <br />For example if you use a frequency of "week" and a cycle of "2", then the user will be billed every 2 weeks. <br />The length is the number of times the user will make a payment, set this to 0 if you want payments until they are cancelled.';
-$_['text_recurring_title']   = 'Recurring payments';
-$_['text_recurring_trial']   = 'Trial period';
-$_['entry_recurring']        = 'Recurring billing:';
-$_['entry_recurring_price']  = 'Recurring price:';
-$_['entry_recurring_freq']   = 'Recurring frequency:';
-$_['entry_recurring_cycle']  = 'Recurring cycles:<span class="help">How often its billed, must be 1 or more</span>';
-$_['entry_recurring_length'] = 'Recurring length:<span class="help">0 = until cancelled</span>';
-$_['entry_trial']            = 'Trial period:';
-$_['entry_trial_price']      = 'Trial recurring price:';
-$_['entry_trial_freq']       = 'Trial recurring frequency:';
-$_['entry_trial_cycle']      = 'Trial recurring cycles:<span class="help">How often its billed, must be 1 or more</span>';
-$_['entry_trial_length']     = 'Trial recurring length:';
-
-$_['text_length_day']        = 'Day';
-$_['text_length_week']       = 'Week';
-$_['text_length_month']      = 'Month';
-$_['text_length_month_semi'] = 'Semi Month';
-$_['text_length_year']       = 'Year';
-
 // Error
-$_['error_warning']          = 'Warning: Please check the form carefully for errors!';
-$_['error_permission']       = 'Warning: You do not have permission to modify products!';
-$_['error_name']             = 'Product Name must be greater than 3 and less than 255 characters!';
-$_['error_model']            = 'Product Model must be greater than 3 and less than 64 characters!';
+$_['error_user']          = '使用者設定有誤,請再確認!';
+$_['error_date']          = '日期設定有誤,請再確認!';
+$_['error_warning']          = '發生錯誤,請再確認!';
+$_['error_store']       = '商店設定有誤,請再確認!';
+$_['error_permission']       = '您沒有權限更改設置!';
+// $_['error_name']             = 'Product Name must be greater than 3 and less than 255 characters!';
+// $_['error_model']            = 'Product Model must be greater than 3 and less than 64 characters!';
 ?>

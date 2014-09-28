@@ -41,6 +41,7 @@
               <td><?php echo $entry_customer; ?></td>
               <td><input type="text" name="customer" value="<?php echo $customer; ?>" />
                 <input type="hidden" name="customer_id" value="<?php echo $customer_id; ?>" />
+                <!-- <input type="hidden" name="customer_store_id" value="<php echo $customer_id; ?>" /> -->
                 <input type="hidden" name="customer_group_id" value="<?php echo $customer_group_id; ?>" /></td>
             </tr>
             <tr>
@@ -409,14 +410,16 @@ $.widget('custom.catcomplete', $.ui.autocomplete, {
 $('input[name=\'customer\']').catcomplete({
 	delay: 500,
 	source: function(request, response) {
+    
 		$.ajax({
 			url: 'index.php?route=sale/customer/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request.term),
 			dataType: 'json',
 			success: function(json) {	
+        console.log(json);
 				response($.map(json, function(item) {
 					return {
 						category: item['customer_group'],
-						label: item['name'],
+						label: item['lastname'] + item['firstname'] + ' ' + item['ssn'],
 						value: item['customer_id'],
 						customer_group_id: item['customer_group_id'],
 						firstname: item['firstname'],
@@ -431,13 +434,14 @@ $('input[name=\'customer\']').catcomplete({
 		});
 	}, 
 	select: function(event, ui) { 
-		$('input[name=\'customer\']').attr('value', ui.item['label']);
+		$('input[name=\'customer\']').attr('value', ui.item['lastname'] + ui.item['firstname']);
 		$('input[name=\'customer_id\']').attr('value', ui.item['value']);
 		$('input[name=\'firstname\']').attr('value', ui.item['firstname']);
 		$('input[name=\'lastname\']').attr('value', ui.item['lastname']);
 		$('input[name=\'email\']').attr('value', ui.item['email']);
 		$('input[name=\'telephone\']').attr('value', ui.item['telephone']);
-		$('input[name=\'fax\']').attr('value', ui.item['fax']);
+    $('input[name=\'fax\']').attr('value', ui.item['fax']);
+		// $('input[name=\'customer_store_id\']').attr('value', ui.item['store_id']);
 			
 		html = '<option value="0"><?php echo $text_none; ?></option>'; 
 			
@@ -445,8 +449,8 @@ $('input[name=\'customer\']').catcomplete({
 			html += '<option value="' + ui.item['address'][i]['address_id'] + '">' + ui.item['address'][i]['firstname'] + ' ' + ui.item['address'][i]['lastname'] + ', ' + ui.item['address'][i]['address_1'] + ', ' + ui.item['address'][i]['city'] + ', ' + ui.item['address'][i]['country'] + '</option>';
 		}
 		
-		$('select[name=\'shipping_address\']').html(html);
-		$('select[name=\'payment_address\']').html(html);
+		// $('select[name=\'shipping_address\']').html(html);
+		// $('select[name=\'payment_address\']').html(html);
 		
 		$('select[id=\'customer_group_id\']').attr('disabled', false);
 		$('select[id=\'customer_group_id\']').attr('value', ui.item['customer_group_id']);
@@ -502,170 +506,170 @@ $('select[id=\'customer_group_id\']').live('change', function() {
 
 $('select[id=\'customer_group_id\']').trigger('change');
 
-$('input[name=\'affiliate\']').autocomplete({
-	delay: 500,
-	source: function(request, response) {
-		$.ajax({
-			url: 'index.php?route=sale/affiliate/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request.term),
-			dataType: 'json',
-			success: function(json) {	
-				response($.map(json, function(item) {
-					return {
-						label: item['name'],
-						value: item['affiliate_id'],
-					}
-				}));
-			}
-		});
-	}, 
-	select: function(event, ui) { 
-		$('input[name=\'affiliate\']').attr('value', ui.item['label']);
-		$('input[name=\'affiliate_id\']').attr('value', ui.item['value']);
+// $('input[name=\'affiliate\']').autocomplete({
+// 	delay: 500,
+// 	source: function(request, response) {
+// 		$.ajax({
+// 			url: 'index.php?route=sale/affiliate/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request.term),
+// 			dataType: 'json',
+// 			success: function(json) {	
+// 				response($.map(json, function(item) {
+// 					return {
+// 						label: item['name'],
+// 						value: item['affiliate_id'],
+// 					}
+// 				}));
+// 			}
+// 		});
+// 	}, 
+// 	select: function(event, ui) { 
+// 		$('input[name=\'affiliate\']').attr('value', ui.item['label']);
+// 		$('input[name=\'affiliate_id\']').attr('value', ui.item['value']);
 			
-		return false; 
-	},
-	focus: function(event, ui) {
-      	return false;
-   	}
-});
+// 		return false; 
+// 	},
+// 	focus: function(event, ui) {
+//       	return false;
+//    	}
+// });
 
-var payment_zone_id = '<?php echo $payment_zone_id; ?>';
+// var payment_zone_id = '<?php echo $payment_zone_id; ?>';
 
-$('select[name=\'payment_country_id\']').bind('change', function() {
-	$.ajax({
-		url: 'index.php?route=sale/order/country&token=<?php echo $token; ?>&country_id=' + this.value,
-		dataType: 'json',
-		beforeSend: function() {
-			$('select[name=\'payment_country_id\']').after('<span class="wait">&nbsp;<img src="view/image/loading.gif" alt="" /></span>');
-		},
-		complete: function() {
-			$('.wait').remove();
-		},			
-		success: function(json) {
-			if (json['postcode_required'] == '1') {
-				$('#payment-postcode-required').show();
-			} else {
-				$('#payment-postcode-required').hide();
-			}
+// $('select[name=\'payment_country_id\']').bind('change', function() {
+// 	$.ajax({
+// 		url: 'index.php?route=sale/order/country&token=<?php echo $token; ?>&country_id=' + this.value,
+// 		dataType: 'json',
+// 		beforeSend: function() {
+// 			$('select[name=\'payment_country_id\']').after('<span class="wait">&nbsp;<img src="view/image/loading.gif" alt="" /></span>');
+// 		},
+// 		complete: function() {
+// 			$('.wait').remove();
+// 		},			
+// 		success: function(json) {
+// 			if (json['postcode_required'] == '1') {
+// 				$('#payment-postcode-required').show();
+// 			} else {
+// 				$('#payment-postcode-required').hide();
+// 			}
 			
-			html = '<option value=""><?php echo $text_select; ?></option>';
+// 			html = '<option value=""><?php echo $text_select; ?></option>';
 
-			if (json != '' && json['zone'] != '') {
-				for (i = 0; i < json['zone'].length; i++) {
-        			html += '<option value="' + json['zone'][i]['zone_id'] + '"';
+// 			if (json != '' && json['zone'] != '') {
+// 				for (i = 0; i < json['zone'].length; i++) {
+//         			html += '<option value="' + json['zone'][i]['zone_id'] + '"';
 	    			
-					if (json['zone'][i]['zone_id'] == payment_zone_id) {
-	      				html += ' selected="selected"';
-	    			}
+// 					if (json['zone'][i]['zone_id'] == payment_zone_id) {
+// 	      				html += ' selected="selected"';
+// 	    			}
 	
-	    			html += '>' + json['zone'][i]['name'] + '</option>';
-				}
-			} else {
-				html += '<option value="0" selected="selected"><?php echo $text_none; ?></option>';
-			}
+// 	    			html += '>' + json['zone'][i]['name'] + '</option>';
+// 				}
+// 			} else {
+// 				html += '<option value="0" selected="selected"><?php echo $text_none; ?></option>';
+// 			}
 			
-			$('select[name=\'payment_zone_id\']').html(html);
-		},
-		error: function(xhr, ajaxOptions, thrownError) {
-			console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-		}
-	});
-});
+// 			$('select[name=\'payment_zone_id\']').html(html);
+// 		},
+// 		error: function(xhr, ajaxOptions, thrownError) {
+// 			console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+// 		}
+// 	});
+// });
 
-$('select[name=\'payment_country_id\']').trigger('change');
+// $('select[name=\'payment_country_id\']').trigger('change');
 
-$('select[name=\'payment_address\']').bind('change', function() {
-	$.ajax({
-		url: 'index.php?route=sale/customer/address&token=<?php echo $token; ?>&address_id=' + this.value,
-		dataType: 'json',
-		success: function(json) {
-			if (json != '') {	
-				$('input[name=\'payment_firstname\']').attr('value', json['firstname']);
-				$('input[name=\'payment_lastname\']').attr('value', json['lastname']);
-				$('input[name=\'payment_company\']').attr('value', json['company']);
-				$('input[name=\'payment_company_id\']').attr('value', json['company_id']);
-				$('input[name=\'payment_tax_id\']').attr('value', json['tax_id']);
-				$('input[name=\'payment_address_1\']').attr('value', json['address_1']);
-				$('input[name=\'payment_address_2\']').attr('value', json['address_2']);
-				$('input[name=\'payment_city\']').attr('value', json['city']);
-				$('input[name=\'payment_postcode\']').attr('value', json['postcode']);
-				$('select[name=\'payment_country_id\']').attr('value', json['country_id']);
+// $('select[name=\'payment_address\']').bind('change', function() {
+// 	$.ajax({
+// 		url: 'index.php?route=sale/customer/address&token=<?php echo $token; ?>&address_id=' + this.value,
+// 		dataType: 'json',
+// 		success: function(json) {
+// 			if (json != '') {	
+// 				$('input[name=\'payment_firstname\']').attr('value', json['firstname']);
+// 				$('input[name=\'payment_lastname\']').attr('value', json['lastname']);
+// 				$('input[name=\'payment_company\']').attr('value', json['company']);
+// 				$('input[name=\'payment_company_id\']').attr('value', json['company_id']);
+// 				$('input[name=\'payment_tax_id\']').attr('value', json['tax_id']);
+// 				$('input[name=\'payment_address_1\']').attr('value', json['address_1']);
+// 				$('input[name=\'payment_address_2\']').attr('value', json['address_2']);
+// 				$('input[name=\'payment_city\']').attr('value', json['city']);
+// 				$('input[name=\'payment_postcode\']').attr('value', json['postcode']);
+// 				$('select[name=\'payment_country_id\']').attr('value', json['country_id']);
 				
-				payment_zone_id = json['zone_id'];
+// 				payment_zone_id = json['zone_id'];
 				
-				$('select[name=\'payment_country_id\']').trigger('change');
-			}
-		}
-	});	
-});
+// 				$('select[name=\'payment_country_id\']').trigger('change');
+// 			}
+// 		}
+// 	});	
+// });
 
-var shipping_zone_id = '<?php echo $shipping_zone_id; ?>';
+// var shipping_zone_id = '<?php echo $shipping_zone_id; ?>';
 
-$('select[name=\'shipping_country_id\']').bind('change', function() {
-	$.ajax({
-		url: 'index.php?route=sale/order/country&token=<?php echo $token; ?>&country_id=' + this.value,
-		dataType: 'json',
-		beforeSend: function() {
-			$('select[name=\'payment_country_id\']').after('<span class="wait">&nbsp;<img src="view/image/loading.gif" alt="" /></span>');
-		},
-		complete: function() {
-			$('.wait').remove();
-		},			
-		success: function(json) {
-			if (json['postcode_required'] == '1') {
-				$('#shipping-postcode-required').show();
-			} else {
-				$('#shipping-postcode-required').hide();
-			}
+// $('select[name=\'shipping_country_id\']').bind('change', function() {
+// 	$.ajax({
+// 		url: 'index.php?route=sale/order/country&token=<?php echo $token; ?>&country_id=' + this.value,
+// 		dataType: 'json',
+// 		beforeSend: function() {
+// 			$('select[name=\'payment_country_id\']').after('<span class="wait">&nbsp;<img src="view/image/loading.gif" alt="" /></span>');
+// 		},
+// 		complete: function() {
+// 			$('.wait').remove();
+// 		},			
+// 		success: function(json) {
+// 			if (json['postcode_required'] == '1') {
+// 				$('#shipping-postcode-required').show();
+// 			} else {
+// 				$('#shipping-postcode-required').hide();
+// 			}
 			
-			html = '<option value=""><?php echo $text_select; ?></option>';
+// 			html = '<option value=""><?php echo $text_select; ?></option>';
 			
-			if (json != '' && json['zone'] != '') {
-				for (i = 0; i < json['zone'].length; i++) {
-        			html += '<option value="' + json['zone'][i]['zone_id'] + '"';
+// 			if (json != '' && json['zone'] != '') {
+// 				for (i = 0; i < json['zone'].length; i++) {
+//         			html += '<option value="' + json['zone'][i]['zone_id'] + '"';
 	    			
-					if (json['zone'][i]['zone_id'] == shipping_zone_id) {
-	      				html += ' selected="selected"';
-	    			}
+// 					if (json['zone'][i]['zone_id'] == shipping_zone_id) {
+// 	      				html += ' selected="selected"';
+// 	    			}
 	
-	    			html += '>' + json['zone'][i]['name'] + '</option>';
-				}
-			} else {
-				html += '<option value="0" selected="selected"><?php echo $text_none; ?></option>';
-			}
+// 	    			html += '>' + json['zone'][i]['name'] + '</option>';
+// 				}
+// 			} else {
+// 				html += '<option value="0" selected="selected"><?php echo $text_none; ?></option>';
+// 			}
 			
-			$('select[name=\'shipping_zone_id\']').html(html);
-		},
-		error: function(xhr, ajaxOptions, thrownError) {
-			//console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-		}
-	});
-});
+// 			$('select[name=\'shipping_zone_id\']').html(html);
+// 		},
+// 		error: function(xhr, ajaxOptions, thrownError) {
+// 			//console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+// 		}
+// 	});
+// });
 
-$('select[name=\'shipping_country_id\']').trigger('change');
+// $('select[name=\'shipping_country_id\']').trigger('change');
 
-$('select[name=\'shipping_address\']').bind('change', function() {
-	$.ajax({
-		url: 'index.php?route=sale/customer/address&token=<?php echo $token; ?>&address_id=' + this.value,
-		dataType: 'json',
-		success: function(json) {
-			if (json != '') {	
-				$('input[name=\'shipping_firstname\']').attr('value', json['firstname']);
-				$('input[name=\'shipping_lastname\']').attr('value', json['lastname']);
-				$('input[name=\'shipping_company\']').attr('value', json['company']);
-				$('input[name=\'shipping_address_1\']').attr('value', json['address_1']);
-				$('input[name=\'shipping_address_2\']').attr('value', json['address_2']);
-				$('input[name=\'shipping_city\']').attr('value', json['city']);
-				$('input[name=\'shipping_postcode\']').attr('value', json['postcode']);
-				$('select[name=\'shipping_country_id\']').attr('value', json['country_id']);
+// $('select[name=\'shipping_address\']').bind('change', function() {
+// 	$.ajax({
+// 		url: 'index.php?route=sale/customer/address&token=<?php echo $token; ?>&address_id=' + this.value,
+// 		dataType: 'json',
+// 		success: function(json) {
+// 			if (json != '') {	
+// 				$('input[name=\'shipping_firstname\']').attr('value', json['firstname']);
+// 				$('input[name=\'shipping_lastname\']').attr('value', json['lastname']);
+// 				$('input[name=\'shipping_company\']').attr('value', json['company']);
+// 				$('input[name=\'shipping_address_1\']').attr('value', json['address_1']);
+// 				$('input[name=\'shipping_address_2\']').attr('value', json['address_2']);
+// 				$('input[name=\'shipping_city\']').attr('value', json['city']);
+// 				$('input[name=\'shipping_postcode\']').attr('value', json['postcode']);
+// 				$('select[name=\'shipping_country_id\']').attr('value', json['country_id']);
 				
-				shipping_zone_id = json['zone_id'];
+// 				shipping_zone_id = json['zone_id'];
 				
-				$('select[name=\'shipping_country_id\']').trigger('change');
-			}
-		}
-	});	
-});
+// 				$('select[name=\'shipping_country_id\']').trigger('change');
+// 			}
+// 		}
+// 	});	
+// });
 //--></script> 
 <script type="text/javascript"><!--
 $('input[name=\'product\']').autocomplete({
