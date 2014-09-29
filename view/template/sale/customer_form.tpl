@@ -247,7 +247,7 @@
           <table class="form">
             <tr>
               <td><?php echo $entry_product; ?></td>
-              <td><input type="text" name="product" value="" /><input type="hidden" name="product_id" value="46" /></td>
+              <td><input type="text" name="product" value="" /><input type="hidden" name="product_id" value="" /></td>
             </tr>
             <tr>
               <td><?php echo $entry_unit_used; ?></td>

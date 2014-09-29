@@ -1701,28 +1701,28 @@ class ControllerSaleOrder extends Controller {
 
 			$this->load->model('sale/customer');
 
-			$this->data['credit_total'] = $this->model_sale_customer->getTotalTransactionsByOrderId($this->request->get['order_id']);
+			// $this->data['credit_total'] = $this->model_sale_customer->getTotalTransactionsByOrderId($this->request->get['order_id']);
 
-			$this->data['reward'] = $order_info['reward'];
+			// $this->data['reward'] = $order_info['reward'];
 
-			$this->data['reward_total'] = $this->model_sale_customer->getTotalCustomerRewardsByOrderId($this->request->get['order_id']);
+			// $this->data['reward_total'] = $this->model_sale_customer->getTotalCustomerRewardsByOrderId($this->request->get['order_id']);
 
-			$this->data['affiliate_firstname'] = $order_info['affiliate_firstname'];
-			$this->data['affiliate_lastname'] = $order_info['affiliate_lastname'];
+			// $this->data['affiliate_firstname'] = $order_info['affiliate_firstname'];
+			// $this->data['affiliate_lastname'] = $order_info['affiliate_lastname'];
 
-			if ($order_info['affiliate_id']) {
-				$this->data['affiliate'] = $this->url->link('sale/affiliate/update', 'token=' . $this->session->data['token'] . '&affiliate_id=' . $order_info['affiliate_id'], 'SSL');
-			} else {
-				$this->data['affiliate'] = '';
-			}
+			// if ($order_info['affiliate_id']) {
+			// 	$this->data['affiliate'] = $this->url->link('sale/affiliate/update', 'token=' . $this->session->data['token'] . '&affiliate_id=' . $order_info['affiliate_id'], 'SSL');
+			// } else {
+			// 	$this->data['affiliate'] = '';
+			// }
 
-			$this->data['commission'] = $this->currency->format($order_info['commission'], $order_info['currency_code'], $order_info['currency_value']);
+			// $this->data['commission'] = $this->currency->format($order_info['commission'], $order_info['currency_code'], $order_info['currency_value']);
 
-			$this->load->model('sale/affiliate');
+			// $this->load->model('sale/affiliate');
 
-			$this->data['commission_total'] = $this->model_sale_affiliate->getTotalTransactionsByOrderId($this->request->get['order_id']);
+			// $this->data['commission_total'] = $this->model_sale_affiliate->getTotalTransactionsByOrderId($this->request->get['order_id']);
 
-			$this->load->model('localisation/order_status');
+			// $this->load->model('localisation/order_status');
 
 			$order_status_info = $this->model_localisation_order_status->getOrderStatus($order_info['order_status_id']);
 

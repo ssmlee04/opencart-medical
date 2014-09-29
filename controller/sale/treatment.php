@@ -2,6 +2,19 @@
 class ControllerSaleTreatment extends Controller { 
 	public function index() {   
 
+		if (isset($this->error['warning'])) {
+			$this->data['error_warning'] = $this->error['warning'];
+		} else {
+			$this->data['error_warning'] = '';
+		}
+
+		if (isset($this->session->data['success'])) {
+			$this->data['success'] = $this->session->data['success'];
+
+			unset($this->session->data['success']);
+		} else {
+			$this->data['success'] = '';
+		}
 
 		$this->language->load('sale/treatment');
 
@@ -131,12 +144,20 @@ class ControllerSaleTreatment extends Controller {
 			$url .= '&filter_order_status_id=' . $this->request->get['filter_order_status_id'];
 		}
 
+		$this->data['customer_id'] = 10;
+		$this->data['button_save'] = $this->language->get('button_save');
+		$this->data['button_cancel'] = $this->language->get('button_cancel');
+		$this->data['entry_product'] = $this->language->get('entry_product');
+		$this->data['entry_ssn'] = $this->language->get('entry_ssn');
+		$this->data['entry_customer_id'] = $this->language->get('entry_customer_id');
+		$this->data['entry_customer'] = $this->language->get('entry_customer');
+
 		$pagination = new Pagination();
 		$pagination->total = $product_total;
 		$pagination->page = $page;
 		$pagination->limit = $this->config->get('config_admin_limit');
 		$pagination->text = $this->language->get('text_pagination');
-		$pagination->url = $this->url->link('report/product_purchased', 'token=' . $this->session->data['token'] . $url . '&page={page}');
+		// $pagination->url = $this->url->link('sale/product_purchased', 'token=' . $this->session->data['token'] . $url . '&page={page}');
 
 		$this->data['pagination'] = $pagination->render();		
 
@@ -144,7 +165,7 @@ class ControllerSaleTreatment extends Controller {
 		$this->data['filter_date_end'] = $filter_date_end;		
 		$this->data['filter_order_status_id'] = $filter_order_status_id;
 
-		$this->template = 'report/product_purchased.tpl';
+		$this->template = 'sale/treatment.tpl';
 		$this->children = array(
 			'common/header',
 			'common/footer'

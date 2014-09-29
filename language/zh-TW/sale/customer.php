@@ -18,9 +18,20 @@ $_['text_delete_lending_success'] = '成功刪除療程轉讓';
 $_['text_delete_lending_error'] = '刪除療程轉讓錯誤';
 $_['text_delete_transaction_success'] = '成功刪除交易';
 $_['text_delete_transaction_error'] = '刪除交易錯誤';
-$_['text_delete_history_success'] = '成功刪除訊息';
+$_['text_edit_transaction_success'] = '成功修改療程';
+$_['text_edit_transaction_error'] = '修改療程錯誤';
+$_['text_delete_history_error'] = '刪除訊息錯誤';
 $_['text_delete_history_error'] = '刪除訊息錯誤';
 $_['text_error_lending'] = '療程轉讓失敗';
+$_['text_appointment'] = '預約';
+$_['text_transaction_unoccured'] = '未使用療程';
+$_['text_transaction_finished'] = '完成';
+$_['text_transaction_appointed'] = '預約中';
+$_['text_error']         = '錯誤';
+$_['text_borrowed']         = '轉讓得到';
+$_['text_lendedout']         = '轉讓';
+$_['text_cannot_use_inventory']         = '增加交易錯誤';
+$_['button_change_status']           = '更改狀態';
 
 // Column
 $_['column_name']             = '客戶名稱';
@@ -31,6 +42,7 @@ $_['column_status']           = '狀態';
 $_['column_login']          = '登入';
 $_['column_approved']         = '核准';
 $_['column_date_added']       = '加入日期';
+$_['column_date_modified']       = '修改日期';
 $_['column_description']    = '項目';
 $_['column_amount']         = '金額';
 $_['column_points']         = '紅利點數';
@@ -40,8 +52,6 @@ $_['column_action']           = '動作';
 $_['column_ssn']           = '身份證';
 $_['column_comment']           = '內容';
 $_['column_reminder_date']           = '提醒日期';
-$_['text_error']         = '錯誤';
-$_['text_cannot_use_inventory']         = '增加交易錯誤';
 
 
 // Entry

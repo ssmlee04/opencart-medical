@@ -43,7 +43,7 @@
               <td><?php echo $entry_customer; ?></td>
               <td><input type="text" name="customer" value="<?php echo $customer; ?>" />
                 <input type="hidden" name="customer_id" value="<?php echo $customer_id; ?>" />
-                <!-- <input type="hidden" name="customer_store_id" value="<php echo $customer_id; ?>" /> -->
+                <input type="hidden" name="customer_name" value="<?php echo $customer_name_from_db; ?>" />
                 <input type="hidden" name="customer_group_id" value="<?php echo $customer_group_id; ?>" /></td>
             </tr>
             <tr>

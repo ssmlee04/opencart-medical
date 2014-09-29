@@ -1543,6 +1543,39 @@ class ControllerSaleCustomer extends Controller {
 		$this->response->setOutput(json_encode($json));
 	}
 
+	public function editcustomertransaction() {
+
+		$json = array();
+
+		$data = array();
+
+		$this->language->load('sale/customer');
+
+		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->user->hasPermission('modify', 'sale/customer')) { 
+
+			if (isset($this->request->post['customer_transaction_id']) && isset($this->request->post['status'])) { 		
+
+				$this->load->model('sale/customer');	
+			
+				$data['status'] = $this->request->post['status'];
+
+				if ($this->model_sale_customer->editCustomerTransaction($this->request->post['customer_transaction_id'], $data)) {
+					$json['success'] = $this->language->get('text_edit_transaction_success');
+				} else {
+					$json['error'] = $this->language->get('text_edit_transaction_error');
+				}
+			} else {
+				$json['error'] = $this->language->get('text_error');
+			}
+
+		} else {
+			$json['error'] = $this->language->get('error_permission');
+		}
+
+		$this->response->setOutput(json_encode($json));
+	}
+
+
 	public function deletecustomertransaction() {
 
 		$json = array();
@@ -1597,9 +1630,11 @@ class ControllerSaleCustomer extends Controller {
 		$this->data['text_no_results'] = $this->language->get('text_no_results');
 		$this->data['text_balance'] = $this->language->get('text_balance');
 		$this->data['text_success'] = $this->language->get('text_success');
+		$this->data['text_appointment'] = $this->language->get('text_appointment');
 		$this->data['text_error'] = $this->language->get('text_error');
 		$this->data['text_cannot_use_inventory'] = $this->language->get('text_cannot_use_inventory');
 
+		$this->data['column_date_modified'] = $this->language->get('column_date_modified');
 		$this->data['column_date_added'] = $this->language->get('column_date_added');
 		$this->data['column_description'] = $this->language->get('column_description');
 		$this->data['column_product'] = $this->language->get('column_product');
@@ -1609,6 +1644,13 @@ class ControllerSaleCustomer extends Controller {
 		$this->data['column_amount'] = $this->language->get('column_amount');
 		$this->data['column_delete'] = $this->language->get('column_delete');
 		$this->data['column_total_units'] = $this->language->get('column_total_units');
+		$this->data['text_transaction_unoccured'] = $this->language->get('text_transaction_unoccured');
+		$this->data['text_transaction_finished'] = $this->language->get('text_transaction_finished');
+		$this->data['text_transaction_appointed'] = $this->language->get('text_transaction_appointed');
+		$this->data['text_lendedout'] = $this->language->get('text_lendedout');
+		$this->data['text_borrowed'] = $this->language->get('text_borrowed');
+
+		$this->data['button_change_status'] = $this->language->get('button_change_status');
 
 		if (isset($this->request->get['page'])) {
 			$page = $this->request->get['page'];
@@ -1618,7 +1660,10 @@ class ControllerSaleCustomer extends Controller {
 
 		$this->data['transactions'] = array();
 
-		$results = $this->model_sale_customer->getTransactions($this->request->get['customer_id'], ($page - 1) * 10, 10);
+		$dataarray = array();
+		if (isset($this->request->get['customer_id'])) $dataarray['customer_id'] = $this->request->get['customer_id'];
+
+		$results = $this->model_sale_customer->getTransactions($dataarray, ($page - 1) * 10, 10);
 
 		$this->load->model('catalog/product');
 
@@ -1640,10 +1685,17 @@ class ControllerSaleCustomer extends Controller {
 				'customer_transaction_id' => $result['customer_transaction_id'],
 				'quantity' => $result['quantity'],
 				'unit' => $unit,
+				'ismain' => $result['ismain'],
 				'type' => $result['type'],
-				'date_added'  => date($this->language->get('date_format_short'), strtotime($result['date_added']))
+				'status' => $result['status'],
+				'product_which' => $result['product_which'],
+				'product_total_which' => $result['product_total_which'],
+				'comment' => $result['comment'],
+				'date_added'  => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
+				'date_modified'  => date($this->language->get('date_format_short'), strtotime($result['date_modified']))
 			);
 
+			if ($result['status'] < 0) continue;
 			$groupresults[$product_id]['name'] = $product['name'];
 			$groupresults[$product_id]['subquantity'] = (isset($groupresults[$product_id]['subquantity']) ? $groupresults[$product_id]['subquantity'] + $result['subquantity'] : $result['subquantity']);
 			$groupresults[$product_id]['quantity'] = (isset($groupresults[$product_id]['quantity']) ? $groupresults[$product_id]['quantity'] + $result['quantity'] : $result['quantity']);
@@ -1651,17 +1703,23 @@ class ControllerSaleCustomer extends Controller {
 		}
 
 		$this->data['grouptransactions'] = $groupresults;
+		$this->data['show_group'] = (isset($this->request->post['show_group']) ? $this->request->post['show_group'] : 0);
+		// $this->data['balance'] = $this->currency->format($this->model_sale_customer->getTransactionTotal($this->request->get['customer_id']), $this->config->get('config_currency'));
 
-		$this->data['balance'] = $this->currency->format($this->model_sale_customer->getTransactionTotal($this->request->get['customer_id']), $this->config->get('config_currency'));
+		$dataarray = array();
+		if (isset($this->request->get['customer_id'])) $dataarray['customer_id'] = $this->request->get['customer_id'];
 
-		$transaction_total = $this->model_sale_customer->getTotalTransactions($this->request->get['customer_id']);
+		// $dataarray = array(
+		// 	'customer_id' => $this->request->get['customer_id']
+		// );
+		$transaction_total = $this->model_sale_customer->getTotalTransactions($dataarray);
 
 		$pagination = new Pagination();
 		$pagination->total = $transaction_total;
 		$pagination->page = $page;
 		$pagination->limit = 10; 
 		$pagination->text = $this->language->get('text_pagination');
-		$pagination->url = $this->url->link('sale/customer/transaction', 'token=' . $this->session->data['token'] . '&customer_id=' . $this->request->get['customer_id'] . '&page={page}', 'SSL');
+		// $pagination->url = $this->url->link('sale/customer/transaction', 'token=' . $this->session->data['token'] . '&customer_id=' . $this->request->get['customer_id'] . '&page={page}', 'SSL');
 
 		$this->data['pagination'] = $pagination->render();
 		$this->data['token'] = $this->session->data['token'];
@@ -1710,6 +1768,9 @@ class ControllerSaleCustomer extends Controller {
 		$this->data['column_amount'] = $this->language->get('column_amount');
 		$this->data['column_delete'] = $this->language->get('column_delete');
 		$this->data['column_total_units'] = $this->language->get('column_total_units');
+		$this->data['text_transaction_unoccured'] = $this->language->get('text_transaction_unoccured');
+		$this->data['text_transaction_appointed'] = $this->language->get('text_transaction_appointed');
+		$this->data['text_transaction_finished'] = $this->language->get('text_transaction_finished');
 
 		if (isset($this->request->get['page'])) {
 			$page = $this->request->get['page'];
@@ -1719,7 +1780,11 @@ class ControllerSaleCustomer extends Controller {
 
 		$this->data['transactions'] = array();
 
-		$results = $this->model_sale_customer->getTransactions($this->request->get['customer_id'], ($page - 1) * 10, 10);
+		$dataarray = array(
+			'customer_id' => $this->request->get['customer_id']
+			// 'filter_unused' => 1
+		);
+		$results = $this->model_sale_customer->getTransactions($dataarray, ($page - 1) * 10, 10);
 
 		$this->load->model('catalog/product');
 
@@ -1737,8 +1802,12 @@ class ControllerSaleCustomer extends Controller {
 				'amount'      => $this->currency->format($result['amount'], $this->config->get('config_currency')),
 				'product_name' => $product['name'],
 				'subquantity' => $result['subquantity'],
+				'product_which' => $result['product_which'],
+				'product_total_which' => $result['product_total_which'],
+				'comment' => $result['comment'],
 				'customer_transaction_id' => $result['customer_transaction_id'],
 				'quantity' => $result['quantity'],
+				'ismain' => $result['ismain'],
 				'unit' => $unit,
 				'type' => $result['type'],
 				'date_added'  => date($this->language->get('date_format_short'), strtotime($result['date_added']))
@@ -1754,7 +1823,11 @@ class ControllerSaleCustomer extends Controller {
 
 		$this->data['balance'] = $this->currency->format($this->model_sale_customer->getTransactionTotal($this->request->get['customer_id']), $this->config->get('config_currency'));
 
-		$transaction_total = $this->model_sale_customer->getTotalTransactions($this->request->get['customer_id']);
+
+		$dataarray = array(
+			'customer_id' => $this->request->get['customer_id']
+		);
+		$transaction_total = $this->model_sale_customer->getTotalTransactions($dataarray);
 
 		$pagination = new Pagination();
 		$pagination->total = $transaction_total;

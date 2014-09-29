@@ -417,21 +417,80 @@ class ModelSaleCustomer extends Model {
 	}	
 
 	public function addLending($customer_id, $lendto_customer_id, $lendto_product_id, $lendto_subquantity) {
+
+		$query = $this->db->query("SELECT * FROM oc_customer_transaction WHERE customer_id = '" . (int)$customer_id . "' AND status < 0 AND product_id = '$lendto_product_id' AND customer_lending_id = 0");
+
+		if ($query->num_rows < $lendto_subquantity) return false;
+
+		$this->load->model('catalog/product');
+		
+		$product = $this->model_catalog_product->getProduct($lendto_product_id);
+
+		$unit_quantity = $product['unit_quantity'];
+
+		$quantity = 1/$unit_quantity;
+
+		// $query = $this->db->query("SELECT * FROM oc_product p LEFT JOIN oc_product_description pd ON p.product_id = pd.product_id LEFT JOIN oc_unit_class_description ucd ON ucd.unit_class_id = p.unit_class_id AND pd.language_id = ucd.language_id WHERE p.product_id = '$product_id' AND ucd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
+
+		// $unit_quantity = $query->row['unit_quantity'];
+
+		// $unit_class_id = $query->row['unit_class_id'];
+
+		// $quantity = (float)$subquantity / (float)$unit_quantity;
+
+
+		$lendto_quantity = $lendto_subquantity / $unit_quantity;
+
 		$this->db->query("INSERT INTO oc_customer_lending SET 
 			lender_id='" . (int)$customer_id . "', 
 			product_id='" . (int)$lendto_product_id . "', 
+			quantity='" . $lendto_quantity . "', 
 			subquantity='" . (int)$lendto_subquantity . "', 
 			borrower_id='" . (int)$lendto_customer_id . "', date_added = NOW()");
 
 		$customer_lending_id = $this->db->getLastId();
 
-		if ($this->addTransaction2($customer_id, $lendto_product_id, $lendto_subquantity, $customer_lending_id, $lendto_customer_id)) {
-			$this->addTransaction3($lendto_customer_id, $lendto_product_id, $lendto_subquantity, $customer_lending_id, $customer_id);
-			
-			return true;
-		}	
+		
 
-		return false;
+		$count = 0;
+		foreach ($query->rows as $row) {
+
+			if ($count >= $lendto_subquantity) continue;
+			
+			$customer_transaction_id = $row['customer_transaction_id'];
+
+			// 10 = borrow out 
+			$this->db->query("UPDATE oc_customer_transaction SET customer_lending_id = '$customer_lending_id', status=10 WHERE customer_transaction_id = '$customer_transaction_id'");
+			
+			$this->db->query("INSERT INTO oc_customer_transaction SET status=-1, customer_lending_id = '$customer_lending_id', product_id='$lendto_product_id', quantity='-$quantity', subquantity=-1, customer_id = '" . (int)$lendto_customer_id . "', date_added = NOW()");
+
+			$count++;
+		}
+
+		$this->db->query("INSERT INTO oc_customer_transaction SET ismain = 1, status = 0 , customer_lending_id = '$customer_lending_id', product_id='$lendto_product_id', quantity='$lendto_quantity', subquantity=$lendto_subquantity, customer_id = '" . (int)$lendto_customer_id . "', date_added = NOW()");
+		// $count = 0;
+		// foreach ($query->rows as $row) {
+		// 	if ($count > $lendto_subquantity) continue;
+
+		// 	$customer_transaction_id = $row['customer_transaction_id'];
+		// 	$count++;
+		// }
+
+		// $this->db->query("INSERT INTO oc_customer_lending SET 
+		// 	lender_id='" . (int)$customer_id . "', 
+		// 	product_id='" . (int)$lendto_product_id . "', 
+		// 	subquantity='" . (int)$lendto_subquantity . "', 
+		// 	borrower_id='" . (int)$lendto_customer_id . "', date_added = NOW()");
+
+		// $customer_lending_id = $this->db->getLastId();
+
+		// if ($this->addTransaction2($customer_id, $lendto_product_id, $lendto_subquantity, $customer_lending_id, $lendto_customer_id)) {
+		// 	$this->addTransaction3($lendto_customer_id, $lendto_product_id, $lendto_subquantity, $customer_lending_id, $customer_id);
+			
+		// 	return true;
+		// }	
+
+		return true;
 	}
 
 
@@ -443,7 +502,7 @@ class ModelSaleCustomer extends Model {
 
 		$hasInventory = false;
 		foreach ($results as $result) {
-			if ($result['product_id'] == $product_id) {
+			if ($result['product_id'] == $product_id && $result['status'] >= 0) {
 				if ($result['subquantity'] >= $subquantity) {
 					$hasInventory = true;
 				}
@@ -598,13 +657,17 @@ class ModelSaleCustomer extends Model {
 
 				$amount = $price * $quantity; 
 
-				$this->db->query("INSERT INTO " . DB_PREFIX . "customer_transaction SET quantity = '" . (int)$quantity . "', customer_id = '" . (int)$customer_id . "', product_id = '" . (int)$product_id . "', subquantity = '" . (int)$subquantity . "', order_id = '" . (int)$order_id . "', unit_class_id = '" . (int)$unit_class_id . "', amount = '" . (float)$amount . "', date_added = NOW()");
+				$this->db->query("INSERT INTO " . DB_PREFIX . "customer_transaction SET quantity = '" . (int)$quantity . "', customer_id = '" . (int)$customer_id . "', product_id = '" . (int)$product_id . "', subquantity = '" . (int)$subquantity . "', order_id = '" . (int)$order_id . "', unit_class_id = '" . (int)$unit_class_id . "', amount = '" . (float)$amount . "',ismain=1, date_added = NOW(), date_modified= NOW()");
 
+				// add treatment appointments
 				if ($product_type_id == 2) {
 
 					$temp = 1 / $subquantity; 
 					for ($i = 0; $i < $subquantity; $i++) {
-						$this->db->query("INSERT INTO " . DB_PREFIX . "customer_transaction SET status = -1, quantity = '" . -$temp . "', customer_id = '" . (int)$customer_id . "', product_id = '" . (int)$product_id . "', subquantity = '" . -1 . "',  order_id = '" . (int)$order_id . "', unit_class_id = '" . (int)$unit_class_id . "', date_added = NOW()");						
+						$this->db->query("INSERT INTO " . DB_PREFIX . "customer_transaction SET status = -1, quantity = '" . -$temp . "',
+						product_total_which = '" . $subquantity . "',
+						product_which = '" . ($i + 1) . "',
+						 customer_id = '" . (int)$customer_id . "', product_id = '" . (int)$product_id . "', subquantity = '" . -1 . "',  order_id = '" . (int)$order_id . "', unit_class_id = '" . (int)$unit_class_id . "', date_modified = NOW(), date_added = NOW()");						
 					}
 				}
 
@@ -648,24 +711,40 @@ class ModelSaleCustomer extends Model {
 	}
 
 	public function deleteTransaction($order_id) {
-		$this->db->query("DELETE FROM " . DB_PREFIX . "customer_transaction WHERE order_id = '" . (int)$order_id . "' AND type = '2'");
+		$this->db->query("DELETE FROM " . DB_PREFIX . "customer_transaction WHERE order_id = '" . (int)$order_id . "'");
 
 	}
 
 	public function deleteCustomerLending($customer_lending_id) {
 
-		$query = $this->db->query("SELECT * FROM oc_customer_lending WHERE customer_lending_id = '$customer_lending_id'");
+		$query = $this->db->query("SELECT * FROM oc_customer_lending WHERE customer_lending_id = '" . (int)$customer_lending_id . "'");
 
 		if (!$query->num_rows) return false;
 
-		$subquantity = $query->row['subquantity'];
+		$query2 = $this->db->query("SELECT * FROM oc_customer_transaction WHERE customer_lending_id = '$customer_lending_id'");
+
+		$candelete = true;
+		foreach ($query2->rows as $row) {
+			if ($row['status'] > 0) {
+				if ($row['status'] != 10) {
+					$candelete = false;
+				}
+			} else {
+
+			}
+		}
+
+		// $subquantity = $query->row['subquantity'];
 		$borrower_id = $query->row['borrower_id'];
-		$product_id = $query->row['product_id'];
+		$lender_id = $query->row['lender_id'];
+		// $product_id = $query->row['product_id'];
 
-		if ($this->hasInventory($borrower_id, $product_id, $subquantity)) {
+		if ($candelete) {
+		// if ($this->hasInventory($borrower_id, $product_id, $subquantity)) {
 
+			$this->db->query("DELETE FROM " . DB_PREFIX . "customer_transaction WHERE customer_id = '$borrower_id' AND customer_lending_id = '" . (int)$customer_lending_id . "'");
+			$this->db->query("UPDATE " . DB_PREFIX . "customer_transaction SET status = 0, customer_lending_id=0, status=-1 WHERE customer_id = '$lender_id' AND customer_lending_id = '" . (int)$customer_lending_id . "'");
 			$this->db->query("DELETE FROM " . DB_PREFIX . "customer_lending WHERE customer_lending_id = '" . (int)$customer_lending_id . "'");
-			$this->db->query("DELETE FROM " . DB_PREFIX . "customer_transaction WHERE customer_lending_id = '" . (int)$customer_lending_id . "'");
 
 			return true;		
 		} else {
@@ -675,10 +754,25 @@ class ModelSaleCustomer extends Model {
 	}
 
 	public function deleteCustomerHistory($customer_history_id) {
+
 		$this->db->query("DELETE FROM " . DB_PREFIX . "customer_history WHERE customer_history_id = '" . (int)$customer_history_id . "'");
 
 		return $this->db->countAffected();
 
+	}
+
+	public function editCustomerTransaction($customer_transaction_id, $data) {
+
+		$sql  = "UPDATE oc_customer_transaction SET date_modified = NOW()";
+
+		$sql .= (isset($data['status']) ? " , status = '" . $data['status'] . "'" : '');
+
+		$sql .= " WHERE customer_transaction_id = '" . (int)$customer_transaction_id . "' AND quantity < 0";
+
+		$this->db->query($sql);
+		
+
+		return $this->db->countAffected();
 	}
 
 	public function deleteCustomerTransaction($customer_transaction_id) {
@@ -698,7 +792,29 @@ class ModelSaleCustomer extends Model {
 		return $query->rows;
 	}
 
-	public function getTransactions($customer_id, $start = 0, $limit = 10) {
+
+
+
+	public function getTransactions($data, $start = 0, $limit = 10) {
+
+		$sql = "SELECT ct.* FROM oc_customer_transaction ct LEFT JOIN oc_customer c ON c.customer_id = ct.customer_id WHERE 1=1 ";
+	
+		if (isset($data['customer_id'])) {
+			$sql .= " AND ct.customer_id = '" . (int)$data['customer_id'] . "' ";
+		}
+
+		if (isset($data['filter_name'])) {
+			$sql .= " AND (c.firstname LIKE '%" . $this->db->escape($data['filter_name']) . "%' OR c.firstname LIKE '%" . $this->db->escape($data['filter_name']) . "%') ";
+		}
+
+		if (isset($data['filter_ssn'])) {
+			$sql .= " AND c.ssn = '" . $this->db->escape($data['filter_ssn']) . "' ";
+		}
+
+		if (isset($data['filter_unused'])) {
+			$sql .= " AND ct.status >= 0 ";
+		}
+
 		if ($start < 0) {
 			$start = 0;
 		}
@@ -707,13 +823,40 @@ class ModelSaleCustomer extends Model {
 			$limit = 10;
 		}	
 
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "customer_transaction WHERE customer_id = '" . (int)$customer_id . "' ORDER BY date_added DESC LIMIT " . (int)$start . "," . (int)$limit);
+		$sql .= " ORDER BY ct.date_added DESC, ct.customer_transaction_id LIMIT " . (int)$start . "," . (int)$limit; 
+
+		$query = $this->db->query($sql);
 
 		return $query->rows;
 	}
 
-	public function getTotalTransactions($customer_id) {
-		$query = $this->db->query("SELECT COUNT(*) AS total  FROM " . DB_PREFIX . "customer_transaction WHERE customer_id = '" . (int)$customer_id . "'");
+	public function getTotalTransactions($data) {
+
+		$sql = "SELECT COUNT(*) AS total FROM oc_customer_transaction ct LEFT JOIN oc_customer c ON c.customer_id = ct.customer_id WHERE 1=1 ";
+	
+		if (isset($data['customer_id'])) {
+			$sql .= " AND ct.customer_id = '" . (int)$data['customer_id'] . "' ";
+		}
+
+		if (isset($data['filter_name'])) {
+			$sql .= " AND (c.firstname LIKE '%" . $this->db->escape($data['filter_name']) . "%' OR c.firstname LIKE '%" . $this->db->escape($data['filter_name']) . "%') ";
+		}
+
+		if (isset($data['filter_ssn'])) {
+			$sql .= " AND c.ssn = '" . $this->db->escape($data['filter_ssn']) . "' ";
+		}
+
+		if (isset($data['filter_unused'])) {
+			$sql .= " AND ct.status >= 0 ";
+		}
+
+		// $sql .= " ORDER BY ct.date_added DESC, ct.customer_transaction_id LIMIT " . (int)$start . "," . (int)$limit; 
+
+		$query = $this->db->query($sql);
+
+		//return $query->rows;
+
+		//$query = $this->db->query("SELECT COUNT(*) AS total  FROM " . DB_PREFIX . "customer_transaction WHERE customer_id = '" . (int)$customer_id . "'");
 
 		return $query->row['total'];
 	}
