@@ -194,10 +194,10 @@ class ControllerCommonHome extends Controller {
 		$this->data['total_review'] = $this->model_catalog_review->getTotalReviews();
 		$this->data['total_review_approval'] = $this->model_catalog_review->getTotalReviewsAwaitingApproval();
 
-		$this->load->model('sale/affiliate');
+		// $this->load->model('sale/affiliate');
 
-		$this->data['total_affiliate'] = $this->model_sale_affiliate->getTotalAffiliates();
-		$this->data['total_affiliate_approval'] = $this->model_sale_affiliate->getTotalAffiliatesAwaitingApproval();
+		// $this->data['total_affiliate'] = $this->model_sale_affiliate->getTotalAffiliates();
+		// $this->data['total_affiliate_approval'] = $this->model_sale_affiliate->getTotalAffiliatesAwaitingApproval();
 
 		$this->data['orders'] = array(); 
 
