@@ -136,11 +136,14 @@ class ControllerSaleOrder extends Controller {
 
 		if (isset($this->request->post['selected']) && ($this->validateDelete())) {
 			foreach ($this->request->post['selected'] as $order_id) {
-				$this->model_sale_order->deleteOrder($order_id, $this->request->post);
-				// $this->openbay->deleteOrder($order_id);
+				if ($this->model_sale_order->deleteOrder($order_id, $this->request->post)) {
+					$this->session->data['success'] = $this->language->get('text_success');
+				} else {
+					$this->session->data['error'] = $this->language->get('text_error');
+				}
 			}
 
-			$this->session->data['success'] = $this->language->get('text_success');
+			
 
 			$url = '';
 
