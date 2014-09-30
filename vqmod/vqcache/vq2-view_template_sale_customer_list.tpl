@@ -52,7 +52,7 @@
         <?php } ?>
 
         <br>
-        <?php if ($filter_name!='' || $filter_ssn!='') { ?>
+        <?php if ($filter_name!='' || $filter_ssn!='' || isset($if_display)) { ?>
         <table class="list">
           <thead>
             <tr>

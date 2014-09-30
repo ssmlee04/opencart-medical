@@ -279,6 +279,7 @@ class ControllerSaleCustomer extends Controller {
 		$this->load->model('sale/customer');
 
 		$this->data['if_search'] = false;
+		$this->data['if_display'] = true;
 
 		unset($this->request->get['filter_name']);
 		unset($this->request->get['filter_ssn']);
