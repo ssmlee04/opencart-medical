@@ -76,7 +76,7 @@ class ControllerReportCustomerFeedback extends Controller {
 		$user_total = $this->model_report_user->getTotalUsers($data); 
 
 		$results = $this->model_report_user->getUsers($data);
-// $this->load->test($results);
+
 		$data = array(
 			'filter_date_start'	     => $filter_date_start, 
 			'filter_date_end'	     => $filter_date_end, 
@@ -129,7 +129,7 @@ class ControllerReportCustomerFeedback extends Controller {
 					$reminders[] = $reminder;
 				}
 			}
-// $this->load->test($rms);
+
 			$this->data['users'][] = array(
 				'user_id'       => $result['user_id'],
 				'name'       => $result['lastname'] . $result['firstname'],

@@ -12,7 +12,7 @@
       <td class="left"><?php echo $column_customer; ?></td>
       <!-- <td class="left"></td> -->
       <td class="left"><?php echo $column_product; ?></td>
-      <td class="left"><?php echo $column_quantity; ?></td>
+      <!-- <td class="left"><php echo $column_quantity; ?></td> -->
       <td class="left"><?php echo $column_unit_quantity; ?></td>
       <td class="left"><?php echo $column_unit; ?></td>
       <td class="left"></td>
@@ -34,7 +34,7 @@
       <td class="left"><?php echo $transaction['date_modified']; ?></td>
       <td class="left"><?php echo $transaction['fullname']; ?></td>
       <td class="left"><?php echo $transaction['product_name']; ?></td>
-      <td class="left"><?php echo $transaction['quantity']; ?></td>
+      <!-- <td class="left"><php echo $transaction['quantity']; ?></td> -->
       <td class="left"><?php echo $transaction['subquantity']; ?></td>
       <td class="left"><?php echo $transaction['unit']; ?></td>
       <td class="left">
@@ -79,7 +79,7 @@
     <?php } ?>
   </tbody>
 </table>
-<!-- <div class="pagination"><php echo $pagination; ?></div> -->
+<div class="pagination"><?php echo $pagination; ?></div>
 
 <?php if (isset($show_group) && $show_group) { ?>
 <?php echo $text_service_not_rendered; ?>
@@ -88,7 +88,7 @@
     <tr>
       <td class="left"><?php echo $column_product; ?></td>
       <td class="left"><?php echo $column_quantity; ?></td>
-      <td class="left"><?php echo $column_total_units; ?></td>
+      <td class="left"><?php echo $column_unit_quantity; ?></td>
       <td class="left"><?php echo $column_unit; ?></td>
     </tr>
   </thead>

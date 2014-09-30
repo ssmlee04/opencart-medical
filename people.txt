@@ -1,1 +1,1066 @@
-SELECT * FROM oc_user WHERE store_id = '1' AND username = 'admin' AND (password = SHA1(CONCAT(salt, SHA1(CONCAT(salt, SHA1('admin'))))) OR password = '21232f297a57a5a743894a0e4a801fc3') AND status = '1'
+SELECT * FROM oc_user WHERE store_id = '1' AND username = 'admin' AND (password = SHA1(CONCAT(salt, SHA1(CONCAT(salt, SHA1('admin'))))) OR password = '21232f297a57a5a743894a0e4a801fc3') AND status = '1'SELECT ch.*
+		, u.firstname as ufirstname
+		, u.lastname as ulastname
+		, u.store_id
+		, c.firstname as cfirstname
+		, c.lastname as clastname
+		, c.fullname as fullname
+		 FROM oc_customer_history ch LEFT JOIN oc_user u ON u.user_id = ch.user_id LEFT JOIN oc_customer c ON c.customer_id = ch.customer_id WHERE 1=1  ORDER BY ch.date_added DESC  LIMIT 0,10SELECT ch.*
+		, u.firstname as ufirstname
+		, u.lastname as ulastname
+		, u.store_id
+		, c.firstname as cfirstname
+		, c.lastname as clastname
+		, c.fullname as fullname
+		 FROM oc_customer_history ch LEFT JOIN oc_user u ON u.user_id = ch.user_id LEFT JOIN oc_customer c ON c.customer_id = ch.customer_id WHERE 1=1  ORDER BY ch.date_added DESC  LIMIT 0,10Array
+(
+    [filter_user_id] => 
+)
+Array
+(
+    [filter_user_id] => 1
+)
+Array
+(
+    [filter_user_id] => 
+    [filter_customer_id] => 9
+)
+Array
+(
+    [filter_user_id] => 
+    [filter_customer_id] => 9
+)
+Array
+(
+)
+Array
+(
+    [product_id] => 
+    [unitspend] => 
+    [show_group] => 1
+)
+Array
+(
+    [route] => sale/customer/transaction
+    [token] => 354644fb412f1bdb254f2b354dee34b5
+    [customer_id] => 9
+)
+Array
+(
+    [route] => sale/customer/transaction
+    [token] => 354644fb412f1bdb254f2b354dee34b5
+    [customer_id] => 9
+)
+Array
+(
+    [error_warning] => 您沒有權限更改客戶的設置
+)
+Array
+(
+    [success] => 
+)
+Array
+(
+    [customer_id] => 9
+)
+Array
+(
+    [customer_id] => 9
+)
+Array
+(
+    [0] => Array
+        (
+            [customer_transaction_id] => 210
+            [type] => 0
+            [ismain] => 1
+            [status] => 0
+            [customer_lending_id] => 0
+            [lender_id] => 0
+            [customer_id] => 9
+            [order_id] => 103
+            [product_id] => 79
+            [product_which] => 0
+            [product_total_which] => 0
+            [quantity] => 1
+            [subquantity] => 3
+            [unit_class_id] => 4
+            [amount] => 10000.00
+            [payment] => 0.00
+            [date_added] => 2014-09-30 16:49:30
+            [date_modified] => 2014-09-30 16:49:30
+            [comment] => 
+            [doctor_id] => 0
+            [outsource_id] => 0
+            [product_name] => 1磚石
+            [fullname] => aaaaaaaa
+        )
+
+    [1] => Array
+        (
+            [customer_transaction_id] => 211
+            [type] => 0
+            [ismain] => 0
+            [status] => -1
+            [customer_lending_id] => 0
+            [lender_id] => 0
+            [customer_id] => 9
+            [order_id] => 103
+            [product_id] => 79
+            [product_which] => 1
+            [product_total_which] => 3
+            [quantity] => -0.333333
+            [subquantity] => -1
+            [unit_class_id] => 4
+            [amount] => 0.00
+            [payment] => 0.00
+            [date_added] => 2014-09-30 16:49:30
+            [date_modified] => 2014-09-30 16:49:30
+            [comment] => 
+            [doctor_id] => 0
+            [outsource_id] => 0
+            [product_name] => 1磚石
+            [fullname] => aaaaaaaa
+        )
+
+    [2] => Array
+        (
+            [customer_transaction_id] => 212
+            [type] => 0
+            [ismain] => 0
+            [status] => -1
+            [customer_lending_id] => 0
+            [lender_id] => 0
+            [customer_id] => 9
+            [order_id] => 103
+            [product_id] => 79
+            [product_which] => 2
+            [product_total_which] => 3
+            [quantity] => -0.333333
+            [subquantity] => -1
+            [unit_class_id] => 4
+            [amount] => 0.00
+            [payment] => 0.00
+            [date_added] => 2014-09-30 16:49:30
+            [date_modified] => 2014-09-30 16:49:30
+            [comment] => 
+            [doctor_id] => 0
+            [outsource_id] => 0
+            [product_name] => 1磚石
+            [fullname] => aaaaaaaa
+        )
+
+    [3] => Array
+        (
+            [customer_transaction_id] => 213
+            [type] => 0
+            [ismain] => 0
+            [status] => -1
+            [customer_lending_id] => 0
+            [lender_id] => 0
+            [customer_id] => 9
+            [order_id] => 103
+            [product_id] => 79
+            [product_which] => 3
+            [product_total_which] => 3
+            [quantity] => -0.333333
+            [subquantity] => -1
+            [unit_class_id] => 4
+            [amount] => 0.00
+            [payment] => 0.00
+            [date_added] => 2014-09-30 16:49:30
+            [date_modified] => 2014-09-30 16:49:30
+            [comment] => 
+            [doctor_id] => 0
+            [outsource_id] => 0
+            [product_name] => 1磚石
+            [fullname] => aaaaaaaa
+        )
+
+    [4] => Array
+        (
+            [customer_transaction_id] => 196
+            [type] => 0
+            [ismain] => 1
+            [status] => 0
+            [customer_lending_id] => 0
+            [lender_id] => 0
+            [customer_id] => 9
+            [order_id] => 101
+            [product_id] => 79
+            [product_which] => 0
+            [product_total_which] => 0
+            [quantity] => 1
+            [subquantity] => 3
+            [unit_class_id] => 4
+            [amount] => 10000.00
+            [payment] => 0.00
+            [date_added] => 2014-09-30 14:20:29
+            [date_modified] => 2014-09-30 14:20:29
+            [comment] => 
+            [doctor_id] => 0
+            [outsource_id] => 0
+            [product_name] => 1磚石
+            [fullname] => aaaaaaaa
+        )
+
+    [5] => Array
+        (
+            [customer_transaction_id] => 197
+            [type] => 0
+            [ismain] => 0
+            [status] => -2
+            [customer_lending_id] => 0
+            [lender_id] => 0
+            [customer_id] => 9
+            [order_id] => 101
+            [product_id] => 79
+            [product_which] => 1
+            [product_total_which] => 3
+            [quantity] => -0.333333
+            [subquantity] => -1
+            [unit_class_id] => 4
+            [amount] => 0.00
+            [payment] => 0.00
+            [date_added] => 2014-09-30 14:20:29
+            [date_modified] => 2014-09-30 14:52:03
+            [comment] => 
+            [doctor_id] => 0
+            [outsource_id] => 0
+            [product_name] => 1磚石
+            [fullname] => aaaaaaaa
+        )
+
+    [6] => Array
+        (
+            [customer_transaction_id] => 198
+            [type] => 0
+            [ismain] => 0
+            [status] => -1
+            [customer_lending_id] => 0
+            [lender_id] => 0
+            [customer_id] => 9
+            [order_id] => 101
+            [product_id] => 79
+            [product_which] => 2
+            [product_total_which] => 3
+            [quantity] => -0.333333
+            [subquantity] => -1
+            [unit_class_id] => 4
+            [amount] => 0.00
+            [payment] => 0.00
+            [date_added] => 2014-09-30 14:20:29
+            [date_modified] => 2014-09-30 14:20:29
+            [comment] => 
+            [doctor_id] => 0
+            [outsource_id] => 0
+            [product_name] => 1磚石
+            [fullname] => aaaaaaaa
+        )
+
+    [7] => Array
+        (
+            [customer_transaction_id] => 199
+            [type] => 0
+            [ismain] => 0
+            [status] => -1
+            [customer_lending_id] => 0
+            [lender_id] => 0
+            [customer_id] => 9
+            [order_id] => 101
+            [product_id] => 79
+            [product_which] => 3
+            [product_total_which] => 3
+            [quantity] => -0.333333
+            [subquantity] => -1
+            [unit_class_id] => 4
+            [amount] => 0.00
+            [payment] => 0.00
+            [date_added] => 2014-09-30 14:20:29
+            [date_modified] => 2014-09-30 14:20:29
+            [comment] => 
+            [doctor_id] => 0
+            [outsource_id] => 0
+            [product_name] => 1磚石
+            [fullname] => aaaaaaaa
+        )
+
+    [8] => Array
+        (
+            [customer_transaction_id] => 200
+            [type] => 0
+            [ismain] => 1
+            [status] => 0
+            [customer_lending_id] => 0
+            [lender_id] => 0
+            [customer_id] => 9
+            [order_id] => 101
+            [product_id] => 66
+            [product_which] => 0
+            [product_total_which] => 0
+            [quantity] => 3
+            [subquantity] => 3
+            [unit_class_id] => 3
+            [amount] => 6000.00
+            [payment] => 0.00
+            [date_added] => 2014-09-30 14:20:29
+            [date_modified] => 2014-09-30 14:20:29
+            [comment] => 
+            [doctor_id] => 0
+            [outsource_id] => 0
+            [product_name] => 1膠囊
+            [fullname] => aaaaaaaa
+        )
+
+)
+Array
+(
+    [0] => Array
+        (
+            [customer_transaction_id] => 210
+            [type] => 0
+            [ismain] => 1
+            [status] => 0
+            [customer_lending_id] => 0
+            [lender_id] => 0
+            [customer_id] => 9
+            [order_id] => 103
+            [product_id] => 79
+            [product_which] => 0
+            [product_total_which] => 0
+            [quantity] => 1
+            [subquantity] => 3
+            [unit_class_id] => 4
+            [amount] => 10000.00
+            [payment] => 0.00
+            [date_added] => 2014-09-30 16:49:30
+            [date_modified] => 2014-09-30 16:49:30
+            [comment] => 
+            [doctor_id] => 0
+            [outsource_id] => 0
+            [product_name] => 1磚石
+            [fullname] => aaaaaaaa
+        )
+
+    [1] => Array
+        (
+            [customer_transaction_id] => 211
+            [type] => 0
+            [ismain] => 0
+            [status] => -1
+            [customer_lending_id] => 0
+            [lender_id] => 0
+            [customer_id] => 9
+            [order_id] => 103
+            [product_id] => 79
+            [product_which] => 1
+            [product_total_which] => 3
+            [quantity] => -0.333333
+            [subquantity] => -1
+            [unit_class_id] => 4
+            [amount] => 0.00
+            [payment] => 0.00
+            [date_added] => 2014-09-30 16:49:30
+            [date_modified] => 2014-09-30 16:49:30
+            [comment] => 
+            [doctor_id] => 0
+            [outsource_id] => 0
+            [product_name] => 1磚石
+            [fullname] => aaaaaaaa
+        )
+
+    [2] => Array
+        (
+            [customer_transaction_id] => 212
+            [type] => 0
+            [ismain] => 0
+            [status] => -1
+            [customer_lending_id] => 0
+            [lender_id] => 0
+            [customer_id] => 9
+            [order_id] => 103
+            [product_id] => 79
+            [product_which] => 2
+            [product_total_which] => 3
+            [quantity] => -0.333333
+            [subquantity] => -1
+            [unit_class_id] => 4
+            [amount] => 0.00
+            [payment] => 0.00
+            [date_added] => 2014-09-30 16:49:30
+            [date_modified] => 2014-09-30 16:49:30
+            [comment] => 
+            [doctor_id] => 0
+            [outsource_id] => 0
+            [product_name] => 1磚石
+            [fullname] => aaaaaaaa
+        )
+
+    [3] => Array
+        (
+            [customer_transaction_id] => 213
+            [type] => 0
+            [ismain] => 0
+            [status] => -1
+            [customer_lending_id] => 0
+            [lender_id] => 0
+            [customer_id] => 9
+            [order_id] => 103
+            [product_id] => 79
+            [product_which] => 3
+            [product_total_which] => 3
+            [quantity] => -0.333333
+            [subquantity] => -1
+            [unit_class_id] => 4
+            [amount] => 0.00
+            [payment] => 0.00
+            [date_added] => 2014-09-30 16:49:30
+            [date_modified] => 2014-09-30 16:49:30
+            [comment] => 
+            [doctor_id] => 0
+            [outsource_id] => 0
+            [product_name] => 1磚石
+            [fullname] => aaaaaaaa
+        )
+
+    [4] => Array
+        (
+            [customer_transaction_id] => 196
+            [type] => 0
+            [ismain] => 1
+            [status] => 0
+            [customer_lending_id] => 0
+            [lender_id] => 0
+            [customer_id] => 9
+            [order_id] => 101
+            [product_id] => 79
+            [product_which] => 0
+            [product_total_which] => 0
+            [quantity] => 1
+            [subquantity] => 3
+            [unit_class_id] => 4
+            [amount] => 10000.00
+            [payment] => 0.00
+            [date_added] => 2014-09-30 14:20:29
+            [date_modified] => 2014-09-30 14:20:29
+            [comment] => 
+            [doctor_id] => 0
+            [outsource_id] => 0
+            [product_name] => 1磚石
+            [fullname] => aaaaaaaa
+        )
+
+    [5] => Array
+        (
+            [customer_transaction_id] => 197
+            [type] => 0
+            [ismain] => 0
+            [status] => -2
+            [customer_lending_id] => 0
+            [lender_id] => 0
+            [customer_id] => 9
+            [order_id] => 101
+            [product_id] => 79
+            [product_which] => 1
+            [product_total_which] => 3
+            [quantity] => -0.333333
+            [subquantity] => -1
+            [unit_class_id] => 4
+            [amount] => 0.00
+            [payment] => 0.00
+            [date_added] => 2014-09-30 14:20:29
+            [date_modified] => 2014-09-30 14:52:03
+            [comment] => 
+            [doctor_id] => 0
+            [outsource_id] => 0
+            [product_name] => 1磚石
+            [fullname] => aaaaaaaa
+        )
+
+    [6] => Array
+        (
+            [customer_transaction_id] => 198
+            [type] => 0
+            [ismain] => 0
+            [status] => -1
+            [customer_lending_id] => 0
+            [lender_id] => 0
+            [customer_id] => 9
+            [order_id] => 101
+            [product_id] => 79
+            [product_which] => 2
+            [product_total_which] => 3
+            [quantity] => -0.333333
+            [subquantity] => -1
+            [unit_class_id] => 4
+            [amount] => 0.00
+            [payment] => 0.00
+            [date_added] => 2014-09-30 14:20:29
+            [date_modified] => 2014-09-30 14:20:29
+            [comment] => 
+            [doctor_id] => 0
+            [outsource_id] => 0
+            [product_name] => 1磚石
+            [fullname] => aaaaaaaa
+        )
+
+    [7] => Array
+        (
+            [customer_transaction_id] => 199
+            [type] => 0
+            [ismain] => 0
+            [status] => -1
+            [customer_lending_id] => 0
+            [lender_id] => 0
+            [customer_id] => 9
+            [order_id] => 101
+            [product_id] => 79
+            [product_which] => 3
+            [product_total_which] => 3
+            [quantity] => -0.333333
+            [subquantity] => -1
+            [unit_class_id] => 4
+            [amount] => 0.00
+            [payment] => 0.00
+            [date_added] => 2014-09-30 14:20:29
+            [date_modified] => 2014-09-30 14:20:29
+            [comment] => 
+            [doctor_id] => 0
+            [outsource_id] => 0
+            [product_name] => 1磚石
+            [fullname] => aaaaaaaa
+        )
+
+    [8] => Array
+        (
+            [customer_transaction_id] => 200
+            [type] => 0
+            [ismain] => 1
+            [status] => 0
+            [customer_lending_id] => 0
+            [lender_id] => 0
+            [customer_id] => 9
+            [order_id] => 101
+            [product_id] => 66
+            [product_which] => 0
+            [product_total_which] => 0
+            [quantity] => 3
+            [subquantity] => 3
+            [unit_class_id] => 3
+            [amount] => 6000.00
+            [payment] => 0.00
+            [date_added] => 2014-09-30 14:20:29
+            [date_modified] => 2014-09-30 14:20:29
+            [comment] => 
+            [doctor_id] => 0
+            [outsource_id] => 0
+            [product_name] => 1膠囊
+            [fullname] => aaaaaaaa
+        )
+
+)
+Array
+(
+    [0] => Array
+        (
+            [customer_transaction_id] => 210
+            [type] => 0
+            [ismain] => 1
+            [status] => 0
+            [customer_lending_id] => 0
+            [lender_id] => 0
+            [customer_id] => 9
+            [order_id] => 103
+            [product_id] => 79
+            [product_which] => 0
+            [product_total_which] => 0
+            [quantity] => 1
+            [subquantity] => 3
+            [unit_class_id] => 4
+            [amount] => 10000.00
+            [payment] => 0.00
+            [date_added] => 2014-09-30 16:49:30
+            [date_modified] => 2014-09-30 16:49:30
+            [comment] => 
+            [doctor_id] => 0
+            [outsource_id] => 0
+            [product_name] => 1磚石
+            [fullname] => aaaaaaaa
+        )
+
+    [1] => Array
+        (
+            [customer_transaction_id] => 211
+            [type] => 0
+            [ismain] => 0
+            [status] => -1
+            [customer_lending_id] => 0
+            [lender_id] => 0
+            [customer_id] => 9
+            [order_id] => 103
+            [product_id] => 79
+            [product_which] => 1
+            [product_total_which] => 3
+            [quantity] => -0.333333
+            [subquantity] => -1
+            [unit_class_id] => 4
+            [amount] => 0.00
+            [payment] => 0.00
+            [date_added] => 2014-09-30 16:49:30
+            [date_modified] => 2014-09-30 16:49:30
+            [comment] => 
+            [doctor_id] => 0
+            [outsource_id] => 0
+            [product_name] => 1磚石
+            [fullname] => aaaaaaaa
+        )
+
+    [2] => Array
+        (
+            [customer_transaction_id] => 212
+            [type] => 0
+            [ismain] => 0
+            [status] => -1
+            [customer_lending_id] => 0
+            [lender_id] => 0
+            [customer_id] => 9
+            [order_id] => 103
+            [product_id] => 79
+            [product_which] => 2
+            [product_total_which] => 3
+            [quantity] => -0.333333
+            [subquantity] => -1
+            [unit_class_id] => 4
+            [amount] => 0.00
+            [payment] => 0.00
+            [date_added] => 2014-09-30 16:49:30
+            [date_modified] => 2014-09-30 16:49:30
+            [comment] => 
+            [doctor_id] => 0
+            [outsource_id] => 0
+            [product_name] => 1磚石
+            [fullname] => aaaaaaaa
+        )
+
+    [3] => Array
+        (
+            [customer_transaction_id] => 213
+            [type] => 0
+            [ismain] => 0
+            [status] => -1
+            [customer_lending_id] => 0
+            [lender_id] => 0
+            [customer_id] => 9
+            [order_id] => 103
+            [product_id] => 79
+            [product_which] => 3
+            [product_total_which] => 3
+            [quantity] => -0.333333
+            [subquantity] => -1
+            [unit_class_id] => 4
+            [amount] => 0.00
+            [payment] => 0.00
+            [date_added] => 2014-09-30 16:49:30
+            [date_modified] => 2014-09-30 16:49:30
+            [comment] => 
+            [doctor_id] => 0
+            [outsource_id] => 0
+            [product_name] => 1磚石
+            [fullname] => aaaaaaaa
+        )
+
+    [4] => Array
+        (
+            [customer_transaction_id] => 196
+            [type] => 0
+            [ismain] => 1
+            [status] => 0
+            [customer_lending_id] => 0
+            [lender_id] => 0
+            [customer_id] => 9
+            [order_id] => 101
+            [product_id] => 79
+            [product_which] => 0
+            [product_total_which] => 0
+            [quantity] => 1
+            [subquantity] => 3
+            [unit_class_id] => 4
+            [amount] => 10000.00
+            [payment] => 0.00
+            [date_added] => 2014-09-30 14:20:29
+            [date_modified] => 2014-09-30 14:20:29
+            [comment] => 
+            [doctor_id] => 0
+            [outsource_id] => 0
+            [product_name] => 1磚石
+            [fullname] => aaaaaaaa
+        )
+
+    [5] => Array
+        (
+            [customer_transaction_id] => 197
+            [type] => 0
+            [ismain] => 0
+            [status] => -2
+            [customer_lending_id] => 0
+            [lender_id] => 0
+            [customer_id] => 9
+            [order_id] => 101
+            [product_id] => 79
+            [product_which] => 1
+            [product_total_which] => 3
+            [quantity] => -0.333333
+            [subquantity] => -1
+            [unit_class_id] => 4
+            [amount] => 0.00
+            [payment] => 0.00
+            [date_added] => 2014-09-30 14:20:29
+            [date_modified] => 2014-09-30 14:52:03
+            [comment] => 
+            [doctor_id] => 0
+            [outsource_id] => 0
+            [product_name] => 1磚石
+            [fullname] => aaaaaaaa
+        )
+
+    [6] => Array
+        (
+            [customer_transaction_id] => 198
+            [type] => 0
+            [ismain] => 0
+            [status] => -1
+            [customer_lending_id] => 0
+            [lender_id] => 0
+            [customer_id] => 9
+            [order_id] => 101
+            [product_id] => 79
+            [product_which] => 2
+            [product_total_which] => 3
+            [quantity] => -0.333333
+            [subquantity] => -1
+            [unit_class_id] => 4
+            [amount] => 0.00
+            [payment] => 0.00
+            [date_added] => 2014-09-30 14:20:29
+            [date_modified] => 2014-09-30 14:20:29
+            [comment] => 
+            [doctor_id] => 0
+            [outsource_id] => 0
+            [product_name] => 1磚石
+            [fullname] => aaaaaaaa
+        )
+
+    [7] => Array
+        (
+            [customer_transaction_id] => 199
+            [type] => 0
+            [ismain] => 0
+            [status] => -1
+            [customer_lending_id] => 0
+            [lender_id] => 0
+            [customer_id] => 9
+            [order_id] => 101
+            [product_id] => 79
+            [product_which] => 3
+            [product_total_which] => 3
+            [quantity] => -0.333333
+            [subquantity] => -1
+            [unit_class_id] => 4
+            [amount] => 0.00
+            [payment] => 0.00
+            [date_added] => 2014-09-30 14:20:29
+            [date_modified] => 2014-09-30 14:20:29
+            [comment] => 
+            [doctor_id] => 0
+            [outsource_id] => 0
+            [product_name] => 1磚石
+            [fullname] => aaaaaaaa
+        )
+
+    [8] => Array
+        (
+            [customer_transaction_id] => 200
+            [type] => 0
+            [ismain] => 1
+            [status] => 0
+            [customer_lending_id] => 0
+            [lender_id] => 0
+            [customer_id] => 9
+            [order_id] => 101
+            [product_id] => 66
+            [product_which] => 0
+            [product_total_which] => 0
+            [quantity] => 3
+            [subquantity] => 3
+            [unit_class_id] => 3
+            [amount] => 6000.00
+            [payment] => 0.00
+            [date_added] => 2014-09-30 14:20:29
+            [date_modified] => 2014-09-30 14:20:29
+            [comment] => 
+            [doctor_id] => 0
+            [outsource_id] => 0
+            [product_name] => 1膠囊
+            [fullname] => aaaaaaaa
+        )
+
+)
+Array
+(
+    [0] => Array
+        (
+            [customer_transaction_id] => 210
+            [type] => 0
+            [ismain] => 1
+            [status] => 0
+            [customer_lending_id] => 0
+            [lender_id] => 0
+            [customer_id] => 9
+            [order_id] => 103
+            [product_id] => 79
+            [product_which] => 0
+            [product_total_which] => 0
+            [quantity] => 1
+            [subquantity] => 3
+            [unit_class_id] => 4
+            [amount] => 10000.00
+            [payment] => 0.00
+            [date_added] => 2014-09-30 16:49:30
+            [date_modified] => 2014-09-30 16:49:30
+            [comment] => 
+            [doctor_id] => 0
+            [outsource_id] => 0
+            [product_name] => 1磚石
+            [fullname] => aaaaaaaa
+        )
+
+    [1] => Array
+        (
+            [customer_transaction_id] => 211
+            [type] => 0
+            [ismain] => 0
+            [status] => -1
+            [customer_lending_id] => 0
+            [lender_id] => 0
+            [customer_id] => 9
+            [order_id] => 103
+            [product_id] => 79
+            [product_which] => 1
+            [product_total_which] => 3
+            [quantity] => -0.333333
+            [subquantity] => -1
+            [unit_class_id] => 4
+            [amount] => 0.00
+            [payment] => 0.00
+            [date_added] => 2014-09-30 16:49:30
+            [date_modified] => 2014-09-30 16:49:30
+            [comment] => 
+            [doctor_id] => 0
+            [outsource_id] => 0
+            [product_name] => 1磚石
+            [fullname] => aaaaaaaa
+        )
+
+    [2] => Array
+        (
+            [customer_transaction_id] => 212
+            [type] => 0
+            [ismain] => 0
+            [status] => -1
+            [customer_lending_id] => 0
+            [lender_id] => 0
+            [customer_id] => 9
+            [order_id] => 103
+            [product_id] => 79
+            [product_which] => 2
+            [product_total_which] => 3
+            [quantity] => -0.333333
+            [subquantity] => -1
+            [unit_class_id] => 4
+            [amount] => 0.00
+            [payment] => 0.00
+            [date_added] => 2014-09-30 16:49:30
+            [date_modified] => 2014-09-30 16:49:30
+            [comment] => 
+            [doctor_id] => 0
+            [outsource_id] => 0
+            [product_name] => 1磚石
+            [fullname] => aaaaaaaa
+        )
+
+    [3] => Array
+        (
+            [customer_transaction_id] => 213
+            [type] => 0
+            [ismain] => 0
+            [status] => -1
+            [customer_lending_id] => 0
+            [lender_id] => 0
+            [customer_id] => 9
+            [order_id] => 103
+            [product_id] => 79
+            [product_which] => 3
+            [product_total_which] => 3
+            [quantity] => -0.333333
+            [subquantity] => -1
+            [unit_class_id] => 4
+            [amount] => 0.00
+            [payment] => 0.00
+            [date_added] => 2014-09-30 16:49:30
+            [date_modified] => 2014-09-30 16:49:30
+            [comment] => 
+            [doctor_id] => 0
+            [outsource_id] => 0
+            [product_name] => 1磚石
+            [fullname] => aaaaaaaa
+        )
+
+    [4] => Array
+        (
+            [customer_transaction_id] => 196
+            [type] => 0
+            [ismain] => 1
+            [status] => 0
+            [customer_lending_id] => 0
+            [lender_id] => 0
+            [customer_id] => 9
+            [order_id] => 101
+            [product_id] => 79
+            [product_which] => 0
+            [product_total_which] => 0
+            [quantity] => 1
+            [subquantity] => 3
+            [unit_class_id] => 4
+            [amount] => 10000.00
+            [payment] => 0.00
+            [date_added] => 2014-09-30 14:20:29
+            [date_modified] => 2014-09-30 14:20:29
+            [comment] => 
+            [doctor_id] => 0
+            [outsource_id] => 0
+            [product_name] => 1磚石
+            [fullname] => aaaaaaaa
+        )
+
+    [5] => Array
+        (
+            [customer_transaction_id] => 197
+            [type] => 0
+            [ismain] => 0
+            [status] => -2
+            [customer_lending_id] => 0
+            [lender_id] => 0
+            [customer_id] => 9
+            [order_id] => 101
+            [product_id] => 79
+            [product_which] => 1
+            [product_total_which] => 3
+            [quantity] => -0.333333
+            [subquantity] => -1
+            [unit_class_id] => 4
+            [amount] => 0.00
+            [payment] => 0.00
+            [date_added] => 2014-09-30 14:20:29
+            [date_modified] => 2014-09-30 14:52:03
+            [comment] => 
+            [doctor_id] => 0
+            [outsource_id] => 0
+            [product_name] => 1磚石
+            [fullname] => aaaaaaaa
+        )
+
+    [6] => Array
+        (
+            [customer_transaction_id] => 198
+            [type] => 0
+            [ismain] => 0
+            [status] => -1
+            [customer_lending_id] => 0
+            [lender_id] => 0
+            [customer_id] => 9
+            [order_id] => 101
+            [product_id] => 79
+            [product_which] => 2
+            [product_total_which] => 3
+            [quantity] => -0.333333
+            [subquantity] => -1
+            [unit_class_id] => 4
+            [amount] => 0.00
+            [payment] => 0.00
+            [date_added] => 2014-09-30 14:20:29
+            [date_modified] => 2014-09-30 14:20:29
+            [comment] => 
+            [doctor_id] => 0
+            [outsource_id] => 0
+            [product_name] => 1磚石
+            [fullname] => aaaaaaaa
+        )
+
+    [7] => Array
+        (
+            [customer_transaction_id] => 199
+            [type] => 0
+            [ismain] => 0
+            [status] => -1
+            [customer_lending_id] => 0
+            [lender_id] => 0
+            [customer_id] => 9
+            [order_id] => 101
+            [product_id] => 79
+            [product_which] => 3
+            [product_total_which] => 3
+            [quantity] => -0.333333
+            [subquantity] => -1
+            [unit_class_id] => 4
+            [amount] => 0.00
+            [payment] => 0.00
+            [date_added] => 2014-09-30 14:20:29
+            [date_modified] => 2014-09-30 14:20:29
+            [comment] => 
+            [doctor_id] => 0
+            [outsource_id] => 0
+            [product_name] => 1磚石
+            [fullname] => aaaaaaaa
+        )
+
+    [8] => Array
+        (
+            [customer_transaction_id] => 200
+            [type] => 0
+            [ismain] => 1
+            [status] => 0
+            [customer_lending_id] => 0
+            [lender_id] => 0
+            [customer_id] => 9
+            [order_id] => 101
+            [product_id] => 66
+            [product_which] => 0
+            [product_total_which] => 0
+            [quantity] => 3
+            [subquantity] => 3
+            [unit_class_id] => 3
+            [amount] => 6000.00
+            [payment] => 0.00
+            [date_added] => 2014-09-30 14:20:29
+            [date_modified] => 2014-09-30 14:20:29
+            [comment] => 
+            [doctor_id] => 0
+            [outsource_id] => 0
+            [product_name] => 1膠囊
+            [fullname] => aaaaaaaa
+        )
+
+)
+Array
+(
+)
+Array
+(
+)
+Array
+(
+)
+Array
+(
+)
+SELECT ct.*, pd.name as product_name, c.fullname FROM oc_customer_transaction ct LEFT JOIN oc_customer c ON c.customer_id = ct.customer_id LEFT JOIN oc_product p ON p.product_id = ct.product_id LEFT JOIN oc_product_description pd ON pd.product_id = p.product_id  WHERE pd.language_id = '2'  AND ct.customer_id = '9'  ORDER BY ct.date_added DESC, ct.customer_transaction_id LIMIT 0,10SELECT ct.*, pd.name as product_name, c.fullname FROM oc_customer_transaction ct LEFT JOIN oc_customer c ON c.customer_id = ct.customer_id LEFT JOIN oc_product p ON p.product_id = ct.product_id LEFT JOIN oc_product_description pd ON pd.product_id = p.product_id  WHERE pd.language_id = '2'  AND ct.customer_id = '9'  AND ct.product_type = '2'  ORDER BY ct.date_added DESC, ct.customer_transaction_id LIMIT 0,999999SELECT ct.*, pd.name as product_name, c.fullname FROM oc_customer_transaction ct LEFT JOIN oc_customer c ON c.customer_id = ct.customer_id LEFT JOIN oc_product p ON p.product_id = ct.product_id LEFT JOIN oc_product_description pd ON pd.product_id = p.product_id  WHERE pd.language_id = '2'  AND ct.customer_id = '9'  ORDER BY ct.date_added DESC, ct.customer_transaction_id LIMIT 0,10SELECT ct.*, pd.name as product_name, c.fullname FROM oc_customer_transaction ct LEFT JOIN oc_customer c ON c.customer_id = ct.customer_id LEFT JOIN oc_product p ON p.product_id = ct.product_id LEFT JOIN oc_product_description pd ON pd.product_id = p.product_id  WHERE pd.language_id = '2'  AND ct.customer_id = '9'  AND ct.product_type = '2'  ORDER BY ct.date_added DESC, ct.customer_transaction_id LIMIT 0,999999

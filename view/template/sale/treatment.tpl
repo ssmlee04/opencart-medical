@@ -83,12 +83,11 @@ $('#button-filter').bind('click', function() {
   
   // if (customer_name_sel == customer_name && product_name_sel==product_name)
 	$.ajax({
-		url: 'index.php?route=sale/customer/transaction&token=<?php echo $token; ?>',
+		url: 'index.php?route=sale/customer/transaction&token=<?php echo $token; ?>&show_group=0',
 		type: 'post',
 		dataType: 'html',
 		data: 'product_id=' + encodeURIComponent($('#tab-transaction input[name=\'product_id\']').val()) 
     // + '&customer_id=' + encodeURIComponent($('#tab-transaction input[name=\'customer_id\']').val()) 
-    + '&show_group=0' 
     + '&unitspend=0' 
     + '&filter_customer_name=' + customer_name.toString()
     + '&filter_product_name=' + product_name.toString(), 

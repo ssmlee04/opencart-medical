@@ -1316,28 +1316,7 @@ class ControllerCatalogPurchase extends Controller {
 			}
 
 			$this->load->model('sale/customer');
-
-			$this->data['credit_total'] = $this->model_sale_customer->getTotalTransactionsBypurchaseId($this->request->get['purchase_id']);
-
-			$this->data['reward'] = $purchase_info['reward'];
-
-			$this->data['reward_total'] = $this->model_sale_customer->getTotalCustomerRewardsBypurchaseId($this->request->get['purchase_id']);
-
-			$this->data['affiliate_firstname'] = $purchase_info['affiliate_firstname'];
-			$this->data['affiliate_lastname'] = $purchase_info['affiliate_lastname'];
-
-			if ($purchase_info['affiliate_id']) {
-				$this->data['affiliate'] = $this->url->link('sale/affiliate/update', 'token=' . $this->session->data['token'] . '&affiliate_id=' . $purchase_info['affiliate_id'], 'SSL');
-			} else {
-				$this->data['affiliate'] = '';
-			}
-
-			$this->data['commission'] = $this->currency->format($purchase_info['commission'], $purchase_info['currency_code'], $purchase_info['currency_value']);
-
-			$this->load->model('sale/affiliate');
-
-			$this->data['commission_total'] = $this->model_sale_affiliate->getTotalTransactionsBypurchaseId($this->request->get['purchase_id']);
-
+			
 			$this->load->model('localisation/purchase_status');
 
 			$purchase_status_info = $this->model_localisation_purchase_status->getPurchasestatus($purchase_info['purchase_status_id']);

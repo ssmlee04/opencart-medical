@@ -71,7 +71,9 @@ class ModelSaleOrder extends Model {
 
 				$unit_class_id = $q->row['unit_class_id'];
 
-				$this->db->query("INSERT INTO " . DB_PREFIX . "order_product SET order_product_id = '" . (int)$order_product['order_product_id'] . "', order_id = '" . (int)$order_id . "', product_id = '" . (int)$order_product['product_id'] . "', name = '" . $this->db->escape($order_product['name']) . "', model = '" . $this->db->escape($order_product['model']) . "', quantity = '" . (int)$order_product['quantity'] . "', unit_class_id = '" . (int)$unit_class_id . "', subquantity = '" . (int)$subquantity . "', price = '" . (float)$order_product['price'] . "', ref_price = '" . (float)$order_product['ref_price'] . "', total = '" . (float)$order_product['total'] . "', tax = '" . (float)$order_product['tax'] . "', reward = '" . (int)$order_product['reward'] . "'");
+				$this->db->query("INSERT INTO " . DB_PREFIX . "order_product SET order_product_id = '" . (int)$order_product['order_product_id'] . "', order_id = '" . (int)$order_id . "', product_id = '" . (int)$order_product['product_id'] . "', name = '" . $this->db->escape($order_product['name']) . "', model = '" . $this->db->escape($order_product['model']) . "', quantity = '" . (int)$order_product['quantity'] . "', unit_class_id = '" . (int)$unit_class_id . "', subquantity = '" . (int)$subquantity . "', price = '" . (float)$order_product['price'] . "', ref_price = '" . (float)$order_product['ref_price'] . "', total = '" . (float)$order_product['total'] . "'");
+					// , tax = '" . (float)$order_product['tax'] . "'
+					// , reward = '" . (int)$order_product['reward'] . "'");
 
 				$order_product_id = $this->db->getLastId();
 

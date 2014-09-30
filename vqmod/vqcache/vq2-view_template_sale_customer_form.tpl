@@ -525,10 +525,10 @@ $('#transaction').load('index.php?route=sale/customer/transaction&token=<?php ec
 $('#button-transaction').bind('click', function() {
 
 	$.ajax({
-		url: 'index.php?route=sale/customer/transaction&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>',
+		url: 'index.php?route=sale/customer/transaction&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>&show_group=1',
 		type: 'post',
 		dataType: 'html',
-		data: 'product_id=' + encodeURIComponent($('#tab-transaction input[name=\'product_id\']').val()) + '&unitspend=' + encodeURIComponent($('#tab-transaction input[name=\'unitspend\']').val())+'&show_group=1',
+		data: 'product_id=' + encodeURIComponent($('#tab-transaction input[name=\'product_id\']').val()) + '&unitspend=' + encodeURIComponent($('#tab-transaction input[name=\'unitspend\']').val()),
 		beforeSend: function() {
 			$('.success, .warning').remove();
 			$('#button-transaction').attr('disabled', true);

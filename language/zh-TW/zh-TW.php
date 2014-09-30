@@ -107,7 +107,7 @@ $_['tab_product']             = '商品';
 // $_['tab_shipping']            = '配送細節(Shipping Details)';
 $_['tab_total']               = '總計';
 $_['tab_history']               = '歷史記錄';
-$_['tab_transaction']         = '交易記錄';
+$_['tab_transaction']         = '療程記錄';
 $_['tab_voucher']             = '購物禮券';
 $_['tab_voucher_history']     = '購物禮券細節';
 

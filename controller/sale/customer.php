@@ -1350,8 +1350,8 @@ class ControllerSaleCustomer extends Controller {
 
 		$reminder = (isset($this->request->post['reminder']) ? $this->request->post['reminder'] : null); 
 		$reminder_date = (isset($this->request->post['reminder_date']) ? $this->request->post['reminder_date'] : null); 
-
-		$user_id = $this->user->getId();
+		$filter_user_id = (isset($this->request->post['filter_user_id']) ? $this->request->post['filter_user_id'] : null); 
+		$filter_customer_id = (isset($this->request->get['customer_id']) ? $this->request->get['customer_id'] : null);  
 
 		if (isset($this->request->post['comment']) && utf8_strlen($this->request->post['comment']) == 0) {
 			$this->data['error_warning'] = '';
@@ -1362,9 +1362,14 @@ class ControllerSaleCustomer extends Controller {
 		} else if (($this->request->server['REQUEST_METHOD'] == 'POST') && !$this->user->hasPermission('modify', 'sale/customer')) {
 			$this->data['error_warning'] = $this->language->get('error_permission');
 		} else if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->user->hasPermission('modify', 'sale/customer')) { 
-			$this->model_sale_customer->addHistory($this->request->get['customer_id'], $this->request->post['comment'], $user_id, $reminder, $reminder_date);
-
-			$this->data['success'] = $this->language->get('text_success');
+			if (isset($this->request->post['comment'])) {
+				$user_id = $this->user->getId();
+				$this->model_sale_customer->addHistory($this->request->get['customer_id'], $this->request->post['comment'], $user_id, $reminder, $reminder_date);
+				$this->data['success'] = $this->language->get('text_success');
+			} else {
+				$this->data['success'] = '';
+			}
+		
 		} else {
 			$this->data['success'] = '.';
 		}
@@ -1376,6 +1381,7 @@ class ControllerSaleCustomer extends Controller {
 		$this->data['column_reminder_date'] = $this->language->get('column_reminder_date');
 		$this->data['column_comment'] = $this->language->get('column_comment');
 		$this->data['column_user'] = $this->language->get('column_user');
+		$this->data['column_customer'] = $this->language->get('column_customer');
 
 		if (isset($this->request->get['page'])) {
 			$page = $this->request->get['page'];
@@ -1385,21 +1391,33 @@ class ControllerSaleCustomer extends Controller {
 
 		$this->data['histories'] = array();
 
-		$results = $this->model_sale_customer->getHistories($this->request->get['customer_id'], ($page - 1) * 10, 10);
+		$data = array(
+			'filter_user_id' => $filter_user_id,
+			'filter_customer_id' => $filter_customer_id
+		);
+
+
+		$results = $this->model_sale_customer->getHistories($data, ($page - 1) * 10, 10);
 
 		foreach ($results as $result) {
 			$this->data['histories'][] = array(
 				'customer_history_id'     => $result['customer_history_id'],
 				'if_treatment'     => $result['if_treatment'],
 				'comment'     => $result['comment'],
-				'ufirstname'     => $result['ufirstname'],
-				'ulastname'     => $result['ulastname'],
+				// 'ufirstname'     => $result['ufirstname'],
+				// 'ulastname'     => $result['ulastname'],
+				'ufullname'     => $result['ufullname'],
+				'cfullname'     => $result['cfullname'],
 				'reminder_date'     => ($result['reminder_date'] == '0000-00-00' ? '' : $result['reminder_date']),
 				'date_added'  => date($this->language->get('date_format_short'), strtotime($result['date_added']))
 			);
 		}
 
-		$transaction_total = $this->model_sale_customer->getTotalHistories($this->request->get['customer_id']);
+		$data = array(
+			'filter_user_id' => $filter_user_id,
+			'filter_customer_id' => $filter_customer_id
+		);
+		$transaction_total = $this->model_sale_customer->getTotalHistories($data);
 
 		$pagination = new Pagination();
 		$pagination->total = $transaction_total;
@@ -1637,9 +1655,15 @@ class ControllerSaleCustomer extends Controller {
 
 		$this->load->model('sale/customer');
 
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->user->hasPermission('modify', 'sale/customer')) { 
+		// $reminder = (isset($this->request->post['reminder']) ? $this->request->post['reminder'] : null); 
+		// $reminder_date = (isset($this->request->post['reminder_date']) ? $this->request->post['reminder_date'] : null); 
+		$filter_user_id = (isset($this->request->post['filter_user_id']) ? $this->request->post['filter_user_id'] : null); 
+		$filter_customer_id = (isset($this->request->get['customer_id']) ? $this->request->get['customer_id'] : null);  
 
-
+		$unitspend = (isset($this->request->post['unitspend']) ? $this->request->post['unitspend'] : null); 
+		$product_id = (isset($this->request->post['product_id']) ? $this->request->post['product_id'] : null); 
+	
+		if ($this->user->hasPermission('modify', 'sale/customer')) { 
 			if (isset($this->request->post['product_id']) && isset($this->request->post['unitspend']) && isset($this->request->get['customer_id'])) {
 
 				// pureget
@@ -1650,7 +1674,7 @@ class ControllerSaleCustomer extends Controller {
 				} else {
 					$this->data['error_warning'] = $this->language->get('text_cannot_use_inventory');
 				}
-			} elseif (isset($this->request->post['show_group'])) {
+			} elseif (isset($this->request->get['show_group'])) {
 				$this->data['success'] = '';	
 			} else {
 				$this->data['success'] = '';
@@ -1695,15 +1719,19 @@ class ControllerSaleCustomer extends Controller {
 
 		$this->data['transactions'] = array();
 
-		$dataarray = array();
+		$data = array();
 
-		if (isset($this->request->get['customer_id'])) $dataarray['customer_id'] = $this->request->get['customer_id'];
-		if (isset($this->request->post['filter_customer_name'])) $dataarray['filter_customer_name'] = $this->request->post['filter_customer_name'];
-		if (isset($this->request->post['filter_product_name'])) $dataarray['filter_product_name'] = $this->request->post['filter_product_name'];
-		if (isset($this->request->post['filter_ssn'])) $dataarray['filter_ssn'] = $this->request->post['filter_ssn'];
-		// $results = $this->model_sale_customer->getTransactions($dataarray, ($page - 1) * 10, 10);
-		$results = $this->model_sale_customer->getTransactions($dataarray, 0, 999999);
+		if (isset($this->request->get['customer_id'])) $data['customer_id'] = $this->request->get['customer_id'];
+		if (isset($this->request->post['filter_customer_name'])) $data['filter_customer_name'] = $this->request->post['filter_customer_name'];
+		if (isset($this->request->post['filter_product_name'])) $data['filter_product_name'] = $this->request->post['filter_product_name'];
+		if (isset($this->request->post['filter_ssn'])) $data['filter_ssn'] = $this->request->post['filter_ssn'];
+		$data['filter_product_type_id'] = 2;			
+		
+		$results = $this->model_sale_customer->getTransactions($data, ($page - 1) * 10, 10);
 
+		$totalresults = $this->model_sale_customer->getTransactions($data, 0, 999999);
+
+		// $data['filter_product_type'] = null;
 
 		$this->load->model('catalog/product');
 
@@ -1736,32 +1764,35 @@ class ControllerSaleCustomer extends Controller {
 				'date_added'  => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
 				'date_modified'  => date($this->language->get('date_format_short'), strtotime($result['date_modified']))
 			);
+		}
+
+		foreach ($totalresults as $result) {
 
 			if ($result['status'] < 0) continue;
+
+			$product_id = $result['product_id'];
+
+			$product = $this->model_catalog_product->getProduct($product_id);
+			
+			$unit = $this->model_catalog_product->getProductUnit($product_id);
+			
 			$groupresults[$product_id]['name'] = $product['name'];
 			$groupresults[$product_id]['subquantity'] = (isset($groupresults[$product_id]['subquantity']) ? $groupresults[$product_id]['subquantity'] + $result['subquantity'] : $result['subquantity']);
 			$groupresults[$product_id]['quantity'] = (isset($groupresults[$product_id]['quantity']) ? $groupresults[$product_id]['quantity'] + $result['quantity'] : $result['quantity']);
 			$groupresults[$product_id]['unit'] = $unit;
 		}
 
+
 		$this->data['grouptransactions'] = $groupresults;
-		$this->data['show_group'] = (isset($this->request->post['show_group']) ? $this->request->post['show_group'] : 0);
-		// $this->data['balance'] = $this->currency->format($this->model_sale_customer->getTransactionTotal($this->request->get['customer_id']), $this->config->get('config_currency'));
-
-		$dataarray = array();
-		if (isset($this->request->get['customer_id'])) $dataarray['customer_id'] = $this->request->get['customer_id'];
-
-		// $dataarray = array(
-		// 	'customer_id' => $this->request->get['customer_id']
-		// );
-		$transaction_total = $this->model_sale_customer->getTotalTransactions($dataarray);
+		$this->data['show_group'] = (isset($this->request->get['show_group']) ? $this->request->get['show_group'] : 0);
+		$transaction_total = $this->model_sale_customer->getTotalTransactions($data);
 
 		$pagination = new Pagination();
 		$pagination->total = $transaction_total;
 		$pagination->page = $page;
 		$pagination->limit = 10; 
 		$pagination->text = $this->language->get('text_pagination');
-		// $pagination->url = $this->url->link('sale/customer/transaction', 'token=' . $this->session->data['token'] . '&customer_id=' . $this->request->get['customer_id'] . '&page={page}', 'SSL');
+		$pagination->url = $this->url->link('sale/customer/transaction', 'token=' . $this->session->data['token'] . '&customer_id=' . $this->request->get['customer_id'] . '&show_group=1&page={page}', 'SSL');
 
 		$this->data['pagination'] = $pagination->render();
 		$this->data['token'] = $this->session->data['token'];
@@ -1822,11 +1853,11 @@ class ControllerSaleCustomer extends Controller {
 
 		$this->data['transactions'] = array();
 
-		$dataarray = array(
+		$data = array(
 			'customer_id' => $this->request->get['customer_id']
 			// 'filter_unused' => 1
 		);
-		$results = $this->model_sale_customer->getTransactions($dataarray, ($page - 1) * 10, 10);
+		$results = $this->model_sale_customer->getTransactions($data, ($page - 1) * 10, 10);
 
 		$this->load->model('catalog/product');
 
@@ -1866,10 +1897,10 @@ class ControllerSaleCustomer extends Controller {
 		$this->data['balance'] = $this->currency->format($this->model_sale_customer->getTransactionTotal($this->request->get['customer_id']), $this->config->get('config_currency'));
 
 
-		$dataarray = array(
+		$data = array(
 			'customer_id' => $this->request->get['customer_id']
 		);
-		$transaction_total = $this->model_sale_customer->getTotalTransactions($dataarray);
+		$transaction_total = count($results); // $this->model_sale_customer->getTotalTransactions($dataarray);
 
 		$pagination = new Pagination();
 		$pagination->total = $transaction_total;

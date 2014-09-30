@@ -6793,3 +6793,318 @@ VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <div class="heading">
 ----------------------------------------------------------------------
 
 
+---------- Date: 2014-09-29 23:09:27 ~ IP : 127.0.0.1 ----------
+REQUEST URI : /opencart2/index.php?route=sale/customer/history&amp;token=354644fb412f1bdb254f2b354dee34b5&amp;customer_id=9
+MOD DETAILS:
+   modFile   : /var/www/html/opencart2/vqmod/xml/admin_theme_base5builder_impulsepro_1.5.5-above.xml
+   id        : Admin Theme - Base 5 Builder - ImpulsePro
+   version   : 1.0.4
+   vqmver    : 2.0
+   author    : Niyi Sodipe - Base5Builder.com
+
+File Name    : view/template/sale/customer_*(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <div class="heading">
+
+----------------------------------------------------------------------
+
+
+---------- Date: 2014-09-29 23:09:28 ~ IP : 127.0.0.1 ----------
+REQUEST URI : /opencart2/index.php?route=sale/customer/transaction&amp;token=354644fb412f1bdb254f2b354dee34b5&amp;customer_id=9
+MOD DETAILS:
+   modFile   : /var/www/html/opencart2/vqmod/xml/admin_theme_base5builder_impulsepro_1.5.5-above.xml
+   id        : Admin Theme - Base 5 Builder - ImpulsePro
+   version   : 1.0.4
+   vqmver    : 2.0
+   author    : Niyi Sodipe - Base5Builder.com
+
+File Name    : view/template/sale/customer_*(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <div class="heading">
+
+----------------------------------------------------------------------
+
+
+---------- Date: 2014-09-29 23:09:28 ~ IP : 127.0.0.1 ----------
+REQUEST URI : /opencart2/index.php?route=sale/customer/lendings&amp;token=354644fb412f1bdb254f2b354dee34b5&amp;customer_id=9
+MOD DETAILS:
+   modFile   : /var/www/html/opencart2/vqmod/xml/admin_theme_base5builder_impulsepro_1.5.5-above.xml
+   id        : Admin Theme - Base 5 Builder - ImpulsePro
+   version   : 1.0.4
+   vqmver    : 2.0
+   author    : Niyi Sodipe - Base5Builder.com
+
+File Name    : view/template/sale/customer_*(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <div class="heading">
+
+----------------------------------------------------------------------
+
+
+---------- Date: 2014-09-29 23:11:44 ~ IP : 127.0.0.1 ----------
+REQUEST URI : /opencart2/index.php?route=sale/customer/history&amp;token=354644fb412f1bdb254f2b354dee34b5&amp;customer_id=9
+MOD DETAILS:
+   modFile   : /var/www/html/opencart2/vqmod/xml/admin_theme_base5builder_impulsepro_1.5.5-above.xml
+   id        : Admin Theme - Base 5 Builder - ImpulsePro
+   version   : 1.0.4
+   vqmver    : 2.0
+   author    : Niyi Sodipe - Base5Builder.com
+
+File Name    : view/template/sale/customer_*(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <div class="heading">
+
+----------------------------------------------------------------------
+
+
+---------- Date: 2014-09-29 23:12:09 ~ IP : 127.0.0.1 ----------
+REQUEST URI : /opencart2/index.php?route=sale/customer/history&amp;token=354644fb412f1bdb254f2b354dee34b5&amp;customer_id=9
+MOD DETAILS:
+   modFile   : /var/www/html/opencart2/vqmod/xml/admin_theme_base5builder_impulsepro_1.5.5-above.xml
+   id        : Admin Theme - Base 5 Builder - ImpulsePro
+   version   : 1.0.4
+   vqmver    : 2.0
+   author    : Niyi Sodipe - Base5Builder.com
+
+File Name    : view/template/sale/customer_*(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <div class="heading">
+
+----------------------------------------------------------------------
+
+
+---------- Date: 2014-09-29 23:12:36 ~ IP : 127.0.0.1 ----------
+REQUEST URI : /opencart2/index.php?route=sale/customer/history&amp;token=354644fb412f1bdb254f2b354dee34b5&amp;customer_id=9
+MOD DETAILS:
+   modFile   : /var/www/html/opencart2/vqmod/xml/admin_theme_base5builder_impulsepro_1.5.5-above.xml
+   id        : Admin Theme - Base 5 Builder - ImpulsePro
+   version   : 1.0.4
+   vqmver    : 2.0
+   author    : Niyi Sodipe - Base5Builder.com
+
+File Name    : view/template/sale/customer_*(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <div class="heading">
+
+----------------------------------------------------------------------
+
+
+---------- Date: 2014-09-29 23:19:40 ~ IP : 127.0.0.1 ----------
+REQUEST URI : /opencart2/index.php?route=sale/customer/transaction&amp;token=354644fb412f1bdb254f2b354dee34b5&amp;customer_id=9
+MOD DETAILS:
+   modFile   : /var/www/html/opencart2/vqmod/xml/admin_theme_base5builder_impulsepro_1.5.5-above.xml
+   id        : Admin Theme - Base 5 Builder - ImpulsePro
+   version   : 1.0.4
+   vqmver    : 2.0
+   author    : Niyi Sodipe - Base5Builder.com
+
+File Name    : view/template/sale/customer_*(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <div class="heading">
+
+----------------------------------------------------------------------
+
+
+---------- Date: 2014-09-29 23:29:23 ~ IP : 127.0.0.1 ----------
+REQUEST URI : /opencart2/index.php?route=sale/customer/history&amp;token=354644fb412f1bdb254f2b354dee34b5&amp;customer_id=9
+MOD DETAILS:
+   modFile   : /var/www/html/opencart2/vqmod/xml/admin_theme_base5builder_impulsepro_1.5.5-above.xml
+   id        : Admin Theme - Base 5 Builder - ImpulsePro
+   version   : 1.0.4
+   vqmver    : 2.0
+   author    : Niyi Sodipe - Base5Builder.com
+
+File Name    : view/template/sale/customer_*(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <div class="heading">
+
+----------------------------------------------------------------------
+
+
+---------- Date: 2014-09-29 23:29:23 ~ IP : 127.0.0.1 ----------
+REQUEST URI : /opencart2/index.php?route=sale/customer/transaction&amp;token=354644fb412f1bdb254f2b354dee34b5&amp;customer_id=9
+MOD DETAILS:
+   modFile   : /var/www/html/opencart2/vqmod/xml/admin_theme_base5builder_impulsepro_1.5.5-above.xml
+   id        : Admin Theme - Base 5 Builder - ImpulsePro
+   version   : 1.0.4
+   vqmver    : 2.0
+   author    : Niyi Sodipe - Base5Builder.com
+
+File Name    : view/template/sale/customer_*(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <div class="heading">
+
+----------------------------------------------------------------------
+
+
+---------- Date: 2014-09-29 23:29:23 ~ IP : 127.0.0.1 ----------
+REQUEST URI : /opencart2/index.php?route=sale/customer/lendings&amp;token=354644fb412f1bdb254f2b354dee34b5&amp;customer_id=9
+MOD DETAILS:
+   modFile   : /var/www/html/opencart2/vqmod/xml/admin_theme_base5builder_impulsepro_1.5.5-above.xml
+   id        : Admin Theme - Base 5 Builder - ImpulsePro
+   version   : 1.0.4
+   vqmver    : 2.0
+   author    : Niyi Sodipe - Base5Builder.com
+
+File Name    : view/template/sale/customer_*(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <div class="heading">
+
+----------------------------------------------------------------------
+
+
+---------- Date: 2014-09-29 23:29:25 ~ IP : 127.0.0.1 ----------
+REQUEST URI : /opencart2/index.php?route=sale/customer/transaction&amp;token=354644fb412f1bdb254f2b354dee34b5&amp;customer_id=9
+MOD DETAILS:
+   modFile   : /var/www/html/opencart2/vqmod/xml/admin_theme_base5builder_impulsepro_1.5.5-above.xml
+   id        : Admin Theme - Base 5 Builder - ImpulsePro
+   version   : 1.0.4
+   vqmver    : 2.0
+   author    : Niyi Sodipe - Base5Builder.com
+
+File Name    : view/template/sale/customer_*(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <div class="heading">
+
+----------------------------------------------------------------------
+
+
+---------- Date: 2014-09-29 23:34:07 ~ IP : 127.0.0.1 ----------
+REQUEST URI : /opencart2/index.php?route=sale/customer/lendings&amp;token=354644fb412f1bdb254f2b354dee34b5&amp;customer_id=9
+MOD DETAILS:
+   modFile   : /var/www/html/opencart2/vqmod/xml/admin_theme_base5builder_impulsepro_1.5.5-above.xml
+   id        : Admin Theme - Base 5 Builder - ImpulsePro
+   version   : 1.0.4
+   vqmver    : 2.0
+   author    : Niyi Sodipe - Base5Builder.com
+
+File Name    : view/template/sale/customer_*(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <div class="heading">
+
+----------------------------------------------------------------------
+
+
+---------- Date: 2014-09-29 23:50:18 ~ IP : 127.0.0.1 ----------
+REQUEST URI : /opencart2/index.php?route=sale/customer/transaction&amp;token=354644fb412f1bdb254f2b354dee34b5
+MOD DETAILS:
+   modFile   : /var/www/html/opencart2/vqmod/xml/admin_theme_base5builder_impulsepro_1.5.5-above.xml
+   id        : Admin Theme - Base 5 Builder - ImpulsePro
+   version   : 1.0.4
+   vqmver    : 2.0
+   author    : Niyi Sodipe - Base5Builder.com
+
+File Name    : view/template/sale/customer_*(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <div class="heading">
+
+----------------------------------------------------------------------
+
+
+---------- Date: 2014-09-29 23:51:31 ~ IP : 127.0.0.1 ----------
+REQUEST URI : /opencart2/index.php?route=sale/customer/history&amp;token=354644fb412f1bdb254f2b354dee34b5&amp;customer_id=9
+MOD DETAILS:
+   modFile   : /var/www/html/opencart2/vqmod/xml/admin_theme_base5builder_impulsepro_1.5.5-above.xml
+   id        : Admin Theme - Base 5 Builder - ImpulsePro
+   version   : 1.0.4
+   vqmver    : 2.0
+   author    : Niyi Sodipe - Base5Builder.com
+
+File Name    : view/template/sale/customer_*(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <div class="heading">
+
+----------------------------------------------------------------------
+
+
+---------- Date: 2014-09-29 23:51:31 ~ IP : 127.0.0.1 ----------
+REQUEST URI : /opencart2/index.php?route=sale/customer/lendings&amp;token=354644fb412f1bdb254f2b354dee34b5&amp;customer_id=9
+MOD DETAILS:
+   modFile   : /var/www/html/opencart2/vqmod/xml/admin_theme_base5builder_impulsepro_1.5.5-above.xml
+   id        : Admin Theme - Base 5 Builder - ImpulsePro
+   version   : 1.0.4
+   vqmver    : 2.0
+   author    : Niyi Sodipe - Base5Builder.com
+
+File Name    : view/template/sale/customer_*(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <div class="heading">
+
+----------------------------------------------------------------------
+
+
+---------- Date: 2014-09-29 23:51:31 ~ IP : 127.0.0.1 ----------
+REQUEST URI : /opencart2/index.php?route=sale/customer/transaction&amp;token=354644fb412f1bdb254f2b354dee34b5&amp;customer_id=9
+MOD DETAILS:
+   modFile   : /var/www/html/opencart2/vqmod/xml/admin_theme_base5builder_impulsepro_1.5.5-above.xml
+   id        : Admin Theme - Base 5 Builder - ImpulsePro
+   version   : 1.0.4
+   vqmver    : 2.0
+   author    : Niyi Sodipe - Base5Builder.com
+
+File Name    : view/template/sale/customer_*(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <div class="heading">
+
+----------------------------------------------------------------------
+
+
+---------- Date: 2014-09-29 23:51:35 ~ IP : 127.0.0.1 ----------
+REQUEST URI : /opencart2/index.php?route=sale/customer/history&amp;token=354644fb412f1bdb254f2b354dee34b5&amp;customer_id=9
+MOD DETAILS:
+   modFile   : /var/www/html/opencart2/vqmod/xml/admin_theme_base5builder_impulsepro_1.5.5-above.xml
+   id        : Admin Theme - Base 5 Builder - ImpulsePro
+   version   : 1.0.4
+   vqmver    : 2.0
+   author    : Niyi Sodipe - Base5Builder.com
+
+File Name    : view/template/sale/customer_*(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <div class="heading">
+
+----------------------------------------------------------------------
+
+
+---------- Date: 2014-09-29 23:51:37 ~ IP : 127.0.0.1 ----------
+REQUEST URI : /opencart2/index.php?route=sale/customer/transaction&amp;token=354644fb412f1bdb254f2b354dee34b5&amp;customer_id=9
+MOD DETAILS:
+   modFile   : /var/www/html/opencart2/vqmod/xml/admin_theme_base5builder_impulsepro_1.5.5-above.xml
+   id        : Admin Theme - Base 5 Builder - ImpulsePro
+   version   : 1.0.4
+   vqmver    : 2.0
+   author    : Niyi Sodipe - Base5Builder.com
+
+File Name    : view/template/sale/customer_*(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <div class="heading">
+
+----------------------------------------------------------------------
+
+
+---------- Date: 2014-09-29 23:51:50 ~ IP : 127.0.0.1 ----------
+REQUEST URI : /opencart2/index.php?route=sale/customer/transaction&amp;token=354644fb412f1bdb254f2b354dee34b5&amp;customer_id=9
+MOD DETAILS:
+   modFile   : /var/www/html/opencart2/vqmod/xml/admin_theme_base5builder_impulsepro_1.5.5-above.xml
+   id        : Admin Theme - Base 5 Builder - ImpulsePro
+   version   : 1.0.4
+   vqmver    : 2.0
+   author    : Niyi Sodipe - Base5Builder.com
+
+File Name    : view/template/sale/customer_*(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <div class="heading">
+
+----------------------------------------------------------------------
+
+
+---------- Date: 2014-09-29 23:52:03 ~ IP : 127.0.0.1 ----------
+REQUEST URI : /opencart2/index.php?route=sale/customer/transaction&amp;token=354644fb412f1bdb254f2b354dee34b5&amp;customer_id=9
+MOD DETAILS:
+   modFile   : /var/www/html/opencart2/vqmod/xml/admin_theme_base5builder_impulsepro_1.5.5-above.xml
+   id        : Admin Theme - Base 5 Builder - ImpulsePro
+   version   : 1.0.4
+   vqmver    : 2.0
+   author    : Niyi Sodipe - Base5Builder.com
+
+File Name    : view/template/sale/customer_*(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <div class="heading">
+
+----------------------------------------------------------------------
+
+
+---------- Date: 2014-09-29 23:52:11 ~ IP : 127.0.0.1 ----------
+REQUEST URI : /opencart2/index.php?route=sale/customer/transaction&amp;token=354644fb412f1bdb254f2b354dee34b5&amp;customer_id=9
+MOD DETAILS:
+   modFile   : /var/www/html/opencart2/vqmod/xml/admin_theme_base5builder_impulsepro_1.5.5-above.xml
+   id        : Admin Theme - Base 5 Builder - ImpulsePro
+   version   : 1.0.4
+   vqmver    : 2.0
+   author    : Niyi Sodipe - Base5Builder.com
+
+File Name    : view/template/sale/customer_*(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <div class="heading">
+
+----------------------------------------------------------------------
+
+

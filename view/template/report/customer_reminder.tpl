@@ -46,7 +46,7 @@
           <?php if ($users) { ?>
           <?php foreach ($users as $user) { ?>
           <tr>
-            <td class="left"><input type='hidden' value='<?php echo $user['user_id']; ?>'/><?php echo $user['name']; ?></td>
+            <td class="left"><input type='hidden' value='<?php echo $user['user_id']; ?>'/><span class='togglethis'>'<?php echo $user['name']; ?>'</span></td>
             <!-- <td class="left"><php echo $user['user_group']; ?></td> -->
             <td class="right"><?php echo $user['total_reminders']; ?></td>
             <td class="right"><?php echo $user['unread_reminders']; ?></td>
@@ -57,6 +57,7 @@
               <?php } ?></td>
           </tr>
           <tr><td colspan='5'>
+            <div id="history<?php echo $user['user_id']; ?>"></div>
             <div class='toggle' id='r<?php echo $user['user_id']; ?>' style='display:none'>
               <table>
                 <?php if ($user['reminders']) { ?>
@@ -119,10 +120,45 @@ $(document).ready(function() {
 <?php echo $footer; ?>
 
 <script type='text/javascript'>
-  $('.toggleclass').click(function(){
-    var ID = $(this).attr('id');
-    $('#r' + ID).toggle('show', function(){
+  //  ).click(function(){
+  //   var ID = $(this).prev().attr('id');
+  //   console.log($(this).prev().attr('id'));
+  //   $('#r' + ID).toggle('show', function(){
 
-    });
+  //   });
+  // });
+  
+  $('.togglethis').one('click', function(){
+    var ID = $(this).prev().val();
+    $('#r' + ID).toggle('show', function(){});
   });
+
+  $('.togglethis').one('click', function(){
+    var ID = $(this).prev().val();
+    $.ajax({
+    url: 'index.php?route=sale/customer/history&token=<?php echo $token; ?>',
+    type: 'post',
+    dataType: 'html',
+    data: 'filter_user_id=' + ID,
+    beforeSend: function() {
+      // $('.success, .warning').remove();
+      // $('#button-history').attr('disabled', true);
+      // $('#history').before('<div class="attention"><img src="view/image/loading.gif" alt="" /> <?php echo $text_wait; ?></div>');
+    },
+    complete: function() {
+      // $('#button-history').attr('disabled', false);
+      // $('.attention').remove();
+          // $('#tab-history textarea[name=\'comment\']').val('');
+    },
+    success: function(html) {
+      $('#r' + ID).html(html);
+      
+      // $('#tab-history input[name=\'comment\']').val('');
+    }
+  });
+
+  });
+
+
+
 </script>

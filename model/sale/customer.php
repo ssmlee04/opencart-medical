@@ -390,7 +390,48 @@ class ModelSaleCustomer extends Model {
 		return $query->rows;
 	}
 
-	public function getHistories($customer_id, $start = 0, $limit = 10) { 
+	// '2014-09-30 16:14'
+	public function getHistories($data, $start = 0, $limit = 10) { 
+		
+
+		$sql = "SELECT ch.*
+		, u.firstname as ufirstname
+		, u.lastname as ulastname
+		, u.fullname as ufullname
+		, u.store_id
+		, c.firstname as cfirstname
+		, c.lastname as clastname
+		, c.fullname as cfullname
+		 FROM " . DB_PREFIX . "customer_history ch LEFT JOIN oc_user u ON u.user_id = ch.user_id LEFT JOIN oc_customer c ON c.customer_id = ch.customer_id WHERE 1=1 ";  
+
+		if (isset($data['filter_customer_id'])) {
+			$sql .= " AND ch.customer_id = '" . (int)$data['filter_customer_id'] . "' ";
+		}
+
+		if (isset($data['filter_reminder'])) {
+			$sql .= " AND ch.reminder = '" . (int)$data['filter_reminder'] . "' ";
+		}
+
+		if (isset($data['filter_user_id'])) {
+			$sql .= " AND ch.user_id = '" . (int)$data['filter_user_id'] . "' ";
+		}
+
+		if (isset($data['filter_reminder_date_start'])) {
+			$sql .= " AND ch.reminder_date >= '" . $this->db->escape($data['filter_reminder_date_start']) . "' ";
+		}
+
+		if (isset($data['filter_reminder_date_end'])) {
+			$sql .= " AND ch.reminder_date <= '" . $this->db->escape($data['filter_reminder_date_end']) . "' ";
+		}
+
+		if (isset($data['filter_reminder_status'])) {
+			$sql .= " AND ch.reminder_status = '" . (int)$data['filter_reminder_status'] . "' ";
+		}
+
+		if (isset($data['filter_customer_name'])) {
+			$sql .= " AND c.fullname LIKE '%" . $this->db->escape($data['filter_customer_name']) . "%'";
+		}
+
 		if ($start < 0) {
 			$start = 0;
 		}
@@ -399,13 +440,51 @@ class ModelSaleCustomer extends Model {
 			$limit = 10;
 		}	
 
-		$query = $this->db->query("SELECT ch.*, u.firstname as ufirstname, u.lastname as ulastname, u.store_id, c.firstname as cfirstname, c.lastname as clastname FROM " . DB_PREFIX . "customer_history ch LEFT JOIN oc_user u ON u.user_id = ch.user_id LEFT JOIN oc_customer c ON c.customer_id = ch.customer_id WHERE ch.customer_id = '" . (int)$customer_id . "' ORDER BY ch.date_added DESC LIMIT " . (int)$start . "," . (int)$limit);
+		$sql .= " ORDER BY ch.date_added DESC ";
+
+		$sql .= " LIMIT " . (int)$start . "," . (int)$limit;
+
+		$query = $this->db->query($sql);
 
 		return $query->rows;
 	}	
 
-	public function getTotalHistories($customer_id) {
-		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "customer_history WHERE customer_id = '" . (int)$customer_id . "'");
+	// '2014-09-30 16:44'
+	public function getTotalHistories($data) {
+
+		$sql = "SELECT count(*) as total FROM " . DB_PREFIX . "customer_history ch LEFT JOIN oc_user u ON u.user_id = ch.user_id LEFT JOIN oc_customer c ON c.customer_id = ch.customer_id WHERE 1=1 ";  
+
+		if (isset($data['filter_customer_id'])) {
+			$sql .= " AND ch.customer_id = '" . (int)$data['filter_customer_id'] . "' ";
+		}
+
+		if (isset($data['filter_reminder'])) {
+			$sql .= " AND ch.reminder = '" . (int)$data['filter_reminder'] . "' ";
+		}
+
+		if (isset($data['filter_user_id'])) {
+			$sql .= " AND ch.user_id = '" . (int)$data['filter_user_id'] . "' ";
+		}
+
+		if (isset($data['filter_reminder_date_start'])) {
+			$sql .= " AND ch.reminder_date >= '" . $this->db->escape($data['filter_reminder_date_start']) . "' ";
+		}
+
+		if (isset($data['filter_reminder_date_end'])) {
+			$sql .= " AND ch.reminder_date <= '" . $this->db->escape($data['filter_reminder_date_end']) . "' ";
+		}
+
+		if (isset($data['filter_reminder_status'])) {
+			$sql .= " AND ch.reminder_status = '" . (int)$data['filter_reminder_status'] . "' ";
+		}
+
+		if (isset($data['filter_customer_name'])) {
+			$sql .= " AND c.fullname LIKE '%" . $this->db->escape($data['filter_customer_name']) . "%'";
+		}
+
+		$sql .= " ORDER BY ch.date_added DESC";
+
+		$query = $this->db->query($sql);
 
 		return $query->row['total'];
 	}	
@@ -657,7 +736,10 @@ class ModelSaleCustomer extends Model {
 
 				$amount = $price * $quantity; 
 
-				$this->db->query("INSERT INTO " . DB_PREFIX . "customer_transaction SET quantity = '" . (int)$quantity . "', customer_id = '" . (int)$customer_id . "', product_id = '" . (int)$product_id . "', subquantity = '" . (int)$subquantity . "', order_id = '" . (int)$order_id . "', unit_class_id = '" . (int)$unit_class_id . "', amount = '" . (float)$amount . "',ismain=1, date_added = NOW(), date_modified= NOW()");
+				$this->db->query("INSERT INTO " . DB_PREFIX . "customer_transaction SET quantity = '" . (int)$quantity . "', customer_id = '" . (int)$customer_id . "'
+					, product_id = '" . (int)$product_id . "'
+					, product_type_id = '" . (int)$product_type_id . "'
+					, subquantity = '" . (int)$subquantity . "', order_id = '" . (int)$order_id . "', unit_class_id = '" . (int)$unit_class_id . "', amount = '" . (float)$amount . "',ismain=1, date_added = NOW(), date_modified= NOW()");
 
 				// add treatment appointments
 				if ($product_type_id == 2) {
@@ -669,7 +751,9 @@ class ModelSaleCustomer extends Model {
 							quantity = '" . -$temp . "',
 						product_total_which = '" . $subquantity . "',
 						product_which = '" . ($i + 1) . "',
-						 customer_id = '" . (int)$customer_id . "', product_id = '" . (int)$product_id . "', subquantity = '" . -1 . "',  order_id = '" . (int)$order_id . "', unit_class_id = '" . (int)$unit_class_id . "', date_modified = NOW(), date_added = NOW()");						
+						 customer_id = '" . (int)$customer_id . "'
+						 , product_type_id = '" . (int)$product_type_id . "'
+						 , subquantity = '" . -1 . "',  order_id = '" . (int)$order_id . "', unit_class_id = '" . (int)$unit_class_id . "', date_modified = NOW(), date_added = NOW()");						
 					}
 				}
 
@@ -795,7 +879,6 @@ class ModelSaleCustomer extends Model {
 	}
 
 
-
 	// '2014-09-29 22:00'
 	public function getTransactions($data, $start = 0, $limit = 10) {
 
@@ -811,6 +894,10 @@ class ModelSaleCustomer extends Model {
 
 		if (isset($data['filter_customer_name'])) {
 			$sql .= " AND c.fullname LIKE '%" . $this->db->escape($data['filter_customer_name']) . "%'";
+		}	
+
+		if (isset($data['filter_product_type_id'])) {
+			$sql .= " AND ct.product_type_id = '" . (int)$data['filter_product_type_id'] . "' ";
 		}
 
 		if (isset($data['filter_ssn'])) {
@@ -839,9 +926,7 @@ class ModelSaleCustomer extends Model {
 	public function getTotalTransactions($data) {
 
 		$sql = "SELECT count(*) as total FROM oc_customer_transaction ct LEFT JOIN oc_customer c ON c.customer_id = ct.customer_id LEFT JOIN oc_product p ON p.product_id = ct.product_id LEFT JOIN oc_product_description pd ON pd.product_id = p.product_id  WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') ."' ";
-		// $sql = "SELECT COUNT(*) AS total FROM oc_customer_transaction ct LEFT JOIN oc_customer c ON c.customer_id = ct.customer_id WHERE 1=1 ";
-	
-	
+		
 		if (isset($data['customer_id'])) {
 			$sql .= " AND ct.customer_id = '" . (int)$data['customer_id'] . "' ";
 		}
@@ -852,6 +937,10 @@ class ModelSaleCustomer extends Model {
 
 		if (isset($data['filter_customer_name'])) {
 			$sql .= " AND c.fullname LIKE '%" . $this->db->escape($data['filter_customer_name']) . "%'";
+		}
+
+		if (isset($data['filter_product_type_id'])) {
+			$sql .= " AND ct.product_type_id = '" . (int)$data['filter_product_type_id'] . "' ";
 		}
 
 		if (isset($data['filter_ssn'])) {
