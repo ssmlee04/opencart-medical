@@ -9,7 +9,11 @@ class ControllerSaleCustomer extends Controller {
 
 		$this->load->model('sale/customer');
 
+		$this->data['if_search'] = true;
+
 		$this->getList();
+
+		
 	}
 
 	public function insert() {
@@ -266,7 +270,29 @@ class ControllerSaleCustomer extends Controller {
 		$this->getList();
 	} 
 
+	public function all() {
+
+		$this->language->load('sale/customer');
+
+		$this->document->setTitle($this->language->get('heading_title'));
+
+		$this->load->model('sale/customer');
+
+		$this->data['if_search'] = false;
+
+		unset($this->request->get['filter_name']);
+		unset($this->request->get['filter_ssn']);
+		unset($this->request->get['filter_email']);
+		unset($this->request->get['filter_customer_group_id']);
+		unset($this->request->get['filter_status']);
+		unset($this->request->get['filter_approved']);
+		unset($this->request->get['filter_date_added']);
+
+		$this->getList();
+	}
+
 	protected function getList() {
+
 		if (isset($this->request->get['filter_name'])) {
 			$filter_name = $this->request->get['filter_name'];
 		} else {
@@ -303,11 +329,11 @@ class ControllerSaleCustomer extends Controller {
 			$filter_approved = null;
 		}
 
-		if (isset($this->request->get['filter_ip'])) {
-			$filter_ip = $this->request->get['filter_ip'];
-		} else {
-			$filter_ip = null;
-		}
+		// if (isset($this->request->get['filter_ip'])) {
+		// 	$filter_ip = $this->request->get['filter_ip'];
+		// } else {
+		// 	$filter_ip = null;
+		// }
 
 		if (isset($this->request->get['filter_date_added'])) {
 			$filter_date_added = $this->request->get['filter_date_added'];
@@ -450,6 +476,7 @@ class ControllerSaleCustomer extends Controller {
 		$this->data['text_default'] = $this->language->get('text_default');		
 		$this->data['text_no_results'] = $this->language->get('text_no_results');
 		$this->data['text_search_customer'] = $this->language->get('text_search_customer');
+		$this->data['text_all_customers'] = $this->language->get('text_all_customers');
 
 		$this->data['column_name'] = $this->language->get('column_name');
 		$this->data['column_email'] = $this->language->get('column_email');
@@ -1610,21 +1637,27 @@ class ControllerSaleCustomer extends Controller {
 		$this->load->model('sale/customer');
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->user->hasPermission('modify', 'sale/customer')) { 
-			if (!$this->request->post['product_id'] && !$this->request->post['unitspend']) {
-				$this->data['error_warning'] = '';
-			} elseif ($this->model_sale_customer->addTransaction2($this->request->get['customer_id'], $this->request->post['product_id'], $this->request->post['unitspend'])) {
-				$this->data['success'] = $this->language->get('text_success');
+
+
+			if (isset($this->request->post['product_id']) && isset($this->request->post['unitspend']) && isset($this->request->get['customer_id'])) {
+
+				// pureget
+				if (!$this->request->post['product_id'] && !$this->request->post['unitspend']) {
+					$this->data['success'] = '';	
+				} else if ($this->model_sale_customer->addTransaction2($this->request->get['customer_id'], $this->request->post['product_id'], $this->request->post['unitspend'])) {
+					$this->data['success'] = $this->language->get('text_success');
+				} else {
+					$this->data['error_warning'] = $this->language->get('text_cannot_use_inventory');
+				}
+			} elseif (isset($this->request->post['show_group'])) {
+				$this->data['success'] = '';	
 			} else {
-				$this->data['error_warning'] = $this->language->get('text_cannot_use_inventory');
+				$this->data['success'] = '';
 			}
+
 		} else {
-			$this->data['error_warning'] = $this->language->get('text_error');
-		}
-
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && !$this->user->hasPermission('modify', 'sale/customer')) {
 			$this->data['error_warning'] = $this->language->get('error_permission');
-		} 	
-
+		}
 
 		$this->data['text_service_not_rendered'] = $this->language->get('text_service_not_rendered');
 		$this->data['text_no_results'] = $this->language->get('text_no_results');
@@ -1639,6 +1672,7 @@ class ControllerSaleCustomer extends Controller {
 		$this->data['column_description'] = $this->language->get('column_description');
 		$this->data['column_product'] = $this->language->get('column_product');
 		$this->data['column_unit_quantity'] = $this->language->get('column_unit_quantity');
+		$this->data['column_customer'] = $this->language->get('column_customer');
 		$this->data['column_unit'] = $this->language->get('column_unit');
 		$this->data['column_quantity'] = $this->language->get('column_quantity');
 		$this->data['column_amount'] = $this->language->get('column_amount');
@@ -1661,9 +1695,14 @@ class ControllerSaleCustomer extends Controller {
 		$this->data['transactions'] = array();
 
 		$dataarray = array();
-		if (isset($this->request->get['customer_id'])) $dataarray['customer_id'] = $this->request->get['customer_id'];
 
-		$results = $this->model_sale_customer->getTransactions($dataarray, ($page - 1) * 10, 10);
+		if (isset($this->request->get['customer_id'])) $dataarray['customer_id'] = $this->request->get['customer_id'];
+		if (isset($this->request->post['filter_customer_name'])) $dataarray['filter_customer_name'] = $this->request->post['filter_customer_name'];
+		if (isset($this->request->post['filter_product_name'])) $dataarray['filter_product_name'] = $this->request->post['filter_product_name'];
+		if (isset($this->request->post['filter_ssn'])) $dataarray['filter_ssn'] = $this->request->post['filter_ssn'];
+		// $results = $this->model_sale_customer->getTransactions($dataarray, ($page - 1) * 10, 10);
+		$results = $this->model_sale_customer->getTransactions($dataarray, 0, 999999);
+
 
 		$this->load->model('catalog/product');
 
@@ -1680,6 +1719,8 @@ class ControllerSaleCustomer extends Controller {
 			$this->data['transactions'][] = array(
 				'amount'      => $this->currency->format($result['amount'], $this->config->get('config_currency')),
 				'customer_lending_id' => $result['customer_lending_id'],
+				// 'customer_name' => $result['clastname'] . $result['cfirstname'],
+				'fullname' => $result['fullname'],
 				'product_name' => $product['name'],
 				'subquantity' => $result['subquantity'],
 				'customer_transaction_id' => $result['customer_transaction_id'],
@@ -1975,6 +2016,7 @@ class ControllerSaleCustomer extends Controller {
 					// 'name'              => strip_tags(html_entity_decode($result['name'], ENT_QUOTES, 'UTF-8')),
 					'customer_group'    => $result['customer_group'],
 					'firstname'         => $result['firstname'],
+					'fullname'          => $result['fullname'],
 					'lastname'          => $result['lastname'],
 					'email'             => $result['email'],
 					'telephone'         => $result['telephone'],

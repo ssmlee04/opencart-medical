@@ -17,7 +17,7 @@ $_['text_bonus_lookup']			 = '業績查詢';
 $_['text_country']           = '國家設置'; 
 $_['text_coupon']            = '優惠券';
 $_['text_currency']          = '貨幣設置';
-
+$_['text_all_customers']         = '全部客戶';
 $_['text_customer_group']    = '客戶群組';
 // $_['text_customer_blacklist']          = 'IP 黑名單';
 $_['text_dashboard']         = '管理首頁';

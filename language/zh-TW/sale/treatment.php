@@ -17,4 +17,5 @@ $_['column_total']    = '總計';
 $_['entry_date_start']  = '開始日';
 $_['entry_date_end']    = '結束日';
 $_['entry_status']      = '訂單狀態';
+$_['entry_customer']      = '會員';
 ?>

@@ -662,9 +662,11 @@ class ModelSaleCustomer extends Model {
 				// add treatment appointments
 				if ($product_type_id == 2) {
 
-					$temp = 1 / $subquantity; 
+					$temp = 1 / $product_info['subquantity']; 
 					for ($i = 0; $i < $subquantity; $i++) {
-						$this->db->query("INSERT INTO " . DB_PREFIX . "customer_transaction SET status = -1, quantity = '" . -$temp . "',
+						$this->db->query("INSERT INTO " . DB_PREFIX . "customer_transaction SET 
+							status = -1, 
+							quantity = '" . -$temp . "',
 						product_total_which = '" . $subquantity . "',
 						product_which = '" . ($i + 1) . "',
 						 customer_id = '" . (int)$customer_id . "', product_id = '" . (int)$product_id . "', subquantity = '" . -1 . "',  order_id = '" . (int)$order_id . "', unit_class_id = '" . (int)$unit_class_id . "', date_modified = NOW(), date_added = NOW()");						
@@ -794,17 +796,21 @@ class ModelSaleCustomer extends Model {
 
 
 
-
+	// '2014-09-29 22:00'
 	public function getTransactions($data, $start = 0, $limit = 10) {
 
-		$sql = "SELECT ct.* FROM oc_customer_transaction ct LEFT JOIN oc_customer c ON c.customer_id = ct.customer_id WHERE 1=1 ";
+		$sql = "SELECT ct.*, pd.name as product_name, c.fullname FROM oc_customer_transaction ct LEFT JOIN oc_customer c ON c.customer_id = ct.customer_id LEFT JOIN oc_product p ON p.product_id = ct.product_id LEFT JOIN oc_product_description pd ON pd.product_id = p.product_id  WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') ."' ";
 	
 		if (isset($data['customer_id'])) {
 			$sql .= " AND ct.customer_id = '" . (int)$data['customer_id'] . "' ";
 		}
 
-		if (isset($data['filter_name'])) {
-			$sql .= " AND (c.firstname LIKE '%" . $this->db->escape($data['filter_name']) . "%' OR c.firstname LIKE '%" . $this->db->escape($data['filter_name']) . "%') ";
+		if (isset($data['filter_product_name'])) {
+			$sql .= " AND pd.name LIKE '%" . $this->db->escape($data['filter_product_name']) . "%'"; 
+		}
+
+		if (isset($data['filter_customer_name'])) {
+			$sql .= " AND c.fullname LIKE '%" . $this->db->escape($data['filter_customer_name']) . "%'";
 		}
 
 		if (isset($data['filter_ssn'])) {
@@ -832,14 +838,20 @@ class ModelSaleCustomer extends Model {
 
 	public function getTotalTransactions($data) {
 
-		$sql = "SELECT COUNT(*) AS total FROM oc_customer_transaction ct LEFT JOIN oc_customer c ON c.customer_id = ct.customer_id WHERE 1=1 ";
+		$sql = "SELECT count(*) as total FROM oc_customer_transaction ct LEFT JOIN oc_customer c ON c.customer_id = ct.customer_id LEFT JOIN oc_product p ON p.product_id = ct.product_id LEFT JOIN oc_product_description pd ON pd.product_id = p.product_id  WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') ."' ";
+		// $sql = "SELECT COUNT(*) AS total FROM oc_customer_transaction ct LEFT JOIN oc_customer c ON c.customer_id = ct.customer_id WHERE 1=1 ";
+	
 	
 		if (isset($data['customer_id'])) {
 			$sql .= " AND ct.customer_id = '" . (int)$data['customer_id'] . "' ";
 		}
 
-		if (isset($data['filter_name'])) {
-			$sql .= " AND (c.firstname LIKE '%" . $this->db->escape($data['filter_name']) . "%' OR c.firstname LIKE '%" . $this->db->escape($data['filter_name']) . "%') ";
+		if (isset($data['filter_product_name'])) {
+			$sql .= " AND pd.name LIKE '%" . $this->db->escape($data['filter_product_name']) . "%'"; 
+		}
+
+		if (isset($data['filter_customer_name'])) {
+			$sql .= " AND c.fullname LIKE '%" . $this->db->escape($data['filter_customer_name']) . "%'";
 		}
 
 		if (isset($data['filter_ssn'])) {
@@ -850,13 +862,7 @@ class ModelSaleCustomer extends Model {
 			$sql .= " AND ct.status >= 0 ";
 		}
 
-		// $sql .= " ORDER BY ct.date_added DESC, ct.customer_transaction_id LIMIT " . (int)$start . "," . (int)$limit; 
-
 		$query = $this->db->query($sql);
-
-		//return $query->rows;
-
-		//$query = $this->db->query("SELECT COUNT(*) AS total  FROM " . DB_PREFIX . "customer_transaction WHERE customer_id = '" . (int)$customer_id . "'");
 
 		return $query->row['total'];
 	}

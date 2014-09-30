@@ -29,6 +29,8 @@
         <?php } ?>
         <!-- <a href="#tab-ip"><php echo $tab_ip; ?></a> -->
       </div>
+
+      
       <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
         <div id="tab-general" >
           <div id="vtabs" class="vtabs"><a href="#tab-customer"><?php echo $tab_general; ?></a>
@@ -524,7 +526,7 @@ $('#button-transaction').bind('click', function() {
 		url: 'index.php?route=sale/customer/transaction&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>',
 		type: 'post',
 		dataType: 'html',
-		data: 'product_id=' + encodeURIComponent($('#tab-transaction input[name=\'product_id\']').val()) + '&unitspend=' + encodeURIComponent($('#tab-transaction input[name=\'unitspend\']').val()),
+		data: 'product_id=' + encodeURIComponent($('#tab-transaction input[name=\'product_id\']').val()) + '&unitspend=' + encodeURIComponent($('#tab-transaction input[name=\'unitspend\']').val())+'&show_group=1',
 		beforeSend: function() {
 			$('.success, .warning').remove();
 			$('#button-transaction').attr('disabled', true);

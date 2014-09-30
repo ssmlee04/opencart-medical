@@ -76,9 +76,12 @@ class ControllerSaleOrder extends Controller {
 		$this->load->model('sale/order');
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
-			$this->model_sale_order->editOrder($this->request->get['order_id'], $this->request->post);
 
-			$this->session->data['success'] = $this->language->get('text_success');
+			if ($this->model_sale_order->editOrder($this->request->get['order_id'], $this->request->post)) {
+				$this->session->data['success'] = $this->language->get('text_success');
+			} else {
+				$this->session->data['error'] = $this->language->get('text_error');
+			}
 
 			$url = '';
 
@@ -360,8 +363,10 @@ class ControllerSaleOrder extends Controller {
 
 		$this->data['token'] = $this->session->data['token'];
 
-		if (isset($this->error['warning'])) {
-			$this->data['error_warning'] = $this->error['warning'];
+		if (isset($this->session->data['error'])) {
+			$this->data['error_warning'] = $this->session->data['error'];
+
+			unset($this->session->data['error']);
 		} else {
 			$this->data['error_warning'] = '';
 		}
@@ -557,6 +562,12 @@ class ControllerSaleOrder extends Controller {
 		$this->data['tab_product'] = $this->language->get('tab_product');
 		$this->data['tab_voucher'] = $this->language->get('tab_voucher');
 		$this->data['tab_total'] = $this->language->get('tab_total');
+
+		if (isset($this->error['customer'])) {
+			$this->data['error_customer'] = $this->error['customer'];
+		} else {
+			$this->data['error_customer'] = '';
+		}
 
 		if (isset($this->error['store'])) {
 			$this->data['error_store'] = $this->error['store'];
@@ -789,9 +800,20 @@ class ControllerSaleOrder extends Controller {
 		if (isset($this->request->post['customer'])) {
 			$this->data['customer'] = $this->request->post['customer'];
 		} elseif (!empty($order_info)) {
-			$this->data['customer'] = $order_info['customer'];
+			$customer = $this->model_sale_customer->getCustomer($order_info['customer_id']);
+			$this->data['customer'] = $customer['fullname'];
 		} else {
 			$this->data['customer'] = '';
+		}
+
+		if (isset($this->request->post['customer_id'])) {
+			$this->data['customer_name'] = $this->request->post['customer_name'];
+		} elseif (!empty($order_info)) {
+			// $this->load->model('sale/customer');
+			$customer = $this->model_sale_customer->getCustomer($order_info['customer_id']);
+			$this->data['customer_name'] = $customer['fullname'];
+		} else {
+			$this->data['customer_name'] = '';
 		}
 
 		if (isset($this->request->post['customer_id'])) {
@@ -1289,6 +1311,22 @@ class ControllerSaleOrder extends Controller {
 
 		if (utf8_strlen($this->request->post['store_id']) <= 0) {
 			$this->error['store'] = $this->language->get('error_store');
+		}
+
+		if (utf8_strlen($this->request->post['customer_name']) <= 0) {
+			$this->error['customer'] = $this->language->get('error_customer');
+		}
+
+		if (utf8_strlen($this->request->post['customer_id']) <= 0) {
+			$this->error['customer'] = $this->language->get('error_customer');
+		}
+
+		if ($this->request->post['customer'] != $this->request->post['customer_name']) {
+			$this->error['customer'] = $this->language->get('error_customer');
+		}
+
+		if ((int)$this->request->post['customer_id'] <= 0) {
+			$this->error['customer'] = $this->language->get('error_customer');
 		}
 
 		if ((utf8_strlen($this->request->post['firstname']) < 1) || (utf8_strlen($this->request->post['firstname']) > 32)) {

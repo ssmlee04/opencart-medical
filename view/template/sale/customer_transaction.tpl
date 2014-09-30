@@ -9,6 +9,7 @@
     <tr>
       <td class="left"><?php echo $column_date_added; ?></td>
       <td class="left"><?php echo $column_date_modified; ?></td>
+      <td class="left"><?php echo $column_customer; ?></td>
       <!-- <td class="left"></td> -->
       <td class="left"><?php echo $column_product; ?></td>
       <td class="left"><?php echo $column_quantity; ?></td>
@@ -22,6 +23,7 @@
   <tbody>
     <?php if ($transactions) { ?>
     <?php foreach ($transactions as $transaction) { ?>
+    <!-- <.php if ($transaction['status'] == 0) continue; ?> -->
     <tr>
       <td class="left"><?php echo $transaction['date_added']; ?> 
         <?php if ($transaction['product_which'] > 0) { ?>
@@ -30,9 +32,7 @@
         <input type='hidden' value='<?php echo $transaction['customer_transaction_id']; ?> ' />
       </td>
       <td class="left"><?php echo $transaction['date_modified']; ?></td>
-      
-    
-
+      <td class="left"><?php echo $transaction['fullname']; ?></td>
       <td class="left"><?php echo $transaction['product_name']; ?></td>
       <td class="left"><?php echo $transaction['quantity']; ?></td>
       <td class="left"><?php echo $transaction['subquantity']; ?></td>
@@ -50,8 +50,6 @@
         <?php } ?>
       </td>
       <td class="left"><input type='text' id='comment' style='width:400px'/>
-      
-
         <?php if ($transaction['type'] == 2) { ?>
         <img src="view/image/delete.png" title="<?php echo $button_remove; ?>" alt="<?php echo $button_remove; ?>" style="cursor: pointer;" onclick="$(this).parent().parent().remove(); deleteCustomerTransaction('<?php echo $transaction['customer_transaction_id']; ?>')" />
         <?php } ?>
@@ -81,7 +79,7 @@
     <?php } ?>
   </tbody>
 </table>
-<div class="pagination"><?php echo $pagination; ?></div>
+<!-- <div class="pagination"><php echo $pagination; ?></div> -->
 
 <?php if (isset($show_group) && $show_group) { ?>
 <?php echo $text_service_not_rendered; ?>

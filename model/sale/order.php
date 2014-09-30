@@ -14,51 +14,30 @@ class ModelSaleOrder extends Model {
 	// '2014-09-28 23:37'
 	public function editOrder($order_id, $data) {
 
-
 		$store_id = $data['store_id'];
 
 		$this->load->model('localisation/country');
 
-		$this->load->model('localisation/zone');
+		$this->load->model('localisation/zone');		
 
-		// $country_info = $this->model_localisation_country->getCountry($data['shipping_country_id']);
+		// check if can restock or not..... 
 
-		// if ($country_info) {
-		// 	$shipping_country = $country_info['name'];
-		// 	$shipping_address_format = $country_info['address_format'];
-		// } else {
-		// 	$shipping_country = '';	
-		// 	$shipping_address_format = '{firstname} {lastname}' . "\n" . '{company}' . "\n" . '{address_1}' . "\n" . '{address_2}' . "\n" . '{city} {postcode}' . "\n" . '{zone}' . "\n" . '{country}';
-		// }	
-
-		// $zone_info = $this->model_localisation_zone->getZone($data['shipping_zone_id']);
-
-		// if ($zone_info) {
-		// 	$shipping_zone = $zone_info['name'];
-		// } else {
-		// 	$shipping_zone = '';			
-		// }	
-
-		// $country_info = $this->model_localisation_country->getCountry($data['payment_country_id']);
-
-		// if ($country_info) {
-		// 	$payment_country = $country_info['name'];
-		// 	$payment_address_format = $country_info['address_format'];			
-		// } else {
-		// 	$payment_country = '';	
-		// 	$payment_address_format = '{firstname} {lastname}' . "\n" . '{company}' . "\n" . '{address_1}' . "\n" . '{address_2}' . "\n" . '{city} {postcode}' . "\n" . '{zone}' . "\n" . '{country}';					
-		// }
-
-		// $zone_info = $this->model_localisation_zone->getZone($data['payment_zone_id']);
-
-		// if ($zone_info) {
-		// 	$payment_zone = $zone_info['name'];
-		// } else {
-		// 	$payment_zone = '';			
-		// }			
 
 		// Restock products before subtracting the stock later on ****
 		$order_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "order` WHERE order_status_id > '0' AND order_id = '" . (int)$order_id . "'");
+
+		$product_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "order_product WHERE order_id = '" . (int)$order_id . "'");
+
+		$transaction_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "customer_transaction WHERE order_id = '" . (int)$order_id . "'");
+
+		$transaction_ok = true;
+
+		foreach ($transaction_query->rows as $transaction) {
+
+			if ($transaction['status'] > 0) $transaction_ok = false;
+		}
+
+		if (!$transaction_ok) return false;
 
 		if ($order_query->num_rows) {
 
@@ -66,36 +45,21 @@ class ModelSaleOrder extends Model {
 
 			$customer_id = $order_query->row['customer_id'];
 
-			if ($order_query->num_rows) {
-				
-				$product_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "order_product WHERE order_id = '" . (int)$order_id . "'");
+			// '2014-09-08 21:04'
+			foreach($product_query->rows as $product) {
+				$this->db->query("UPDATE `" . DB_PREFIX . "product_to_store` SET quantity = (quantity + " . (int)$product['quantity'] . ") WHERE product_id = '" . (int)$product['product_id'] . "' AND store_id = '$store_id_prev'");
 
-				// '2014-09-08 21:04'
-				foreach($product_query->rows as $product) {
-
-
-					//$subquantity = $q->row['unit_quantity'];
-
-					//$this->db->query("UPDATE `" . DB_PREFIX . "product` SET quantity = (quantity + " . (int)$product['quantity'] . ") WHERE product_id = '" . (int)$product['product_id'] . "' AND subtract = '1'");
-					$this->db->query("UPDATE `" . DB_PREFIX . "product_to_store` SET quantity = (quantity + " . (int)$product['quantity'] . ") WHERE product_id = '" . (int)$product['product_id'] . "' AND store_id = '$store_id_prev'");
-
-					// $option_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "order_option WHERE order_id = '" . (int)$order_id . "' AND order_product_id = '" . (int)$product['order_product_id'] . "'");
-
-					// foreach ($option_query->rows as $option) {
-					// 	$this->db->query("UPDATE " . DB_PREFIX . "product_option_value SET quantity = (quantity + " . (int)$product['quantity'] . ") WHERE product_option_value_id = '" . (int)$option['product_option_value_id'] . "' AND subtract = '1'");
-					// }
-				}
 			}
 		}
-		
 
-			// affiliate_id  = '" . (int)$data['affiliate_id'] . "',
-		$this->db->query("UPDATE `" . DB_PREFIX . "order` SET firstname = '" . $this->db->escape($data['firstname']) . "', lastname = '" . $this->db->escape($data['lastname']) . "', email = '" . $this->db->escape($data['email']) . "', telephone = '" . $this->db->escape($data['telephone']) . "', fax = '" . $this->db->escape($data['fax']) . "', comment = '" . $this->db->escape($data['comment']) . "', order_status_id = '" . (int)$data['order_status_id'] . "', 
-			date_modified = NOW(), store_id = '$store_id' WHERE order_id = '" . (int)$order_id . "'");
+		$this->db->query("UPDATE `" . DB_PREFIX . "order` SET firstname = '" . $this->db->escape($data['firstname']) . "', lastname = '" . $this->db->escape($data['lastname']) . "', email = '" . $this->db->escape($data['email']) . "', telephone = '" . $this->db->escape($data['telephone']) . "', fax = '" . $this->db->escape($data['fax']) . "', comment = '" . $this->db->escape($data['comment']) . "', order_status_id = '" . (int)$data['order_status_id'] . "', customer_id='" . (int)$data['customer_id'] . "', store_id = '$store_id' , date_modified = NOW() WHERE order_id = '" . (int)$order_id . "'");
 
 		$this->db->query("DELETE FROM " . DB_PREFIX . "order_product WHERE order_id = '" . (int)$order_id . "'"); 
-		$this->db->query("DELETE FROM " . DB_PREFIX . "order_option WHERE order_id = '" . (int)$order_id . "'");
-		$this->db->query("DELETE FROM " . DB_PREFIX . "order_download WHERE order_id = '" . (int)$order_id . "'");
+
+		//$this->db->query("DELETE FROM oc_customer_transaction WHERE order_id = '" . (int)$order_id . "'");
+		$this->load->model('sale/customer');
+
+		$this->model_sale_customer->deleteTransaction($order_id);
 
 		if (isset($data['order_product'])) {
 			foreach ($data['order_product'] as $order_product) {
@@ -112,35 +76,9 @@ class ModelSaleOrder extends Model {
 				$order_product_id = $this->db->getLastId();
 
 				// '2014-09-08 21:04'
-				//$this->db->query("UPDATE " . DB_PREFIX . "product SET quantity = (quantity - " . (int)$order_product['quantity'] . ") WHERE product_id = '" . (int)$order_product['product_id'] . "' AND subtract = '1'");
 				$this->db->query("UPDATE " . DB_PREFIX . "product_to_store SET quantity = (quantity - " . (int)$order_product['quantity'] . ") WHERE product_id = '" . (int)$order_product['product_id'] . "' AND store_id = '$store_id'");
-
-				// if (isset($order_product['order_option'])) {
-				// 	foreach ($order_product['order_option'] as $order_option) {
-				// 		$this->db->query("INSERT INTO " . DB_PREFIX . "order_option SET order_option_id = '" . (int)$order_option['order_option_id'] . "', order_id = '" . (int)$order_id . "', order_product_id = '" . (int)$order_product_id . "', product_option_id = '" . (int)$order_option['product_option_id'] . "', product_option_value_id = '" . (int)$order_option['product_option_value_id'] . "', name = '" . $this->db->escape($order_option['name']) . "', `value` = '" . $this->db->escape($order_option['value']) . "', `type` = '" . $this->db->escape($order_option['type']) . "'");
-
-
-				// 		$this->db->query("UPDATE " . DB_PREFIX . "product_option_value SET quantity = (quantity - " . (int)$order_product['quantity'] . ") WHERE product_option_value_id = '" . (int)$order_option['product_option_value_id'] . "' AND subtract = '1'");
-				// 	}
-				// }
-
-				// if (isset($order_product['order_download'])) {
-				// 	foreach ($order_product['order_download'] as $order_download) {
-				// 		$this->db->query("INSERT INTO " . DB_PREFIX . "order_download SET order_download_id = '" . (int)$order_download['order_download_id'] . "', order_id = '" . (int)$order_id . "', order_product_id = '" . (int)$order_product_id . "', name = '" . $this->db->escape($order_download['name']) . "', filename = '" . $this->db->escape($order_download['filename']) . "', mask = '" . $this->db->escape($order_download['mask']) . "', remaining = '" . (int)$order_download['remaining'] . "'");
-				// 	}
-				// }
 			}
 		}
-
-		// $this->db->query("DELETE FROM " . DB_PREFIX . "order_voucher WHERE order_id = '" . (int)$order_id . "'"); 
-
-		// if (isset($data['order_voucher'])) {	
-		// 	foreach ($data['order_voucher'] as $order_voucher) {	
-		// 		$this->db->query("INSERT INTO " . DB_PREFIX . "order_voucher SET order_voucher_id = '" . (int)$order_voucher['order_voucher_id'] . "', order_id = '" . (int)$order_id . "', voucher_id = '" . (int)$order_voucher['voucher_id'] . "', description = '" . $this->db->escape($order_voucher['description']) . "', code = '" . $this->db->escape($order_voucher['code']) . "', from_name = '" . $this->db->escape($order_voucher['from_name']) . "', from_email = '" . $this->db->escape($order_voucher['from_email']) . "', to_name = '" . $this->db->escape($order_voucher['to_name']) . "', to_email = '" . $this->db->escape($order_voucher['to_email']) . "', voucher_theme_id = '" . (int)$order_voucher['voucher_theme_id'] . "', message = '" . $this->db->escape($order_voucher['message']) . "', amount = '" . (float)$order_voucher['amount'] . "'");
-
-		// 		$this->db->query("UPDATE " . DB_PREFIX . "voucher SET order_id = '" . (int)$order_id . "' WHERE voucher_id = '" . (int)$order_voucher['voucher_id'] . "'");
-		// 	}
-		// }
 
 		// Get the total
 		$total = 0;
@@ -155,37 +93,19 @@ class ModelSaleOrder extends Model {
 			$total += $order_total['value'];
 		}
 
-		// Affiliate
-		// $affiliate_id = 0;
-		// $commission = 0;
-
-		// if (!empty($this->request->post['affiliate_id'])) {
-		// 	$this->load->model('sale/affiliate');
-
-		// 	$affiliate_info = $this->model_sale_affiliate->getAffiliate($this->request->post['affiliate_id']);
-
-		// 	if ($affiliate_info) {
-		// 		$affiliate_id = $affiliate_info['affiliate_id']; 
-		// 		$commission = ($total / 100) * $affiliate_info['commission']; 
-		// 	}
-		// }
-
 
 		
-
 		// '2014-09-09 14:01'
-
 		$this->load->model('sale/customer');
 
 		// delete transaction
-		$this->model_sale_customer->deleteTransaction($order_id);
+		
 
 		$this->model_sale_customer->addTransaction($data['customer_id'], '', '', $order_id);
 
-			// , affiliate_id = '" . (int)$affiliate_id . "'
-			// , commission = '" . (float)$commission . "' 
-		$this->db->query("UPDATE `" . DB_PREFIX . "order` SET total = '" . (float)$total . "'
-			WHERE order_id = '" . (int)$order_id . "'");
+		$this->db->query("UPDATE `" . DB_PREFIX . "order` SET total = '" . (float)$total . "' WHERE order_id = '" . (int)$order_id . "'");
+
+		return true;
 	}
 
 	public function deleteOrder($order_id, $data) {
@@ -223,7 +143,7 @@ class ModelSaleOrder extends Model {
 		// $this->db->query("DELETE FROM " . DB_PREFIX . "affiliate_transaction WHERE order_id = '" . (int)$order_id . "'");
 		// $this->db->query("DELETE `or`, ort FROM " . DB_PREFIX . "order_recurring `or`, " . DB_PREFIX . "order_recurring_transaction ort WHERE order_id = '" . (int)$order_id . "' AND ort.order_recurring_id = `or`.order_recurring_id");
 
-		$this->load->model('sale/customer');
+		
 
 		// delete when type = 2
 		// $this->model_sale_customer->deleteTransaction($order_id);
@@ -392,9 +312,9 @@ class ModelSaleOrder extends Model {
 				'total'                   => $order_query->row['total'],
 				'reward'                  => $reward,
 				'order_status_id'         => $order_query->row['order_status_id'],
-				'affiliate_id'            => $order_query->row['affiliate_id'],
-				'affiliate_firstname'     => $affiliate_firstname,
-				'affiliate_lastname'      => $affiliate_lastname,
+				// 'affiliate_id'            => $order_query->row['affiliate_id'],
+				// 'affiliate_firstname'     => $affiliate_firstname,
+				// 'affiliate_lastname'      => $affiliate_lastname,
 				'commission'              => $order_query->row['commission'],
 				'language_id'             => $order_query->row['language_id'],
 				'language_code'           => $language_code,

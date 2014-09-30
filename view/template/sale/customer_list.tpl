@@ -18,8 +18,10 @@
     </div>
     <div class="content">
 
+
       <form action="" method="post" enctype="multipart/form-data" id="form">
 
+        <?php if (isset($if_search) && $if_search) { ?>
         <table class="list">
           <thead>
             <tr><td colspan='2'><?php echo $text_search_customer; ?></td></tr>
@@ -41,9 +43,10 @@
           </td>
               </tr>
         </table>
+        <?php } ?>
 
         <br>
-        <?php if (true) { ?>
+        <?php if ($filter_name!='' || $filter_ssn!='') { ?>
         <table class="list">
           <thead>
             <tr>
@@ -121,8 +124,7 @@
               <td><input type="text" name="filter_date_added" value="<php echo $filter_date_added; ?>" size="12" id="date" /></td>
               <td align="right"><a onclick="filter();" class="button"><php echo $button_filter; ?></a></td>
             </tr>
- -->
-
+ -->  
             <?php if ($customers) { ?>
             <?php foreach ($customers as $customer) { ?>
             <tr>

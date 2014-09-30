@@ -43,8 +43,12 @@
               <td><?php echo $entry_customer; ?></td>
               <td><input type="text" name="customer" value="<?php echo $customer; ?>" />
                 <input type="hidden" name="customer_id" value="<?php echo $customer_id; ?>" />
-                <input type="hidden" name="customer_name" value="<?php echo $customer_name_from_db; ?>" />
-                <input type="hidden" name="customer_group_id" value="<?php echo $customer_group_id; ?>" /></td>
+                <input type="hidden" name="customer_name" value="<?php echo $customer_name; ?>" />
+                <input type="hidden" name="customer_group_id" value="<?php echo $customer_group_id; ?>" />
+                <?php if ($error_customer) { ?>
+                  <span class="error"><?php echo $error_customer; ?></span>
+                <?php } ?>
+                </td>
             </tr>
             <tr>
               <td class="left"><?php echo $entry_customer_group; ?></td>
@@ -422,7 +426,8 @@ $('input[name=\'customer\']').catcomplete({
 					return {
 						category: item['customer_group'],
 						label: item['lastname'] + item['firstname'] + ' ' + item['ssn'],
-						value: item['customer_id'],
+            value: item['customer_id'],
+						fullname: item['fullname'],
 						customer_group_id: item['customer_group_id'],
 						firstname: item['firstname'],
 						lastname: item['lastname'],
@@ -437,7 +442,8 @@ $('input[name=\'customer\']').catcomplete({
 	}, 
 	select: function(event, ui) { 
 		$('input[name=\'customer\']').attr('value', ui.item['lastname'] + ui.item['firstname']);
-		$('input[name=\'customer_id\']').attr('value', ui.item['value']);
+    $('input[name=\'customer_id\']').attr('value', ui.item['value']);
+		$('input[name=\'customer_name\']').attr('value', ui.item['fullname']);
 		$('input[name=\'firstname\']').attr('value', ui.item['firstname']);
 		$('input[name=\'lastname\']').attr('value', ui.item['lastname']);
 		$('input[name=\'email\']').attr('value', ui.item['email']);
@@ -1460,11 +1466,14 @@ $('.time').timepicker({timeFormat: 'h:m'});
 <script type="text/javascript"><!--
 $('.vtabs a').tabs();
 
-$('.price').live('keyup', function(){
+$('.price').live('keyup', function(e){
   
-  clearinput();
+  if (e.keyCode == 13) {
+    clearinput();
   $('#button-product').click()
 
+  }
+  
   // change product total
   // var val = $(this).val();
   // $(this).parent().next().children().val(val);
