@@ -11,32 +11,19 @@
   <div class="box">
     <div class="heading">
       <h1><img src="view/image/order.png" alt="" /> <?php echo $heading_title; ?></h1>
-      <div class="buttons"><a onclick="$('#form').submit();" class="button"><?php echo $button_save; ?></a><a href="<?php echo $cancel; ?>" class="button"><?php echo $button_cancel; ?></a></div>
+
+      <div class="buttons">
+        <!-- <a onclick="$('#form').submit();" class="button save"><php echo $button_save; ?></a> -->
+        <a href="<?php echo $cancel; ?>" class="button"><?php echo $button_cancel; ?></a></div>
     </div>
     <div class="content">
-      <div id="vtabs" class="vtabs"><a href="#tab-customer"><?php echo $tab_customer; ?></a>
+      <div id="vtabs" class="vtabs"><a href="#tab-customer" id="tab-customer-link"><?php echo $tab_customer; ?></a>
         <a href="#tab-product"><?php echo $tab_product; ?></a>
         <!-- <a href="#tab-voucher"><php echo $tab_voucher; ?></a> -->
-        <a href="#tab-total"><?php echo $tab_total; ?></a></div>
+        <a href="#tab-total" onclick="$('#button-product').click()"><?php echo $tab_total; ?></a></div>
       <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
         <div id="tab-customer" class="vtabs-content">
           <table class="form">
-            <tr>
-              <td class="left"><?php echo $entry_store; ?></td>
-              <td class="left"><select name="store_id" class='store_id' onchange="$(this).attr('readonly', true);">
-                  <option value=''><?php echo $text_select; ?></option>
-                  <?php foreach ($stores as $store) { ?>
-                  <?php if ($store['store_id'] == $store_id) { ?>
-                  <option value="<?php echo $store['store_id']; ?>" selected="selected"><?php echo $store['name']; ?></option>
-                  <?php } else { ?>
-                  <option value="<?php echo $store['store_id']; ?>"><?php echo $store['name']; ?></option>
-                  <?php } ?>
-                  <?php } ?>
-                </select>
-                <?php if ($error_store) { ?>
-                  <span class="error"><?php echo $error_store; ?></span>
-                  <?php } ?></td>
-            </tr>
             <tr>
               <td><?php echo $entry_customer; ?></td>
               <td><input type="text" name="customer" value="<?php echo $customer; ?>" />
@@ -46,7 +33,25 @@
                 <?php if ($error_customer) { ?>
                   <span class="error"><?php echo $error_customer; ?></span>
                 <?php } ?>
+
                 </td>
+            </tr>
+            <tr>
+              <td class="left"><?php echo $entry_store; ?></td>
+              <td class="left"><select name="store_id"  class='store_id' onchange="$(this).attr('readonly', true);">
+                  <option value=''><?php echo $text_select; ?></option>
+                  <?php foreach ($stores as $store) { ?>
+                  <?php if ($store['store_id'] == $store_id) { ?>
+                  <option value="<?php echo $store['store_id']; ?>" selected="selected"><?php echo $store['name']; ?></option>
+                  <?php } else { ?>
+                  <option value="<?php echo $store['store_id']; ?>"><?php echo $store['name']; ?></option>
+                  <?php } ?>
+                  <?php } ?>
+                </select>
+
+                <?php if ($error_store) { ?>
+                  <span class="error"><?php echo $error_store; ?></span>
+                  <?php } ?></td>
             </tr>
             <tr>
               <td class="left"><?php echo $entry_customer_group; ?></td>
@@ -58,39 +63,36 @@
                   <option value="<?php echo $customer_group['customer_group_id']; ?>"><?php echo $customer_group['name']; ?></option>
                   <?php } ?>
                   <?php } ?>
+
                 </select></td>
             </tr>
             <tr>
               <td><span class="required">*</span> <?php echo $entry_firstname; ?></td>
-              <td><input type="text" name="firstname" value="<?php echo $firstname; ?>" />
+              <td><input type="text" name="firstname" value="<?php echo $firstname; ?>"/>
                 <?php if ($error_firstname) { ?>
                 <span class="error"><?php echo $error_firstname; ?></span>
                 <?php } ?></td>
             </tr>
             <tr>
               <td><span class="required">*</span> <?php echo $entry_lastname; ?></td>
-              <td><input type="text" name="lastname" value="<?php echo $lastname; ?>" />
+              <td><input type="text" name="lastname" value="<?php echo $lastname; ?>"/>
                 <?php if ($error_lastname) { ?>
                 <span class="error"><?php echo $error_lastname; ?></span>
                 <?php } ?></td>
             </tr>
             <tr>
               <td><span class="required">*</span> <?php echo $entry_email; ?></td>
-              <td><input type="text" name="email" value="<?php echo $email; ?>" />
+              <td><input type="text" name="email" value="<?php echo $email; ?>"/>
                 <?php if ($error_email) { ?>
                 <span class="error"><?php echo $error_email; ?></span>
                 <?php } ?></td>
             </tr>
             <tr>
               <td><span class="required">*</span> <?php echo $entry_telephone; ?></td>
-              <td><input type="text" name="telephone" value="<?php echo $telephone; ?>" />
+              <td><input type="text" name="telephone" value="<?php echo $telephone; ?>"/>
                 <?php if ($error_telephone) { ?>
                 <span class="error"><?php echo $error_telephone; ?></span>
                 <?php } ?></td>
-            </tr>
-            <tr>
-              <td><?php echo $entry_fax; ?></td>
-              <td><input type="text" name="fax" value="<?php echo $fax; ?>" /></td>
             </tr>
           </table>
         </div>
@@ -372,10 +374,41 @@
                     <?php } ?>
                   </select></td>
               </tr>
+
               <tr>
                 <td class="left"><?php echo $entry_comment; ?></td>
                 <td class="left"><textarea name="comment" cols="40" rows="5"><?php echo $comment; ?></textarea></td>
               </tr>
+
+              <tr>
+                <td class="left"><span class="required">*</span><?php echo $entry_payment_cash; ?></td>
+                <td class="left"><input name='payment_cash' value='<?php echo $payment_cash; ?>'/>
+                <?php if ($error_payment_cash) { ?>
+                  <span class="error"><?php echo $error_payment_cash; ?></span>
+                <?php } ?></td>
+              </tr>
+              <tr>
+                <td class="left"><span class="required">*</span><?php echo $entry_payment_visa; ?></td>
+                <td class="left"><input name='payment_visa' value='<?php echo $payment_visa; ?>'/>
+                <?php if ($error_payment_visa) { ?>
+                  <span class="error"><?php echo $error_payment_visa; ?></span>
+                <?php } ?></td>
+              </tr>
+              <tr>
+                <td class="left"><span class="required">*</span><?php echo $entry_payment_final; ?></td>
+                <td class="left"><input name='payment_final' value='<?php echo $payment_final; ?>'/>
+                <?php if ($error_payment_final) { ?>
+                  <span class="error"><?php echo $error_payment_final; ?></span>
+                <?php } ?></td>
+              </tr>
+              <tr>
+
+              </tr>
+              <tr>
+                <td class="left"><?php echo $entry_payment_balance; ?></td>
+                <td class="left"><input name='payment_balance'/ value='<?php echo $payment_balance; ?>' disabled></td>
+              </tr>
+
               <!-- <tr>
                 <td class="left"><php echo $entry_affiliate; ?></td>
                 <td class="left"><input type="text" name="affiliate" value="<php echo $affiliate; ?>" />
@@ -383,12 +416,20 @@
               </tr> -->
             </tbody>
             <tfoot>
-              <tr>
+              <!-- <tr>
                 <td class="left">&nbsp;</td>
-                <td class="left"><a id="button-update" class="button"><?php echo $button_update_total; ?></a></td>
-              </tr>
+                <td class="left"><a id="button-update" class="button"><php echo $button_update_total; ?></a></td>
+              </tr> -->
             </tfoot>
           </table>
+
+          <div class="buttons2">
+        <a onclick="$('#form').submit();" class="button save"><?php echo $button_save; ?></a>
+      </div>
+
+
+         
+
         </div>
       </form>
     </div>
@@ -411,6 +452,11 @@ $.widget('custom.catcomplete', $.ui.autocomplete, {
 	}
 });
 
+$('input[name=\'payment_cash\'], input[name=\'payment_visa\'], input[name=\'payment_final\']').keyup(function(){
+  var total = $('input[name=\'order_total[0][value]\']').val();
+  $('input[name=\'payment_balance\']').val(total - $('input[name=\'payment_final\']').val() - $('input[name=\'payment_visa\']').val() - $('input[name=\'payment_cash\']').val());
+});
+
 $('input[name=\'customer\']').catcomplete({
 	delay: 500,
 	source: function(request, response) {
@@ -427,7 +473,8 @@ $('input[name=\'customer\']').catcomplete({
             value: item['customer_id'],
 						fullname: item['fullname'],
 						customer_group_id: item['customer_group_id'],
-						firstname: item['firstname'],
+            firstname: item['firstname'],
+						store_id: item['store_id'],
 						lastname: item['lastname'],
 						email: item['email'],
 						telephone: item['telephone'],
@@ -439,14 +486,16 @@ $('input[name=\'customer\']').catcomplete({
 		});
 	}, 
 	select: function(event, ui) { 
-		$('input[name=\'customer\']').attr('value', ui.item['lastname'] + ui.item['firstname']);
+
+    $('select[name=\'store_id\']').val(ui.item['store_id']);
+    $('input[name=\'customer\']').attr('value', ui.item['lastname'] + ui.item['firstname']);
     $('input[name=\'customer_id\']').attr('value', ui.item['value']);
-		$('input[name=\'customer_name\']').attr('value', ui.item['fullname']);
-		$('input[name=\'firstname\']').attr('value', ui.item['firstname']);
-		$('input[name=\'lastname\']').attr('value', ui.item['lastname']);
-		$('input[name=\'email\']').attr('value', ui.item['email']);
-		$('input[name=\'telephone\']').attr('value', ui.item['telephone']);
-    $('input[name=\'fax\']').attr('value', ui.item['fax']);
+    $('input[name=\'customer_name\']').attr('value', ui.item['fullname']);
+    $('input[name=\'firstname\']').attr('value', ui.item['firstname']);
+    $('input[name=\'lastname\']').attr('value', ui.item['lastname']);
+    $('input[name=\'email\']').attr('value', ui.item['email']);
+    $('input[name=\'telephone\']').attr('value', ui.item['telephone']);
+    // $('input[name=\'fax\']').attr('value', ui.item['fax']);
 		// $('input[name=\'customer_store_id\']').attr('value', ui.item['store_id']);
 			
 		html = '<option value="0"><?php echo $text_none; ?></option>'; 
@@ -977,14 +1026,21 @@ $('input[name=\'product\']').autocomplete({
 <script type="text/javascript"><!--
 
 var clearinput = function(){
-    $('input[name=product]').val('');
+  $('input[name=product]').val('');
   $('input[name=product_id]').val('');
   $('input[name=quantity]').val('');
 };
 
-$('#button-product, #button-voucher, #button-update').live('click', function() {	
+$('#button-product').live('click', function() {	
 
   var store_id = $('.store_id').val();
+  var customer_id = $('input[name=\'customer_id\']').val();
+  
+  if (!store_id || !customer_id) {
+    $('.success, .warning, .attention, .error').remove();
+    $('.box').before('<div class="warning"><?php echo $text_error; ?></div>');
+    return;
+  }
 
   //alert('<?php echo store_url; ?>');
 	data  = '#tab-customer input[type=\'text\'], #tab-customer input[type=\'hidden\'], #tab-customer input[type=\'radio\']:checked, #tab-customer input[type=\'checkbox\']:checked, #tab-customer select, #tab-customer textarea, ';

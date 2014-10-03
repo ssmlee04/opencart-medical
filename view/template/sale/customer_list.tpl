@@ -228,6 +228,15 @@ function filter() {
 <script type="text/javascript"><!--
 $(document).ready(function() {
 	$('#date').datepicker({dateFormat: 'yy-mm-dd'});
+
+   $('input[name=\'filter_ssn\']').keydown(function(e){
+    if (e.keyCode==13) filter();
+  });
+
+  $('input[name=\'filter_name\']').keydown(function(e){
+    if (e.keyCode==13) filter();
+  });
+
 });
 //--></script>
 <?php echo $footer; ?> 

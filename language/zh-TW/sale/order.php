@@ -127,9 +127,7 @@ $_['column_product']        = '商品';
 $_['column_model']          = '型號';
 $_['column_quantity']       = '數量';
 $_['column_price']          = '單價';
-// $_['column_download']       = '下載名稱';
 $_['column_filename']       = '檔名';
-// $_['column_remaining']      = '可下載次數(Remaining)';
 $_['column_comment']        = '備註';
 $_['column_notify']         = '通知客戶';
 $_['column_action']         = '動作';
@@ -197,4 +195,10 @@ $_['error_upload']            = '未上傳檔案';
 $_['error_filename']          = '檔名必須在3到128字元之間';
 $_['error_filetype']          = '檔案格式錯誤';
 $_['error_action']            = '尚未完成';
+
+$_['error_payment_cash']            = '現金格式錯誤';
+$_['error_payment_visa']            = '信用卡付款格式錯誤';
+$_['error_payment_final']            = '尾款格式錯誤';
+
+
 ?>

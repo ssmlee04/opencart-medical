@@ -592,12 +592,13 @@ h1 img{
 	-webkit-box-shadow: -13px -11px 31px #191919;
 	-moz-box-shadow: -13px -11px 31px #191919;
 	padding: 20px 30px 30px 30px;
-	min-height: 500px;
+	min-height: 800px;
 	position: relative;
 }
 
 #content .content > form{
 	overflow: hidden;
+	display: initial;
 }
 
 #content .content > form.form-fix{
@@ -657,6 +658,41 @@ h1 img{
 	padding: 0 36px;
 	display: inline-block;
 }
+
+
+.buttons2{
+	position: relative;
+	/*right: 30px;*/
+	top: 14px;
+}
+
+.buttons2 a.button{
+	line-height: 40px;
+	margin: 0 0 0 10px;
+	background-color: #6d6d6d;
+	font-weight: bold;
+	color: #FFFFFF;
+	cursor: pointer;
+	padding: 0 36px;
+	display: inline-block;
+}
+
+.buttons2 a.button.save,
+.buttons2 a#button-send{
+	background: #04bc4e url("../../../image/admin_theme/base5builder_impulsepro/icon-button-save.png") no-repeat 18px 5px;
+	padding: 0 36px 0 49px;
+}
+
+.buttons2 a.button:hover,
+.buttons2 a.button:focus{
+	background-color: #949494;
+	text-decoration: none;
+	opacity: 0.8;
+	filter: alpha(opacity = 80);
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+}
+
+
 
 #content .heading .buttons a.button:hover,
 #content .heading .buttons a.button:focus{

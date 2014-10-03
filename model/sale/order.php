@@ -12,6 +12,18 @@ class ModelSaleOrder extends Model {
 	}
 
 	// '2014-09-28 23:37'
+
+	public function editOrderPayment($order_id, $payment_cash, $payment_visa, $payment_final) {
+
+		$this->db->query("UPDATE `" . DB_PREFIX . "order` SET 
+				payment_cash = '" . (float)$payment_cash . "'
+				, payment_visa = '" . (float)$payment_visa . "'
+				, payment_final = '" . (float)$payment_final . "'
+				, payment_balance = total - " . (float)$payment_final . " - " . (float)$payment_visa . " - " . (float)$payment_cash . "
+				 WHERE order_id = '" . (int)$order_id . "'");
+		return true;
+	}
+
 	public function editOrder($order_id, $data) {
 
 		$store_id = $data['store_id'];
@@ -20,6 +32,7 @@ class ModelSaleOrder extends Model {
 
 		$this->load->model('localisation/zone');		
 
+		$this->editOrderPayment($order_id, $data['payment_cash'], $data['payment_visa'], $data['payment_final']);
 		// check if can restock or not..... 
 
 
@@ -37,7 +50,9 @@ class ModelSaleOrder extends Model {
 			if ($transaction['status'] > 0) $transaction_ok = false;
 		}
 
-		if (!$transaction_ok) return false;
+		if (!$transaction_ok) {
+			return false;
+		}
 
 		if ($order_query->num_rows) {
 
@@ -61,6 +76,7 @@ class ModelSaleOrder extends Model {
 
 		$this->model_sale_customer->deleteTransaction($order_id);
 
+		$total = 0;
 		if (isset($data['order_product'])) {
 			foreach ($data['order_product'] as $order_product) {
 
@@ -71,11 +87,23 @@ class ModelSaleOrder extends Model {
 
 				$unit_class_id = $q->row['unit_class_id'];
 
-				$this->db->query("INSERT INTO " . DB_PREFIX . "order_product SET order_product_id = '" . (int)$order_product['order_product_id'] . "', order_id = '" . (int)$order_id . "', product_id = '" . (int)$order_product['product_id'] . "', name = '" . $this->db->escape($order_product['name']) . "', model = '" . $this->db->escape($order_product['model']) . "', quantity = '" . (int)$order_product['quantity'] . "', unit_class_id = '" . (int)$unit_class_id . "', subquantity = '" . (int)$subquantity . "', price = '" . (float)$order_product['price'] . "', ref_price = '" . (float)$order_product['ref_price'] . "', total = '" . (float)$order_product['total'] . "'");
+				$this->db->query("INSERT INTO " . DB_PREFIX . "order_product SET 
+					order_product_id = '" . (int)$order_product['order_product_id'] . "'
+					, order_id = '" . (int)$order_id . "'
+					, product_id = '" . (int)$order_product['product_id'] . "'
+					, name = '" . $this->db->escape($order_product['name']) . "'
+					, model = '" . $this->db->escape($order_product['model']) . "'
+					, quantity = '" . (int)$order_product['quantity'] . "'
+					, unit_class_id = '" . (int)$unit_class_id . "'
+					, subquantity = '" . (int)$subquantity . "'
+					, price = '" . (float)$order_product['price'] . "'
+					, ref_price = '" . (float)$order_product['ref_price'] . "', total = '" . (float)$order_product['total'] . "'");
 					// , tax = '" . (float)$order_product['tax'] . "'
 					// , reward = '" . (int)$order_product['reward'] . "'");
 
 				$order_product_id = $this->db->getLastId();
+
+				$total += (float)$order_product['price'] * (int)$order_product['quantity'];
 
 				// '2014-09-08 21:04'
 				$this->db->query("UPDATE " . DB_PREFIX . "product_to_store SET quantity = (quantity - " . (int)$order_product['quantity'] . ") WHERE product_id = '" . (int)$order_product['product_id'] . "' AND store_id = '$store_id'");
@@ -83,29 +111,26 @@ class ModelSaleOrder extends Model {
 		}
 
 		// Get the total
-		$total = 0;
+		// $total = 0;
 
-		$this->db->query("DELETE FROM " . DB_PREFIX . "order_total WHERE order_id = '" . (int)$order_id . "'");
+		// $this->db->query("DELETE FROM " . DB_PREFIX . "order_total WHERE order_id = '" . (int)$order_id . "'");
 
-		if (isset($data['order_total'])) {		
-			foreach ($data['order_total'] as $order_total) {
-				$this->db->query("INSERT INTO " . DB_PREFIX . "order_total SET order_total_id = '" . (int)$order_total['order_total_id'] . "', order_id = '" . (int)$order_id . "', code = '" . $this->db->escape($order_total['code']) . "', title = '" . $this->db->escape($order_total['title']) . "', text = '" . $this->db->escape($order_total['text']) . "', `value` = '" . (float)$order_total['value'] . "', sort_order = '" . (int)$order_total['sort_order'] . "'");
-			}
+		// if (isset($data['order_total'])) {		
+		// 	foreach ($data['order_total'] as $order_total) {
+		// 		$this->db->query("INSERT INTO " . DB_PREFIX . "order_total SET order_total_id = '" . (int)$order_total['order_total_id'] . "', order_id = '" . (int)$order_id . "', code = '" . $this->db->escape($order_total['code']) . "', title = '" . $this->db->escape($order_total['title']) . "', text = '" . $this->db->escape($order_total['text']) . "', `value` = '" . (float)$order_total['value'] . "', sort_order = '" . (int)$order_total['sort_order'] . "'");
+		// 	}
 
-			$total += $order_total['value'];
-		}
-
-
+		// 	$total += $order_total['value'];
+		// }
 		
 		// '2014-09-09 14:01'
 		$this->load->model('sale/customer');
 
-		// delete transaction
-		
+		$this->db->query("UPDATE `" . DB_PREFIX . "order` SET total = '" . (float)$total . "' WHERE order_id = '" . (int)$order_id . "'");
 
 		$this->model_sale_customer->addTransaction($data['customer_id'], '', '', $order_id);
 
-		$this->db->query("UPDATE `" . DB_PREFIX . "order` SET total = '" . (float)$total . "' WHERE order_id = '" . (int)$order_id . "'");
+		$this->editOrderPayment($order_id, $data['payment_cash'], $data['payment_visa'], $data['payment_final']);
 
 		return true;
 	}
@@ -326,10 +351,14 @@ class ModelSaleOrder extends Model {
 				'total'                   => $order_query->row['total'],
 				'reward'                  => $reward,
 				'order_status_id'         => $order_query->row['order_status_id'],
+				'payment_cash'         => $order_query->row['payment_cash'],
+				'payment_visa'         => $order_query->row['payment_visa'],
+				'payment_balance'         => $order_query->row['payment_balance'],
+				'payment_final'         => $order_query->row['payment_final'],
 				// 'affiliate_id'            => $order_query->row['affiliate_id'],
 				// 'affiliate_firstname'     => $affiliate_firstname,
 				// 'affiliate_lastname'      => $affiliate_lastname,
-				'commission'              => $order_query->row['commission'],
+				// 'commission'              => $order_query->row['commission'],
 				'language_id'             => $order_query->row['language_id'],
 				'language_code'           => $language_code,
 				'language_filename'       => $language_filename,

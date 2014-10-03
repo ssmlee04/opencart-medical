@@ -645,8 +645,10 @@ class ControllerSaleCustomer extends Controller {
 
 	protected function getForm() {
 
-		$this->data['heading_title'] = $this->language->get('heading_title');
+		$this->load->model('sale/customer_group');
+		$this->load->model('sale/customer');
 
+		$this->data['heading_title'] = $this->language->get('heading_title');
 		$this->data['text_browse'] = $this->language->get('text_browse');
 		$this->data['text_clear'] = $this->language->get('text_clear');
 		$this->data['text_enabled'] = $this->language->get('text_enabled');
@@ -838,7 +840,33 @@ class ControllerSaleCustomer extends Controller {
 			$this->data['error_store'] = '';
 		}
 
+		// Images
+		if (isset($this->request->post['customer_image'])) {
+			$customer_images = $this->request->post['customer_image'];
+		} elseif (isset($this->request->get['customer_id'])) {
+			$customer_images = $this->model_sale_customer->getCustomerImages($this->request->get['customer_id']);
+		} else {
+			$customer_images = array();
+		}
+
+
 		$this->data['customer_images'] = '';
+		$this->load->model('tool/image');
+
+		foreach ($customer_images as $customer_image) {
+			if ($customer_image['image'] && file_exists(DIR_IMAGE . $customer_image['image'])) {
+				$image = $customer_image['image'];
+			} else {
+				$image = 'no_image.jpg';
+			}
+
+			$this->data['customer_images'][] = array(
+				'image'      => $image,
+				'date_added'      =>  explode(' ' ,$customer_image['date_added'])[0],
+				'thumb'      => $this->model_tool_image->resize($image, 100, 100),
+				'sort_order' => $customer_image['sort_order']
+			);
+		}
 
 		$url = '';
 
@@ -1025,6 +1053,7 @@ class ControllerSaleCustomer extends Controller {
 			$this->data['fax'] = '';
 		}
 
+
 		if (isset($this->request->post['newsletter'])) {
 			$this->data['newsletter'] = $this->request->post['newsletter'];
 		} elseif (!empty($customer_info)) {
@@ -1060,7 +1089,7 @@ class ControllerSaleCustomer extends Controller {
 
 
 
-		$this->load->model('sale/customer_group');
+		
 
 		$this->data['customer_groups'] = $this->model_sale_customer_group->getCustomerGroups();
 
@@ -1589,6 +1618,7 @@ class ControllerSaleCustomer extends Controller {
 		$this->response->setOutput(json_encode($json));
 	}
 
+	// '2014-09-30 22:35'
 	public function editcustomertransaction() {
 
 		$json = array();
@@ -1604,6 +1634,7 @@ class ControllerSaleCustomer extends Controller {
 				$this->load->model('sale/customer');	
 			
 				$data['status'] = $this->request->post['status'];
+				$data['comment'] = $this->request->post['comment'];
 
 				if ($this->model_sale_customer->editCustomerTransaction($this->request->post['customer_transaction_id'], $data)) {
 					$json['success'] = $this->language->get('text_edit_transaction_success');
@@ -1727,6 +1758,7 @@ class ControllerSaleCustomer extends Controller {
 		if (isset($this->request->post['filter_ssn'])) $data['filter_ssn'] = $this->request->post['filter_ssn'];
 		$data['filter_product_type_id'] = 2;			
 		
+
 		$results = $this->model_sale_customer->getTransactions($data, ($page - 1) * 10, 10);
 
 		$totalresults = $this->model_sale_customer->getTransactions($data, 0, 999999);

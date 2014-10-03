@@ -144,9 +144,14 @@ class ControllerCommonHome extends Controller {
 
 		$data = array(
 			'filter_user_id' => $this->user->getId(),
-			'filter_reminder_status' => 0
+			'filter_reminder_status' => 0,
+			'filter_reminder_date_end' => date("Y-m-d")
 		);
-		$this->data['messages'] = $this->model_user_user->getReminderMessages($data);
+
+		// $this->data['messages'] = $this->model_user_user->getReminderMessages($data);
+		$this->load->model('sale/customer');
+		$this->data['messages'] =$this->model_sale_customer->getHistories($data);
+		// $this->data['messages'] = $this->model_user_user->getReminderMessages($data);
 
 		$this->load->model('sale/order');
 

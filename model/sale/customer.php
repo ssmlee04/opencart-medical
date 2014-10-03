@@ -30,7 +30,13 @@ class ModelSaleCustomer extends Model {
 	}
 
 	public function editCustomer($customer_id, $data) {
-		$this->db->query("UPDATE " . DB_PREFIX . "customer SET firstname = '" . $this->db->escape($data['firstname']) . "', lastname = '" . $this->db->escape($data['lastname']) . "', email = '" . $this->db->escape($data['email']) . "', telephone = '" . $this->db->escape($data['telephone']) . "', fax = '" . $this->db->escape($data['fax']) . "'
+
+		$this->load->out($data, false);
+		$this->db->query("UPDATE " . DB_PREFIX . "customer SET 
+			firstname = '" . $this->db->escape($data['firstname']) . "'
+			, lastname = '" . $this->db->escape($data['lastname']) . "'
+			, fullname = '" . $this->db->escape($data['lastname']) . $this->db->escape($data['firstname']) . "'
+			, email = '" . $this->db->escape($data['email']) . "', telephone = '" . $this->db->escape($data['telephone']) . "', fax = '" . $this->db->escape($data['fax']) . "'
 			, dob = '" . $this->db->escape($data['dob']) . "'
 			, ssn = '" . $this->db->escape($data['ssn']) . "'
 			, image = '" . $this->db->escape($data['image']) . "'
@@ -42,9 +48,17 @@ class ModelSaleCustomer extends Model {
 			, newsletter = '" . (int)$data['newsletter'] . "'
 			, customer_group_id = '" . (int)$data['customer_group_id'] . "', status = '" . (int)$data['status'] . "' WHERE customer_id = '" . (int)$customer_id . "'");
 
-		// if ($data['password']) {
-		// 	$this->db->query("UPDATE " . DB_PREFIX . "customer SET salt = '" . $this->db->escape($salt = substr(md5(uniqid(rand(), true)), 0, 9)) . "', password = '" . $this->db->escape(sha1($salt . sha1($salt . sha1($data['password'])))) . "' WHERE customer_id = '" . (int)$customer_id . "'");
-		// }
+	
+
+		// edit customer images
+		$this->db->query("DELETE FROM " . DB_PREFIX . "customer_image WHERE customer_id = '" . (int)$customer_id . "'");	
+
+		if (isset($data['customer_image'])) {
+			foreach ($data['customer_image'] as $customer_image) {
+				
+				$this->insertCustomerImage($customer_id, $customer_image);
+			}
+		}
 
 		$this->db->query("DELETE FROM " . DB_PREFIX . "address WHERE customer_id = '" . (int)$customer_id . "'");
 
@@ -61,6 +75,19 @@ class ModelSaleCustomer extends Model {
 				// }
 			// }
 		}
+	}
+
+	public function insertCustomerImage($customer_id, $data) {
+
+		$sql = "INSERT INTO oc_customer_image SET customer_id = '" . (int)$customer_id . "'
+		, date_added = '" . $this->db->escape($data['date_added']) . "'
+		, image = '" . $this->db->escape($data['image']) . "'";
+
+		if (isset($data['customer_transaction_id'])) $sql .= ", customer_transaction_id = '" . $this->db->escape($data['customer_transaction_id']) . "'";
+
+		$query = $this->db->query($sql);
+
+		return $this->db->countAffected();
 	}
 
 	public function editToken($customer_id, $token) {
@@ -279,6 +306,7 @@ class ModelSaleCustomer extends Model {
 		return $address_data;
 	}	
 
+	// '2014-10-03 10:48'
 	public function getTotalCustomers($data = array()) {
 		$sql = "SELECT COUNT(*) AS total FROM " . DB_PREFIX . "customer";
 
@@ -355,6 +383,7 @@ class ModelSaleCustomer extends Model {
 		return $query->row['total'];
 	}
 
+	// '2014-10-03 10:48'
 	public function addHistory($customer_id, $comment, $user_id = 0, $reminder=null, $reminder_date=null, $if_treatment = false, $customer_transaction_id = '') {
 
 		$subsql = ($reminder ? " reminder = 1, reminder_date = '$reminder_date', user_id = " . (int)$user_id . ', ' : '');
@@ -489,12 +518,14 @@ class ModelSaleCustomer extends Model {
 		return $query->row['total'];
 	}	
 
+	// '2014-10-03 10:47'
 	public function getTotalLendings($customer_id) {
 		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "customer_lending WHERE lender_id = '" . (int)$customer_id . "'");
 
 		return $query->row['total'];
 	}	
 
+	// '2014-10-03 10:47'
 	public function addLending($customer_id, $lendto_customer_id, $lendto_product_id, $lendto_subquantity) {
 
 		$query = $this->db->query("SELECT * FROM oc_customer_transaction WHERE customer_id = '" . (int)$customer_id . "' AND status < 0 AND product_id = '$lendto_product_id' AND customer_lending_id = 0");
@@ -572,7 +603,7 @@ class ModelSaleCustomer extends Model {
 		return true;
 	}
 
-
+	// '2014-10-03 10:47'
 	public function hasInventory($customer_id, $product_id, $subquantity) {
 
 		$this->load->model('sale/customer');
@@ -704,6 +735,7 @@ class ModelSaleCustomer extends Model {
 	}
 
 
+	// '2014-10-03 10:47'
 	public function addTransaction($customer_id, $description = '', $amount = '', $order_id = 0) {
 			
 		// '2014-09-09 11:29'
@@ -748,10 +780,11 @@ class ModelSaleCustomer extends Model {
 					for ($i = 0; $i < $subquantity; $i++) {
 						$this->db->query("INSERT INTO " . DB_PREFIX . "customer_transaction SET 
 							status = -1, 
-							quantity = '" . -$temp . "',
-						product_total_which = '" . $subquantity . "',
-						product_which = '" . ($i + 1) . "',
-						 customer_id = '" . (int)$customer_id . "'
+							quantity = '" . -$temp . "'
+							,product_total_which = '" . $subquantity . "'
+							,product_which = '" . ($i + 1) . "'
+							,customer_id = '" . (int)$customer_id . "'
+							,product_id = '" . (int)$product_id . "'
 						 , product_type_id = '" . (int)$product_type_id . "'
 						 , subquantity = '" . -1 . "',  order_id = '" . (int)$order_id . "', unit_class_id = '" . (int)$unit_class_id . "', date_modified = NOW(), date_added = NOW()");						
 					}
@@ -796,11 +829,13 @@ class ModelSaleCustomer extends Model {
 		}
 	}
 
+	// '2014-10-03 10:47'
 	public function deleteTransaction($order_id) {
 		$this->db->query("DELETE FROM " . DB_PREFIX . "customer_transaction WHERE order_id = '" . (int)$order_id . "'");
 
 	}
 
+	// '2014-10-03 10:47'
 	public function deleteCustomerLending($customer_lending_id) {
 
 		$query = $this->db->query("SELECT * FROM oc_customer_lending WHERE customer_lending_id = '" . (int)$customer_lending_id . "'");
@@ -839,6 +874,7 @@ class ModelSaleCustomer extends Model {
 
 	}
 
+	// '2014-10-03 10:47'
 	public function deleteCustomerHistory($customer_history_id) {
 
 		$this->db->query("DELETE FROM " . DB_PREFIX . "customer_history WHERE customer_history_id = '" . (int)$customer_history_id . "'");
@@ -849,16 +885,66 @@ class ModelSaleCustomer extends Model {
 
 	public function editCustomerTransaction($customer_transaction_id, $data) {
 
+		// update message
 		$sql  = "UPDATE oc_customer_transaction SET date_modified = NOW()";
 
-		$sql .= (isset($data['status']) ? " , status = '" . $data['status'] . "'" : '');
+		$sql .= (isset($data['comment']) ? " , comment = '" . $data['comment'] . "'" : '');
+
+		$sql .= " WHERE customer_transaction_id = '" . (int)$customer_transaction_id . "'";
+
+		$this->db->query($sql);
+
+		$affected1 = $this->db->countAffected();
+
+		// update status
+		$sql  = "UPDATE oc_customer_transaction SET date_modified = NOW()";
+
+		$sql .= (isset($data['status']) && $data['status'] != 'x' ? " , status = '" . $data['status'] . "'" : '');
 
 		$sql .= " WHERE customer_transaction_id = '" . (int)$customer_transaction_id . "' AND quantity < 0";
 
 		$this->db->query($sql);
-		
 
-		return $this->db->countAffected();
+		$affected2 = $this->db->countAffected();
+
+		$this->remindProduct($customer_transaction_id);
+
+		return $affected1 || $affected2; 
+	}
+
+	// '2014-10-03 10:47' not good
+	public function remindProduct($customer_transaction_id) {
+
+		$query = $this->db->query("SELECT * FROM oc_customer_transaction WHERE customer_transaction_id = '" . (int)$customer_transaction_id . "'");
+
+		$customer_id = $query->row['customer_id'];
+		$product_id = $query->row['product_id'];
+		$status = $query->row['status'];
+
+		// '2014-10-03 11:34' no need to remind
+		if ($status <= 0 && $status >= 10) return false;
+
+		$this->load->model('catalog/product');
+
+		$product = $this->model_catalog_product->getProduct($product_id);
+
+		$reminder = $product['reminder'];
+		$product_type_id = $product['product_type_id'];
+		$product_name = $product['name'];
+
+		$reminder_days = $product['reminder_days'];
+
+		$user_id = $this->user->getId();
+
+		$this->language->load('sale/history');
+
+		$comment = sprintf($this->language->get('text_treatment_reminder'), $reminder_days, $product_name);
+
+		if ($reminder) {
+			$this->db->query("INSERT INTO oc_customer_history (if_treatment, comment, customer_id, user_id, reminder, reminder_date, date_added, date_modified) VALUES
+			 (1, '$comment', '$customer_id', '$user_id', '$reminder', DATE_ADD(NOW(),  INTERVAL $reminder_days DAY), NOW(), NOW())");
+			
+		}
 	}
 
 	public function deleteCustomerTransaction($customer_transaction_id) {
@@ -923,6 +1009,7 @@ class ModelSaleCustomer extends Model {
 		return $query->rows;
 	}
 
+	// '2014-10-03 10:46'
 	public function getTotalTransactions($data) {
 
 		$sql = "SELECT count(*) as total FROM oc_customer_transaction ct LEFT JOIN oc_customer c ON c.customer_id = ct.customer_id LEFT JOIN oc_product p ON p.product_id = ct.product_id LEFT JOIN oc_product_description pd ON pd.product_id = p.product_id  WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') ."' ";
@@ -956,17 +1043,17 @@ class ModelSaleCustomer extends Model {
 		return $query->row['total'];
 	}
 
-	public function getTransactionTotal($customer_id) {
-		$query = $this->db->query("SELECT SUM(amount) AS total FROM " . DB_PREFIX . "customer_transaction WHERE customer_id = '" . (int)$customer_id . "'");
+	// public function getTransactionTotal($customer_id) {
+	// 	$query = $this->db->query("SELECT SUM(amount) AS total FROM " . DB_PREFIX . "customer_transaction WHERE customer_id = '" . (int)$customer_id . "'");
 
-		return $query->row['total'];
-	}
+	// 	return $query->row['total'];
+	// }
 
-	public function getTotalTransactionsByOrderId($order_id) {
-		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "customer_transaction WHERE order_id = '" . (int)$order_id . "'");
+	// public function getTotalTransactionsByOrderId($order_id) {
+	// 	$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "customer_transaction WHERE order_id = '" . (int)$order_id . "'");
 
-		return $query->row['total'];
-	}	
+	// 	return $query->row['total'];
+	// }	
 
 	// public function addReward($customer_id, $description = '', $points = '', $order_id = 0) {
 	// 	$customer_info = $this->getCustomer($customer_id);
@@ -1032,36 +1119,47 @@ class ModelSaleCustomer extends Model {
 	// 	return $query->row['total'];
 	// }		
 
-	public function getTotalCustomerRewardsByOrderId($order_id) {
-		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "customer_reward WHERE order_id = '" . (int)$order_id . "'");
+	// public function getTotalCustomerRewardsByOrderId($order_id) {
+	// 	$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "customer_reward WHERE order_id = '" . (int)$order_id . "'");
 
-		return $query->row['total'];
-	}
+	// 	return $query->row['total'];
+	// }
 
-	public function getIpsByCustomerId($customer_id) {
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "customer_ip WHERE customer_id = '" . (int)$customer_id . "'");
+	// public function getIpsByCustomerId($customer_id) {
+	// 	$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "customer_ip WHERE customer_id = '" . (int)$customer_id . "'");
+
+	// 	return $query->rows;
+	// }	
+
+	// public function getTotalCustomersByIp($ip) {
+	// 	$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "customer_ip WHERE ip = '" . $this->db->escape($ip) . "'");
+
+	// 	return $query->row['total'];
+	// }
+
+	// public function addBanIp($ip) {
+	// 	$this->db->query("INSERT INTO `" . DB_PREFIX . "customer_ban_ip` SET `ip` = '" . $this->db->escape($ip) . "'");
+	// }
+
+	// public function removeBanIp($ip) {
+	// 	$this->db->query("DELETE FROM `" . DB_PREFIX . "customer_ban_ip` WHERE `ip` = '" . $this->db->escape($ip) . "'");
+	// }
+
+	// public function getTotalBanIpsByIp($ip) {
+	// 	$query = $this->db->query("SELECT COUNT(*) AS total FROM `" . DB_PREFIX . "customer_ban_ip` WHERE `ip` = '" . $this->db->escape($ip) . "'");
+
+	// 	return $query->row['total'];
+	// }	
+
+	// '2014-10-03 10:46'
+	public function getCustomerImages($customer_id) {
+
+		$sql = "SELECT * FROM oc_customer_image WHERE customer_id = '" . (int)$customer_id . "' ORDER BY date_added DESC";
+
+		$query = $this->db->query($sql);
 
 		return $query->rows;
-	}	
-
-	public function getTotalCustomersByIp($ip) {
-		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "customer_ip WHERE ip = '" . $this->db->escape($ip) . "'");
-
-		return $query->row['total'];
 	}
 
-	public function addBanIp($ip) {
-		$this->db->query("INSERT INTO `" . DB_PREFIX . "customer_ban_ip` SET `ip` = '" . $this->db->escape($ip) . "'");
-	}
-
-	public function removeBanIp($ip) {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "customer_ban_ip` WHERE `ip` = '" . $this->db->escape($ip) . "'");
-	}
-
-	public function getTotalBanIpsByIp($ip) {
-		$query = $this->db->query("SELECT COUNT(*) AS total FROM `" . DB_PREFIX . "customer_ban_ip` WHERE `ip` = '" . $this->db->escape($ip) . "'");
-
-		return $query->row['total'];
-	}	
 }
 ?>

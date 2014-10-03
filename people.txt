@@ -1,1066 +1,943 @@
-SELECT * FROM oc_user WHERE store_id = '1' AND username = 'admin' AND (password = SHA1(CONCAT(salt, SHA1(CONCAT(salt, SHA1('admin'))))) OR password = '21232f297a57a5a743894a0e4a801fc3') AND status = '1'SELECT ch.*
-		, u.firstname as ufirstname
-		, u.lastname as ulastname
-		, u.store_id
-		, c.firstname as cfirstname
-		, c.lastname as clastname
-		, c.fullname as fullname
-		 FROM oc_customer_history ch LEFT JOIN oc_user u ON u.user_id = ch.user_id LEFT JOIN oc_customer c ON c.customer_id = ch.customer_id WHERE 1=1  ORDER BY ch.date_added DESC  LIMIT 0,10SELECT ch.*
-		, u.firstname as ufirstname
-		, u.lastname as ulastname
-		, u.store_id
-		, c.firstname as cfirstname
-		, c.lastname as clastname
-		, c.fullname as fullname
-		 FROM oc_customer_history ch LEFT JOIN oc_user u ON u.user_id = ch.user_id LEFT JOIN oc_customer c ON c.customer_id = ch.customer_id WHERE 1=1  ORDER BY ch.date_added DESC  LIMIT 0,10Array
+SELECT * FROM oc_user WHERE store_id = '1' AND username = 'admin' AND (password = SHA1(CONCAT(salt, SHA1(CONCAT(salt, SHA1('admin'))))) OR password = '21232f297a57a5a743894a0e4a801fc3') AND status = '1'Array
 (
-    [filter_user_id] => 
-)
-Array
-(
-    [filter_user_id] => 1
-)
-Array
-(
-    [filter_user_id] => 
-    [filter_customer_id] => 9
-)
-Array
-(
-    [filter_user_id] => 
-    [filter_customer_id] => 9
-)
-Array
-(
-)
-Array
-(
+    [firstname] => 123
+    [lastname] => 李
+    [email] => aaaa@aaaa.com
+    [telephone] => 12345678
+    [fax] => 
+    [dob] => 2014-09-11
+    [line_id] => lliisszztt
+    [ssn] => F1234567890
+    [nickname] => 小虎
+    [fb_id] => lliisszztt
+    [outsource] => 0
+    [counselor_id] => 0
+    [location] => 
+    [misc] => 
+    [image] => data/cart.png
+    [store] => 1
+    [customer_group_id] => 1
+    [status] => 1
+    [address] => Array
+        (
+            [address_1] => 11F No187 Minquan E rd
+            [address_2] => 
+            [city] => Taipei
+            [postcode] => 114
+            [country_id] => 206
+            [zone_id] => 3159
+        )
+
+    [comment] => 
+    [reminder_date] => 
+    [product] => 
     [product_id] => 
     [unitspend] => 
-    [show_group] => 1
-)
-Array
-(
-    [route] => sale/customer/transaction
-    [token] => 354644fb412f1bdb254f2b354dee34b5
-    [customer_id] => 9
-)
-Array
-(
-    [route] => sale/customer/transaction
-    [token] => 354644fb412f1bdb254f2b354dee34b5
-    [customer_id] => 9
-)
-Array
-(
-    [error_warning] => 您沒有權限更改客戶的設置
-)
-Array
-(
-    [success] => 
-)
-Array
-(
-    [customer_id] => 9
-)
-Array
-(
-    [customer_id] => 9
-)
-Array
-(
-    [0] => Array
+    [tran_status] => -1
+    [lendto_customer] => 
+    [lendto_customer_id] => 
+    [lendto_product] => 
+    [lendto_product_id] => 
+    [lendto_quantity] => 
+    [customer_image] => Array
         (
-            [customer_transaction_id] => 210
-            [type] => 0
-            [ismain] => 1
-            [status] => 0
-            [customer_lending_id] => 0
-            [lender_id] => 0
-            [customer_id] => 9
-            [order_id] => 103
-            [product_id] => 79
-            [product_which] => 0
-            [product_total_which] => 0
-            [quantity] => 1
-            [subquantity] => 3
-            [unit_class_id] => 4
-            [amount] => 10000.00
-            [payment] => 0.00
-            [date_added] => 2014-09-30 16:49:30
-            [date_modified] => 2014-09-30 16:49:30
-            [comment] => 
-            [doctor_id] => 0
-            [outsource_id] => 0
-            [product_name] => 1磚石
-            [fullname] => aaaaaaaa
-        )
+            [0] => Array
+                (
+                    [image] => data/before-after-dot-face-4.jpg
+                    [sort_order] => 0
+                )
 
-    [1] => Array
-        (
-            [customer_transaction_id] => 211
-            [type] => 0
-            [ismain] => 0
-            [status] => -1
-            [customer_lending_id] => 0
-            [lender_id] => 0
-            [customer_id] => 9
-            [order_id] => 103
-            [product_id] => 79
-            [product_which] => 1
-            [product_total_which] => 3
-            [quantity] => -0.333333
-            [subquantity] => -1
-            [unit_class_id] => 4
-            [amount] => 0.00
-            [payment] => 0.00
-            [date_added] => 2014-09-30 16:49:30
-            [date_modified] => 2014-09-30 16:49:30
-            [comment] => 
-            [doctor_id] => 0
-            [outsource_id] => 0
-            [product_name] => 1磚石
-            [fullname] => aaaaaaaa
-        )
+            [1] => Array
+                (
+                    [image] => data/cart.png
+                    [sort_order] => 
+                )
 
-    [2] => Array
-        (
-            [customer_transaction_id] => 212
-            [type] => 0
-            [ismain] => 0
-            [status] => -1
-            [customer_lending_id] => 0
-            [lender_id] => 0
-            [customer_id] => 9
-            [order_id] => 103
-            [product_id] => 79
-            [product_which] => 2
-            [product_total_which] => 3
-            [quantity] => -0.333333
-            [subquantity] => -1
-            [unit_class_id] => 4
-            [amount] => 0.00
-            [payment] => 0.00
-            [date_added] => 2014-09-30 16:49:30
-            [date_modified] => 2014-09-30 16:49:30
-            [comment] => 
-            [doctor_id] => 0
-            [outsource_id] => 0
-            [product_name] => 1磚石
-            [fullname] => aaaaaaaa
-        )
+            [2] => Array
+                (
+                    [image] => no_image.jpg
+                    [sort_order] => 
+                )
 
-    [3] => Array
-        (
-            [customer_transaction_id] => 213
-            [type] => 0
-            [ismain] => 0
-            [status] => -1
-            [customer_lending_id] => 0
-            [lender_id] => 0
-            [customer_id] => 9
-            [order_id] => 103
-            [product_id] => 79
-            [product_which] => 3
-            [product_total_which] => 3
-            [quantity] => -0.333333
-            [subquantity] => -1
-            [unit_class_id] => 4
-            [amount] => 0.00
-            [payment] => 0.00
-            [date_added] => 2014-09-30 16:49:30
-            [date_modified] => 2014-09-30 16:49:30
-            [comment] => 
-            [doctor_id] => 0
-            [outsource_id] => 0
-            [product_name] => 1磚石
-            [fullname] => aaaaaaaa
-        )
-
-    [4] => Array
-        (
-            [customer_transaction_id] => 196
-            [type] => 0
-            [ismain] => 1
-            [status] => 0
-            [customer_lending_id] => 0
-            [lender_id] => 0
-            [customer_id] => 9
-            [order_id] => 101
-            [product_id] => 79
-            [product_which] => 0
-            [product_total_which] => 0
-            [quantity] => 1
-            [subquantity] => 3
-            [unit_class_id] => 4
-            [amount] => 10000.00
-            [payment] => 0.00
-            [date_added] => 2014-09-30 14:20:29
-            [date_modified] => 2014-09-30 14:20:29
-            [comment] => 
-            [doctor_id] => 0
-            [outsource_id] => 0
-            [product_name] => 1磚石
-            [fullname] => aaaaaaaa
-        )
-
-    [5] => Array
-        (
-            [customer_transaction_id] => 197
-            [type] => 0
-            [ismain] => 0
-            [status] => -2
-            [customer_lending_id] => 0
-            [lender_id] => 0
-            [customer_id] => 9
-            [order_id] => 101
-            [product_id] => 79
-            [product_which] => 1
-            [product_total_which] => 3
-            [quantity] => -0.333333
-            [subquantity] => -1
-            [unit_class_id] => 4
-            [amount] => 0.00
-            [payment] => 0.00
-            [date_added] => 2014-09-30 14:20:29
-            [date_modified] => 2014-09-30 14:52:03
-            [comment] => 
-            [doctor_id] => 0
-            [outsource_id] => 0
-            [product_name] => 1磚石
-            [fullname] => aaaaaaaa
-        )
-
-    [6] => Array
-        (
-            [customer_transaction_id] => 198
-            [type] => 0
-            [ismain] => 0
-            [status] => -1
-            [customer_lending_id] => 0
-            [lender_id] => 0
-            [customer_id] => 9
-            [order_id] => 101
-            [product_id] => 79
-            [product_which] => 2
-            [product_total_which] => 3
-            [quantity] => -0.333333
-            [subquantity] => -1
-            [unit_class_id] => 4
-            [amount] => 0.00
-            [payment] => 0.00
-            [date_added] => 2014-09-30 14:20:29
-            [date_modified] => 2014-09-30 14:20:29
-            [comment] => 
-            [doctor_id] => 0
-            [outsource_id] => 0
-            [product_name] => 1磚石
-            [fullname] => aaaaaaaa
-        )
-
-    [7] => Array
-        (
-            [customer_transaction_id] => 199
-            [type] => 0
-            [ismain] => 0
-            [status] => -1
-            [customer_lending_id] => 0
-            [lender_id] => 0
-            [customer_id] => 9
-            [order_id] => 101
-            [product_id] => 79
-            [product_which] => 3
-            [product_total_which] => 3
-            [quantity] => -0.333333
-            [subquantity] => -1
-            [unit_class_id] => 4
-            [amount] => 0.00
-            [payment] => 0.00
-            [date_added] => 2014-09-30 14:20:29
-            [date_modified] => 2014-09-30 14:20:29
-            [comment] => 
-            [doctor_id] => 0
-            [outsource_id] => 0
-            [product_name] => 1磚石
-            [fullname] => aaaaaaaa
-        )
-
-    [8] => Array
-        (
-            [customer_transaction_id] => 200
-            [type] => 0
-            [ismain] => 1
-            [status] => 0
-            [customer_lending_id] => 0
-            [lender_id] => 0
-            [customer_id] => 9
-            [order_id] => 101
-            [product_id] => 66
-            [product_which] => 0
-            [product_total_which] => 0
-            [quantity] => 3
-            [subquantity] => 3
-            [unit_class_id] => 3
-            [amount] => 6000.00
-            [payment] => 0.00
-            [date_added] => 2014-09-30 14:20:29
-            [date_modified] => 2014-09-30 14:20:29
-            [comment] => 
-            [doctor_id] => 0
-            [outsource_id] => 0
-            [product_name] => 1膠囊
-            [fullname] => aaaaaaaa
         )
 
 )
 Array
 (
-    [0] => Array
+    [firstname] => 123
+    [lastname] => 李
+    [email] => aaaa@aaaa.com
+    [telephone] => 12345678
+    [fax] => 
+    [dob] => 2014-09-11
+    [line_id] => lliisszztt
+    [ssn] => F1234567890
+    [nickname] => 小虎
+    [fb_id] => lliisszztt
+    [outsource] => 0
+    [counselor_id] => 0
+    [location] => 
+    [misc] => 
+    [image] => data/cart.png
+    [store] => 1
+    [customer_group_id] => 1
+    [status] => 1
+    [address] => Array
         (
-            [customer_transaction_id] => 210
-            [type] => 0
-            [ismain] => 1
-            [status] => 0
-            [customer_lending_id] => 0
-            [lender_id] => 0
-            [customer_id] => 9
-            [order_id] => 103
-            [product_id] => 79
-            [product_which] => 0
-            [product_total_which] => 0
-            [quantity] => 1
-            [subquantity] => 3
-            [unit_class_id] => 4
-            [amount] => 10000.00
-            [payment] => 0.00
-            [date_added] => 2014-09-30 16:49:30
-            [date_modified] => 2014-09-30 16:49:30
-            [comment] => 
-            [doctor_id] => 0
-            [outsource_id] => 0
-            [product_name] => 1磚石
-            [fullname] => aaaaaaaa
+            [address_1] => 11F No187 Minquan E rd
+            [address_2] => 
+            [city] => Taipei
+            [postcode] => 114
+            [country_id] => 206
+            [zone_id] => 3159
         )
 
-    [1] => Array
+    [comment] => 
+    [reminder_date] => 
+    [product] => 
+    [product_id] => 
+    [unitspend] => 
+    [tran_status] => -1
+    [lendto_customer] => 
+    [lendto_customer_id] => 
+    [lendto_product] => 
+    [lendto_product_id] => 
+    [lendto_quantity] => 
+    [customer_image] => Array
         (
-            [customer_transaction_id] => 211
-            [type] => 0
-            [ismain] => 0
-            [status] => -1
-            [customer_lending_id] => 0
-            [lender_id] => 0
-            [customer_id] => 9
-            [order_id] => 103
-            [product_id] => 79
-            [product_which] => 1
-            [product_total_which] => 3
-            [quantity] => -0.333333
-            [subquantity] => -1
-            [unit_class_id] => 4
-            [amount] => 0.00
-            [payment] => 0.00
-            [date_added] => 2014-09-30 16:49:30
-            [date_modified] => 2014-09-30 16:49:30
-            [comment] => 
-            [doctor_id] => 0
-            [outsource_id] => 0
-            [product_name] => 1磚石
-            [fullname] => aaaaaaaa
-        )
+            [0] => Array
+                (
+                    [image] => data/before-after-dot-face-4.jpg
+                    [sort_order] => 0
+                )
 
-    [2] => Array
-        (
-            [customer_transaction_id] => 212
-            [type] => 0
-            [ismain] => 0
-            [status] => -1
-            [customer_lending_id] => 0
-            [lender_id] => 0
-            [customer_id] => 9
-            [order_id] => 103
-            [product_id] => 79
-            [product_which] => 2
-            [product_total_which] => 3
-            [quantity] => -0.333333
-            [subquantity] => -1
-            [unit_class_id] => 4
-            [amount] => 0.00
-            [payment] => 0.00
-            [date_added] => 2014-09-30 16:49:30
-            [date_modified] => 2014-09-30 16:49:30
-            [comment] => 
-            [doctor_id] => 0
-            [outsource_id] => 0
-            [product_name] => 1磚石
-            [fullname] => aaaaaaaa
-        )
+            [1] => Array
+                (
+                    [image] => data/cart.png
+                    [sort_order] => 
+                )
 
-    [3] => Array
-        (
-            [customer_transaction_id] => 213
-            [type] => 0
-            [ismain] => 0
-            [status] => -1
-            [customer_lending_id] => 0
-            [lender_id] => 0
-            [customer_id] => 9
-            [order_id] => 103
-            [product_id] => 79
-            [product_which] => 3
-            [product_total_which] => 3
-            [quantity] => -0.333333
-            [subquantity] => -1
-            [unit_class_id] => 4
-            [amount] => 0.00
-            [payment] => 0.00
-            [date_added] => 2014-09-30 16:49:30
-            [date_modified] => 2014-09-30 16:49:30
-            [comment] => 
-            [doctor_id] => 0
-            [outsource_id] => 0
-            [product_name] => 1磚石
-            [fullname] => aaaaaaaa
-        )
+            [2] => Array
+                (
+                    [image] => no_image.jpg
+                    [sort_order] => 
+                )
 
-    [4] => Array
-        (
-            [customer_transaction_id] => 196
-            [type] => 0
-            [ismain] => 1
-            [status] => 0
-            [customer_lending_id] => 0
-            [lender_id] => 0
-            [customer_id] => 9
-            [order_id] => 101
-            [product_id] => 79
-            [product_which] => 0
-            [product_total_which] => 0
-            [quantity] => 1
-            [subquantity] => 3
-            [unit_class_id] => 4
-            [amount] => 10000.00
-            [payment] => 0.00
-            [date_added] => 2014-09-30 14:20:29
-            [date_modified] => 2014-09-30 14:20:29
-            [comment] => 
-            [doctor_id] => 0
-            [outsource_id] => 0
-            [product_name] => 1磚石
-            [fullname] => aaaaaaaa
-        )
-
-    [5] => Array
-        (
-            [customer_transaction_id] => 197
-            [type] => 0
-            [ismain] => 0
-            [status] => -2
-            [customer_lending_id] => 0
-            [lender_id] => 0
-            [customer_id] => 9
-            [order_id] => 101
-            [product_id] => 79
-            [product_which] => 1
-            [product_total_which] => 3
-            [quantity] => -0.333333
-            [subquantity] => -1
-            [unit_class_id] => 4
-            [amount] => 0.00
-            [payment] => 0.00
-            [date_added] => 2014-09-30 14:20:29
-            [date_modified] => 2014-09-30 14:52:03
-            [comment] => 
-            [doctor_id] => 0
-            [outsource_id] => 0
-            [product_name] => 1磚石
-            [fullname] => aaaaaaaa
-        )
-
-    [6] => Array
-        (
-            [customer_transaction_id] => 198
-            [type] => 0
-            [ismain] => 0
-            [status] => -1
-            [customer_lending_id] => 0
-            [lender_id] => 0
-            [customer_id] => 9
-            [order_id] => 101
-            [product_id] => 79
-            [product_which] => 2
-            [product_total_which] => 3
-            [quantity] => -0.333333
-            [subquantity] => -1
-            [unit_class_id] => 4
-            [amount] => 0.00
-            [payment] => 0.00
-            [date_added] => 2014-09-30 14:20:29
-            [date_modified] => 2014-09-30 14:20:29
-            [comment] => 
-            [doctor_id] => 0
-            [outsource_id] => 0
-            [product_name] => 1磚石
-            [fullname] => aaaaaaaa
-        )
-
-    [7] => Array
-        (
-            [customer_transaction_id] => 199
-            [type] => 0
-            [ismain] => 0
-            [status] => -1
-            [customer_lending_id] => 0
-            [lender_id] => 0
-            [customer_id] => 9
-            [order_id] => 101
-            [product_id] => 79
-            [product_which] => 3
-            [product_total_which] => 3
-            [quantity] => -0.333333
-            [subquantity] => -1
-            [unit_class_id] => 4
-            [amount] => 0.00
-            [payment] => 0.00
-            [date_added] => 2014-09-30 14:20:29
-            [date_modified] => 2014-09-30 14:20:29
-            [comment] => 
-            [doctor_id] => 0
-            [outsource_id] => 0
-            [product_name] => 1磚石
-            [fullname] => aaaaaaaa
-        )
-
-    [8] => Array
-        (
-            [customer_transaction_id] => 200
-            [type] => 0
-            [ismain] => 1
-            [status] => 0
-            [customer_lending_id] => 0
-            [lender_id] => 0
-            [customer_id] => 9
-            [order_id] => 101
-            [product_id] => 66
-            [product_which] => 0
-            [product_total_which] => 0
-            [quantity] => 3
-            [subquantity] => 3
-            [unit_class_id] => 3
-            [amount] => 6000.00
-            [payment] => 0.00
-            [date_added] => 2014-09-30 14:20:29
-            [date_modified] => 2014-09-30 14:20:29
-            [comment] => 
-            [doctor_id] => 0
-            [outsource_id] => 0
-            [product_name] => 1膠囊
-            [fullname] => aaaaaaaa
         )
 
 )
 Array
 (
-    [0] => Array
+    [firstname] => 123
+    [lastname] => 李
+    [email] => aaaa@aaaa.com
+    [telephone] => 12345678
+    [fax] => 
+    [dob] => 2014-09-11
+    [line_id] => lliisszztt
+    [ssn] => F1234567890
+    [nickname] => 小虎
+    [fb_id] => lliisszztt
+    [outsource] => 0
+    [counselor_id] => 0
+    [location] => 
+    [misc] => 
+    [image] => data/cart.png
+    [store] => 1
+    [customer_group_id] => 1
+    [status] => 1
+    [address] => Array
         (
-            [customer_transaction_id] => 210
-            [type] => 0
-            [ismain] => 1
-            [status] => 0
-            [customer_lending_id] => 0
-            [lender_id] => 0
-            [customer_id] => 9
-            [order_id] => 103
-            [product_id] => 79
-            [product_which] => 0
-            [product_total_which] => 0
-            [quantity] => 1
-            [subquantity] => 3
-            [unit_class_id] => 4
-            [amount] => 10000.00
-            [payment] => 0.00
-            [date_added] => 2014-09-30 16:49:30
-            [date_modified] => 2014-09-30 16:49:30
-            [comment] => 
-            [doctor_id] => 0
-            [outsource_id] => 0
-            [product_name] => 1磚石
-            [fullname] => aaaaaaaa
+            [address_1] => 11F No187 Minquan E rd
+            [address_2] => 
+            [city] => Taipei
+            [postcode] => 114
+            [country_id] => 206
+            [zone_id] => 3159
         )
 
-    [1] => Array
+    [comment] => 
+    [reminder_date] => 
+    [product] => 
+    [product_id] => 
+    [unitspend] => 
+    [tran_status] => -1
+    [lendto_customer] => 
+    [lendto_customer_id] => 
+    [lendto_product] => 
+    [lendto_product_id] => 
+    [lendto_quantity] => 
+    [customer_image] => Array
         (
-            [customer_transaction_id] => 211
-            [type] => 0
-            [ismain] => 0
-            [status] => -1
-            [customer_lending_id] => 0
-            [lender_id] => 0
-            [customer_id] => 9
-            [order_id] => 103
-            [product_id] => 79
-            [product_which] => 1
-            [product_total_which] => 3
-            [quantity] => -0.333333
-            [subquantity] => -1
-            [unit_class_id] => 4
-            [amount] => 0.00
-            [payment] => 0.00
-            [date_added] => 2014-09-30 16:49:30
-            [date_modified] => 2014-09-30 16:49:30
-            [comment] => 
-            [doctor_id] => 0
-            [outsource_id] => 0
-            [product_name] => 1磚石
-            [fullname] => aaaaaaaa
-        )
+            [0] => Array
+                (
+                    [image] => data/before-after-dot-face-4.jpg
+                    [sort_order] => 0
+                )
 
-    [2] => Array
-        (
-            [customer_transaction_id] => 212
-            [type] => 0
-            [ismain] => 0
-            [status] => -1
-            [customer_lending_id] => 0
-            [lender_id] => 0
-            [customer_id] => 9
-            [order_id] => 103
-            [product_id] => 79
-            [product_which] => 2
-            [product_total_which] => 3
-            [quantity] => -0.333333
-            [subquantity] => -1
-            [unit_class_id] => 4
-            [amount] => 0.00
-            [payment] => 0.00
-            [date_added] => 2014-09-30 16:49:30
-            [date_modified] => 2014-09-30 16:49:30
-            [comment] => 
-            [doctor_id] => 0
-            [outsource_id] => 0
-            [product_name] => 1磚石
-            [fullname] => aaaaaaaa
-        )
+            [1] => Array
+                (
+                    [image] => data/cart.png
+                    [sort_order] => 
+                )
 
-    [3] => Array
-        (
-            [customer_transaction_id] => 213
-            [type] => 0
-            [ismain] => 0
-            [status] => -1
-            [customer_lending_id] => 0
-            [lender_id] => 0
-            [customer_id] => 9
-            [order_id] => 103
-            [product_id] => 79
-            [product_which] => 3
-            [product_total_which] => 3
-            [quantity] => -0.333333
-            [subquantity] => -1
-            [unit_class_id] => 4
-            [amount] => 0.00
-            [payment] => 0.00
-            [date_added] => 2014-09-30 16:49:30
-            [date_modified] => 2014-09-30 16:49:30
-            [comment] => 
-            [doctor_id] => 0
-            [outsource_id] => 0
-            [product_name] => 1磚石
-            [fullname] => aaaaaaaa
-        )
+            [2] => Array
+                (
+                    [image] => no_image.jpg
+                    [sort_order] => 
+                )
 
-    [4] => Array
-        (
-            [customer_transaction_id] => 196
-            [type] => 0
-            [ismain] => 1
-            [status] => 0
-            [customer_lending_id] => 0
-            [lender_id] => 0
-            [customer_id] => 9
-            [order_id] => 101
-            [product_id] => 79
-            [product_which] => 0
-            [product_total_which] => 0
-            [quantity] => 1
-            [subquantity] => 3
-            [unit_class_id] => 4
-            [amount] => 10000.00
-            [payment] => 0.00
-            [date_added] => 2014-09-30 14:20:29
-            [date_modified] => 2014-09-30 14:20:29
-            [comment] => 
-            [doctor_id] => 0
-            [outsource_id] => 0
-            [product_name] => 1磚石
-            [fullname] => aaaaaaaa
-        )
-
-    [5] => Array
-        (
-            [customer_transaction_id] => 197
-            [type] => 0
-            [ismain] => 0
-            [status] => -2
-            [customer_lending_id] => 0
-            [lender_id] => 0
-            [customer_id] => 9
-            [order_id] => 101
-            [product_id] => 79
-            [product_which] => 1
-            [product_total_which] => 3
-            [quantity] => -0.333333
-            [subquantity] => -1
-            [unit_class_id] => 4
-            [amount] => 0.00
-            [payment] => 0.00
-            [date_added] => 2014-09-30 14:20:29
-            [date_modified] => 2014-09-30 14:52:03
-            [comment] => 
-            [doctor_id] => 0
-            [outsource_id] => 0
-            [product_name] => 1磚石
-            [fullname] => aaaaaaaa
-        )
-
-    [6] => Array
-        (
-            [customer_transaction_id] => 198
-            [type] => 0
-            [ismain] => 0
-            [status] => -1
-            [customer_lending_id] => 0
-            [lender_id] => 0
-            [customer_id] => 9
-            [order_id] => 101
-            [product_id] => 79
-            [product_which] => 2
-            [product_total_which] => 3
-            [quantity] => -0.333333
-            [subquantity] => -1
-            [unit_class_id] => 4
-            [amount] => 0.00
-            [payment] => 0.00
-            [date_added] => 2014-09-30 14:20:29
-            [date_modified] => 2014-09-30 14:20:29
-            [comment] => 
-            [doctor_id] => 0
-            [outsource_id] => 0
-            [product_name] => 1磚石
-            [fullname] => aaaaaaaa
-        )
-
-    [7] => Array
-        (
-            [customer_transaction_id] => 199
-            [type] => 0
-            [ismain] => 0
-            [status] => -1
-            [customer_lending_id] => 0
-            [lender_id] => 0
-            [customer_id] => 9
-            [order_id] => 101
-            [product_id] => 79
-            [product_which] => 3
-            [product_total_which] => 3
-            [quantity] => -0.333333
-            [subquantity] => -1
-            [unit_class_id] => 4
-            [amount] => 0.00
-            [payment] => 0.00
-            [date_added] => 2014-09-30 14:20:29
-            [date_modified] => 2014-09-30 14:20:29
-            [comment] => 
-            [doctor_id] => 0
-            [outsource_id] => 0
-            [product_name] => 1磚石
-            [fullname] => aaaaaaaa
-        )
-
-    [8] => Array
-        (
-            [customer_transaction_id] => 200
-            [type] => 0
-            [ismain] => 1
-            [status] => 0
-            [customer_lending_id] => 0
-            [lender_id] => 0
-            [customer_id] => 9
-            [order_id] => 101
-            [product_id] => 66
-            [product_which] => 0
-            [product_total_which] => 0
-            [quantity] => 3
-            [subquantity] => 3
-            [unit_class_id] => 3
-            [amount] => 6000.00
-            [payment] => 0.00
-            [date_added] => 2014-09-30 14:20:29
-            [date_modified] => 2014-09-30 14:20:29
-            [comment] => 
-            [doctor_id] => 0
-            [outsource_id] => 0
-            [product_name] => 1膠囊
-            [fullname] => aaaaaaaa
         )
 
 )
 Array
 (
-    [0] => Array
+    [firstname] => 123
+    [lastname] => 李
+    [email] => aaaa@aaaa.com
+    [telephone] => 12345678
+    [fax] => 
+    [dob] => 2014-09-11
+    [line_id] => lliisszztt
+    [ssn] => F1234567890
+    [nickname] => 小虎
+    [fb_id] => lliisszztt
+    [outsource] => 0
+    [counselor_id] => 0
+    [location] => 
+    [misc] => 
+    [image] => data/cart.png
+    [store] => 1
+    [customer_group_id] => 1
+    [status] => 1
+    [address] => Array
         (
-            [customer_transaction_id] => 210
-            [type] => 0
-            [ismain] => 1
-            [status] => 0
-            [customer_lending_id] => 0
-            [lender_id] => 0
-            [customer_id] => 9
-            [order_id] => 103
-            [product_id] => 79
-            [product_which] => 0
-            [product_total_which] => 0
-            [quantity] => 1
-            [subquantity] => 3
-            [unit_class_id] => 4
-            [amount] => 10000.00
-            [payment] => 0.00
-            [date_added] => 2014-09-30 16:49:30
-            [date_modified] => 2014-09-30 16:49:30
-            [comment] => 
-            [doctor_id] => 0
-            [outsource_id] => 0
-            [product_name] => 1磚石
-            [fullname] => aaaaaaaa
+            [address_1] => 11F No187 Minquan E rd
+            [address_2] => 
+            [city] => Taipei
+            [postcode] => 114
+            [country_id] => 206
+            [zone_id] => 3159
         )
 
-    [1] => Array
+    [comment] => 
+    [reminder_date] => 
+    [product] => 
+    [product_id] => 
+    [unitspend] => 
+    [tran_status] => -1
+    [lendto_customer] => 
+    [lendto_customer_id] => 
+    [lendto_product] => 
+    [lendto_product_id] => 
+    [lendto_quantity] => 
+    [customer_image] => Array
         (
-            [customer_transaction_id] => 211
-            [type] => 0
-            [ismain] => 0
-            [status] => -1
-            [customer_lending_id] => 0
-            [lender_id] => 0
-            [customer_id] => 9
-            [order_id] => 103
-            [product_id] => 79
-            [product_which] => 1
-            [product_total_which] => 3
-            [quantity] => -0.333333
-            [subquantity] => -1
-            [unit_class_id] => 4
-            [amount] => 0.00
-            [payment] => 0.00
-            [date_added] => 2014-09-30 16:49:30
-            [date_modified] => 2014-09-30 16:49:30
-            [comment] => 
-            [doctor_id] => 0
-            [outsource_id] => 0
-            [product_name] => 1磚石
-            [fullname] => aaaaaaaa
+            [0] => Array
+                (
+                    [image] => data/before-after-dot-face-4.jpg
+                    [sort_order] => 0
+                )
+
+            [1] => Array
+                (
+                    [image] => data/cart.png
+                    [sort_order] => 
+                )
+
+            [2] => Array
+                (
+                    [image] => no_image.jpg
+                    [sort_order] => 
+                )
+
         )
 
-    [2] => Array
+)
+Array
+(
+    [firstname] => 123
+    [lastname] => 李
+    [email] => aaaa@aaaa.com
+    [telephone] => 12345678
+    [fax] => 
+    [dob] => 2014-09-11
+    [line_id] => lliisszztt
+    [ssn] => F1234567890
+    [nickname] => 小虎
+    [fb_id] => lliisszztt
+    [outsource] => 0
+    [counselor_id] => 0
+    [location] => 
+    [misc] => 
+    [image] => data/cart.png
+    [store] => 1
+    [customer_group_id] => 1
+    [status] => 1
+    [address] => Array
         (
-            [customer_transaction_id] => 212
-            [type] => 0
-            [ismain] => 0
-            [status] => -1
-            [customer_lending_id] => 0
-            [lender_id] => 0
-            [customer_id] => 9
-            [order_id] => 103
-            [product_id] => 79
-            [product_which] => 2
-            [product_total_which] => 3
-            [quantity] => -0.333333
-            [subquantity] => -1
-            [unit_class_id] => 4
-            [amount] => 0.00
-            [payment] => 0.00
-            [date_added] => 2014-09-30 16:49:30
-            [date_modified] => 2014-09-30 16:49:30
-            [comment] => 
-            [doctor_id] => 0
-            [outsource_id] => 0
-            [product_name] => 1磚石
-            [fullname] => aaaaaaaa
+            [address_1] => 11F No187 Minquan E rd
+            [address_2] => 
+            [city] => Taipei
+            [postcode] => 114
+            [country_id] => 206
+            [zone_id] => 3159
         )
 
-    [3] => Array
+    [comment] => 
+    [reminder_date] => 
+    [product] => 
+    [product_id] => 
+    [unitspend] => 
+    [tran_status] => -1
+    [lendto_customer] => 
+    [lendto_customer_id] => 
+    [lendto_product] => 
+    [lendto_product_id] => 
+    [lendto_quantity] => 
+    [customer_image] => Array
         (
-            [customer_transaction_id] => 213
-            [type] => 0
-            [ismain] => 0
-            [status] => -1
-            [customer_lending_id] => 0
-            [lender_id] => 0
-            [customer_id] => 9
-            [order_id] => 103
-            [product_id] => 79
-            [product_which] => 3
-            [product_total_which] => 3
-            [quantity] => -0.333333
-            [subquantity] => -1
-            [unit_class_id] => 4
-            [amount] => 0.00
-            [payment] => 0.00
-            [date_added] => 2014-09-30 16:49:30
-            [date_modified] => 2014-09-30 16:49:30
-            [comment] => 
-            [doctor_id] => 0
-            [outsource_id] => 0
-            [product_name] => 1磚石
-            [fullname] => aaaaaaaa
+            [0] => Array
+                (
+                    [image] => data/before-after-dot-face-4.jpg
+                    [sort_order] => 0
+                )
+
+            [1] => Array
+                (
+                    [image] => data/cart.png
+                    [sort_order] => 
+                )
+
+            [2] => Array
+                (
+                    [image] => no_image.jpg
+                    [sort_order] => 
+                )
+
         )
 
-    [4] => Array
+)
+Array
+(
+    [firstname] => 123
+    [lastname] => 李
+    [email] => aaaa@aaaa.com
+    [telephone] => 12345678
+    [fax] => 
+    [dob] => 2014-09-11
+    [line_id] => lliisszztt
+    [ssn] => F1234567890
+    [nickname] => 小虎
+    [fb_id] => lliisszztt
+    [outsource] => 0
+    [counselor_id] => 0
+    [location] => 
+    [misc] => 
+    [image] => data/cart.png
+    [store] => 1
+    [customer_group_id] => 1
+    [status] => 1
+    [address] => Array
         (
-            [customer_transaction_id] => 196
-            [type] => 0
-            [ismain] => 1
-            [status] => 0
-            [customer_lending_id] => 0
-            [lender_id] => 0
-            [customer_id] => 9
-            [order_id] => 101
-            [product_id] => 79
-            [product_which] => 0
-            [product_total_which] => 0
-            [quantity] => 1
-            [subquantity] => 3
-            [unit_class_id] => 4
-            [amount] => 10000.00
-            [payment] => 0.00
-            [date_added] => 2014-09-30 14:20:29
-            [date_modified] => 2014-09-30 14:20:29
-            [comment] => 
-            [doctor_id] => 0
-            [outsource_id] => 0
-            [product_name] => 1磚石
-            [fullname] => aaaaaaaa
+            [address_1] => 11F No187 Minquan E rd
+            [address_2] => 
+            [city] => Taipei
+            [postcode] => 114
+            [country_id] => 206
+            [zone_id] => 3159
         )
 
-    [5] => Array
+    [comment] => 
+    [reminder_date] => 
+    [product] => 
+    [product_id] => 
+    [unitspend] => 
+    [tran_status] => -1
+    [lendto_customer] => 
+    [lendto_customer_id] => 
+    [lendto_product] => 
+    [lendto_product_id] => 
+    [lendto_quantity] => 
+    [customer_image] => Array
         (
-            [customer_transaction_id] => 197
-            [type] => 0
-            [ismain] => 0
-            [status] => -2
-            [customer_lending_id] => 0
-            [lender_id] => 0
-            [customer_id] => 9
-            [order_id] => 101
-            [product_id] => 79
-            [product_which] => 1
-            [product_total_which] => 3
-            [quantity] => -0.333333
-            [subquantity] => -1
-            [unit_class_id] => 4
-            [amount] => 0.00
-            [payment] => 0.00
-            [date_added] => 2014-09-30 14:20:29
-            [date_modified] => 2014-09-30 14:52:03
-            [comment] => 
-            [doctor_id] => 0
-            [outsource_id] => 0
-            [product_name] => 1磚石
-            [fullname] => aaaaaaaa
+            [0] => Array
+                (
+                    [image] => data/before-after-dot-face-4.jpg
+                    [date_added] => &lt;b&gt;Notice&lt;/b&gt;: Undefined index: date_added in &lt;b&gt;/var/www/html/opencart2/vqmod/vqcache/vq2-view_template_sale_customer_form.tpl&lt;/b&gt; on line &lt;b&gt;315&lt;/b&gt;
+                )
+
+            [1] => Array
+                (
+                    [image] => data/cart.png
+                    [date_added] => &lt;b&gt;Notice&lt;/b&gt;: Undefined index: date_added in &lt;b&gt;/var/www/html/opencart2/vqmod/vqcache/vq2-view_template_sale_customer_form.tpl&lt;/b&gt; on line &lt;b&gt;315&lt;/b&gt;
+                )
+
+            [2] => Array
+                (
+                    [image] => no_image.jpg
+                    [date_added] => &lt;b&gt;Notice&lt;/b&gt;: Undefined index: date_added in &lt;b&gt;/var/www/html/opencart2/vqmod/vqcache/vq2-view_template_sale_customer_form.tpl&lt;/b&gt; on line &lt;b&gt;315&lt;/b&gt;
+                )
+
         )
 
-    [6] => Array
+)
+Array
+(
+    [firstname] => 123
+    [lastname] => 李
+    [email] => aaaa@aaaa.com
+    [telephone] => 12345678
+    [fax] => 
+    [dob] => 2014-09-11
+    [line_id] => lliisszztt
+    [ssn] => F1234567890
+    [nickname] => 小虎
+    [fb_id] => lliisszztt
+    [outsource] => 0
+    [counselor_id] => 0
+    [location] => 
+    [misc] => 
+    [image] => data/cart.png
+    [store] => 1
+    [customer_group_id] => 1
+    [status] => 1
+    [address] => Array
         (
-            [customer_transaction_id] => 198
-            [type] => 0
-            [ismain] => 0
-            [status] => -1
-            [customer_lending_id] => 0
-            [lender_id] => 0
-            [customer_id] => 9
-            [order_id] => 101
-            [product_id] => 79
-            [product_which] => 2
-            [product_total_which] => 3
-            [quantity] => -0.333333
-            [subquantity] => -1
-            [unit_class_id] => 4
-            [amount] => 0.00
-            [payment] => 0.00
-            [date_added] => 2014-09-30 14:20:29
-            [date_modified] => 2014-09-30 14:20:29
-            [comment] => 
-            [doctor_id] => 0
-            [outsource_id] => 0
-            [product_name] => 1磚石
-            [fullname] => aaaaaaaa
+            [address_1] => 11F No187 Minquan E rd
+            [address_2] => 
+            [city] => Taipei
+            [postcode] => 114
+            [country_id] => 206
+            [zone_id] => 3159
         )
 
-    [7] => Array
+    [comment] => 
+    [reminder_date] => 
+    [product] => 
+    [product_id] => 
+    [unitspend] => 
+    [tran_status] => -1
+    [lendto_customer] => 
+    [lendto_customer_id] => 
+    [lendto_product] => 
+    [lendto_product_id] => 
+    [lendto_quantity] => 
+    [customer_image] => Array
         (
-            [customer_transaction_id] => 199
-            [type] => 0
-            [ismain] => 0
-            [status] => -1
-            [customer_lending_id] => 0
-            [lender_id] => 0
-            [customer_id] => 9
-            [order_id] => 101
-            [product_id] => 79
-            [product_which] => 3
-            [product_total_which] => 3
-            [quantity] => -0.333333
-            [subquantity] => -1
-            [unit_class_id] => 4
-            [amount] => 0.00
-            [payment] => 0.00
-            [date_added] => 2014-09-30 14:20:29
-            [date_modified] => 2014-09-30 14:20:29
-            [comment] => 
-            [doctor_id] => 0
-            [outsource_id] => 0
-            [product_name] => 1磚石
-            [fullname] => aaaaaaaa
+            [0] => Array
+                (
+                    [image] => data/before-after-dot-face-4.jpg
+                    [date_added] => 2014-10-19
+                )
+
+            [1] => Array
+                (
+                    [image] => data/cart.png
+                    [date_added] => 2014-10-16
+                )
+
+            [2] => Array
+                (
+                    [image] => no_image.jpg
+                    [date_added] => 2014-10-24
+                )
+
         )
 
-    [8] => Array
+)
+Array
+(
+    [firstname] => 123
+    [lastname] => 李
+    [email] => aaaa@aaaa.com
+    [telephone] => 12345678
+    [fax] => 
+    [dob] => 2014-09-11
+    [line_id] => lliisszztt
+    [ssn] => F1234567890
+    [nickname] => 小虎
+    [fb_id] => lliisszztt
+    [outsource] => 0
+    [counselor_id] => 0
+    [location] => 
+    [misc] => 
+    [image] => data/cart.png
+    [store] => 1
+    [customer_group_id] => 1
+    [status] => 1
+    [address] => Array
         (
-            [customer_transaction_id] => 200
-            [type] => 0
-            [ismain] => 1
-            [status] => 0
-            [customer_lending_id] => 0
-            [lender_id] => 0
-            [customer_id] => 9
-            [order_id] => 101
-            [product_id] => 66
-            [product_which] => 0
-            [product_total_which] => 0
-            [quantity] => 3
-            [subquantity] => 3
-            [unit_class_id] => 3
-            [amount] => 6000.00
-            [payment] => 0.00
-            [date_added] => 2014-09-30 14:20:29
-            [date_modified] => 2014-09-30 14:20:29
-            [comment] => 
-            [doctor_id] => 0
-            [outsource_id] => 0
-            [product_name] => 1膠囊
-            [fullname] => aaaaaaaa
+            [address_1] => 11F No187 Minquan E rd
+            [address_2] => 
+            [city] => Taipei
+            [postcode] => 114
+            [country_id] => 206
+            [zone_id] => 3159
         )
 
+    [comment] => 
+    [reminder_date] => 
+    [product] => 
+    [product_id] => 
+    [unitspend] => 
+    [tran_status] => -1
+    [lendto_customer] => 
+    [lendto_customer_id] => 
+    [lendto_product] => 
+    [lendto_product_id] => 
+    [lendto_quantity] => 
+    [customer_image] => Array
+        (
+            [0] => Array
+                (
+                    [image] => data/cart.png
+                    [date_added] => 2014-10-16
+                )
+
+            [1] => Array
+                (
+                    [image] => data/before-after-dot-face-4.jpg
+                    [date_added] => 2014-10-19
+                )
+
+            [2] => Array
+                (
+                    [image] => no_image.jpg
+                    [date_added] => 2014-10-14
+                )
+
+            [3] => Array
+                (
+                    [image] => 
+                    [date_added] => 
+                )
+
+            [4] => Array
+                (
+                    [image] => 
+                    [date_added] => 
+                )
+
+        )
+
+)
+Array
+(
+    [firstname] => 123
+    [lastname] => 李
+    [email] => aaaa@aaaa.com
+    [telephone] => 12345678
+    [fax] => 
+    [dob] => 2014-09-11
+    [line_id] => lliisszztt
+    [ssn] => F1234567890
+    [nickname] => 小虎
+    [fb_id] => lliisszztt
+    [outsource] => 0
+    [counselor_id] => 0
+    [location] => 
+    [misc] => 
+    [image] => data/cart.png
+    [store] => 1
+    [customer_group_id] => 1
+    [status] => 1
+    [address] => Array
+        (
+            [address_1] => 11F No187 Minquan E rd
+            [address_2] => 
+            [city] => Taipei
+            [postcode] => 114
+            [country_id] => 206
+            [zone_id] => 3159
+        )
+
+    [comment] => 
+    [reminder_date] => 
+    [product] => 
+    [product_id] => 
+    [unitspend] => 
+    [tran_status] => -1
+    [lendto_customer] => 
+    [lendto_customer_id] => 
+    [lendto_product] => 
+    [lendto_product_id] => 
+    [lendto_quantity] => 
+    [customer_image] => Array
+        (
+            [0] => Array
+                (
+                    [image] => data/before-after-dot-face-4.jpg
+                    [date_added] => 2014-10-19
+                )
+
+            [1] => Array
+                (
+                    [image] => no_image.jpg
+                    [date_added] => 2014-10-14
+                )
+
+            [3] => Array
+                (
+                    [image] => data/cart.png
+                    [date_added] => 2014-10-16
+                )
+
+        )
+
+)
+Array
+(
+    [firstname] => 123
+    [lastname] => 李
+    [email] => aaaa@aaaa.com
+    [telephone] => 12345678
+    [fax] => 
+    [dob] => 2014-09-11
+    [line_id] => lliisszztt
+    [ssn] => F1234567890
+    [nickname] => 小虎
+    [fb_id] => lliisszztt
+    [outsource] => 0
+    [counselor_id] => 0
+    [location] => 
+    [misc] => 
+    [image] => data/cart.png
+    [store] => 1
+    [customer_group_id] => 1
+    [status] => 1
+    [address] => Array
+        (
+            [address_1] => 11F No187 Minquan E rd
+            [address_2] => 
+            [city] => Taipei
+            [postcode] => 114
+            [country_id] => 206
+            [zone_id] => 3159
+        )
+
+    [comment] => 
+    [reminder_date] => 
+    [product] => 
+    [product_id] => 
+    [unitspend] => 
+    [tran_status] => -1
+    [lendto_customer] => 
+    [lendto_customer_id] => 
+    [lendto_product] => 
+    [lendto_product_id] => 
+    [lendto_quantity] => 
+    [customer_image] => Array
+        (
+            [0] => Array
+                (
+                    [image] => data/cart.png
+                    [date_added] => 2014-10-16
+                )
+
+            [1] => Array
+                (
+                    [image] => no_image.jpg
+                    [date_added] => 2014-10-14
+                )
+
+            [2] => Array
+                (
+                    [image] => data/before-after-dot-face-4.jpg
+                    [date_added] => 2014-10-19
+                )
+
+        )
+
+)
+Array
+(
+    [firstname] => 123
+    [lastname] => 李
+    [email] => aaaa@aaaa.com
+    [telephone] => 12345678
+    [fax] => 
+    [dob] => 2014-09-11
+    [line_id] => lliisszztt
+    [ssn] => F1234567890
+    [nickname] => 小虎
+    [fb_id] => lliisszztt
+    [outsource] => 0
+    [counselor_id] => 0
+    [location] => 
+    [misc] => 
+    [image] => data/cart.png
+    [store] => 1
+    [customer_group_id] => 1
+    [status] => 1
+    [address] => Array
+        (
+            [address_1] => 11F No187 Minquan E rd
+            [address_2] => 
+            [city] => Taipei
+            [postcode] => 114
+            [country_id] => 206
+            [zone_id] => 3159
+        )
+
+    [comment] => 
+    [reminder_date] => 
+    [product] => 
+    [product_id] => 
+    [unitspend] => 
+    [tran_status] => -1
+    [lendto_customer] => 
+    [lendto_customer_id] => 
+    [lendto_product] => 
+    [lendto_product_id] => 
+    [lendto_quantity] => 
+    [customer_image] => Array
+        (
+            [0] => Array
+                (
+                    [image] => data/before-after-dot-face-4.jpg
+                    [date_added] => 2014-10-19
+                )
+
+            [1] => Array
+                (
+                    [image] => data/cart.png
+                    [date_added] => 2014-10-16
+                )
+
+            [2] => Array
+                (
+                    [image] => data/logo.png
+                    [date_added] => 2014-10-21
+                )
+
+        )
+
+)
+Array
+(
+    [status] => -2
 )
 Array
 (
 )
 Array
 (
+    [status] => -2
+    [comment] => 
 )
 Array
 (
+    [status] => -2
+    [comment] => 2222222222222222222222
+)
+UPDATE oc_customer_transaction SET date_modified = NOW() WHERE customer_transaction_id = '252'UPDATE oc_customer_transaction SET date_modified = NOW() , comment = '22222222222222222' WHERE customer_transaction_id = '252'UPDATE oc_customer_transaction SET date_modified = NOW() , comment = '122' WHERE customer_transaction_id = '252'UPDATE oc_customer_transaction SET date_modified = NOW() , comment = '122' WHERE customer_transaction_id = '252'UPDATE oc_customer_transaction SET date_modified = NOW() , comment = '122' WHERE customer_transaction_id = '252'UPDATE oc_customer_transaction SET date_modified = NOW() , comment = '122' WHERE customer_transaction_id = '252'Array
+(
+    [firstname] => 世民
+    [lastname] => 李
+    [email] => aaaa@aaaa.com
+    [telephone] => 12345678
+    [fax] => 
+    [dob] => 2014-09-11
+    [line_id] => lliisszztt
+    [ssn] => F1234567890
+    [nickname] => 小虎
+    [fb_id] => lliisszztt
+    [outsource] => 0
+    [counselor_id] => 0
+    [location] => 
+    [misc] => 
+    [image] => data/cart.png
+    [store] => 1
+    [customer_group_id] => 1
+    [status] => 1
+    [address] => Array
+        (
+            [address_1] => 11F No187 Minquan E rd
+            [address_2] => 
+            [city] => Taipei
+            [postcode] => 114
+            [country_id] => 206
+            [zone_id] => 3159
+        )
+
+    [comment] => 
+    [reminder_date] => 
+    [product] => 
+    [product_id] => 
+    [unitspend] => 
+    [tran_status] => -1
+    [lendto_customer] => 
+    [lendto_customer_id] => 
+    [lendto_product] => 
+    [lendto_product_id] => 
+    [lendto_quantity] => 
+    [customer_image] => Array
+        (
+            [0] => Array
+                (
+                    [image] => data/logo.png
+                    [date_added] => 2014-10-21
+                )
+
+            [1] => Array
+                (
+                    [image] => data/before-after-dot-face-4.jpg
+                    [date_added] => 2014-10-19
+                )
+
+            [2] => Array
+                (
+                    [image] => data/cart.png
+                    [date_added] => 2014-10-16
+                )
+
+        )
+
 )
 Array
 (
+    [heading_title] => 訂單
+    [text_no_results] => 沒有結果
+    [text_error] => text_error
+    [text_default] => 預設
+    [text_select] =>  --- 請選擇 --- 
+    [text_none] =>  --- 無 --- 
+    [text_wait] => 請稍等...
+    [text_product] => 新增商品
+    [text_voucher] => 購物禮券
+    [text_order] => 訂單細節
+    [entry_payment_cash] => entry_payment_cash
+    [entry_payment_visa] => entry_payment_visa
+    [entry_payment_final] => entry_payment_final
+    [payment_balance] => payment_balance
+    [entry_store] => 商店名稱
+    [entry_customer] => 客戶
+    [entry_customer_group] => 客戶群組
+    [entry_firstname] => 名字
+    [entry_lastname] => 姓氏
+    [entry_email] => 電子郵件
+    [entry_telephone] => 電話
+    [entry_fax] => 傳真
+    [entry_order_status] => 訂單狀態
+    [entry_comment] => 備註
+    [entry_affiliate] => 推薦客戶姓名
+    [entry_address] => 選擇地址
+    [entry_company] => 公司
+    [entry_company_id] => 統一編號:
+    [entry_tax_id] => 稅籍編號:
+    [entry_address_1] => 地址 1
+    [entry_address_2] => 地址 2
+    [entry_city] => 城市
+    [entry_postcode] => 郵遞區號
+    [entry_zone] => 地區或省
+    [entry_zone_code] => 地區或省的代碼
+    [entry_country] => 國家
+    [entry_product] => 商品名稱
+    [entry_option] => 選擇選項
+    [entry_quantity] => 數量
+    [entry_to_name] => 收件人名稱
+    [entry_to_email] => 收件人的電子郵件
+    [entry_from_name] => 寄件人名稱
+    [entry_from_email] => 寄件人的電子郵件
+    [entry_theme] => 禮券樣式
+    [entry_message] => 留言
+    [entry_amount] => 金額
+    [entry_shipping] => 配送方式
+    [entry_payment] => 付款方式
+    [entry_voucher] => 購物禮券代碼
+    [entry_coupon] => 優惠券代碼
+    [entry_reward] => 紅利點數
+    [column_product] => 商品
+    [column_model] => 型號
+    [column_quantity] => 數量
+    [column_price] => 單價
+    [column_actual_price] => column_actual_price
+    [column_total] => 總計
+    [button_save] => 保存
+    [button_cancel] => 取消
+    [button_add_product] => 新增商品
+    [button_add_voucher] => 新增購物禮券
+    [button_update_total] => 更新
+    [button_remove] => 移除
+    [button_upload] => 上傳
+    [tab_order] => 訂單細節
+    [tab_customer] => 客戶資料
+    [tab_payment] => 付款細節
+    [tab_shipping] => tab_shipping
+    [tab_product] => 商品
+    [tab_voucher] => 購物禮券
+    [tab_total] => 總計
+    [error_customer] => 
+    [error_store] => error_store
+    [error_warning] => 請確認已輸入正確資料
+    [error_firstname] => 名字必須在1到32字元之間
+    [error_lastname] => 姓氏必須在1到32字元之間
+    [error_email] => 
+    [error_telephone] => 
+    [error_payment_cash] => 現金格式錯誤
+    [error_payment_visa] => 
+    [error_payment_final] => 
 )
-SELECT ct.*, pd.name as product_name, c.fullname FROM oc_customer_transaction ct LEFT JOIN oc_customer c ON c.customer_id = ct.customer_id LEFT JOIN oc_product p ON p.product_id = ct.product_id LEFT JOIN oc_product_description pd ON pd.product_id = p.product_id  WHERE pd.language_id = '2'  AND ct.customer_id = '9'  ORDER BY ct.date_added DESC, ct.customer_transaction_id LIMIT 0,10SELECT ct.*, pd.name as product_name, c.fullname FROM oc_customer_transaction ct LEFT JOIN oc_customer c ON c.customer_id = ct.customer_id LEFT JOIN oc_product p ON p.product_id = ct.product_id LEFT JOIN oc_product_description pd ON pd.product_id = p.product_id  WHERE pd.language_id = '2'  AND ct.customer_id = '9'  AND ct.product_type = '2'  ORDER BY ct.date_added DESC, ct.customer_transaction_id LIMIT 0,999999SELECT ct.*, pd.name as product_name, c.fullname FROM oc_customer_transaction ct LEFT JOIN oc_customer c ON c.customer_id = ct.customer_id LEFT JOIN oc_product p ON p.product_id = ct.product_id LEFT JOIN oc_product_description pd ON pd.product_id = p.product_id  WHERE pd.language_id = '2'  AND ct.customer_id = '9'  ORDER BY ct.date_added DESC, ct.customer_transaction_id LIMIT 0,10SELECT ct.*, pd.name as product_name, c.fullname FROM oc_customer_transaction ct LEFT JOIN oc_customer c ON c.customer_id = ct.customer_id LEFT JOIN oc_product p ON p.product_id = ct.product_id LEFT JOIN oc_product_description pd ON pd.product_id = p.product_id  WHERE pd.language_id = '2'  AND ct.customer_id = '9'  AND ct.product_type = '2'  ORDER BY ct.date_added DESC, ct.customer_transaction_id LIMIT 0,999999
+UPDATE `oc_order` SET 
+			payment_cash = '0'
+			, payment_visa = '0'
+			, payment_final = '0'
+			, total = '20000'
+			 WHERE order_id = '108'UPDATE `oc_order` SET 
+			payment_cash = '12000'
+			, payment_visa = '8000'
+			, payment_final = '0'
+			, total = '20000'
+			 WHERE order_id = '108'Array
+(
+    [customer] => bbbbbbbb
+    [customer_id] => 10
+    [customer_name] => bbbbbbbb
+    [customer_group_id] => 0
+    [store_id] => 2
+    [firstname] => bbbb
+    [lastname] => bbbb
+    [email] => bbbb@c.com
+    [telephone] => 123
+    [order_product] => Array
+        (
+            [0] => Array
+                (
+                    [order_product_id] => 
+                    [product_id] => 68
+                    [name] => 2針灸
+                    [model] => 針灸
+                    [quantity] => 1
+                    [ref_price] => 20000
+                    [price] => 20000.0000
+                    [total] => 20000
+                    [tax] => 0
+                    [reward] => undefined
+                )
+
+        )
+
+    [product] => 
+    [product_id] => 
+    [quantity] => 1
+    [order_total] => Array
+        (
+            [0] => Array
+                (
+                    [order_total_id] => 
+                    [code] => total
+                    [title] => 訂單計算項目
+                    [text] => 20000
+                    [value] => 20000
+                    [sort_order] => 9
+                )
+
+        )
+
+    [order_status_id] => 1
+    [comment] => hkguksadasd
+    [payment_cash] => 12000.0000
+    [payment_visa] => 7000.0000
+    [payment_final] => 1000.0000
+)

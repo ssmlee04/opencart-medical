@@ -49,19 +49,23 @@
           <span>treatment</span>
         <?php } ?>
       </td>
-      <td class="left"><input type='text' id='comment' style='width:400px'/>
+      <td class="left"><input type='text' id='comment' style='width:400px' value="<?php echo $transaction['comment']; ?>"/>
         <?php if ($transaction['type'] == 2) { ?>
         <img src="view/image/delete.png" title="<?php echo $button_remove; ?>" alt="<?php echo $button_remove; ?>" style="cursor: pointer;" onclick="$(this).parent().parent().remove(); deleteCustomerTransaction('<?php echo $transaction['customer_transaction_id']; ?>')" />
         <?php } ?>
 
+        <!-- <php if (!(!$transaction['ismain'] && $transaction['status'] != 10)) { $display="style='display:none'";} else { $display = ''; } ?> -->
         <?php if (!$transaction['ismain'] && $transaction['status'] != 10) { ?>
-          <select name='tran_status'>
+          <select name='tran_status' <?php echo $display; ?>>
           <option></option>
           <option value='-1' <?php if ($transaction['status'] == -1){echo 'selected'; } ?> ><?php echo $text_transaction_unoccured; ?></option>
           <option value='-2' <?php if ($transaction['status'] == -2){echo 'selected'; } ?> ><?php echo $text_transaction_appointed; ?></option>
           <option value='2' <?php if ($transaction['status'] == 2){echo 'selected'; } ?> ><?php echo $text_transaction_finished; ?></option>
-          </select><input type='button' class='tran_status_btn' value='<?php echo $button_change_status; ?>'/>
+          </select>
+        <?php } else { ?>
+          <input value='x'/ type='hidden'>
         <?php } ?>
+        <input type='button' class='change_status_button' value='<?php echo $button_change_status; ?>'/>
 
       </td>
       <!-- <td class="right"><php echo $transaction['amount']; ?></td> -->
@@ -151,17 +155,19 @@ function deleteCustomerTransaction(id) {
 
 }
 
-$('.tran_status_btn').on('click', function(e){
+$('.change_status_button').on('click', function(e){
   e.preventDefault();
+
   var status = $(this).prev().val();
+  var comment = $(this).prev().prev().val();
   var id = $(this).parent().parent().children().first().children().last().val()
 
-  console.log('status: ' + status, 'id: ' + id);
+  // console.log('status: ' + status, 'id: ' + id, ', message: '+ message);
   if (status)
   $.ajax({
       url: 'index.php?route=sale/customer/editcustomertransaction&token=<?php echo $token; ?>',
       type: 'post',
-      data: 'customer_transaction_id=' + id + '&status=' + status,
+      data: 'customer_transaction_id=' + id + '&status=' + status + '&comment=' + comment,
       dataType: 'json',
       beforeSend: function(){
       
