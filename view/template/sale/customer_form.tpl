@@ -1,4 +1,5 @@
 <?php echo $header; ?>
+
 <div id="content">
   <div class="breadcrumb">
     <?php foreach ($breadcrumbs as $breadcrumb) { ?>
@@ -12,7 +13,7 @@
     <div class="heading">
       <h1><img src="view/image/customer.png" alt="" /> <?php echo $heading_title; ?></h1>
       <div class="buttons">
-        <!-- <a onclick="$('#form').submit();" class="button"><php echo $button_save; ?></a> -->
+        <a onclick="$('#form').submit();" class="button"><?php echo $button_save; ?></a>
         <a href="<?php echo $cancel; ?>" class="button"><?php echo $button_cancel; ?></a></div>
     </div>
     <div class="content">
@@ -292,6 +293,27 @@
           </table>
         </div>
 
+        <div id="tab-payment">
+          <div id="lendto"></div>
+          <table class="form">
+            <?php foreach ($payments as $payment) { ?>
+            <tr>
+              <td><?php echo $payment['order_id']; ?></td>
+              <td><?php echo $payment['message']; ?></td>
+              <td><?php echo $payment['date_added']; ?></td>
+              <td><?php echo $payment['amount']; ?></td>
+            </tr>
+            <?php } ?>
+          </table>
+
+          <table class="form">
+            <tr>
+              <td><?php echo $text_remaining_balance; ?></td>
+              <td><?php echo -$balance; ?></td>
+            </tr>
+          </table>
+
+        </div>
 
         <div id="tab-image">
           <table id="images" class="list">
@@ -379,9 +401,13 @@
   </div>
 </div>
 <script type="text/javascript" src="view/javascript/jquery/ui/jquery-ui-timepicker-addon.js"></script> 
-
+<link rel="stylesheet" href="view/javascript/jquery/colorbox/colorbox.css" />
+<script type="text/javascript" src="view/javascript/jquery/colorbox/jquery.colorbox-min.js"></script> 
 <script type="text/javascript"><!--
 
+$(document).ready(function(){
+  $(".group1").colorbox({rel:'group1'});
+});
 
 $('.date').datepicker({dateFormat: 'yy-mm-dd'});
 $('.datetime').datetimepicker({
@@ -528,7 +554,7 @@ $('#button-transaction').bind('click', function() {
 		dataType: 'html',
 		data: 'product_id=' + encodeURIComponent($('#tab-transaction input[name=\'product_id\']').val()) + '&unitspend=' + encodeURIComponent($('#tab-transaction input[name=\'unitspend\']').val()),
 		beforeSend: function() {
-			$('.success, .warning').remove();
+			$('.success, .warning, .attention').remove();
 			$('#button-transaction').attr('disabled', true);
 			$('#transaction').before('<div class="attention"><img src="view/image/loading.gif" alt="" /> <?php echo $text_wait; ?></div>');
 		},
@@ -543,7 +569,6 @@ $('#button-transaction').bind('click', function() {
 			$('#tab-transaction input[name=\'product_id\']').val('');
       $('#tab-transaction input[name=\'product\']').val('');
       $('#tab-transaction input[name=\'unitspend\']').val('');
-
 		}
 	});
 });
@@ -809,6 +834,7 @@ $('input[name=\'lendto_customer\']').autocomplete({
 //--></script> 
 
 <script type="text/javascript"><!--
+
 function image_upload(field, thumb) {
   $('#dialog').remove();
   
@@ -822,6 +848,7 @@ function image_upload(field, thumb) {
           url: 'index.php?route=common/filemanager/image&token=<?php echo $token; ?>&image=' + encodeURIComponent($('#' + field).attr('value')),
           dataType: 'text',
           success: function(text) {
+            
             $('#' + thumb).replaceWith('<img src="' + text + '" alt="" id="' + thumb + '" />');
           }
         });

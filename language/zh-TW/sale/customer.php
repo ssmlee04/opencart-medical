@@ -29,9 +29,15 @@ $_['text_transaction_finished'] = '完成';
 $_['text_transaction_appointed'] = '預約中';
 $_['text_error']         = '錯誤';
 $_['text_borrowed']         = '轉讓得到';
+$_['text_remaining_balance']         = '賬戶餘額';
 $_['text_lendedout']         = '轉讓';
 $_['text_cannot_use_inventory']         = '增加交易錯誤';
 $_['button_change_status']           = '更改狀態';
+$_['button_add_picture']           = '增加圖片';
+$_['text_order_total']           = '訂單金額';
+$_['text_payment_final']           = '尾款金額';
+$_['text_payment_visa']           = '信用卡金額';
+$_['text_payment_cash']           = '現金金額';
 
 // Column
 $_['column_name']             = '客戶名稱';

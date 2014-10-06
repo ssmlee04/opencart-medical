@@ -83,6 +83,12 @@ class ModelSaleCustomer extends Model {
 		, date_added = '" . $this->db->escape($data['date_added']) . "'
 		, image = '" . $this->db->escape($data['image']) . "'";
 
+		if (isset($data['customer_transaction_id'])) {
+
+			$query = $this->db->query("SELECT * FROM oc_customer_image WHERE customer_transaction_id = '" . (int)$data['customer_transaction_id'] . "'");
+			if ($query->num_rows > 3) return false;
+		}
+
 		if (isset($data['customer_transaction_id'])) $sql .= ", customer_transaction_id = '" . $this->db->escape($data['customer_transaction_id']) . "'";
 
 		$query = $this->db->query($sql);
@@ -1152,9 +1158,27 @@ class ModelSaleCustomer extends Model {
 	// }	
 
 	// '2014-10-03 10:46'
-	public function getCustomerImages($customer_id) {
+	public function getCustomerImages($data) {
 
-		$sql = "SELECT * FROM oc_customer_image WHERE customer_id = '" . (int)$customer_id . "' ORDER BY date_added DESC";
+		$sql = "SELECT * FROM oc_customer_image WHERE 1=1  ";
+
+		if (isset($data['customer_id'])) {
+			$sql .= " AND customer_id = '" . (int)$data['customer_id'] . "'";
+		}
+
+		if (isset($data['filter_customer_transaction_id'])) {
+			$sql .= " AND customer_transaction_id = '" . (int)$data['filter_customer_transaction_id'] . "'";
+		}
+
+		if (isset($data['filter_date_added_start'])) {
+			$sql .= " AND date_added > '" . $this->db->escape($data['filter_date_added_start']) . "'";
+		}
+
+		if (isset($data['filter_date_added_end'])) {
+			$sql .= " AND date_added < '" . $this->db->escape($data['filter_date_added_end']) . "'";
+		}
+
+		$sql .= " ORDER BY date_added DESC";
 
 		$query = $this->db->query($sql);
 

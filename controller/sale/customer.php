@@ -12,7 +12,6 @@ class ControllerSaleCustomer extends Controller {
 		$this->data['if_search'] = true;
 
 		$this->getList();
-
 		
 	}
 
@@ -649,6 +648,7 @@ class ControllerSaleCustomer extends Controller {
 		$this->load->model('sale/customer');
 
 		$this->data['heading_title'] = $this->language->get('heading_title');
+		$this->data['text_remaining_balance'] = $this->language->get('text_remaining_balance');
 		$this->data['text_browse'] = $this->language->get('text_browse');
 		$this->data['text_clear'] = $this->language->get('text_clear');
 		$this->data['text_enabled'] = $this->language->get('text_enabled');
@@ -844,13 +844,16 @@ class ControllerSaleCustomer extends Controller {
 		if (isset($this->request->post['customer_image'])) {
 			$customer_images = $this->request->post['customer_image'];
 		} elseif (isset($this->request->get['customer_id'])) {
-			$customer_images = $this->model_sale_customer->getCustomerImages($this->request->get['customer_id']);
+			$tempdata = array(
+				'customer_id' => $this->request->get['customer_id']
+			);	
+			$customer_images = $this->model_sale_customer->getCustomerImages($tempdata);
 		} else {
 			$customer_images = array();
 		}
 
 
-		$this->data['customer_images'] = '';
+		$this->data['customer_images'] = array();
 		$this->load->model('tool/image');
 
 		foreach ($customer_images as $customer_image) {
@@ -1148,7 +1151,57 @@ class ControllerSaleCustomer extends Controller {
 			$this->data['address_id'] = '';
 		}
 
-		// $this->data['ips'] = array();
+		$payments = array();
+		$balance = 0;
+		if (isset($this->request->get['customer_id'])) {
+
+			$this->load->model('sale/order');
+			
+			$data = array('filter_customer_id' => $this->request->get['customer_id']);
+			$orders = $this->model_sale_order->getOrders($data);
+			
+
+			foreach ($orders as $order) {
+
+				if ((float)$order['total'] >= 0)
+				$payments[] = array(
+					'order_id' => $order['order_id'],
+					'message' => $this->language->get('text_order_total'),
+					'date_added' => $order['date_added'],
+					'amount' => $order['total']
+				);
+
+				if ((float)$order['payment_final'] > 0)
+				$payments[] = array(
+					'order_id' => $order['order_id'],
+					'message' => $this->language->get('text_payment_final'),
+					'date_added' => $order['date_added'],
+					'amount' => $order['payment_final']
+				);
+
+				if ((float)$order['payment_cash'] > 0)
+				$payments[] = array(
+					'order_id' => $order['order_id'],
+					'message' => $this->language->get('text_payment_cash'),
+					'date_added' => $order['date_added'],
+					'amount' => $order['payment_cash']
+				);
+
+				if ((float)$order['payment_visa'] > 0)
+				$payments[] = array(
+					'order_id' => $order['order_id'],
+					'message' => $this->language->get('text_payment_visa'),
+					'date_added' => $order['date_added'],
+					'amount' => $order['payment_visa']
+				);
+
+				$balance += $order['payment_balance'];
+				
+			}
+		}
+
+		$this->data['balance'] = $balance;
+		$this->data['payments'] = $payments;
 
 
 		// if (!empty($customer_info)) {
@@ -1681,10 +1734,35 @@ class ControllerSaleCustomer extends Controller {
 		$this->response->setOutput(json_encode($json));
 	}
 
+	public function transactionrecordimage() {
+
+		$this->language->load('sale/customer');
+
+		$this->load->model('sale/customer');
+
+		if ($this->user->hasPermission('modify', 'sale/customer')) { 
+
+			$data = array();
+			
+			$data['date_added'] = date();
+			if (isset($this->request->post['image'])) $data['image'] = $this->request->post['image'];
+			if (isset($this->request->post['id'])) $data['customer_transaction_id'] = $this->request->post['id'];
+			$this->request->post['customerid'] = 9;
+			$this->model_sale_customer->insertCustomerImage($this->request->post['customerid'], $data);
+			return true;
+		} else {
+
+			return false;
+		}
+	}
+
 	public function transaction() {
 		$this->language->load('sale/customer');
 
 		$this->load->model('sale/customer');
+
+		// $this->document->addScript('view/javascript/jquery/colorbox/jquery.colorbox-min.js');
+		// $this->document->addStyle('view/javascript/jquery/colorbox/colorbox.css');
 
 		// $reminder = (isset($this->request->post['reminder']) ? $this->request->post['reminder'] : null); 
 		// $reminder_date = (isset($this->request->post['reminder_date']) ? $this->request->post['reminder_date'] : null); 
@@ -1720,6 +1798,7 @@ class ControllerSaleCustomer extends Controller {
 		$this->data['text_balance'] = $this->language->get('text_balance');
 		$this->data['text_success'] = $this->language->get('text_success');
 		$this->data['text_appointment'] = $this->language->get('text_appointment');
+		$this->data['text_image_manager'] = $this->language->get('text_image_manager');
 		$this->data['text_error'] = $this->language->get('text_error');
 		$this->data['text_cannot_use_inventory'] = $this->language->get('text_cannot_use_inventory');
 
@@ -1741,6 +1820,7 @@ class ControllerSaleCustomer extends Controller {
 		$this->data['text_borrowed'] = $this->language->get('text_borrowed');
 
 		$this->data['button_change_status'] = $this->language->get('button_change_status');
+		$this->data['button_add_picture'] = $this->language->get('button_add_picture');
 
 		if (isset($this->request->get['page'])) {
 			$page = $this->request->get['page'];
@@ -1760,8 +1840,8 @@ class ControllerSaleCustomer extends Controller {
 		
 
 		$results = $this->model_sale_customer->getTransactions($data, ($page - 1) * 10, 10);
-
 		$totalresults = $this->model_sale_customer->getTransactions($data, 0, 999999);
+
 
 		// $data['filter_product_type'] = null;
 
@@ -1777,10 +1857,32 @@ class ControllerSaleCustomer extends Controller {
 			
 			$unit = $this->model_catalog_product->getProductUnit($product_id);
 
+			$tempdata = array(
+				'customer_id' => $this->request->get['customer_id'],
+				'filter_customer_transaction_id' => $result['customer_transaction_id']
+			);
+
+			$treatment_images_before = $this->model_sale_customer->getCustomerImages($tempdata);
+
+			$treatment_images = array();
+
+			$this->load->model('tool/image');
+
+			foreach ($treatment_images_before as $image) {
+
+				$thumb = $this->model_tool_image->resize($image['image'], 80, 80);
+				$largeimage = $this->model_tool_image->resize($image['image'], 800, 800);
+
+				$treatment_images[] = array(
+					'href' => $largeimage,
+					'thumb' => $thumb,
+					'image' => $image['image']
+				);
+			}
+
 			$this->data['transactions'][] = array(
-				'amount'      => $this->currency->format($result['amount'], $this->config->get('config_currency')),
+				// 'amount'      => $this->currency->format($result['amount'], $this->config->get('config_currency')),
 				'customer_lending_id' => $result['customer_lending_id'],
-				// 'customer_name' => $result['clastname'] . $result['cfirstname'],
 				'fullname' => $result['fullname'],
 				'product_name' => $product['name'],
 				'subquantity' => $result['subquantity'],
@@ -1788,6 +1890,7 @@ class ControllerSaleCustomer extends Controller {
 				'quantity' => $result['quantity'],
 				'unit' => $unit,
 				'ismain' => $result['ismain'],
+				'treatment_images' => $treatment_images,
 				'type' => $result['type'],
 				'status' => $result['status'],
 				'product_which' => $result['product_which'],
@@ -1887,7 +1990,6 @@ class ControllerSaleCustomer extends Controller {
 
 		$data = array(
 			'customer_id' => $this->request->get['customer_id']
-			// 'filter_unused' => 1
 		);
 		$results = $this->model_sale_customer->getTransactions($data, ($page - 1) * 10, 10);
 
@@ -1932,7 +2034,7 @@ class ControllerSaleCustomer extends Controller {
 		$data = array(
 			'customer_id' => $this->request->get['customer_id']
 		);
-		$transaction_total = count($results); // $this->model_sale_customer->getTotalTransactions($dataarray);
+		$transaction_total = count($results); 
 
 		$pagination = new Pagination();
 		$pagination->total = $transaction_total;

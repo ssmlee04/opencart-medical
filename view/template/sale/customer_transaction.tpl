@@ -1,3 +1,6 @@
+<!-- <link rel="stylesheet" href="colorbox.css" /> -->
+<!-- <script type="text/javascript" src="view/javascript/colorbox/jquery.colorbox-min"></script>  -->
+
 <?php if (isset($error_warning) && $error_warning) { ?>
 <div class="warning"><?php echo $error_warning; ?></div>
 <?php } ?>
@@ -15,7 +18,6 @@
       <!-- <td class="left"><php echo $column_quantity; ?></td> -->
       <td class="left"><?php echo $column_unit_quantity; ?></td>
       <td class="left"><?php echo $column_unit; ?></td>
-      <td class="left"></td>
       <td class="right"></td>
       <!-- <td class="right"><php echo $column_amount; ?></td> -->
     </tr>
@@ -26,14 +28,15 @@
     <!-- <.php if ($transaction['status'] == 0) continue; ?> -->
     <tr>
       <td class="left"><?php echo $transaction['date_added']; ?> 
-        <?php if ($transaction['product_which'] > 0) { ?>
-          <span>(<?php echo $text_appointment . $transaction['product_which'] . '/' . $transaction['product_total_which']; ?>)</span>
-        <?php } ?>
-        <input type='hidden' value='<?php echo $transaction['customer_transaction_id']; ?> ' />
+        <input type='hidden' value='<?php echo $transaction['customer_transaction_id']; ?>' />
       </td>
       <td class="left"><?php echo $transaction['date_modified']; ?></td>
       <td class="left"><?php echo $transaction['fullname']; ?></td>
-      <td class="left"><?php echo $transaction['product_name']; ?></td>
+      <td class="left"><?php echo $transaction['product_name']; ?>
+        <?php if ($transaction['product_which'] > 0) { ?>
+          <span>(<?php echo $text_appointment . $transaction['product_which'] . '/' . $transaction['product_total_which']; ?>)</span>
+        <?php } ?>
+      </td>
       <!-- <td class="left"><php echo $transaction['quantity']; ?></td> -->
       <td class="left"><?php echo $transaction['subquantity']; ?></td>
       <td class="left"><?php echo $transaction['unit']; ?></td>
@@ -49,7 +52,32 @@
           <span>treatment</span>
         <?php } ?>
       </td>
-      <td class="left"><input type='text' id='comment' style='width:400px' value="<?php echo $transaction['comment']; ?>"/>
+    </tr>
+
+
+
+    <tr>
+      <td class="left">
+        <input type='hidden' value='<?php echo $transaction['customer_transaction_id']; ?>' id='hidden<?php echo $transaction['customer_transaction_id']; ?>'/>
+        <?php $treatment_image_row = 0; ?>
+        <?php if ($transaction['treatment_images']) { ?>
+        <?php foreach ($transaction['treatment_images'] as $image) { ?>
+        <div style='display:inline' class='treatmentimage'>
+
+          <a class='group1' href="<?php echo $image['href']; ?>">
+          <img src="<?php echo $image['thumb']; ?>" alt="" id="treatmentthumb<?php echo $treatment_image_row; ?>" /></a>
+                    <input type="hidden" name="image[<?php echo $treatment_image_row; ?>][image]" value="<?php echo $image['image']; ?>" id="treatmentimage<?php echo $treatment_image_row; ?>" />
+
+
+
+                    <!-- <img src="<php echo $customer_image['thumb']; ?>" alt="" id="thumb<php echo $image_row; ?>" /> -->
+                    <!-- <input type="hidden" name="customer_image[<php echo $image_row; ?>][image]" value="<php echo $customer_image['image']; ?>" id="image<php echo $image_row; ?>" /> -->
+        </div>
+        <?php } ?>
+        <?php } ?>
+        <a class='addImage2'><?php echo $button_add_picture; ?></a>
+      </td>
+      <td colspan='6' class="left"><input type='text' id='comment' style='width:400px' value="<?php echo $transaction['comment']; ?>"/>
         <?php if ($transaction['type'] == 2) { ?>
         <img src="view/image/delete.png" title="<?php echo $button_remove; ?>" alt="<?php echo $button_remove; ?>" style="cursor: pointer;" onclick="$(this).parent().parent().remove(); deleteCustomerTransaction('<?php echo $transaction['customer_transaction_id']; ?>')" />
         <?php } ?>
@@ -65,16 +93,17 @@
         <?php } else { ?>
           <input value='x'/ type='hidden'>
         <?php } ?>
-        <input type='button' class='change_status_button' value='<?php echo $button_change_status; ?>'/>
-
+        <a class='change_status_button'><?php echo $button_change_status; ?></a>
       </td>
       <!-- <td class="right"><php echo $transaction['amount']; ?></td> -->
     </tr>
+    <tr><td colspan='7' style='background-color:lightgray' height='2' ></td></tr>
     <?php } ?>
     <tr>
       <!-- <td>&nbsp;</td> -->
       <!-- <td class="right"><b><php echo $text_balance; ?></b></td>
       <td class="right"><php echo $balance; ?></td> -->
+
     </tr>
     <?php } else { ?>
     <tr>
@@ -120,7 +149,14 @@
 </table>
 <?php } ?>
 
+<link rel="stylesheet" href="view/javascript/jquery/colorbox/colorbox.css" />
+<script type="text/javascript" src="view/javascript/jquery/colorbox/jquery.colorbox-min.js"></script> 
 <script type="text/javascript">  
+
+$(document).ready(function(){
+  $(".group1").colorbox({rel:'group1'});
+});
+
 
 function deleteCustomerTransaction(id) {
 
@@ -160,9 +196,9 @@ $('.change_status_button').on('click', function(e){
 
   var status = $(this).prev().val();
   var comment = $(this).prev().prev().val();
-  var id = $(this).parent().parent().children().first().children().last().val()
+  var id = $(this).parent().parent().children().first().children().first().val();
 
-  // console.log('status: ' + status, 'id: ' + id, ', message: '+ message);
+  console.log('status: ' + status, 'id: ' + id, ', comment: '+ comment);
   if (status)
   $.ajax({
       url: 'index.php?route=sale/customer/editcustomertransaction&token=<?php echo $token; ?>',
@@ -196,3 +232,84 @@ $('.change_status_button').on('click', function(e){
 });
 </script>
 
+<script type="text/javascript"><!--
+var treatment_image_row = <?php echo $treatment_image_row; ?>;
+
+$('.addImage2').on('click', function(e){
+  e.preventDefault();
+  console.log(treatment_image_row);
+  var ID = $(this).parent().children().first().val();
+  image_upload2('treatmentimage<?php echo $treatment_image_row; ?>', 'treatmentthumb<?php echo $treatment_image_row; ?>', ID);
+});
+//--></script> 
+
+
+
+<script type="text/javascript"><!--
+
+function image_upload2(field, thumb, id) {
+  $('#dialog').remove();  
+  // console.log('#' + field);
+  console.log(field);
+  // console.log($('#' + field));
+  
+  
+  $('#content').prepend('<div id="dialog" style="padding: 3px 0px 0px 0px;"><iframe src="index.php?route=common/filemanager&token=<?php echo $token; ?>&field=' + encodeURIComponent(field) + '" style="padding:0; margin: 0; display: block; width: 100%; height: 100%;" frameborder="no" scrolling="auto"></iframe></div>');
+  
+  $('#dialog').dialog({
+    title: '<?php echo $text_image_manager; ?>',
+    close: function (event, ui) {
+      
+      if (true) {
+      // if ($('#' + field).attr('value')) {
+        $.ajax({
+          url: 'index.php?route=common/filemanager/image&token=<?php echo $token; ?>&image=' + encodeURIComponent($('#' + field).attr('value')),
+          dataType: 'text',
+          success: function(text) {
+            // $('#' + thumb).replaceWith('<img src="' + text + '" alt="" id="' + thumb + '" />');
+
+            var thumbimage  = text;
+            var lastdot = thumbimage.lastIndexOf(".");
+            var firstdata = thumbimage.indexOf("data");
+            var lastdash = thumbimage.lastIndexOf("-");
+            var imageimage = text.substring(firstdata, lastdash) + text.substring(lastdot, text.length);
+            
+            console.log(text);
+            var html = '<div class="treatmentimage" style="display:inline"><img src="' + thumbimage + '" alt="" id="treatmentthumb' + treatment_image_row + '" />';
+              html += '<input type="hidden" value="' + imageimage + '" name="treatment_image[' + treatment_image_row + '][image]" id="treatmentimage' + treatment_image_row +'" /></div>';
+              
+              $('#hidden' + id).after(html);
+
+              $.ajax({
+                url: 'index.php?route=sale/customer/transactionrecordimage&token=<?php echo $token; ?>',
+                type: 'POST',
+                // dataType: 'xml/html/script/json/jsonp',
+                data: 'image=' + imageimage + '&thumb=' + thumbimage + '&id=' + id + '&customer=' + customer,
+                complete: function(xhr, textStatus) {
+                  //called when complete
+
+                },
+                success: function(data, textStatus, xhr) {
+                  //called when successful
+                  
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                  //called when there is an error
+                }
+              });
+              
+              treatment_image_row++;
+          }
+        });
+      }
+    },  
+    bgiframe: false,
+    width: 800,
+    height: 400,
+    resizable: false,
+    modal: false
+  });
+};
+
+
+//--></script> 
