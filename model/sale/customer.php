@@ -51,14 +51,14 @@ class ModelSaleCustomer extends Model {
 	
 
 		// edit customer images
-		$this->db->query("DELETE FROM " . DB_PREFIX . "customer_image WHERE customer_id = '" . (int)$customer_id . "'");	
+		// $this->db->query("DELETE FROM " . DB_PREFIX . "customer_image WHERE customer_id = '" . (int)$customer_id . "'");	
 
-		if (isset($data['customer_image'])) {
-			foreach ($data['customer_image'] as $customer_image) {
+		// if (isset($data['customer_image'])) {
+		// 	foreach ($data['customer_image'] as $customer_image) {
 				
-				$this->insertCustomerImage($customer_id, $customer_image);
-			}
-		}
+		// 		$this->insertCustomerImage($customer_id, $customer_image);
+		// 	}
+		// }
 
 		$this->db->query("DELETE FROM " . DB_PREFIX . "address WHERE customer_id = '" . (int)$customer_id . "'");
 
@@ -77,23 +77,31 @@ class ModelSaleCustomer extends Model {
 		}
 	}
 
+	// '2014-10-06 14:45'
+	public function deleteCustomerImage($customer_image_id) {
+		if (isset($customer_image_id)) {
+			$this->db->query("DELETE FROM oc_customer_image WHERE customer_image_id = '" . (int)$customer_image_id . "'");
+
+		}
+	}
+
+	// '2014-10-06 14:46'
 	public function insertCustomerImage($customer_id, $data) {
 
-		$sql = "INSERT INTO oc_customer_image SET customer_id = '" . (int)$customer_id . "'
-		, date_added = '" . $this->db->escape($data['date_added']) . "'
-		, image = '" . $this->db->escape($data['image']) . "'";
+		$sql = "INSERT INTO oc_customer_image SET customer_id = '" . (int)$customer_id . "', date_added = '" . $this->db->escape($data['date_added']) . "', image = '" . $this->db->escape($data['image']) . "'";
 
 		if (isset($data['customer_transaction_id'])) {
-
 			$query = $this->db->query("SELECT * FROM oc_customer_image WHERE customer_transaction_id = '" . (int)$data['customer_transaction_id'] . "'");
 			if ($query->num_rows > 3) return false;
 		}
 
-		if (isset($data['customer_transaction_id'])) $sql .= ", customer_transaction_id = '" . $this->db->escape($data['customer_transaction_id']) . "'";
+		if (isset($data['customer_transaction_id']))  {
+			$sql .= ", customer_transaction_id = '" . $this->db->escape($data['customer_transaction_id']) . "'";
+		}
 
 		$query = $this->db->query($sql);
 
-		return $this->db->countAffected();
+		return ($this->db->countAffected() > 0 ? $this->db->getLastId() : 0);
 	}
 
 	public function editToken($customer_id, $token) {
@@ -147,6 +155,10 @@ class ModelSaleCustomer extends Model {
 
 		if (isset($data['filter_status']) && !is_null($data['filter_status'])) {
 			$implode[] = "c.status = '" . (int)$data['filter_status'] . "'";
+		}	
+
+		if (isset($data['filter_ssn']) && !is_null($data['filter_ssn'])) {
+			$implode[] = "ssn LIKE '%" . $this->db->escape($data['filter_ssn']) . "%'";
 		}	
 
 		if (isset($data['filter_approved']) && !is_null($data['filter_approved'])) {
@@ -319,7 +331,7 @@ class ModelSaleCustomer extends Model {
 		$implode = array();
 
 		if (!empty($data['filter_name'])) {
-			$implode[] = "CONCAT(firstname, ' ', lastname) LIKE '%" . $this->db->escape($data['filter_name']) . "%'";
+			$implode[] = "fullname LIKE '%" . $this->db->escape($data['filter_name']) . "%'";
 		}
 
 		if (!empty($data['filter_email'])) {
@@ -344,7 +356,11 @@ class ModelSaleCustomer extends Model {
 
 		if (isset($data['filter_approved']) && !is_null($data['filter_approved'])) {
 			$implode[] = "approved = '" . (int)$data['filter_approved'] . "'";
-		}		
+		}
+
+		if (isset($data['filter_ssn']) && !is_null($data['filter_ssn'])) {
+			$implode[] = "ssn LIKE '%" . $this->db->escape($data['filter_ssn']) . "%'";
+		}			
 
 		if (!empty($data['filter_date_added'])) {
 			$implode[] = "DATE(date_added) = DATE('" . $this->db->escape($data['filter_date_added']) . "')";
@@ -359,29 +375,29 @@ class ModelSaleCustomer extends Model {
 		return $query->row['total'];
 	}
 
-	public function getTotalCustomersAwaitingApproval() {
-		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "customer WHERE status = '0' OR approved = '0'");
+	// public function getTotalCustomersAwaitingApproval() {
+	// 	$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "customer WHERE status = '0' OR approved = '0'");
 
-		return $query->row['total'];
-	}
+	// 	return $query->row['total'];
+	// }
 
-	public function getTotalAddressesByCustomerId($customer_id) {
-		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "address WHERE customer_id = '" . (int)$customer_id . "'");
+	// public function getTotalAddressesByCustomerId($customer_id) {
+	// 	$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "address WHERE customer_id = '" . (int)$customer_id . "'");
 
-		return $query->row['total'];
-	}
+	// 	return $query->row['total'];
+	// }
 
-	public function getTotalAddressesByCountryId($country_id) {
-		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "address WHERE country_id = '" . (int)$country_id . "'");
+	// public function getTotalAddressesByCountryId($country_id) {
+	// 	$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "address WHERE country_id = '" . (int)$country_id . "'");
 
-		return $query->row['total'];
-	}	
+	// 	return $query->row['total'];
+	// }	
 
-	public function getTotalAddressesByZoneId($zone_id) {
-		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "address WHERE zone_id = '" . (int)$zone_id . "'");
+	// public function getTotalAddressesByZoneId($zone_id) {
+	// 	$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "address WHERE zone_id = '" . (int)$zone_id . "'");
 
-		return $query->row['total'];
-	}
+	// 	return $query->row['total'];
+	// }
 
 	public function getTotalCustomersByCustomerGroupId($customer_group_id) {
 		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "customer WHERE customer_group_id = '" . (int)$customer_group_id . "'");
@@ -390,15 +406,43 @@ class ModelSaleCustomer extends Model {
 	}
 
 	// '2014-10-03 10:48'
-	public function addHistory($customer_id, $comment, $user_id = 0, $reminder=null, $reminder_date=null, $if_treatment = false, $customer_transaction_id = '') {
+	// '2014-10-06 16:51'
+	public function addHistory($customer_id, $data) {
 
-		$subsql = ($reminder ? " reminder = 1, reminder_date = '$reminder_date', user_id = " . (int)$user_id . ', ' : '');
 
-		$subsql .= ($if_treatment ? " if_treatment = 1, " : '');
+		// $comment, $user_id = 0, $reminder=null, $reminder_date=null, $if_treatment = false, $customer_transaction_id = '') {
 
-		$subsql .= ($customer_transaction_id ? " customer_transaction_id = '" . (int)$customer_transaction_id . "', " : '');
+		// $subsql = ($reminder ? " reminder = 1, reminder_date = '$reminder_date', user_id = " . (int)$user_id . ', ' : '');
 
-		$sql = "INSERT INTO " . DB_PREFIX . "customer_history SET $subsql customer_id = '" . (int)$customer_id . "', comment = '" . $this->db->escape(strip_tags($comment)) . "', date_added = NOW()";
+		// $subsql .= ($if_treatment ? " if_treatment = 1, " : '');
+
+		// $subsql .= ($customer_transaction_id ? " customer_transaction_id = '" . (int)$customer_transaction_id . "', " : '');
+
+		$sql = "INSERT INTO oc_customer_history SET customer_id = '" . (int)$customer_id . "' , date_added = NOW()";
+
+		if (isset($data['comment'])) {
+			$sql .= ", comment = '" . $this->db->escape($data['comment']) . "'"; 
+		}
+
+		if (isset($data['reminder'])) {
+			$sql .= ", reminder = '1', reminder_date = '" . $this->db->escape(strip_tags($data['reminder_date'])) . "'"; 
+		}
+
+		if (isset($data['user_id'])) {
+			$sql .= ", user_id = '" . (int)$data['user_id'] . "'"; 
+		}
+
+		if (isset($data['customer_transaction_id'])) {
+			$sql .= ", customer_transaction_id = '" . (int)$data['customer_transaction_id'] . "'"; 
+		}
+
+		if (isset($data['product_id'])) {
+			$sql .= ", product_id = '" . (int)$data['product_id'] . "'"; 
+		}
+
+		if (isset($data['if_treatment'])) {
+			$sql .= ", if_treatment = '1'"; 
+		}
 
 		$this->db->query($sql);
 	}	
@@ -722,20 +766,6 @@ class ModelSaleCustomer extends Model {
 
 		$customer_transaction_id = $this->db->getLastId();
 
-		// $reminder = $query->row['reminder']; 
-
-		// if ($reminder) {
-
-		// 	$reminder_days = $query->row['reminder_days'];
-
-		// 	$reminder_date = date('Y-m-d', strtotime("+" . $reminder_days . " days"));
-
-		// 	$text_treatment_reminder = sprintf($this->language->get('text_treatment_reminder'), $reminder_days, $query->row['name']);
-
-		// 	//$comment, $user_id = 0, $reminder=null, $reminder_date=null
-		// 	$this->addHistory($customer_id, $text_treatment_reminder, $user_id, 1, $reminder_date, 1, $customer_transaction_id);
-		// }
-
 		return $this->db->countAffected();
 
 	}
@@ -836,10 +866,10 @@ class ModelSaleCustomer extends Model {
 	}
 
 	// '2014-10-03 10:47'
-	public function deleteTransaction($order_id) {
-		$this->db->query("DELETE FROM " . DB_PREFIX . "customer_transaction WHERE order_id = '" . (int)$order_id . "'");
+	// public function deleteTransaction($order_id) {
+	// 	$this->db->query("DELETE FROM " . DB_PREFIX . "customer_transaction WHERE order_id = '" . (int)$order_id . "'");
 
-	}
+	// }
 
 	// '2014-10-03 10:47'
 	public function deleteCustomerLending($customer_lending_id) {
@@ -889,7 +919,7 @@ class ModelSaleCustomer extends Model {
 
 	}
 
-	public function editCustomerTransaction($customer_transaction_id, $data) {
+	public function edittransaction($customer_transaction_id, $data) {
 
 		// update message
 		$sql  = "UPDATE oc_customer_transaction SET date_modified = NOW()";
@@ -953,11 +983,12 @@ class ModelSaleCustomer extends Model {
 		}
 	}
 
-	public function deleteCustomerTransaction($customer_transaction_id) {
+	// '2014-10-07 09:20'
+	public function deletetransaction($customer_transaction_id) {
 
 		$this->db->query("DELETE FROM oc_customer_history WHERE customer_transaction_id = '" . (int)$customer_transaction_id . "'");
 		
-		$this->db->query("DELETE FROM " . DB_PREFIX . "customer_transaction WHERE customer_transaction_id = '" . (int)$customer_transaction_id . "' AND type = '2'");
+		$this->db->query("DELETE FROM " . DB_PREFIX . "customer_transaction WHERE customer_transaction_id = '" . (int)$customer_transaction_id . "'");
 
 		return $this->db->countAffected();
 	}

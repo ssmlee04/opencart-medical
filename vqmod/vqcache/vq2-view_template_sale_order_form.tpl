@@ -1040,6 +1040,7 @@ $('#button-product').live('click', function() {
   
   if (!store_id || !customer_id) {
     $('.success, .warning, .attention, .error').remove();
+    // $('.box').before('<div class="attention"><img src="view/image/loading.gif" alt="" /> <?php echo $text_wait; ?></div>');
     $('.box').before('<div class="warning"><?php echo $text_error; ?></div>');
     return;
   }
@@ -1076,8 +1077,6 @@ $('#button-product').live('click', function() {
 		},			
 		success: function(json) {
 			$('.success, .warning, .attention, .error').remove();
-
-      console.log(json);
 
 			// Check for errors
 			if (json['error']) {

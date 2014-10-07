@@ -227,12 +227,6 @@ class ControllerCatalogPurchase extends Controller {
 			$filter_store = null;
 		}
 
-		// if (isset($this->request->get['filter_purchase_status_id'])) {
-		// 	$filter_purchase_status_id = $this->request->get['filter_purchase_status_id'];
-		// } else {
-		// 	$filter_purchase_status_id = null;
-		// }
-
 		if (isset($this->request->get['filter_total'])) {
 			$filter_total = $this->request->get['filter_total'];
 		} else {
@@ -250,12 +244,6 @@ class ControllerCatalogPurchase extends Controller {
 		} else {
 			$filter_date_added = null;
 		}
-
-		// if (isset($this->request->get['filter_date_modified'])) {
-		// 	$filter_date_modified = $this->request->get['filter_date_modified'];
-		// } else {
-		// 	$filter_date_modified = null;
-		// }
 
 		if (isset($this->request->get['sort'])) {
 			$sort = $this->request->get['sort'];
@@ -359,7 +347,9 @@ class ControllerCatalogPurchase extends Controller {
 
 		$this->load->model('user/user');
 
-		$users = $this->model_user_user->getUsers();
+		$data = array();
+		// $data['']
+		$users = $this->model_user_user->getUsers($data);
 
 		$this->data['users'] = $users;
 
@@ -369,17 +359,15 @@ class ControllerCatalogPurchase extends Controller {
 
 		$this->data['stores'] = $stores;		
 
-// $this->load->test($data, false);
-
 		$results = $this->model_catalog_purchase->getPurchases($data);
 
 		foreach ($results as $result) {
 			$action = array();
 
-			$action[] = array(
-				'text' => $this->language->get('text_view'),
-				'href' => $this->url->link('catalog/purchase/info', 'token=' . $this->session->data['token'] . '&purchase_id=' . $result['purchase_id'] . $url, 'SSL')
-			);
+			// $action[] = array(
+			// 	'text' => $this->language->get('text_view'),
+			// 	'href' => $this->url->link('catalog/purchase/info', 'token=' . $this->session->data['token'] . '&purchase_id=' . $result['purchase_id'] . $url, 'SSL')
+			// );
 
 			$action[] = array(
 				'text' => $this->language->get('text_edit'),

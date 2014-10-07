@@ -192,7 +192,7 @@ class ControllerCommonHome extends Controller {
 		$this->load->model('sale/customer');
 
 		$this->data['total_customer'] = $this->model_sale_customer->getTotalCustomers();
-		$this->data['total_customer_approval'] = $this->model_sale_customer->getTotalCustomersAwaitingApproval();
+		// $this->data['total_customer_approval'] = $this->model_sale_customer->getTotalCustomersAwaitingApproval();
 
 		$this->load->model('catalog/review');
 

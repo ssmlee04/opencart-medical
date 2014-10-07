@@ -133,12 +133,10 @@
               <td><php echo $entry_minimum; ?></td>
               <td><input type="text" name="minimum" value="<php echo $minimum; ?>" size="5" /></td>
             </tr>
- -->            <tr>
+ -->        <tr>
               <td><?php echo $entry_unit_quantity; ?></td>
               <td><input type="text" name="unit_quantity" value="<?php echo $unit_quantity; ?>" size="5" /></td>
             </tr>
-
-            
             <tr>
               <td><?php echo $entry_unit_class; ?></td>
               <td><select name="unit_class_id">

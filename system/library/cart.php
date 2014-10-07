@@ -222,19 +222,13 @@ class Cart {
 					// 	);
 					// }
 
-					// '2014-09-08 15:56'
+					// '2014-09-08 15:56'					
 					$store_product_query = $this->db->query("SELECT * FROM oc_product_to_store ps LEFT JOIN oc_product p ON p.product_id = ps.product_id WHERE p.product_id = '" . (int)$product_id . "' AND p.date_available <= NOW() AND p.status = '1' AND ps.store_id = '" . $this->session->data['store_id'] . "'");
 					if (!$store_product_query->num_rows || !$store_product_query->row['quantity'] || ($store_product_query->row['quantity'] < $quantity)) {
 						$stock = false;
 					}
 
-		// $file = 'people.txt';
-		// $current = file_get_contents($file);
-		// $current .= print_r('---------------------', true);
-		// $current .= print_r($stock, true);
-		// $current .= print_r($store_product_query, true);
-		// file_put_contents($file, $current);
-
+		
 
 					$recurring = false;
 					$recurring_frequency = 0;
@@ -313,17 +307,17 @@ class Cart {
 		return $this->data;
 	}
 
-	public function getRecurringProducts(){
-		$recurring_products = array();
+	// public function getRecurringProducts(){
+	// 	$recurring_products = array();
 
-		foreach ($this->getProducts() as $key => $value) {
-			if ($value['recurring']) {
-				$recurring_products[$key] = $value;
-			}
-		}
+	// 	foreach ($this->getProducts() as $key => $value) {
+	// 		if ($value['recurring']) {
+	// 			$recurring_products[$key] = $value;
+	// 		}
+	// 	}
 
-		return $recurring_products;
-	}
+	// 	return $recurring_products;
+	// }
 
 	public function add($product_id, $qty = 1, $option, $profile_id = '') {
 		$key = (int)$product_id . ':';
@@ -440,9 +434,9 @@ class Cart {
 		return count($this->session->data['cart']);
 	}
 
-	public function hasRecurringProducts(){
-		return count($this->getRecurringProducts());
-	}
+	// public function hasRecurringProducts(){
+	// 	return count($this->getRecurringProducts());
+	// }
 
 	public function hasStock() {
 

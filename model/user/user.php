@@ -107,7 +107,7 @@ class ModelUserUser extends Model {
 	//'2014-09-22 15:25'
 	public function getReminderMessages($data) {
 
-		$sql = "SELECT ch.*, u.firstname as ufirstname, u.lastname as ulastname, u.store_id, c.firstname as cfirstname, c.lastname as clastname FROM oc_customer_history ch LEFT JOIN oc_user u ON u.user_id = ch.user_id LEFT JOIN oc_customer c ON c.customer_id = ch.customer_id ";
+		$sql = "SELECT ch.*, u.firstname as ufirstname, u.lastname as ulastname, u.store_id, u.fullname as ufullname, c.firstname as cfirstname, c.lastname as clastname, c.fullname as cfullname FROM oc_customer_history ch LEFT JOIN oc_user u ON u.user_id = ch.user_id LEFT JOIN oc_customer c ON c.customer_id = ch.customer_id ";
 
 		$sql .= " WHERE reminder = 1 "; 
 

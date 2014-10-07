@@ -66,7 +66,7 @@
 
           <a class='group1' href="<?php echo $image['href']; ?>">
           <img src="<?php echo $image['thumb']; ?>" alt="" id="treatmentthumb<?php echo $treatment_image_row; ?>" /></a>
-                    <input type="hidden" name="image[<?php echo $treatment_image_row; ?>][image]" value="<?php echo $image['image']; ?>" id="treatmentimage<?php echo $treatment_image_row; ?>" />
+          <input type="hidden" name="image[<?php echo $treatment_image_row; ?>][image]" value="<?php echo $image['image']; ?>" id="treatmentimage<?php echo $treatment_image_row; ?>" />
 
 
 
@@ -75,6 +75,8 @@
         </div>
         <?php } ?>
         <?php } ?>
+         <input type="hidden" name="image[<?php echo $treatment_image_row; ?>][image]" value="<?php echo $image['image']; ?>" id="treatmentimage<?php echo $treatment_image_row; ?>" />
+
         <a class='addImage2'><?php echo $button_add_picture; ?></a>
       </td>
       <td colspan='6' class="left"><input type='text' id='comment' style='width:400px' value="<?php echo $transaction['comment']; ?>"/>
@@ -153,15 +155,17 @@
 <script type="text/javascript" src="view/javascript/jquery/colorbox/jquery.colorbox-min.js"></script> 
 <script type="text/javascript">  
 
-$(document).ready(function(){
-  $(".group1").colorbox({rel:'group1'});
-});
+// $(document).ready(function(){
+  $(".group1").on('mouseover', function(){
+     $(".group1").colorbox({rel:'group1'});
+  });
+// });
 
 
 function deleteCustomerTransaction(id) {
 
   $.ajax({
-      url: 'index.php?route=sale/customer/deletecustomertransaction&token=<?php echo $token; ?>&customer_transaction_id=' + id,
+      url: 'index.php?route=sale/customer/deletetransaction&token=<?php echo $token; ?>&customer_transaction_id=' + id,
       type: 'post',
       data: 'customer_transaction_id=' + id,
       dataType: 'json',
@@ -201,7 +205,7 @@ $('.change_status_button').on('click', function(e){
   console.log('status: ' + status, 'id: ' + id, ', comment: '+ comment);
   if (status)
   $.ajax({
-      url: 'index.php?route=sale/customer/editcustomertransaction&token=<?php echo $token; ?>',
+      url: 'index.php?route=sale/customer/edittransaction&token=<?php echo $token; ?>',
       type: 'post',
       data: 'customer_transaction_id=' + id + '&status=' + status + '&comment=' + comment,
       dataType: 'json',
@@ -239,7 +243,7 @@ $('.addImage2').on('click', function(e){
   e.preventDefault();
   console.log(treatment_image_row);
   var ID = $(this).parent().children().first().val();
-  image_upload2('treatmentimage<?php echo $treatment_image_row; ?>', 'treatmentthumb<?php echo $treatment_image_row; ?>', ID);
+  image_upload_treat('treatmentimage<?php echo $treatment_image_row; ?>', 'treatmentthumb<?php echo $treatment_image_row; ?>', ID);
 });
 //--></script> 
 
@@ -247,57 +251,62 @@ $('.addImage2').on('click', function(e){
 
 <script type="text/javascript"><!--
 
-function image_upload2(field, thumb, id) {
+function image_upload_treat(field, thumb, id) {
   $('#dialog').remove();  
-  // console.log('#' + field);
-  console.log(field);
-  // console.log($('#' + field));
-  
-  
+
   $('#content').prepend('<div id="dialog" style="padding: 3px 0px 0px 0px;"><iframe src="index.php?route=common/filemanager&token=<?php echo $token; ?>&field=' + encodeURIComponent(field) + '" style="padding:0; margin: 0; display: block; width: 100%; height: 100%;" frameborder="no" scrolling="auto"></iframe></div>');
   
+  var customer_id = '<?php echo $customer_id; ?>';
   $('#dialog').dialog({
     title: '<?php echo $text_image_manager; ?>',
     close: function (event, ui) {
-      
-      if (true) {
-      // if ($('#' + field).attr('value')) {
+      // if (true) {
+        alert(field);
+      if ($('#' + field).attr('value')) {
+        
         $.ajax({
           url: 'index.php?route=common/filemanager/image&token=<?php echo $token; ?>&image=' + encodeURIComponent($('#' + field).attr('value')),
           dataType: 'text',
           success: function(text) {
             // $('#' + thumb).replaceWith('<img src="' + text + '" alt="" id="' + thumb + '" />');
-
+            console.log(text);
             var thumbimage  = text;
             var lastdot = thumbimage.lastIndexOf(".");
             var firstdata = thumbimage.indexOf("data");
             var lastdash = thumbimage.lastIndexOf("-");
             var imageimage = text.substring(firstdata, lastdash) + text.substring(lastdot, text.length);
+            var customer_transaction_id = id;
             
-            console.log(text);
-            var html = '<div class="treatmentimage" style="display:inline"><img src="' + thumbimage + '" alt="" id="treatmentthumb' + treatment_image_row + '" />';
+            var html = '<a class=\'group1\' href="' + thumbimage + '"><div class="treatmentimage" style="display:inline"><img src="' + thumbimage + '" alt="" id="treatmentthumb' + treatment_image_row + '" /></a>';
               html += '<input type="hidden" value="' + imageimage + '" name="treatment_image[' + treatment_image_row + '][image]" id="treatmentimage' + treatment_image_row +'" /></div>';
               
               $('#hidden' + id).after(html);
 
+              if (text)
               $.ajax({
-                url: 'index.php?route=sale/customer/transactionrecordimage&token=<?php echo $token; ?>',
+                url: 'index.php?route=sale/customer/recordimage&token=<?php echo $token; ?>',
                 type: 'POST',
                 // dataType: 'xml/html/script/json/jsonp',
-                data: 'image=' + imageimage + '&thumb=' + thumbimage + '&id=' + id + '&customer=' + customer,
+                data: 'image=' + imageimage + '&customer_id=' + customer_id + '&customer_transaction_id=' + customer_transaction_id,
                 complete: function(xhr, textStatus) {
                   //called when complete
 
                 },
                 success: function(data, textStatus, xhr) {
                   //called when successful
-                  
+                  // addImage();
+                
+                  // $('#thumb' + (image_row - 1)).replaceWith('<img src="' + thumbimage + '" alt="" id="thumb' + (image_row - 1) + '" />');
+                  // $('#image' + image_row).replaceWith('<input src="' + text + '" alt="" id="image' + image_row + '" />');
+
                 },
                 error: function(xhr, textStatus, errorThrown) {
                   //called when there is an error
                 }
               });
               
+              
+
               treatment_image_row++;
           }
         });

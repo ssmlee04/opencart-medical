@@ -38,16 +38,28 @@ class ControllerSaleOrder extends Controller {
 				$url .= '&filter_order_status_id=' . $this->request->get['filter_order_status_id'];
 			}
 
-			if (isset($this->request->get['filter_total'])) {
-				$url .= '&filter_total=' . $this->request->get['filter_total'];
+			if (isset($this->request->get['filter_total_max'])) {
+				$url .= '&filter_total_max=' . $this->request->get['filter_total_max'];
 			}
 
-			if (isset($this->request->get['filter_date_added'])) {
-				$url .= '&filter_date_added=' . $this->request->get['filter_date_added'];
+			if (isset($this->request->get['filter_total_min'])) {
+				$url .= '&filter_total_min=' . $this->request->get['filter_total_min'];
 			}
 
-			if (isset($this->request->get['filter_date_modified'])) {
-				$url .= '&filter_date_modified=' . $this->request->get['filter_date_modified'];
+			if (isset($this->request->get['filter_date_added_start'])) {
+				$url .= '&filter_date_added_start=' . $this->request->get['filter_date_added_start'];
+			}
+
+			if (isset($this->request->get['filter_date_added_end'])) {
+				$url .= '&filter_date_added_end=' . $this->request->get['filter_date_added_end'];
+			}
+
+			if (isset($this->request->get['filter_date_modified_start'])) {
+				$url .= '&filter_date_modified_start=' . $this->request->get['filter_date_modified_start'];
+			}
+
+			if (isset($this->request->get['filter_date_modified_end'])) {
+				$url .= '&filter_date_modified_end=' . $this->request->get['filter_date_modified_end'];
 			}
 
 			if (isset($this->request->get['sort'])) {
@@ -97,16 +109,27 @@ class ControllerSaleOrder extends Controller {
 				$url .= '&filter_order_status_id=' . $this->request->get['filter_order_status_id'];
 			}
 
-			if (isset($this->request->get['filter_total'])) {
-				$url .= '&filter_total=' . $this->request->get['filter_total'];
+			if (isset($this->request->get['filter_total_max'])) {
+				$url .= '&filter_total_max=' . $this->request->get['filter_total_max'];
+			}
+			if (isset($this->request->get['filter_total_min'])) {
+				$url .= '&filter_total_min=' . $this->request->get['filter_total_min'];
 			}
 
-			if (isset($this->request->get['filter_date_added'])) {
-				$url .= '&filter_date_added=' . $this->request->get['filter_date_added'];
+			if (isset($this->request->get['filter_date_added_start'])) {
+				$url .= '&filter_date_added_start=' . $this->request->get['filter_date_added_start'];
+			}
+			
+			if (isset($this->request->get['filter_date_added_end'])) {
+				$url .= '&filter_date_added_end=' . $this->request->get['filter_date_added_end'];
 			}
 
-			if (isset($this->request->get['filter_date_modified'])) {
-				$url .= '&filter_date_modified=' . $this->request->get['filter_date_modified'];
+			if (isset($this->request->get['filter_date_modified_start'])) {
+				$url .= '&filter_date_modified_start=' . $this->request->get['filter_date_modified_start'];
+			}
+
+			if (isset($this->request->get['filter_date_modified_end'])) {
+				$url .= '&filter_date_modified_end=' . $this->request->get['filter_date_modified_end'];
 			}
 
 			if (isset($this->request->get['sort'])) {
@@ -143,8 +166,6 @@ class ControllerSaleOrder extends Controller {
 				}
 			}
 
-			
-
 			$url = '';
 
 			if (isset($this->request->get['filter_order_id'])) {
@@ -159,16 +180,28 @@ class ControllerSaleOrder extends Controller {
 				$url .= '&filter_order_status_id=' . $this->request->get['filter_order_status_id'];
 			}
 
-			if (isset($this->request->get['filter_total'])) {
-				$url .= '&filter_total=' . $this->request->get['filter_total'];
+			if (isset($this->request->get['filter_total_max'])) {
+				$url .= '&filter_total_max=' . $this->request->get['filter_total_max'];
 			}
 
-			if (isset($this->request->get['filter_date_added'])) {
-				$url .= '&filter_date_added=' . $this->request->get['filter_date_added'];
+			if (isset($this->request->get['filter_total_min'])) {
+				$url .= '&filter_total_min=' . $this->request->get['filter_total_min'];
 			}
 
-			if (isset($this->request->get['filter_date_modified'])) {
-				$url .= '&filter_date_modified=' . $this->request->get['filter_date_modified'];
+			if (isset($this->request->get['filter_date_added_start'])) {
+				$url .= '&filter_date_added_start=' . $this->request->get['filter_date_added_start'];
+			}
+
+			if (isset($this->request->get['filter_date_added_end'])) {
+				$url .= '&filter_date_added_end=' . $this->request->get['filter_date_added_end'];
+			}
+
+			if (isset($this->request->get['filter_date_modified_start'])) {
+				$url .= '&filter_date_modified_start=' . $this->request->get['filter_date_modified_start'];
+			}
+
+			if (isset($this->request->get['filter_date_modified_end'])) {
+				$url .= '&filter_date_modified_end=' . $this->request->get['filter_date_modified_end'];
 			}
 
 			if (isset($this->request->get['sort'])) {
@@ -208,22 +241,40 @@ class ControllerSaleOrder extends Controller {
 			$filter_order_status_id = null;
 		}
 
-		if (isset($this->request->get['filter_total'])) {
-			$filter_total = $this->request->get['filter_total'];
+		if (isset($this->request->get['filter_total_max'])) {
+			$filter_total_max = $this->request->get['filter_total_max'];
 		} else {
-			$filter_total = null;
+			$filter_total_max = null;
 		}
 
-		if (isset($this->request->get['filter_date_added'])) {
-			$filter_date_added = $this->request->get['filter_date_added'];
+		if (isset($this->request->get['filter_total_min'])) {
+			$filter_total_min = $this->request->get['filter_total_min'];
 		} else {
-			$filter_date_added = null;
+			$filter_total_min = null;
 		}
 
-		if (isset($this->request->get['filter_date_modified'])) {
-			$filter_date_modified = $this->request->get['filter_date_modified'];
+		if (isset($this->request->get['filter_date_added_start'])) {
+			$filter_date_added_start = $this->request->get['filter_date_added_start'];
 		} else {
-			$filter_date_modified = null;
+			$filter_date_added_start = null;
+		}
+
+		if (isset($this->request->get['filter_date_added_end'])) {
+			$filter_date_added_end = $this->request->get['filter_date_added_end'];
+		} else {
+			$filter_date_added_end = null;
+		}
+
+		if (isset($this->request->get['filter_date_modified_start'])) {
+			$filter_date_modified_start = $this->request->get['filter_date_modified_start'];
+		} else {
+			$filter_date_modified_start = null;
+		}
+
+		if (isset($this->request->get['filter_date_modified_end'])) {
+			$filter_date_modified_end = $this->request->get['filter_date_modified_end'];
+		} else {
+			$filter_date_modified_end = null;
 		}
 
 		if (isset($this->request->get['sort'])) {
@@ -258,16 +309,28 @@ class ControllerSaleOrder extends Controller {
 			$url .= '&filter_order_status_id=' . $this->request->get['filter_order_status_id'];
 		}
 
-		if (isset($this->request->get['filter_total'])) {
-			$url .= '&filter_total=' . $this->request->get['filter_total'];
+		if (isset($this->request->get['filter_total_max'])) {
+			$url .= '&filter_total_max=' . $this->request->get['filter_total_max'];
 		}
 
-		if (isset($this->request->get['filter_date_added'])) {
-			$url .= '&filter_date_added=' . $this->request->get['filter_date_added'];
+		if (isset($this->request->get['filter_total_min'])) {
+			$url .= '&filter_total_min=' . $this->request->get['filter_total_min'];
 		}
 
-		if (isset($this->request->get['filter_date_modified'])) {
-			$url .= '&filter_date_modified=' . $this->request->get['filter_date_modified'];
+		if (isset($this->request->get['filter_date_added_start'])) {
+			$url .= '&filter_date_added_start=' . $this->request->get['filter_date_added_start'];
+		}
+
+		if (isset($this->request->get['filter_date_added_end'])) {
+			$url .= '&filter_date_added_end=' . $this->request->get['filter_date_added_end'];
+		}
+
+		if (isset($this->request->get['filter_date_modified_start'])) {
+			$url .= '&filter_date_modified_start=' . $this->request->get['filter_date_modified_start'];
+		}
+
+		if (isset($this->request->get['filter_date_modified_end'])) {
+			$url .= '&filter_date_modified_end=' . $this->request->get['filter_date_modified_end'];
 		}
 
 		if (isset($this->request->get['sort'])) {
@@ -306,9 +369,12 @@ class ControllerSaleOrder extends Controller {
 			'filter_order_id'        => $filter_order_id,
 			'filter_customer'	     => $filter_customer,
 			'filter_order_status_id' => $filter_order_status_id,
-			'filter_total'           => $filter_total,
-			'filter_date_added'      => $filter_date_added,
-			'filter_date_modified'   => $filter_date_modified,
+			'filter_total_max'           => $filter_total_max,
+			'filter_total_min'           => $filter_total_min,
+			'filter_date_added_start'      => $filter_date_added_start,
+			'filter_date_added_end'      => $filter_date_added_end,
+			'filter_date_modified_start'   => $filter_date_modified_start,
+			'filter_date_modified_end'   => $filter_date_modified_end,
 			'sort'                   => $sort,
 			'order'                  => $order,
 			'start'                  => ($page - 1) * $this->config->get('config_admin_limit'),
@@ -363,6 +429,8 @@ class ControllerSaleOrder extends Controller {
 		$this->data['button_insert'] = $this->language->get('button_insert');
 		$this->data['button_delete'] = $this->language->get('button_delete');
 		$this->data['button_filter'] = $this->language->get('button_filter');
+		
+		// $this->data['text_error'] = $this->language->get('text_error');
 
 		$this->data['token'] = $this->session->data['token'];
 
@@ -396,16 +464,28 @@ class ControllerSaleOrder extends Controller {
 			$url .= '&filter_order_status_id=' . $this->request->get['filter_order_status_id'];
 		}
 
-		if (isset($this->request->get['filter_total'])) {
-			$url .= '&filter_total=' . $this->request->get['filter_total'];
+		if (isset($this->request->get['filter_total_max'])) {
+			$url .= '&filter_total_max=' . $this->request->get['filter_total_max'];
 		}
 
-		if (isset($this->request->get['filter_date_added'])) {
-			$url .= '&filter_date_added=' . $this->request->get['filter_date_added'];
+		if (isset($this->request->get['filter_total_min'])) {
+			$url .= '&filter_total_min=' . $this->request->get['filter_total_min'];
 		}
 
-		if (isset($this->request->get['filter_date_modified'])) {
-			$url .= '&filter_date_modified=' . $this->request->get['filter_date_modified'];
+		if (isset($this->request->get['filter_date_added_start'])) {
+			$url .= '&filter_date_added_start=' . $this->request->get['filter_date_added_start'];
+		}
+
+		if (isset($this->request->get['filter_date_added_end'])) {
+			$url .= '&filter_date_added_end=' . $this->request->get['filter_date_added_end'];
+		}
+
+		if (isset($this->request->get['filter_date_modified_start'])) {
+			$url .= '&filter_date_modified_start=' . $this->request->get['filter_date_modified_start'];
+		}
+
+		if (isset($this->request->get['filter_date_modified_end'])) {
+			$url .= '&filter_date_modified_end=' . $this->request->get['filter_date_modified_end'];
 		}
 
 		if ($order == 'ASC') {
@@ -439,16 +519,28 @@ class ControllerSaleOrder extends Controller {
 			$url .= '&filter_order_status_id=' . $this->request->get['filter_order_status_id'];
 		}
 
-		if (isset($this->request->get['filter_total'])) {
-			$url .= '&filter_total=' . $this->request->get['filter_total'];
+		if (isset($this->request->get['filter_total_max'])) {
+			$url .= '&filter_total_max=' . $this->request->get['filter_total_max'];
 		}
 
-		if (isset($this->request->get['filter_date_added'])) {
-			$url .= '&filter_date_added=' . $this->request->get['filter_date_added'];
+		if (isset($this->request->get['filter_total_min'])) {
+			$url .= '&filter_total_min=' . $this->request->get['filter_total_min'];
 		}
 
-		if (isset($this->request->get['filter_date_modified'])) {
-			$url .= '&filter_date_modified=' . $this->request->get['filter_date_modified'];
+		if (isset($this->request->get['filter_date_added_start'])) {
+			$url .= '&filter_date_added_start=' . $this->request->get['filter_date_added_start'];
+		}
+
+		if (isset($this->request->get['filter_date_added_end'])) {
+			$url .= '&filter_date_added_end=' . $this->request->get['filter_date_added_end'];
+		}
+
+		if (isset($this->request->get['filter_date_modified_start'])) {
+			$url .= '&filter_date_modified_start=' . $this->request->get['filter_date_modified_start'];
+		}
+
+		if (isset($this->request->get['filter_date_modified_end'])) {
+			$url .= '&filter_date_modified_end=' . $this->request->get['filter_date_modified_end'];
 		}
 
 		if (isset($this->request->get['sort'])) {
@@ -471,9 +563,12 @@ class ControllerSaleOrder extends Controller {
 		$this->data['filter_order_id'] = $filter_order_id;
 		$this->data['filter_customer'] = $filter_customer;
 		$this->data['filter_order_status_id'] = $filter_order_status_id;
-		$this->data['filter_total'] = $filter_total;
-		$this->data['filter_date_added'] = $filter_date_added;
-		$this->data['filter_date_modified'] = $filter_date_modified;
+		$this->data['filter_total_max'] = $filter_total_max;
+		$this->data['filter_total_min'] = $filter_total_min;
+		$this->data['filter_date_added_start'] = $filter_date_added_start;
+		$this->data['filter_date_added_end'] = $filter_date_added_end;
+		$this->data['filter_date_modified_start'] = $filter_date_modified_start;
+		$this->data['filter_date_modified_end'] = $filter_date_modified_end;
 
 		$this->load->model('localisation/order_status');
 
@@ -748,16 +843,28 @@ class ControllerSaleOrder extends Controller {
 			$url .= '&filter_order_status_id=' . $this->request->get['filter_order_status_id'];
 		}
 
-		if (isset($this->request->get['filter_total'])) {
-			$url .= '&filter_total=' . $this->request->get['filter_total'];
+		if (isset($this->request->get['filter_total_max'])) {
+			$url .= '&filter_total_max=' . $this->request->get['filter_total_max'];
 		}
 
-		if (isset($this->request->get['filter_date_added'])) {
-			$url .= '&filter_date_added=' . $this->request->get['filter_date_added'];
+		if (isset($this->request->get['filter_total_min'])) {
+			$url .= '&filter_total_min=' . $this->request->get['filter_total_min'];
 		}
 
-		if (isset($this->request->get['filter_date_modified'])) {
-			$url .= '&filter_date_modified=' . $this->request->get['filter_date_modified'];
+		if (isset($this->request->get['filter_date_added_start'])) {
+			$url .= '&filter_date_added_start=' . $this->request->get['filter_date_added_start'];
+		}
+
+		if (isset($this->request->get['filter_date_added_end'])) {
+			$url .= '&filter_date_added_end=' . $this->request->get['filter_date_added_end'];
+		}
+
+		if (isset($this->request->get['filter_date_modified_start'])) {
+			$url .= '&filter_date_modified_start=' . $this->request->get['filter_date_modified_start'];
+		}
+
+		if (isset($this->request->get['filter_date_modified_end'])) {
+			$url .= '&filter_date_modified_end=' . $this->request->get['filter_date_modified_end'];
 		}
 
 		if (isset($this->request->get['sort'])) {
@@ -1371,6 +1478,10 @@ class ControllerSaleOrder extends Controller {
 			$this->data['text_queries_remaining'] = $this->language->get('text_queries_remaining');
 			$this->data['text_maxmind_id'] = $this->language->get('text_maxmind_id');
 			$this->data['text_error'] = $this->language->get('text_error');
+			$this->data['text_payment_visa'] = $this->language->get('text_payment_visa');
+			$this->data['text_payment_cash'] = $this->language->get('text_payment_cash');
+			$this->data['text_payment_final'] = $this->language->get('text_payment_final');
+			$this->data['text_payment_balance'] = $this->language->get('text_payment_balance');
 
 			$this->data['column_product'] = $this->language->get('column_product');
 			$this->data['column_model'] = $this->language->get('column_model');
@@ -1412,16 +1523,28 @@ class ControllerSaleOrder extends Controller {
 				$url .= '&filter_order_status_id=' . $this->request->get['filter_order_status_id'];
 			}
 
-			if (isset($this->request->get['filter_total'])) {
-				$url .= '&filter_total=' . $this->request->get['filter_total'];
+			if (isset($this->request->get['filter_total_max'])) {
+				$url .= '&filter_total_max=' . $this->request->get['filter_total_max'];
 			}
 
-			if (isset($this->request->get['filter_date_added'])) {
-				$url .= '&filter_date_added=' . $this->request->get['filter_date_added'];
+			if (isset($this->request->get['filter_total_min'])) {
+				$url .= '&filter_total_min=' . $this->request->get['filter_total_min'];
 			}
 
-			if (isset($this->request->get['filter_date_modified'])) {
-				$url .= '&filter_date_modified=' . $this->request->get['filter_date_modified'];
+			if (isset($this->request->get['filter_date_added_start'])) {
+				$url .= '&filter_date_added_start=' . $this->request->get['filter_date_added_start'];
+			}
+
+			if (isset($this->request->get['filter_date_added_end'])) {
+				$url .= '&filter_date_added_end=' . $this->request->get['filter_date_added_end'];
+			}
+
+			if (isset($this->request->get['filter_date_modified_start'])) {
+				$url .= '&filter_date_modified_start=' . $this->request->get['filter_date_modified_start'];
+			}
+
+			if (isset($this->request->get['filter_date_modified_end'])) {
+				$url .= '&filter_date_modified_end=' . $this->request->get['filter_date_modified_end'];
 			}
 
 			if (isset($this->request->get['sort'])) {
@@ -1487,15 +1610,19 @@ class ControllerSaleOrder extends Controller {
 			$this->data['telephone'] = $order_info['telephone'];
 			$this->data['fax'] = $order_info['fax'];
 			$this->data['comment'] = nl2br($order_info['comment']);
-			$this->data['shipping_method'] = $order_info['shipping_method'];
-			$this->data['payment_method'] = $order_info['payment_method'];
-			$this->data['total'] = $this->currency->format($order_info['total'], $order_info['currency_code'], $order_info['currency_value']);
+			// $this->data['shipping_method'] = $order_info['shipping_method'];
+			// $this->data['payment_method'] = $order_info['payment_method'];
+			$this->data['total'] = $order_info['total'];
+			$this->data['payment_cash'] = $order_info['payment_cash'];
+			$this->data['payment_visa'] = $order_info['payment_visa'];
+			$this->data['payment_final'] = $order_info['payment_final'];
+			$this->data['payment_balance'] = $order_info['payment_balance'];
 
-			if ($order_info['total'] < 0) {
-				$this->data['credit'] = $order_info['total'];
-			} else {
-				$this->data['credit'] = 0;
-			}
+			// if ($order_info['total'] < 0) {
+			// 	$this->data['credit'] = $order_info['total'];
+			// } else {
+			// 	$this->data['credit'] = 0;
+			// }
 
 			$this->load->model('sale/customer');
 
@@ -1520,7 +1647,7 @@ class ControllerSaleOrder extends Controller {
 
 			// $this->data['commission_total'] = $this->model_sale_affiliate->getTotalTransactionsByOrderId($this->request->get['order_id']);
 
-			// $this->load->model('localisation/order_status');
+			$this->load->model('localisation/order_status');
 
 			$order_status_info = $this->model_localisation_order_status->getOrderStatus($order_info['order_status_id']);
 
@@ -1630,218 +1757,218 @@ class ControllerSaleOrder extends Controller {
 
 			$this->data['order_status_id'] = $order_info['order_status_id'];
 
-			// Fraud
-			$this->load->model('sale/fraud');
+			// // Fraud
+			// $this->load->model('sale/fraud');
 
-			$fraud_info = $this->model_sale_fraud->getFraud($order_info['order_id']);
+			// $fraud_info = $this->model_sale_fraud->getFraud($order_info['order_id']);
 
-			if ($fraud_info) {
-				$this->data['country_match'] = $fraud_info['country_match'];
+			// if ($fraud_info) {
+			// 	$this->data['country_match'] = $fraud_info['country_match'];
 
-				if ($fraud_info['country_code']) {
-					$this->data['country_code'] = $fraud_info['country_code'];
-				} else {
-					$this->data['country_code'] = '';
-				}
+			// 	if ($fraud_info['country_code']) {
+			// 		$this->data['country_code'] = $fraud_info['country_code'];
+			// 	} else {
+			// 		$this->data['country_code'] = '';
+			// 	}
 
-				$this->data['high_risk_country'] = $fraud_info['high_risk_country'];
-				$this->data['distance'] = $fraud_info['distance'];
+			// 	$this->data['high_risk_country'] = $fraud_info['high_risk_country'];
+			// 	$this->data['distance'] = $fraud_info['distance'];
 
-				if ($fraud_info['ip_region']) {
-					$this->data['ip_region'] = $fraud_info['ip_region'];
-				} else {
-					$this->data['ip_region'] = '';
-				}
+			// 	if ($fraud_info['ip_region']) {
+			// 		$this->data['ip_region'] = $fraud_info['ip_region'];
+			// 	} else {
+			// 		$this->data['ip_region'] = '';
+			// 	}
 
-				if ($fraud_info['ip_city']) {
-					$this->data['ip_city'] = $fraud_info['ip_city'];
-				} else {
-					$this->data['ip_city'] = '';
-				}
+			// 	if ($fraud_info['ip_city']) {
+			// 		$this->data['ip_city'] = $fraud_info['ip_city'];
+			// 	} else {
+			// 		$this->data['ip_city'] = '';
+			// 	}
 
-				$this->data['ip_latitude'] = $fraud_info['ip_latitude'];
-				$this->data['ip_longitude'] = $fraud_info['ip_longitude'];
+			// 	$this->data['ip_latitude'] = $fraud_info['ip_latitude'];
+			// 	$this->data['ip_longitude'] = $fraud_info['ip_longitude'];
 
-				if ($fraud_info['ip_isp']) {
-					$this->data['ip_isp'] = $fraud_info['ip_isp'];
-				} else {
-					$this->data['ip_isp'] = '';
-				}
+			// 	if ($fraud_info['ip_isp']) {
+			// 		$this->data['ip_isp'] = $fraud_info['ip_isp'];
+			// 	} else {
+			// 		$this->data['ip_isp'] = '';
+			// 	}
 
-				if ($fraud_info['ip_org']) {
-					$this->data['ip_org'] = $fraud_info['ip_org'];
-				} else {
-					$this->data['ip_org'] = '';
-				}
+			// 	if ($fraud_info['ip_org']) {
+			// 		$this->data['ip_org'] = $fraud_info['ip_org'];
+			// 	} else {
+			// 		$this->data['ip_org'] = '';
+			// 	}
 
-				$this->data['ip_asnum'] = $fraud_info['ip_asnum'];
+			// 	$this->data['ip_asnum'] = $fraud_info['ip_asnum'];
 
-				if ($fraud_info['ip_user_type']) {
-					$this->data['ip_user_type'] = $fraud_info['ip_user_type'];
-				} else {
-					$this->data['ip_user_type'] = '';
-				}
+			// 	if ($fraud_info['ip_user_type']) {
+			// 		$this->data['ip_user_type'] = $fraud_info['ip_user_type'];
+			// 	} else {
+			// 		$this->data['ip_user_type'] = '';
+			// 	}
 
-				if ($fraud_info['ip_country_confidence']) {
-					$this->data['ip_country_confidence'] = $fraud_info['ip_country_confidence'];
-				} else {
-					$this->data['ip_country_confidence'] = '';
-				}
+			// 	if ($fraud_info['ip_country_confidence']) {
+			// 		$this->data['ip_country_confidence'] = $fraud_info['ip_country_confidence'];
+			// 	} else {
+			// 		$this->data['ip_country_confidence'] = '';
+			// 	}
 
-				if ($fraud_info['ip_region_confidence']) {
-					$this->data['ip_region_confidence'] = $fraud_info['ip_region_confidence'];
-				} else {
-					$this->data['ip_region_confidence'] = '';
-				}
+			// 	if ($fraud_info['ip_region_confidence']) {
+			// 		$this->data['ip_region_confidence'] = $fraud_info['ip_region_confidence'];
+			// 	} else {
+			// 		$this->data['ip_region_confidence'] = '';
+			// 	}
 
-				if ($fraud_info['ip_city_confidence']) {
-					$this->data['ip_city_confidence'] = $fraud_info['ip_city_confidence'];
-				} else {
-					$this->data['ip_city_confidence'] = '';
-				}
+			// 	if ($fraud_info['ip_city_confidence']) {
+			// 		$this->data['ip_city_confidence'] = $fraud_info['ip_city_confidence'];
+			// 	} else {
+			// 		$this->data['ip_city_confidence'] = '';
+			// 	}
 
-				if ($fraud_info['ip_postal_confidence']) {
-					$this->data['ip_postal_confidence'] = $fraud_info['ip_postal_confidence'];
-				} else {
-					$this->data['ip_postal_confidence'] = '';
-				}
+			// 	if ($fraud_info['ip_postal_confidence']) {
+			// 		$this->data['ip_postal_confidence'] = $fraud_info['ip_postal_confidence'];
+			// 	} else {
+			// 		$this->data['ip_postal_confidence'] = '';
+			// 	}
 
-				if ($fraud_info['ip_postal_code']) {
-					$this->data['ip_postal_code'] = $fraud_info['ip_postal_code'];
-				} else {
-					$this->data['ip_postal_code'] = '';
-				}
+			// 	if ($fraud_info['ip_postal_code']) {
+			// 		$this->data['ip_postal_code'] = $fraud_info['ip_postal_code'];
+			// 	} else {
+			// 		$this->data['ip_postal_code'] = '';
+			// 	}
 
-				$this->data['ip_accuracy_radius'] = $fraud_info['ip_accuracy_radius'];
+			// 	$this->data['ip_accuracy_radius'] = $fraud_info['ip_accuracy_radius'];
 
-				if ($fraud_info['ip_net_speed_cell']) {
-					$this->data['ip_net_speed_cell'] = $fraud_info['ip_net_speed_cell'];
-				} else {
-					$this->data['ip_net_speed_cell'] = '';
-				}
+			// 	if ($fraud_info['ip_net_speed_cell']) {
+			// 		$this->data['ip_net_speed_cell'] = $fraud_info['ip_net_speed_cell'];
+			// 	} else {
+			// 		$this->data['ip_net_speed_cell'] = '';
+			// 	}
 
-				$this->data['ip_metro_code'] = $fraud_info['ip_metro_code'];
-				$this->data['ip_area_code'] = $fraud_info['ip_area_code'];
+			// 	$this->data['ip_metro_code'] = $fraud_info['ip_metro_code'];
+			// 	$this->data['ip_area_code'] = $fraud_info['ip_area_code'];
 
-				if ($fraud_info['ip_time_zone']) {
-					$this->data['ip_time_zone'] = $fraud_info['ip_time_zone'];
-				} else {
-					$this->data['ip_time_zone'] = '';
-				}
+			// 	if ($fraud_info['ip_time_zone']) {
+			// 		$this->data['ip_time_zone'] = $fraud_info['ip_time_zone'];
+			// 	} else {
+			// 		$this->data['ip_time_zone'] = '';
+			// 	}
 
-				if ($fraud_info['ip_region_name']) {
-					$this->data['ip_region_name'] = $fraud_info['ip_region_name'];
-				} else {
-					$this->data['ip_region_name'] = '';
-				}
+			// 	if ($fraud_info['ip_region_name']) {
+			// 		$this->data['ip_region_name'] = $fraud_info['ip_region_name'];
+			// 	} else {
+			// 		$this->data['ip_region_name'] = '';
+			// 	}
 
-				if ($fraud_info['ip_domain']) {
-					$this->data['ip_domain'] = $fraud_info['ip_domain'];
-				} else {
-					$this->data['ip_domain'] = '';
-				}
+			// 	if ($fraud_info['ip_domain']) {
+			// 		$this->data['ip_domain'] = $fraud_info['ip_domain'];
+			// 	} else {
+			// 		$this->data['ip_domain'] = '';
+			// 	}
 
-				if ($fraud_info['ip_country_name']) {
-					$this->data['ip_country_name'] = $fraud_info['ip_country_name'];
-				} else {
-					$this->data['ip_country_name'] = '';
-				}
+			// 	if ($fraud_info['ip_country_name']) {
+			// 		$this->data['ip_country_name'] = $fraud_info['ip_country_name'];
+			// 	} else {
+			// 		$this->data['ip_country_name'] = '';
+			// 	}
 
-				if ($fraud_info['ip_continent_code']) {
-					$this->data['ip_continent_code'] = $fraud_info['ip_continent_code'];
-				} else {
-					$this->data['ip_continent_code'] = '';
-				}
+			// 	if ($fraud_info['ip_continent_code']) {
+			// 		$this->data['ip_continent_code'] = $fraud_info['ip_continent_code'];
+			// 	} else {
+			// 		$this->data['ip_continent_code'] = '';
+			// 	}
 
-				if ($fraud_info['ip_corporate_proxy']) {
-					$this->data['ip_corporate_proxy'] = $fraud_info['ip_corporate_proxy'];
-				} else {
-					$this->data['ip_corporate_proxy'] = '';
-				}
+			// 	if ($fraud_info['ip_corporate_proxy']) {
+			// 		$this->data['ip_corporate_proxy'] = $fraud_info['ip_corporate_proxy'];
+			// 	} else {
+			// 		$this->data['ip_corporate_proxy'] = '';
+			// 	}
 
-				$this->data['anonymous_proxy'] = $fraud_info['anonymous_proxy'];
-				$this->data['proxy_score'] = $fraud_info['proxy_score'];
+			// 	$this->data['anonymous_proxy'] = $fraud_info['anonymous_proxy'];
+			// 	$this->data['proxy_score'] = $fraud_info['proxy_score'];
 
-				if ($fraud_info['is_trans_proxy']) {
-					$this->data['is_trans_proxy'] = $fraud_info['is_trans_proxy'];
-				} else {
-					$this->data['is_trans_proxy'] = '';
-				}
+			// 	if ($fraud_info['is_trans_proxy']) {
+			// 		$this->data['is_trans_proxy'] = $fraud_info['is_trans_proxy'];
+			// 	} else {
+			// 		$this->data['is_trans_proxy'] = '';
+			// 	}
 
-				$this->data['free_mail'] = $fraud_info['free_mail'];
-				$this->data['carder_email'] = $fraud_info['carder_email'];
+			// 	$this->data['free_mail'] = $fraud_info['free_mail'];
+			// 	$this->data['carder_email'] = $fraud_info['carder_email'];
 
-				if ($fraud_info['high_risk_username']) {
-					$this->data['high_risk_username'] = $fraud_info['high_risk_username'];
-				} else {
-					$this->data['high_risk_username'] = '';
-				}
+			// 	if ($fraud_info['high_risk_username']) {
+			// 		$this->data['high_risk_username'] = $fraud_info['high_risk_username'];
+			// 	} else {
+			// 		$this->data['high_risk_username'] = '';
+			// 	}
 
-				if ($fraud_info['high_risk_password']) {
-					$this->data['high_risk_password'] = $fraud_info['high_risk_password'];
-				} else {
-					$this->data['high_risk_password'] = '';
-				}
+			// 	if ($fraud_info['high_risk_password']) {
+			// 		$this->data['high_risk_password'] = $fraud_info['high_risk_password'];
+			// 	} else {
+			// 		$this->data['high_risk_password'] = '';
+			// 	}
 
-				$this->data['bin_match'] = $fraud_info['bin_match'];
+			// 	$this->data['bin_match'] = $fraud_info['bin_match'];
 
-				if ($fraud_info['bin_country']) {
-					$this->data['bin_country'] = $fraud_info['bin_country'];
-				} else {
-					$this->data['bin_country'] = '';
-				}
+			// 	if ($fraud_info['bin_country']) {
+			// 		$this->data['bin_country'] = $fraud_info['bin_country'];
+			// 	} else {
+			// 		$this->data['bin_country'] = '';
+			// 	}
 
-				$this->data['bin_name_match'] = $fraud_info['bin_name_match'];
+			// 	$this->data['bin_name_match'] = $fraud_info['bin_name_match'];
 
-				if ($fraud_info['bin_name']) {
-					$this->data['bin_name'] = $fraud_info['bin_name'];
-				} else {
-					$this->data['bin_name'] = '';
-				}
+			// 	if ($fraud_info['bin_name']) {
+			// 		$this->data['bin_name'] = $fraud_info['bin_name'];
+			// 	} else {
+			// 		$this->data['bin_name'] = '';
+			// 	}
 
-				$this->data['bin_phone_match'] = $fraud_info['bin_phone_match'];
+			// 	$this->data['bin_phone_match'] = $fraud_info['bin_phone_match'];
 
-				if ($fraud_info['bin_phone']) {
-					$this->data['bin_phone'] = $fraud_info['bin_phone'];
-				} else {
-					$this->data['bin_phone'] = '';
-				}
+			// 	if ($fraud_info['bin_phone']) {
+			// 		$this->data['bin_phone'] = $fraud_info['bin_phone'];
+			// 	} else {
+			// 		$this->data['bin_phone'] = '';
+			// 	}
 
-				if ($fraud_info['customer_phone_in_billing_location']) {
-					$this->data['customer_phone_in_billing_location'] = $fraud_info['customer_phone_in_billing_location'];
-				} else {
-					$this->data['customer_phone_in_billing_location'] = '';
-				}
+			// 	if ($fraud_info['customer_phone_in_billing_location']) {
+			// 		$this->data['customer_phone_in_billing_location'] = $fraud_info['customer_phone_in_billing_location'];
+			// 	} else {
+			// 		$this->data['customer_phone_in_billing_location'] = '';
+			// 	}
 
-				$this->data['ship_forward'] = $fraud_info['ship_forward'];
+			// 	$this->data['ship_forward'] = $fraud_info['ship_forward'];
 
-				if ($fraud_info['city_postal_match']) {
-					$this->data['city_postal_match'] = $fraud_info['city_postal_match'];
-				} else {
-					$this->data['city_postal_match'] = '';
-				}
+			// 	if ($fraud_info['city_postal_match']) {
+			// 		$this->data['city_postal_match'] = $fraud_info['city_postal_match'];
+			// 	} else {
+			// 		$this->data['city_postal_match'] = '';
+			// 	}
 
-				if ($fraud_info['ship_city_postal_match']) {
-					$this->data['ship_city_postal_match'] = $fraud_info['ship_city_postal_match'];
-				} else {
-					$this->data['ship_city_postal_match'] = '';
-				}
+			// 	if ($fraud_info['ship_city_postal_match']) {
+			// 		$this->data['ship_city_postal_match'] = $fraud_info['ship_city_postal_match'];
+			// 	} else {
+			// 		$this->data['ship_city_postal_match'] = '';
+			// 	}
 
-				$this->data['score'] = $fraud_info['score'];
-				$this->data['explanation'] = $fraud_info['explanation'];
-				$this->data['risk_score'] = $fraud_info['risk_score'];
-				$this->data['queries_remaining'] = $fraud_info['queries_remaining'];
-				$this->data['maxmind_id'] = $fraud_info['maxmind_id'];
-				$this->data['error'] = $fraud_info['error'];
-			} else {
-				$this->data['maxmind_id'] = '';
-			}
+			// 	$this->data['score'] = $fraud_info['score'];
+			// 	$this->data['explanation'] = $fraud_info['explanation'];
+			// 	$this->data['risk_score'] = $fraud_info['risk_score'];
+			// 	$this->data['queries_remaining'] = $fraud_info['queries_remaining'];
+			// 	$this->data['maxmind_id'] = $fraud_info['maxmind_id'];
+			// 	$this->data['error'] = $fraud_info['error'];
+			// } else {
+			// 	$this->data['maxmind_id'] = '';
+			// }
 
-			if($this->hasAction('payment/' . $order_info['payment_code'] . '/orderAction') == true){
-				$this->data['payment_action'] = $this->getChild('payment/' . $order_info['payment_code'] . '/orderAction');
-			}else{
-				$this->data['payment_action'] = '';
-			}
+			// if($this->hasAction('payment/' . $order_info['payment_code'] . '/orderAction') == true){
+			// 	$this->data['payment_action'] = $this->getChild('payment/' . $order_info['payment_code'] . '/orderAction');
+			// }else{
+			// 	$this->data['payment_action'] = '';
+			// }
 
 			$this->template = 'sale/order_info.tpl';
 			$this->children = array(

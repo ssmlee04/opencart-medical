@@ -44,7 +44,7 @@ class ControllerCheckoutPaymentMethod extends Controller {
 
 			$results = $this->model_setting_extension->getExtensions('payment');
 
-			$cart_has_recurring = $this->cart->hasRecurringProducts();
+			// $cart_has_recurring = $this->cart->hasRecurringProducts();
 
 			foreach ($results as $result) {
 				if ($this->config->get($result['code'] . '_status')) {

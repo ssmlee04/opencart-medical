@@ -67,7 +67,10 @@ class ModelSaleOrder extends Model {
 			}
 		}
 
-		$this->db->query("UPDATE `" . DB_PREFIX . "order` SET firstname = '" . $this->db->escape($data['firstname']) . "', lastname = '" . $this->db->escape($data['lastname']) . "', email = '" . $this->db->escape($data['email']) . "', telephone = '" . $this->db->escape($data['telephone']) . "', fax = '" . $this->db->escape($data['fax']) . "', comment = '" . $this->db->escape($data['comment']) . "', order_status_id = '" . (int)$data['order_status_id'] . "', customer_id='" . (int)$data['customer_id'] . "', store_id = '$store_id' , date_modified = NOW() WHERE order_id = '" . (int)$order_id . "'");
+			// , fax = '" . $this->db->escape($data['fax']) . "'
+		$this->db->query("UPDATE `" . DB_PREFIX . "order` SET firstname = '" . $this->db->escape($data['firstname']) . "', lastname = '" . $this->db->escape($data['lastname']) . "', email = '" . $this->db->escape($data['email']) . "'
+			, telephone = '" . $this->db->escape($data['telephone']) . "'
+			, comment = '" . $this->db->escape($data['comment']) . "', order_status_id = '" . (int)$data['order_status_id'] . "', customer_id='" . (int)$data['customer_id'] . "', store_id = '$store_id' , date_modified = NOW() WHERE order_id = '" . (int)$order_id . "'");
 
 		$this->db->query("DELETE FROM " . DB_PREFIX . "order_product WHERE order_id = '" . (int)$order_id . "'"); 
 
@@ -84,7 +87,9 @@ class ModelSaleOrder extends Model {
 				$q = $this->db->query("SELECT * FROM oc_product WHERE product_id = '" . (int)$order_product['product_id'] . "'"); 
 				
 				$subquantity = $q->row['unit_quantity'];
-
+				$bonus_percent = $q->row['bonus_percent'];
+				$bonus = $q->row['bonus'];
+				$productbonus = ($bonus ? (int)$order_product['quantity'] * $bonus_percent * (int)$order_product['price'] / 100 : 0);
 				$unit_class_id = $q->row['unit_class_id'];
 
 				$this->db->query("INSERT INTO " . DB_PREFIX . "order_product SET 
@@ -97,6 +102,7 @@ class ModelSaleOrder extends Model {
 					, unit_class_id = '" . (int)$unit_class_id . "'
 					, subquantity = '" . (int)$subquantity . "'
 					, price = '" . (float)$order_product['price'] . "'
+					, bonus = '" . (float)$productbonus . "'
 					, ref_price = '" . (float)$order_product['ref_price'] . "', total = '" . (float)$order_product['total'] . "'");
 					// , tax = '" . (float)$order_product['tax'] . "'
 					// , reward = '" . (int)$order_product['reward'] . "'");
@@ -197,51 +203,51 @@ class ModelSaleOrder extends Model {
 
 			$order_product_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "order_product WHERE order_id = '" . (int)$order_id . "'");
 
-			foreach ($order_product_query->rows as $product) {
-				$reward += $product['reward'];
-			}			
+			// foreach ($order_product_query->rows as $product) {
+			// 	$reward += $product['reward'];
+			// }			
 
-			$country_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "country` WHERE country_id = '" . (int)$order_query->row['payment_country_id'] . "'");
+			// $country_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "country` WHERE country_id = '" . (int)$order_query->row['payment_country_id'] . "'");
 
-			if ($country_query->num_rows) {
-				$payment_iso_code_2 = $country_query->row['iso_code_2'];
-				$payment_iso_code_3 = $country_query->row['iso_code_3'];
-			} else {
-				$payment_iso_code_2 = '';
-				$payment_iso_code_3 = '';
-			}
+			// if ($country_query->num_rows) {
+			// 	$payment_iso_code_2 = $country_query->row['iso_code_2'];
+			// 	$payment_iso_code_3 = $country_query->row['iso_code_3'];
+			// } else {
+			// 	$payment_iso_code_2 = '';
+			// 	$payment_iso_code_3 = '';
+			// }
 
-			$zone_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "zone` WHERE zone_id = '" . (int)$order_query->row['payment_zone_id'] . "'");
+			// $zone_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "zone` WHERE zone_id = '" . (int)$order_query->row['payment_zone_id'] . "'");
 
-			if ($zone_query->num_rows) {
-				$payment_zone_code = $zone_query->row['code'];
-			} else {
-				$payment_zone_code = '';
-			}
+			// if ($zone_query->num_rows) {
+			// 	$payment_zone_code = $zone_query->row['code'];
+			// } else {
+			// 	$payment_zone_code = '';
+			// }
 
-			$country_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "country` WHERE country_id = '" . (int)$order_query->row['shipping_country_id'] . "'");
+			// $country_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "country` WHERE country_id = '" . (int)$order_query->row['shipping_country_id'] . "'");
 
-			if ($country_query->num_rows) {
-				$shipping_iso_code_2 = $country_query->row['iso_code_2'];
-				$shipping_iso_code_3 = $country_query->row['iso_code_3'];
-			} else {
-				$shipping_iso_code_2 = '';
-				$shipping_iso_code_3 = '';
-			}
+			// if ($country_query->num_rows) {
+			// 	$shipping_iso_code_2 = $country_query->row['iso_code_2'];
+			// 	$shipping_iso_code_3 = $country_query->row['iso_code_3'];
+			// } else {
+			// 	$shipping_iso_code_2 = '';
+			// 	$shipping_iso_code_3 = '';
+			// }
 
-			$zone_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "zone` WHERE zone_id = '" . (int)$order_query->row['shipping_zone_id'] . "'");
+			// $zone_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "zone` WHERE zone_id = '" . (int)$order_query->row['shipping_zone_id'] . "'");
 
-			if ($zone_query->num_rows) {
-				$shipping_zone_code = $zone_query->row['code'];
-			} else {
-				$shipping_zone_code = '';
-			}
+			// if ($zone_query->num_rows) {
+			// 	$shipping_zone_code = $zone_query->row['code'];
+			// } else {
+			// 	$shipping_zone_code = '';
+			// }
 
-			if ($order_query->row['affiliate_id']) {
-				$affiliate_id = $order_query->row['affiliate_id'];
-			} else {
-				$affiliate_id = 0;
-			}				
+			// if ($order_query->row['affiliate_id']) {
+			// 	$affiliate_id = $order_query->row['affiliate_id'];
+			// } else {
+			// 	$affiliate_id = 0;
+			// }				
 
 			// $this->load->model('sale/affiliate');
 
@@ -311,42 +317,42 @@ class ModelSaleOrder extends Model {
 				'telephone'               => $order_query->row['telephone'],
 				'fax'                     => $order_query->row['fax'],
 				'email'                   => $order_query->row['email'],
-				'payment_firstname'       => $order_query->row['payment_firstname'],
-				'payment_lastname'        => $order_query->row['payment_lastname'],
-				'payment_company'         => $order_query->row['payment_company'],
-				'payment_company_id'      => $order_query->row['payment_company_id'],
-				'payment_tax_id'          => $order_query->row['payment_tax_id'],
-				'payment_address_1'       => $order_query->row['payment_address_1'],
-				'payment_address_2'       => $order_query->row['payment_address_2'],
-				'payment_postcode'        => $order_query->row['payment_postcode'],
-				'payment_city'            => $order_query->row['payment_city'],
-				'payment_zone_id'         => $order_query->row['payment_zone_id'],
-				'payment_zone'            => $order_query->row['payment_zone'],
-				'payment_zone_code'       => $payment_zone_code,
-				'payment_country_id'      => $order_query->row['payment_country_id'],
-				'payment_country'         => $order_query->row['payment_country'],
-				'payment_iso_code_2'      => $payment_iso_code_2,
-				'payment_iso_code_3'      => $payment_iso_code_3,
-				'payment_address_format'  => $order_query->row['payment_address_format'],
-				'payment_method'          => $order_query->row['payment_method'],
-				'payment_code'            => $order_query->row['payment_code'],				
-				'shipping_firstname'      => $order_query->row['shipping_firstname'],
-				'shipping_lastname'       => $order_query->row['shipping_lastname'],
-				'shipping_company'        => $order_query->row['shipping_company'],
-				'shipping_address_1'      => $order_query->row['shipping_address_1'],
-				'shipping_address_2'      => $order_query->row['shipping_address_2'],
-				'shipping_postcode'       => $order_query->row['shipping_postcode'],
-				'shipping_city'           => $order_query->row['shipping_city'],
-				'shipping_zone_id'        => $order_query->row['shipping_zone_id'],
-				'shipping_zone'           => $order_query->row['shipping_zone'],
-				'shipping_zone_code'      => $shipping_zone_code,
-				'shipping_country_id'     => $order_query->row['shipping_country_id'],
-				'shipping_country'        => $order_query->row['shipping_country'],
-				'shipping_iso_code_2'     => $shipping_iso_code_2,
-				'shipping_iso_code_3'     => $shipping_iso_code_3,
-				'shipping_address_format' => $order_query->row['shipping_address_format'],
-				'shipping_method'         => $order_query->row['shipping_method'],
-				'shipping_code'           => $order_query->row['shipping_code'],
+				// 'payment_firstname'       => $order_query->row['payment_firstname'],
+				// 'payment_lastname'        => $order_query->row['payment_lastname'],
+				// 'payment_company'         => $order_query->row['payment_company'],
+				// 'payment_company_id'      => $order_query->row['payment_company_id'],
+				// 'payment_tax_id'          => $order_query->row['payment_tax_id'],
+				// 'payment_address_1'       => $order_query->row['payment_address_1'],
+				// 'payment_address_2'       => $order_query->row['payment_address_2'],
+				// 'payment_postcode'        => $order_query->row['payment_postcode'],
+				// 'payment_city'            => $order_query->row['payment_city'],
+				// 'payment_zone_id'         => $order_query->row['payment_zone_id'],
+				// 'payment_zone'            => $order_query->row['payment_zone'],
+				// 'payment_zone_code'       => $payment_zone_code,
+				// 'payment_country_id'      => $order_query->row['payment_country_id'],
+				// 'payment_country'         => $order_query->row['payment_country'],
+				// 'payment_iso_code_2'      => $payment_iso_code_2,
+				// 'payment_iso_code_3'      => $payment_iso_code_3,
+				// 'payment_address_format'  => $order_query->row['payment_address_format'],
+				// 'payment_method'          => $order_query->row['payment_method'],
+				// 'payment_code'            => $order_query->row['payment_code'],				
+				// 'shipping_firstname'      => $order_query->row['shipping_firstname'],
+				// 'shipping_lastname'       => $order_query->row['shipping_lastname'],
+				// 'shipping_company'        => $order_query->row['shipping_company'],
+				// 'shipping_address_1'      => $order_query->row['shipping_address_1'],
+				// 'shipping_address_2'      => $order_query->row['shipping_address_2'],
+				// 'shipping_postcode'       => $order_query->row['shipping_postcode'],
+				// 'shipping_city'           => $order_query->row['shipping_city'],
+				// 'shipping_zone_id'        => $order_query->row['shipping_zone_id'],
+				// 'shipping_zone'           => $order_query->row['shipping_zone'],
+				// 'shipping_zone_code'      => $shipping_zone_code,
+				// 'shipping_country_id'     => $order_query->row['shipping_country_id'],
+				// 'shipping_country'        => $order_query->row['shipping_country'],
+				// 'shipping_iso_code_2'     => $shipping_iso_code_2,
+				// 'shipping_iso_code_3'     => $shipping_iso_code_3,
+				// 'shipping_address_format' => $order_query->row['shipping_address_format'],
+				// 'shipping_method'         => $order_query->row['shipping_method'],
+				// 'shipping_code'           => $order_query->row['shipping_code'],
 				'comment'                 => $order_query->row['comment'],
 				'total'                   => $order_query->row['total'],
 				'reward'                  => $reward,
@@ -400,16 +406,28 @@ class ModelSaleOrder extends Model {
 			$sql .= " AND CONCAT(o.firstname, ' ', o.lastname) LIKE '%" . $this->db->escape($data['filter_customer']) . "%'";
 		}
 
-		if (!empty($data['filter_date_added'])) {
-			$sql .= " AND DATE(o.date_added) = DATE('" . $this->db->escape($data['filter_date_added']) . "')";
+		if (!empty($data['filter_date_added_start'])) {
+			$sql .= " AND DATE(o.date_added) >= DATE('" . $this->db->escape($data['filter_date_added_start']) . "')";
 		}
 
-		if (!empty($data['filter_date_modified'])) {
-			$sql .= " AND DATE(o.date_modified) = DATE('" . $this->db->escape($data['filter_date_modified']) . "')";
+		if (!empty($data['filter_date_added_end'])) {
+			$sql .= " AND DATE(o.date_added) <= DATE('" . $this->db->escape($data['filter_date_added_end']) . "')";
 		}
 
-		if (!empty($data['filter_total'])) {
-			$sql .= " AND o.total = '" . (float)$data['filter_total'] . "'";
+		if (!empty($data['filter_date_modified_start'])) {
+			$sql .= " AND DATE(o.date_modified) >= DATE('" . $this->db->escape($data['filter_date_modified_start']) . "')";
+		}
+
+		if (!empty($data['filter_date_modified_end'])) {
+			$sql .= " AND DATE(o.date_modified) <= DATE('" . $this->db->escape($data['filter_date_modified_end']) . "')";
+		}
+
+		if (!empty($data['filter_total_max'])) {
+			$sql .= " AND total <= '" . (float)$data['filter_total_max'] . "'";
+		}
+
+		if (!empty($data['filter_total_min'])) {
+			$sql .= " AND total >= '" . (float)$data['filter_total_min'] . "'";
 		}
 
 		$sort_data = array(
@@ -492,6 +510,7 @@ class ModelSaleOrder extends Model {
 		return $query->rows;
 	}
 
+	// '2014-10-06 21:33'
 	public function getTotalOrders($data = array()) {
 		$sql = "SELECT COUNT(*) AS total FROM `" . DB_PREFIX . "order`";
 
@@ -509,16 +528,28 @@ class ModelSaleOrder extends Model {
 			$sql .= " AND CONCAT(firstname, ' ', lastname) LIKE '%" . $this->db->escape($data['filter_customer']) . "%'";
 		}
 
-		if (!empty($data['filter_date_added'])) {
-			$sql .= " AND DATE(date_added) = DATE('" . $this->db->escape($data['filter_date_added']) . "')";
+		if (!empty($data['filter_date_added_start'])) {
+			$sql .= " AND DATE(date_added) >= DATE('" . $this->db->escape($data['filter_date_added_start']) . "')";
 		}
 
-		if (!empty($data['filter_date_modified'])) {
-			$sql .= " AND DATE(o.date_modified) = DATE('" . $this->db->escape($data['filter_date_modified']) . "')";
+		if (!empty($data['filter_date_modified_start'])) {
+			$sql .= " AND DATE(date_modified) >= DATE('" . $this->db->escape($data['filter_date_modified_start']) . "')";
 		}
 
-		if (!empty($data['filter_total'])) {
-			$sql .= " AND total = '" . (float)$data['filter_total'] . "'";
+		if (!empty($data['filter_date_added_end'])) {
+			$sql .= " AND DATE(date_added) <= DATE('" . $this->db->escape($data['filter_date_added_end']) . "')";
+		}
+
+		if (!empty($data['filter_date_modified_end'])) {
+			$sql .= " AND DATE(date_modified) <= DATE('" . $this->db->escape($data['filter_date_modified_end']) . "')";
+		}
+
+		if (!empty($data['filter_total_max'])) {
+			$sql .= " AND total <= '" . (float)$data['filter_total_max'] . "'";
+		}
+
+		if (!empty($data['filter_total_min'])) {
+			$sql .= " AND total >= '" . (float)$data['filter_total_min'] . "'";
 		}
 
 		$query = $this->db->query($sql);

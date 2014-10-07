@@ -163,9 +163,7 @@
         
 
       </form>
-      <?php if ($filter_name) { ?>
       <div class="pagination"><?php echo $pagination; ?></div>
-      <?php } ?>
     </div>
   </div>
 </div>

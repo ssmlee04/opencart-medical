@@ -25,7 +25,7 @@
         <a href="#tab-transaction" id='tab-transaction-link'><?php echo $tab_transaction; ?></a>
         <a href="#tab-lendto" id='tab-lendto-link'><?php echo $tab_lendto; ?></a>
         <a href="#tab-payment"><?php echo $tab_payment; ?></a>
-        <a href="#tab-image"><?php echo $tab_image; ?></a>
+        <a href="#tab-image" id='tab-image-link'><?php echo $tab_image; ?></a>
 
         <!-- <a href="#tab-reward"><php echo $tab_reward; ?></a> -->
 
@@ -203,7 +203,7 @@
                 <td><span id="postcode-required" class="required">*</span> <?php echo $entry_postcode; ?></td>
                 <td><input type="text" name="address[postcode]" value="<?php echo $address['postcode']; ?>" /></td>
               </tr>
-              <tr>
+              <tr style='display:none'>
                 <td><span class="required">*</span> <?php echo $entry_country; ?></td>
                 <td><select name="address[country_id]" onchange="country(this, '', '<?php echo $address['zone_id']; ?>');">
                     <option value=""><?php echo $text_select; ?></option>
@@ -219,7 +219,7 @@
                   <span class="error"><?php echo $error_address_country; ?></span>
                   <?php } ?></td>
               </tr>
-              <tr>
+              <tr style='display:none'>
                 <td><span class="required">*</span> <?php echo $entry_zone; ?></td>
                 <td><select name="address[zone_id]">
                   </select>
@@ -318,35 +318,8 @@
         </div>
 
         <div id="tab-image">
-          <table id="images" class="list">
-            <thead>
-              <tr>
-                <td class="left"><?php echo $entry_image; ?></td>
-                <td class="left"></td>
-                <td class="right"></td>
-              </tr>
-            </thead>
-            <?php $image_row = 0; ?>
-            <?php foreach ($customer_images as $customer_image) { ?>
-            <tbody id="image-row<?php echo $image_row; ?>">
-              <tr>
-                <td class="left"><div class="image"><img src="<?php echo $customer_image['thumb']; ?>" alt="" id="thumb<?php echo $image_row; ?>" />
-                    <input type="hidden" name="customer_image[<?php echo $image_row; ?>][image]" value="<?php echo $customer_image['image']; ?>" id="image<?php echo $image_row; ?>" />
-                    <br />
-                    <a onclick="image_upload('image<?php echo $image_row; ?>', 'thumb<?php echo $image_row; ?>');"><?php echo $text_browse; ?></a>&nbsp;&nbsp;|&nbsp;&nbsp;<a onclick="$('#thumb<?php echo $image_row; ?>').attr('src', '<?php echo $no_image; ?>'); $('#image<?php echo $image_row; ?>').attr('value', '');"><?php echo $text_clear; ?></a></div></td>
-                <td class="right"><input type="date_available" name="customer_image[<?php echo $image_row; ?>][date_added]" value="<?php echo $customer_image['date_added']; ?>" class="date"/></td>
-                <td class="left"><a onclick="$('#image-row<?php echo $image_row; ?>').remove();" class="button"><?php echo $button_remove; ?></a></td>
-              </tr>
-            </tbody>
-            <?php $image_row++; ?>
-            <?php } ?>
-            <tfoot>
-              <tr>
-                <td colspan="2"></td>
-                <td class="left"><a onclick="addImage();" class="button"><?php echo $button_add_image; ?></a></td>
-              </tr>
-            </tfoot>
-          </table>
+          <div id='tab-images'></div>
+          <a id="button-image" class="button"></a>
         </div>
 
         <!-- <div id="tab-reward">
@@ -498,32 +471,35 @@ $('#history .pagination a').live('click', function() {
 	return false;
 });			
 
+
 $('#history').load('index.php?route=sale/customer/history&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>');
 
 $('#button-history').bind('click', function() {
-	$.ajax({
-		url: 'index.php?route=sale/customer/history&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>',
-		type: 'post',
-		dataType: 'html',
-		data: 'reminder=' + $('input[name=reminder]').attr('checked') + 
+
+  $.ajax({
+    url: 'index.php?route=sale/customer/history&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>',
+    type: 'post',
+    dataType: 'html',
+    data: 'reminder=' + $('input[name=reminder]').attr('checked') + 
           '&reminder_date=' + encodeURIComponent($('input[name=reminder_date]').val()) + '&comment=' + encodeURIComponent($('#tab-history textarea[name=\'comment\']').val()),
-		beforeSend: function() {
-			$('.success, .warning').remove();
-			$('#button-history').attr('disabled', true);
-			$('#history').before('<div class="attention"><img src="view/image/loading.gif" alt="" /> <?php echo $text_wait; ?></div>');
-		},
-		complete: function() {
-			$('#button-history').attr('disabled', false);
-			$('.attention').remove();
-      		$('#tab-history textarea[name=\'comment\']').val('');
-		},
-		success: function(html) {
-			$('#history').html(html);
-			
-			$('#tab-history input[name=\'comment\']').val('');
-		}
-	});
+    beforeSend: function() {
+      $('.success, .warning').remove();
+      $('#button-history').attr('disabled', true);
+      $('#history').before('<div class="attention"><img src="view/image/loading.gif" alt="" /> <?php echo $text_wait; ?></div>');
+    },
+    complete: function() {
+      $('#button-history').attr('disabled', false);
+      $('.attention').remove();
+          $('#tab-history textarea[name=\'comment\']').val('');
+    },
+    success: function(html) {
+      $('#history').html(html);
+      
+      $('#tab-history input[name=\'comment\']').val('');
+    }
+  });
 });
+
 //--></script> 
 <script type="text/javascript"><!--
 $('#transaction .pagination a').live('click', function() {
@@ -536,6 +512,9 @@ $('#tab-transaction-link').on('click', function(){
   $('#button-transaction').click();
 });
 
+$('#tab-image-link').on('click', function(){
+  $('#button-image').click();
+});
 
 $('#tab-history-link').on('click', function(){
   $('textarea[name=\'comment\']').val('');
@@ -545,6 +524,44 @@ $('#tab-history-link').on('click', function(){
 $('#tab-lendto-link').on('click', function(){
   // $('#button-lendto').click();
 });
+
+
+
+
+
+$('#tab-images').load('index.php?route=sale/customer/images&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>');
+
+$('#button-image').bind('click', function() {
+
+  $.ajax({
+    url: 'index.php?route=sale/customer/images&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>',
+    type: 'post',
+    // dataType: 'html',
+    // data: 'product_id=' + encodeURIComponent($('#tab-transaction input[name=\'product_id\']').val()) + '&unitspend=' + encodeURIComponent($('#tab-transaction input[name=\'unitspend\']').val()),
+    beforeSend: function() {
+      $('.success, .warning, .attention').remove();
+      $('#button-image').attr('disabled', true);
+      $('#tab-images').before('<div class="attention"><img src="view/image/loading.gif" alt="" /> <?php echo $text_wait; ?></div>');
+    },
+    complete: function() {
+      $('#button-image').attr('disabled', false);
+      $('.attention').remove();
+    },
+    success: function(html) {
+
+      $('#tab-images').html(html);
+
+      // $('#tab-transaction input[name=\'product_id\']').val('');
+      // $('#tab-transaction input[name=\'product\']').val('');
+      // $('#tab-transaction input[name=\'unitspend\']').val('');
+    }
+  });
+});
+
+
+
+
+
 
 $('#transaction').load('index.php?route=sale/customer/transaction&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>');
 
@@ -711,23 +728,6 @@ $('#button-lendto').bind('click', function() {
 // 	});	
 // };
 //--></script> 
-<script type="text/javascript"><!--
-var image_row = <?php echo $image_row; ?>;
-
-function addImage() {
-    html  = '<tbody id="image-row' + image_row + '">';
-  html += '  <tr>';
-  html += '    <td class="left"><div class="image"><img src="<?php echo $no_image; ?>" alt="" id="thumb' + image_row + '" /><input type="hidden" name="customer_image[' + image_row + '][image]" value="" id="image' + image_row + '" /><br /><a onclick="image_upload(\'image' + image_row + '\', \'thumb' + image_row + '\');"><?php echo $text_browse; ?></a>&nbsp;&nbsp;|&nbsp;&nbsp;<a onclick="$(\'#thumb' + image_row + '\').attr(\'src\', \'<?php echo $no_image; ?>\'); $(\'#image' + image_row + '\').attr(\'value\', \'\');"><?php echo $text_clear; ?></a></div></td>';
-  html += '    <td class="right"><input type="text" name="customer_image[' + image_row + '][date_added]" value="" size="2" /></td>';
-  html += '    <td class="left"><a onclick="$(\'#image-row' + image_row  + '\').remove();" class="button"><?php echo $button_remove; ?></a></td>';
-  html += '  </tr>';
-  html += '</tbody>';
-  
-  $('#images tfoot').before(html);
-  
-  image_row++;
-}
-//--></script> 
 
 <script type="text/javascript"><!--
 $('.htabs a').tabs();
@@ -845,6 +845,8 @@ function image_upload(field, thumb) {
   $('#dialog').dialog({
     title: '<?php echo $text_image_manager; ?>',
     close: function (event, ui) {
+      var customer_id = '<?php echo $customer_id; ?>';
+
       if ($('#' + field).attr('value')) {
         $.ajax({
           url: 'index.php?route=common/filemanager/image&token=<?php echo $token; ?>&image=' + encodeURIComponent($('#' + field).attr('value')),
@@ -852,6 +854,29 @@ function image_upload(field, thumb) {
           success: function(text) {
             
             $('#' + thumb).replaceWith('<img src="' + text + '" alt="" id="' + thumb + '" />');
+            var image = $('#' + field).attr('value');
+            // var customer_transaction_id = $('#tr' + field).attr('value');
+            // var customer_image_id = $('#id' + field).attr('value');
+            // alert(customer_transaction_id, customer_image_id);
+            $.ajax({
+                url: 'index.php?route=sale/customer/recordimage&token=<?php echo $token; ?>',
+                type: 'POST',
+                data: 'image=' + image + '&customer_id=' + customer_id,
+                complete: function(xhr, textStatus) {
+                  //called when complete
+
+                },
+                success: function(data, textStatus, xhr) {
+                  //called when successful
+                  // addImage();
+                
+
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                  //called when there is an error
+                }
+              });
+
           }
         });
       }
@@ -863,6 +888,9 @@ function image_upload(field, thumb) {
     modal: false
   });
 };
+
+
+
 
 
 //--></script> 

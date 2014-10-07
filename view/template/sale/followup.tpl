@@ -19,7 +19,7 @@
             <input type="text" name="filter_date_end" value="<?php echo $filter_date_end; ?>" id="date-end" size="12" /></td>
           <td><?php echo $entry_status; ?>
             <select name="filter_reminder_status_id">
-              <option value="0"><?php echo $text_all_status; ?></option>
+              <option value="0"></option>
               <?php foreach ($reminder_statuses as $reminder_status) { ?>
               <?php if ($reminder_status['reminder_status_id'] == $filter_reminder_status_id) { ?>
               <option value="<?php echo $reminder_status['reminder_status_id']; ?>" selected="selected"><?php echo $reminder_status['name']; ?></option>
@@ -30,6 +30,13 @@
             </select></td>
             <td><?php echo $entry_consultant; ?>
             <input type="text" name="filter_consultant" value="<?php echo $filter_consultant; ?>" id="consultant" size="12" /></td>
+
+            <td><?php echo $entry_user; ?>
+            <input type="text" name="filter_user" value="<?php echo $filter_user; ?>" id="user" size="12" /></td>
+			<td><?php echo $entry_customer; ?>
+            <input type="text" name="filter_customer" value="<?php echo $filter_customer; ?>" id="customer" size="12" /></td>
+
+
             <td><?php echo $entry_comment; ?>
             <input type="text" name="filter_comment" value="<?php echo $filter_comment; ?>" id="comment" size="12" /></td>
             <td><?php echo $entry_treatment; ?>
@@ -55,7 +62,7 @@
 							</thead>
 							<tbody>
 								<tr class='r<?php echo $message['customer_history_id']; ?>'>
-									<td class="left"><input type='hidden' value='<?php echo $message['customer_history_id']; ?>'/><?php echo $message['customer_id']; ?></td>
+									<td class="left"><input type='hidden' value='<?php echo $message['customer_history_id']; ?>'/><?php echo $message['cfullname']; ?></td>
 									
 									<td class="left"><?php echo $message['reminder_date']; ?></td>
 									<td class="left"><?php echo $message['ulastname'] . ' ' . $message['ufirstname']; ?></td>
@@ -375,3 +382,60 @@ function send(url) {
 	});
 	// }
 </script>
+
+<script type="text/javascript"><!--
+
+function filter() {
+	url = 'index.php?route=sale/followup&token=<?php echo $token; ?>';
+	
+	var filter_date_start = $('input[name=\'filter_date_start\']').attr('value');
+	
+	if (filter_date_start) {
+		url += '&filter_date_start=' + encodeURIComponent(filter_date_start);
+	}
+	
+	var filter_date_end = $('input[name=\'filter_date_end\']').attr('value');
+	
+	if (filter_date_end) {
+		url += '&filter_date_end=' + encodeURIComponent(filter_date_end);
+	}
+	
+	var filter_consultant = $('input[name=\'filter_consultant\']').attr('value');
+	
+	if (filter_consultant) {
+		url += '&filter_consultant=' + encodeURIComponent(filter_consultant);
+	}
+	
+	var filter_comment = $('input[name=\'filter_comment\']').attr('value');
+	
+	if (filter_comment) {
+		url += '&filter_comment=' + encodeURIComponent(filter_comment);
+	}
+	
+	var filter_treatment = $('input[name=\'filter_treatment\']').attr('value');
+	
+	if (filter_treatment) {
+		url += '&filter_treatment=' + encodeURIComponent(filter_treatment);
+	}
+
+	var filter_reminder_status_id = $('input[name=\'filter_reminder_status_id\']').attr('value');
+	
+	if (filter_reminder_status_id) {
+		url += '&filter_reminder_status_id=' + encodeURIComponent(filter_reminder_status_id);
+	}
+
+	var filter_user = $('input[name=\'filter_user\']').attr('value');
+	
+	if (filter_user) {
+		url += '&filter_user=' + encodeURIComponent(filter_user);
+	}
+
+	var filter_customer = $('input[name=\'filter_customer\']').attr('value');
+	
+	if (filter_customer) {
+		url += '&filter_customer=' + encodeURIComponent(filter_customer);
+	}
+
+	location = url;
+}
+//--></script> 

@@ -12,6 +12,7 @@ $_['text_total_sale_year']         = '全年銷售';
 $_['text_total_order']             = '總訂單數';
 $_['text_total_customer']          = '客戶數量';
 $_['text_latest_messages']                = '最新待回覆事項';
+$_['text_all_status']                = '回覆狀態';
 // $_['text_total_customer_approval'] = '待審核的客戶數';
 // $_['text_total_review_approval']    = '待批准的評論(Reviews Awaiting Approval)';
 // $_['text_total_affiliate']          = '推薦客戶數(No. of Affiliates)';
@@ -37,6 +38,14 @@ $_['column_message']                = '動作';
 
 // Entry
 $_['entry_range']                  = '選擇範圍';
+$_['entry_date_start']                  = '起始日期';
+$_['entry_date_end']                  = '結束日期';
+$_['entry_status']                  = '回覆狀態';
+$_['entry_consultant']                  = 'entry_consultant';
+$_['entry_comment']                  = '訊息內容';
+$_['entry_treatment']                  = '療程';
+$_['entry_user']                  = '使用者';
+$_['entry_customer']                  = '客戶';
 
 // Error
 $_['error_install']                 = '請刪除install目錄';

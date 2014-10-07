@@ -123,9 +123,10 @@ class ControllerCheckoutManual extends Controller {
 			}	
 
 			// Stock
-			if (!$this->cart->hasStock() && (!$this->config->get('config_stock_checkout') || $this->config->get('config_stock_warning'))) {
+			if (!$this->cart->hasStock()) {
 				$json['error']['product']['stock'] = $this->language->get('error_stock');
 			}		
+
 
 			// Tax
 			// if ($this->cart->hasShipping()) {

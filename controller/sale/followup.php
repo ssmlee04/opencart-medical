@@ -5,6 +5,85 @@ class ControllerSaleFollowup extends Controller {
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
+
+		if (isset($this->request->get['filter_date_start'])) {
+			$filter_date_start= $this->request->get['filter_date_start'];
+		} else {
+			$filter_date_start = null;
+		}
+
+		if (isset($this->request->get['filter_date_end'])) {
+			$filter_date_end = $this->request->get['filter_date_end'];
+		} else {
+			$filter_date_end = null;
+		}
+
+		if (isset($this->request->get['filter_consultant'])) {
+			$filter_consultant = $this->request->get['filter_consultant'];
+		} else {
+			$filter_consultant = null;
+		}
+
+		if (isset($this->request->get['filter_comment'])) {
+			$filter_comment = $this->request->get['filter_comment'];
+		} else {
+			$filter_comment = null;
+		}
+
+		if (isset($this->request->get['filter_treatment'])) {
+			$filter_treatment = $this->request->get['filter_treatment'];
+		} else {
+			$filter_treatment = null;
+		}
+
+		if (isset($this->request->get['filter_reminder_status_id'])) {
+			$filter_reminder_status_id = $this->request->get['filter_reminder_status_id'];
+		} else {
+			$filter_reminder_status_id = null;
+		}
+		
+		if (isset($this->request->get['filter_user'])) {
+			$filter_user = $this->request->get['filter_user'];
+		} else {
+			$filter_user = null;
+		}
+
+		if (isset($this->request->get['filter_customer'])) {
+			$filter_customer = $this->request->get['filter_customer'];
+		} else {
+			$filter_customer = null;
+		}
+
+
+		if (isset($this->request->get['filter_date_start'])) {
+			$url .= '&filter_date_start=' . urlencode(html_entity_decode($this->request->get['filter_date_start'], ENT_QUOTES, 'UTF-8'));
+		}
+
+		if (isset($this->request->get['filter_date_end'])) {
+			$url .= '&filter_date_end=' . urlencode(html_entity_decode($this->request->get['filter_date_end'], ENT_QUOTES, 'UTF-8'));
+		}
+
+		if (isset($this->request->get['filter_comment'])) {
+			$url .= '&filter_comment=' . urlencode(html_entity_decode($this->request->get['filter_comment'], ENT_QUOTES, 'UTF-8'));
+		}
+
+		if (isset($this->request->get['filter_consultant'])) {
+			$url .= '&filter_consultant=' . (int)$this->request->get['filter_consultant'];
+		}
+
+		if (isset($this->request->get['filter_treatment'])) {
+			$url .= '&filter_treatment=' . (int)$this->request->get['filter_treatment'];
+		}
+
+		if (isset($this->request->get['filter_user'])) {
+			$url .= '&filter_user=' . (int)$this->request->get['filter_user'];
+		}
+
+		if (isset($this->request->get['filter_customer'])) {
+			$url .= '&filter_customer=' . (int)$this->request->get['filter_customer'];
+		}
+
+
 		$this->data['heading_title'] = $this->language->get('heading_title');
 
 		$this->data['text_overview'] = $this->language->get('text_overview');
@@ -24,6 +103,11 @@ class ControllerSaleFollowup extends Controller {
 		$this->data['text_month'] = $this->language->get('text_month');
 		$this->data['text_year'] = $this->language->get('text_year');
 		$this->data['text_no_results'] = $this->language->get('text_no_results');
+		$this->data['text_all_status'] = $this->language->get('text_all_status');
+		
+
+
+
 		$this->data['button_record_history'] = $this->language->get('button_record_history');
 		$this->data['button_filter'] = $this->language->get('button_filter');
 
@@ -44,6 +128,8 @@ class ControllerSaleFollowup extends Controller {
 		$this->data['entry_comment'] = $this->language->get('entry_comment');
 		$this->data['entry_treatment'] = $this->language->get('entry_treatment');
 		$this->data['entry_range'] = $this->language->get('entry_range');
+		$this->data['entry_user'] = $this->language->get('entry_user');
+		$this->data['entry_customer'] = $this->language->get('entry_customer');
 
 		$this->data['breadcrumbs'] = array();
 
@@ -52,6 +138,14 @@ class ControllerSaleFollowup extends Controller {
 			'href'      => $this->url->link('common/home', 'token=' . $this->session->data['token'], 'SSL'),
 			'separator' => false
 		);
+
+		// if (isset($this->request->get['filter_date_start'])) {
+		// 	$url .= '&filter_date_start=' . urlencode(html_entity_decode($this->request->get['filter_date_start'], ENT_QUOTES, 'UTF-8'));
+		// }
+
+		// if (isset($this->request->get['filter_date_end'])) {
+		// 	$url .= '&filter_date_end=' . urlencode(html_entity_decode($this->request->get['filter_date_end'], ENT_QUOTES, 'UTF-8'));
+		// }
 
 		$this->data['token'] = $this->session->data['token'];
 		$this->load->model('user/user');
@@ -101,6 +195,14 @@ class ControllerSaleFollowup extends Controller {
 
 		// 	$this->model_localisation_currency->updateCurrencies();
 		// }
+
+		$this->data['filter_date_start'] = $filter_date_start;
+		$this->data['filter_date_end'] = $filter_date_end;
+		$this->data['filter_consultant'] = $filter_consultant;
+		$this->data['filter_user'] = $filter_user;
+		$this->data['filter_customer'] = $filter_customer;
+		$this->data['filter_comment'] = $filter_comment;
+		$this->data['filter_treatment'] = $filter_treatment;
 
 		$this->template = 'sale/followup.tpl';
 		$this->children = array(

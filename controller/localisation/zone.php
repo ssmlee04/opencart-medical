@@ -406,29 +406,29 @@ class ControllerLocalisationZone extends Controller {
 				$this->error['warning'] = $this->language->get('error_default');
 			}
 
-			$store_total = $this->model_setting_store->getTotalStoresByZoneId($zone_id);
+			// $store_total = $this->model_setting_store->getTotalStoresByZoneId($zone_id);
 
-			if ($store_total) {
-				$this->error['warning'] = sprintf($this->language->get('error_store'), $store_total);
-			}
+			// if ($store_total) {
+			// 	$this->error['warning'] = sprintf($this->language->get('error_store'), $store_total);
+			// }
 
-			$address_total = $this->model_sale_customer->getTotalAddressesByZoneId($zone_id);
+			// $address_total = $this->model_sale_customer->getTotalAddressesByZoneId($zone_id);
 
-			if ($address_total) {
-				$this->error['warning'] = sprintf($this->language->get('error_address'), $address_total);
-			}
+			// if ($address_total) {
+			// 	$this->error['warning'] = sprintf($this->language->get('error_address'), $address_total);
+			// }
 
-			$affiliate_total = $this->model_sale_affiliate->getTotalAffiliatesByZoneId($zone_id);
+			// $affiliate_total = $this->model_sale_affiliate->getTotalAffiliatesByZoneId($zone_id);
 
-			if ($affiliate_total) {
-				$this->error['warning'] = sprintf($this->language->get('error_affiliate'), $affiliate_total);
-			}
+			// if ($affiliate_total) {
+			// 	$this->error['warning'] = sprintf($this->language->get('error_affiliate'), $affiliate_total);
+			// }
 
-			$zone_to_geo_zone_total = $this->model_localisation_geo_zone->getTotalZoneToGeoZoneByZoneId($zone_id);
+			// $zone_to_geo_zone_total = $this->model_localisation_geo_zone->getTotalZoneToGeoZoneByZoneId($zone_id);
 
-			if ($zone_to_geo_zone_total) {
-				$this->error['warning'] = sprintf($this->language->get('error_zone_to_geo_zone'), $zone_to_geo_zone_total);
-			}
+			// if ($zone_to_geo_zone_total) {
+			// 	$this->error['warning'] = sprintf($this->language->get('error_zone_to_geo_zone'), $zone_to_geo_zone_total);
+			// }
 		}
 
 		if (!$this->error) {
