@@ -116,7 +116,8 @@
               <?php if ($order_products) { ?>
               <?php foreach ($order_products as $order_product) { ?>
               <tr id="product-row<?php echo $product_row; ?>">
-                <td class="center" style="width: 3px;"><img src="view/image/delete.png" title="<?php echo $button_remove; ?>" alt="<?php echo $button_remove; ?>" style="cursor: pointer;" onclick="$('#product-row<?php echo $product_row; ?>').remove(); $('#button-update').trigger('click');" /></td>
+                <td class="center" style="width: 3px;">
+                  <img  <?php if ($route == 'sale/order/update') echo "style='display:none'"; ?> src="view/image/delete.png" title="<?php echo $button_remove; ?>" alt="<?php echo $button_remove; ?>" style="cursor: pointer;" onclick="$('#product-row<?php echo $product_row; ?>').remove(); $('#button-update').trigger('click');" /></td>
                 <td class="left"><?php echo $order_product['name']; ?><br />
                   <input type="hidden" name="order_product[<?php echo $product_row; ?>][order_product_id]" value="<?php echo $order_product['order_product_id']; ?>" />
                   <input type="hidden" name="order_product[<?php echo $product_row; ?>][product_id]" value="<?php echo $order_product['product_id']; ?>" />
@@ -155,7 +156,7 @@
               <?php } ?>
             </tbody>
           </table>
-          <table class="list">
+          <table class="list" <?php if ($route == 'sale/order/update') echo "style='display:none'"; ?>>
             <thead>
               <tr>
                 <td colspan="2" class="left"><?php echo $text_product; ?></td>
@@ -436,21 +437,9 @@
   </div>
 </div>
 <script type="text/javascript"><!--
-$.widget('custom.catcomplete', $.ui.autocomplete, {
-	_renderMenu: function(ul, items) {
-		var self = this, currentCategory = '';
-		
-		$.each(items, function(index, item) {
-			if (item['category'] != currentCategory) {
-				ul.append('<li class="ui-autocomplete-category">' + item['category'] + '</li>');
-				
-				currentCategory = item['category'];
-			}
-			
-			self._renderItem(ul, item);
-		});
-	}
-});
+
+
+
 
 $('input[name=\'payment_cash\'], input[name=\'payment_visa\'], input[name=\'payment_final\']').keyup(function(){
   var total = $('input[name=\'order_total[0][value]\']').val();
@@ -1033,6 +1022,12 @@ var clearinput = function(){
 
 $('#button-product').live('click', function() {	
 
+
+// var total = $('input[name=\'order_total[0][value]\']').val();
+// $('input[name=\'payment_balance\']').val(total - $('input[name=\'payment_final\']').val() - $('input[name=\'payment_visa\']').val() - $('input[name=\'payment_cash\']').val());
+// });
+
+
   var store_id = $('.store_id').val();
   var customer_id = $('input[name=\'customer_id\']').val();
   
@@ -1078,103 +1073,39 @@ $('#button-product').live('click', function() {
 
 			// Check for errors
 			if (json['error']) {
-				if (json['error']['warning']) {
-					$('.box').before('<div class="warning">' + json['error']['warning'] + '</div>');
-				}
+				
 							
 				// Order Details
 				if (json['error']['customer']) {
 					$('.box').before('<span class="error">' + json['error']['customer'] + '</span>');
 				}	
 				
-        if (json['error']['nocustomer']) {
+        else if (json['error']['nocustomer']) {
           $('.box').before('<div class="warning">' + json['error']['nocustomer'] + '</span>');
         } 
 
-        if (json['error']['store']) {
+        else if (json['error']['store']) {
           $('.box').before('<div class="warning">' + json['error']['store'] + '</span>');
         }
 
-				if (json['error']['firstname']) {
+				else if (json['error']['firstname']) {
 					$('input[name=\'firstname\']').after('<span class="error">' + json['error']['firstname'] + '</span>');
 				}
 				
-				if (json['error']['lastname']) {
+				else if (json['error']['lastname']) {
 					$('input[name=\'lastname\']').after('<span class="error">' + json['error']['lastname'] + '</span>');
 				}	
 				
-				if (json['error']['email']) {
+				else if (json['error']['email']) {
 					$('input[name=\'email\']').after('<span class="error">' + json['error']['email'] + '</span>');
 				}
 				
-				if (json['error']['telephone']) {
+				else if (json['error']['telephone']) {
 					$('input[name=\'telephone\']').after('<span class="error">' + json['error']['telephone'] + '</span>');
 				}	
-			
-				// Payment Address
-				// if (json['error']['payment']) {	
-				// 	if (json['error']['payment']['firstname']) {
-				// 		$('input[name=\'payment_firstname\']').after('<span class="error">' + json['error']['payment']['firstname'] + '</span>');
-				// 	}
-					
-				// 	if (json['error']['payment']['lastname']) {
-				// 		$('input[name=\'payment_lastname\']').after('<span class="error">' + json['error']['payment']['lastname'] + '</span>');
-				// 	}	
-					
-				// 	if (json['error']['payment']['address_1']) {
-				// 		$('input[name=\'payment_address_1\']').after('<span class="error">' + json['error']['payment']['address_1'] + '</span>');
-				// 	}	
-					
-				// 	if (json['error']['payment']['city']) {
-				// 		$('input[name=\'payment_city\']').after('<span class="error">' + json['error']['payment']['city'] + '</span>');
-				// 	}	
-																								
-				// 	if (json['error']['payment']['country']) {
-				// 		$('select[name=\'payment_country_id\']').after('<span class="error">' + json['error']['payment']['country'] + '</span>');
-				// 	}	
-					
-				// 	if (json['error']['payment']['zone']) {
-				// 		$('select[name=\'payment_zone_id\']').after('<span class="error">' + json['error']['payment']['zone'] + '</span>');
-				// 	}
-					
-				// 	if (json['error']['payment']['postcode']) {
-				// 		$('input[name=\'payment_postcode\']').after('<span class="error">' + json['error']['payment']['postcode'] + '</span>');
-				// 	}						
-				// }
-			
-				// Shipping	Address
-				// if (json['error']['shipping']) {		
-				// 	if (json['error']['shipping']['firstname']) {
-				// 		$('input[name=\'shipping_firstname\']').after('<span class="error">' + json['error']['shipping']['firstname'] + '</span>');
-				// 	}
-					
-				// 	if (json['error']['shipping']['lastname']) {
-				// 		$('input[name=\'shipping_lastname\']').after('<span class="error">' + json['error']['shipping']['lastname'] + '</span>');
-				// 	}	
-					
-				// 	if (json['error']['shipping']['address_1']) {
-				// 		$('input[name=\'shipping_address_1\']').after('<span class="error">' + json['error']['shipping']['address_1'] + '</span>');
-				// 	}	
-					
-				// 	if (json['error']['shipping']['city']) {
-				// 		$('input[name=\'shipping_city\']').after('<span class="error">' + json['error']['shipping']['city'] + '</span>');
-				// 	}	
-																								
-				// 	if (json['error']['shipping']['country']) {
-				// 		$('select[name=\'shipping_country_id\']').after('<span class="error">' + json['error']['shipping']['country'] + '</span>');
-				// 	}	
-					
-				// 	if (json['error']['shipping_zone']) {
-				// 		$('select[name=\'shipping_zone_id\']').after('<span class="error">' + json['error']['shipping']['zone'] + '</span>');
-				// 	}
-					
-				// 	if (json['error']['shipping']['postcode']) {
-				// 		$('input[name=\'shipping_postcode\']').after('<span class="error">' + json['error']['shipping']['postcode'] + '</span>');
-				// 	}	
-				// }
-				
+
 				// Products
-				if (json['error']['product']) {
+				else if (json['error']['product']) {
 					if (json['error']['product']['option']) {	
 						for (i in json['error']['product']['option']) {
 							$('#option-' + i).after('<span class="error">' + json['error']['product']['option'][i] + '</span>');
@@ -1190,7 +1121,9 @@ $('#button-product').live('click', function() {
 							$('.box').before('<div class="warning">' + json['error']['product']['minimum'][i] + '</div>');
 						}						
 					}
-				} else {
+				} else if (json['error']['warning']) {
+          $('.box').before('<div class="warning">' + json['error']['warning'] + '</div>');
+        } else {
 					$('input[name=\'product\']').attr('value', '');
 					$('input[name=\'product_id\']').attr('value', '');
 					$('#option td').remove();			

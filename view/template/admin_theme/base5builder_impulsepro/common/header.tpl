@@ -68,6 +68,7 @@ if(array_intersect($page_name, $get_route)){
 	  <!--[if IE 8]>
 	  <link type="text/css" href="view/stylesheet/admin_theme/base5builder_impulsepro/style-ie8.css" rel="stylesheet">
 	  <![endif]-->
+	  <script type="text/javascript" src="view/javascript/common.js"></script>
 	  <script type="text/javascript" src="view/javascript/admin_theme/base5builder_impulsepro/jquery.js"></script>
 	  <script type="text/javascript" src="view/javascript/admin_theme/base5builder_impulsepro/ui/jquery-ui-1.8.20.custom.min.js"></script>
 	  <script type="text/javascript" src="view/javascript/admin_theme/base5builder_impulsepro/tabs.js"></script>
@@ -165,6 +166,7 @@ if(array_intersect($page_name, $get_route)){
 	              <li><a href="<?php echo $treatment; ?>"><?php echo $text_treatment; ?></a></li>
 	              <li><a href="<?php echo $customer_group; ?>"><?php echo $text_customer_group; ?></a></li>
 	              <li><a href="<?php echo $allcustomer; ?>"><?php echo $text_all_customers; ?></a></li>
+	              <li><a href="<?php echo $order; ?>"><?php echo $text_order; ?></a></li>
 	            </ul>
 	      	</li>
 	      	<li id="treatment"><a class="top"><?php echo $text_history; ?></a>
@@ -205,13 +207,13 @@ if(array_intersect($page_name, $get_route)){
 	      
 
       
-      <li id="sale"><a class="top"><?php echo $text_sale; ?></a>
+     <!--  <li id="sale"><a class="top"><php echo $text_sale; ?></a>
         <ul>
-          <li><a href="<?php echo $order; ?>"><?php echo $text_order; ?></a></li>
+          <li><a href="<php echo $order; ?>"><php echo $text_order; ?></a></li>
           
           
         </ul>
-      </li>
+      </li> -->
       <li id="system"><a class="top"><?php echo $text_system; ?></a>
         <ul>
           <li><a href="<?php echo $setting; ?>"><?php echo $text_setting; ?></a></li>
@@ -237,6 +239,7 @@ if(array_intersect($page_name, $get_route)){
 				<li><a class="parent"><?php echo $text_sale; ?></a>
 					<ul>
 						<li><a href="<?php echo $report_sale_order; ?>"><?php echo $text_report_sale_order; ?></a></li>
+						
 						<!-- <li><a href="<php echo $report_sale_tax; ?>"><php echo $text_report_sale_tax; ?></a></li>
 						<li><a href="<php echo $report_sale_shipping; ?>"><php echo $text_report_sale_shipping; ?></a></li>
 						<li><a href="<php echo $report_sale_return; ?>"><php echo $text_report_sale_return; ?></a></li>

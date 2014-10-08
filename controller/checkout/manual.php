@@ -635,8 +635,8 @@ class ControllerCheckoutManual extends Controller {
 			}
 
 			// Reset everything
-			$this->cart->clear();
-			$this->customer->logout();
+			// $this->cart->clear();
+			// $this->customer->logout();
 
 			//unset($this->session->data['shipping_method']);
 			unset($this->session->data['shipping_methods']);
@@ -650,7 +650,7 @@ class ControllerCheckoutManual extends Controller {
 			$json['error']['warning'] = $this->language->get('error_permission');
 		}
 
-		// $this->load->out($json, false);
+		$this->load->out(123, false);
 
 		$this->response->setOutput(json_encode($json));	
 	}

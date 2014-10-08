@@ -160,80 +160,10 @@
 					</div>
 				</div>
 				<?php } else { ?>
-				<div class="">
-					<div class="dashboard-heading"><?php echo $text_latest_messages; ?></div>
-					<div class="dashboard-content">
-						<table class="list">
-								<?php if ($messages) { ?>
-								<?php foreach ($messages as $message) { ?>
-							<thead class='r<?php echo $message['customer_history_id']; ?>'>
-								<tr>
-									<td class="left"><?php echo $column_customer; ?></td>
-									<td class="left"><?php echo $column_date_added; ?></td>
-									<td class="right"><?php echo $column_user; ?></td>
-									<td class="right"><?php echo $column_message; ?></td>
-								</tr>
-							</thead>
-							<tbody>
-								<tr class='r<?php echo $message['customer_history_id']; ?>'>
-									<td class="left"><input type='hidden' value='<?php echo $message['customer_history_id']; ?>'/><?php echo $message['clastname'] . ' ' . $message['cfirstname']; ?></td>
-									
-									<td class="left"><?php echo $message['reminder_date']; ?></td>
-									<td class="left"><?php echo $message['ulastname'] . ' ' . $message['ufirstname']; ?></td>
-
-
-									<td class="right">
-
-										<select id="reminder_class">
-											<option></option>
-											<?php foreach ($reminder_classes as $reminder_class) { ?>
-											<option value="<?php echo $reminder_class['reminder_status_id']; ?>"><?php echo $reminder_class['name']; ?></option>
-											<?php } ?>
-										</select>
-										<button id='<?php echo $message['customer_history_id']; ?>' class='updatehistory'><?php echo $button_record_history; ?></button>
-									</td>
-									</tr>
-									<tr class='r<?php echo $message['customer_history_id']; ?>'>
-										<td class="left" colspan='4'><?php echo $message['comment']; ?></td>
-									</tr>
-
-									<tr class='r<?php echo $message['customer_history_id']; ?>'>
-										<td colspan='4' style='background-color:white'></td>
-									</tr>
-
-									<?php } ?>
-									<?php } else { ?>
-									<tr>
-										<td class="center" colspan='4'><?php echo $text_no_results; ?></td>
-									</tr>
-
-								<?php } ?>
-							</tbody>
-						</table>
-					</div>
+				<div class="" id="messages">
+					
 				</div>
 				<?php } ?>
-				<!-- <div class="other-stats">
-					<div class="dashboard-heading"><php echo $text_other_stats; ?></div>
-					<div class="dashboard-content">
-						<div class="other-stats-box stat-1">
-							<div class="other-stat-number"><php echo number_format($total_customer_approval); ?></div>
-							<div class="other-stat-text"><php echo $text_total_customer_approval; ?></div>
-						</div>
-						<div class="other-stats-box stat-2">
-							<div class="other-stat-number"><php echo number_format($total_review_approval); ?></div>
-							<div class="other-stat-text"><php echo $text_total_review_approval; ?></div>
-						</div>
-						<div class="other-stats-box stat-3">
-							<div class="other-stat-number"><php echo number_format($total_affiliate); ?></div>
-							<div class="other-stat-text"><php echo $text_total_affiliate; ?></div>
-						</div>
-						<div class="other-stats-box stat-4">
-							<div class="other-stat-number"><php echo number_format($total_affiliate_approval); ?></div>
-							<div class="other-stat-text"><php echo $text_total_affiliate_approval; ?></div>
-						</div>
-					</div>
-				</div> -->
 			</div>
 			<div class="clear"></div>
 		</div>
@@ -242,76 +172,34 @@
 <?php echo $footer; ?>
 
 <script type='text/javascript'>
-	// function updateHistory() {
-	$('.updatehistory').on('click', function(){
-		var reminder_status_id = $(this).parent().children().first().val();
-		var customer_history_id = $(this).parent().parent().children().first().children().val()
-		$.ajax({
-			url: 'index.php?route=sale/history/updatehistory&token=<?php echo $token; ?>&reminder_status_id=' + reminder_status_id + '&customer_history_id=' + customer_history_id,
-			dataType: 'json',
-			beforeSend: function() {
-				// $('select[name=\'address[' + index + '][country_id]\']').after('<span class="wait">&nbsp;<img src="view/image/loading.gif" alt="" /></span>');
-			},
-			complete: function() {
-				// $('.wait').remove();
-			},			
-			success: function(json) {
+$('#messages').load('index.php?route=sale/customer/messages&token=<?php echo $token; ?>', function(){
 
-				if (json['success']) {
-
-					$('#notification').html('<div class="success" style="display: none;">' + json['success'] + '</div>');
-			                    
-			        $('.success').fadeIn('slow');
-
-			        $('html, body').animate({ scrollTop: 0 }, 'slow'); 
-
-					setTimeout( function() {
-						$('.r' + customer_history_id).remove();
-			        }, 500);
-
-				} 
-
-				if (json['error']) {
-
-					setTimeout( function() {
-
-			            $('#notification').html('<div class="warning" style="display: none;">' + json['error'] + '</div>');
-			                    
-			            $('.warning').fadeIn('slow');
-
-			            $('html, body').animate({ scrollTop: 0 }, 'slow'); 
-
-			        }, 200);
-
-				}
-				// if (json['postcode_required'] == '1') {
-				// 	$('#postcode-required' + index).show();
-				// } else {
-				// 	$('#postcode-required' + index).hide();
-				// }
-				
-				// html = '<option value=""><?php echo $text_select; ?></option>';
-				
-				// if (json['zone'] != '') {
-				// 	for (i = 0; i < json['zone'].length; i++) {
-				// 		html += '<option value="' + json['zone'][i]['zone_id'] + '"';
-						
-				// 		if (json['zone'][i]['zone_id'] == zone_id) {
-				// 			html += ' selected="selected"';
-				// 		}
+	$('.updatehistory').on('click', function(){ 
 		
-				// 		html += '>' + json['zone'][i]['name'] + '</option>';
-				// 	}
-				// } else {
-				// 	html += '<option value="0"><?php echo $text_none; ?></option>';
-				// }
-				
-				// $('select[name=\'address[' + index + '][zone_id]\']').html(html);
-			},
-			error: function(xhr, ajaxOptions, thrownError) {
-				// alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-			}
+		var customer_history_id = $(this).attr('id');
+		var reply = $(this).prev().prev().val();
+		var reminder_status_id = $(this).prev().val();
+		
+		$.ajax({
+		  url: 'index.php?route=sale/customer/messages&token=<?php echo $token; ?>',
+		  type: 'POST',
+		  dataType: 'text',
+		  data: 'reminder_status_id='+reminder_status_id+'&reply='+reply+'&customer_history_id='+ customer_history_id,
+		  complete: function(xhr, textStatus) {
+		    //called when complete
+
+		  },
+		  success: function(data, textStatus, xhr) {
+		    //called when successful
+		    console.log(data);
+		    $('#messages').html(data);
+		  },
+		  error: function(xhr, textStatus, errorThrown) {
+		    //called when there is an error
+		  }
 		});
+		
+
 	});
-	// }
+});
 </script>

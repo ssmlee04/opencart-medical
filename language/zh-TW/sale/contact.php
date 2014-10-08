@@ -1,6 +1,6 @@
 <?php  
 // Heading
-$_['heading_title']    = '發送信件(Mail)';
+$_['heading_title']    = '發送信件';
 
 // Text
 $_['text_success']     = '已成功發送信件';

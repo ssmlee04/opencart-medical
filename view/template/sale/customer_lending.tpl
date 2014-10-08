@@ -5,7 +5,6 @@
 <div class="success"><?php echo $success; ?></div>
 <?php } ?>
 
-
 <table class="list">
   <thead>
     <tr>
@@ -32,7 +31,7 @@
       <td class="left"><?php echo $lending['subquantity']; ?></td>
       <td class="left"><?php echo $lending['unit']; ?></td>
       <td class="right" style="width: 3px;">
-        <img src="view/image/delete.png" title="<?php echo $button_remove; ?>" alt="<?php echo $button_remove; ?>" style="cursor: pointer;" onclick="$(this).parent().parent().remove(); deleteCustomerlending('<?php echo $lending['customer_lending_id']; ?>')" />
+        <img src="view/image/delete.png" title="<?php echo $button_remove; ?>" alt="<?php echo $button_remove; ?>" style="cursor: pointer;" onclick="$(this).parent().parent().remove(); deleteCustomerlending1('<?php echo $lending['customer_lending_id']; ?>')" />
       </td>
       <!-- <td class="right"><php echo $lending['amount']; ?></td> -->
     </tr>
@@ -44,7 +43,7 @@
     </tr>
     <?php } else { ?>
     <tr>
-      <td class="center" colspan="6"><?php echo $text_no_results; ?></td>
+      <td class="center" colspan="7"><?php echo $text_no_results; ?></td>
     </tr>
     <?php } ?>
   </tbody>
@@ -54,8 +53,7 @@
 
 <script type="text/javascript">  
 
-function deleteCustomerlending(id) {
-  
+function deleteCustomerlending1(id) {
   $.ajax({
       url: 'index.php?route=sale/customer/deletecustomerlending&token=<?php echo $token; ?>&customer_lending_id=' + id,
       type: 'post',

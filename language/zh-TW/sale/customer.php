@@ -12,8 +12,6 @@ $_['text_search_customer']          = '客戶搜尋';
 $_['text_comment_is_short']    = '訊息太短';
 $_['text_date_incorrect']    = '日期輸入有誤';
 $_['text_reminder'] = '是否提醒';
-$_['button_add_image'] = '增加圖片';
-$_['button_add_history'] = '提醒設定';
 $_['text_delete_lending_success'] = '成功刪除療程轉讓';
 $_['text_delete_lending_error'] = '刪除療程轉讓錯誤';
 $_['text_delete_transaction_success'] = '成功刪除交易';
@@ -34,6 +32,9 @@ $_['text_lendedout']         = '轉讓';
 $_['text_cannot_use_inventory']         = '增加交易錯誤';
 $_['button_change_status']           = '更改狀態';
 $_['button_add_picture']           = '增加圖片';
+$_['button_add_image'] = '增加圖片';
+$_['button_add_history'] = '提醒設定';
+$_['button_borrow_from'] = '借';
 $_['text_order_total']           = '訂單金額';
 $_['text_payment_final']           = '尾款金額';
 $_['text_payment_visa']           = '信用卡金額';
@@ -61,7 +62,9 @@ $_['column_reminder_date']           = '提醒日期';
 
 
 // Entry
+$_['entry_customer']         = '客戶';
 $_['entry_firstname']         = '名字';
+$_['entry_borrowfrom']         = '從其他人借療程';
 $_['entry_nickname']         = '昵稱';
 $_['entry_lastname']          = '姓氏';
 $_['entry_email']             = '電子郵件';

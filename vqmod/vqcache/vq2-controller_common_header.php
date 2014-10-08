@@ -192,6 +192,7 @@ class ControllerCommonHeader extends Controller {
 			$this->data['product'] = $this->url->link('catalog/product&type=1', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['treatment_product'] = $this->url->link('catalog/product&type=2', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['waste_product'] = $this->url->link('catalog/product&type=3', 'token=' . $this->session->data['token'], 'SSL');
+			$this->data['imagemanage'] = $this->url->link('image/imagemanage', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['profile'] = $this->url->link('catalog/profile', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['report_sale_order'] = $this->url->link('report/sale_order', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['report_sale_tax'] = $this->url->link('report/sale_tax', 'token=' . $this->session->data['token'], 'SSL');

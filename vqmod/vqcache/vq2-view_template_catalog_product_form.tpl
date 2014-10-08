@@ -252,16 +252,30 @@
               <td><?php echo $entry_bonus; ?></td>
               <td><input type="checkbox" name="bonus" value="1" size="2" <?php if ($bonus) {echo 'checked';} ?> /></td>
               </tr>
-            <tr>
-              <td><?php echo $entry_bonus_percent; ?></td>
-              <td><input type="text" name="bonus_percent" value="<?php echo $bonus_percent; ?>" size="3"/> %</td>
+            <tr class='bonusgroup'>
+              <td><?php echo $entry_bonus_percent_doctor; ?></td>
+              <td><input type="text" name="bonus_percent_doctor" value="<?php echo $bonus_percent_doctor; ?>" size="3"/> %</td>
+              </tr>
+            <tr class='bonusgroup'>
+              <td><?php echo $entry_bonus_percent_consultant; ?></td>
+              <td><input type="text" name="bonus_percent_consultant" value="<?php echo $bonus_percent_consultant; ?>" size="3"/> %</td>
+              </tr>
+            <tr class='bonusgroup'>
+              <td><?php echo $entry_bonus_percent_outsource; ?></td>
+              <td><input type="text" name="bonus_percent_outsource" value="<?php echo $bonus_percent_outsource; ?>" size="3"/> %</td>
+              </tr>
+            <tr class='bonusgroup'>
+              <td><?php echo $entry_bonus_percent_beauty; ?></td>
+              <td><input type="text" name="bonus_percent_beauty" value="<?php echo $bonus_percent_beauty; ?>" size="3"/> %</td>
             </tr>
+          </div>
+
             <tr>
               <td><?php echo $entry_reminder; ?></td>
               <td><input type="checkbox" name="reminder" value="1" size="2" <?php if ($reminder) {echo 'checked';} ?> /></td>
               <!-- <td><input type="checkbox" name="reminder" value="<php echo $reminder; ?>" size="2" /></td> -->
             </tr>
-            <tr>
+            <tr class='remindgroup'>
               <td><?php echo $entry_reminder_days; ?></td>
               <td><input type="text" name="reminder_days" value="<?php echo $reminder_days; ?>" size="3"/></td>
             </tr>
@@ -985,11 +999,28 @@ $('.datetime').datetimepicker({
 });
 $('.time').timepicker({timeFormat: 'h:m'});
 //--></script> 
+
+<style>
+.remindgroup, .bonusgroup {
+  background-color: beige;
+}
+</style>
+
 <script type="text/javascript"><!--
 $('#tabs a').tabs(); 
 $('#languages a').tabs(); 
 $('#vtab-option a').tabs();
 
+
+if (!$('input[name=\'reminder\']').attr('checked')) $(".remindgroup").hide();
+$('input[name=\'reminder\']').on('change', function(){
+  $(".remindgroup").toggle();
+});
+
+if (!$('input[name=\'bonus\']').attr('checked')) $(".bonusgroup").hide();
+$('input[name=\'bonus\']').on('change', function(){
+  $(".bonusgroup").toggle($(this).attr('checked'));
+});
 //var profileCount = <?php echo $profileCount ?>;
 
 // function addProfile() {

@@ -3,6 +3,7 @@
   <thead>
     <tr>
       <td class="left"><?php echo $entry_image; ?></td>
+      <td class="left"><?php echo $entry_comment; ?></td>
       <td class="left"></td>
       <td class="right"></td>
     </tr>
@@ -17,6 +18,11 @@
           <input type="hidden" name="customer_image[<?php echo $image_row; ?>][customer_image_id]" value="<?php echo $customer_image['customer_image_id']; ?>" id="idimage<?php echo $image_row; ?>"/>
           <br />
           <a onclick="image_upload('image<?php echo $image_row; ?>', 'thumb<?php echo $image_row; ?>');"><?php echo $text_browse; ?></a>&nbsp;&nbsp;|&nbsp;&nbsp;<a onclick="$('#thumb<?php echo $image_row; ?>').attr('src', '<?php echo $no_image; ?>'); $('#image<?php echo $image_row; ?>').attr('value', '');"><?php echo $text_clear; ?></a></div></td>
+      <td class="left">
+        &nbsp;
+        <input type="text" name="customer_image[<?php echo $image_row; ?>][comment]" value="<?php echo $customer_image['comment']; ?>" size='100px'/>
+        <a class='commentImage' id='<?php echo $customer_image['customer_image_id']; ?>'><?php echo $button_update_comment; ?></a>
+      </td>
       <td class="right">
         <input style='display:none' type="date_available" name="customer_image[<?php echo $image_row; ?>][date_added]" value="<?php echo $customer_image['date_added']; ?>" class="date"/><?php echo $customer_image['date_added']; ?>
       </td>
@@ -27,7 +33,7 @@
   <?php } ?>
   <tfoot>
     <tr>
-      <td colspan="2"></td>
+      <td colspan="3"></td>
       <td class="right"><a onclick="addImage();" class="button"><?php echo $button_add_image; ?></a></td>
     </tr>
   </tfoot>
@@ -37,6 +43,40 @@
 
 <script type="text/javascript"><!--
 var image_row = <?php echo $image_row; ?>;
+
+$('.commentImage').on('click', function(){
+  var customer_image_id = $(this).attr('id');
+  var comment = $(this).prev().val();
+  $.ajax({
+    url: 'index.php?route=sale/customer/updateimagecomment&token=<?php echo $token; ?>',
+    type: 'POST',
+    dataType: 'json',
+    data: 'customer_image_id=' + customer_image_id + '&comment=' + comment, 
+    complete: function(xhr, textStatus) {
+      //called when complete
+    },
+    success: function(json, textStatus, xhr) {
+      $('.attention, .success, .warning').remove();
+      
+     if (json['error']) {
+        $('.box').before('<div class="warning" style="display: none;">' + json['error'] + '</div>');
+        
+       $('.warning').fadeIn('slow');
+     }
+            
+     if (json['success'] || json['success'] === 0) {
+      $('.box').before('<div class="success" style="display: none;"><?php echo $text_update_comment_success; ?></div>');
+        
+       $('.success').fadeIn('slow');
+     }
+
+    },
+    error: function(xhr, textStatus, errorThrown) {
+      //called when there is an error
+    }
+  });
+})
+
 
 function deleteImage(customer_image_id) {
 

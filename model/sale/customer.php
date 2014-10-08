@@ -85,6 +85,37 @@ class ModelSaleCustomer extends Model {
 		}
 	}
 
+	public function editCustomerImageComment($id, $data) {
+
+		$sql = "UPDATE oc_customer_image SET comment = '" . $this->db->escape($data['comment']) . "' WHERE customer_image_id = '$id'";
+
+		$query = $this->db->query($sql);
+
+		return ($this->db->countAffected() > 0 ? $this->db->getLastId() : 0);
+	}
+
+	public function editCustomerImage($id, $data) {
+
+		$sql = "UPDATE oc_customer_image SET /*date_added = '" . $this->db->escape($data['date_added']) . "',*/ image = '" . $this->db->escape($data['image']) . "'";
+
+		if (isset($data['customer_transaction_id'])) {
+			$query = $this->db->query("SELECT * FROM oc_customer_image WHERE customer_transaction_id = '" . (int)$data['customer_transaction_id'] . "'");
+			if ($query->num_rows > 3) return false;
+		}
+
+		if (isset($data['comment']))  {
+			$sql .= ", comment = '" . $this->db->escape($data['comment']) . "'";
+		}
+
+		if (isset($data['customer_transaction_id']))  {
+			$sql .= ", customer_transaction_id = '" . $this->db->escape($data['customer_transaction_id']) . "'";
+		}
+
+		$query = $this->db->query($sql);
+
+		return ($this->db->countAffected() > 0 ? $this->db->getLastId() : 0);
+	}
+
 	// '2014-10-06 14:46'
 	public function insertCustomerImage($customer_id, $data) {
 
@@ -129,13 +160,17 @@ class ModelSaleCustomer extends Model {
 	}
 
 	public function getCustomers($data = array()) {
-		$sql = "SELECT *, CONCAT(c.firstname, ' ', c.lastname) AS name, cgd.name AS customer_group FROM " . DB_PREFIX . "customer c LEFT JOIN " . DB_PREFIX . "customer_group_description cgd ON (c.customer_group_id = cgd.customer_group_id) WHERE cgd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
+		$sql = "SELECT *, c.fullname AS cfullname, cgd.name AS customer_group FROM " . DB_PREFIX . "customer c LEFT JOIN " . DB_PREFIX . "customer_group_description cgd ON (c.customer_group_id = cgd.customer_group_id) WHERE cgd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
 
 		$implode = array();
 
 		if (!empty($data['filter_name'])) {
-			$implode[] = "CONCAT(c.firstname, ' ', c.lastname) LIKE '%" . $this->db->escape($data['filter_name']) . "%'";
+			$implode[] = "c.fullname LIKE '%" . $this->db->escape($data['filter_name']) . "%'";
 		}
+
+		if (!empty($data['filter_customer_id'])) {
+			$implode[] = "c.customer_id = '" . (int)$data['filter_customer_id'] . "'";
+		}	
 
 		if (!empty($data['filter_email'])) {
 			$implode[] = "c.email LIKE '" . $this->db->escape($data['filter_email']) . "%'";
@@ -334,6 +369,10 @@ class ModelSaleCustomer extends Model {
 			$implode[] = "fullname LIKE '%" . $this->db->escape($data['filter_name']) . "%'";
 		}
 
+		if (!empty($data['filter_customer_id'])) {
+			$implode[] = "customer_id = '" . (int)$data['filter_customer_id'] . "'";
+		}	
+
 		if (!empty($data['filter_email'])) {
 			$implode[] = "email LIKE '" . $this->db->escape($data['filter_email']) . "%'";
 		}
@@ -446,6 +485,28 @@ class ModelSaleCustomer extends Model {
 
 		$this->db->query($sql);
 	}	
+
+	public function getBorrows($customer_id, $start = 0, $limit = 10) { 
+		if ($start < 0) {
+			$start = 0;
+		}
+
+		if ($limit < 1) {
+			$limit = 10;
+		}	
+
+		$query = $this->db->query("SELECT cl.*, u.firstname as ufirstname, u.lastname as ulastname,
+		c1.firstname as borrowerfirstname, c1.lastname as borrowerlastname,
+		c2.firstname as lenderfirstname, c2.lastname as lenderlastname FROM oc_customer_lending cl 
+			LEFT JOIN oc_user u ON u.user_id = cl.user_id 
+			LEFT JOIN oc_customer c1 ON c1.customer_id = cl.borrower_id 
+			LEFT JOIN oc_customer c2 ON c2.customer_id = cl.lender_id 
+			-- LEFT JOIN oc_product p ON p.product_id = cl.product_id 
+			-- LEFT JOIN oc_product_description pd ON p.product_id = pd.product_id 
+			WHERE cl.borrower_id = '" . (int)$customer_id . "' ORDER BY cl.date_added DESC LIMIT " . (int)$start . "," . (int)$limit);
+
+		return $query->rows;
+	}
 
 	public function getLendings($customer_id, $start = 0, $limit = 10) { 
 		if ($start < 0) {
@@ -587,8 +648,10 @@ class ModelSaleCustomer extends Model {
 		$product = $this->model_catalog_product->getProduct($lendto_product_id);
 
 		$unit_quantity = $product['unit_quantity'];
+		// $price = $product['price'];
+		// $subquantity = $product['subquantity'];
 
-		$quantity = 1/$unit_quantity;
+		$quantity = 1 / $unit_quantity;
 
 		// $query = $this->db->query("SELECT * FROM oc_product p LEFT JOIN oc_product_description pd ON p.product_id = pd.product_id LEFT JOIN oc_unit_class_description ucd ON ucd.unit_class_id = p.unit_class_id AND pd.language_id = ucd.language_id WHERE p.product_id = '$product_id' AND ucd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
 
@@ -620,14 +683,59 @@ class ModelSaleCustomer extends Model {
 			$customer_transaction_id = $row['customer_transaction_id'];
 
 			// 10 = borrow out 
-			$this->db->query("UPDATE oc_customer_transaction SET customer_lending_id = '$customer_lending_id', status=10 WHERE customer_transaction_id = '$customer_transaction_id'");
+
+			$q = $this->db->query("SELECT * FROM oc_customer_transaction WHERE customer_transaction_id = '$customer_transaction_id'");
+
+			$amount = -$q->row['amount'];
+			$bonus_doctor = $q->row['bonus_doctor'];
+			$bonus_consultant = $q->row['bonus_consultant'];
+			$bonus_outsource = $q->row['bonus_outsource'];
+			$bonus_percent_doctor = $q->row['bonus_percent_doctor'];
+			$bonus_percent_consultant = $q->row['bonus_percent_consultant'];
+			$bonus_percent_outsource = $q->row['bonus_percent_outsource'];
+			$product_type_id = $q->row['product_type_id'];
+			$unit_class_id = $q->row['unit_class_id'];
 			
-			$this->db->query("INSERT INTO oc_customer_transaction SET status=-1, customer_lending_id = '$customer_lending_id', product_id='$lendto_product_id', quantity='-$quantity', subquantity=-1, customer_id = '" . (int)$lendto_customer_id . "', date_added = NOW()");
+			$this->db->query("UPDATE oc_customer_transaction SET 
+				customer_lending_id = '$customer_lending_id'
+				, unit_class_id = '$unit_class_id'
+				, status=10 
+				, consultant_id = 0
+				, doctor_id = 0
+				, beauty_id = 0
+				, outsource_id = 0
+				, date_added = NOW(), date_modified = NOW() 
+				WHERE customer_transaction_id = '$customer_transaction_id'");
+			
+			$sql = "INSERT INTO oc_customer_transaction SET status=-1
+				, customer_lending_id = '$customer_lending_id'
+				, product_id='$lendto_product_id'
+				, quantity='-$quantity'
+				, subquantity=-1
+				, product_type_id = '" . (int)$product_type_id . "'
+				, customer_id = '" . (int)$lendto_customer_id . "'
+				, bonus_outsource = '" . (float)$bonus_outsource . "'
+				, bonus_consultant = '" . (float)$bonus_consultant . "'
+				, bonus_doctor = '" . (float)$bonus_doctor . "'
+				, bonus_percent_doctor = '" . (int)$bonus_percent_doctor . "'
+				, bonus_percent_consultant = '" . (int)$bonus_percent_consultant . "'
+				, bonus_percent_outsource = '" . (int)$bonus_percent_outsource . "'
+				, unit_class_id = '" . (int)$unit_class_id . "'
+				, amount = '" . -(float)$amount . "'
+				, date_added = NOW(), date_modified = NOW()";
+
+				// $this->load->out($sql);	
+			$this->db->query($sql);
 
 			$count++;
 		}
 
-		$this->db->query("INSERT INTO oc_customer_transaction SET ismain = 1, status = 0 , customer_lending_id = '$customer_lending_id', product_id='$lendto_product_id', quantity='$lendto_quantity', subquantity=$lendto_subquantity, customer_id = '" . (int)$lendto_customer_id . "', date_added = NOW()");
+		$this->db->query("INSERT INTO oc_customer_transaction SET ismain = 1, status = 0 
+			, customer_lending_id = '$customer_lending_id'
+			, product_type_id='$product_type_id'
+			, product_id='$lendto_product_id'
+			, amount = '" . (float)$amount . "'
+			, quantity='$lendto_quantity', subquantity=$lendto_subquantity, customer_id = '" . (int)$lendto_customer_id . "', date_added = NOW()");
 		// $count = 0;
 		// foreach ($query->rows as $row) {
 		// 	if ($count > $lendto_subquantity) continue;
@@ -673,7 +781,7 @@ class ModelSaleCustomer extends Model {
 	}
 
 	// minus transaction
-	public function addTransaction2($customer_id, $product_id, $subquantity, $customer_lending_id = 0, $lender_id = 0, $status = 0) {
+	public function addTransaction2($customer_id, $product_id, $subquantity, $customer_lending_id = 0, $lender_id = 0, $status = 0, $amount = 0) {
 		
 		if ($product_id <= 0) return false;
 		
@@ -693,21 +801,34 @@ class ModelSaleCustomer extends Model {
 
 		$query = $this->db->query("SELECT * FROM oc_product p LEFT JOIN oc_product_description pd ON p.product_id = pd.product_id LEFT JOIN oc_unit_class_description ucd ON ucd.unit_class_id = p.unit_class_id AND pd.language_id = ucd.language_id WHERE p.product_id = '$product_id' AND ucd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
 
+		$product_type_id = $query->row['product_type_id'];
 		$unit_quantity = $query->row['unit_quantity'];
-
 		$unit_class_id = $query->row['unit_class_id'];
+		$bonus_percent_doctor = $query->row['bonus_percent_doctor'];
+		$bonus_percent_consultant = $query->row['bonus_percent_consultant'];
+		$bonus_percent_outsource = $query->row['bonus_percent_outsource'];
+
+
+		if ($product_type_id != 2) return false;
 
 		$quantity = (float)$subquantity / (float)$unit_quantity;
 
-		$amount = 0;
-
 		$this->db->query("INSERT INTO " . DB_PREFIX . "customer_transaction SET 
+			bonus_percent_doctor = '" . (int)$bonus_percent_doctor . "', 
+			bonus_percent_consultant = '" . (int)$bonus_percent_consultant . "', 
+			bonus_percent_outsource = '" . (int)$bonus_percent_outsource . "', 
 			customer_id = '" . (int)$customer_id . "', 
+			product_type_id = '" . (int)$product_type_id . "', 
 			status = '" . (int)$status . "', 
 			customer_lending_id = '" . (int)$customer_lending_id . "', 
 			lender_id = '" . (int)$lender_id . "', 
 			product_id = '" . (int)$product_id . "', 
-			subquantity = '" . -(int)$subquantity . "', order_id = '" . (int)$order_id . "', quantity = '" . -(float)$quantity . "', unit_class_id = '" . (int)$unit_class_id . "', amount = '" . (float)$amount . "', type = '2', date_added = NOW()");
+			subquantity = '" . -(int)$subquantity . "'
+			, order_id = '" . (int)$order_id . "'
+			, quantity = '" . -(float)$quantity . "'
+			, unit_class_id = '" . (int)$unit_class_id . "'
+			, amount = '" . (float)$amount . "'
+			, date_added = NOW()");
 
 		$customer_transaction_id = $this->db->getLastId();
 
@@ -772,7 +893,8 @@ class ModelSaleCustomer extends Model {
 
 
 	// '2014-10-03 10:47'
-	public function addTransaction($customer_id, $description = '', $amount = '', $order_id = 0) {
+	// '2014-10-08 09:14'only add new transaction
+	public function addTransaction($customer_id, $description = '', $orderamount = '', $order_id = 0) {
 			
 		// '2014-09-09 11:29'
 		$customer_info = $this->getCustomer($customer_id);
@@ -793,37 +915,82 @@ class ModelSaleCustomer extends Model {
 				$product = $this->model_catalog_product->getProduct($product_id);
 
 				$product_type_id = $product['product_type_id'];
-
 				$quantity = $product_info['quantity'];
-
+				$bonus_percent_doctor = $product['bonus_percent_doctor'];
+				$bonus_percent_consultant = $product['bonus_percent_consultant'];
+				$bonus_percent_outsource = $product['bonus_percent_outsource'];
 				$unit_class_id = $product_info['unit_class_id'];
-
 				$subquantity = $product_info['subquantity'] * $quantity;
-
 				$price = $product_info['price'];
-
 				$amount = $price * $quantity; 
 
-				$this->db->query("INSERT INTO " . DB_PREFIX . "customer_transaction SET quantity = '" . (int)$quantity . "', customer_id = '" . (int)$customer_id . "'
+				// $this->load->out($amount, false);
+
+				$this->db->query("INSERT INTO " . DB_PREFIX . "customer_transaction SET 
+					quantity = '" . (int)$quantity . "', customer_id = '" . (int)$customer_id . "'
 					, product_id = '" . (int)$product_id . "'
 					, product_type_id = '" . (int)$product_type_id . "'
-					, subquantity = '" . (int)$subquantity . "', order_id = '" . (int)$order_id . "', unit_class_id = '" . (int)$unit_class_id . "', amount = '" . (float)$amount . "',ismain=1, date_added = NOW(), date_modified= NOW()");
+					, subquantity = '" . (int)$subquantity . "'
+					, order_id = '" . (int)$order_id . "'
+					, unit_class_id = '" . (int)$unit_class_id . "'
+					, amount = '" . (float)$amount . "'
+					,ismain=1
+					, date_added = NOW(), date_modified= NOW()");
 
 				// add treatment appointments
 				if ($product_type_id == 2) {
 
 					$temp = 1 / $product_info['subquantity']; 
+					$eachamount = $amount / $subquantity;
+
 					for ($i = 0; $i < $subquantity; $i++) {
 						$this->db->query("INSERT INTO " . DB_PREFIX . "customer_transaction SET 
 							status = -1, 
+							amount = '" . - (float)$eachamount . "', 
+							bonus_percent_outsource = '" .  (int)$bonus_percent_outsource . "', 
+							bonus_percent_consultant = '" .  (int)$bonus_percent_consultant . "', 
+							bonus_percent_doctor = '" .  (int)$bonus_percent_doctor . "', 
+							bonus_doctor = '" .  (int)$bonus_percent_doctor * (float)($eachamount/100) . "', 
+							bonus_consultant = '" .  (int)$bonus_percent_consultant  * (float)($eachamount/100) . "', 
+							bonus_outsource = '" .  (int)$bonus_percent_outsource  * (float)($eachamount/100) . "', 
+							
 							quantity = '" . -$temp . "'
 							,product_total_which = '" . $subquantity . "'
 							,product_which = '" . ($i + 1) . "'
 							,customer_id = '" . (int)$customer_id . "'
 							,product_id = '" . (int)$product_id . "'
 						 , product_type_id = '" . (int)$product_type_id . "'
-						 , subquantity = '" . -1 . "',  order_id = '" . (int)$order_id . "', unit_class_id = '" . (int)$unit_class_id . "', date_modified = NOW(), date_added = NOW()");						
+						 , subquantity = '" . -1 . "',  order_id = '" . (int)$order_id . "'
+						 , unit_class_id = '" . (int)$unit_class_id . "'
+						 , date_modified = NOW(), date_added = NOW()");						
 					}
+				} else {
+					//use up
+
+					$this->load->out($amount, false);
+						$this->db->query("INSERT INTO " . DB_PREFIX . "customer_transaction SET 
+							status = 2, 
+							amount = '" . - (float)$amount . "', 
+							bonus_percent_outsource = '" .  (int)$bonus_percent_outsource . "', 
+							bonus_percent_consultant = '" .  (int)$bonus_percent_consultant . "', 
+							bonus_percent_doctor = '" .  (int)$bonus_percent_doctor . "', 
+							bonus_doctor = '" .  (int)$bonus_percent_doctor * (float)($amount/100) . "', 
+							bonus_consultant = '" .  (int)$bonus_percent_consultant  * (float)($amount/100) . "', 
+							bonus_outsource = '" .  (int)$bonus_percent_outsource  * (float)($amount/100) . "', 
+							
+							quantity = '" . -(int)$quantity . "'
+							, subquantity = '" . -(int)$subquantity . "'
+							,product_total_which = '" . $subquantity . "'
+							,customer_id = '" . (int)$customer_id . "'
+							,product_id = '" . (int)$product_id . "'
+						 , product_type_id = '" . (int)$product_type_id . "'
+						 ,  order_id = '" . (int)$order_id . "'
+						 , unit_class_id = '" . (int)$unit_class_id . "'
+						 , date_modified = NOW(), date_added = NOW()");		
+
+						 // $this->load->out($amount, false);				
+					
+
 				}
 
 			}
@@ -922,21 +1089,30 @@ class ModelSaleCustomer extends Model {
 	public function edittransaction($customer_transaction_id, $data) {
 
 		// update message
-		$sql  = "UPDATE oc_customer_transaction SET date_modified = NOW()";
-
-		$sql .= (isset($data['comment']) ? " , comment = '" . $data['comment'] . "'" : '');
-
-		$sql .= " WHERE customer_transaction_id = '" . (int)$customer_transaction_id . "'";
-
+		$sql  = "UPDATE oc_customer_transaction SET date_modified = NOW()
+		, comment = '" . $this->db->escape($data['comment']) . "' WHERE customer_transaction_id = '" . (int)$customer_transaction_id . "'";
 		$this->db->query($sql);
 
 		$affected1 = $this->db->countAffected();
 
+		// $query = $this->db->query("SELECT * FROM oc_customer_transaction WHERE customer_transaction_id = '$customer_transaction_id'");
+		// if(!$query->num_rows) return false;
+		// if($query->row['status'] == 10) return false;
+		// if($query->row['status'] == 2) return false;
+
 		// update status
 		$sql  = "UPDATE oc_customer_transaction SET date_modified = NOW()";
-
+		
 		$sql .= (isset($data['status']) && $data['status'] != 'x' ? " , status = '" . $data['status'] . "'" : '');
 
+		if (isset($data['status']) && $data['status'] == 2) {
+			$sql .= (isset($data['doctor_id']) ? " , doctor_id = '" . $data['doctor_id'] . "'" : '');
+			$sql .= (isset($data['consultant_id']) ? " , consultant_id = '" . $data['consultant_id'] . "'" : '');
+			$sql .= (isset($data['outsource_id']) ? " , outsource_id = '" . $data['outsource_id'] . "'" : '');
+			$sql .= (isset($data['beauty_id']) ? " , beauty_id = '" . $data['beauty_id'] . "'" : '');
+			
+		}
+	
 		$sql .= " WHERE customer_transaction_id = '" . (int)$customer_transaction_id . "' AND quantity < 0";
 
 		$this->db->query($sql);
@@ -1001,6 +1177,12 @@ class ModelSaleCustomer extends Model {
 		return $query->rows;
 	}
 
+	public function getTransaction($customer_transaction_id) {
+		
+		$query = $this->db->query("SELECT * FROM oc_customer_transaction WHERE customer_transaction_id = '$customer_transaction_id'");
+
+		return $query->row;
+	}
 
 	// '2014-09-29 22:00'
 	public function getTransactions($data, $start = 0, $limit = 10) {
@@ -1018,6 +1200,10 @@ class ModelSaleCustomer extends Model {
 		if (isset($data['filter_customer_name'])) {
 			$sql .= " AND c.fullname LIKE '%" . $this->db->escape($data['filter_customer_name']) . "%'";
 		}	
+
+		if (isset($data['filter_ismain'])) {
+			$sql .= " AND ct.ismain = '" . (int)$data['filter_ismain'] . "' ";
+		}
 
 		if (isset($data['filter_product_type_id'])) {
 			$sql .= " AND ct.product_type_id = '" . (int)$data['filter_product_type_id'] . "' ";
@@ -1065,6 +1251,10 @@ class ModelSaleCustomer extends Model {
 
 		if (isset($data['filter_product_type_id'])) {
 			$sql .= " AND ct.product_type_id = '" . (int)$data['filter_product_type_id'] . "' ";
+		}
+		
+		if (isset($data['filter_ismain'])) {
+			$sql .= " AND ct.ismain = '" . (int)$data['filter_ismain'] . "' ";
 		}
 
 		if (isset($data['filter_ssn'])) {
@@ -1191,30 +1381,59 @@ class ModelSaleCustomer extends Model {
 	// '2014-10-03 10:46'
 	public function getCustomerImages($data) {
 
-		$sql = "SELECT * FROM oc_customer_image WHERE 1=1  ";
+		$sql = "SELECT * FROM oc_customer_image ci WHERE 1=1  ";
 
 		if (isset($data['customer_id'])) {
-			$sql .= " AND customer_id = '" . (int)$data['customer_id'] . "'";
+			$sql .= " AND ci.customer_id = '" . (int)$data['customer_id'] . "'";
+		}
+
+		if (isset($data['product_id'])) {
+			$sql .= " AND ci.product_id = '" . (int)$data['product_id'] . "'";
 		}
 
 		if (isset($data['filter_customer_transaction_id'])) {
-			$sql .= " AND customer_transaction_id = '" . (int)$data['filter_customer_transaction_id'] . "'";
+			$sql .= " AND ci.customer_transaction_id = '" . (int)$data['filter_customer_transaction_id'] . "'";
 		}
 
 		if (isset($data['filter_date_added_start'])) {
-			$sql .= " AND date_added > '" . $this->db->escape($data['filter_date_added_start']) . "'";
+			$sql .= " AND ci.date_added > '" . $this->db->escape($data['filter_date_added_start']) . "'";
 		}
 
 		if (isset($data['filter_date_added_end'])) {
-			$sql .= " AND date_added < '" . $this->db->escape($data['filter_date_added_end']) . "'";
+			$sql .= " AND ci.date_added < '" . $this->db->escape($data['filter_date_added_end']) . "'";
 		}
 
-		$sql .= " ORDER BY date_added DESC";
+		if (isset($data['filter_treatment'])) {
+			$sql .= " AND ci.date_added < '" . (int)$data['filter_treatment'] . "'";
+		}
+
+
+		$sql .= " ORDER BY ci.date_added DESC";
 
 		$query = $this->db->query($sql);
 
 		return $query->rows;
 	}
+
+	function updatehistory($user_id, $reminder_status_id, $customer_history_id, $reply){
+
+		$query = $this->db->query("SELECT * FROM oc_reminder_status WHERE reminder_status_id = '$reminder_status_id'");
+
+		$days = $query->row['additional_days'];
+
+		if ($reminder_status_id > 0) $sql = "UPDATE oc_customer_history SET reminder_date = DATE_ADD(NOW(), INTERVAL $days DAY), reminder_status = '$reminder_status_id', reminded_already=1, reply='$reply' WHERE customer_history_id = $customer_history_id AND user_id = $user_id";
+
+		else $sql = "UPDATE oc_customer_history SET reminder_date = DATE_ADD(NOW(), INTERVAL $days DAY), reminder_status = '$reminder_status_id', reply='$reply' WHERE customer_history_id = $customer_history_id AND user_id = $user_id";
+
+		// $this->load->out($sql);
+
+		$this->db->query($sql);
+
+		return $this->db->countAffected();
+	}
+
+
+
 
 }
 ?>

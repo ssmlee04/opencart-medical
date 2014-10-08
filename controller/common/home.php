@@ -148,10 +148,8 @@ class ControllerCommonHome extends Controller {
 			'filter_reminder_date_end' => date("Y-m-d")
 		);
 
-		// $this->data['messages'] = $this->model_user_user->getReminderMessages($data);
 		$this->load->model('sale/customer');
 		$this->data['messages'] =$this->model_sale_customer->getHistories($data);
-		// $this->data['messages'] = $this->model_user_user->getReminderMessages($data);
 
 		$this->load->model('sale/order');
 
@@ -184,8 +182,7 @@ class ControllerCommonHome extends Controller {
 		);
 
 		$this->data['user_group_id'] = 2; //$this->user->getUserGroupId();
-		$this->data['reminder_classes'] = $this->model_user_user->getReminderActions();
-
+		
 		// $this->load->test($this->data['reminder_classes']);
 		
 		$results = $this->model_sale_order->getOrders($data);

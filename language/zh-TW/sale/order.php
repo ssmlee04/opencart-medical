@@ -39,6 +39,7 @@ $_['text_address_2']          = '地址2';
 $_['text_postcode']           = '郵遞區號';
 $_['text_city']               = '城市';
 $_['text_zone']               = '省';
+$_['text_cannot_add_order']               = '增加訂單錯誤';
 $_['text_zone_code']          = '省的代碼';
 $_['text_country']            = '國家';
 // $_['text_download']           = '下載(Order Downloads)';
@@ -69,7 +70,9 @@ $_['text_payment_balance']                           = '尚餘欠款';
 // $_['text_credit_remove']      = '取消加入(Remove Credit)';
 // $_['text_credit_removed']     = '已取消加入客戶信用帳戶(Account Credit Removed)';
 $_['text_upload']             = '檔案已成功上傳';
-$_['text_error']             = '請選擇一個客戶';
+// $_['text_error']             = '請選擇一個客戶';
+$_['text_error']             = '訂單無法更新';
+$_['text_success_payment']             = '訂單金額更新成功';
 // $_['text_country_match']                      = 'Country Match<br /><span class="help">Whether country of IP address matches billing address country (mismatch = higher risk).</span>';
 // $_['text_country_code']                       = 'Country Code<br /><span class="help">Country Code of the IP address.</span>';
 // $_['text_high_risk_country']                  = 'High Risk Country<br /><span class="help">Whether IP address or billing address country is in Ghana, Nigeria, or Vietnam.</span>';
@@ -203,7 +206,9 @@ $_['error_action']            = '尚未完成';
 
 $_['error_payment_cash']            = '現金格式錯誤';
 $_['error_payment_visa']            = '信用卡付款格式錯誤';
+$_['error_no_stock']            = '沒有庫存';
 $_['error_payment_final']            = '尾款格式錯誤';
+$_['error_cannot_edit_la']            = '成功修改訂單付款，但是無法編輯訂單';
 
 
 ?>

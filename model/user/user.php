@@ -20,7 +20,14 @@ class ModelUserUser extends Model {
 
 		$store_permission = '[' . implode(',', $data['store']) . ']'; 
 
-		$this->db->query("UPDATE `" . DB_PREFIX . "user` SET store_permission = '" . $this->db->escape($store_permission) . "', username = '" . $this->db->escape($data['username']) . "', store_id = '" . (int)$this->db->escape($data['defaultstore']) . "', firstname = '" . $this->db->escape($data['firstname']) . "', lastname = '" . $this->db->escape($data['lastname']) . "', email = '" . $this->db->escape($data['email']) . "', user_group_id = '" . (int)$data['user_group_id'] . "', status = '" . (int)$data['status'] . "' WHERE user_id = '" . (int)$user_id . "'");
+		$this->db->query("UPDATE `" . DB_PREFIX . "user` SET 
+			store_permission = '" . $this->db->escape($store_permission) . "'
+			, username = '" . $this->db->escape($data['username']) . "'
+			, store_id = '" . (int)$this->db->escape($data['defaultstore']) . "'
+			, firstname = '" . $this->db->escape($data['firstname']) . "'
+			, lastname = '" . $this->db->escape($data['lastname']) . "'
+			, fullname = '" . $this->db->escape($data['lastname']) . $this->db->escape($data['firstname']) . "'
+			, email = '" . $this->db->escape($data['email']) . "', user_group_id = '" . (int)$data['user_group_id'] . "', status = '" . (int)$data['status'] . "' WHERE user_id = '" . (int)$user_id . "'");
 
 		if ($data['password']) {
 			$this->db->query("UPDATE `" . DB_PREFIX . "user` SET salt = '" . $this->db->escape($salt = substr(md5(uniqid(rand(), true)), 0, 9)) . "', password = '" . $this->db->escape(sha1($salt . sha1($salt . sha1($data['password'])))) . "' WHERE user_id = '" . (int)$user_id . "'");
@@ -60,14 +67,19 @@ class ModelUserUser extends Model {
 		return $query->row;
 	}
 
+	// '2014-10-07 14:21'
 	public function getUsers($data = array()) {
-		$sql = "SELECT * FROM `" . DB_PREFIX . "user`";
+		$sql = "SELECT * FROM `" . DB_PREFIX . "user` WHERE 1=1 ";
 
 		$sort_data = array(
 			'username',
 			'status',
 			'date_added'
 		);	
+
+		if (isset($data['user_group_id'])) {
+			$sql .= " AND user_group_id = " . (int)$data['user_group_id'];	
+		} 
 
 		if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
 			$sql .= " ORDER BY " . $data['sort'];	
@@ -118,6 +130,10 @@ class ModelUserUser extends Model {
 		if (isset($data['filter_treatment'])) {
 			$sql .= " AND if_treatment = '" . (int)$data['filter_treatment'] . "'";
 		} 
+
+		if (isset($data['filter_comment'])) {
+			$sql .= " AND comment LIKE '%" . $this->db->escape($data['filter_comment']) . "%'";
+		}
 
 		if (isset($data['filter_user_id'])) {
 			$sql .= " AND ch.user_id = '" . (int)$data['filter_user_id'] . "'"; 

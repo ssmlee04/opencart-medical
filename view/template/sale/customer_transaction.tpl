@@ -64,11 +64,11 @@
         <?php foreach ($transaction['treatment_images'] as $image) { ?>
         <div style='display:inline' class='treatmentimage'>
 
+          <!-- href="php echo $image['href']; ?>" -->
           <a class='group1' href="<?php echo $image['href']; ?>">
-          <img src="<?php echo $image['thumb']; ?>" alt="" id="treatmentthumb<?php echo $treatment_image_row; ?>" /></a>
+
+          <img src="<?php echo $image['thumb']; ?>" alt="<?php echo $image['href']; ?>" id="treatmentthumb<?php echo $treatment_image_row; ?>" /></a>
           <input type="hidden" name="image[<?php echo $treatment_image_row; ?>][image]" value="<?php echo $image['image']; ?>" id="treatmentimage<?php echo $treatment_image_row; ?>" />
-
-
 
                     <!-- <img src="<php echo $customer_image['thumb']; ?>" alt="" id="thumb<php echo $image_row; ?>" /> -->
                     <!-- <input type="hidden" name="customer_image[<php echo $image_row; ?>][image]" value="<php echo $customer_image['image']; ?>" id="image<php echo $image_row; ?>" /> -->
@@ -79,7 +79,65 @@
 
         <a class='addImage2'><?php echo $button_add_picture; ?></a>
       </td>
-      <td colspan='6' class="left"><input type='text' id='comment' style='width:400px' value="<?php echo $transaction['comment']; ?>"/>
+      <td colspan='6' class="left">
+
+        <?php if (!$transaction['ismain'] && $transaction['status'] != 10) { ?>
+          
+          beauty
+            <select name=''>
+            <option></option>
+            <?php foreach ($beautys as $result) { ?>
+            <?php if ($result['user_id'] == $transaction['beauty_id']) { ?>
+              <option value='<?php echo $result['user_id']; ?>' selected><?php echo $result['fullname']; ?></option>
+              <?php } else { ?>
+            <option value='<?php echo $result['user_id']; ?>'><?php echo $result['fullname']; ?></option>
+              <?php } ?>
+            <?php } ?>
+            </select>
+
+          doctor
+            <select name=''>
+            <option></option>
+            <?php foreach ($doctors as $result) { ?>
+            <?php if ($result['user_id'] == $transaction['doctor_id']) { ?>
+              <option value='<?php echo $result['user_id']; ?>' selected><?php echo $result['fullname']; ?></option>
+              <?php } else { ?>
+            <option value='<?php echo $result['user_id']; ?>'><?php echo $result['fullname']; ?></option>
+              <?php } ?>
+            <?php } ?>
+            </select>
+
+          consultant
+          <select name=''>
+            <option></option>
+            <?php foreach ($consultants as $result) { ?>
+
+            <?php if ($result['user_id'] == $transaction['consultant_id']) { ?>
+              <option value='<?php echo $result['user_id']; ?>' selected><?php echo $result['fullname']; ?></option>
+              <?php } else { ?>
+            <option value='<?php echo $result['user_id']; ?>'><?php echo $result['fullname']; ?></option>
+              <?php } ?>
+
+            <?php } ?>
+            </select>
+
+          outsource        
+            <select name=''>
+            <option></option>
+            <?php foreach ($outsource as $result) { ?>
+             
+               <?php if ($result['user_id'] == $transaction['outsource_id']) { ?>
+              <option value='<?php echo $result['user_id']; ?>' selected><?php echo $result['fullname']; ?></option>
+              <?php } else { ?>
+            <option value='<?php echo $result['user_id']; ?>'><?php echo $result['fullname']; ?></option>
+              <?php } ?>
+
+            <?php } ?>
+            </select>
+          <?php } ?>
+
+
+        <input type='text' id='comment' style='width:400px' value="<?php echo $transaction['comment']; ?>"/>
         <?php if ($transaction['type'] == 2) { ?>
         <img src="view/image/delete.png" title="<?php echo $button_remove; ?>" alt="<?php echo $button_remove; ?>" style="cursor: pointer;" onclick="$(this).parent().parent().remove(); deleteCustomerTransaction('<?php echo $transaction['customer_transaction_id']; ?>')" />
         <?php } ?>
@@ -122,7 +180,7 @@
   <thead>
     <tr>
       <td class="left"><?php echo $column_product; ?></td>
-      <td class="left"><?php echo $column_quantity; ?></td>
+      <!-- <td class="left"><php echo $column_quantity; ?></td> -->
       <td class="left"><?php echo $column_unit_quantity; ?></td>
       <td class="left"><?php echo $column_unit; ?></td>
     </tr>
@@ -132,7 +190,7 @@
     <?php foreach ($grouptransactions as $transaction) { ?>
     <tr>
       <td class="left"><?php echo $transaction['name']; ?></td>
-      <td class="left"><?php echo $transaction['quantity']; ?></td>
+      <!-- <td class="left"><hp echo $transaction['quantity']; ?></td> -->
       <td class="left"><?php echo $transaction['subquantity']; ?></td>
       <td class="left"><?php echo $transaction['unit']; ?></td>
     </tr>
@@ -154,13 +212,17 @@
 <link rel="stylesheet" href="view/javascript/jquery/colorbox/colorbox.css" />
 <script type="text/javascript" src="view/javascript/jquery/colorbox/jquery.colorbox-min.js"></script> 
 <script type="text/javascript">  
+$(".group1").on('mouseover', function(){
+   $(".group1").colorbox({rel:'group1'});
+});
 
-// $(document).ready(function(){
-  $(".group1").on('mouseover', function(){
-     $(".group1").colorbox({rel:'group1'});
-  });
-// });
+$(".group1").on('click', function(){
+   var href = $(this).children().first().attr('alt');
+   $('#image2').val($('#image1').val());
+   $('#image1').val(href);
+});
 
+// $('#button_display_image')
 
 function deleteCustomerTransaction(id) {
 
@@ -200,31 +262,31 @@ $('.change_status_button').on('click', function(e){
 
   var status = $(this).prev().val();
   var comment = $(this).prev().prev().val();
+  var beauty_id = $(this).prev().prev().prev().prev().prev().prev().val();
+  var doctor_id = $(this).prev().prev().prev().prev().prev().val();
+  var consultant_id = $(this).prev().prev().prev().prev().val();
+  var outsource_id = $(this).prev().prev().prev().val();
   var id = $(this).parent().parent().children().first().children().first().val();
 
-  console.log('status: ' + status, 'id: ' + id, ', comment: '+ comment);
+  $('.attention, .success, .warning').remove();
+  
   if (status)
   $.ajax({
       url: 'index.php?route=sale/customer/edittransaction&token=<?php echo $token; ?>',
       type: 'post',
-      data: 'customer_transaction_id=' + id + '&status=' + status + '&comment=' + comment,
+      data: 'customer_transaction_id=' + id + '&status=' + status + '&comment=' + comment+ '&doctor_id=' + doctor_id+ '&consultant_id=' + consultant_id + '&outsource_id=' + outsource_id  + '&beauty_id=' + beauty_id,
       dataType: 'json',
       beforeSend: function(){
       
       },
       success: function(json) {
-        console.log(json);
-        $('.attention, .success, .warning').remove();
-
+    
         if (json['error']) {
-
           $('#transaction').before('<div class="warning">' + json['error'] + '</div>');
         }
 
         if (json['success']) {
-
           $('#button-transaction').click();
-
           $('#transaction').before('<div class="success">' + json['success'] + '</div>');
         }
       },
@@ -241,8 +303,9 @@ var treatment_image_row = <?php echo $treatment_image_row; ?>;
 
 $('.addImage2').on('click', function(e){
   e.preventDefault();
-  console.log(treatment_image_row);
+  
   var ID = $(this).parent().children().first().val();
+
   image_upload_treat('treatmentimage<?php echo $treatment_image_row; ?>', 'treatmentthumb<?php echo $treatment_image_row; ?>', ID);
 });
 //--></script> 
@@ -261,7 +324,7 @@ function image_upload_treat(field, thumb, id) {
     title: '<?php echo $text_image_manager; ?>',
     close: function (event, ui) {
       // if (true) {
-        alert(field);
+
       if ($('#' + field).attr('value')) {
         
         $.ajax({
@@ -281,7 +344,7 @@ function image_upload_treat(field, thumb, id) {
               html += '<input type="hidden" value="' + imageimage + '" name="treatment_image[' + treatment_image_row + '][image]" id="treatmentimage' + treatment_image_row +'" /></div>';
               
               $('#hidden' + id).after(html);
-
+              
               if (text)
               $.ajax({
                 url: 'index.php?route=sale/customer/recordimage&token=<?php echo $token; ?>',

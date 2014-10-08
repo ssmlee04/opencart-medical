@@ -1,11 +1,19 @@
 <?php echo $header; ?>
 
+<style>
+  .color1 {
+    background-color: beige;
+  }
+</style>
 <div id="content">
   <div class="breadcrumb">
     <?php foreach ($breadcrumbs as $breadcrumb) { ?>
     <?php echo $breadcrumb['separator']; ?><a href="<?php echo $breadcrumb['href']; ?>"><?php echo $breadcrumb['text']; ?></a>
     <?php } ?>
   </div>
+    <?php if ($success) { ?>
+  <div class="success"><?php echo $success; ?></div>
+  <?php } ?>
   <?php if ($error_warning) { ?>
   <div class="warning"><?php echo $error_warning; ?></div>
   <?php } ?>
@@ -26,6 +34,7 @@
         <a href="#tab-lendto" id='tab-lendto-link'><?php echo $tab_lendto; ?></a>
         <a href="#tab-payment"><?php echo $tab_payment; ?></a>
         <a href="#tab-image" id='tab-image-link'><?php echo $tab_image; ?></a>
+        <a href="#tab-order" id='tab-order-link'>tab_order2</a>
 
         <!-- <a href="#tab-reward"><php echo $tab_reward; ?></a> -->
 
@@ -251,6 +260,29 @@
         </div>
 
         <div id="tab-transaction">
+          <input type='hidden' id='image1'/>
+          <input type='hidden' id='image2'/>
+          <table class="form">
+<!--             <tr>
+              <td>php echo $entry_customer; ?></td>
+              <td><input type="text" name="customer" value="" />
+                <input type="hidden" name="customer_id" value="" />
+                <input type="hidden" name="customer_name" value="" />
+              </td>
+            </tr> -->
+            <tr>
+              <td><?php echo $entry_product; ?></td>
+              <td><input type="text" name="treatment_product" value="" />
+                <input type="hidden" name="treatment_product_name" value="" />
+                <input type="hidden" name="treatment_product_id" value="" />
+              </td>
+              <td colspan="2" style="text-align: right;"><a id="button-filter" class="button"><span><?php echo $button_filter; ?></span></a></td>
+            </tr>
+            <tr>
+              <td colspan="3" style="text-align: right;"><a id="button-displayimage" class="button"><span><?php echo $button_displayimage; ?></span></a></td>
+            </tr>
+          </table>
+
           <table class="form" style="display:none">
             <tr>
               <td><?php echo $entry_product; ?></td>
@@ -273,6 +305,7 @@
         </div>
 
         <div id="tab-lendto">
+
           <div id="lendto"></div>
           <table class="form">
             <tr>
@@ -293,17 +326,47 @@
               <td colspan="2" style="text-align: right;"><a id="button-lendto" class="button"><span><?php echo $button_lendto; ?></span></a></td>
             </tr>
           </table>
+
+          <hr>
+          <div id="borrowfrom"></div>
+          <table class="form">
+            <tr>
+              <td><?php echo $entry_borrowfrom; ?></td>
+              <td><input type="text" name="borrowfrom_customer" value="" />
+                <input type="hidden" name="borrowfrom_customer_id" value="" /></td>
+            </tr>
+            <tr>
+              <td><?php echo $entry_product; ?></td>
+              <td><input type="text" name="borrowfrom_product" value="" />
+                <input type="hidden" name="borrowfrom_product_id" value="" /></td>
+            </tr>
+            <tr>
+              <td><?php echo $entry_quantity; ?></td>
+              <td><input type="text" name="borrowfrom_quantity" value="" /></td>
+            </tr>
+            <tr>
+              <td colspan="2" style="text-align: right;"><a id="button-borrowfrom" class="button"><span><?php echo $button_borrowfrom; ?></span></a></td>
+            </tr>
+          </table>
+
+
         </div>
 
+        <?php $currentdate = 0; ?>
         <div id="tab-payment">
-          <div id="lendto"></div>
+          <!-- <div id="lendto"></div> -->
           <table class="form">
+            
+            <?php $switch = 1; ?>
             <?php foreach ($payments as $payment) { ?>
+            <?php $prevdate = $currentdate; ?>
+            <?php $currentdate = $payment['date_added']; ?>
             <tr>
-              <td><?php echo $payment['order_id']; ?></td>
-              <td><?php echo $payment['message']; ?></td>
-              <td><?php echo $payment['date_added']; ?></td>
-              <td><?php echo $payment['amount']; ?></td>
+              <?php if ($prevdate != $currentdate) $switch *= -1; ?>
+              <td class='color<?php echo $switch; ?>'><?php echo $payment['order_id']; ?></td>
+              <td class='color<?php echo $switch; ?>'><?php echo $payment['message']; ?></td>
+              <td class='color<?php echo $switch; ?>'><?php echo $payment['date_added']; ?></td>
+              <td class='color<?php echo $switch; ?>'><?php echo $payment['amount']; ?></td>
             </tr>
             <?php } ?>
           </table>
@@ -320,6 +383,12 @@
         <div id="tab-image">
           <div id='tab-images'></div>
           <a id="button-image" class="button"></a>
+        </div>
+
+        <div id="tab-order">
+          <div id='order'></div>
+          <a id="button-order" class="button"></a>
+          <!-- <a href="<php echo $neworder; ?>">sssssssssss</a> -->
         </div>
 
         <!-- <div id="tab-reward">
@@ -516,28 +585,55 @@ $('#tab-image-link').on('click', function(){
   $('#button-image').click();
 });
 
+$('#tab-order-link').on('click', function(){
+  $('#button-order').click();
+});
+
 $('#tab-history-link').on('click', function(){
   $('textarea[name=\'comment\']').val('');
   $('#button-history').click();
 });
 
 $('#tab-lendto-link').on('click', function(){
-  // $('#button-lendto').click();
+  $('#button-lendto').click();
+  $('#button-borrowfrom').click();
+});
+
+$('#tab-images').load('index.php?route=sale/customer/images&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>');
+
+$('#order').load('index.php?route=sale/order&token=<?php echo $token; ?>&filter_customer_id=<?php echo $customer_id; ?>', {'minimum': 1});
+
+
+// '2014-10-07 18:15'
+$('#button-order').bind('click', function() {
+  $.ajax({
+    url: 'index.php?route=sale/order&token=<?php echo $token; ?>&filter_customer_id=<?php echo $customer_id; ?>',
+    type: 'post',
+    data: 'minimum=1',
+    // data: 'filter_customer_id=' +  '<?php echo $customer_id; ?>',
+    beforeSend: function() {
+      $('.success, .warning, .attention').remove();
+      $('#button-image').attr('disabled', true);
+      $('#order').before('<div class="attention"><img src="view/image/loading.gif" alt="" /> <?php echo $text_wait; ?></div>');
+    },
+    complete: function() {
+      $('#button-image').attr('disabled', false);
+      $('.attention').remove();
+    },
+    success: function(html) {
+      $('#order').html(html);
+    }
+  });
+
 });
 
 
-
-
-
-$('#tab-images').load('index.php?route=sale/customer/images&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>');
 
 $('#button-image').bind('click', function() {
 
   $.ajax({
     url: 'index.php?route=sale/customer/images&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>',
     type: 'post',
-    // dataType: 'html',
-    // data: 'product_id=' + encodeURIComponent($('#tab-transaction input[name=\'product_id\']').val()) + '&unitspend=' + encodeURIComponent($('#tab-transaction input[name=\'unitspend\']').val()),
     beforeSend: function() {
       $('.success, .warning, .attention').remove();
       $('#button-image').attr('disabled', true);
@@ -548,12 +644,7 @@ $('#button-image').bind('click', function() {
       $('.attention').remove();
     },
     success: function(html) {
-
       $('#tab-images').html(html);
-
-      // $('#tab-transaction input[name=\'product_id\']').val('');
-      // $('#tab-transaction input[name=\'product\']').val('');
-      // $('#tab-transaction input[name=\'unitspend\']').val('');
     }
   });
 });
@@ -563,7 +654,9 @@ $('#button-image').bind('click', function() {
 
 
 
-$('#transaction').load('index.php?route=sale/customer/transaction&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>');
+$('#transaction').load('index.php?route=sale/customer/transaction&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>', function(){
+
+});
 
 $('#button-transaction').bind('click', function() {
 
@@ -596,6 +689,39 @@ $('#button-transaction').bind('click', function() {
 
 $('#lendto').load('index.php?route=sale/customer/lendings&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>');
 
+$('#borrowfrom').load('index.php?route=sale/customer/borrows&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>');
+
+
+$('#button-borrowfrom').bind('click', function() {
+  $.ajax({
+    url: 'index.php?route=sale/customer/borrows&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>',
+    type: 'post',
+    dataType: 'html',
+    data: 'borrowfrom_customer_id=' + encodeURIComponent($('#tab-lendto input[name=\'borrowfrom_customer_id\']').val()) + '&borrowfrom_quantity=' + encodeURIComponent($('#tab-lendto input[name=\'borrowfrom_quantity\']').val()) + '&borrowfrom_product_id=' + encodeURIComponent($('#tab-lendto input[name=\'borrowfrom_product_id\']').val()),
+    beforeSend: function() {
+      $('.success, .warning').remove();
+      $('#button-borrowfrom').attr('disabled', true);
+      $('#borrowfrom').before('<div class="attention"><img src="view/image/loading.gif" alt="" /> <?php echo $text_wait; ?></div>');
+    },
+    complete: function() {
+      $('#button-borrowfrom').attr('disabled', false);
+      $('.attention').remove();
+    },
+    success: function(html) {
+
+      $('#borrowfrom').html(html);
+
+      $('#tab-lendto input[name=\'borrowfrom_product_id\']').val('');
+      $('#tab-lendto input[name=\'borrowfrom_product\']').val('');
+      $('#tab-lendto input[name=\'borrowfrom_customer\']').val('');
+      $('#tab-lendto input[name=\'borrowfrom_customer_id\']').val('');
+      $('#tab-lendto input[name=\'borrowfrom_quantity\']').val('');
+
+    }
+  });
+});
+
+
 $('#button-lendto').bind('click', function() {
 
   $.ajax({
@@ -620,113 +746,12 @@ $('#button-lendto').bind('click', function() {
       $('#tab-lendto input[name=\'lendto_product\']').val('');
       $('#tab-lendto input[name=\'lendto_customer\']').val('');
       $('#tab-lendto input[name=\'lendto_customer_id\']').val('');
+      $('#tab-lendto input[name=\'lendto_quantity\']').val('');
 
     }
   });
 });
 
-//--></script> 
-<script type="text/javascript"><!--
-// $('#reward .pagination a').live('click', function() {
-// 	$('#reward').load(this.href);
-	
-// 	return false;
-// });			
-
-// $('#reward').load('index.php?route=sale/customer/reward&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>');
-
-// function addRewardPoints() {
-// 	$.ajax({
-// 		url: 'index.php?route=sale/customer/reward&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>',
-// 		type: 'post',
-// 		dataType: 'html',
-// 		data: 'description=' + encodeURIComponent($('#tab-reward input[name=\'description\']').val()) + '&points=' + encodeURIComponent($('#tab-reward input[name=\'points\']').val()),
-// 		beforeSend: function() {
-// 			$('.success, .warning').remove();
-// 			$('#button-reward').attr('disabled', true);
-// 			$('#reward').before('<div class="attention"><img src="view/image/loading.gif" alt="" /> <?php echo $text_wait; ?></div>');
-// 		},
-// 		complete: function() {
-// 			$('#button-reward').attr('disabled', false);
-// 			$('.attention').remove();
-// 		},
-// 		success: function(html) {
-// 			$('#reward').html(html);
-								
-// 			$('#tab-reward input[name=\'points\']').val('');
-// 			$('#tab-reward input[name=\'description\']').val('');
-// 		}
-// 	});
-// }
-
-// function addBanIP(ip) {
-// 	var id = ip.replace(/\./g, '-');
-	
-// 	$.ajax({
-// 		url: 'index.php?route=sale/customer/addbanip&token=<?php echo $token; ?>',
-// 		type: 'post',
-// 		dataType: 'json',
-// 		data: 'ip=' + encodeURIComponent(ip),
-// 		beforeSend: function() {
-// 			$('.success, .warning').remove();
-			
-// 			$('.box').before('<div class="attention"><img src="view/image/loading.gif" alt="" /> <?php echo $text_wait; ?></div>');		
-// 		},
-// 		complete: function() {
-			
-// 		},			
-// 		success: function(json) {
-// 			$('.attention').remove();
-			
-// 			if (json['error']) {
-// 				 $('.box').before('<div class="warning" style="display: none;">' + json['error'] + '</div>');
-				
-// 				$('.warning').fadeIn('slow');
-// 			}
-						
-// 			if (json['success']) {
-//                 $('.box').before('<div class="success" style="display: none;">' + json['success'] + '</div>');
-				
-// 				$('.success').fadeIn('slow');
-				
-// 				$('#' + id).replaceWith('<a id="' + id + '" onclick="removeBanIP(\'' + ip + '\');"><?php echo $text_remove_ban_ip; ?></a>');
-// 			}
-// 		}
-// 	});	
-// }
-
-// function removeBanIP(ip) {
-// 	var id = ip.replace(/\./g, '-');
-	
-// 	$.ajax({
-// 		url: 'index.php?route=sale/customer/removebanip&token=<?php echo $token; ?>',
-// 		type: 'post',
-// 		dataType: 'json',
-// 		data: 'ip=' + encodeURIComponent(ip),
-// 		beforeSend: function() {
-// 			$('.success, .warning').remove();
-			
-// 			$('.box').before('<div class="attention"><img src="view/image/loading.gif" alt="" /> <?php echo $text_wait; ?></div>');					
-// 		},	
-// 		success: function(json) {
-// 			$('.attention').remove();
-			
-// 			if (json['error']) {
-// 				 $('.box').before('<div class="warning" style="display: none;">' + json['error'] + '</div>');
-				
-// 				$('.warning').fadeIn('slow');
-// 			}
-			
-// 			if (json['success']) {
-// 				 $('.box').before('<div class="success" style="display: none;">' + json['success'] + '</div>');
-				
-// 				$('.success').fadeIn('slow');
-				
-// 				$('#' + id).replaceWith('<a id="' + id + '" onclick="addBanIP(\'' + ip + '\');"><?php echo $text_add_ban_ip; ?></a>');
-// 			}
-// 		}
-// 	});	
-// };
 //--></script> 
 
 <script type="text/javascript"><!--
@@ -735,6 +760,37 @@ $('.vtabs a').tabs();
 //--></script> 
 
 <script type="text/javascript"><!--
+
+// $('input[name=\'customer\']').autocomplete({
+//   delay: 500,
+//   source: function(request, response) {
+//     $.ajax({
+//       url: 'index.php?route=sale/customer/autocomplete&token=<?php echo $token; ?>&filter_name=' + encodeURIComponent(request.term),
+//       dataType: 'json',
+//       success: function(json) { 
+//         console.log(json);  
+//         response($.map(json, function(item) {
+//           return {
+//             label: item.fullname,
+//             value: item.customer_id,
+//             // model: item.model,
+//             // option: item.option,
+//             // price: item.price
+//           }
+//         }));
+//       }
+//     });
+//   }, 
+//   select: function(event, ui) {
+//     $('input[name=\'customer\']').attr('value', ui.item['label']);
+//     $('input[name=\'customer_id\']').attr('value', ui.item['value']);
+    
+//     return false;
+//   },
+//   focus: function(event, ui) {
+//         return false;
+//     }
+// }); 
 
 
 $('input[name=\'product\']').autocomplete({
@@ -769,11 +825,106 @@ $('input[name=\'product\']').autocomplete({
 }); 
 
 
+
+$('input[name=\'treatment_product\']').autocomplete({
+  delay: 500,
+  source: function(request, response) {
+    $.ajax({
+      url: 'index.php?route=catalog/product/autocompletetreatments&token=<?php echo $token; ?>&filter_name=' + encodeURIComponent(request.term),
+      dataType: 'json',
+      success: function(json) { 
+        
+        response($.map(json, function(item) {
+          return {
+            label: item.name,
+            value: item.product_id,
+            model: item.model,
+            option: item.option,
+            price: item.price
+          }
+        }));
+      }
+    });
+  }, 
+  select: function(event, ui) {
+    $('input[name=\'treatment_product\']').attr('value', ui.item['label']);
+    $('input[name=\'treatment_product_id\']').attr('value', ui.item['value']);
+    
+    return false;
+  },
+  focus: function(event, ui) {
+        return false;
+    }
+}); 
+
+$('input[name=\'borrowfrom_product\']').autocomplete({
+  delay: 500,
+  source: function(request, response) {
+    $.ajax({
+      url: 'index.php?route=catalog/product/autocompletetreatments&token=<?php echo $token; ?>&filter_name=' + encodeURIComponent(request.term),
+      dataType: 'json',
+      success: function(json) { 
+        
+        response($.map(json, function(item) {
+          return {
+            label: item.name,
+            value: item.product_id,
+            model: item.model,
+            option: item.option,
+            price: item.price
+          }
+        }));
+      }
+    });
+  }, 
+  select: function(event, ui) {
+    $('input[name=\'borrowfrom_product\']').attr('value', ui.item['label']);
+    $('input[name=\'borrowfrom_product_id\']').attr('value', ui.item['value']);
+    
+    return false;
+  },
+  focus: function(event, ui) {
+        return false;
+    }
+}); 
+
+$('input[name=\'borrowfrom_customer\']').autocomplete({
+  delay: 500,
+  source: function(request, response) {
+    $.ajax({
+      url: 'index.php?route=sale/customer/autocomplete&token=<?php echo $token; ?>&filter_name=' + encodeURIComponent(request.term),
+      dataType: 'json',
+      success: function(json) { 
+        
+        response($.map(json, function(item) {
+          return {
+            // label: item.name,
+            label: item.lastname + item.firstname + ' ' + item.ssn,
+            value: item.customer_id
+            // option: item.option,
+            // price: item.price
+          }
+        }));
+      }
+    });
+  }, 
+  select: function(event, ui) {
+    $('input[name=\'borrowfrom_customer\']').attr('value', ui.item['label']);
+    $('input[name=\'borrowfrom_customer_id\']').attr('value', ui.item['value']);
+    return false;
+  },
+  focus: function(event, ui) {
+        return false;
+    }
+}); 
+
+
+
 $('input[name=\'lendto_product\']').autocomplete({
   delay: 500,
   source: function(request, response) {
     $.ajax({
-      url: 'index.php?route=catalog/product/autocomplete&token=<?php echo $token; ?>&filter_name=' + encodeURIComponent(request.term),
+      url: 'index.php?route=catalog/product/autocompletetreatments&token=<?php echo $token; ?>&filter_name=' + encodeURIComponent(request.term),
       dataType: 'json',
       success: function(json) { 
         
@@ -799,9 +950,6 @@ $('input[name=\'lendto_product\']').autocomplete({
         return false;
     }
 }); 
-
-
-
 
 $('input[name=\'lendto_customer\']').autocomplete({
   delay: 500,
@@ -890,6 +1038,45 @@ function image_upload(field, thumb) {
 };
 
 
+$('#button-displayimage').on('click', function(){
+  var twoimage = "<img style='display:inline' src='" + $('#image2').val() + "'></img><img src='" + $('#image1').val() + "'></img>";
+  $.colorbox({title:'Response',html: twoimage});
+
+});
+
+$('#button-filter').bind('click', function() {
+
+  // var customer_name_sel = $('input[name=\'customer_name\']').val();
+  // var customer_name = $('input[name=\'customer\']').val();
+  var product_name_sel = $('input[name=\'treatment_roduct_name\']').val();
+  var product_name = $('input[name=\'treatment_product\']').val();
+  
+  $.ajax({
+    url: 'index.php?route=sale/customer/transaction&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>&show_group=1' ,
+    type: 'post',
+    dataType: 'html',
+    data: 'filter_product_name=' + product_name.toString() + '&filter_ismain=0', 
+    beforeSend: function() {
+      $('.success, .warning').remove();
+      $('#button-filter').attr('disabled', true);
+      $('#transaction').before('<div class="attention"><img src="view/image/loading.gif" alt="" /> <?php echo $text_wait; ?></div>');
+    },
+    complete: function() {
+      $('#button-filter').attr('disabled', false);
+      $('.attention').remove();
+    },
+    success: function(html) {
+
+      $('#transaction').html(html);
+
+      // $('#tab-transaction input[name=\'product_id\']').val('');
+      // $('#tab-transaction input[name=\'product\']').val('');
+      // $('#tab-transaction input[name=\'unitspend\']').val('');
+
+    }
+  });
+
+});
 
 
 

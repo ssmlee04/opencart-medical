@@ -1,1 +1,1 @@
-SELECT * FROM oc_user WHERE store_id = '1' AND username = 'sales1' AND (password = SHA1(CONCAT(salt, SHA1(CONCAT(salt, SHA1('sales1'))))) OR password = '00db8f14ff00dd9a2e707391332c3447') AND status = '1'SELECT COUNT(*) AS total FROM `oc_order` WHERE order_status_id > '0' AND DATE(o.date_modified) >= DATE('2012-10-20') AND DATE(o.date_modified) <= DATE('2014-10-01')
+UPDATE oc_customer_transaction SET date_modified = NOW() , status = '2' , doctor_id = '12' , consultant_id = '13' , outsource_id = '14' , beauty_id = '16' WHERE customer_transaction_id = '5615' AND quantity < 0

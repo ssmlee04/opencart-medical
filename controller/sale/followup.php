@@ -54,7 +54,8 @@ class ControllerSaleFollowup extends Controller {
 			$filter_customer = null;
 		}
 
-
+		$url = '';
+		
 		if (isset($this->request->get['filter_date_start'])) {
 			$url .= '&filter_date_start=' . urlencode(html_entity_decode($this->request->get['filter_date_start'], ENT_QUOTES, 'UTF-8'));
 		}
@@ -150,9 +151,9 @@ class ControllerSaleFollowup extends Controller {
 		$this->data['token'] = $this->session->data['token'];
 		$this->load->model('user/user');
 
-		$data = array(
-			'filter_treatment' => 1
-		);
+		$data = array('filter_treatment' => 1);
+		if (isset($this->request->get['filter_comment'])) $data['filter_comment'] = $this->request->get['filter_comment'];
+		if (isset($this->request->get['filter_treatment'])) $data['filter_product_id'] = $this->request->get['filter_treatment'];
 		
 		$this->data['messages'] = $this->model_user_user->getReminderMessages($data);
 

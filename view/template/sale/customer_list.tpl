@@ -14,7 +14,9 @@
   <div class="box">
     <div class="heading">
       <h1><img src="view/image/customer.png" alt="" /> <?php echo $heading_title; ?></h1>
-      <div class="buttons"><a onclick="$('form').attr('action', '<?php echo $approve; ?>'); $('form').submit();" class="button"><?php echo $button_approve; ?></a><a href="<?php echo $insert; ?>" class="button"><?php echo $button_insert; ?></a><a onclick="$('form').attr('action', '<?php echo $delete; ?>'); $('form').submit();" class="button"><?php echo $button_delete; ?></a></div>
+      <div class="buttons">
+        <!-- <a onclick="$('form').attr('action', '<php echo $approve; ?>'); $('form').submit();" class="button"><php echo $button_approve; ?></a> -->
+        <a href="<?php echo $insert; ?>" class="button"><?php echo $button_insert; ?></a><a onclick="$('form').attr('action', '<?php echo $delete; ?>'); $('form').submit();" class="button"><?php echo $button_delete; ?></a></div>
     </div>
     <div class="content">
 
@@ -28,7 +30,9 @@
           </thead>
           <tr>
             <td><?php echo $column_name; ?></td>
-            <td><input type="text" name="filter_name" value="<?php echo $filter_name; ?>" /></td></tr>
+            <td><input type="text" name="filter_name" value="<?php echo $filter_name; ?>" /></td>
+            <td><input type="hidden" name="filter_customer_id" value="<?php echo $filter_customer_id; ?>" /></td>
+          </tr>
           <tr>
             <td><?php echo $column_ssn; ?></td>
             <td><input type="text" name="filter_ssn" value="<?php echo $filter_ssn; ?>" /></td>
@@ -168,6 +172,58 @@
   </div>
 </div>
 <script type="text/javascript"><!--
+
+$.widget('custom.catcomplete', $.ui.autocomplete, {
+  _renderMenu: function(ul, items) {
+    var self = this, currentCategory = '';
+    
+    $.each(items, function(index, item) {
+      if (item['category'] != currentCategory) {
+        ul.append('<li class="ui-autocomplete-category">' + item['category'] + '</li>');
+        
+        currentCategory = item['category'];
+      }
+      
+      self._renderItem(ul, item);
+    });
+  }
+});
+
+
+$('input[name=\'filter_name\']').catcomplete({
+  delay: 500,
+  source: function(request, response) {
+    $.ajax({
+      url: 'index.php?route=sale/customer/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request.term),
+      dataType: 'json',
+      success: function(json) { 
+        response($.map(json, function(item) {
+          return {
+            label: item['fullname'] + ' ' + item['dob'],
+            fullname: item['fullname'],
+            value: item['customer_id']
+          }
+        }));
+      }
+    });
+  }, 
+  select: function(event, ui) { 
+    $('input[name=\'filter_name\']').attr('value', ui.item['fullname']);
+    $('input[name=\'filter_customer_id\']').attr('value', ui.item['value']);
+    return false;
+  },
+  focus: function(event, ui) {
+    return false;
+  }
+});
+
+$('input[name=\'filter_name\']').on('keyup', function(e){
+  if (e.keyCode == 8) {
+    $('input[name=\'filter_customer_id\']').attr('value', '');
+  }
+});
+
+
 function filter() {
 	url = 'index.php?route=sale/customer&token=<?php echo $token; ?>';
 	
@@ -177,48 +233,53 @@ function filter() {
 		url += '&filter_name=' + encodeURIComponent(filter_name);
 	}
 	
+  var filter_customer_id = $('input[name=\'filter_customer_id\']').attr('value');
+  
+  if (filter_customer_id) {
+    url += '&filter_customer_id=' + encodeURIComponent(filter_customer_id);
+  }
+
   var filter_ssn = $('input[name=\'filter_ssn\']').attr('value');
   
   if (filter_ssn) {
     url += '&filter_ssn=' + encodeURIComponent(filter_ssn);
   }
-  
 
-	var filter_email = $('input[name=\'filter_email\']').attr('value');
+	// var filter_email = $('input[name=\'filter_email\']').attr('value');
 	
-	if (filter_email) {
-		url += '&filter_email=' + encodeURIComponent(filter_email);
-	}
+	// if (filter_email) {
+	// 	url += '&filter_email=' + encodeURIComponent(filter_email);
+	// }
 	
-	var filter_customer_group_id = $('select[name=\'filter_customer_group_id\']').attr('value');
+	// var filter_customer_group_id = $('select[name=\'filter_customer_group_id\']').attr('value');
 	
-	if (filter_customer_group_id != '*') {
-		url += '&filter_customer_group_id=' + encodeURIComponent(filter_customer_group_id);
-	}	
+	// if (filter_customer_group_id != '*') {
+	// 	url += '&filter_customer_group_id=' + encodeURIComponent(filter_customer_group_id);
+	// }	
 	
-	var filter_status = $('select[name=\'filter_status\']').attr('value');
+	// var filter_status = $('select[name=\'filter_status\']').attr('value');
 	
-	if (filter_status != '*') {
-		url += '&filter_status=' + encodeURIComponent(filter_status); 
-	}	
+	// if (filter_status != '*') {
+	// 	url += '&filter_status=' + encodeURIComponent(filter_status); 
+	// }	
 	
-	var filter_approved = $('select[name=\'filter_approved\']').attr('value');
+	// var filter_approved = $('select[name=\'filter_approved\']').attr('value');
 	
-	if (filter_approved != '*') {
-		url += '&filter_approved=' + encodeURIComponent(filter_approved);
-	}	
+	// if (filter_approved != '*') {
+	// 	url += '&filter_approved=' + encodeURIComponent(filter_approved);
+	// }	
 	
-	var filter_ip = $('input[name=\'filter_ip\']').attr('value');
+	// var filter_ip = $('input[name=\'filter_ip\']').attr('value');
 	
-	if (filter_ip) {
-		url += '&filter_ip=' + encodeURIComponent(filter_ip);
-	}
+	// if (filter_ip) {
+	// 	url += '&filter_ip=' + encodeURIComponent(filter_ip);
+	// }
 		
-	var filter_date_added = $('input[name=\'filter_date_added\']').attr('value');
+	// var filter_date_added = $('input[name=\'filter_date_added\']').attr('value');
 	
-	if (filter_date_added) {
-		url += '&filter_date_added=' + encodeURIComponent(filter_date_added);
-	}
+	// if (filter_date_added) {
+	// 	url += '&filter_date_added=' + encodeURIComponent(filter_date_added);
+	// }
 	
 	location = url;
 }
