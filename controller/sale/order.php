@@ -1283,9 +1283,9 @@ class ControllerSaleOrder extends Controller {
 			$this->error['payment_final'] = $this->language->get('error_payment_final');
 		}
 
-		if ((int)$this->request->post['payment_visa'] + (int)$this->request->post['payment_cash'] + (int)$this->request->post['payment_final'] <=0) {
-			$this->error['payment_cash'] = $this->language->get('error_payment_cash');
-		}
+		// if ((int)$this->request->post['payment_visa'] + (int)$this->request->post['payment_cash'] + (int)$this->request->post['payment_final'] <=0) {
+		// 	$this->error['payment_cash'] = $this->language->get('error_payment_cash');
+		// }
 
 		// if ((utf8_strlen($this->request->post['email']) > 96) || (!preg_match('/^[^\@]+@.*\.[a-z]{2,6}$/i', $this->request->post['email']))) {
 		// 	$this->error['email'] = $this->language->get('error_email');

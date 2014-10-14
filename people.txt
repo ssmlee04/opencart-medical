@@ -1,1 +1,1 @@
-INSERT INTO oc_customer_event SET date_added = NOW(), customer_id = 3, title='ccccc', date_end='2014-10-13 02:30:00', date_start='2014-10-13 00:30:00'
+123

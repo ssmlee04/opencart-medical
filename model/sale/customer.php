@@ -1012,7 +1012,8 @@ class ModelSaleCustomer extends Model {
 				} else {
 					//use up
 
-					$this->load->out($amount, false);
+					
+
 						$this->db->query("INSERT INTO " . DB_PREFIX . "customer_transaction SET 
 							status = 2, 
 							amount = '" . - (float)$amount . "', 
@@ -1033,7 +1034,9 @@ class ModelSaleCustomer extends Model {
 						 , unit_class_id = '" . (int)$unit_class_id . "'
 						 , date_modified = NOW(), date_added = NOW()");		
 
-						 // $this->load->out($amount, false);				
+						 $customer_transaction_id = $this->db->getLastId();	
+
+						 $this->remindProduct($customer_transaction_id);
 					
 
 				}

@@ -27,13 +27,18 @@ $_['text_transaction_finished'] = '完成';
 $_['text_transaction_appointed'] = '預約中';
 $_['text_error']         = '錯誤';
 $_['text_borrowed']         = '轉讓得到';
-$_['text_remaining_balance']         = '賬戶餘額';
+$_['text_remaining_balance']         = '賬戶餘額(負數代表有欠款)';
 $_['text_lendedout']         = '轉讓';
 $_['text_cannot_use_inventory']         = '增加交易錯誤';
 $_['text_record_event_success']         = '成功新增預約作業';
 $_['text_record_event_error']         = '無法新增預約作業';
 $_['text_delete_event_success']         = '成功刪除預約作業';
 $_['text_delete_event_error']         = '無法刪除預約作業';
+$_['text_total_expense']         = '無法刪除預約作業';
+$_['text_delete_event_error']         = '無法刪除預約作業';
+$_['text_total_expense']         = '總消費';
+$_['text_total_visa']         = '總信用卡付款';
+$_['text_total_cash']         = '總現金付款';
 
 
 

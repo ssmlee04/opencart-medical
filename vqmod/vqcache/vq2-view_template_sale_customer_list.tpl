@@ -36,8 +36,8 @@
           </thead>
           <tr>
             <td><?php echo $column_name; ?></td>
-            <td><input type="text" name="filter_name" value="<?php echo $filter_name; ?>" /></td>
-            <td><input type="hidden" name="filter_customer_id" value="<?php echo $filter_customer_id; ?>" /></td>
+            <td><input type="text" name="filter_name" value="<?php echo $filter_name; ?>" />
+            <input type="hidden" name="filter_customer_id" value="<?php echo $filter_customer_id; ?>" /></td>
           </tr>
           <tr>
             <td><?php echo $column_ssn; ?></td>
@@ -143,7 +143,7 @@
                 <?php } else { ?>
                 <input type="checkbox" name="selected[]" value="<?php echo $customer['customer_id']; ?>" />
                 <?php } ?></td>
-              <td class="left"><?php echo $customer['name']; ?></td>
+              <td class="left"><?php echo $customer['fullname']; ?></td>
               <td class="left"><?php echo $customer['email']; ?></td>
               <td class="left"><?php echo $customer['customer_group']; ?></td>
               <td class="left"><?php echo $customer['status']; ?></td>
@@ -184,10 +184,10 @@ $.widget('custom.catcomplete', $.ui.autocomplete, {
     var self = this, currentCategory = '';
     
     $.each(items, function(index, item) {
-      if (item['category'] != currentCategory) {
-        ul.append('<li class="ui-autocomplete-category">' + item['category'] + '</li>');
+      if (item['fullname'] + ' ' + item['dob'] != currentCategory) {
+        ul.append('<li class="ui-autocomplete-category"></li>');
         
-        currentCategory = item['category'];
+        currentCategory = item['fullname'] + ' ' + item['dob'];
       }
       
       self._renderItem(ul, item);

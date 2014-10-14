@@ -4,6 +4,9 @@
   .color1 {
     background-color: beige;
   }
+  .payment {
+    display: none;
+  }
 </style>
 <div id="content">
   <div class="breadcrumb">
@@ -372,12 +375,36 @@
           </table>
 
           <table class="form">
+
+            <tr onclick="$('.payment').toggle()">
+              <td><?php echo $text_total_payment; ?></td>
+              <td><?php echo $total_payment; ?></td>
+            </tr>
+
+            <tr class='payment'>
+              <td><?php echo $text_total_cash; ?></td>
+              <td><?php echo $total_cash; ?></td>
+            </tr>
+
+            <tr class='payment'>
+              <td><?php echo $text_total_visa; ?></td>
+              <td><?php echo $total_visa; ?></td>
+            </tr>
+
+            
+
+
             <tr>
+              <td><?php echo $text_total_expense; ?></td>
+              <td><?php echo -$total_expense; ?></td>
+            </tr>
+
+
+            <tr class='color1'>
               <td><?php echo $text_remaining_balance; ?></td>
               <td><?php echo -$balance; ?></td>
             </tr>
           </table>
-
         </div>
 
         <div id="tab-image">

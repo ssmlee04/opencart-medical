@@ -478,7 +478,7 @@ class ControllerSaleCustomer extends Controller {
 
 			$this->data['customers'][] = array(
 				'customer_id'    => $result['customer_id'],
-				'name'           => $result['name'],
+				'fullname'           => $result['fullname'],
 				'email'          => $result['email'],
 				'customer_group' => $result['customer_group'],
 				'status'         => ($result['status'] ? $this->language->get('text_enabled') : $this->language->get('text_disabled')),
@@ -688,7 +688,11 @@ class ControllerSaleCustomer extends Controller {
 		$this->load->model('sale/customer');
 
 		$this->data['heading_title'] = $this->language->get('heading_title');
+		$this->data['text_total_visa'] = $this->language->get('text_total_visa');
+		$this->data['text_total_cash'] = $this->language->get('text_total_cash');
+		$this->data['text_total_payment'] = $this->language->get('text_total_payment');
 		$this->data['text_remaining_balance'] = $this->language->get('text_remaining_balance');
+		$this->data['text_total_expense'] = $this->language->get('text_total_expense');
 		$this->data['text_browse'] = $this->language->get('text_browse');
 		$this->data['text_clear'] = $this->language->get('text_clear');
 		$this->data['text_enabled'] = $this->language->get('text_enabled');
@@ -1218,6 +1222,10 @@ class ControllerSaleCustomer extends Controller {
 
 		$payments = array();
 		$balance = 0;
+		$total_cash = 0;
+		$total_payment = 0;
+		$total_visa = 0;
+		$total_expense = 0;
 		if (isset($this->request->get['customer_id'])) {
 
 			$this->load->model('sale/order');
@@ -1227,37 +1235,45 @@ class ControllerSaleCustomer extends Controller {
 			
 			foreach ($orders as $order) {
 
-				if ((float)$order['total'] >= 0)
-				$payments[] = array(
-					'order_id' => $order['order_id'],
-					'message' => $this->language->get('text_order_total'),
-					'date_added' => $order['date_added'],
-					'amount' => -$order['total']
-				);
+				if ((float)$order['total'] >= 0) {
+					$payments[] = array(
+						'order_id' => $order['order_id'],
+						'message' => $this->language->get('text_order_total'),
+						'date_added' => $order['date_added'],
+						'amount' => -$order['total']
+					);
+					$total_expense += (float)$order['total'];
+				}
 
-				if ((float)$order['payment_final'] > 0)
-				$payments[] = array(
-					'order_id' => $order['order_id'],
-					'message' => $this->language->get('text_payment_final'),
-					'date_added' => $order['date_added'],
-					'amount' => $order['payment_final']
-				);
+				if ((float)$order['payment_final'] > 0) {
+					$payments[] = array(
+						'order_id' => $order['order_id'],
+						'message' => $this->language->get('text_payment_final'),
+						'date_added' => $order['date_added'],
+						'amount' => $order['payment_final']
+					);
+					$total_cash += (float)$order['payment_final'];
+				}
 
-				if ((float)$order['payment_cash'] > 0)
-				$payments[] = array(
-					'order_id' => $order['order_id'],
-					'message' => $this->language->get('text_payment_cash'),
-					'date_added' => $order['date_added'],
-					'amount' => $order['payment_cash']
-				);
+				if ((float)$order['payment_cash'] > 0) {
+					$payments[] = array(
+						'order_id' => $order['order_id'],
+						'message' => $this->language->get('text_payment_cash'),
+						'date_added' => $order['date_added'],
+						'amount' => $order['payment_cash']
+					);
+					$total_cash += (float)$order['payment_cash'];
+				}
 
-				if ((float)$order['payment_visa'] > 0)
-				$payments[] = array(
-					'order_id' => $order['order_id'],
-					'message' => $this->language->get('text_payment_visa'),
-					'date_added' => $order['date_added'],
-					'amount' => $order['payment_visa']
-				);
+				if ((float)$order['payment_visa'] > 0) {
+					$payments[] = array(
+						'order_id' => $order['order_id'],
+						'message' => $this->language->get('text_payment_visa'),
+						'date_added' => $order['date_added'],
+						'amount' => $order['payment_visa']
+					);
+					$total_visa += (float)$order['payment_cash'];
+				}
 
 				$balance += $order['payment_balance'];
 				
@@ -1265,6 +1281,10 @@ class ControllerSaleCustomer extends Controller {
 		}
 
 		$this->data['balance'] = $balance;
+		$this->data['total_expense'] = $total_expense;
+		$this->data['total_cash'] = $total_cash;
+		$this->data['total_visa'] = $total_visa;
+		$this->data['total_payment'] = $total_visa + $total_cash;
 		$this->data['payments'] = $payments;
 
 

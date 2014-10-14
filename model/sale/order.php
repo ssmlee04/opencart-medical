@@ -315,7 +315,7 @@ class ModelSaleOrder extends Model {
 
 
 
-public function editOrder($order_id, $data) {
+	public function editOrder($order_id, $data) {
 
 		$store_id = (isset($data['store_id']) ? $data['store_id'] : 0);
 		$payment_cash = (isset($data['payment_cash']) ? $data['payment_cash'] : 0);
@@ -419,6 +419,7 @@ public function editOrder($order_id, $data) {
 
 				// '2014-09-08 21:04'
 				$this->db->query("UPDATE " . DB_PREFIX . "product_to_store SET quantity = (quantity - " . (int)$order_product['quantity'] . ") WHERE product_id = '" . (int)$order_product['product_id'] . "' AND store_id = '$store_id'");
+
 			}
 		}
 
