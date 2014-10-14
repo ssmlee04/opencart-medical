@@ -21,7 +21,7 @@
 
 				<td class="right">
 
-					<input type='text' value='<?php echo $message['reply']; ?>'/>
+					<input type='text' value='<?php echo $message['reply']; ?>' size='100px'/>
 
 					<select id="reminder_class">
 						<option></option>
@@ -53,3 +53,42 @@
 		</tbody>
 	</table>
 </div>
+
+
+<script>
+
+$('.updatehistory').on('click', function(){ 
+		
+		var customer_history_id = $(this).attr('id');
+		var reply = $(this).prev().prev().val();
+		var reminder_status_id = $(this).prev().val();
+
+		$.ajax({
+		  url: 'index.php?route=sale/customer/messages&token=<?php echo $token; ?>',
+		  type: 'POST',
+		  dataType: 'text',
+		  data: 'reminder_status_id='+reminder_status_id+'&reply='+reply+'&customer_history_id='+ customer_history_id,
+		  complete: function(xhr, textStatus) {
+		    //called when complete
+
+		  },
+		  success: function(data, textStatus, xhr) {
+		    //called when successful
+		    $('#messages').html(data);
+
+		    $('.attention, .success, .warning').remove();
+	    
+			setTimeout(function(){
+				$('.box').before('<div class="success" style="display: none;"><?php echo $text_change_status_success; ?></div>');
+
+				$('.success').fadeIn('slow');
+			}, 500);
+
+		  },
+		  error: function(xhr, textStatus, errorThrown) {
+		    //called when there is an error
+		  }
+		});
+	});
+
+</script>

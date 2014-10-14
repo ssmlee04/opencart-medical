@@ -688,11 +688,7 @@ class ControllerSaleCustomer extends Controller {
 		$this->load->model('sale/customer');
 
 		$this->data['heading_title'] = $this->language->get('heading_title');
-		$this->data['text_total_visa'] = $this->language->get('text_total_visa');
-		$this->data['text_total_cash'] = $this->language->get('text_total_cash');
-		$this->data['text_total_payment'] = $this->language->get('text_total_payment');
-		$this->data['text_remaining_balance'] = $this->language->get('text_remaining_balance');
-		$this->data['text_total_expense'] = $this->language->get('text_total_expense');
+		
 		$this->data['text_browse'] = $this->language->get('text_browse');
 		$this->data['text_clear'] = $this->language->get('text_clear');
 		$this->data['text_enabled'] = $this->language->get('text_enabled');
@@ -765,9 +761,10 @@ class ControllerSaleCustomer extends Controller {
 		$this->data['button_remove'] = $this->language->get('button_remove');
 		$this->data['button_lendto'] = $this->language->get('button_lendto');
 		$this->data['button_borrowfrom'] = $this->language->get('button_borrowfrom');
-		$this->data['button_displayimage'] = $this->language->get('button_displayimage');
+		$this->data['button_display_2image'] = $this->language->get('button_display_2image');
 		$this->data['button_filter'] = $this->language->get('button_filter');
 
+		$this->data['tab_order'] = $this->language->get('tab_order');
 		$this->data['tab_image'] = $this->language->get('tab_image');
 		$this->data['tab_general'] = $this->language->get('tab_general');
 		$this->data['tab_address'] = $this->language->get('tab_address');
@@ -902,6 +899,7 @@ class ControllerSaleCustomer extends Controller {
 			$this->data['error_store'] = '';
 		}
 
+
 		// // Images
 		// if (isset($this->request->post['customer_image'])) {
 		// 	$customer_images = $this->request->post['customer_image'];
@@ -916,7 +914,6 @@ class ControllerSaleCustomer extends Controller {
 
 
 		// $this->data['customer_images'] = array();
-		// $this->load->model('tool/image');
 
 		// foreach ($customer_images as $customer_image) {
 		// 	if ($customer_image['image'] && file_exists(DIR_IMAGE . $customer_image['image'])) {
@@ -1139,12 +1136,13 @@ class ControllerSaleCustomer extends Controller {
 		if (isset($this->request->post['image'])) {
 			$this->data['thumb'] = $this->model_tool_image->resize($this->request->post['image'], 100, 100);
 			$this->data['image'] = $this->request->post['image'];
+			
 		} elseif (!empty($customer_info)) {
 			$this->data['thumb'] = $this->model_tool_image->resize($customer_info['image'], 100, 100);
 			$this->data['image'] = $customer_info['image'];
 		} else {
 			$this->data['image'] = '';
-			$this->data['thumb'] = '';
+			$this->data['thumb'] = $this->model_tool_image->resize('no_image.jpg', 100, 100);
 		}
 
 		if (isset($this->request->post['store'])) {
@@ -1220,73 +1218,8 @@ class ControllerSaleCustomer extends Controller {
 			$this->data['address_id'] = '';
 		}
 
-		$payments = array();
-		$balance = 0;
-		$total_cash = 0;
-		$total_payment = 0;
-		$total_visa = 0;
-		$total_expense = 0;
-		if (isset($this->request->get['customer_id'])) {
-
-			$this->load->model('sale/order');
-			
-			$data = array('filter_customer_id' => $this->request->get['customer_id']);
-			$orders = $this->model_sale_order->getOrders($data);
-			
-			foreach ($orders as $order) {
-
-				if ((float)$order['total'] >= 0) {
-					$payments[] = array(
-						'order_id' => $order['order_id'],
-						'message' => $this->language->get('text_order_total'),
-						'date_added' => $order['date_added'],
-						'amount' => -$order['total']
-					);
-					$total_expense += (float)$order['total'];
-				}
-
-				if ((float)$order['payment_final'] > 0) {
-					$payments[] = array(
-						'order_id' => $order['order_id'],
-						'message' => $this->language->get('text_payment_final'),
-						'date_added' => $order['date_added'],
-						'amount' => $order['payment_final']
-					);
-					$total_cash += (float)$order['payment_final'];
-				}
-
-				if ((float)$order['payment_cash'] > 0) {
-					$payments[] = array(
-						'order_id' => $order['order_id'],
-						'message' => $this->language->get('text_payment_cash'),
-						'date_added' => $order['date_added'],
-						'amount' => $order['payment_cash']
-					);
-					$total_cash += (float)$order['payment_cash'];
-				}
-
-				if ((float)$order['payment_visa'] > 0) {
-					$payments[] = array(
-						'order_id' => $order['order_id'],
-						'message' => $this->language->get('text_payment_visa'),
-						'date_added' => $order['date_added'],
-						'amount' => $order['payment_visa']
-					);
-					$total_visa += (float)$order['payment_cash'];
-				}
-
-				$balance += $order['payment_balance'];
-				
-			}
-		}
-
-		$this->data['balance'] = $balance;
-		$this->data['total_expense'] = $total_expense;
-		$this->data['total_cash'] = $total_cash;
-		$this->data['total_visa'] = $total_visa;
-		$this->data['total_payment'] = $total_visa + $total_cash;
-		$this->data['payments'] = $payments;
-
+		
+		$this->data['no_image'] = $this->model_tool_image->resize('no_image.jpg', 100, 100);
 
 		// if (!empty($customer_info)) {
 		// 	$results = $this->model_sale_customer->getIpsByCustomerId($this->request->get['customer_id']);
@@ -1509,6 +1442,89 @@ class ControllerSaleCustomer extends Controller {
 		}
 	}
 
+	public function payments() {
+
+		$payments = array();
+		$balance = 0;
+		$total_cash = 0;
+		$total_payment = 0;
+		$total_visa = 0;
+		$total_expense = 0;	
+
+		$this->language->load('sale/customer');
+		$this->data['text_total_visa'] = $this->language->get('text_total_visa');
+		$this->data['text_total_cash'] = $this->language->get('text_total_cash');
+		$this->data['text_total_payment'] = $this->language->get('text_total_payment');
+		$this->data['text_remaining_balance'] = $this->language->get('text_remaining_balance');
+		$this->data['text_total_expense'] = $this->language->get('text_total_expense');
+	
+
+		if (isset($this->request->get['customer_id'])) {
+
+			$this->load->model('sale/order');
+			
+			$data = array('filter_customer_id' => $this->request->get['customer_id']);
+			$orders = $this->model_sale_order->getOrders($data);
+			
+			foreach ($orders as $order) {
+
+				if ((float)$order['total'] >= 0) {
+					$payments[] = array(
+						'order_id' => $order['order_id'],
+						'message' => $this->language->get('text_order_total'),
+						'date_added' => $order['date_added'],
+						'amount' => -$order['total']
+					);
+					$total_expense += (float)$order['total'];
+				}
+
+				if ((float)$order['payment_final'] > 0) {
+					$payments[] = array(
+						'order_id' => $order['order_id'],
+						'message' => $this->language->get('text_payment_final'),
+						'date_added' => $order['date_added'],
+						'amount' => $order['payment_final']
+					);
+					$total_cash += (float)$order['payment_final'];
+				}
+
+				if ((float)$order['payment_cash'] > 0) {
+					$payments[] = array(
+						'order_id' => $order['order_id'],
+						'message' => $this->language->get('text_payment_cash'),
+						'date_added' => $order['date_added'],
+						'amount' => $order['payment_cash']
+					);
+					$total_cash += (float)$order['payment_cash'];
+				}
+
+				if ((float)$order['payment_visa'] > 0) {
+					$payments[] = array(
+						'order_id' => $order['order_id'],
+						'message' => $this->language->get('text_payment_visa'),
+						'date_added' => $order['date_added'],
+						'amount' => $order['payment_visa']
+					);
+					$total_visa += (float)$order['payment_cash'];
+				}
+
+				$balance += $order['payment_balance'];
+				
+			}
+		}
+
+
+		$this->data['balance'] = $balance;
+		$this->data['total_expense'] = $total_expense;
+		$this->data['total_cash'] = $total_cash;
+		$this->data['total_visa'] = $total_visa;
+		$this->data['total_payment'] = $total_visa + $total_cash;
+		$this->data['payments'] = $payments;
+		$this->template = 'sale/customer_payment.tpl';		
+		$this->response->setOutput($this->render());
+
+	}
+
 	public function images() {
 		
 		$this->language->load('sale/customer');
@@ -1528,13 +1544,12 @@ class ControllerSaleCustomer extends Controller {
 		$this->data['text_reminder'] = $this->language->get('text_reminder');
 		$this->data['text_remove_ban_ip'] = $this->language->get('text_remove_ban_ip');
 		$this->data['text_update_comment_success'] = $this->language->get('text_update_comment_success');
-
-		$this->data['button_displayimage'] = $this->language->get('button_displayimage');
 		$this->data['button_add_image'] = $this->language->get('button_add_image');
 		$this->data['button_update_comment'] = $this->language->get('button_update_comment');
 		$this->data['button_remove'] = $this->language->get('button_remove');
 		$this->data['entry_image'] = $this->language->get('entry_image');
 		$this->data['entry_comment'] = $this->language->get('entry_comment');
+		$this->data['entry_date_added'] = $this->language->get('entry_date_added');
 
 		if ($this->user->hasPermission('modify', 'sale/customer')) { 
 
@@ -1556,6 +1571,7 @@ class ControllerSaleCustomer extends Controller {
 
 		$this->data['customer_images'] = array();
 		$this->load->model('tool/image');
+		$this->data['no_image'] = $this->model_tool_image->resize('no_image.jpg', 100, 100);
 
 		foreach ($customer_images as $customer_image) {
 			if ($customer_image['image'] && file_exists(DIR_IMAGE . $customer_image['image'])) {
@@ -1623,6 +1639,7 @@ class ControllerSaleCustomer extends Controller {
 		}
 
 		$this->data['text_no_results'] = $this->language->get('text_no_results');
+		$this->data['button_remove'] = $this->language->get('button_remove');
 
 		$this->data['column_date_added'] = $this->language->get('column_date_added');
 		$this->data['column_reminder_date'] = $this->language->get('column_reminder_date');
@@ -1702,8 +1719,9 @@ class ControllerSaleCustomer extends Controller {
 		$this->data['column_date_added'] = $this->language->get('column_date_added');
 		$this->data['column_user'] = $this->language->get('column_user');
 		$this->data['column_message'] = $this->language->get('column_message');
-		$this->data['text_latest_message'] = $this->language->get('text_latest_message');
 		$this->data['button_record_history'] = $this->language->get('button_record_history');
+		$this->data['text_latest_message'] = $this->language->get('text_latest_message');
+		$this->data['text_change_status_success'] = $this->language->get('text_change_status_success');
 		$this->data['text_latest_messages'] = $this->language->get('text_latest_messages');
 		$this->data['text_no_results'] = $this->language->get('text_no_results');
 				
@@ -2265,11 +2283,12 @@ class ControllerSaleCustomer extends Controller {
 
 		// $reminder = (isset($this->request->post['reminder']) ? $this->request->post['reminder'] : null); 
 		// $reminder_date = (isset($this->request->post['reminder_date']) ? $this->request->post['reminder_date'] : null); 
-		$filter_user_id = (isset($this->request->post['filter_user_id']) ? $this->request->post['filter_user_id'] : null); 
+		$filter_user_id = (isset($this->request->get['filter_user_id']) ? $this->request->get['filter_user_id'] : null); 
 		$filter_customer_id = (isset($this->request->get['customer_id']) ? $this->request->get['customer_id'] : null);  
+
 		$unitspend = (isset($this->request->post['unitspend']) ? $this->request->post['unitspend'] : null); 
 		$product_id = (isset($this->request->post['product_id']) ? $this->request->post['product_id'] : null); 
-	// $this->load->test($this->request->post);
+	
 		if ($this->user->hasPermission('modify', 'sale/customer')) { 
 
 			// update information
@@ -2319,6 +2338,11 @@ class ControllerSaleCustomer extends Controller {
 		$this->data['text_lendedout'] = $this->language->get('text_lendedout');
 		$this->data['text_borrowed'] = $this->language->get('text_borrowed');
 
+		$this->data['entry_beauty'] = $this->language->get('entry_beauty');
+		$this->data['entry_doctor'] = $this->language->get('entry_doctor');
+		$this->data['entry_outsource'] = $this->language->get('entry_outsource');
+		$this->data['entry_consultant'] = $this->language->get('entry_consultant');
+
 		$this->data['button_change_status'] = $this->language->get('button_change_status');
 		$this->data['button_add_picture'] = $this->language->get('button_add_picture');
 
@@ -2339,18 +2363,18 @@ class ControllerSaleCustomer extends Controller {
 
 		$data = array();
 		if (isset($this->request->get['customer_id'])) $data['customer_id'] = $this->request->get['customer_id'];
-		if (isset($this->request->post['filter_customer_name'])) $data['filter_customer_name'] = $this->request->post['filter_customer_name'];
-		if (isset($this->request->post['filter_product_name'])) $data['filter_product_name'] = $this->request->post['filter_product_name'];
-		if (isset($this->request->post['filter_ssn'])) $data['filter_ssn'] = $this->request->post['filter_ssn'];
+		if (isset($this->request->get['filter_customer_name'])) $data['filter_customer_name'] = $this->request->get['filter_customer_name'];
+		if (isset($this->request->get['filter_product_name'])) $data['filter_product_name'] = $this->request->get['filter_product_name'];
+		if (isset($this->request->get['filter_ssn'])) $data['filter_ssn'] = $this->request->get['filter_ssn'];
 		$data['filter_product_type_id'] = 2;
 		$data['filter_ismain'] = 0;
-		$results = $this->model_sale_customer->getTransactions($data, ($page - 1) * 20, 20);
+		$results = $this->model_sale_customer->getTransactions($data, ($page - 1) * 10, 10);
 
 		$data = array();
 		if (isset($this->request->get['customer_id'])) $data['customer_id'] = $this->request->get['customer_id'];
-		if (isset($this->request->post['filter_customer_name'])) $data['filter_customer_name'] = $this->request->post['filter_customer_name'];
-		if (isset($this->request->post['filter_product_name'])) $data['filter_product_name'] = $this->request->post['filter_product_name'];
-		if (isset($this->request->post['filter_ssn'])) $data['filter_ssn'] = $this->request->post['filter_ssn'];
+		if (isset($this->request->get['filter_customer_name'])) $data['filter_customer_name'] = $this->request->get['filter_customer_name'];
+		if (isset($this->request->get['filter_product_name'])) $data['filter_product_name'] = $this->request->get['filter_product_name'];
+		if (isset($this->request->get['filter_ssn'])) $data['filter_ssn'] = $this->request->get['filter_ssn'];
 		$data['filter_product_type_id'] = 2;
 		$totalresults = $this->model_sale_customer->getTransactions($data, 0, 999999);
 
@@ -2372,11 +2396,6 @@ class ControllerSaleCustomer extends Controller {
 			$tempdata = array(); 
 			if ($filter_customer_id) $tempdata['customer_id'] = $filter_customer_id;
 			$tempdata['filter_customer_transaction_id'] = $result['customer_transaction_id'];
-
-			// array(
-			// 	'customer_id' => $this->request->get['customer_id'],
-			// 	'filter_customer_transaction_id' => $result['customer_transaction_id']
-			// );
 
 			$treatment_images_before = $this->model_sale_customer->getCustomerImages($tempdata);
 
@@ -2444,9 +2463,9 @@ class ControllerSaleCustomer extends Controller {
 
 		$data = array();
 		if (isset($this->request->get['customer_id'])) $data['customer_id'] = $this->request->get['customer_id'];
-		if (isset($this->request->post['filter_customer_name'])) $data['filter_customer_name'] = $this->request->post['filter_customer_name'];
-		if (isset($this->request->post['filter_product_name'])) $data['filter_product_name'] = $this->request->post['filter_product_name'];
-		if (isset($this->request->post['filter_ssn'])) $data['filter_ssn'] = $this->request->post['filter_ssn'];
+		if (isset($this->request->get['filter_customer_name'])) $data['filter_customer_name'] = $this->request->get['filter_customer_name'];
+		if (isset($this->request->get['filter_product_name'])) $data['filter_product_name'] = $this->request->get['filter_product_name'];
+		if (isset($this->request->get['filter_ssn'])) $data['filter_ssn'] = $this->request->get['filter_ssn'];
 		$data['filter_product_type_id'] = 2;
 		$data['filter_ismain'] = 0;
 		$transaction_total = $this->model_sale_customer->getTotalTransactions($data);
@@ -2454,12 +2473,18 @@ class ControllerSaleCustomer extends Controller {
 		$pagination = new Pagination();
 		$pagination->total = $transaction_total;
 		$pagination->page = $page;
-		$pagination->limit = 20; 
+		$pagination->limit = 10; 
 		$pagination->text = $this->language->get('text_pagination');
-		$pagination->url = $this->url->link('sale/customer/transaction', 'token=' . $this->session->data['token'] . '&customer_id=' . $filter_customer_id . '&show_group=1&page={page}', 'SSL');
+		$href = 'token=' . $this->session->data['token'] . '&customer_id=' . $filter_customer_id . '&show_group=1&page={page}';
+
+		if (isset($this->request->get['filter_product_name'])) $href .= '&filter_product_name=' . $this->request->get['filter_product_name'];
+		$href .= '&filter_ismain=0';
+
+		$pagination->url = $this->url->link('sale/customer/transaction', $href, 'SSL');
 
 		$this->data['pagination'] = $pagination->render();
 		$this->data['token'] = $this->session->data['token'];
+		// $this->data['treatment_image_row'] = 0;
 
 		$this->template = 'sale/customer_transaction.tpl';		
 

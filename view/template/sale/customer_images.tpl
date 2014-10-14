@@ -4,7 +4,7 @@
     <tr>
       <td class="left"><?php echo $entry_image; ?></td>
       <td class="left"><?php echo $entry_comment; ?></td>
-      <td class="left"></td>
+      <td class="left"><?php echo $entry_date_added; ?></td>
       <td class="right"></td>
     </tr>
   </thead>
@@ -117,6 +117,7 @@ function addImage() {
   html += '<input type="hidden" name="customer_image[' + image_row + '][customer_transaction_id]" value="" id="trimage' + image_row + '" /><br />';
   html += '<input type="hidden" name="customer_image[' + image_row + '][customer_image_id]" value="" id="idimage' + image_row + '" /><br />';
   html += '<a onclick="image_upload(\'image' + image_row + '\', \'thumb' + image_row + '\');"><?php echo $text_browse; ?></a>&nbsp;&nbsp;|&nbsp;&nbsp;<a onclick="$(\'#thumb' + image_row + '\').attr(\'src\', \'<?php echo $no_image; ?>\'); $(\'#image' + image_row + '\').attr(\'value\', \'\');"><?php echo $text_clear; ?></a></div></td>';
+  html += '<td></td>';
   html += '<td></td>';
   // html += '    <td class="right"><input type="date_available" class="date" name="customer_image[' + image_row + '][date_added]" value="" size="2" /></td>';
   html += '    <td class="left"><a onclick="$(\'#image-row' + image_row  + '\').remove();" class="button"><?php echo $button_remove; ?></a></td>';

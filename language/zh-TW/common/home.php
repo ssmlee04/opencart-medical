@@ -46,6 +46,7 @@ $_['entry_comment']                  = '訊息內容';
 $_['entry_treatment']                  = '療程';
 $_['entry_user']                  = '使用者';
 $_['entry_customer']                  = '客戶';
+$_['entry_consultant']                  = '諮詢師';
 
 // Error
 $_['error_install']                 = '請刪除install目錄';

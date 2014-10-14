@@ -100,10 +100,10 @@ $_['entry_use_ssl']               = '使用SSL加密(Use SSL)<br /><span class="
 $_['entry_seo_url']           = 'SEO 簡短網址(Use SEO URL\'s)<br /><span class="help">要使用搜索引擎優化網址，您的主機必須支持 Apache Rewrite Mod 功能，在啟用此項功能前你需要重新命名 htaccess.txt 檔案為 .htaccess(To use SEO URL\'s apache module mod-rewrite must be installed and you need to rename the htaccess.txt to .htaccess.)</span>';
 $_['entry_maintenance']       = '維護中(Maintenance Mode)<br /><span class="help">顯示商店目前維護中，只有非管理員會看到此訊息頁，如果已登入後台的管理員則不會看到此訊息(Prevents customers from browsing your store. They will instead see a maintenance message. If logged in as admin, you will see the store as normal.)</span>';
 $_['entry_encryption']        = '加密密鑰(Encryption Key)<br /><span class="help">請提供一個密鑰，處理訂單時可加密個人資料(Please provide a secret key that will be used to encrypt private information when processing orders.)</span>';
-$_['entry_compression']       = '輸出壓縮等級(Output Compression Level)<br /><span class="help">GZIP 可更有效地轉移到要求的客戶端。壓縮級別必須在0 - 9(GZIP for more efficient transfer to requesting clients. Compression level must be between 0 - 9)</span>';
-$_['entry_error_display']     = '顯示錯誤(Display Errors)';
-$_['entry_error_log']         = '紀錄錯誤日誌(Log Errors)';
-$_['entry_error_filename']    = '錯誤日誌檔名(Error Log Filename)';
+$_['entry_compression']       = '輸出壓縮等級<br /><span class="help">GZIP 可更有效地轉移到要求的客戶端。壓縮級別必須在0 - 9(GZIP for more efficient transfer to requesting clients. Compression level must be between 0 - 9)</span>';
+$_['entry_error_display']     = '顯示錯誤';
+$_['entry_error_log']         = '紀錄錯誤日誌';
+$_['entry_error_filename']    = '錯誤日誌檔名';
 $_['entry_google_analytics']    = 'Google網站流量分析代碼(Google Analytics Code)<br /><span class="help">登入您的<a onclick="window.open(\'http//www.google.com/analytics/\');"><u>Google流量分析帳戶</u></a> 建立您的網站分析代碼後黏貼至此.</span>';
 
 // Error

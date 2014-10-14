@@ -167,7 +167,10 @@
         
 
       </form>
-      <div class="pagination"><?php echo $pagination; ?></div>
+      <div class="pagination">
+        <?php if ($filter_name!='' || $filter_ssn!='' || isset($if_display)) { ?>
+        <?php echo $pagination; ?>
+       <?php } ?></div>
     </div>
   </div>
 </div>

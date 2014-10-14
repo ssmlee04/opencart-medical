@@ -13,9 +13,10 @@
     <div class="content">
     	<table class="form">
         <tr>
-          <td><?php echo $entry_date_start; ?>
+          <td colspan='2'><?php echo $entry_date_start; ?>
             <input type="text" name="filter_date_start" value="<?php echo $filter_date_start; ?>" id="date-start" size="12" /> ~
             <input type="text" name="filter_date_end" value="<?php echo $filter_date_end; ?>" id="date-end" size="12" /></td>
+            </tr><tr>
           <td><?php echo $entry_status; ?>
             <select name="filter_reminder_status_id">
               <option value="0"></option>
@@ -27,19 +28,24 @@
               <?php } ?>
               <?php } ?>
             </select></td>
+            </tr><tr>
             <td><?php echo $entry_consultant; ?>
             <input type="text" name="filter_consultant" value="<?php echo $filter_consultant; ?>" id="consultant" size="12" /></td>
-
+        </tr><tr>
             <td><?php echo $entry_user; ?>
             <input type="text" name="filter_user" value="<?php echo $filter_user; ?>" id="user" size="12" /></td>
+            </tr><tr>
 			<td><?php echo $entry_customer; ?>
             <input type="text" name="filter_customer" value="<?php echo $filter_customer; ?>" id="customer" size="12" /></td>
-
+            </tr><tr>
 
             <td><?php echo $entry_comment; ?>
             <input type="text" name="filter_comment" value="<?php echo $filter_comment; ?>" id="comment" size="12" /></td>
+            </tr><tr>
+
             <td><?php echo $entry_treatment; ?>
             <input type="text" name="filter_treatment" value="<?php echo $filter_treatment; ?>" id="treatment" size="12" /></td>
+            </tr><tr>
 
           <td style="text-align: right;"><a onclick="filter();" class="button"><?php echo $button_filter; ?></a></td>
         </tr>

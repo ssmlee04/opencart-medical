@@ -31,7 +31,6 @@
               <tr>
                 <td class="left"><?php echo $entry_store; ?></td>
                 <td class="left"><?php echo $entry_quantity; ?></td>
-                <td class="right"></td>
               </tr>
             </thead>
             <?php $storequantity_row = 0; ?>
@@ -242,10 +241,20 @@
                   <?php } ?>
                 </select></td>
             </tr>
+            <?php if ($type != 2 && $type != 1) { ?>
             <tr>
-              <td><?php echo $entry_sort_order; ?></td>
-              <td><input type="text" name="sort_order" value="<?php echo $sort_order; ?>" size="2" /></td>
+              <td><?php echo $entry_subtract; ?></td>
+              <td><select name="subtract">
+                  <?php if ($subtract) { ?>
+                  <option value="1" selected="selected"><?php echo $text_yes; ?></option>
+                  <option value="0"><?php echo $text_no; ?></option>
+                  <?php } else { ?>
+                  <option value="1"><?php echo $text_yes; ?></option>
+                  <option value="0" selected="selected"><?php echo $text_no; ?></option>
+                  <?php } ?>
+                </select></td>
             </tr>
+            <?php } ?>
             <tr>
               <td><?php echo $entry_bonus; ?></td>
               <td><input type="checkbox" name="bonus" value="1" size="2" <?php if ($bonus) {echo 'checked';} ?> /></td>
@@ -716,234 +725,6 @@ $('#attribute tbody').each(function(index, element) {
 	attributeautocomplete(index);
 });
 //--></script> 
-
-<script type="text/javascript"><!--	
-var option_row = <?php echo $option_row; ?>;
-
-$('input[name=\'option\']').catcomplete({
-	delay: 500,
-	source: function(request, response) {
-		$.ajax({
-			url: 'index.php?route=catalog/option/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request.term),
-			dataType: 'json',
-			success: function(json) {
-				response($.map(json, function(item) {
-					return {
-						category: item.category,
-						label: item.name,
-						value: item.option_id,
-						type: item.type,
-						option_value: item.option_value
-					}
-				}));
-			}
-		});
-	}, 
-	select: function(event, ui) {
-		html  = '<div id="tab-option-' + option_row + '" class="vtabs-content">';
-		html += '	<input type="hidden" name="product_option[' + option_row + '][product_option_id]" value="" />';
-		html += '	<input type="hidden" name="product_option[' + option_row + '][name]" value="' + ui.item.label + '" />';
-		html += '	<input type="hidden" name="product_option[' + option_row + '][option_id]" value="' + ui.item.value + '" />';
-		html += '	<input type="hidden" name="product_option[' + option_row + '][type]" value="' + ui.item.type + '" />';
-		html += '	<table class="form">';
-		html += '	  <tr>';
-		html += '		<td><?php echo $entry_required; ?></td>';
-		html += '       <td><select name="product_option[' + option_row + '][required]">';
-		html += '	      <option value="1"><?php echo $text_yes; ?></option>';
-		html += '	      <option value="0"><?php echo $text_no; ?></option>';
-		html += '	    </select></td>';
-		html += '     </tr>';
-		
-		if (ui.item.type == 'text') {
-			html += '     <tr>';
-			html += '       <td><?php echo $entry_option_value; ?></td>';
-			html += '       <td><input type="text" name="product_option[' + option_row + '][option_value]" value="" /></td>';
-			html += '     </tr>';
-		}
-		
-		if (ui.item.type == 'textarea') {
-			html += '     <tr>';
-			html += '       <td><?php echo $entry_option_value; ?></td>';
-			html += '       <td><textarea name="product_option[' + option_row + '][option_value]" cols="40" rows="5"></textarea></td>';
-			html += '     </tr>';						
-		}
-		 
-		if (ui.item.type == 'file') {
-			html += '     <tr style="display: none;">';
-			html += '       <td><?php echo $entry_option_value; ?></td>';
-			html += '       <td><input type="text" name="product_option[' + option_row + '][option_value]" value="" /></td>';
-			html += '     </tr>';			
-		}
-						
-		if (ui.item.type == 'date') {
-			html += '     <tr>';
-			html += '       <td><?php echo $entry_option_value; ?></td>';
-			html += '       <td><input type="text" name="product_option[' + option_row + '][option_value]" value="" class="date" /></td>';
-			html += '     </tr>';			
-		}
-		
-		if (ui.item.type == 'datetime') {
-			html += '     <tr>';
-			html += '       <td><?php echo $entry_option_value; ?></td>';
-			html += '       <td><input type="text" name="product_option[' + option_row + '][option_value]" value="" class="datetime" /></td>';
-			html += '     </tr>';			
-		}
-		
-		if (ui.item.type == 'time') {
-			html += '     <tr>';
-			html += '       <td><?php echo $entry_option_value; ?></td>';
-			html += '       <td><input type="text" name="product_option[' + option_row + '][option_value]" value="" class="time" /></td>';
-			html += '     </tr>';			
-		}
-		
-		html += '  </table>';
-			
-		if (ui.item.type == 'select' || ui.item.type == 'radio' || ui.item.type == 'checkbox' || ui.item.type == 'image') {
-			html += '  <table id="option-value' + option_row + '" class="list">';
-			html += '  	 <thead>'; 
-			html += '      <tr>';
-			html += '        <td class="left"><?php echo $entry_option_value; ?></td>';
-			html += '        <td class="right"><?php echo $entry_quantity; ?></td>';
-			html += '        <td class="left"><?php echo $entry_subtract; ?></td>';
-			html += '        <td class="right"><?php echo $entry_price; ?></td>';
-			html += '        <td class="right"><?php echo $entry_option_points; ?></td>';
-			html += '        <td class="right"><?php echo $entry_weight; ?></td>';
-			html += '        <td></td>';
-			html += '      </tr>';
-			html += '  	 </thead>';
-			html += '    <tfoot>';
-			html += '      <tr>';
-			html += '        <td colspan="6"></td>';
-			html += '        <td class="left"><a onclick="addOptionValue(' + option_row + ');" class="button"><?php echo $button_add_option_value; ?></a></td>';
-			html += '      </tr>';
-			html += '    </tfoot>';
-			html += '  </table>';
-            html += '  <select id="option-values' + option_row + '" style="display: none;">';
-			
-            for (i = 0; i < ui.item.option_value.length; i++) {
-				html += '  <option value="' + ui.item.option_value[i]['option_value_id'] + '">' + ui.item.option_value[i]['name'] + '</option>';
-            }
-
-            html += '  </select>';			
-			html += '</div>';	
-		}
-		
-		$('#tab-option').append(html);
-		
-		$('#option-add').before('<a href="#tab-option-' + option_row + '" id="option-' + option_row + '">' + ui.item.label + '&nbsp;<img src="view/image/delete.png" alt="" onclick="$(\'#option-' + option_row + '\').remove(); $(\'#tab-option-' + option_row + '\').remove(); $(\'#vtab-option a:first\').trigger(\'click\'); return false;" /></a>');
-		
-		$('#vtab-option a').tabs();
-		
-		$('#option-' + option_row).trigger('click');		
-		
-		$('.date').datepicker({dateFormat: 'yy-mm-dd'});
-		$('.datetime').datetimepicker({
-			dateFormat: 'yy-mm-dd',
-			timeFormat: 'h:m'
-		});	
-			
-		$('.time').timepicker({timeFormat: 'h:m'});	
-				
-		option_row++;
-		
-		return false;
-	},
-	focus: function(event, ui) {
-      return false;
-   }
-});
-//--></script> 
-<script type="text/javascript"><!--		
-var option_value_row = <?php echo $option_value_row; ?>;
-
-function addOptionValue(option_row) {	
-	html  = '<tbody id="option-value-row' + option_value_row + '">';
-	html += '  <tr>';
-	html += '    <td class="left"><select name="product_option[' + option_row + '][product_option_value][' + option_value_row + '][option_value_id]">';
-	html += $('#option-values' + option_row).html();
-	html += '    </select><input type="hidden" name="product_option[' + option_row + '][product_option_value][' + option_value_row + '][product_option_value_id]" value="" /></td>';
-	html += '    <td class="right"><input type="text" name="product_option[' + option_row + '][product_option_value][' + option_value_row + '][quantity]" value="" size="3" /></td>'; 
-	html += '    <td class="left"><select name="product_option[' + option_row + '][product_option_value][' + option_value_row + '][subtract]">';
-	html += '      <option value="1"><?php echo $text_yes; ?></option>';
-	html += '      <option value="0"><?php echo $text_no; ?></option>';
-	html += '    </select></td>';
-	html += '    <td class="right"><select name="product_option[' + option_row + '][product_option_value][' + option_value_row + '][price_prefix]">';
-	html += '      <option value="+">+</option>';
-	html += '      <option value="-">-</option>';
-	html += '    </select>';
-	html += '    <input type="text" name="product_option[' + option_row + '][product_option_value][' + option_value_row + '][price]" value="" size="5" /></td>';
-	html += '    <td class="right"><select name="product_option[' + option_row + '][product_option_value][' + option_value_row + '][points_prefix]">';
-	html += '      <option value="+">+</option>';
-	html += '      <option value="-">-</option>';
-	html += '    </select>';
-	html += '    <input type="text" name="product_option[' + option_row + '][product_option_value][' + option_value_row + '][points]" value="" size="5" /></td>';	
-	html += '    <td class="right"><select name="product_option[' + option_row + '][product_option_value][' + option_value_row + '][weight_prefix]">';
-	html += '      <option value="+">+</option>';
-	html += '      <option value="-">-</option>';
-	html += '    </select>';
-	html += '    <input type="text" name="product_option[' + option_row + '][product_option_value][' + option_value_row + '][weight]" value="" size="5" /></td>';
-	html += '    <td class="left"><a onclick="$(\'#option-value-row' + option_value_row + '\').remove();" class="button"><?php echo $button_remove; ?></a></td>';
-	html += '  </tr>';
-	html += '</tbody>';
-	
-	$('#option-value' + option_row + ' tfoot').before(html);
-
-	option_value_row++;
-}
-//--></script> 
-<script type="text/javascript"><!--
-var discount_row = <?php echo $discount_row; ?>;
-
-function addDiscount() {
-	html  = '<tbody id="discount-row' + discount_row + '">';
-	html += '  <tr>'; 
-    html += '    <td class="left"><select name="product_discount[' + discount_row + '][customer_group_id]">';
-    <?php foreach ($customer_groups as $customer_group) { ?>
-    html += '      <option value="<?php echo $customer_group['customer_group_id']; ?>"><?php echo addslashes($customer_group['name']); ?></option>';
-    <?php } ?>
-    html += '    </select></td>';		
-    html += '    <td class="right"><input type="text" name="product_discount[' + discount_row + '][quantity]" value="" size="2" /></td>';
-    html += '    <td class="right"><input type="text" name="product_discount[' + discount_row + '][priority]" value="" size="2" /></td>';
-	html += '    <td class="right"><input type="text" name="product_discount[' + discount_row + '][price]" value="" /></td>';
-    html += '    <td class="left"><input type="text" name="product_discount[' + discount_row + '][date_start]" value="" class="date" /></td>';
-	html += '    <td class="left"><input type="text" name="product_discount[' + discount_row + '][date_end]" value="" class="date" /></td>';
-	html += '    <td class="left"><a onclick="$(\'#discount-row' + discount_row + '\').remove();" class="button"><?php echo $button_remove; ?></a></td>';
-	html += '  </tr>';	
-    html += '</tbody>';
-	
-	$('#discount tfoot').before(html);
-		
-	$('#discount-row' + discount_row + ' .date').datepicker({dateFormat: 'yy-mm-dd'});
-	
-	discount_row++;
-}
-//--></script> 
-<script type="text/javascript"><!--
-var special_row = <?php echo $special_row; ?>;
-
-function addSpecial() {
-	html  = '<tbody id="special-row' + special_row + '">';
-	html += '  <tr>'; 
-    html += '    <td class="left"><select name="product_special[' + special_row + '][customer_group_id]">';
-    <?php foreach ($customer_groups as $customer_group) { ?>
-    html += '      <option value="<?php echo $customer_group['customer_group_id']; ?>"><?php echo addslashes($customer_group['name']); ?></option>';
-    <?php } ?>
-    html += '    </select></td>';		
-    html += '    <td class="right"><input type="text" name="product_special[' + special_row + '][priority]" value="" size="2" /></td>';
-	html += '    <td class="right"><input type="text" name="product_special[' + special_row + '][price]" value="" /></td>';
-    html += '    <td class="left"><input type="text" name="product_special[' + special_row + '][date_start]" value="" class="date" /></td>';
-	html += '    <td class="left"><input type="text" name="product_special[' + special_row + '][date_end]" value="" class="date" /></td>';
-	html += '    <td class="left"><a onclick="$(\'#special-row' + special_row + '\').remove();" class="button"><?php echo $button_remove; ?></a></td>';
-	html += '  </tr>';
-    html += '</tbody>';
-	
-	$('#special tfoot').before(html);
- 
-	$('#special-row' + special_row + ' .date').datepicker({dateFormat: 'yy-mm-dd'});
-	
-	special_row++;
-}
-//--></script> 
 <script type="text/javascript"><!--
 function image_upload(field, thumb) {
 	$('#dialog').remove();
@@ -1019,61 +800,6 @@ if (!$('input[name=\'bonus\']').attr('checked')) $(".bonusgroup").hide();
 $('input[name=\'bonus\']').on('change', function(){
   $(".bonusgroup").toggle($(this).attr('checked'));
 });
-//var profileCount = <?php echo $profileCount ?>;
-
-// function addProfile() {
-//     profileCount++;
-    
-//     var html = '';
-//     html += '<tr id="profile-row' + profileCount + '">';
-//     html += '  <td class="left">';
-//     html += '    <select name="product_profiles[' + profileCount + '][profile_id]">';
-//     <?php foreach ($profiles as $profile): ?>
-//     html += '      <option value="<?php echo $profile['profile_id'] ?>"><?php echo $profile['name'] ?></option>';
-//     <?php endforeach; ?>
-//     html += '    </select>';
-//     html += '  </td>';
-//     html += '  <td class="left">';
-//     html += '    <select name="product_profiles[' + profileCount + '][customer_group_id]">';
-//     <?php foreach ($customer_groups as $customer_group): ?>
-//     html += '      <option value="<?php echo $customer_group['customer_group_id'] ?>"><?php echo $customer_group['name'] ?></option>';
-//     <?php endforeach; ?>
-//     html += '    <select>';
-//     html += '  </td>';
-//     html += '  <td class="left">';
-//     html += '    <a class="button" onclick="$(\'#profile-row' + profileCount + '\').remove()"><?php echo $button_remove ?></a>';
-//     html += '  </td>';
-//     html += '</tr>';
-    
-//     $('#tab-profile table tbody').append(html);
-// }
-
-<?php if (isset($this->request->get['product_id'])) { ?>
-    // function openbayLinkStatus(){
-    //     var product_id = '<?php echo $this->request->get['product_id']; ?>';
-    //     $.ajax({
-    //         type: 'GET',
-    //         url: 'index.php?route=extension/openbay/linkStatus&token=<?php echo $token; ?>&product_id='+product_id,
-    //         dataType: 'html',
-    //         success: function(data) {
-    //             //add the button to nav
-    //             $('<a href="#tab-openbay"><?php echo $tab_marketplace_links ?></a>').hide().appendTo("#tabs").fadeIn(1000);
-    //             $('#tab-general').before(data);
-    //             $('#tabs a').tabs();
-    //         },
-    //         failure: function(){
-
-    //         },
-    //         error: function() {
-
-    //         }
-    //     });
-    // }
-
-    // $(document).ready(function(){
-    //     openbayLinkStatus();
-    // });
-<?php } ?>
 
 //--></script>
 

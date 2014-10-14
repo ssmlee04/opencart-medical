@@ -32,6 +32,7 @@ $_['text_home']               = '首頁';
 $_['text_voucher']               = '購物禮券';
 $_['text_browse']               = '瀏覽';
 $_['text_clear']               = '清除';
+$_['text_change_status_success']             = '成功修改狀態';
 
 // Button
 $_['button_insert']           = '新增';

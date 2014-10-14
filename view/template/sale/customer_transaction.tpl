@@ -66,8 +66,11 @@
 
           <!-- href="php echo $image['href']; ?>" -->
           <a class='group1' href="<?php echo $image['href']; ?>">
-
           <img src="<?php echo $image['thumb']; ?>" alt="<?php echo $image['href']; ?>" id="treatmentthumb<?php echo $treatment_image_row; ?>" /></a>
+
+          <a class='group2' style='display:none'>
+          <img src="<?php echo $image['thumb']; ?>" alt="<?php echo $image['href']; ?>" style="opacity:0.4" /></a>
+
           <input type="hidden" name="image[<?php echo $treatment_image_row; ?>][image]" value="<?php echo $image['image']; ?>" id="treatmentimage<?php echo $treatment_image_row; ?>" />
 
                     <!-- <img src="<php echo $customer_image['thumb']; ?>" alt="" id="thumb<php echo $image_row; ?>" /> -->
@@ -75,15 +78,16 @@
         </div>
         <?php } ?>
         <?php } ?>
-         <input type="hidden" name="image[<?php echo $treatment_image_row; ?>][image]" value="<?php echo $image['image']; ?>" id="treatmentimage<?php echo $treatment_image_row; ?>" />
+        <!-- value="<php echo $image['image']; ?>" -->
+         <input type="hidden" name="image[<?php echo $treatment_image_row; ?>][image]"  id="treatmentimage<?php echo $treatment_image_row; ?>" />
 
         <a class='addImage2'><?php echo $button_add_picture; ?></a>
       </td>
-      <td colspan='6' class="left">
+      <td colspan='7' class="left">
 
         <?php if (!$transaction['ismain'] && $transaction['status'] != 10) { ?>
           
-          beauty
+          <?php echo $entry_beauty; ?>
             <select name=''>
             <option></option>
             <?php foreach ($beautys as $result) { ?>
@@ -95,7 +99,7 @@
             <?php } ?>
             </select>
 
-          doctor
+          <?php echo $entry_doctor; ?>
             <select name=''>
             <option></option>
             <?php foreach ($doctors as $result) { ?>
@@ -107,7 +111,7 @@
             <?php } ?>
             </select>
 
-          consultant
+          <?php echo $entry_consultant; ?>
           <select name=''>
             <option></option>
             <?php foreach ($consultants as $result) { ?>
@@ -121,7 +125,7 @@
             <?php } ?>
             </select>
 
-          outsource        
+          <?php echo $entry_outsource; ?> 
             <select name=''>
             <option></option>
             <?php foreach ($outsource as $result) { ?>
@@ -136,7 +140,7 @@
             </select>
           <?php } ?>
 
-
+        <br/>
         <input type='text' id='comment' style='width:400px' value="<?php echo $transaction['comment']; ?>"/>
         <?php if ($transaction['type'] == 2) { ?>
         <img src="view/image/delete.png" title="<?php echo $button_remove; ?>" alt="<?php echo $button_remove; ?>" style="cursor: pointer;" onclick="$(this).parent().parent().remove(); deleteCustomerTransaction('<?php echo $transaction['customer_transaction_id']; ?>')" />
@@ -144,7 +148,7 @@
 
         <!-- <php if (!(!$transaction['ismain'] && $transaction['status'] != 10)) { $display="style='display:none'";} else { $display = ''; } ?> -->
         <?php if (!$transaction['ismain'] && $transaction['status'] != 10) { ?>
-          <select name='tran_status' <?php echo $display; ?>>
+          <select name='tran_status' >
           <option></option>
           <option value='-1' <?php if ($transaction['status'] == -1){echo 'selected'; } ?> ><?php echo $text_transaction_unoccured; ?></option>
           <option value='-2' <?php if ($transaction['status'] == -2){echo 'selected'; } ?> ><?php echo $text_transaction_appointed; ?></option>
@@ -167,7 +171,7 @@
     </tr>
     <?php } else { ?>
     <tr>
-      <td class="center" colspan="6"><?php echo $text_no_results; ?></td>
+      <td class="center" colspan="7"><?php echo $text_no_results; ?></td>
     </tr>
     <?php } ?>
   </tbody>
@@ -216,10 +220,20 @@ $(".group1").on('mouseover', function(){
    $(".group1").colorbox({rel:'group1'});
 });
 
-$(".group1").on('click', function(){
+$(".group2").on('click', function(){
+
    var href = $(this).children().first().attr('alt');
    $('#image2').val($('#image1').val());
    $('#image1').val(href);
+
+   if ( $('#image1').val() != '' &&  $('#image2').val() != '') {
+    var twoimage = "<img style='display:inline' src='" + $('#image2').val() + "'></img><img src='" + $('#image1').val() + "'></img>";
+    $.colorbox({title:'Response',html: twoimage});
+    $('#image1').val('');
+    $('#image2').val('');
+   }
+   
+
 });
 
 // $('#button_display_image')
@@ -286,7 +300,8 @@ $('.change_status_button').on('click', function(e){
         }
 
         if (json['success']) {
-          $('#button-transaction').click();
+          // $('#button-transaction').click();
+          $('#button-filter').click();
           $('#transaction').before('<div class="success">' + json['success'] + '</div>');
         }
       },
@@ -299,7 +314,13 @@ $('.change_status_button').on('click', function(e){
 </script>
 
 <script type="text/javascript"><!--
-var treatment_image_row = <?php echo $treatment_image_row; ?>;
+
+  var treatment_image_row = <?php echo $treatment_image_row; ?>;
+// $(document).ready(function(){
+
+
+
+// });
 
 $('.addImage2').on('click', function(e){
   e.preventDefault();
@@ -331,8 +352,7 @@ function image_upload_treat(field, thumb, id) {
           url: 'index.php?route=common/filemanager/image&token=<?php echo $token; ?>&image=' + encodeURIComponent($('#' + field).attr('value')),
           dataType: 'text',
           success: function(text) {
-            // $('#' + thumb).replaceWith('<img src="' + text + '" alt="" id="' + thumb + '" />');
-            console.log(text);
+            
             var thumbimage  = text;
             var lastdot = thumbimage.lastIndexOf(".");
             var firstdata = thumbimage.indexOf("data");
@@ -340,7 +360,7 @@ function image_upload_treat(field, thumb, id) {
             var imageimage = text.substring(firstdata, lastdash) + text.substring(lastdot, text.length);
             var customer_transaction_id = id;
             
-            var html = '<a class=\'group1\' href="' + thumbimage + '"><div class="treatmentimage" style="display:inline"><img src="' + thumbimage + '" alt="" id="treatmentthumb' + treatment_image_row + '" /></a>';
+            var html = '<div class="treatmentimage" style="display:inline"><img src="' + thumbimage + '" alt="" id="treatmentthumb' + treatment_image_row + '" />';
               html += '<input type="hidden" value="' + imageimage + '" name="treatment_image[' + treatment_image_row + '][image]" id="treatmentimage' + treatment_image_row +'" /></div>';
               
               $('#hidden' + id).after(html);

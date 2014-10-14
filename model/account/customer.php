@@ -87,7 +87,19 @@ class ModelAccountCustomer extends Model {
 	}
 
 	public function editCustomer($data) {
-		$this->db->query("UPDATE " . DB_PREFIX . "customer SET firstname = '" . $this->db->escape($data['firstname']) . "', lastname = '" . $this->db->escape($data['lastname']) . "', email = '" . $this->db->escape($data['email']) . "', telephone = '" . $this->db->escape($data['telephone']) . "', fax = '" . $this->db->escape($data['fax']) . "' WHERE customer_id = '" . (int)$this->customer->getId() . "'");
+
+		$sql = "UPDATE " . DB_PREFIX . "customer SET 
+			firstname = '" . $this->db->escape($data['firstname']) . "'
+			, lastname = '" . $this->db->escape($data['lastname']) . "'
+			, email = '" . $this->db->escape($data['email']) . "'
+			, telephone = '" . $this->db->escape($data['telephone']) . "'
+			, image = '" . $this->db->escape($data['avatarimage']) . "'
+			, fax = '" . $this->db->escape($data['fax']) . "' 
+			WHERE customer_id = '" . (int)$this->customer->getId() . "'";
+
+		$this->load->out($sql . '----------'); 
+
+		$this->db->query($sql);
 	}
 
 	public function editPassword($email, $password) {

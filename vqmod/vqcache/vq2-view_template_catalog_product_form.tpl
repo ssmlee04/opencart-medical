@@ -33,7 +33,6 @@
               <tr>
                 <td class="left"><?php echo $entry_store; ?></td>
                 <td class="left"><?php echo $entry_quantity; ?></td>
-                <td class="right"></td>
               </tr>
             </thead>
             <?php $storequantity_row = 0; ?>
@@ -244,10 +243,20 @@
                   <?php } ?>
                 </select></td>
             </tr>
+            <?php if ($type != 2 && $type != 1) { ?>
             <tr>
-              <td><?php echo $entry_sort_order; ?></td>
-              <td><input type="text" name="sort_order" value="<?php echo $sort_order; ?>" size="2" /></td>
+              <td><?php echo $entry_subtract; ?></td>
+              <td><select name="subtract">
+                  <?php if ($subtract) { ?>
+                  <option value="1" selected="selected"><?php echo $text_yes; ?></option>
+                  <option value="0"><?php echo $text_no; ?></option>
+                  <?php } else { ?>
+                  <option value="1"><?php echo $text_yes; ?></option>
+                  <option value="0" selected="selected"><?php echo $text_no; ?></option>
+                  <?php } ?>
+                </select></td>
             </tr>
+            <?php } ?>
             <tr>
               <td><?php echo $entry_bonus; ?></td>
               <td><input type="checkbox" name="bonus" value="1" size="2" <?php if ($bonus) {echo 'checked';} ?> /></td>

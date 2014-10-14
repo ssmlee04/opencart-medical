@@ -35,9 +35,9 @@
         <a href="#tab-history" id='tab-history-link'><?php echo $tab_history; ?></a>
         <a href="#tab-transaction" id='tab-transaction-link'><?php echo $tab_transaction; ?></a>
         <a href="#tab-lendto" id='tab-lendto-link'><?php echo $tab_lendto; ?></a>
-        <a href="#tab-payment"><?php echo $tab_payment; ?></a>
+        <a href="#tab-payment" id='tab-payment-link'><?php echo $tab_payment; ?></a>
         <a href="#tab-image" id='tab-image-link'><?php echo $tab_image; ?></a>
-        <a href="#tab-order" id='tab-order-link'>tab_order2</a>
+        <a href="#tab-order" id='tab-order-link'><?php echo $tab_order; ?></a>
 
         <!-- <a href="#tab-reward"><php echo $tab_reward; ?></a> -->
 
@@ -126,9 +126,9 @@
               </tr>
               <tr>
                 <td><?php echo $entry_image; ?></td>
-                <td><div class="image"><img src="<?php echo $thumb; ?>" alt="" id="thumb" /><br />
-                    <input type="hidden" name="image" value="<?php echo $image; ?>" id="image" />
-                    <a onclick="image_upload('image', 'thumb');"><?php echo $text_browse; ?></a>&nbsp;&nbsp;|&nbsp;&nbsp;<a onclick="$('#thumb').attr('src', '<?php echo $no_image; ?>'); $('#image').attr('value', '');"><?php echo $text_clear; ?></a></div></td>
+                <td><div class="image"><img src="<?php echo $thumb; ?>" alt="" id="avatarthumb" /><br />
+                    <input type="hidden" name="avatarimage" value="<?php echo $image; ?>" id="avatarimage" />
+                    <a onclick="avatar_upload('avatarimage', 'avatarthumb');"><?php echo $text_browse; ?></a>&nbsp;&nbsp;|&nbsp;&nbsp;<a onclick="$('#avatarthumb').attr('src', '<?php echo $no_image; ?>'); $('#avatarimage').attr('value', '');"><?php echo $text_clear; ?></a></div></td>
               </tr>
               <!-- <tr>
                 <td><php echo $entry_password; ?></td>
@@ -282,7 +282,7 @@
               <td colspan="2" style="text-align: right;"><a id="button-filter" class="button"><span><?php echo $button_filter; ?></span></a></td>
             </tr>
             <tr>
-              <td colspan="3" style="text-align: right;"><a id="button-displayimage" class="button"><span><?php echo $button_displayimage; ?></span></a></td>
+              <td colspan="3" style="text-align: right;"><a id="button-displayimage" class="button"><span><?php echo $button_display_2image; ?></span></a></td>
             </tr>
           </table>
 
@@ -308,7 +308,6 @@
         </div>
 
         <div id="tab-lendto">
-
           <div id="lendto"></div>
           <table class="form">
             <tr>
@@ -357,54 +356,10 @@
 
         <?php $currentdate = 0; ?>
         <div id="tab-payment">
-          <!-- <div id="lendto"></div> -->
-          <table class="form">
-            
-            <?php $switch = 1; ?>
-            <?php foreach ($payments as $payment) { ?>
-            <?php $prevdate = $currentdate; ?>
-            <?php $currentdate = $payment['date_added']; ?>
-            <tr>
-              <?php if ($prevdate != $currentdate) $switch *= -1; ?>
-              <td class='color<?php echo $switch; ?>'><?php echo $payment['order_id']; ?></td>
-              <td class='color<?php echo $switch; ?>'><?php echo $payment['message']; ?></td>
-              <td class='color<?php echo $switch; ?>'><?php echo $payment['date_added']; ?></td>
-              <td class='color<?php echo $switch; ?>'><?php echo $payment['amount']; ?></td>
-            </tr>
-            <?php } ?>
-          </table>
+          <div id='payment'></div>
+          <a id="button-payment" class="button"></a>
 
-          <table class="form">
-
-            <tr onclick="$('.payment').toggle()">
-              <td><?php echo $text_total_payment; ?></td>
-              <td><?php echo $total_payment; ?></td>
-            </tr>
-
-            <tr class='payment'>
-              <td><?php echo $text_total_cash; ?></td>
-              <td><?php echo $total_cash; ?></td>
-            </tr>
-
-            <tr class='payment'>
-              <td><?php echo $text_total_visa; ?></td>
-              <td><?php echo $total_visa; ?></td>
-            </tr>
-
-            
-
-
-            <tr>
-              <td><?php echo $text_total_expense; ?></td>
-              <td><?php echo -$total_expense; ?></td>
-            </tr>
-
-
-            <tr class='color1'>
-              <td><?php echo $text_remaining_balance; ?></td>
-              <td><?php echo -$balance; ?></td>
-            </tr>
-          </table>
+          
         </div>
 
         <div id="tab-image">
@@ -552,7 +507,7 @@ function country(element, index, zone_id) {
 				$('select[name=\'address[zone_id]\']').html(html);
 			},
 			error: function(xhr, ajaxOptions, thrownError) {
-				alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+				// alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
 			}
 		});
 	}
@@ -562,13 +517,14 @@ $('select[name$=\'[country_id]\']').trigger('change');
 //--></script> 
 <script type="text/javascript"><!--
 $('#history .pagination a').live('click', function() {
+  console.log(this.href);
 	$('#history').load(this.href);
 	
 	return false;
 });			
 
 
-$('#history').load('index.php?route=sale/customer/history&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>');
+// $('#history').load('index.php?route=sale/customer/history&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>&page=2');
 
 $('#button-history').bind('click', function() {
 
@@ -616,6 +572,10 @@ $('#tab-order-link').on('click', function(){
   $('#button-order').click();
 });
 
+$('#tab-payment-link').on('click', function(){
+  $('#button-payment').click();
+});
+
 $('#tab-history-link').on('click', function(){
   $('textarea[name=\'comment\']').val('');
   $('#button-history').click();
@@ -626,7 +586,7 @@ $('#tab-lendto-link').on('click', function(){
   $('#button-borrowfrom').click();
 });
 
-$('#tab-images').load('index.php?route=sale/customer/images&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>');
+// $('#tab-images').load('index.php?route=sale/customer/images&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>');
 
 $('#order').load('index.php?route=sale/order&token=<?php echo $token; ?>&filter_customer_id=<?php echo $customer_id; ?>', {'minimum': 1});
 
@@ -640,11 +600,11 @@ $('#button-order').bind('click', function() {
     // data: 'filter_customer_id=' +  '<?php echo $customer_id; ?>',
     beforeSend: function() {
       $('.success, .warning, .attention').remove();
-      $('#button-image').attr('disabled', true);
+      // $('#button-image').attr('disabled', true);
       $('#order').before('<div class="attention"><img src="view/image/loading.gif" alt="" /> <?php echo $text_wait; ?></div>');
     },
     complete: function() {
-      $('#button-image').attr('disabled', false);
+      // $('#button-image').attr('disabled', false);
       $('.attention').remove();
     },
     success: function(html) {
@@ -654,6 +614,25 @@ $('#button-order').bind('click', function() {
 
 });
 
+
+$('#button-payment').bind('click', function() {
+  $.ajax({
+    url: 'index.php?route=sale/customer/payments&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>',
+    type: 'post',
+    beforeSend: function() {
+      $('.success, .warning, .attention').remove();
+      $('#button-payment').attr('disabled', true);
+      $('#payment').before('<div class="attention"><img src="view/image/loading.gif" alt="" /> <?php echo $text_wait; ?></div>');
+    },
+    complete: function() {
+      $('#button-payment').attr('disabled', false);
+      $('.attention').remove();
+    },
+    success: function(html) {
+      $('#payment').html(html);
+    }
+  });
+});
 
 
 $('#button-image').bind('click', function() {
@@ -681,9 +660,9 @@ $('#button-image').bind('click', function() {
 
 
 
-$('#transaction').load('index.php?route=sale/customer/transaction&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>', function(){
+// $('#transaction').load('index.php?route=sale/customer/transaction&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>', function(){
 
-});
+// });
 
 $('#button-transaction').bind('click', function() {
 
@@ -691,7 +670,7 @@ $('#button-transaction').bind('click', function() {
 		url: 'index.php?route=sale/customer/transaction&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>&show_group=1',
 		type: 'post',
 		dataType: 'html',
-		data: 'product_id=' + encodeURIComponent($('#tab-transaction input[name=\'product_id\']').val()) + '&unitspend=' + encodeURIComponent($('#tab-transaction input[name=\'unitspend\']').val()),
+		// data: 'product_id=' + encodeURIComponent($('#tab-transaction input[name=\'product_id\']').val()) + '&unitspend=' + encodeURIComponent($('#tab-transaction input[name=\'unitspend\']').val()),
 		beforeSend: function() {
 			$('.success, .warning, .attention').remove();
 			$('#button-transaction').attr('disabled', true);
@@ -714,9 +693,9 @@ $('#button-transaction').bind('click', function() {
 
 
 
-$('#lendto').load('index.php?route=sale/customer/lendings&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>');
+// $('#lendto').load('index.php?route=sale/customer/lendings&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>');
 
-$('#borrowfrom').load('index.php?route=sale/customer/borrows&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>');
+// $('#borrowfrom').load('index.php?route=sale/customer/borrows&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>');
 
 
 $('#button-borrowfrom').bind('click', function() {
@@ -1065,9 +1044,42 @@ function image_upload(field, thumb) {
 };
 
 
+
+function avatar_upload(field, thumb) {
+  $('#dialog').remove();
+  
+  $('#content').prepend('<div id="dialog" style="padding: 3px 0px 0px 0px;"><iframe src="index.php?route=common/filemanager&token=<?php echo $token; ?>&field=' + encodeURIComponent(field) + '" style="padding:0; margin: 0; display: block; width: 100%; height: 100%;" frameborder="no" scrolling="auto"></iframe></div>');
+  
+  $('#dialog').dialog({
+    title: '<?php echo $text_image_manager; ?>',
+    close: function (event, ui) {
+      $.ajax({
+          url: 'index.php?route=common/filemanager/image&token=<?php echo $token; ?>&image=' + encodeURIComponent($('#' + field).attr('value')),
+          dataType: 'text',
+          success: function(text) {
+          
+            $('#' + thumb).replaceWith('<img src="' + text + '" alt="" id="' + thumb + '" />');
+            var image = $('#' + field).attr('value');
+            // var customer_transaction_id = $('#tr' + field).attr('value');
+            // var customer_image_id = $('#id' + field).attr('value');
+            // alert(customer_transaction_id, customer_image_id);
+
+          }
+        });
+    },  
+    bgiframe: false,
+    width: 800,
+    height: 400,
+    resizable: false,
+    modal: false
+  });
+};
+
+
 $('#button-displayimage').on('click', function(){
-  var twoimage = "<img style='display:inline' src='" + $('#image2').val() + "'></img><img src='" + $('#image1').val() + "'></img>";
-  $.colorbox({title:'Response',html: twoimage});
+
+  $('.group1').toggle();
+  $('.group2').toggle();
 
 });
 
@@ -1079,10 +1091,10 @@ $('#button-filter').bind('click', function() {
   var product_name = $('input[name=\'treatment_product\']').val();
   
   $.ajax({
-    url: 'index.php?route=sale/customer/transaction&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>&show_group=1' ,
+    url: 'index.php?route=sale/customer/transaction&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>&show_group=1&filter_product_name=' + product_name.toString() + '&filter_ismain=0',
     type: 'post',
     dataType: 'html',
-    data: 'filter_product_name=' + product_name.toString() + '&filter_ismain=0', 
+    // data: 'filter_product_name=' + product_name.toString() + '&filter_ismain=0', 
     beforeSend: function() {
       $('.success, .warning').remove();
       $('#button-filter').attr('disabled', true);

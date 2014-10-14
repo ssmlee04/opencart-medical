@@ -31,7 +31,6 @@ class ModelSaleCustomer extends Model {
 
 	public function editCustomer($customer_id, $data) {
 
-		$this->load->out($data, false);
 		$this->db->query("UPDATE " . DB_PREFIX . "customer SET 
 			firstname = '" . $this->db->escape($data['firstname']) . "'
 			, lastname = '" . $this->db->escape($data['lastname']) . "'
@@ -39,14 +38,14 @@ class ModelSaleCustomer extends Model {
 			, email = '" . $this->db->escape($data['email']) . "', telephone = '" . $this->db->escape($data['telephone']) . "', fax = '" . $this->db->escape($data['fax']) . "'
 			, dob = '" . $this->db->escape($data['dob']) . "'
 			, ssn = '" . $this->db->escape($data['ssn']) . "'
-			, image = '" . $this->db->escape($data['image']) . "'
+			, image = '" . $this->db->escape($data['avatarimage']) . "'
 			, store_id = '" . (int)$data['store'] . "'
 			, outsource = '" . (int)$data['outsource'] . "'
 			, nickname = '" . $this->db->escape($data['nickname']) . "'
 			, line_id = '" . $this->db->escape($data['line_id']) . "'
 			, fb_id = '" . $this->db->escape($data['fb_id']) . "'
-			, newsletter = '" . (int)$data['newsletter'] . "'
 			, customer_group_id = '" . (int)$data['customer_group_id'] . "', status = '" . (int)$data['status'] . "' WHERE customer_id = '" . (int)$customer_id . "'");
+			// , newsletter = '" . (int)$data['newsletter'] . "'
 
 	
 
@@ -66,7 +65,20 @@ class ModelSaleCustomer extends Model {
 			$address = $data['address'];
 			// foreach ($data['address'] as $address) {
 			
-				$this->db->query("INSERT INTO " . DB_PREFIX . "address SET address_id = '" . (int)$address['address_id'] . "', customer_id = '" . (int)$customer_id . "', firstname = '" . $this->db->escape($address['firstname']) . "', lastname = '" . $this->db->escape($address['lastname']) . "', company = '" . $this->db->escape($address['company']) . "', company_id = '" . $this->db->escape($address['company_id']) . "', tax_id = '" . $this->db->escape($address['tax_id']) . "', address_1 = '" . $this->db->escape($address['address_1']) . "', address_2 = '" . $this->db->escape($address['address_2']) . "', city = '" . $this->db->escape($address['city']) . "', postcode = '" . $this->db->escape($address['postcode']) . "', country_id = '" . (int)$address['country_id'] . "', zone_id = '" . (int)$address['zone_id'] . "'");
+					// address_id = '" . (int)$address['address_id'] . "'
+					// , firstname = '" . $this->db->escape($address['firstname']) . "'
+					// , lastname = '" . $this->db->escape($address['lastname']) . "'
+					// , company = '" . $this->db->escape($address['company']) . "'
+					// , company_id = '" . $this->db->escape($address['company_id']) . "'
+					// , tax_id = '" . $this->db->escape($address['tax_id']) . "'
+			//, zone_id = '" . (int)$address['zone_id'] . "'"
+				$this->db->query("INSERT INTO " . DB_PREFIX . "address SET 
+					 customer_id = '" . (int)$customer_id . "'
+					, address_1 = '" . $this->db->escape($address['address_1']) . "'
+					, address_2 = '" . $this->db->escape($address['address_2']) . "'
+					, city = '" . $this->db->escape($address['city']) . "'
+					, postcode = '" . $this->db->escape($address['postcode']) . "'
+					, country_id = '" . (int)$address['country_id'] . "'");
 
 				// if (isset($address['default'])) {
 					$address_id = $this->db->getLastId();
@@ -1469,11 +1481,14 @@ class ModelSaleCustomer extends Model {
 
 		$days = $query->row['additional_days'];
 
-		if ($reminder_status_id > 0) $sql = "UPDATE oc_customer_history SET reminder_date = DATE_ADD(NOW(), INTERVAL $days DAY), reminder_status = '$reminder_status_id', reminded_already=1, reply='$reply' WHERE customer_history_id = $customer_history_id AND user_id = $user_id";
+		if ($reminder_status_id == 6) $days = 30;
+		if ($reminder_status_id == 5) $days = 14;
+		if ($reminder_status_id == 4) $days = 5;
+		if ($reminder_status_id == 3) $days = 3;
 
-		else $sql = "UPDATE oc_customer_history SET reminder_date = DATE_ADD(NOW(), INTERVAL $days DAY), reminder_status = '$reminder_status_id', reply='$reply' WHERE customer_history_id = $customer_history_id AND user_id = $user_id";
+		if ($reminder_status_id > 0) $sql = "UPDATE oc_customer_history SET reminder_date = DATE_ADD(NOW(), INTERVAL $days DAY), reminder_status = '$reminder_status_id', reminded_already='1', reply='" . $this->db->escape($reply) . "', date_modified = NOW() WHERE customer_history_id = $customer_history_id AND user_id = $user_id";
 
-		// $this->load->out($sql);
+		else $sql = "UPDATE oc_customer_history SET reminder_date = DATE_ADD(NOW(), INTERVAL $days DAY), reminder_status = '$reminder_status_id', reply='$reply', date_modified = NOW() WHERE customer_history_id = $customer_history_id AND user_id = $user_id";
 
 		$this->db->query($sql);
 

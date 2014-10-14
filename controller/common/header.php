@@ -223,6 +223,7 @@ class ControllerCommonHeader extends Controller {
 			$this->data['length_class'] = $this->url->link('localisation/length_class', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['zone'] = $this->url->link('localisation/zone', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['purchase'] = $this->url->link('catalog/purchase', 'token=' . $this->session->data['token'], 'SSL');
+			$this->data['bonus'] = $this->url->link('sale/bonus', 'token=' . $this->session->data['token'], 'SSL');
 
 			// $this->data['openbay_show_menu'] = $this->config->get('openbaymanager_show_menu');
 

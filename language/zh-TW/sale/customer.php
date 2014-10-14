@@ -39,11 +39,18 @@ $_['text_delete_event_error']         = '無法刪除預約作業';
 $_['text_total_expense']         = '總消費';
 $_['text_total_visa']         = '總信用卡付款';
 $_['text_total_cash']         = '總現金付款';
+$_['text_latest_messages']         = '最新待回覆訊息';
+$_['text_update_comment_success']         = '成功更新訊息';
+$_['column_customer']         = '客戶';
+$_['column_message']         = '訊息';
 
 
 
 
+$_['button_update_comment']           = '更新訊息';
+$_['button_display_2image']           = '並排顯示圖片';
 $_['button_change_status']           = '更改狀態';
+$_['button_record_history']           = '更改回覆狀態';
 $_['button_add_picture']           = '增加圖片';
 $_['button_add_image'] = '增加圖片';
 $_['button_add_history'] = '提醒設定';
@@ -52,6 +59,7 @@ $_['text_order_total']           = '訂單金額';
 $_['text_payment_final']           = '尾款金額';
 $_['text_payment_visa']           = '信用卡金額';
 $_['text_payment_cash']           = '現金金額';
+$_['text_total_payment']           = '總付款';
 
 // Column
 $_['column_name']             = '客戶名稱';
@@ -106,13 +114,22 @@ $_['entry_comment']                           = '備註';
 $_['entry_image']                           = '圖片';
 $_['entry_treatment_image']                           = '診療圖片';
 $_['entry_dob']         = '出生年月日';
-$_['entry_outsource']         = 'entry_outsource ????????????????????';
+
+$_['entry_outsource']         = '外務';
+$_['entry_beauty']         = '美容師';
+$_['entry_doctor']         = '醫師';
+$_['entry_consultant']         = '諮詢師';
+
+
 $_['entry_ssn']         = '身份證字號';
 $_['entry_line_id']         = 'Line id';
+
 $_['entry_counselor_id']         = 'entry_counselor_id ????????????????';
 $_['entry_fb_id']         = 'Facebook id';
+
 $_['entry_misc']         = 'entry_misc ??????????????????';
 $_['entry_store']         = '對應商店';
+$_['entry_date_added']         = '增加日期';
 
 // Error
 $_['error_warning']         = '警告發生錯誤，請再確認';

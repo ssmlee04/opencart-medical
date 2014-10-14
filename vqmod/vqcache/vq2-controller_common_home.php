@@ -48,6 +48,8 @@ class ControllerCommonHome extends Controller {
 		$this->data['text_month'] = $this->language->get('text_month');
 		$this->data['text_year'] = $this->language->get('text_year');
 		$this->data['text_no_results'] = $this->language->get('text_no_results');
+		$this->data['text_change_status_success'] = $this->language->get('text_change_status_success');
+		
 		$this->data['button_record_history'] = $this->language->get('button_record_history');
 
 		$this->data['column_user'] = $this->language->get('column_user');

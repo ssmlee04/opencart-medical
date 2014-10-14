@@ -26,7 +26,7 @@ class ModelCatalogProduct extends Model {
 
 		if ((int)$data['product_type_id'] == 1) $subtract = 1;
 		if ((int)$data['product_type_id'] == 2) $subtract = 0;
-		if ((int)$data['product_type_id'] == 3) $subtract = 1;
+		if ((int)$data['product_type_id'] == 3) $subtract = $data['subtract'];
 		
 		$this->db->query("UPDATE " . DB_PREFIX . "product SET model = '" . $this->db->escape($data['model']) . "', 
 			minimum = '" . (int)$data['minimum'] . "'

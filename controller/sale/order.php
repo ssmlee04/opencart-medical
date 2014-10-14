@@ -970,7 +970,7 @@ class ControllerSaleOrder extends Controller {
 		}
 
 		// $this->data['cancel'] = $this->url->link('sale/order', 'token=' . $this->session->data['token'] . $url, 'SSL');
-		$this->data['cancel'] = $this->url->link('sale/customer/update&customer_id=' . $this->request->get['filter_customer_id'], 'token=' . $this->session->data['token'] . $url, 'SSL');
+		$this->data['cancel'] = $this->url->link('sale/customer/update&customer_id=' . $this->request->get['customer_id'], 'token=' . $this->session->data['token'] . $url, 'SSL');
 
 		if (isset($this->request->get['order_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
 			$order_info = $this->model_sale_order->getOrder($this->request->get['order_id']);
@@ -1192,8 +1192,8 @@ class ControllerSaleOrder extends Controller {
 				'price'            => $order_product['price'],
 				'ref_price'            => $order_product['ref_price'],
 				'total'            => $order_product['total'],
-				'tax'              => $order_product['tax'],
-				'reward'           => $order_product['reward']
+				// 'tax'              => $order_product['tax'],
+				// 'reward'           => $order_product['reward']
 			);
 		}
 
@@ -1233,7 +1233,10 @@ class ControllerSaleOrder extends Controller {
 
 		$this->load->model('sale/order'); 
 
-		$this->model_sale_order->editOrderPayment($this->request->get['order_id'], $this->request->post['payment_cash'], $this->request->post['payment_visa'], $this->request->post['payment_final']);
+		if (isset($this->request->get['order_id'])) {
+			$this->model_sale_order->editOrderPayment($this->request->get['order_id'], $this->request->post['payment_cash'], $this->request->post['payment_visa'], $this->request->post['payment_final']);
+		}
+		
 
 		// if (!$this->model_sale_order->canEditOrder($this->request->get['order_id'], $this->cart->getProducts())) {
 		// 	$this->error['warning'] = $this->language->get('error_cannot_edit_la');
