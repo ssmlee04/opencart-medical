@@ -530,6 +530,51 @@ class ModelSaleCustomer extends Model {
 		return $query->rows;
 	}
 
+	// '2014-10-14 12:13'
+	public function recordevent($customer_id, $data) {
+
+		$sql  = "INSERT INTO oc_customer_event SET date_added = NOW(), customer_id = " . (int)$customer_id;
+
+		if (isset($data['title'])) $sql .= ", title='" . $data['title'] . "'"; 
+		if (isset($data['end'])) $sql .= ", date_end='" . $data['end'] ."'";
+		if (isset($data['start'])) $sql .= ", date_start='" . $data['start'] . "'";
+
+		$this->db->query($sql);
+
+		return $this->db->countAffected();
+	}
+
+	public function deleteevent($customer_event_id) {
+
+		$sql = "DELETE FROM oc_customer_event WHERE customer_event_id = " . (int)$customer_event_id;
+
+		$this->db->query($sql);
+
+		return $this->db->countAffected();
+	}
+
+	// '2014-10-14 11:16'
+	public function getEvents($data) {
+
+		$sql = "SELECT * FROM oc_customer_event WHERE 1=1";
+
+		if (isset($data['filter_date_start'])) {
+			$sql .= " AND date_start = '" . $this->db->escape($data['filter_date_start']) . "' ";
+		}
+
+		if (isset($data['filter_date_end'])) {
+			$sql .= " AND date_end = '" . $this->db->escape($data['filter_date_end']) . "' ";
+		}
+
+		if (isset($data['filter_customer_id'])) {
+			$sql .= " AND customer_id = '" . (int)$data['filter_customer_id'] . "' ";
+		}
+
+		$query = $this->db->query($sql);
+
+		return $query->rows;
+	}
+
 	// '2014-09-30 16:14'
 	public function getHistories($data, $start = 0, $limit = 10) { 
 		

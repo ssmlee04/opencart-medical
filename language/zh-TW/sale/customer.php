@@ -30,6 +30,14 @@ $_['text_borrowed']         = '轉讓得到';
 $_['text_remaining_balance']         = '賬戶餘額';
 $_['text_lendedout']         = '轉讓';
 $_['text_cannot_use_inventory']         = '增加交易錯誤';
+$_['text_record_event_success']         = '成功新增預約作業';
+$_['text_record_event_error']         = '無法新增預約作業';
+$_['text_delete_event_success']         = '成功刪除預約作業';
+$_['text_delete_event_error']         = '無法刪除預約作業';
+
+
+
+
 $_['button_change_status']           = '更改狀態';
 $_['button_add_picture']           = '增加圖片';
 $_['button_add_image'] = '增加圖片';

@@ -1,1 +1,1 @@
-UPDATE oc_customer_transaction SET date_modified = NOW() , status = '2' , doctor_id = '12' , consultant_id = '13' , outsource_id = '14' , beauty_id = '16' WHERE customer_transaction_id = '5615' AND quantity < 0
+INSERT INTO oc_customer_event SET date_added = NOW(), customer_id = 3, title='ccccc', date_end='2014-10-13 02:30:00', date_start='2014-10-13 00:30:00'

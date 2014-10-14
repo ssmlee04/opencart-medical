@@ -2068,6 +2068,66 @@ class ControllerSaleCustomer extends Controller {
 		}
 
 		$this->response->setOutput(json_encode($json));
+	}	
+
+
+	// '2014-10-14 12:11'
+	public function recordevent() {
+
+		$json = array();
+
+		$this->language->load('sale/customer');
+
+		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->user->hasPermission('modify', 'sale/customer')) { 
+
+			if (isset($this->request->post['title'])) { 		
+
+				$this->load->model('sale/customer');	
+		
+				if ($this->model_sale_customer->recordevent($this->request->post['customer_id'], $this->request->post)) {
+					$json['success'] = $this->language->get('text_record_event_success');
+				} else {
+					$json['error'] = $this->language->get('text_record_event_error');
+				}
+			} else {
+				$json['error'] = $this->language->get('text_record_event_error');
+			}
+
+		} else {
+			$json['error'] = $this->language->get('error_permission');
+		}
+
+		$this->response->setOutput(json_encode($json));
+	}
+
+
+	// '2014-10-14 12:11'
+	public function deleteevent() {
+
+		$json = array();
+
+		$this->language->load('sale/customer');
+
+		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->user->hasPermission('modify', 'sale/customer')) { 
+
+			if (isset($this->request->post['customer_event_id'])) { 		
+
+				$this->load->model('sale/customer');	
+		
+				if ($this->model_sale_customer->deleteevent($this->request->post['customer_event_id'])) {
+					$json['success'] = $this->language->get('text_delete_event_success');
+				} else {
+					$json['error'] = $this->language->get('text_delete_event_error');
+				}
+			} else {
+				$json['error'] = $this->language->get('text_delete_event_error');
+			}
+
+		} else {
+			$json['error'] = $this->language->get('error_permission');
+		}
+
+		$this->response->setOutput(json_encode($json));
 	}
 
 
