@@ -81,6 +81,10 @@ class ControllerSaleCustomer extends Controller {
 				$url .= '&page=' . $this->request->get['page'];
 			}
 
+			if (isset($this->request->post['ssn'])) {
+				$url .= '&filter_ssn=' . $this->request->post['ssn'];
+			}
+
 			$this->redirect($this->url->link('sale/customer', 'token=' . $this->session->data['token'] . $url, 'SSL'));
 		}
 
@@ -201,6 +205,10 @@ class ControllerSaleCustomer extends Controller {
 
 			if (isset($this->request->get['page'])) {
 				$url .= '&page=' . $this->request->get['page'];
+			}
+
+			if (isset($this->request->get['filter_ssn'])) {
+				$url .= '&filter_ssn=' . $this->request->get['filter_ssn'];
 			}
 
 			$this->redirect($this->url->link('sale/customer', 'token=' . $this->session->data['token'] . $url, 'SSL'));
@@ -2279,7 +2287,7 @@ class ControllerSaleCustomer extends Controller {
 
 		$this->load->model('sale/customer');
 		// $this->data['customer_id'] = (isset($this->request->get['customer_id']) ? $this->request->get['customer_id'] : 0);
-		$this->data['customer_id'] = $this->request->get['customer_id'];
+		$this->data['customer_id'] = (isset($this->request->get['customer_id']) ? $this->request->get['customer_id'] : null);
 
 		// $reminder = (isset($this->request->post['reminder']) ? $this->request->post['reminder'] : null); 
 		// $reminder_date = (isset($this->request->post['reminder_date']) ? $this->request->post['reminder_date'] : null); 
@@ -2439,7 +2447,7 @@ class ControllerSaleCustomer extends Controller {
 				'date_modified'  => date($this->language->get('date_format_short'), strtotime($result['date_modified']))
 			);
 		}
-
+// $this->load->test($this->data['transactions']);
 		foreach ($totalresults as $result) {
 
 			if ($result['status'] < 0) continue;

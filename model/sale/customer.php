@@ -742,7 +742,7 @@ class ModelSaleCustomer extends Model {
 			// 10 = borrow out 
 
 			$q = $this->db->query("SELECT * FROM oc_customer_transaction WHERE customer_transaction_id = '$customer_transaction_id'");
-
+// $this->load->out($q);
 			$amount = -$q->row['amount'];
 			$bonus_doctor = $q->row['bonus_doctor'];
 			$bonus_consultant = $q->row['bonus_consultant'];
@@ -973,6 +973,7 @@ class ModelSaleCustomer extends Model {
 
 				$product_type_id = $product['product_type_id'];
 				$quantity = $product_info['quantity'];
+				$bonus_percent_beauty = $product['bonus_percent_beauty'];
 				$bonus_percent_doctor = $product['bonus_percent_doctor'];
 				$bonus_percent_consultant = $product['bonus_percent_consultant'];
 				$bonus_percent_outsource = $product['bonus_percent_outsource'];
@@ -1007,9 +1008,11 @@ class ModelSaleCustomer extends Model {
 							bonus_percent_outsource = '" .  (int)$bonus_percent_outsource . "', 
 							bonus_percent_consultant = '" .  (int)$bonus_percent_consultant . "', 
 							bonus_percent_doctor = '" .  (int)$bonus_percent_doctor . "', 
+							bonus_percent_beauty = '" .  (int)$bonus_percent_beauty . "', 
 							bonus_doctor = '" .  (int)$bonus_percent_doctor * (float)($eachamount/100) . "', 
 							bonus_consultant = '" .  (int)$bonus_percent_consultant  * (float)($eachamount/100) . "', 
 							bonus_outsource = '" .  (int)$bonus_percent_outsource  * (float)($eachamount/100) . "', 
+							bonus_beauty = '" .  (int)$bonus_percent_beauty  * (float)($eachamount/100) . "', 
 							
 							quantity = '" . -$temp . "'
 							,product_total_which = '" . $subquantity . "'
@@ -1032,9 +1035,11 @@ class ModelSaleCustomer extends Model {
 							bonus_percent_outsource = '" .  (int)$bonus_percent_outsource . "', 
 							bonus_percent_consultant = '" .  (int)$bonus_percent_consultant . "', 
 							bonus_percent_doctor = '" .  (int)$bonus_percent_doctor . "', 
+							bonus_percent_beauty = '" .  (int)$bonus_percent_beauty . "', 
 							bonus_doctor = '" .  (int)$bonus_percent_doctor * (float)($amount/100) . "', 
 							bonus_consultant = '" .  (int)$bonus_percent_consultant  * (float)($amount/100) . "', 
 							bonus_outsource = '" .  (int)$bonus_percent_outsource  * (float)($amount/100) . "', 
+							bonus_beauty = '" .  (int)$bonus_percent_beauty  * (float)($amount/100) . "', 
 							
 							quantity = '" . -(int)$quantity . "'
 							, subquantity = '" . -(int)$subquantity . "'
@@ -1213,8 +1218,8 @@ class ModelSaleCustomer extends Model {
 		$comment = sprintf($this->language->get('text_treatment_reminder'), $reminder_days, $product_name);
 
 		if ($reminder) {
-			$this->db->query("INSERT INTO oc_customer_history (if_treatment, comment, customer_id, user_id, reminder, reminder_date, date_added, date_modified) VALUES
-			 (1, '$comment', '$customer_id', '$user_id', '$reminder', DATE_ADD(NOW(),  INTERVAL $reminder_days DAY), NOW(), NOW())");
+			$this->db->query("DELETE FROM oc_customer_history WHERE customer_transaction_id = '" . (int)$customer_transaction_id . "'");
+			$this->db->query("INSERT INTO oc_customer_history (customer_transaction_id, if_treatment, comment, customer_id, user_id, reminder, reminder_date, date_added, date_modified, product_id) VALUES ($customer_transaction_id, 1, '$comment', '$customer_id', '$user_id', '$reminder', DATE_ADD(NOW(),  INTERVAL $reminder_days DAY), NOW(), NOW(), $product_id)");
 			
 		}
 	}

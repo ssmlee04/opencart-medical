@@ -113,13 +113,13 @@ class ControllerSettingStore extends Controller {
 			'href' => $this->url->link('setting/setting', 'token=' . $this->session->data['token'], 'SSL')
 		);
 
-		$this->data['stores'][] = array(
-			'store_id' => 0,
-			'name'     => $this->config->get('config_name') . $this->language->get('text_default'),
-			'url'      => HTTP_CATALOG,
-			'selected' => isset($this->request->post['selected']) && in_array(0, $this->request->post['selected']),
-			'action'   => $action
-		);
+		// $this->data['stores'][] = array(
+		// 	'store_id' => 0,
+		// 	'name'     => $this->config->get('config_name') . $this->language->get('text_default'),
+		// 	'url'      => HTTP_CATALOG,
+		// 	'selected' => isset($this->request->post['selected']) && in_array(0, $this->request->post['selected']),
+		// 	'action'   => $action
+		// );
 
 		$store_total = $this->model_setting_store->getTotalStores();
 
@@ -133,6 +133,7 @@ class ControllerSettingStore extends Controller {
 				'href' => $this->url->link('setting/store/update', 'token=' . $this->session->data['token'] . '&store_id=' . $result['store_id'], 'SSL')
 			);
 
+		
 			$this->data['stores'][] = array(
 				'store_id' => $result['store_id'],
 				'name'     => $result['name'],

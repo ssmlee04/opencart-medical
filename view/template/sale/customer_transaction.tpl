@@ -58,7 +58,7 @@
 
     <tr>
       <td class="left">
-        <input type='hidden' value='<?php echo $transaction['customer_transaction_id']; ?>' id='hidden<?php echo $transaction['customer_transaction_id']; ?>'/>
+        <!-- <input type='hidden' value='<php echo $transaction['customer_transaction_id']; ?>' id='hidden?php echo $transaction['customer_transaction_id']; ?>'/> -->
         <?php $treatment_image_row = 0; ?>
         <?php if ($transaction['treatment_images']) { ?>
         <?php foreach ($transaction['treatment_images'] as $image) { ?>
@@ -88,7 +88,7 @@
         <?php if (!$transaction['ismain'] && $transaction['status'] != 10) { ?>
           
           <?php echo $entry_beauty; ?>
-            <select name=''>
+            <select name='beauty<?php echo $transaction['customer_transaction_id']; ?>'>
             <option></option>
             <?php foreach ($beautys as $result) { ?>
             <?php if ($result['user_id'] == $transaction['beauty_id']) { ?>
@@ -100,7 +100,7 @@
             </select>
 
           <?php echo $entry_doctor; ?>
-            <select name=''>
+            <select name='doctor<?php echo $transaction['customer_transaction_id']; ?>'>
             <option></option>
             <?php foreach ($doctors as $result) { ?>
             <?php if ($result['user_id'] == $transaction['doctor_id']) { ?>
@@ -112,7 +112,7 @@
             </select>
 
           <?php echo $entry_consultant; ?>
-          <select name=''>
+          <select name='consultant<?php echo $transaction['customer_transaction_id']; ?>'>
             <option></option>
             <?php foreach ($consultants as $result) { ?>
 
@@ -126,7 +126,7 @@
             </select>
 
           <?php echo $entry_outsource; ?> 
-            <select name=''>
+            <select name='outsource<?php echo $transaction['customer_transaction_id']; ?>'>
             <option></option>
             <?php foreach ($outsource as $result) { ?>
              
@@ -141,7 +141,7 @@
           <?php } ?>
 
         <br/>
-        <input type='text' id='comment' style='width:400px' value="<?php echo $transaction['comment']; ?>"/>
+        <input type='text' id='comment<?php echo $transaction['customer_transaction_id']; ?>' style='width:400px' value="<?php echo $transaction['comment']; ?>"/>
         <?php if ($transaction['type'] == 2) { ?>
         <img src="view/image/delete.png" title="<?php echo $button_remove; ?>" alt="<?php echo $button_remove; ?>" style="cursor: pointer;" onclick="$(this).parent().parent().remove(); deleteCustomerTransaction('<?php echo $transaction['customer_transaction_id']; ?>')" />
         <?php } ?>
@@ -157,7 +157,7 @@
         <?php } else { ?>
           <input value='x'/ type='hidden'>
         <?php } ?>
-        <a class='change_status_button'><?php echo $button_change_status; ?></a>
+        <a class='change_status_button' id='<?php echo $transaction['customer_transaction_id']; ?>'><?php echo $button_change_status; ?></a>
       </td>
       <!-- <td class="right"><php echo $transaction['amount']; ?></td> -->
     </tr>
@@ -216,6 +216,7 @@
 <link rel="stylesheet" href="view/javascript/jquery/colorbox/colorbox.css" />
 <script type="text/javascript" src="view/javascript/jquery/colorbox/jquery.colorbox-min.js"></script> 
 <script type="text/javascript">  
+
 $(".group1").on('mouseover', function(){
    $(".group1").colorbox({rel:'group1'});
 });
@@ -272,18 +273,19 @@ function deleteCustomerTransaction(id) {
 }
 
 $('.change_status_button').on('click', function(e){
+  
   e.preventDefault();
+  var id = $(this).attr('id')  
 
   var status = $(this).prev().val();
-  var comment = $(this).prev().prev().val();
-  var beauty_id = $(this).prev().prev().prev().prev().prev().prev().val();
-  var doctor_id = $(this).prev().prev().prev().prev().prev().val();
-  var consultant_id = $(this).prev().prev().prev().prev().val();
-  var outsource_id = $(this).prev().prev().prev().val();
-  var id = $(this).parent().parent().children().first().children().first().val();
+  var comment = $("#comment" + id).val();
+  var beauty_id = $("select[name='beauty" + id + "']").val();
+  var doctor_id = $("select[name='doctor" + id + "']").val();
+  var consultant_id = $("select[name='consultant" + id + "']").val();
+  var outsource_id = $("select[name='outsource" + id + "']").val();
 
   $('.attention, .success, .warning').remove();
-  
+
   if (status)
   $.ajax({
       url: 'index.php?route=sale/customer/edittransaction&token=<?php echo $token; ?>',
@@ -311,16 +313,12 @@ $('.change_status_button').on('click', function(e){
     });
   
 });
+
 </script>
 
 <script type="text/javascript"><!--
 
   var treatment_image_row = <?php echo $treatment_image_row; ?>;
-// $(document).ready(function(){
-
-
-
-// });
 
 $('.addImage2').on('click', function(e){
   e.preventDefault();

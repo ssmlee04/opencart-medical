@@ -1,0 +1,80 @@
+stdClass Object
+(
+    [num_rows] => 1
+    [row] => Array
+        (
+            [customer_transaction_id] => 5790
+            [type] => 0
+            [ismain] => 0
+            [status] => -1
+            [customer_lending_id] => 0
+            [lender_id] => 0
+            [customer_id] => 9
+            [order_id] => 195
+            [product_id] => 80
+            [product_type_id] => 2
+            [product_which] => 6
+            [product_total_which] => 10
+            [quantity] => -0.1
+            [subquantity] => -1
+            [unit_class_id] => 4
+            [amount] => -3000.00
+            [payment] => 0.00
+            [date_added] => 2014-10-15 15:32:38
+            [date_modified] => 2014-10-15 15:32:38
+            [comment] => 
+            [doctor_id] => 0
+            [outsource_id] => 0
+            [consultant_id] => 0
+            [beauty_id] => 0
+            [bonus_percent_doctor] => 0
+            [bonus_percent_consultant] => 0
+            [bonus_percent_outsource] => 0
+            [bonus_percent_beauty] => 0
+            [bonus_doctor] => 0.00
+            [bonus_consultant] => 0.00
+            [bonus_outsource] => 0.00
+            [bonus_beauty] => 0.00
+        )
+
+    [rows] => Array
+        (
+            [0] => Array
+                (
+                    [customer_transaction_id] => 5790
+                    [type] => 0
+                    [ismain] => 0
+                    [status] => -1
+                    [customer_lending_id] => 0
+                    [lender_id] => 0
+                    [customer_id] => 9
+                    [order_id] => 195
+                    [product_id] => 80
+                    [product_type_id] => 2
+                    [product_which] => 6
+                    [product_total_which] => 10
+                    [quantity] => -0.1
+                    [subquantity] => -1
+                    [unit_class_id] => 4
+                    [amount] => -3000.00
+                    [payment] => 0.00
+                    [date_added] => 2014-10-15 15:32:38
+                    [date_modified] => 2014-10-15 15:32:38
+                    [comment] => 
+                    [doctor_id] => 0
+                    [outsource_id] => 0
+                    [consultant_id] => 0
+                    [beauty_id] => 0
+                    [bonus_percent_doctor] => 0
+                    [bonus_percent_consultant] => 0
+                    [bonus_percent_outsource] => 0
+                    [bonus_percent_beauty] => 0
+                    [bonus_doctor] => 0.00
+                    [bonus_consultant] => 0.00
+                    [bonus_outsource] => 0.00
+                    [bonus_beauty] => 0.00
+                )
+
+        )
+
+)

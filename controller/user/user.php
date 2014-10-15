@@ -173,6 +173,8 @@ class ControllerUserUser extends Controller {
 
 		$results = $this->model_user_user->getUsers($data);
 
+		$this->load->model('user/user_group');
+
 		foreach ($results as $result) {
 			$action = array();
 
@@ -181,9 +183,14 @@ class ControllerUserUser extends Controller {
 				'href' => $this->url->link('user/user/update', 'token=' . $this->session->data['token'] . '&user_id=' . $result['user_id'] . $url, 'SSL')
 			);
 
+			$user_group_id = $result['user_group_id'];
+			$user_group_info = $this->model_user_user_group->getUserGroup($user_group_id);
+
 			$this->data['users'][] = array(
 				'user_id'    => $result['user_id'],
 				'username'   => $result['username'],
+				'fullname'   => $result['fullname'],
+				'user_group_name'   => $user_group_info['name'],
 				'status'     => ($result['status'] ? $this->language->get('text_enabled') : $this->language->get('text_disabled')),
 				'date_added' => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
 				'selected'   => isset($this->request->post['selected']) && in_array($result['user_id'], $this->request->post['selected']),
@@ -199,6 +206,8 @@ class ControllerUserUser extends Controller {
 		$this->data['column_status'] = $this->language->get('column_status');
 		$this->data['column_date_added'] = $this->language->get('column_date_added');
 		$this->data['column_action'] = $this->language->get('column_action');
+		$this->data['column_user_group_name'] = $this->language->get('column_user_group_name');
+		$this->data['column_fullname'] = $this->language->get('column_fullname');
 
 		$this->data['button_insert'] = $this->language->get('button_insert');
 		$this->data['button_delete'] = $this->language->get('button_delete');
@@ -532,6 +541,52 @@ class ControllerUserUser extends Controller {
 			return false;
 		}
 	}
+
+	public function autocomplete() {
+		$json = array();
+
+		if (isset($this->request->get['filter_name'])) {
+			$this->load->model('user/user');
+
+			$data = array(
+				'filter_name' => $this->request->get['filter_name'],
+				// 'start'       => 0,
+				// 'limit'       => 20
+			);
+			$results = $this->model_user_user->getUsers($data);
+
+			foreach ($results as $result) {
+				
+				$json[] = array(
+					'user_id'       => $result['user_id'], 
+					// 'dob' => $result['dob'],
+					// 'store_id' => $result['store_id'],
+					// 'customer_group_id' => $result['customer_group_id'],
+					// 'name'              => strip_tags(html_entity_decode($result['name'], ENT_QUOTES, 'UTF-8')),
+					// 'customer_group'    => $result['customer_group'],
+					// 'firstname'         => $result['firstname'],
+					'fullname'          => $result['fullname'],
+					// 'lastname'          => $result['lastname'],
+					// 'email'             => $result['email'],
+					// 'telephone'         => $result['telephone'],
+					// 'fax'               => $result['fax'],
+					// 'ssn'               => $result['ssn']
+					// 'address_id'           =>  $result['address_id'],
+					// 'address'           => $address
+				);					
+			}
+		}
+
+		$sort_order = array();
+
+		foreach ($json as $key => $value) {
+			$sort_order[] = $value['fullname'];
+		}
+
+		array_multisort($sort_order, SORT_ASC, $json);
+
+		$this->response->setOutput(json_encode($json));
+	}	
 
 	protected function validateDelete() {
 		if (!$this->user->hasPermission('modify', 'user/user')) {

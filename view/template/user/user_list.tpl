@@ -24,16 +24,24 @@
           <thead>
             <tr>
               <td width="1" style="text-align: center;"><input type="checkbox" onclick="$('input[name*=\'selected\']').attr('checked', this.checked);" /></td>
-              <td class="left"><?php if ($sort == 'username') { ?>
-                <a href="<?php echo $sort_username; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_username; ?></a>
+              <td class="left"><?php if ($sort == 'fullname') { ?>
+                <a href="<?php echo $sort_fullname; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_username; ?></a>
                 <?php } else { ?>
-                <a href="<?php echo $sort_username; ?>"><?php echo $column_username; ?></a>
+                <a href="<?php echo $sort_fullname; ?>"><?php echo $column_fullname ?></a>
                 <?php } ?></td>
+
+              <td class="left"><?php if ($sort == 'user_group_name') { ?>
+                <a href="<?php echo $sort_user_group_name; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_user_group_name; ?></a>
+                <?php } else { ?>
+                <a href="<?php echo $sort_user_group_name; ?>"><?php echo $column_user_group_name; ?></a>
+                <?php } ?></td>
+
               <td class="left"><?php if ($sort == 'status') { ?>
                 <a href="<?php echo $sort_status; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_status; ?></a>
                 <?php } else { ?>
                 <a href="<?php echo $sort_status; ?>"><?php echo $column_status; ?></a>
                 <?php } ?></td>
+
               <td class="left"><?php if ($sort == 'date_added') { ?>
                 <a href="<?php echo $sort_date_added; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_date_added; ?></a>
                 <?php } else { ?>
@@ -51,7 +59,8 @@
                 <?php } else { ?>
                 <input type="checkbox" name="selected[]" value="<?php echo $user['user_id']; ?>" />
                 <?php } ?></td>
-              <td class="left"><?php echo $user['username']; ?></td>
+              <td class="left"><?php echo $user['fullname']; ?></td>
+              <td class="left"><?php echo $user['user_group_name']; ?></td>
               <td class="left"><?php echo $user['status']; ?></td>
               <td class="left"><?php echo $user['date_added']; ?></td>
               <td class="right"><?php foreach ($user['action'] as $action) { ?>

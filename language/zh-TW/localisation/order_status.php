@@ -1,16 +1,16 @@
 <?php
 // Heading
-$_['heading_title']    = '訂單狀態(Order Status)';
+$_['heading_title']    = '訂單狀態';
 
 // Text
 $_['text_success']     = '已成功修改訂單狀態設置';
 
 // Column
-$_['column_name']      = '名稱(Order Status Name)';
-$_['column_action']    = '動作(Action)';
+$_['column_name']      = '名稱';
+$_['column_action']    = '動作';
 
 // Entry
-$_['entry_name']       = '訂單狀態(Order Status Name)';
+$_['entry_name']       = '訂單狀態';
 
 // Error
 $_['error_permission'] = '您沒有權限更改訂單狀態設置';

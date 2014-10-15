@@ -17,21 +17,13 @@
       <div class="buttons"><a onclick="$('#form').submit();" class="button"><?php echo $button_save; ?></a><a href="<?php echo $cancel; ?>" class="button"><?php echo $button_cancel; ?></a></div>
     </div>
     <div class="content">
-      <div id="tabs" class="htabs"><a href="#tab-general"><?php echo $tab_general; ?></a><a href="#tab-local"><?php echo $tab_local; ?></a></div>
+      <div id="tabs" class="htabs"><a href="#tab-general"><?php echo $tab_general; ?></a>
+      </div>
       <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
         <div id="tab-general">
           <table class="form">
-            <tr>
-              <td><span class="required">*</span> <?php echo $entry_url; ?></td>
-              <td><input type="text" name="config_url" value="<?php echo $config_url; ?>" size="40" />
-                <?php if ($error_url) { ?>
-                <span class="error"><?php echo $error_url; ?></span>
-                <?php } ?></td>
-            </tr>
-            <tr>
-              <td><?php echo $entry_ssl; ?></td>
-              <td><input type="text" name="config_ssl" value="<?php echo $config_ssl; ?>" size="40" /></td>
-            </tr>
+            
+    
             <tr>
               <td><span class="required">*</span> <?php echo $entry_name; ?></td>
               <td><input type="text" name="config_name" value="<?php echo $config_name; ?>" size="40" />
@@ -44,6 +36,13 @@
               <td><input type="text" name="config_owner" value="<?php echo $config_owner; ?>" size="40" />
                 <?php if ($error_owner) { ?>
                 <span class="error"><?php echo $error_owner; ?></span>
+                <?php } ?></td>
+            </tr>
+            <tr>
+              <td><span class="required">*</span> <?php echo $entry_url; ?></td>
+              <td><input type="text" name="config_url" value="<?php echo $config_url; ?>" size="40" />
+                <?php if ($error_url) { ?>
+                <span class="error"><?php echo $error_url; ?></span>
                 <?php } ?></td>
             </tr>
             <tr>
@@ -73,53 +72,6 @@
             </tr>
           </table>
         </div>
-        
-        <div id="tab-local">
-          <table class="form">
-            <tr>
-              <td><?php echo $entry_country; ?></td>
-              <td><select name="config_country_id">
-                  <?php foreach ($countries as $country) { ?>
-                  <?php if ($country['country_id'] == $config_country_id) { ?>
-                  <option value="<?php echo $country['country_id']; ?>" selected="selected"><?php echo $country['name']; ?></option>
-                  <?php } else { ?>
-                  <option value="<?php echo $country['country_id']; ?>"><?php echo $country['name']; ?></option>
-                  <?php } ?>
-                  <?php } ?>
-                </select></td>
-            </tr>
-            <tr>
-              <td><?php echo $entry_zone; ?></td>
-              <td><select name="config_zone_id">
-                </select></td>
-            </tr>
-            <tr>
-              <td><?php echo $entry_language; ?></td>
-              <td><select name="config_language">
-                  <?php foreach ($languages as $language) { ?>
-                  <?php if ($language['code'] == $config_language) { ?>
-                  <option value="<?php echo $language['code']; ?>" selected="selected"><?php echo $language['name']; ?></option>
-                  <?php } else { ?>
-                  <option value="<?php echo $language['code']; ?>"><?php echo $language['name']; ?></option>
-                  <?php } ?>
-                  <?php } ?>
-                </select></td>
-            </tr>
-            <tr>
-              <td><?php echo $entry_currency; ?></td>
-              <td><select name="config_currency">
-                  <?php foreach ($currencies as $currency) { ?>
-                  <?php if ($currency['code'] == $config_currency) { ?>
-                  <option value="<?php echo $currency['code']; ?>" selected="selected"><?php echo $currency['title']; ?></option>
-                  <?php } else { ?>
-                  <option value="<?php echo $currency['code']; ?>"><?php echo $currency['title']; ?></option>
-                  <?php } ?>
-                  <?php } ?>
-                </select></td>
-            </tr>
-          </table>
-        </div>
-        
       </form>
     </div>
   </div>

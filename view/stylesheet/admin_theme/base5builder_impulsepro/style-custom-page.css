@@ -251,7 +251,6 @@ ul.mainnav > li#treatment > a:focus{
 	background: url("../../../image/admin_theme/base5builder_impulsepro/css-sprite-icons.png") no-repeat scroll -270px -258px #00a99d;
 }
 
-
 ul.mainnav > li#history > a:hover,
 ul.mainnav > li#history > a:focus{
 	background: url("../../../image/admin_theme/base5builder_impulsepro/css-sprite-icons.png") no-repeat scroll -270px -258px #00a99d;
@@ -323,6 +322,9 @@ ul.mainnav > li#treatment.selected > a{
 	background: url("../../../image/admin_theme/base5builder_impulsepro/css-sprite-icons.png") no-repeat scroll -551px -258px #FFFFFF;
 }
 
+ul.mainnav > li#bonus.selected > a{
+	background: url("../../../image/admin_theme/base5builder_impulsepro/css-sprite-icons.png") no-repeat scroll -551px -258px #FFFFFF;
+}
 
 ul.mainnav > li#imagemanage.selected > a{
 	background: url("../../../image/admin_theme/base5builder_impulsepro/css-sprite-icons.png") no-repeat scroll -551px -258px #FFFFFF;

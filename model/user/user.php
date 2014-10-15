@@ -127,6 +127,10 @@ class ModelUserUser extends Model {
 			$sql .= " AND reminder_status = '" . (int)$data['filter_reminder_status'] . "'";
 		} 
 
+		if (isset($data['filter_product_id'])) {
+			$sql .= " AND product_id = '" . (int)$data['filter_product_id'] . "'";
+		} 
+
 		if (isset($data['filter_treatment'])) {
 			$sql .= " AND if_treatment = '" . (int)$data['filter_treatment'] . "'";
 		} 
@@ -139,6 +143,10 @@ class ModelUserUser extends Model {
 			$sql .= " AND ch.user_id = '" . (int)$data['filter_user_id'] . "'"; 
 		}
 
+		if (isset($data['filter_customer_id'])) {
+			$sql .= " AND ch.customer_id = '" . (int)$data['filter_customer_id'] . "'"; 
+		}
+		
 		$sql .= " ORDER BY date_added DESC";
 
 		$query = $this->db->query($sql);

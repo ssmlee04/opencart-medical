@@ -21,8 +21,8 @@ $_['column_url']	            = '商店網址';
 $_['column_action']             = '動作';
 
 // Entry
-$_['entry_url']               = '商店網址<br /><span class="help">請輸入你商店的完整網址. 注意在最後加上 \'/\' . 例 http//www.yourdomain.com/path/</span>';
-$_['entry_ssl']               = '使用SSL加密<br /><span class="help">要使用SSL，你需要在主機安裝SSL及在設定檔內設定SSL地址(To use SSL check with your host if a SSL certificate is installed and added the SSL URL to the admin config file.)</span>';
+$_['entry_url']               = '商店網址';
+$_['entry_ssl']               = '使用SSL加密';
 $_['entry_name']              = '商店名稱';
 $_['entry_owner']               = '商店負責人';
 $_['entry_address']             = '地址';

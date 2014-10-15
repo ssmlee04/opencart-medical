@@ -13,6 +13,9 @@ $_['text_total_order']             = '總訂單數';
 $_['text_total_customer']          = '客戶數量';
 $_['text_latest_messages']                = '最新待回覆事項';
 $_['text_all_status']                = '回覆狀態';
+$_['text_not_processed']                = '未回覆';
+$_['text_processed_not_finished']                = '回覆但未完成';
+$_['text_processed_finished']                = '回覆完成';
 // $_['text_total_customer_approval'] = '待審核的客戶數';
 // $_['text_total_review_approval']    = '待批准的評論(Reviews Awaiting Approval)';
 // $_['text_total_affiliate']          = '推薦客戶數(No. of Affiliates)';
@@ -34,6 +37,7 @@ $_['column_firstname']             = '名字';
 $_['column_lastname']              = '姓氏';
 $_['column_action']                = '動作';
 $_['column_message']                = '動作';
+$_['column_user']                = '人員';
 
 
 // Entry

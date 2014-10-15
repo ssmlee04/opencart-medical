@@ -111,7 +111,74 @@ class ModelReportUser extends Model {
 		$query = $this->db->query($sql);
 
 		return $query->row['total'];
+	}	
+
+
+	// '2014-10-15 14:10'
+	public function getBonuses($data = array()) { 
+		
+		$sql = "SELECT * "; 
+
+		// if (isset($data['filter_doctor_id'])) {
+		// 	$sql .= " sum(bonus_doctor) as total, doctor_id as user_id";
+		// } 
+		// else if (isset($data['filter_consultant_id'])) {
+		// 	$sql .= " sum(bonus_consultant) as total, consultant_id as user_id";
+		// } 
+		// else if (isset($data['filter_beauty_id'])) {
+		// 	$sql .= " sum(bonus_beauty) as total, beauty_id as user_id";
+		// } 
+		// else if (isset($data['filter_outsource_id'])) {
+		// 	$sql .= " sum(bonus_outsource) as total, outsource_id as user_id";
+		// }
+
+		// sum(bonus_doctor) as total_bonus_doctor
+		// ,sum(bonus_beauty) as total_bonus_beauty
+		// ,sum(bonus_consultant) as total_bonus_consultant
+		// ,sum(bonus_outsource) as total_bonus_outsource
+		$sql .= " FROM oc_customer_transaction WHERE 1=1"; 
+
+		if (!empty($data['filter_date_start'])) {
+			$sql .= " AND DATE(date_modified) >= '" . $this->db->escape($data['filter_date_start']) . "'";
+		}
+		if (!empty($data['filter_date_end'])) {
+			$sql .= " AND DATE(date_modified) <= '" . $this->db->escape($data['filter_date_end']) . "'";
+		}
+		
+
+		if (!empty($data['filter_doctor_id'])) {
+			$sql .= " AND doctor_id = '" . (int)$data['filter_doctor_id'] . "'";
+		} 
+		else if (!empty($data['filter_consultant_id'])) {
+			$sql .= " AND consultant_id = '" . (int)$data['filter_consultant_id'] . "'";
+		} 
+		else if (!empty($data['filter_beauty_id'])) {
+			$sql .= " AND beauty_id = '" . (int)$data['filter_beauty_id'] . "'";
+		} 
+		else if (!empty($data['filter_outsource_id'])) {
+			$sql .= " AND outsource_id = '" . (int)$data['filter_outsource_id'] . "'";
+		} 
+				
+
+		// if (isset($data['filter_consultant_id'])) {
+		// 	$sql .= " GROUP BY consultant_id ORDER BY consultant_id DESC";
+		// } 
+		// else if (isset($data['filter_doctor_id'])) {
+		// 	$sql .= " GROUP BY doctor_id ORDER BY doctor_id DESC";
+		// }
+		// else if (isset($data['filter_outsource_id'])) {
+		// 	$sql .= " GROUP BY outsource_id ORDER BY outsource_id DESC";
+		// }
+		// else if (isset($data['filter_beauty_id'])) {
+		// 	$sql .= " GROUP BY beauty_id ORDER BY beauty_id DESC";
+		// }
+
+		$query = $this->db->query($sql);
+	
+		return $query->rows;
 	}
+
+
 	
 }
 ?>

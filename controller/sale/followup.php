@@ -30,6 +30,12 @@ class ControllerSaleFollowup extends Controller {
 			$filter_comment = null;
 		}
 
+		if (isset($this->request->get['filter_product_id'])) {
+			$filter_product_id = $this->request->get['filter_product_id'];
+		} else {
+			$filter_product_id = null;
+		}
+
 		if (isset($this->request->get['filter_treatment'])) {
 			$filter_treatment = $this->request->get['filter_treatment'];
 		} else {
@@ -48,41 +54,54 @@ class ControllerSaleFollowup extends Controller {
 			$filter_user = null;
 		}
 
+		if (isset($this->request->get['filter_user_id'])) {
+			$filter_user_id = $this->request->get['filter_user_id'];
+		} else {
+			$filter_user_id = null;
+		}
+
+
 		if (isset($this->request->get['filter_customer'])) {
 			$filter_customer = $this->request->get['filter_customer'];
 		} else {
 			$filter_customer = null;
 		}
 
-		$url = '';
+		if (isset($this->request->get['filter_customer_id'])) {
+			$filter_customer_id = $this->request->get['filter_customer_id'];
+		} else {
+			$filter_customer_id = null;
+		}
+
+		// $url = '';
 		
-		if (isset($this->request->get['filter_date_start'])) {
-			$url .= '&filter_date_start=' . urlencode(html_entity_decode($this->request->get['filter_date_start'], ENT_QUOTES, 'UTF-8'));
-		}
+		// if (isset($this->request->get['filter_date_start'])) {
+		// 	$url .= '&filter_date_start=' . urlencode(html_entity_decode($this->request->get['filter_date_start'], ENT_QUOTES, 'UTF-8'));
+		// }
 
-		if (isset($this->request->get['filter_date_end'])) {
-			$url .= '&filter_date_end=' . urlencode(html_entity_decode($this->request->get['filter_date_end'], ENT_QUOTES, 'UTF-8'));
-		}
+		// if (isset($this->request->get['filter_date_end'])) {
+		// 	$url .= '&filter_date_end=' . urlencode(html_entity_decode($this->request->get['filter_date_end'], ENT_QUOTES, 'UTF-8'));
+		// }
 
-		if (isset($this->request->get['filter_comment'])) {
-			$url .= '&filter_comment=' . urlencode(html_entity_decode($this->request->get['filter_comment'], ENT_QUOTES, 'UTF-8'));
-		}
+		// if (isset($this->request->get['filter_comment'])) {
+		// 	$url .= '&filter_comment=' . urlencode(html_entity_decode($this->request->get['filter_comment'], ENT_QUOTES, 'UTF-8'));
+		// }
 
-		if (isset($this->request->get['filter_consultant'])) {
-			$url .= '&filter_consultant=' . (int)$this->request->get['filter_consultant'];
-		}
+		// if (isset($this->request->get['filter_consultant'])) {
+		// 	$url .= '&filter_consultant=' . (int)$this->request->get['filter_consultant'];
+		// }
 
-		if (isset($this->request->get['filter_treatment'])) {
-			$url .= '&filter_treatment=' . (int)$this->request->get['filter_treatment'];
-		}
+		// if (isset($this->request->get['filter_treatment'])) {
+		// 	$url .= '&filter_treatment=' . (int)$this->request->get['filter_treatment'];
+		// }
 
-		if (isset($this->request->get['filter_user'])) {
-			$url .= '&filter_user=' . (int)$this->request->get['filter_user'];
-		}
+		// if (isset($this->request->get['filter_user'])) {
+		// 	$url .= '&filter_user=' . (int)$this->request->get['filter_user'];
+		// }
 
-		if (isset($this->request->get['filter_customer'])) {
-			$url .= '&filter_customer=' . (int)$this->request->get['filter_customer'];
-		}
+		// if (isset($this->request->get['filter_customer'])) {
+		// 	$url .= '&filter_customer=' . (int)$this->request->get['filter_customer'];
+		// }
 
 
 		$this->data['heading_title'] = $this->language->get('heading_title');
@@ -132,6 +151,10 @@ class ControllerSaleFollowup extends Controller {
 		$this->data['entry_user'] = $this->language->get('entry_user');
 		$this->data['entry_customer'] = $this->language->get('entry_customer');
 
+		$this->data['text_not_processed'] = $this->language->get('text_not_processed');
+		$this->data['text_processed_not_finished'] = $this->language->get('text_processed_not_finished');
+		$this->data['text_processed_finished'] = $this->language->get('text_processed_finished');
+
 		$this->data['breadcrumbs'] = array();
 
 		$this->data['breadcrumbs'][] = array(
@@ -151,12 +174,34 @@ class ControllerSaleFollowup extends Controller {
 		$this->data['token'] = $this->session->data['token'];
 		$this->load->model('user/user');
 
-		$data = array('filter_treatment' => 1);
+		$data = array();
+		// $data = array('filter_treatment' => 1);
+		if (isset($this->request->get['filter_user_id'])) $data['filter_user_id'] = $this->request->get['filter_user_id'];
+		if (isset($this->request->get['filter_customer_id'])) $data['filter_customer_id'] = $this->request->get['filter_customer_id'];
 		if (isset($this->request->get['filter_comment'])) $data['filter_comment'] = $this->request->get['filter_comment'];
-		if (isset($this->request->get['filter_treatment'])) $data['filter_product_id'] = $this->request->get['filter_treatment'];
-		
-		$this->data['messages'] = $this->model_user_user->getReminderMessages($data);
+		if (isset($this->request->get['filter_product_id'])) $data['filter_product_id'] = $this->request->get['filter_product_id'];
+		if (isset($this->request->get['filter_reminder_status_id'])) $data['filter_reminder_status'] = $this->request->get['filter_reminder_status_id'];
+		$messages = $this->model_user_user->getReminderMessages($data);
 
+		$this->data['messages'] = array();
+		foreach ($messages as $result) {
+
+			$status = 'not processed';
+			if ($result['reminder_status'] == 0) $status = 'not processed';
+			if ($result['reminder_status'] == 1) $status = 'processed, not finished';
+			if ($result['reminder_status'] == 2) $status = 'finished';
+
+			// if ($result['filter_reminder_status_id'])
+			$this->data['messages'][] = array(
+				'status' => $status, 
+				'comment' => $result['comment'],
+				'customer_history_id' => $result['customer_history_id'],
+				'ufullname' => $result['ufullname'],
+				'cfullname' => $result['cfullname'],
+				'reminder_date' => $result['reminder_date'],
+				'store_id' => $result['store_id'],
+			);
+		}
 		// $this->data['orders'] = array(); 
 
 		// $data = array(
@@ -197,6 +242,9 @@ class ControllerSaleFollowup extends Controller {
 		// 	$this->model_localisation_currency->updateCurrencies();
 		// }
 
+		$this->data['reminder_statuses'] = array();
+		$this->data['reminder_statuses'][] = array();
+
 		$this->data['filter_date_start'] = $filter_date_start;
 		$this->data['filter_date_end'] = $filter_date_end;
 		$this->data['filter_consultant'] = $filter_consultant;
@@ -204,6 +252,27 @@ class ControllerSaleFollowup extends Controller {
 		$this->data['filter_customer'] = $filter_customer;
 		$this->data['filter_comment'] = $filter_comment;
 		$this->data['filter_treatment'] = $filter_treatment;
+		$this->data['filter_product_id'] = $filter_product_id;
+		$this->data['filter_reminder_status_id'] = (isset($filter_reminder_status_id) ? $filter_reminder_status_id : -1);
+		$this->data['filter_customer_id'] = $filter_customer_id;
+		$this->data['filter_user_id'] = $filter_user_id;
+
+// $this->load->test($this->data, false);
+		$data = array(
+				'product_type_id' => array(2),
+				'filter_status' => 1
+		);
+
+		$this->load->model('catalog/product');
+		$results = $this->model_catalog_product->getProducts($data);
+		$this->data['treatments'] = array(); 
+
+		foreach ($results as $result) {
+			$this->data['treatments'][] = array(
+				'product_id' => $result['product_id'],
+				'name' => $result['name']
+			);
+		}
 
 		$this->template = 'sale/followup.tpl';
 		$this->children = array(
@@ -214,203 +283,203 @@ class ControllerSaleFollowup extends Controller {
 		$this->response->setOutput($this->render());
 	}
 
-	public function chart() {
-		$this->language->load('common/home');
+	// public function chart() {
+	// 	$this->language->load('common/home');
 
-		$data = array();
+	// 	$data = array();
 
-		$data['order'] = array();
-		$data['customer'] = array();
-		$data['xaxis'] = array();
+	// 	$data['order'] = array();
+	// 	$data['customer'] = array();
+	// 	$data['xaxis'] = array();
 
-		$data['order']['label'] = $this->language->get('text_order');
-		$data['customer']['label'] = $this->language->get('text_customer');
+	// 	$data['order']['label'] = $this->language->get('text_order');
+	// 	$data['customer']['label'] = $this->language->get('text_customer');
 
-		if (isset($this->request->get['range'])) {
-			$range = $this->request->get['range'];
-		} else {
-			$range = 'month';
-		}
+	// 	if (isset($this->request->get['range'])) {
+	// 		$range = $this->request->get['range'];
+	// 	} else {
+	// 		$range = 'month';
+	// 	}
 
-		switch ($range) {
-			case 'day':
-				for ($i = 0; $i < 24; $i++) {
-					$query = $this->db->query("SELECT COUNT(*) AS total FROM `" . DB_PREFIX . "order` WHERE order_status_id > '" . (int)$this->config->get('config_complete_status_id') . "' AND (DATE(date_added) = DATE(NOW()) AND HOUR(date_added) = '" . (int)$i . "') GROUP BY HOUR(date_added) ORDER BY date_added ASC");
+	// 	switch ($range) {
+	// 		case 'day':
+	// 			for ($i = 0; $i < 24; $i++) {
+	// 				$query = $this->db->query("SELECT COUNT(*) AS total FROM `" . DB_PREFIX . "order` WHERE order_status_id > '" . (int)$this->config->get('config_complete_status_id') . "' AND (DATE(date_added) = DATE(NOW()) AND HOUR(date_added) = '" . (int)$i . "') GROUP BY HOUR(date_added) ORDER BY date_added ASC");
 
-					if ($query->num_rows) {
-						$data['order']['data'][]  = array($i, (int)$query->row['total']);
-					} else {
-						$data['order']['data'][]  = array($i, 0);
-					}
+	// 				if ($query->num_rows) {
+	// 					$data['order']['data'][]  = array($i, (int)$query->row['total']);
+	// 				} else {
+	// 					$data['order']['data'][]  = array($i, 0);
+	// 				}
 
-					$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "customer WHERE DATE(date_added) = DATE(NOW()) AND HOUR(date_added) = '" . (int)$i . "' GROUP BY HOUR(date_added) ORDER BY date_added ASC");
+	// 				$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "customer WHERE DATE(date_added) = DATE(NOW()) AND HOUR(date_added) = '" . (int)$i . "' GROUP BY HOUR(date_added) ORDER BY date_added ASC");
 
-					if ($query->num_rows) {
-						$data['customer']['data'][] = array($i, (int)$query->row['total']);
-					} else {
-						$data['customer']['data'][] = array($i, 0);
-					}
+	// 				if ($query->num_rows) {
+	// 					$data['customer']['data'][] = array($i, (int)$query->row['total']);
+	// 				} else {
+	// 					$data['customer']['data'][] = array($i, 0);
+	// 				}
 
-					$data['xaxis'][] = array($i, date('H', mktime($i, 0, 0, date('n'), date('j'), date('Y'))));
-				}					
-				break;
-			case 'week':
-				$date_start = strtotime('-' . date('w') . ' days'); 
+	// 				$data['xaxis'][] = array($i, date('H', mktime($i, 0, 0, date('n'), date('j'), date('Y'))));
+	// 			}					
+	// 			break;
+	// 		case 'week':
+	// 			$date_start = strtotime('-' . date('w') . ' days'); 
 
-				for ($i = 0; $i < 7; $i++) {
-					$date = date('Y-m-d', $date_start + ($i * 86400));
+	// 			for ($i = 0; $i < 7; $i++) {
+	// 				$date = date('Y-m-d', $date_start + ($i * 86400));
 
-					$query = $this->db->query("SELECT COUNT(*) AS total FROM `" . DB_PREFIX . "order` WHERE order_status_id > '" . (int)$this->config->get('config_complete_status_id') . "' AND DATE(date_added) = '" . $this->db->escape($date) . "' GROUP BY DATE(date_added)");
+	// 				$query = $this->db->query("SELECT COUNT(*) AS total FROM `" . DB_PREFIX . "order` WHERE order_status_id > '" . (int)$this->config->get('config_complete_status_id') . "' AND DATE(date_added) = '" . $this->db->escape($date) . "' GROUP BY DATE(date_added)");
 
-					if ($query->num_rows) {
-						$data['order']['data'][] = array($i, (int)$query->row['total']);
-					} else {
-						$data['order']['data'][] = array($i, 0);
-					}
+	// 				if ($query->num_rows) {
+	// 					$data['order']['data'][] = array($i, (int)$query->row['total']);
+	// 				} else {
+	// 					$data['order']['data'][] = array($i, 0);
+	// 				}
 
-					$query = $this->db->query("SELECT COUNT(*) AS total FROM `" . DB_PREFIX . "customer` WHERE DATE(date_added) = '" . $this->db->escape($date) . "' GROUP BY DATE(date_added)");
+	// 				$query = $this->db->query("SELECT COUNT(*) AS total FROM `" . DB_PREFIX . "customer` WHERE DATE(date_added) = '" . $this->db->escape($date) . "' GROUP BY DATE(date_added)");
 
-					if ($query->num_rows) {
-						$data['customer']['data'][] = array($i, (int)$query->row['total']);
-					} else {
-						$data['customer']['data'][] = array($i, 0);
-					}
+	// 				if ($query->num_rows) {
+	// 					$data['customer']['data'][] = array($i, (int)$query->row['total']);
+	// 				} else {
+	// 					$data['customer']['data'][] = array($i, 0);
+	// 				}
 
-					$data['xaxis'][] = array($i, date('D', strtotime($date)));
-				}
+	// 				$data['xaxis'][] = array($i, date('D', strtotime($date)));
+	// 			}
 
-				break;
-			default:
-			case 'month':
-				for ($i = 1; $i <= date('t'); $i++) {
-					$date = date('Y') . '-' . date('m') . '-' . $i;
+	// 			break;
+	// 		default:
+	// 		case 'month':
+	// 			for ($i = 1; $i <= date('t'); $i++) {
+	// 				$date = date('Y') . '-' . date('m') . '-' . $i;
 
-					$query = $this->db->query("SELECT COUNT(*) AS total FROM `" . DB_PREFIX . "order` WHERE order_status_id > '" . (int)$this->config->get('config_complete_status_id') . "' AND (DATE(date_added) = '" . $this->db->escape($date) . "') GROUP BY DAY(date_added)");
+	// 				$query = $this->db->query("SELECT COUNT(*) AS total FROM `" . DB_PREFIX . "order` WHERE order_status_id > '" . (int)$this->config->get('config_complete_status_id') . "' AND (DATE(date_added) = '" . $this->db->escape($date) . "') GROUP BY DAY(date_added)");
 
-					if ($query->num_rows) {
-						$data['order']['data'][] = array($i, (int)$query->row['total']);
-					} else {
-						$data['order']['data'][] = array($i, 0);
-					}	
+	// 				if ($query->num_rows) {
+	// 					$data['order']['data'][] = array($i, (int)$query->row['total']);
+	// 				} else {
+	// 					$data['order']['data'][] = array($i, 0);
+	// 				}	
 
-					$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "customer WHERE DATE(date_added) = '" . $this->db->escape($date) . "' GROUP BY DAY(date_added)");
+	// 				$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "customer WHERE DATE(date_added) = '" . $this->db->escape($date) . "' GROUP BY DAY(date_added)");
 
-					if ($query->num_rows) {
-						$data['customer']['data'][] = array($i, (int)$query->row['total']);
-					} else {
-						$data['customer']['data'][] = array($i, 0);
-					}	
+	// 				if ($query->num_rows) {
+	// 					$data['customer']['data'][] = array($i, (int)$query->row['total']);
+	// 				} else {
+	// 					$data['customer']['data'][] = array($i, 0);
+	// 				}	
 
-					$data['xaxis'][] = array($i, date('j', strtotime($date)));
-				}
-				break;
-			case 'year':
-				for ($i = 1; $i <= 12; $i++) {
-					$query = $this->db->query("SELECT COUNT(*) AS total FROM `" . DB_PREFIX . "order` WHERE order_status_id > '" . (int)$this->config->get('config_complete_status_id') . "' AND YEAR(date_added) = '" . date('Y') . "' AND MONTH(date_added) = '" . $i . "' GROUP BY MONTH(date_added)");
+	// 				$data['xaxis'][] = array($i, date('j', strtotime($date)));
+	// 			}
+	// 			break;
+	// 		case 'year':
+	// 			for ($i = 1; $i <= 12; $i++) {
+	// 				$query = $this->db->query("SELECT COUNT(*) AS total FROM `" . DB_PREFIX . "order` WHERE order_status_id > '" . (int)$this->config->get('config_complete_status_id') . "' AND YEAR(date_added) = '" . date('Y') . "' AND MONTH(date_added) = '" . $i . "' GROUP BY MONTH(date_added)");
 
-					if ($query->num_rows) {
-						$data['order']['data'][] = array($i, (int)$query->row['total']);
-					} else {
-						$data['order']['data'][] = array($i, 0);
-					}
+	// 				if ($query->num_rows) {
+	// 					$data['order']['data'][] = array($i, (int)$query->row['total']);
+	// 				} else {
+	// 					$data['order']['data'][] = array($i, 0);
+	// 				}
 
-					$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "customer WHERE YEAR(date_added) = '" . date('Y') . "' AND MONTH(date_added) = '" . $i . "' GROUP BY MONTH(date_added)");
+	// 				$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "customer WHERE YEAR(date_added) = '" . date('Y') . "' AND MONTH(date_added) = '" . $i . "' GROUP BY MONTH(date_added)");
 
-					if ($query->num_rows) { 
-						$data['customer']['data'][] = array($i, (int)$query->row['total']);
-					} else {
-						$data['customer']['data'][] = array($i, 0);
-					}
+	// 				if ($query->num_rows) { 
+	// 					$data['customer']['data'][] = array($i, (int)$query->row['total']);
+	// 				} else {
+	// 					$data['customer']['data'][] = array($i, 0);
+	// 				}
 
-					$data['xaxis'][] = array($i, date('M', mktime(0, 0, 0, $i, 1, date('Y'))));
-				}			
-				break;	
-		} 
+	// 				$data['xaxis'][] = array($i, date('M', mktime(0, 0, 0, $i, 1, date('Y'))));
+	// 			}			
+	// 			break;	
+	// 	} 
 
-		$this->response->setOutput(json_encode($data));
-	}
+	// 	$this->response->setOutput(json_encode($data));
+	// }
 
-	public function login() {
-		$route = '';
+	// public function login() {
+	// 	$route = '';
 
-		if (isset($this->request->get['route'])) {
-			$part = explode('/', $this->request->get['route']);
+	// 	if (isset($this->request->get['route'])) {
+	// 		$part = explode('/', $this->request->get['route']);
 
-			if (isset($part[0])) {
-				$route .= $part[0];
-			}
+	// 		if (isset($part[0])) {
+	// 			$route .= $part[0];
+	// 		}
 
-			if (isset($part[1])) {
-				$route .= '/' . $part[1];
-			}
-		}
+	// 		if (isset($part[1])) {
+	// 			$route .= '/' . $part[1];
+	// 		}
+	// 	}
 
-		$ignore = array(
-			'common/login',
-			'common/forgotten',
-			'common/reset'
-		);	
+	// 	$ignore = array(
+	// 		'common/login',
+	// 		'common/forgotten',
+	// 		'common/reset'
+	// 	);	
 
-		if (!$this->user->isLogged() && !in_array($route, $ignore)) {
-			return $this->forward('common/login');
-		}
+	// 	if (!$this->user->isLogged() && !in_array($route, $ignore)) {
+	// 		return $this->forward('common/login');
+	// 	}
 
-		if (isset($this->request->get['route'])) {
-			$ignore = array(
-				'common/login',
-				'common/logout',
-				'common/forgotten',
-				'common/reset',
-				'error/not_found',
-				'error/permission'
-			);
+	// 	if (isset($this->request->get['route'])) {
+	// 		$ignore = array(
+	// 			'common/login',
+	// 			'common/logout',
+	// 			'common/forgotten',
+	// 			'common/reset',
+	// 			'error/not_found',
+	// 			'error/permission'
+	// 		);
 
-			$config_ignore = array();
+	// 		$config_ignore = array();
 
-			if ($this->config->get('config_token_ignore')) {
-				$config_ignore = unserialize($this->config->get('config_token_ignore'));
-			}
+	// 		if ($this->config->get('config_token_ignore')) {
+	// 			$config_ignore = unserialize($this->config->get('config_token_ignore'));
+	// 		}
 
-			$ignore = array_merge($ignore, $config_ignore);
+	// 		$ignore = array_merge($ignore, $config_ignore);
 
-			if (!in_array($route, $ignore) && (!isset($this->request->get['token']) || !isset($this->session->data['token']) || ($this->request->get['token'] != $this->session->data['token']))) {
-				return $this->forward('common/login');
-			}
-		} else {
-			if (!isset($this->request->get['token']) || !isset($this->session->data['token']) || ($this->request->get['token'] != $this->session->data['token'])) {
-				return $this->forward('common/login');
-			}
-		}
-	}
+	// 		if (!in_array($route, $ignore) && (!isset($this->request->get['token']) || !isset($this->session->data['token']) || ($this->request->get['token'] != $this->session->data['token']))) {
+	// 			return $this->forward('common/login');
+	// 		}
+	// 	} else {
+	// 		if (!isset($this->request->get['token']) || !isset($this->session->data['token']) || ($this->request->get['token'] != $this->session->data['token'])) {
+	// 			return $this->forward('common/login');
+	// 		}
+	// 	}
+	// }
 
-	public function permission() {
-		if (isset($this->request->get['route'])) {
-			$route = '';
+	// public function permission() {
+	// 	if (isset($this->request->get['route'])) {
+	// 		$route = '';
 
-			$part = explode('/', $this->request->get['route']);
+	// 		$part = explode('/', $this->request->get['route']);
 
-			if (isset($part[0])) {
-				$route .= $part[0];
-			}
+	// 		if (isset($part[0])) {
+	// 			$route .= $part[0];
+	// 		}
 
-			if (isset($part[1])) {
-				$route .= '/' . $part[1];
-			}
+	// 		if (isset($part[1])) {
+	// 			$route .= '/' . $part[1];
+	// 		}
 
-			$ignore = array(
-				'common/home',
-				'common/login',
-				'common/logout',
-				'common/forgotten',
-				'common/reset',
-				'error/not_found',
-				'error/permission'		
-			);			
+	// 		$ignore = array(
+	// 			'common/home',
+	// 			'common/login',
+	// 			'common/logout',
+	// 			'common/forgotten',
+	// 			'common/reset',
+	// 			'error/not_found',
+	// 			'error/permission'		
+	// 		);			
 
-			if (!in_array($route, $ignore) && !$this->user->hasPermission('access', $route)) {
-				return $this->forward('error/permission');
-			}
-		}
-	}	
+	// 		if (!in_array($route, $ignore) && !$this->user->hasPermission('access', $route)) {
+	// 			return $this->forward('error/permission');
+	// 		}
+	// 	}
+	// }	
 }
 ?>
