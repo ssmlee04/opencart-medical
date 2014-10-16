@@ -18,7 +18,8 @@ class ControllerCommonHeader extends Controller {
 		$this->data['direction'] = $this->language->get('direction');
 
 		$this->language->load('common/header');
-
+		// $this->document->addScript('view/javascript/jquery/ui/jquery-ui-timepicker-addon.js');
+		
 		$this->data['heading_title'] = $this->language->get('heading_title');
 
 		$this->data['text_affiliate'] = $this->language->get('text_affiliate');
@@ -137,7 +138,8 @@ class ControllerCommonHeader extends Controller {
 		$this->data['text_paypal_express'] = $this->language->get('text_paypal_manage');
 		$this->data['text_paypal_express_search'] = $this->language->get('text_paypal_search');
 		$this->data['text_recurring_profile'] = $this->language->get('text_recurring_profile');
-
+		$this->data['token'] = $this->request->get['token'];
+		
 		if (!$this->user->isLogged() || !isset($this->request->get['token']) || !isset($this->session->data['token']) || ($this->request->get['token'] != $this->session->data['token'])) {
 			$this->data['logged'] = '';
 

@@ -71,27 +71,31 @@ class ModelUserUser extends Model {
 	public function getUsers($data = array()) {
 		$sql = "SELECT * FROM `" . DB_PREFIX . "user` WHERE 1=1 ";
 
-		$sort_data = array(
-			'username',
-			'status',
-			'date_added'
-		);	
+		// $sort_data = array(
+		// 	'username',
+		// 	'status',
+		// 	'date_added'
+		// );	
 
 		if (isset($data['filter_user_group_id'])) {
 			$sql .= " AND user_group_id = " . (int)$data['filter_user_group_id'];	
 		} 
 
-		if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
-			$sql .= " ORDER BY " . $data['sort'];	
-		} else {
-			$sql .= " ORDER BY username";	
-		}
+		if (isset($data['filter_name'])) {
+			$sql .= " AND fullname LIKE '%" . $this->db->escape($data['filter_name']) . "%'";	
+		} 
 
-		if (isset($data['order']) && ($data['order'] == 'DESC')) {
-			$sql .= " DESC";
-		} else {
-			$sql .= " ASC";
-		}
+		// if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
+		// 	$sql .= " ORDER BY " . $data['sort'];	
+		// } else {
+		// 	$sql .= " ORDER BY username";	
+		// }
+
+		// if (isset($data['order']) && ($data['order'] == 'DESC')) {
+		// 	$sql .= " DESC";
+		// } else {
+		// 	$sql .= " ASC";
+		// }
 
 		if (isset($data['start']) || isset($data['limit'])) {
 			if ($data['start'] < 0) {
@@ -110,48 +114,11 @@ class ModelUserUser extends Model {
 		return $query->rows;
 	}
 
+	// '2014-10-16 22:45'
 	public function getTotalUsers() {
 		$query = $this->db->query("SELECT COUNT(*) AS total FROM `" . DB_PREFIX . "user`");
 
 		return $query->row['total'];
-	}
-
-	//'2014-09-22 15:25'
-	public function getReminderMessages($data) {
-
-		$sql = "SELECT ch.*, u.firstname as ufirstname, u.lastname as ulastname, u.store_id, u.fullname as ufullname, c.firstname as cfirstname, c.lastname as clastname, c.fullname as cfullname FROM oc_customer_history ch LEFT JOIN oc_user u ON u.user_id = ch.user_id LEFT JOIN oc_customer c ON c.customer_id = ch.customer_id ";
-
-		$sql .= " WHERE reminder = 1 "; 
-
-		if (isset($data['filter_reminder_status'])) {
-			$sql .= " AND reminder_status = '" . (int)$data['filter_reminder_status'] . "'";
-		} 
-
-		if (isset($data['filter_product_id'])) {
-			$sql .= " AND product_id = '" . (int)$data['filter_product_id'] . "'";
-		} 
-
-		if (isset($data['filter_treatment'])) {
-			$sql .= " AND if_treatment = '" . (int)$data['filter_treatment'] . "'";
-		} 
-
-		if (isset($data['filter_comment'])) {
-			$sql .= " AND comment LIKE '%" . $this->db->escape($data['filter_comment']) . "%'";
-		}
-
-		if (isset($data['filter_user_id'])) {
-			$sql .= " AND ch.user_id = '" . (int)$data['filter_user_id'] . "'"; 
-		}
-
-		if (isset($data['filter_customer_id'])) {
-			$sql .= " AND ch.customer_id = '" . (int)$data['filter_customer_id'] . "'"; 
-		}
-		
-		$sql .= " ORDER BY date_added DESC";
-
-		$query = $this->db->query($sql);
-
-		return $query->rows;
 	}
 
 	// '2014-09-22 15:25'

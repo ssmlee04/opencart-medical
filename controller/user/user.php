@@ -543,17 +543,22 @@ class ControllerUserUser extends Controller {
 	}
 
 	public function autocomplete() {
+
 		$json = array();
 
 		if (isset($this->request->get['filter_name'])) {
 			$this->load->model('user/user');
 
-			$data = array(
-				'filter_name' => $this->request->get['filter_name'],
-				'filter_user_group_id' => $this->request->get['filter_user_group_id'],
-				// 'start'       => 0,
-				// 'limit'       => 20
-			);
+			$data = array();
+			if (isset($this->request->get['filter_name'])) $data['filter_name'] = $this->request->get['filter_name'];
+			if (isset($this->request->get['filter_user_group_id'])) $data['filter_user_group_id'] = $this->request->get['filter_user_group_id'];			
+
+			// $data = array(
+			// 	'filter_name' => $this->request->get['filter_name'],
+			// 	'filter_user_group_id' => $this->request->get['filter_user_group_id'],
+			// 	// 'start'       => 0,
+			// 	// 'limit'       => 20
+			// );
 			$results = $this->model_user_user->getUsers($data);
 
 			foreach ($results as $result) {

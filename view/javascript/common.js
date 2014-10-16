@@ -1,71 +1,126 @@
-// $(document).ready(function() {
+$(document).ready(function(){
 
+	$("input[type='date_available']").on("focusin", function(){
+	   $(this).datepicker({dateFormat: 'yy-mm-dd'});
+	});
 
-// 	$('#menu > ul').superfish({
-// 		pathClass	 : 'overideThisToUse',
-// 		delay		 : 0,
-// 		animation	 : {height: 'show'},
-// 		speed		 : 'normal',
-// 		autoArrows   : false,
-// 		dropShadows  : false, 
-// 		disableHI	 : false, /* set to true to disable hoverIntent detection */
-// 		onInit		 : function(){},
-// 		onBeforeShow : function(){},
-// 		onShow		 : function(){},
-// 		onHide		 : function(){}
-// 	});
-	
-// 	$('#menu > ul').css('display', 'block');
-// });
- 
-// function getURLVar(key) {
-// 	var value = [];
-	
-// 	var query = String(document.location).split('?');
-	
-// 	if (query[1]) {
-// 		var part = query[1].split('&');
-
-// 		for (i = 0; i < part.length; i++) {
-// 			var data = part[i].split('=');
+	$.widget('custom.catcomplete', $.ui.autocomplete, {
+		_renderMenu: function(ul, items) {
+			var self = this, currentCategory = '';
 			
-// 			if (data[0] && data[1]) {
-// 				value[data[0]] = data[1];
-// 			}
-// 		}
-		
-// 		if (value[key]) {
-// 			return value[key];
-// 		} else {
-// 			return '';
-// 		}
-// 	}
-// } 
+			$.each(items, function(index, item) {
+				if (item.category != currentCategory) {
+					ul.append('<li class="ui-autocomplete-category"></li>');
+					currentCategory = item.category;
+				}
+				self._renderItem(ul, item);
+			});
+		}
+	});
 
-// $(document).ready(function() {
-// 	route = getURLVar('route');
-	
-// 	if (!route) {
-// 		$('#dashboard').addClass('selected');
-// 	} else {
-// 		part = route.split('/');
-		
-// 		url = part[0];
-		
-// 		if (part[1]) {
-// 			url += '/' + part[1];
-// 		}
-		
-// 		$('a[href*=\'' + url + '\']').parents('li[id]').addClass('selected');
-// 	}
-	
-// 	$('#menu ul li').on('click', function() {
-// 		$(this).addClass('hover');
-// 	});
+	$("input[type='text'][name='filter_customer']").on("focusin", function(){
+	   $(this).catcomplete({
+		  	delay: 500,
+		  	source: function(request, response) {
+		    $.ajax({
+		      url: 'index.php?route=sale/customer/autocomplete&token=' + $('#tk').val() + '&filter_name=' +  encodeURIComponent(request.term),
+		      dataType: 'json',
+		      success: function(json) { 
+		        response($.map(json, function(item) {
+		          return {
+		            label: item['fullname'] + ' ' + item['dob'],
+		            fullname: item['fullname'],
+		            value: item['customer_id']
+		          }
+		        }));
+		      }
+		    });
+		  }, 
+		  select: function(event, ui) { 
+		    $('input[name=\'filter_customer\']').attr('value', ui.item['fullname']);
+		    $('input[name=\'filter_customer_id\']').attr('value', ui.item['value']);
+		    return false;
+		  },
+		  focus: function(event, ui) {
+		    return false;
+		  }
+		});
+	});
 
-// 	$('#menu ul li').on('mouseout', function() {
-// 		$(this).removeClass('hover');
-// 	});	
+	$("input[type='text'][name='filter_product']").on("focusin", function(){
+		$(this).autocomplete({
+			delay: 500,
+			source: function(request, response) {
+				$.ajax({
+					url: 'index.php?route=catalog/product/autocompletesellables&token=' + $('#tk').val() + '&filter_name=' + encodeURIComponent(request.term),
+					dataType: 'json',
+					success: function(json) {	
+						response($.map(json, function(item) {
+							return {
+								label: item.name,
+								value: item.product_id,
+								// model: item.model,
+								// option: item.option,
+								price: item.price
+							}
+						}));
+					}
+				});
+			}, 
+			select: function(event, ui) {
+				$('input[name=\'filter_product\']').attr('value', ui.item['label']);
+				$('input[name=\'filter_product_id\']').attr('value', ui.item['value']);
+
+				// $('#option td').remove();
+				return false;
+			},
+			focus: function(event, ui) {
+		    return false;
+		 	}
+		});	
+	});
 
 
-// });
+	$("input[type='text'][name='filter_user']").on("focusin", function(){
+		$(this).catcomplete({
+		  delay: 500,
+		  source: function(request, response) {
+		    $.ajax({
+		      url: 'index.php?route=user/user/autocomplete&token=' + $('#tk').val() + '&filter_name=' +  encodeURIComponent(request.term),
+		      dataType: 'json',
+		      success: function(json) { 
+		      	console.log(json);
+		        response($.map(json, function(item) {
+		          return {
+		            label: item['fullname'],
+		            fullname: item['fullname'],
+		            value: item['user_id']
+		          }
+		        }));
+		      }
+		    });
+		  }, 
+		  select: function(event, ui) { 
+		    $('input[name=\'filter_user\']').attr('value', ui.item['fullname']);
+		    $('input[name=\'filter_user_id\']').attr('value', ui.item['value']);
+		    return false;
+		  },
+		  focus: function(event, ui) {
+		    return false;
+		  }
+		});
+	});
+
+
+	$("input[name='filter_product']").on('keypress', function(e){
+		$("input[name='filter_product_id']").val('');
+	});
+	$("input[name='filter_user']").on('keypress', function(e){
+		$("input[name='filter_user_id']").val('');
+	});
+	$("input[name='filter_customer']").on('keypress', function(e){
+		$("input[name='filter_customer_id']").val('');
+	});
+
+});
+

@@ -68,10 +68,14 @@ if(array_intersect($page_name, $get_route)){
 	  <!--[if IE 8]>
 	  <link type="text/css" href="view/stylesheet/admin_theme/base5builder_impulsepro/style-ie8.css" rel="stylesheet">
 	  <![endif]-->
-	  <script type="text/javascript" src="view/javascript/common.js"></script>
+	  
+	  
 	  <script type="text/javascript" src="view/javascript/admin_theme/base5builder_impulsepro/jquery.js"></script>
 	  <script type="text/javascript" src="view/javascript/admin_theme/base5builder_impulsepro/ui/jquery-ui-1.8.20.custom.min.js"></script>
 	  <script type="text/javascript" src="view/javascript/admin_theme/base5builder_impulsepro/tabs.js"></script>
+	  <script type="text/javascript" src="view/javascript/jquery/ui/jquery-ui-timepicker-addon.js"></script> 
+	  <!--script type="text/javascript" src="view/javascript/jquery.autocomplete.min.js"></script-->
+	  <script type="text/javascript" src="view/javascript/common.js"></script>
 	  <?php foreach ($styles as $style) { ?>
 	  <link rel="<?php echo $style['rel']; ?>" type="text/css" href="<?php echo $style['href']; ?>" media="<?php echo $style['media']; ?>" />
 	  <?php } ?>
@@ -135,7 +139,7 @@ if(array_intersect($page_name, $get_route)){
 </head>
 
 <body>
-
+	<input type='hidden' id='tk' value='<?php echo $token; ?>'/>
 	<div class="container-fluid">
 
 		<?php if ($logged) { ?>

@@ -37,18 +37,6 @@
               <input type="text" name="filter_consultant" value="<?php echo $filter_consultant; ?>" id="user" size="12" /><input type="hidden" name="filter_consultant_id" value="<?php echo $filter_consultant_id; ?>" id="consultant_id" size="12" /></td>
           <td>
               <input type="text" name="filter_outsource" value="<?php echo $filter_outsource; ?>" id="user" size="12" /><input type="hidden" name="filter_outsource_id" value="<?php echo $filter_outsource_id; ?>" id="outsource_id" size="12" /></td>
-          
-          <!-- <td><php echo $entry_status; ?>
-            <select name="filter_order_status_id">
-              <option value="0"><php echo $text_all_status; ?></option>
-              <php foreach ($order_statuses as $order_status) { ?>
-              <php if ($order_status['order_status_id'] == $filter_order_status_id) { ?>
-              <option value="<php echo $order_status['order_status_id']; ?>" selected="selected"><php echo $order_status['name']; ?></option>
-              <php } else { ?>
-              <option value="<php echo $order_status['order_status_id']; ?>"><php echo $order_status['name']; ?></option>
-              <php } ?>
-              <php } ?>
-            </select></td> -->
             <tr></tr>
           <td style="text-align: right;" colspan='5'><a onclick="filter();" class="button"><?php echo $button_filter; ?></a></td>
         </tr>
@@ -156,13 +144,6 @@ function filter() {
   if (filter_outsource_id) {
     url += '&filter_outsource_id=' + encodeURIComponent(filter_outsource_id);
   }
-  
-	
-	// var filter_order_status_id = $('select[name=\'filter_order_status_id\']').attr('value');
-	
-	// if (filter_order_status_id != 0) {
-	// 	url += '&filter_order_status_id=' + encodeURIComponent(filter_order_status_id);
-	// }	
 
 	location = url;
 }

@@ -1512,6 +1512,109 @@ class ModelSaleCustomer extends Model {
 		return $query->rows;
 	}
 
+	//'2014-09-22 15:25'
+	public function getCustomerReminders($data) {
+
+		$sql = "SELECT ch.*, u.firstname as ufirstname, u.lastname as ulastname, u.store_id, u.fullname as ufullname, c.firstname as cfirstname, c.lastname as clastname, c.fullname as cfullname FROM oc_customer_history ch LEFT JOIN oc_user u ON u.user_id = ch.user_id LEFT JOIN oc_customer c ON c.customer_id = ch.customer_id ";
+
+		$sql .= " WHERE reminder = 1 "; 
+
+		if (isset($data['filter_reminder_status'])) {
+			$sql .= " AND reminder_status = '" . (int)$data['filter_reminder_status'] . "'";
+		} 
+
+		if (isset($data['filter_product_id'])) {
+			$sql .= " AND product_id = '" . (int)$data['filter_product_id'] . "'";
+		} 
+
+		if (isset($data['filter_treatment'])) {
+			$sql .= " AND if_treatment = '" . (int)$data['filter_treatment'] . "'";
+		} 
+
+		if (isset($data['filter_comment'])) {
+			$sql .= " AND comment LIKE '%" . $this->db->escape($data['filter_comment']) . "%'";
+		}
+
+		if (isset($data['filter_date_end'])) {
+			$sql .= " AND reminder_date <= '" . $this->db->escape($data['filter_date_end']) . "'";
+		}
+
+		if (isset($data['filter_date_start'])) {
+			$sql .= " AND reminder_date >= '" . $this->db->escape($data['filter_date_start']) . "'";
+		}
+
+		if (isset($data['filter_user_id'])) {
+			$sql .= " AND ch.user_id = '" . (int)$data['filter_user_id'] . "'"; 
+		}
+
+		if (isset($data['filter_customer_id'])) {
+			$sql .= " AND ch.customer_id = '" . (int)$data['filter_customer_id'] . "'"; 
+		}
+		
+
+		$sql .= " ORDER BY date_added DESC";
+
+		if (isset($data['start']) || isset($data['limit'])) {
+			if ($data['start'] < 0) {
+				$data['start'] = 0;
+			}			
+
+			if ($data['limit'] < 1) {
+				$data['limit'] = 20;
+			}	
+
+			$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
+		}	
+		$query = $this->db->query($sql);
+
+		return $query->rows;
+	}
+
+	//'2014-09-22 15:25'
+	public function getTotalCustomerReminders($data) {
+
+		$sql = "SELECT count(*) as total FROM oc_customer_history ch LEFT JOIN oc_user u ON u.user_id = ch.user_id LEFT JOIN oc_customer c ON c.customer_id = ch.customer_id ";
+
+		$sql .= " WHERE reminder = 1 "; 
+
+		if (isset($data['filter_reminder_status'])) {
+			$sql .= " AND reminder_status = '" . (int)$data['filter_reminder_status'] . "'";
+		} 
+
+		if (isset($data['filter_product_id'])) {
+			$sql .= " AND product_id = '" . (int)$data['filter_product_id'] . "'";
+		} 
+
+		if (isset($data['filter_treatment'])) {
+			$sql .= " AND if_treatment = '" . (int)$data['filter_treatment'] . "'";
+		} 
+
+		if (isset($data['filter_comment'])) {
+			$sql .= " AND comment LIKE '%" . $this->db->escape($data['filter_comment']) . "%'";
+		}
+
+		if (isset($data['filter_date_end'])) {
+			$sql .= " AND reminder_date <= '" . $this->db->escape($data['filter_date_end']) . "'";
+		}
+
+		if (isset($data['filter_date_start'])) {
+			$sql .= " AND reminder_date >= '" . $this->db->escape($data['filter_date_start']) . "'";
+		}
+
+		if (isset($data['filter_user_id'])) {
+			$sql .= " AND ch.user_id = '" . (int)$data['filter_user_id'] . "'"; 
+		}
+
+		if (isset($data['filter_customer_id'])) {
+			$sql .= " AND ch.customer_id = '" . (int)$data['filter_customer_id'] . "'"; 
+		}
+		
+		$query = $this->db->query($sql);
+
+		return $query->row['total'];
+	}
+
+
 	// '2014-10-03 10:46'
 	public function getTotalCustomerImages($data) {
 

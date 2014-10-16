@@ -2722,6 +2722,7 @@ class ControllerSaleCustomer extends Controller {
 	// }
 
 	public function autocomplete() {
+
 		$json = array();
 
 		if (isset($this->request->get['filter_name'])) {

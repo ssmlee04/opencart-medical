@@ -4,7 +4,7 @@ $_['heading_title']  = '管理系統';
 
 // Text
 $_['text_heading']   = '管理系統';
-$_['text_login']     = '商店後台管理系統';
+$_['text_login']     = '商店後台管理系統'; //<img src="view/image/admin_theme/base5builder_impulsepro/logo.png"/>
 $_['text_forgotten'] = '忘記密碼';
 $_['text_select_store'] = '-- 請選擇一個商店 --';
 

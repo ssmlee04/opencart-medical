@@ -14,8 +14,8 @@
     	<table class="form">
         <tr>
           <td colspan='2'><?php echo $entry_date_start; ?>
-            <input type="text" name="filter_date_start" value="<?php echo $filter_date_start; ?>" id="date-start" size="12" /> ~
-            <input type="text" name="filter_date_end" value="<?php echo $filter_date_end; ?>" id="date-end" size="12" /></td>
+            <input type="date_available" name="filter_date_start" value="<?php echo $filter_date_start; ?>" size="20" /> ~
+            <input type="date_available" name="filter_date_end" value="<?php echo $filter_date_end; ?>" size="20" /></td>
             </tr><tr>
           <td><?php echo $entry_status; ?>
             <select name="filter_reminder_status_id">
@@ -35,8 +35,8 @@
 
             </select></td>
             </tr><tr>
-            <td><?php echo $entry_consultant; ?>
-            <input type="text" name="filter_consultant" value="<?php echo $filter_consultant; ?>" id="consultant" size="12" /></td>
+            <!-- <td><php echo $entry_consultant; ?> -->
+            <!-- <input type="text" name="filter_consultant" value="<php echo $filter_consultant; ?>" id="consultant" size="12" /></td> -->
         </tr><tr>
             <td><?php echo $entry_user; ?>
             <input type="text" name="filter_user" value="<?php echo $filter_user; ?>" id="user" size="12" /><input type="hidden" name="filter_user_id" value="<?php echo $filter_user_id; ?>" id="user_id" size="12" /></td>
@@ -118,7 +118,7 @@
 						</table>
 					</div>
 				</div>
-
+				<div class="pagination"><?php echo $pagination; ?></div>
     </div>
   </div>
 </div>
@@ -128,150 +128,10 @@ $('select[name=\'to\']').bind('change', function() {
 	// $('#mail .to').hide();
 	// $('#mail #to-' + $(this).attr('value').replace('_', '-')).show();
 });
-
 $('select[name=\'to\']').trigger('change');
 //--></script> 
 
-<script type="text/javascript"><!--
-$.widget('custom.catcomplete', $.ui.autocomplete, {
-	_renderMenu: function(ul, items) {
-		var self = this, currentCategory = '';
-		
-		$.each(items, function(index, item) {
-			if (item.category != currentCategory) {
-				ul.append('<li class="ui-autocomplete-category">' + item.category + '</li>');
-				
-				currentCategory = item.category;
-			}
-			
-			self._renderItem(ul, item);
-		});
-	}
-});
-
-
-// $('input[name=\'filter_treatment\']').autocomplete({
-//   delay: 500,
-//   source: function(request, response) {
-//     $.ajax({
-//       url: 'index.php?route=catalog/product/autocompletetreatments&token=<?php echo $token; ?>&filter_name=' + encodeURIComponent(request.term),
-//       dataType: 'json',
-//       success: function(json) { 
-        
-//         response($.map(json, function(item) {
-//           return {
-//             label: item.name,
-//             value: item.product_id,
-//             model: item.model,
-//             option: item.option,
-//             price: item.price
-//           }
-//         }));
-//       }
-//     });
-//   }, 
-//   select: function(event, ui) {
-//     $('input[name=\'filter_treatment\']').attr('value', ui.item['label']);
-//     $('input[name=\'filter_product_id\']').attr('value', ui.item['value']);
-    
-//     return false;
-//   },
-//   focus: function(event, ui) {
-//         return false;
-//     }
-// }); 
-
-
-// $('input[name=\'filter_customer\']').catcomplete({
-// 	delay: 500,
-// 	source: function(request, response) {
-// 		$.ajax({
-// 			url: 'index.php?route=sale/customer/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request.term),
-// 			dataType: 'json',
-// 			success: function(json) {	
-// 				response($.map(json, function(item) {
-// 					return {
-// 						category: item.customer_group,
-// 						label: item.name,
-// 						value: item.customer_id
-// 					}
-// 				}));
-// 			}
-// 		});
-		
-// 	}, 
-// 	select: function(event, ui) {
-// 		$('#customer' + ui.item.value).remove();
-		
-// 		$('#customer').append('<div id="customer' + ui.item.value + '">' + ui.item.label + '<img src="view/image/delete.png" alt="" /><input type="hidden" name="customer[]" value="' + ui.item.value + '" /></div>');
-
-// 		$('#customer div:odd').attr('class', 'odd');
-// 		$('#customer div:even').attr('class', 'even');
-				
-// 		return false;
-// 	},
-// 	focus: function(event, ui) {
-//       	return false;
-//    	}
-// });
-
-
-
-$('input[name=\'filter_customer\']').catcomplete({
-  delay: 500,
-  source: function(request, response) {
-    $.ajax({
-      url: 'index.php?route=sale/customer/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request.term),
-      dataType: 'json',
-      success: function(json) { 
-        response($.map(json, function(item) {
-          return {
-            label: item['fullname'] + ' ' + item['dob'],
-            fullname: item['fullname'],
-            value: item['customer_id']
-          }
-        }));
-      }
-    });
-  }, 
-  select: function(event, ui) { 
-    $('input[name=\'filter_customer\']').attr('value', ui.item['fullname']);
-    $('input[name=\'filter_customer_id\']').attr('value', ui.item['value']);
-    return false;
-  },
-  focus: function(event, ui) {
-    return false;
-  }
-});
-
-
-$('input[name=\'filter_user\']').catcomplete({
-  delay: 500,
-  source: function(request, response) {
-    $.ajax({
-      url: 'index.php?route=user/user/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request.term),
-      dataType: 'json',
-      success: function(json) { 
-        response($.map(json, function(item) {
-          return {
-            label: item['fullname'],
-            fullname: item['fullname'],
-            value: item['user_id']
-          }
-        }));
-      }
-    });
-  }, 
-  select: function(event, ui) { 
-    $('input[name=\'filter_user\']').attr('value', ui.item['fullname']);
-    $('input[name=\'filter_user_id\']').attr('value', ui.item['value']);
-    return false;
-  },
-  focus: function(event, ui) {
-    return false;
-  }
-});
-
+<script type="text/javascript">
 
 $('#customer div img').live('click', function() {
 	$(this).parent().remove();
@@ -282,36 +142,6 @@ $('#customer div img').live('click', function() {
 //--></script> 
 <script type="text/javascript"><!--	
 
-// $('input[name=\'products\']').autocomplete({
-// 	delay: 500,
-// 	source: function(request, response) {
-// 		$.ajax({
-// 			url: 'index.php?route=catalog/product/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request.term),
-// 			dataType: 'json',
-// 			success: function(json) {		
-// 				response($.map(json, function(item) {
-// 					return {
-// 						label: item.name,
-// 						value: item.product_id
-// 					}
-// 				}));
-// 			}
-// 		});
-// 	}, 
-// 	select: function(event, ui) {
-// 		$('#product' + ui.item.value).remove();
-		
-// 		$('#product').append('<div id="product' + ui.item.value + '">' + ui.item.label + '<img src="view/image/delete.png" alt="" /><input type="hidden" name="product[]" value="' + ui.item.value + '" /></div>');
-
-// 		$('#product div:odd').attr('class', 'odd');
-// 		$('#product div:even').attr('class', 'even');
-				
-// 		return false;
-// 	},
-// 	focus: function(event, ui) {
-//       	return false;
-//    	}
-// });
 
 $('#product div img').live('click', function() {
 	$(this).parent().remove();
@@ -320,57 +150,6 @@ $('#product div img').live('click', function() {
 	$('#product div:even').attr('class', 'even');	
 });
 
-// function send(url) { 
-// 	$('textarea[name="message"]').val(CKEDITOR.instances.message.getData());
-	
-// 	$.ajax({
-// 		url: url,
-// 		type: 'post',
-// 		data: $('select, input, textarea'),		
-// 		dataType: 'json',
-// 		beforeSend: function() {
-// 			$('#button-send').attr('disabled', true);
-// 			$('#button-send').before('<span class="wait"><img src="view/image/loading.gif" alt="" />&nbsp;</span>');
-// 		},
-// 		complete: function() {
-// 			$('#button-send').attr('disabled', false);
-// 			$('.wait').remove();
-// 		},				
-// 		success: function(json) {
-// 			$('.success, .warning, .error').remove();
-			
-// 			if (json['error']) {
-// 				if (json['error']['warning']) {
-// 					$('.box').before('<div class="warning" style="display: none;">' + json['error']['warning'] + '</div>');
-			
-// 					$('.warning').fadeIn('slow');
-// 				}
-				
-// 				if (json['error']['subject']) {
-// 					$('input[name=\'subject\']').after('<span class="error">' + json['error']['subject'] + '</span>');
-// 				}	
-				
-// 				if (json['error']['message']) {
-// 					$('textarea[name=\'message\']').parent().append('<span class="error">' + json['error']['message'] + '</span>');
-// 				}									
-// 			}			
-			
-// 			if (json['next']) {
-// 				if (json['success']) {
-// 					$('.box').before('<div class="success">' + json['success'] + '</div>');
-					
-// 					send(json['next']);
-// 				}		
-// 			} else {
-// 				if (json['success']) {
-// 					$('.box').before('<div class="success" style="display: none;">' + json['success'] + '</div>');
-			
-// 					$('.success').fadeIn('slow');
-// 				}					
-// 			}				
-// 		}
-// 	});
-// }
 //--></script> 
 <?php echo $footer; ?>
 <script type="text/javascript"><!--
@@ -450,10 +229,5 @@ function filter() {
 $('input').on('keypress', function(e){
 	if (e.keyCode==13) filter();
 });
-$("input[name='filter_user']").on('keypress', function(e){
-	$("input[name='filter_user_id']").val('');
-});
-$("input[name='filter_customer']").on('keypress', function(e){
-	$("input[name='filter_customer_id']").val('');
-});
+
 //--></script> 

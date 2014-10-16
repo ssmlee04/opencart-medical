@@ -16,10 +16,10 @@
 				<td class="left"><input type='hidden' value='<?php echo $message['customer_history_id']; ?>'/><?php echo $message['clastname'] . ' ' . $message['cfirstname']; ?></td>
 				
 				<td class="left"><?php echo $message['reminder_date']; ?></td>
-				<td class="left"><?php echo $message['ulastname'] . ' ' . $message['ufirstname']; ?></td>
+				<td class="left"><?php echo $message['ufullname']; ?></td>
 
 
-				<td class="right">
+				<td class="right" >
 
 					<input type='text' value='<?php echo $message['reply']; ?>' size='100px'/>
 

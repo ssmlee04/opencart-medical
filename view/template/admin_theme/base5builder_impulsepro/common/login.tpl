@@ -1,10 +1,12 @@
 <?php echo $header; ?>
 <div id="content" class="login">
+	<br><br><br>
 	<div id="logo">
 		<a href="./">
 			<img src="view/image/admin_theme/base5builder_impulsepro/logo.png">
 		</a>
 	</div>
+	<br>
 	<form class="form-signin" action="<?php echo $action; ?>" method="post" enctype="multipart/form-data">
 		<div class="form-signin-heading">
 			<div class="login-header-image">
@@ -47,7 +49,7 @@
 				<?php } ?>
 			</div>
 			<div class="form-signin-body-right">
-				<input class="btn btn-xlarge btn-primary" value="<?php echo $button_login; ?>" type="button">
+				<input class="btn btn-xlarge btn-primary" style='height:280px' value="<?php echo $button_login; ?>" type="button">
 			</div>
 		</div>
 

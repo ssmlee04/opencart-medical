@@ -1,0 +1,2 @@
+2014-10-16 7:50:18 - PHP Notice:  Undefined index: customer_id in /var/www/html/opencart2/controller/sale/order.php on line 648
+2014-10-16 7:50:18 - PHP Notice:  Undefined index: customer_id in /var/www/html/opencart2/controller/sale/order.php on line 973
