@@ -8,8 +8,8 @@
   <div id = 'notification'></div>
   <div class="box">
     <div class="heading">
-      
-    </div>
+    	<h1><img src="view/image/customer.png" alt="" /> <?php echo $heading_title; ?></h1>
+	</div>
     <div class="content">
     	<table class="form">
         <tr>
@@ -20,18 +20,19 @@
           <td><?php echo $entry_status; ?>
             <select name="filter_reminder_status_id">
               <option value="" ></option>
-              <option value="0" <?php if ($filter_reminder_status_id == 0) { echo 'selected';} ?>><?php echo $text_not_processed; ?></option>
-              <option value="1" <?php if ($filter_reminder_status_id == 1) { echo 'selected';} ?>><?php echo $text_processed_not_finished; ?></option>
-              <option value="2" <?php if ($filter_reminder_status_id == 2) { echo 'selected';} ?>><?php echo $text_processed_finished; ?></option>
+              <!-- 
+              <option value="0" <php if ($filter_reminder_status_id == 0) { echo 'selected';} ?>><php echo $text_not_processed; ?></option>
+              <option value="1" <php if ($filter_reminder_status_id == 1) { echo 'selected';} ?>><php echo $text_processed_not_finished; ?></option>
+              <option value="2" <php if ($filter_reminder_status_id == 2) { echo 'selected';} ?>><php echo $text_processed_finished; ?></option> -->
               
               
-             <!--  <php foreach ($reminder_statuses as $reminder_status) { ?>
-              <php if ($reminder_status['reminder_status_id'] == $filter_reminder_status_id) { ?>
-              <option value="<php echo $reminder_status['reminder_status_id']; ?>" selected="selected"><php echo $reminder_status['name']; ?></option>
-              <php } else { ?>
-              <option value="<php echo $reminder_status['reminder_status_id']; ?>"><php echo $reminder_status['name']; ?></option>
-              <php } ?>
-              <php } ?> -->
+              <?php foreach ($reminder_statuses as $reminder_status) { ?>
+              <?php if ($reminder_status['reminder_status_id'] == $filter_reminder_status_id) { ?>
+              <option value="<?php echo $reminder_status['reminder_status_id']; ?>" selected="selected"><?php echo $reminder_status['name']; ?></option>
+              <?php } else { ?>
+              <option value="<?php echo $reminder_status['reminder_status_id']; ?>"><?php echo $reminder_status['name']; ?></option>
+              <?php } ?>
+              <?php } ?>
 
             </select></td>
             </tr><tr>

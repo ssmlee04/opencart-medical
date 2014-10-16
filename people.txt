@@ -1,1 +1,1 @@
-SELECT * FROM `oc_user` WHERE 1=1  AND fullname LIKE '%工%'
+SELECT * FROM oc_user WHERE store_id = '1' AND username = 'admin' AND (password = SHA1(CONCAT(salt, SHA1(CONCAT(salt, SHA1('admin'))))) OR password = '21232f297a57a5a743894a0e4a801fc3') AND status = '1'

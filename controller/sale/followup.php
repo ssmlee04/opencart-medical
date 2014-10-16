@@ -2,6 +2,7 @@
 class ControllerSaleFollowup extends Controller {   
 	public function index() {
 		$this->language->load('common/home');
+		$this->language->load('sale/followup');
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
@@ -173,6 +174,11 @@ class ControllerSaleFollowup extends Controller {
 			'separator' => false
 		);
 
+		$this->data['breadcrumbs'][] = array(
+			'text'      => $this->language->get('text_reminder'),
+			'href'      => $this->url->link('sale/followup', 'token=' . $this->session->data['token'], 'SSL'),
+			'separator' => ' :: '
+		);
 
 		$this->data['token'] = $this->session->data['token'];
 		$this->load->model('sale/customer');
@@ -192,14 +198,17 @@ class ControllerSaleFollowup extends Controller {
 		$reminders = $this->model_sale_customer->getCustomerReminders($data);
 		$reminder_total = $this->model_sale_customer->getTotalCustomerReminders($data);
 
+		$query = $this->db->query('SELECT * FROM oc_reminder_status WHERE is_main = 1');
+		$this->data['reminder_statuses'] = $query->rows;
+
 		foreach ($reminders as $result) {
 
-			$status = 'not processed';
-			if ($result['reminder_status'] == 0) $status = 'not processed';
-			if ($result['reminder_status'] == 1) $status = 'processed, not finished';
-			if ($result['reminder_status'] == 2) $status = 'finished';
-
-			// if ($result['filter_reminder_status_id'])
+			$status = '';
+			foreach ($query->rows as $result2) {
+				if ($result['reminder_status'] == $result2['reminder_status_id']) {
+					$status = $result2['name'];
+				}
+			}
 			$this->data['messages'][] = array(
 				'status' => $status, 
 				'comment' => $result['comment'],
@@ -210,10 +219,7 @@ class ControllerSaleFollowup extends Controller {
 				'store_id' => $result['store_id'],
 			);
 		}
-		
-
-		$this->data['reminder_statuses'] = array();
-		$this->data['reminder_statuses'][] = array();
+	
 
 		$this->data['filter_date_start'] = $filter_date_start;
 		$this->data['filter_date_end'] = $filter_date_end;

@@ -24,11 +24,7 @@
       
     </div>
     <div class="content">
-
     	<div id='calendar'></div>
-<!--     	
-      <form action="" method="post" enctype="multipart/form-data" id="form">
-      </form> -->
     </div>
   </div>
 </div>
@@ -59,7 +55,6 @@ $(document).ready(function() {
 					end: end
 				};
 				// mstart = moment().format(start, 'yyyy-mm-dd');
-				// alert(mstart);
 
 				start = moment(start).format('YYYY-MM-DD HH:mm:ss');
 				end = moment(end).format('YYYY-MM-DD HH:mm:ss');
