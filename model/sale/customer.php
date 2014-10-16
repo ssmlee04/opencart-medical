@@ -146,7 +146,7 @@ class ModelSaleCustomer extends Model {
 		if (isset($data['customer_transaction_id']))  {
 
 			$query2 = $this->db->query("SELECT * FROM oc_customer_transaction WHERE customer_transaction_id = '". $data['customer_transaction_id'] . "'");
-			
+
 			$product_id = $query2->row['product_id'];
 
 			$sql .= ", customer_transaction_id = '" . $this->db->escape($data['customer_transaction_id']) . "'
@@ -1481,11 +1481,11 @@ class ModelSaleCustomer extends Model {
 		}
 
 		if (isset($data['filter_date_added_start'])) {
-			$sql .= " AND ci.date_added > '" . $this->db->escape($data['filter_date_added_start']) . "'";
+			$sql .= " AND ci.date_added >= '" . $this->db->escape($data['filter_date_added_start']) . "'";
 		}
 
 		if (isset($data['filter_date_added_end'])) {
-			$sql .= " AND ci.date_added < '" . $this->db->escape($data['filter_date_added_end']) . "'";
+			$sql .= " AND ci.date_added <= '" . $this->db->escape($data['filter_date_added_end']) . "'";
 		}
 
 		if (isset($data['filter_treatment'])) {
@@ -1495,9 +1495,55 @@ class ModelSaleCustomer extends Model {
 
 		$sql .= " ORDER BY ci.date_added DESC";
 
+		if (isset($data['start']) || isset($data['limit'])) {
+			if ($data['start'] < 0) {
+				$data['start'] = 0;
+			}			
+
+			if ($data['limit'] < 1) {
+				$data['limit'] = 20;
+			}	
+
+			$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
+		}		
+
 		$query = $this->db->query($sql);
 
 		return $query->rows;
+	}
+
+	// '2014-10-03 10:46'
+	public function getTotalCustomerImages($data) {
+
+		$sql = "SELECT count(*) as total FROM oc_customer_image ci WHERE 1=1  ";
+
+		if (isset($data['customer_id'])) {
+			$sql .= " AND ci.customer_id = '" . (int)$data['customer_id'] . "'";
+		}
+
+		if (isset($data['product_id'])) {
+			$sql .= " AND ci.product_id = '" . (int)$data['product_id'] . "'";
+		}
+
+		if (isset($data['filter_customer_transaction_id'])) {
+			$sql .= " AND ci.customer_transaction_id = '" . (int)$data['filter_customer_transaction_id'] . "'";
+		}
+
+		if (isset($data['filter_date_added_start'])) {
+			$sql .= " AND ci.date_added >= '" . $this->db->escape($data['filter_date_added_start']) . "'";
+		}
+
+		if (isset($data['filter_date_added_end'])) {
+			$sql .= " AND ci.date_added <= '" . $this->db->escape($data['filter_date_added_end']) . "'";
+		}
+
+		if (isset($data['filter_treatment'])) {
+			$sql .= " AND ci.date_added < '" . (int)$data['filter_treatment'] . "'";
+		}
+
+		$query = $this->db->query($sql);
+
+		return $query->row['total'];
 	}
 
 	function updatehistory($user_id, $reminder_status_id, $customer_history_id, $reply){

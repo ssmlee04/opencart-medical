@@ -61,40 +61,45 @@
       </table>
 
       <br>
-      <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
+      <!-- <form action="<php echo $action; ?>" method="post" enctype="multipart/form-data" id="form"> -->
         <div id="tab-image">
           
-<table id="images" class="list">
-  <thead>
-    <tr>
-      <td class="left"><?php echo $entry_image; ?></td>
-      <td class="left"></td>
-      <td class="right"></td>
-    </tr>
-  </thead>
-  <?php $image_row = 0; ?>
-  <?php foreach ($customer_images as $customer_image) { ?>
-  <tbody id="image-row<?php echo $image_row; ?>">
-    <tr>
-      <td class="left"><div class="image"><img src="<?php echo $customer_image['thumb']; ?>" alt="" id="thumb<?php echo $image_row; ?>" />
-          </div></td>
-      <td class="left"><?php echo $customer_image['comment']; ?></td>
-      <td class="right">
-        <input style='display:none' type="date_available" name="customer_image[<?php echo $image_row; ?>][date_added]" value="<?php echo $customer_image['date_added']; ?>" class="date"/><?php echo $customer_image['date_added']; ?>
-      </td>
-    </tr>
-  </tbody>
-  <?php $image_row++; ?>
-  <?php } ?>
-</table>
-
+        <table id="images" class="list">
+          <thead>
+            <tr>
+              <td class="left"><?php echo $entry_image; ?></td>
+              <td class="left"><?php echo $entry_comment; ?></td>
+              <td class="left"><?php echo $entry_customer; ?></td>
+              <td class="right"><?php echo $entry_date_added; ?></td>
+            </tr>
+          </thead>
+          <?php $image_row = 0; ?>
+          <?php foreach ($customer_images as $customer_image) { ?>
+          <tbody id="image-row<?php echo $image_row; ?>">
+            <tr>
+              <td class="left"><div class="image"><img src="<?php echo $customer_image['thumb']; ?>" alt="" id="thumb<?php echo $image_row; ?>" />
+                  </div></td>
+              <td class="left">
+                <div style='color:black'><?php echo $customer_image['comment']; ?></div></td>
+              <td class="left">
+                <div style='color:black'><?php echo $customer_image['customer_name']; ?></div></td>
+              <td class="right">
+                <div style='color:black'><?php echo $customer_image['date_added']; ?></div>
+                <input style='display:none' type="date_available" name="customer_image[<?php echo $image_row; ?>][date_added]" value="<?php echo $customer_image['date_added']; ?>" class="date"/>
+              </td>
+            </tr>
+          </tbody>
+          <?php $image_row++; ?>
+          <?php } ?>
+        </table>
 
           <a id="button-image" class="button"></a>
         </div>
-      </form>
+      <!-- </form> -->
     </div>
   </div>
 </div>
+<div class="pagination"><?php echo $pagination; ?></div>
 <script type="text/javascript" src="view/javascript/jquery/ui/jquery-ui-timepicker-addon.js"></script> 
 <link rel="stylesheet" href="view/javascript/jquery/colorbox/colorbox.css" />
 <script type="text/javascript" src="view/javascript/jquery/colorbox/jquery.colorbox-min.js"></script> 
@@ -114,42 +119,6 @@ $('.time').timepicker({timeFormat: 'h:m'});
 //--></script> 
 <script type="text/javascript"><!--
 
-$('#tab-images').load('index.php?route=sale/customer/images&token=<?php echo $token; ?>');
-
-$('#button-image').bind('click', function() {
-
-  $.ajax({
-    url: 'index.php?route=sale/customer/images&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>',
-    type: 'post',
-    // dataType: 'html',
-    // data: 'product_id=' + encodeURIComponent($('#tab-transaction input[name=\'product_id\']').val()) + '&unitspend=' + encodeURIComponent($('#tab-transaction input[name=\'unitspend\']').val()),
-    beforeSend: function() {
-      $('.success, .warning, .attention').remove();
-      $('#button-image').attr('disabled', true);
-      $('#tab-images').before('<div class="attention"><img src="view/image/loading.gif" alt="" /> <?php echo $text_wait; ?></div>');
-    },
-    complete: function() {
-      $('#button-image').attr('disabled', false);
-      $('.attention').remove();
-    },
-    success: function(html) {
-
-      $('#tab-images').html(html);
-
-      // $('#tab-transaction input[name=\'product_id\']').val('');
-      // $('#tab-transaction input[name=\'product\']').val('');
-      // $('#tab-transaction input[name=\'unitspend\']').val('');
-    }
-  });
-});
-
-
-//--></script> 
-
-<script type="text/javascript"><!--
-$('input').on('keypress', function(e){
-  if (e.keyCode == 13) filter();
-})
 
 $('.htabs a').tabs();
 $('.vtabs a').tabs();
@@ -204,6 +173,62 @@ function filter() {
   location = url;
 }
 
+
+
+$.widget('custom.catcomplete', $.ui.autocomplete, {
+  _renderMenu: function(ul, items) {
+    var self = this, currentCategory = '';
+    
+    $.each(items, function(index, item) {
+      if (item.category != currentCategory) {
+        ul.append('<li class="ui-autocomplete-category">' + item.category + '</li>');
+        
+        currentCategory = item.category;
+      }
+      
+      self._renderItem(ul, item);
+    });
+  }
+});
+
+$('input[name=\'filter_name\']').catcomplete({
+  delay: 500,
+  source: function(request, response) {
+    $.ajax({
+      url: 'index.php?route=sale/customer/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request.term),
+      dataType: 'json',
+      success: function(json) { 
+        response($.map(json, function(item) {
+          return {
+            label: item['fullname'] + ' ' + item['ssn'],
+            value: item['customer_id'],
+            fullname: item['fullname']
+          }
+        }));
+      }
+    });
+  }, 
+  select: function(event, ui) { 
+    $('input[name=\'filter_name\']').attr('value', ui.item['fullname']);
+    $('input[name=\'filter_customer_id\']').attr('value', ui.item['value']);    
+    return false; 
+  },
+  focus: function(event, ui) {
+        return false;
+    }
+});
+
+$('input').on('keypress', function(e){
+  if (e.keyCode == 13) {
+    filter();
+  }
+  $(this).val('');
+});
+$("input[name='filter_name']").on('keydown', function(e){
+  if (e.keyCode == 8) {
+    $("input[name='filter_customer_id']").val('');
+  }
+});
 //--></script> 
 
 <?php echo $footer; ?>

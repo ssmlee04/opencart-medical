@@ -161,11 +161,12 @@ class ControllerImageImageManage extends Controller {
 			// 'filter_ip'                => $filter_ip,
 			'sort'                     => $sort,
 			'order'                    => $order,
-			'start'                    => ($page - 1) * $this->config->get('config_admin_limit'),
-			'limit'                    => $this->config->get('config_admin_limit')
+			'start'                    => ($page - 1) * 10,
+			'limit'                    => 10
 		);
 
 		$customer_images = $this->model_sale_customer->getCustomerImages($data);
+		$total_customer_images = $this->model_sale_customer->getTotalCustomerImages($data);
 
 		$this->data['customer_images'] = array();
 		$this->load->model('tool/image');
@@ -177,12 +178,17 @@ class ControllerImageImageManage extends Controller {
 				$image = 'no_image.jpg';
 			}
 
+			$customer_id = $customer_image['customer_id'];
+
+			$customer = $this->model_sale_customer->getCustomer($customer_id);
+
 			$this->data['customer_images'][] = array(
 				'image'      => $image,
 				'comment'      => $customer_image['comment'],
+				'customer_name'      => $customer['fullname'],
 				'customer_image_id'      => $customer_image['customer_image_id'],
 				'customer_transaction_id'      => $customer_image['customer_transaction_id'],
-				'date_added'      =>  explode(' ' ,$customer_image['date_added'])[0],
+				'date_added'      =>  trim(explode(' ' ,$customer_image['date_added'])[0]),
 				'thumb'      => $this->model_tool_image->resize($image, 100, 100),
 				'sort_order' => $customer_image['sort_order']
 			);
@@ -204,6 +210,9 @@ class ControllerImageImageManage extends Controller {
 		$this->data['text_search_customer'] = $this->language->get('text_search_customer');
 		$this->data['text_all_customers'] = $this->language->get('text_all_customers');
 		$this->data['entry_image'] = $this->language->get('entry_image');
+		$this->data['entry_date_added'] = $this->language->get('entry_date_added');
+		$this->data['entry_comment'] = $this->language->get('entry_comment');
+		$this->data['entry_customer'] = $this->language->get('entry_customer');
 
 		$this->data['column_name'] = $this->language->get('column_name');
 		$this->data['column_customer_id'] = $this->language->get('column_customer_id');
@@ -332,22 +341,22 @@ class ControllerImageImageManage extends Controller {
 		}
 
 		$pagination = new Pagination();
-		$pagination->total = $customer_total;
+		$pagination->total = $total_customer_images;
 		$pagination->page = $page;
-		$pagination->limit = $this->config->get('config_admin_limit');
+		$pagination->limit = 10;
 		$pagination->text = $this->language->get('text_pagination');
-		$pagination->url = $this->url->link('sale/customer', 'token=' . $this->session->data['token'] . $url . '&page={page}', 'SSL');
+		$pagination->url = $this->url->link('image/imagemanage', 'token=' . $this->session->data['token'] . $url . '&page={page}', 'SSL');
 
 		$this->data['pagination'] = $pagination->render();
 
 		$this->data['filter_treatment'] = $filter_treatment;
 		$this->data['filter_name'] = $filter_name;
-		$this->data['filter_ssn'] = $filter_ssn;
-		$this->data['filter_email'] = $filter_email;
-		$this->data['filter_customer_group_id'] = $filter_customer_group_id;
-		$this->data['filter_status'] = $filter_status;
-		$this->data['filter_approved'] = $filter_approved;
-		$this->data['filter_ip'] = $filter_ip;
+		// $this->data['filter_ssn'] = $filter_ssn;
+		// $this->data['filter_email'] = $filter_email;
+		// $this->data['filter_customer_group_id'] = $filter_customer_group_id;
+		// $this->data['filter_status'] = $filter_status;
+		// $this->data['filter_approved'] = $filter_approved;
+		// $this->data['filter_ip'] = $filter_ip;
 		$this->data['filter_date_modified_start'] = $filter_date_modified_start;
 		$this->data['filter_date_modified_end'] = $filter_date_modified_end;
 		$this->data['filter_date_added_start'] = $filter_date_added_start;
