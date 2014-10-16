@@ -38,9 +38,9 @@ class ControllerCatalogPurchase extends Controller {
 				$url .= '&filter_user=' . urlencode(html_entity_decode($this->request->get['filter_user'], ENT_QUOTES, 'UTF-8'));
 			}
 
-			if (isset($this->request->get['filter_purchase_status_id'])) {
-				$url .= '&filter_purchase_status_id=' . $this->request->get['filter_purchase_status_id'];
-			}
+			// if (isset($this->request->get['filter_purchase_status_id'])) {
+			// 	$url .= '&filter_purchase_status_id=' . $this->request->get['filter_purchase_status_id'];
+			// }
 
 			if (isset($this->request->get['filter_total'])) {
 				$url .= '&filter_total=' . $this->request->get['filter_total'];
@@ -54,9 +54,9 @@ class ControllerCatalogPurchase extends Controller {
 				$url .= '&filter_date_added=' . $this->request->get['filter_date_added'];
 			}
 
-			if (isset($this->request->get['filter_date_modified'])) {
-				$url .= '&filter_date_modified=' . $this->request->get['filter_date_modified'];
-			}
+			// if (isset($this->request->get['filter_date_modified'])) {
+			// 	$url .= '&filter_date_modified=' . $this->request->get['filter_date_modified'];
+			// }
 
 			if (isset($this->request->get['sort'])) {
 				$url .= '&sort=' . $this->request->get['sort'];
@@ -149,11 +149,13 @@ class ControllerCatalogPurchase extends Controller {
 
 		if (isset($this->request->post['selected']) && ($this->validateDelete())) {
 			foreach ($this->request->post['selected'] as $purchase_id) {
-				$this->model_catalog_purchase->deletepurchase($purchase_id, $this->request->post);
-				// $this->openbay->deletepurchase($purchase_id);
-			}
 
-			$this->session->data['success'] = $this->language->get('text_success');
+				if ($this->model_catalog_purchase->deletepurchase($purchase_id, $this->request->post)) {
+					$this->session->data['success'] = $this->language->get('text_success');
+				} else {
+					$this->session->data['error'] = $this->language->get('text_error');
+				}
+			}
 
 			$url = '';
 
@@ -336,7 +338,7 @@ class ControllerCatalogPurchase extends Controller {
 			'filter_total'           => $filter_total,
 			'filter_date_purchased'      => $filter_date_purchased,
 			'filter_date_added'      => $filter_date_added,
-			'filter_date_modified'   => $filter_date_modified,
+			// 'filter_date_modified'   => $filter_date_modified,
 			'sort'                   => $sort,
 			'purchase'                  => $purchase, // purchase_id
 			'start'                  => ($page - 1) * $this->config->get('config_admin_limit'),
@@ -439,6 +441,14 @@ class ControllerCatalogPurchase extends Controller {
 			$this->data['success'] = '';
 		}
 
+		if (isset($this->session->data['error'])) {
+			$this->data['error_warning'] = $this->session->data['error'];
+
+			unset($this->session->data['error']);
+		} else {
+			$this->data['error_warning'] = '';
+		}
+
 		$url = '';
 
 		if (isset($this->request->get['filter_purchase_id'])) {
@@ -485,6 +495,9 @@ class ControllerCatalogPurchase extends Controller {
 		$this->data['sort_total'] = $this->url->link('catalog/purchase', 'token=' . $this->session->data['token'] . '&sort=o.total' . $url, 'SSL');
 		$this->data['sort_date_purchased'] = $this->url->link('catalog/purchase', 'token=' . $this->session->data['token'] . '&sort=o.date_purchased' . $url, 'SSL');
 		$this->data['sort_date_modified'] = $this->url->link('catalog/purchase', 'token=' . $this->session->data['token'] . '&sort=o.date_modified' . $url, 'SSL');
+		$this->data['sort_store'] = '';
+		$this->data['sort_user'] = '';
+		$this->data['sort_date_added'] = '';
 
 		$url = '';
 
@@ -536,11 +549,11 @@ class ControllerCatalogPurchase extends Controller {
 		$this->data['filter_purchase_id'] = $filter_purchase_id;
 		$this->data['filter_user'] = $filter_user;
 		$this->data['filter_store'] = $filter_store;
-		$this->data['filter_purchase_status_id'] = $filter_purchase_status_id;
+		// $this->data['filter_purchase_status_id'] = $filter_purchase_status_id;
 		$this->data['filter_total'] = $filter_total;
 		$this->data['filter_date_purchased'] = $filter_date_purchased;
 		$this->data['filter_date_added'] = $filter_date_added;
-		$this->data['filter_date_modified'] = $filter_date_modified;
+		// $this->data['filter_date_modified'] = $filter_date_modified;
 
 		//$this->load->model('localisation/purchase_status');
 

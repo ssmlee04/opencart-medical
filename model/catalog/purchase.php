@@ -90,7 +90,6 @@ class ModelCatalogPurchase extends Model {
 	// '2014-09-27 03:16'
 	public function editPurchase($purchase_id, $data) {
 
-
 		$store_id = $data['store_id'];
 
 		$user_id = $data['user_id'];
@@ -140,11 +139,28 @@ class ModelCatalogPurchase extends Model {
 	// '2014-09-27 03:17'
 	public function deletePurchase($purchase_id, $remove_from_db = false) {
 
+		$products = $this->getPurchaseProducts($purchase_id); 
+
+		$this->cart->clear();
+
+		foreach ($products as $product) {
+			$this->cart->add($product['product_id'], $product['quantity'], '', '');
+		}
+
+		if (!$this->cart->hasStock()) {
+			$this->cart->clear();			
+			return false;
+		}
+
+		$this->cart->clear();
+		
 		$this->editPurchase($purchase_id, null);
 
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "purchase` WHERE purchase_id = '" . (int)$purchase_id . "'");
 
 		$this->db->query("DELETE FROM " . DB_PREFIX . "purchase_product WHERE purchase_id = '" . (int)$purchase_id . "'");
+
+		return true;
 
 	}
 

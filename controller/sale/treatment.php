@@ -151,13 +151,17 @@ class ControllerSaleTreatment extends Controller {
 		$this->data['entry_ssn'] = $this->language->get('entry_ssn');
 		$this->data['entry_customer_id'] = $this->language->get('entry_customer_id');
 		$this->data['entry_customer'] = $this->language->get('entry_customer');
+		
+		$this->data['text_wait'] = $this->language->get('text_wait');
+		$this->data['text_none'] = $this->language->get('text_none');
+	
 
 		$pagination = new Pagination();
 		$pagination->total = $product_total;
 		$pagination->page = $page;
 		$pagination->limit = $this->config->get('config_admin_limit');
 		$pagination->text = $this->language->get('text_pagination');
-		// $pagination->url = $this->url->link('sale/product_purchased', 'token=' . $this->session->data['token'] . $url . '&page={page}');
+		$pagination->url = $this->url->link('sale/treatment', 'token=' . $this->session->data['token'] . $url . '&page={page}');
 
 		$this->data['pagination'] = $pagination->render();		
 
