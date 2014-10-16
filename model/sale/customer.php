@@ -133,7 +133,10 @@ class ModelSaleCustomer extends Model {
 	// '2014-10-06 14:46'
 	public function insertCustomerImage($customer_id, $data) {
 
-		$sql = "INSERT INTO oc_customer_image SET customer_id = '" . (int)$customer_id . "', date_added = '" . $this->db->escape($data['date_added']) . "', image = '" . $this->db->escape($data['image']) . "'";
+		$sql = "INSERT INTO oc_customer_image SET 
+		customer_id = '" . (int)$customer_id . "'
+		, date_added = '" . $this->db->escape($data['date_added']) . "'
+		, image = '" . $this->db->escape($data['image']) . "'";
 
 		if (isset($data['customer_transaction_id'])) {
 			$query = $this->db->query("SELECT * FROM oc_customer_image WHERE customer_transaction_id = '" . (int)$data['customer_transaction_id'] . "'");
@@ -141,7 +144,13 @@ class ModelSaleCustomer extends Model {
 		}
 
 		if (isset($data['customer_transaction_id']))  {
-			$sql .= ", customer_transaction_id = '" . $this->db->escape($data['customer_transaction_id']) . "'";
+
+			$query2 = $this->db->query("SELECT * FROM oc_customer_transaction WHERE customer_transaction_id = '". $data['customer_transaction_id'] . "'");
+			
+			$product_id = $query2->row['product_id'];
+
+			$sql .= ", customer_transaction_id = '" . $this->db->escape($data['customer_transaction_id']) . "'
+					, product_id = '" .(int)$product_id . "'";
 		}
 
 		$query = $this->db->query($sql);
