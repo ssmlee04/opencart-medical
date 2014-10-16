@@ -31,7 +31,10 @@
           <tr>
             <td><?php echo $column_name; ?></td>
             <td><input type="text" name="filter_name" value="<?php echo $filter_name; ?>" />
-            <input type="hidden" name="filter_customer_id" value="<?php echo $filter_customer_id; ?>" /></td>
+          </tr>
+          <tr>
+            <td><?php echo $column_customer_id; ?></td>
+            <td><input type="text" name="filter_customer_id" value="<?php echo $filter_customer_id; ?>" /></td>
           </tr>
           <tr>
             <td><?php echo $column_ssn; ?></td>
@@ -50,7 +53,7 @@
         <?php } ?>
 
         <br>
-        <?php if ($filter_name!='' || $filter_ssn!='' || isset($if_display)) { ?>
+        <?php if ($filter_name!='' || $filter_ssn!='' || $filter_customer_id != '' || isset($if_display)) { ?>
         <table class="list">
           <thead>
             <tr>
@@ -291,13 +294,10 @@ function filter() {
 $(document).ready(function() {
 	$('#date').datepicker({dateFormat: 'yy-mm-dd'});
 
-   $('input[name=\'filter_ssn\']').keydown(function(e){
+   $('input[name=\'filter_customer_id\'], input[name=\'filter_ssn\'], input[name=\'filter_name\']').keydown(function(e){
     if (e.keyCode==13) filter();
   });
 
-  $('input[name=\'filter_name\']').keydown(function(e){
-    if (e.keyCode==13) filter();
-  });
 
 });
 //--></script>

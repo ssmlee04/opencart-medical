@@ -30,6 +30,31 @@ class ControllerReportUserBonus extends Controller {
 			$filter_beauty_id = '';
 		}
 
+
+		if (isset($this->request->get['filter_doctor'])) {
+			$filter_doctor = $this->request->get['filter_doctor'];
+		} else {
+			$filter_doctor = '';
+		}
+
+		if (isset($this->request->get['filter_outsource'])) {
+			$filter_outsource = $this->request->get['filter_outsource'];
+		} else {
+			$filter_outsource = '';
+		}
+
+		if (isset($this->request->get['filter_consultant'])) {
+			$filter_consultant = $this->request->get['filter_consultant'];
+		} else {
+			$filter_consultant = '';
+		}
+
+		if (isset($this->request->get['filter_beauty'])) {
+			$filter_beauty = $this->request->get['filter_beauty'];
+		} else {
+			$filter_beauty = '';
+		}
+
 		if (isset($this->request->get['filter_date_start'])) {
 			$filter_date_start = $this->request->get['filter_date_start'];
 		} else {
@@ -103,7 +128,7 @@ class ControllerReportUserBonus extends Controller {
 		);
 
 		$results = $this->model_report_user->getBonuses($data);
-// $this->load->test($results);
+
 		foreach ($results as $result) {
 			$bonus[$result['doctor_id']] = (isset($bonus[$result['doctor_id']]) ? $bonus[$result['doctor_id']] + $result['bonus_doctor'] : $result['bonus_doctor']);
 			$bonus[$result['consultant_id']] = (isset($bonus[$result['consultant_id']]) ? $bonus[$result['consultant_id']] + $result['bonus_consultant'] : $result['bonus_consultant']);
@@ -122,15 +147,15 @@ class ControllerReportUserBonus extends Controller {
 				continue;
 			}
 
-			if ($filter_consultant && $filter_consultant != $user_id) {
+			if ($filter_consultant_id && $filter_consultant_id != $user_id) {
 				continue;
 			}
 
-			if ($filter_outsource && $filter_outsource != $user_id) {
+			if ($filter_outsource_id && $filter_outsource_id != $user_id) {
 				continue;
 			}
 
-			if ($filter_beauty && $filter_beauty != $user_id) {
+			if ($filter_beauty_id && $filter_beauty_id != $user_id) {
 				continue;
 			}
 

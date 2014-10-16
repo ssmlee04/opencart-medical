@@ -503,6 +503,7 @@ class ControllerCatalogProduct extends Controller {
 
 			$this->data['products'][] = array(
 				'product_id' => $result['product_id'],
+				'subtract' => $result['subtract'],
 				'name'       => $result['name'],
 				'model'      => $result['model'],
 				'price'      => $result['price'],

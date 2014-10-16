@@ -550,6 +550,7 @@ class ControllerUserUser extends Controller {
 
 			$data = array(
 				'filter_name' => $this->request->get['filter_name'],
+				'filter_user_group_id' => $this->request->get['filter_user_group_id'],
 				// 'start'       => 0,
 				// 'limit'       => 20
 			);

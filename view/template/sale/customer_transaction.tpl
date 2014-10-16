@@ -23,6 +23,8 @@
     </tr>
   </thead>
   <tbody>
+    <?php $treatment_image_row = 0; ?>
+    
     <?php if ($transactions) { ?>
     <?php foreach ($transactions as $transaction) { ?>
     <!-- <.php if ($transaction['status'] == 0) continue; ?> -->
@@ -58,8 +60,8 @@
 
     <tr>
       <td class="left">
-        <!-- <input type='hidden' value='<php echo $transaction['customer_transaction_id']; ?>' id='hidden?php echo $transaction['customer_transaction_id']; ?>'/> -->
-        <?php $treatment_image_row = 0; ?>
+        <input type='hidden' value='<?php echo $transaction['customer_transaction_id']; ?>' id='hidden<?php echo $transaction['customer_transaction_id']; ?>'/>
+        
         <?php if ($transaction['treatment_images']) { ?>
         <?php foreach ($transaction['treatment_images'] as $image) { ?>
         <div style='display:inline' class='treatmentimage'>

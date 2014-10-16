@@ -63,6 +63,7 @@ $('.updatehistory').on('click', function(){
 		var reply = $(this).prev().prev().val();
 		var reminder_status_id = $(this).prev().val();
 
+		if (reminder_status_id !== '')
 		$.ajax({
 		  url: 'index.php?route=sale/customer/messages&token=<?php echo $token; ?>',
 		  type: 'POST',

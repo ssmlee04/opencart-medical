@@ -77,8 +77,8 @@ class ModelUserUser extends Model {
 			'date_added'
 		);	
 
-		if (isset($data['user_group_id'])) {
-			$sql .= " AND user_group_id = " . (int)$data['user_group_id'];	
+		if (isset($data['filter_user_group_id'])) {
+			$sql .= " AND user_group_id = " . (int)$data['filter_user_group_id'];	
 		} 
 
 		if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {

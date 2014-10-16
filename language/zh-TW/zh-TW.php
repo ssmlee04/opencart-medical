@@ -33,6 +33,7 @@ $_['text_voucher']               = '購物禮券';
 $_['text_browse']               = '瀏覽';
 $_['text_clear']               = '清除';
 $_['text_change_status_success']             = '成功修改狀態';
+$_['text_service_not_rendered']             = '剩餘可用療程';
 
 // Button
 $_['button_insert']           = '新增';
@@ -121,8 +122,8 @@ $_['entry_quantity']             = '數量';
 $_['entry_product']             = '商品';
 $_['entry_lendto']             = '轉讓人';
 $_['entry_unit_used']             = '使用多少單位';
-$_['text_service_not_rendered']             = '剩餘可用療程';
-
+$_['entry_date_start']      = '起始日期';
+$_['entry_date_end']        = '結束日期';
 
 // Error
 $_['error_upload_1']          = '上傳的檔案超過了在php.ini指令中的上傳檔案大小上限';

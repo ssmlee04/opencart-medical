@@ -43,6 +43,7 @@ $_['text_latest_messages']         = '最新待回覆訊息';
 $_['text_update_comment_success']         = '成功更新訊息';
 $_['column_customer']         = '客戶';
 $_['column_message']         = '訊息';
+$_['column_customer_id']         = '客戶編號';
 
 
 

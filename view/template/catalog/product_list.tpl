@@ -89,9 +89,11 @@
               <td class="left"><?php echo $product['name']; ?></td>
               <td class="left"><?php echo $product['model']; ?></td>
               <td class="left"><?php echo $product['price']; ?></td>
-              <td class="right"><?php if ($product['product_type_id'] == 2) { ?>
+              <td class="right">
+
+                <?php if (!$product['subtract']) { ?>
                 <span style="color: #FF0000;">-</span>
-              <?php } elseif ($product['quantity'] <= 0) { ?>
+                <?php } elseif ($product['quantity'] <= 0) { ?>
                 <span style="color: #FF0000;"><?php echo $product['quantity']; ?></span>
                 <?php } elseif ($product['quantity'] <= 5) { ?>
                 <span style="color: #FFA500;"><?php echo $product['quantity']; ?></span>

@@ -69,6 +69,19 @@
   </div>
 </div>
 <script type="text/javascript"><!--
+
+
+$('input').on('keypress', function(){
+  $(this).val('');
+  $(this).next().val('');
+});
+$('input').on('keyup', function(e){
+  if (e.keyCode==8) {
+    $(this).next().val('');
+  }
+});
+
+
 function filter() {
 	url = 'index.php?route=report/user_bonus&token=<?php echo $token; ?>';
 	
@@ -83,6 +96,30 @@ function filter() {
 	if (filter_date_end) {
 		url += '&filter_date_end=' + encodeURIComponent(filter_date_end);
 	}
+
+  var filter_doctor = $('input[name=\'filter_doctor\']').attr('value');
+  
+  if (filter_doctor) {
+    url += '&filter_doctor=' + encodeURIComponent(filter_doctor);
+  } 
+
+  var filter_beauty = $('input[name=\'filter_beauty\']').attr('value');
+  
+  if (filter_beauty) {
+    url += '&filter_beauty=' + encodeURIComponent(filter_beauty);
+  } 
+
+  var filter_outsource = $('input[name=\'filter_outsource\']').attr('value');
+  
+  if (filter_outsource) {
+    url += '&filter_outsource=' + encodeURIComponent(filter_outsource);
+  } 
+
+  var filter_consultant = $('input[name=\'filter_consultant\']').attr('value');
+  
+  if (filter_consultant) {
+    url += '&filter_consultant=' + encodeURIComponent(filter_consultant);
+  } 
 
   var filter_doctor_id = $('input[name=\'filter_doctor_id\']').attr('value');
   
@@ -146,7 +183,7 @@ $('input[name=\'filter_doctor\']').catcomplete({
   delay: 500,
   source: function(request, response) {
     $.ajax({
-      url: 'index.php?route=user/user/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request.term),
+      url: 'index.php?route=user/user/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request.term) + '&filter_user_group_id=2',
       dataType: 'json',
       success: function(json) { 
         response($.map(json, function(item) {
@@ -168,6 +205,89 @@ $('input[name=\'filter_doctor\']').catcomplete({
     return false;
   }
 });
+
+$('input[name=\'filter_beauty\']').catcomplete({
+  delay: 500,
+  source: function(request, response) {
+    $.ajax({
+      url: 'index.php?route=user/user/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request.term) + '&filter_user_group_id=5',
+      dataType: 'json',
+      success: function(json) { 
+        response($.map(json, function(item) {
+          return {
+            label: item['fullname'],
+            fullname: item['fullname'],
+            value: item['user_id']
+          }
+        }));
+      }
+    });
+  }, 
+  select: function(event, ui) { 
+    $('input[name=\'filter_beauty\']').attr('value', ui.item['fullname']);
+    $('input[name=\'filter_beauty_id\']').attr('value', ui.item['value']);
+    return false;
+  },
+  focus: function(event, ui) {
+    return false;
+  }
+});
+
+$('input[name=\'filter_outsource\']').catcomplete({
+  delay: 500,
+  source: function(request, response) {
+    $.ajax({
+      url: 'index.php?route=user/user/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request.term) + '&filter_user_group_id=4',
+      dataType: 'json',
+      success: function(json) { 
+        response($.map(json, function(item) {
+          return {
+            label: item['fullname'],
+            fullname: item['fullname'],
+            value: item['user_id']
+          }
+        }));
+      }
+    });
+  }, 
+  select: function(event, ui) { 
+    $('input[name=\'filter_outsource\']').attr('value', ui.item['fullname']);
+    $('input[name=\'filter_outsource_id\']').attr('value', ui.item['value']);
+    return false;
+  },
+  focus: function(event, ui) {
+    return false;
+  }
+});
+
+$('input[name=\'filter_consultant\']').catcomplete({
+  delay: 500,
+  source: function(request, response) {
+    $.ajax({
+      url: 'index.php?route=user/user/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request.term) + '&filter_user_group_id=3',
+      dataType: 'json',
+      success: function(json) { 
+        response($.map(json, function(item) {
+          return {
+            label: item['fullname'],
+            fullname: item['fullname'],
+            value: item['user_id']
+          }
+        }));
+      }
+    });
+  }, 
+  select: function(event, ui) { 
+    $('input[name=\'filter_consultant\']').attr('value', ui.item['fullname']);
+    $('input[name=\'filter_consultant_id\']').attr('value', ui.item['value']);
+    return false;
+  },
+  focus: function(event, ui) {
+    return false;
+  }
+});
+
+
 
 //--></script> 
 <?php echo $footer; ?>

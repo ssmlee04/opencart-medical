@@ -280,7 +280,7 @@
               <td colspan="2" style="text-align: right;"><a id="button-filter" class="button"><span><?php echo $button_filter; ?></span></a></td>
             </tr>
             <tr>
-              <td colspan="3" style="text-align: right;"><a id="button-displayimage" class="button"><span><?php echo $button_display_2image; ?></span></a></td>
+              <td colspan="4" style="text-align: right;"><a id="button-displayimage" class="button"><span><?php echo $button_display_2image; ?></span></a></td>
             </tr>
           </table>
 
