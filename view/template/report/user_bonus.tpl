@@ -22,9 +22,9 @@
         </thead>
         <tr>
           <td>
-            <input type="text" name="filter_date_start" value="<?php echo $filter_date_start; ?>" id="date-start" size="12" />
+            <input type="date_available" name="filter_date_start" value="<?php echo $filter_date_start; ?>"  size="12" />
             ~
-            <input type="text" name="filter_date_end" value="<?php echo $filter_date_end; ?>" id="date-end" size="12" /></td>
+            <input type="date_available" name="filter_date_end" value="<?php echo $filter_date_end; ?>" size="12" /></td>
           <td>
               <input type="text" name="filter_doctor" value="<?php echo $filter_doctor; ?>" id="user" size="12" /><input type="hidden" name="filter_doctor_id" value="<?php echo $filter_doctor_id; ?>" id="doctor_id" size="12" /></td>
           <td>
@@ -145,11 +145,7 @@ function filter() {
 }
 //--></script> 
 <script type="text/javascript"><!--
-$(document).ready(function() {
-	$('#date-start').datepicker({dateFormat: 'yy-mm-dd'});
-	
-	$('#date-end').datepicker({dateFormat: 'yy-mm-dd'});
-});
+
 
 $.widget('custom.catcomplete', $.ui.autocomplete, {
   _renderMenu: function(ul, items) {
@@ -167,6 +163,18 @@ $.widget('custom.catcomplete', $.ui.autocomplete, {
   }
 });
 
+$("input[name='filter_doctor']").on('keypress', function(e){
+    $("input[name='filter_doctor_id']").val('');
+  });
+$("input[name='filter_beauty']").on('keypress', function(e){
+    $("input[name='filter_beauty_id']").val('');
+  });
+$("input[name='filter_outsource']").on('keypress', function(e){
+    $("input[name='filter_outsource_id']").val('');
+  });
+$("input[name='filter_consultant']").on('keypress', function(e){
+    $("input[name='filter_consultant_id']").val('');
+  });
 
 $('input[name=\'filter_doctor\']').catcomplete({
   delay: 500,

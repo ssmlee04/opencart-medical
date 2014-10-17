@@ -49,7 +49,7 @@
 				<?php } ?>
 			</div>
 			<div class="form-signin-body-right">
-				<input class="btn btn-xlarge btn-primary" value="<?php echo $button_login; ?>" type="button">
+				<input class="btn btn-xlarge btn-primary"  value="<?php echo $button_login; ?>" type="button">
 			</div>
 		</div>
 

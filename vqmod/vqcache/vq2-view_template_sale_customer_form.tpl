@@ -435,12 +435,12 @@ $(document).ready(function(){
   $(".group1").colorbox({rel:'group1'});
 });
 
-$('.date').datepicker({dateFormat: 'yy-mm-dd'});
-$('.datetime').datetimepicker({
-  dateFormat: 'yy-mm-dd',
-  timeFormat: 'h:m'
-});
-$('.time').timepicker({timeFormat: 'h:m'});
+// $('.date').datepicker({dateFormat: 'yy-mm-dd'});
+// $('.datetime').datetimepicker({
+//   dateFormat: 'yy-mm-dd',
+//   timeFormat: 'h:m'
+// });
+// $('.time').timepicker({timeFormat: 'h:m'});
 
 $('select[name=\'customer_group_id\']').live('change', function() {
 	var customer_group = [];

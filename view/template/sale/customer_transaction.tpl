@@ -7,6 +7,44 @@
 <?php if (isset($success) && $success) { ?>
 <div class="success"><?php echo $success; ?></div>
 <?php } ?>
+
+
+<?php if (isset($show_group) && $show_group) { ?>
+<!-- <php echo $text_service_not_rendered; ?> -->
+<table class="list">
+  <thead>
+    <tr>
+      <td class="left"><?php echo $text_service_not_rendered; ?></td>
+      <!-- <td class="left"><php echo $column_quantity; ?></td> -->
+      <td class="left"><?php echo $column_unit_quantity; ?></td>
+      <td class="left"><?php echo $column_unit; ?></td>
+    </tr>
+  </thead>
+  <tbody>
+    <?php if ($grouptransactions) { ?>
+    <?php foreach ($grouptransactions as $transaction) { ?>
+    <tr>
+      <td class="left"><?php echo $transaction['name']; ?></td>
+      <!-- <td class="left"><hp echo $transaction['quantity']; ?></td> -->
+      <td class="left"><?php echo $transaction['subquantity']; ?></td>
+      <td class="left"><?php echo $transaction['unit']; ?></td>
+    </tr>
+    <?php } ?>
+    <tr>
+      <!-- <td>&nbsp;</td> -->
+      <!-- <td class="right"><b><php echo $text_balance; ?></b></td>
+      <td class="right"><php echo $balance; ?></td> -->
+    </tr>
+    <?php } else { ?>
+    <tr>
+      <td class="center" colspan="4"><?php echo $text_no_results; ?></td>
+    </tr>
+    <?php } ?>
+  </tbody>
+</table>
+<?php } ?>
+<br>
+
 <table class="list">
   <thead>
     <tr>
@@ -180,40 +218,6 @@
 </table>
 <div class="pagination"><?php echo $pagination; ?></div>
 
-<?php if (isset($show_group) && $show_group) { ?>
-<?php echo $text_service_not_rendered; ?>
-<table class="list">
-  <thead>
-    <tr>
-      <td class="left"><?php echo $column_product; ?></td>
-      <!-- <td class="left"><php echo $column_quantity; ?></td> -->
-      <td class="left"><?php echo $column_unit_quantity; ?></td>
-      <td class="left"><?php echo $column_unit; ?></td>
-    </tr>
-  </thead>
-  <tbody>
-    <?php if ($grouptransactions) { ?>
-    <?php foreach ($grouptransactions as $transaction) { ?>
-    <tr>
-      <td class="left"><?php echo $transaction['name']; ?></td>
-      <!-- <td class="left"><hp echo $transaction['quantity']; ?></td> -->
-      <td class="left"><?php echo $transaction['subquantity']; ?></td>
-      <td class="left"><?php echo $transaction['unit']; ?></td>
-    </tr>
-    <?php } ?>
-    <tr>
-      <!-- <td>&nbsp;</td> -->
-      <!-- <td class="right"><b><php echo $text_balance; ?></b></td>
-      <td class="right"><php echo $balance; ?></td> -->
-    </tr>
-    <?php } else { ?>
-    <tr>
-      <td class="center" colspan="4"><?php echo $text_no_results; ?></td>
-    </tr>
-    <?php } ?>
-  </tbody>
-</table>
-<?php } ?>
 
 <link rel="stylesheet" href="view/javascript/jquery/colorbox/colorbox.css" />
 <script type="text/javascript" src="view/javascript/jquery/colorbox/jquery.colorbox-min.js"></script> 

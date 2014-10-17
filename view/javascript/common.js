@@ -80,7 +80,6 @@ $(document).ready(function(){
 		});	
 	});
 
-
 	$("input[type='text'][name='filter_user']").on("focusin", function(){
 		$(this).catcomplete({
 		  delay: 500,
