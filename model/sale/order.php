@@ -24,6 +24,15 @@ class ModelSaleOrder extends Model {
 				, payment_final = '" . (float)$payment_final . "'
 				, payment_balance = total - " . (float)$payment_final . " - " . (float)$payment_visa . " - " . (float)$payment_cash . "
 				 WHERE order_id = '" . (int)$order_id . "'");
+
+		$order = $this->db->query("SELECT * FROM oc_order WHERE order_id = '" . (int)$order_id . "'");
+		$balance = $order->row['payment_balance'];
+
+		if ($balance < 0.5 && $balance > -0.5) $order_status_id = 2;
+		else $order_status_id = 1;
+
+		$this->db->query("UPDATE `" . DB_PREFIX . "order` SET order_status_id = '$order_status_id' WHERE order_id = '" . (int)$order_id . "'");
+
 		return true;
 	}
 
@@ -321,44 +330,37 @@ class ModelSaleOrder extends Model {
 		$payment_cash = (isset($data['payment_cash']) ? $data['payment_cash'] : 0);
 		$payment_visa = (isset($data['payment_visa']) ? $data['payment_visa'] : 0);
 		$payment_final = (isset($data['payment_final']) ? $data['payment_final'] : 0);
-		$firstname = (isset($data['firstname']) ? $this->db->escape($data['firstname']) : '');
-		$lastname = (isset($data['lastname']) ? $this->db->escape($data['lastname']) : '');
 		$email = (isset($data['email']) ? $this->db->escape($data['email']) : '');
+		// $firstname = (isset($data['firstname']) ? $this->db->escape($data['firstname']) : '');
+		// $lastname = (isset($data['lastname']) ? $this->db->escape($data['lastname']) : '');
 		$comment = (isset($data['comment']) ? $this->db->escape($data['comment']) : '');
 		$telephone = (isset($data['telephone']) ? $this->db->escape($data['telephone']) : '');
 		$customer_id = (isset($data['customer_id']) ? (int)$data['customer_id'] : 0);
-		$order_status_id = (isset($data['order_status_id']) ? (int)$data['order_status_id'] : 0);
+		// $order_status_id = (isset($data['order_status_id']) ? (int)$data['order_status_id'] : 0);
 		// $this->load->model('localisation/country');
 
 		// $this->load->model('localisation/zone');		
 
 		$this->editOrderPayment($order_id, $payment_cash, $payment_visa, $payment_final);
+		
+
+		
 		// check if can restock or not..... 
+		$transaction_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "customer_transaction WHERE order_id = '" . (int)$order_id . "'");
+		foreach ($transaction_query->rows as $transaction) {
+			if ($transaction['status'] > 0 & $transaction['product_type_id'] == 2) return false;
+		}
 
-
+	
+		
 		// Restock products before subtracting the stock later on ****
 		$order_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "order` WHERE order_status_id > '0' AND order_id = '" . (int)$order_id . "'");
-
 		$product_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "order_product WHERE order_id = '" . (int)$order_id . "'");
-
-		$transaction_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "customer_transaction WHERE order_id = '" . (int)$order_id . "'");
-
-		$transaction_ok = true;
-
-		foreach ($transaction_query->rows as $transaction) {
-
-			if ($transaction['status'] > 0 & $transaction['product_type_id'] == 2) $transaction_ok = false;
-		}
-
-		if (!$transaction_ok) {
-			return false;
-		}
 
 		if ($order_query->num_rows) {
 
 			$store_id_prev = $order_query->row['store_id'];
-
-			$customer_id = $order_query->row['customer_id'];
+			$customer_id_prev = $order_query->row['customer_id'];
 
 			// '2014-09-08 21:04'
 			foreach($product_query->rows as $product) {
@@ -367,20 +369,26 @@ class ModelSaleOrder extends Model {
 			}
 		}
 
-			
-		$this->db->query("UPDATE `" . DB_PREFIX . "order` SET firstname = '" . $firstname . "'
+		$this->load->model('sale/customer');
+
+		$customer = $this->model_sale_customer->getCustomer($customer_id);
+
+		$firstname = $customer['firstname'];
+		$lastname = $customer['lastname'];
+
+		$this->db->query("UPDATE `" . DB_PREFIX . "order` SET 
+			firstname = '" . $firstname . "'
 			, lastname = '" . $lastname . "'
 			, email = '" . $email . "'
 			, telephone = '" . $telephone . "'
 			, comment = '" . $comment . "'
-			, order_status_id = '" . (int)$order_status_id . "'
 			, customer_id='" . (int)$customer_id . "'
 			, store_id = '" . (int)$store_id . "' 
 			, date_modified = NOW() WHERE order_id = '" . (int)$order_id . "'");
 
 		$this->db->query("DELETE FROM " . DB_PREFIX . "order_product WHERE order_id = '" . (int)$order_id . "'"); 
 
-		$this->load->model('sale/customer');
+		
 
 		$this->model_sale_customer->deleteTransaction($order_id);
 

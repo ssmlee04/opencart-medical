@@ -9,8 +9,8 @@ define('HTTP_SERVER', 'http://' . $WEBSITE_ENV . '/' . $NODE_ENV . '/');
 define('HTTP_CATALOG', 'http://' . $WEBSITE_ENV .'/' . $NODE_ENV . '/');
 
 // HTTPS
-define('HTTPS_SERVER', 'http://localhost/' . $NODE_ENV . '/');
-define('HTTPS_CATALOG', 'http://localhost/' . $NODE_ENV . '/');
+define('HTTPS_SERVER', 'http://' . $WEBSITE_ENV . '/' . $NODE_ENV . '/');
+define('HTTPS_CATALOG', 'http://' . $WEBSITE_ENV . '/' . $NODE_ENV . '/');
 
 // DIR
 define('DIR_APPLICATION', '/var/www/html/' . $NODE_ENV . '/');

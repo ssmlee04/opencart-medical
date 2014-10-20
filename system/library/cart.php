@@ -20,6 +20,15 @@ class Cart {
 
 	public function getProducts() {
 
+		// $file = 'people.txt';
+		// // Open the file to get existing content
+		// $current = file_get_contents($file);
+		// // Append a new person to the file
+		// $current = print_r($this->data, true);
+		// // Write the contents back to the file
+		// file_put_contents($file, $current);
+
+
 		if (!$this->data) {
 			foreach ($this->session->data['cart'] as $key => $quantity) {
 				$product = explode(':', $key);

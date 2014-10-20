@@ -11,6 +11,7 @@
       <td class="left"><?php echo $column_user; ?></td>
       <td class="left"><?php echo $column_customer; ?></td>
       <td class="left"><?php echo $column_comment; ?></td>
+      <td class="left"><?php echo $column_treatment; ?></td>
       <td class="left"><?php echo $column_reminder_date; ?></td>
       <td class="right"></td>
     </tr>
@@ -23,6 +24,7 @@
       <td class="left"><?php echo $history['ufullname']; ?></td>
       <td class="left"><?php echo $history['cfullname']; ?></td>
       <td class="left"><?php echo $history['comment']; ?></td>
+      <td class="left"><?php echo $history['title']; ?></td>
       <td class="left"><?php echo $history['reminder_date']; ?></td>
        <td class="right" style="width: 3px;">
         <?php if ($history['if_treatment'] != 1) { ?>

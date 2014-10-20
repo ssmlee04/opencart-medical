@@ -42,8 +42,9 @@ $_['text_total_cash']         = '總現金付款';
 $_['text_latest_messages']         = '最新待回覆訊息';
 $_['text_update_comment_success']         = '成功更新訊息';
 $_['column_customer']         = '客戶';
-$_['column_message']         = '訊息';
+$_['column_message']         = '修改基本資料';
 $_['column_customer_id']         = '客戶編號';
+$_['column_date_purchased']         = '購買日期';
 
 
 
@@ -55,6 +56,7 @@ $_['button_record_history']           = '更改回覆狀態';
 $_['button_add_picture']           = '增加圖片';
 $_['button_add_image'] = '增加圖片';
 $_['button_add_history'] = '提醒設定';
+$_['button_edit_basic'] = '修改基本資料';
 $_['button_borrow_from'] = '借';
 $_['text_order_total']           = '訂單金額';
 $_['text_payment_final']           = '尾款金額';

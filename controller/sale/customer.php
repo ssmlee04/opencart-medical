@@ -2,17 +2,17 @@
 class ControllerSaleCustomer extends Controller { 
 	private $error = array();
 
-	public function clear() {
+	// public function clear() {
 
-		$this->db->query("DELETE FROM oc_customer_transaction");
-		$this->db->query("DELETE FROM oc_customer_history");
-		$this->db->query("DELETE FROM oc_customer_image");
-		$this->db->query("DELETE FROM oc_customer_lending");
-		$this->db->query("DELETE FROM oc_order_product");
-		$this->db->query("DELETE FROM oc_order_total");
-		$this->db->query("DELETE FROM oc_order");
-		$this->db->query("DELETE FROM oc_order_history");
-	}
+	// 	$this->db->query("DELETE FROM oc_customer_transaction");
+	// 	$this->db->query("DELETE FROM oc_customer_history");
+	// 	$this->db->query("DELETE FROM oc_customer_image");
+	// 	$this->db->query("DELETE FROM oc_customer_lending");
+	// 	$this->db->query("DELETE FROM oc_order_product");
+	// 	$this->db->query("DELETE FROM oc_order_total");
+	// 	$this->db->query("DELETE FROM oc_order");
+	// 	$this->db->query("DELETE FROM oc_order_history");
+	// }
 
 	public function index() {
 		$this->language->load('sale/customer');
@@ -33,6 +33,8 @@ class ControllerSaleCustomer extends Controller {
 		$this->document->setTitle($this->language->get('heading_title'));
 
 		$this->load->model('sale/customer');
+
+		$this->data['is_insert'] = true;
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
 			
@@ -99,13 +101,16 @@ class ControllerSaleCustomer extends Controller {
 
 		$this->load->model('sale/customer');
 
+		$this->data['is_insert'] = false;
+
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
-			$this->model_sale_customer->editCustomer($this->request->get['customer_id'], $this->request->post);
+			$this->model_sale_customer->editCustomer($this->request->get['filter_customer_id'], $this->request->post);
 
 			$this->session->data['success'] = $this->language->get('text_success');
 
 			$url = '';
 
+	
 			if (isset($this->request->get['filter_name'])) {
 				$url .= '&filter_name=' . urlencode(html_entity_decode($this->request->get['filter_name'], ENT_QUOTES, 'UTF-8'));
 			}
@@ -124,6 +129,10 @@ class ControllerSaleCustomer extends Controller {
 
 			if (isset($this->request->get['filter_approved'])) {
 				$url .= '&filter_approved=' . $this->request->get['filter_approved'];
+			}
+
+			if (isset($this->request->get['filter_customer_id'])) {
+				$url .= '&filter_customer_id=' . (int)$this->request->get['filter_customer_id'];
 			}
 
 			if (isset($this->request->get['filter_ip'])) {
@@ -146,8 +155,8 @@ class ControllerSaleCustomer extends Controller {
 				$url .= '&page=' . $this->request->get['page'];
 			}
 
-			// if (isset($this->request->get['customer_id'])) {
-			// 	$url .= '&filter_customer_id=' . $this->request->get['customer_id'];
+			// if (isset($this->request->get['filter_customer_id'])) {
+			// 	$url .= '&filter_customer_id=' . $this->request->get['filter_customer_id'];
 			// }
 
 			$this->redirect($this->url->link('sale/customer', 'token=' . $this->session->data['token'] . $url, 'SSL'));
@@ -337,6 +346,24 @@ class ControllerSaleCustomer extends Controller {
 		}
 
 
+		if (isset($this->request->get['filter_dob'])) {
+			$filter_dob = $this->request->get['filter_dob'];
+		} else {
+			$filter_dob = null;
+		}
+
+		if (isset($this->request->get['filter_mobile'])) {
+			$filter_mobile = $this->request->get['filter_mobile'];
+		} else {
+			$filter_mobile = null;
+		}
+
+		if (isset($this->request->get['filter_telephone'])) {
+			$filter_telephone = $this->request->get['filter_telephone'];
+		} else {
+			$filter_telephone = null;
+		}
+
 		// if (isset($this->request->get['filter_email'])) {
 		// 	$filter_email = $this->request->get['filter_email'];
 		// } else {
@@ -429,6 +456,18 @@ class ControllerSaleCustomer extends Controller {
 			$url .= '&filter_date_added=' . $this->request->get['filter_date_added'];
 		}
 
+		if (isset($this->request->get['filter_dob'])) {
+			$url .= '&filter_dob=' . $this->request->get['filter_dob'];
+		}
+
+		if (isset($this->request->get['filter_telephone'])) {
+			$url .= '&filter_telephone=' . $this->request->get['filter_telephone'];
+		}
+
+		if (isset($this->request->get['filter_mobile'])) {
+			$url .= '&filter_mobile=' . $this->request->get['filter_mobile'];
+		}
+
 		if (isset($this->request->get['sort'])) {
 			$url .= '&sort=' . $this->request->get['sort'];
 		}
@@ -456,7 +495,7 @@ class ControllerSaleCustomer extends Controller {
 		);
 
 		$this->data['approve'] = $this->url->link('sale/customer/approve', 'token=' . $this->session->data['token'] . $url, 'SSL');
-		$this->data['insert'] = $this->url->link('sale/customer/insert', 'token=' . $this->session->data['token'], 'SSL');
+		$this->data['is_insert'] = $this->url->link('sale/customer/insert', 'token=' . $this->session->data['token'], 'SSL');
 		$this->data['delete'] = $this->url->link('sale/customer/delete', 'token=' . $this->session->data['token'] . $url, 'SSL');
 
 		$this->data['customers'] = array();
@@ -467,6 +506,9 @@ class ControllerSaleCustomer extends Controller {
 			'filter_ssn'               => $filter_ssn, 
 			// 'filter_email'             => $filter_email, 
 			// 'filter_customer_group_id' => $filter_customer_group_id, 
+			'filter_dob' => $filter_dob, 
+			'filter_mobile' => $filter_mobile, 
+			'filter_telephone' => $filter_telephone, 
 			// 'filter_status'            => $filter_status, 
 			// 'filter_approved'          => $filter_approved, 
 			// 'filter_date_added'        => $filter_date_added,
@@ -489,9 +531,57 @@ class ControllerSaleCustomer extends Controller {
 				'href' => $this->url->link('sale/customer/update', 'token=' . $this->session->data['token'] . '&customer_id=' . $result['customer_id'] . $url, 'SSL')
 			);
 
+			$fullname = array();
+
+			$fullname[] = array(
+				'text' => $result['fullname'], 
+				'href' => $this->url->link('sale/customer/update', 'token=' . $this->session->data['token'] . '&customer_id=' . $result['customer_id'] . $url, 'SSL')
+			);
+
+			$query3 = $this->db->query("SELECT * FROM oc_customer_transaction WHERE status =2 AND customer_id = '" . (int)$result['customer_id'] ."' ORDER BY date_modified DESC LIMIT 1");
+
+			$last_doctor = '';
+			$last_beauty = '';
+			$last_consultant = '';
+			$last_outsource = '';
+			$last_visit = '';
+
+			if ($query3->num_rows) {
+
+				$last_visit = $query3->row['date_modified'];
+
+				$outsource_id = $query3->row['outsource_id'];
+
+				if ($outsource_id > 0) {
+					$result2 = $this->db->query("SELECT * FROM oc_user WHERE user_id = '$outsource_id'");
+
+					$last_outsource = $result2->row['fullname'];
+				}
+
+				$consultant_id = $query3->row['consultant_id'];
+				if ($consultant_id > 0) {
+					$result2 = $this->db->query("SELECT * FROM oc_user WHERE user_id = '$consultant_id'");
+					$last_consultant = $result2->row['fullname'];
+				}
+
+				$beauty_id = $query3->row['beauty_id'];
+				if ($beauty_id > 0) { 
+					$result2 = $this->db->query("SELECT * FROM oc_user WHERE user_id = '$beauty_id'");
+					$last_beauty = $result2->row['fullname'];
+				}
+
+				$doctor_id = $query3->row['doctor_id'];
+				if ($doctor_id > 0) {
+					$result2 = $this->db->query("SELECT * FROM oc_user WHERE user_id = '$doctor_id'");
+					$last_doctor = $result2->row['fullname'];
+				}
+			}
+
 			$this->data['customers'][] = array(
 				'customer_id'    => $result['customer_id'],
-				'fullname'           => $result['fullname'],
+				'fullname'           => $fullname,
+				'dob'          => $result['dob'],
+				'mobile'          => $result['mobile'],
 				'email'          => $result['email'],
 				'customer_group' => $result['customer_group'],
 				'status'         => ($result['status'] ? $this->language->get('text_enabled') : $this->language->get('text_disabled')),
@@ -499,7 +589,12 @@ class ControllerSaleCustomer extends Controller {
 				'ip'             => $result['ip'],
 				'date_added'     => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
 				'selected'       => isset($this->request->post['selected']) && in_array($result['customer_id'], $this->request->post['selected']),
-				'action'         => $action
+				'action'         => $action,
+				'last_visit' => explode(' ', $last_visit)[0],
+				'last_outsource' => $last_outsource,
+				'last_consultant' => $last_consultant,
+				'last_beauty' => $last_beauty,
+				'last_doctor' => $last_doctor,
 			);
 		}	
 
@@ -527,6 +622,14 @@ class ControllerSaleCustomer extends Controller {
 		$this->data['column_login'] = $this->language->get('column_login');
 		$this->data['column_action'] = $this->language->get('column_action');		
 		$this->data['column_ssn'] = $this->language->get('column_ssn');		
+		$this->data['column_mobile'] = $this->language->get('column_mobile');		
+		$this->data['column_telephone'] = $this->language->get('column_telephone');		
+		$this->data['column_dob'] = $this->language->get('column_dob');		
+		$this->data['column_doctor'] = $this->language->get('column_doctor');		
+		$this->data['column_consultant'] = $this->language->get('column_consultant');		
+		$this->data['column_beauty'] = $this->language->get('column_beauty');		
+		$this->data['column_outsource'] = $this->language->get('column_outsource');		
+		$this->data['column_date_last_visit'] = $this->language->get('column_date_last_visit');		
 
 		$this->data['button_approve'] = $this->language->get('button_approve');
 		$this->data['button_insert'] = $this->language->get('button_insert');
@@ -669,6 +772,9 @@ class ControllerSaleCustomer extends Controller {
 		$this->data['filter_name'] = $filter_name;
 		$this->data['filter_customer_id'] = $filter_customer_id;
 		$this->data['filter_ssn'] = $filter_ssn;
+		$this->data['filter_dob'] = $filter_dob;
+		$this->data['filter_telephone'] = $filter_telephone;
+		$this->data['filter_mobile'] = $filter_mobile;
 		// $this->data['filter_email'] = $filter_email;
 		// $this->data['filter_customer_group_id'] = $filter_customer_group_id;
 		// $this->data['filter_status'] = $filter_status;
@@ -720,12 +826,17 @@ class ControllerSaleCustomer extends Controller {
 		$this->data['column_date_added'] = $this->language->get('column_date_added');
 		$this->data['column_action'] = $this->language->get('column_action');
 
+		$this->data['entry_last_outsource'] = $this->language->get('entry_last_outsource');
+		$this->data['entry_last_doctor'] = $this->language->get('entry_last_doctor');
+		$this->data['entry_last_consultant'] = $this->language->get('entry_last_consultant');
+		$this->data['entry_last_beauty'] = $this->language->get('entry_last_beauty');
+		$this->data['entry_last_visit'] = $this->language->get('entry_last_visit');
 		$this->data['entry_borrowfrom'] = $this->language->get('entry_borrowfrom');
 		$this->data['entry_firstname'] = $this->language->get('entry_firstname');
 		$this->data['entry_lastname'] = $this->language->get('entry_lastname');
 		$this->data['entry_email'] = $this->language->get('entry_email');
 		$this->data['entry_telephone'] = $this->language->get('entry_telephone');
-		$this->data['entry_fax'] = $this->language->get('entry_fax');
+		$this->data['entry_mobile'] = $this->language->get('entry_mobile');
 		$this->data['entry_password'] = $this->language->get('entry_password');
 		$this->data['entry_confirm'] = $this->language->get('entry_confirm');
 		$this->data['entry_newsletter'] = $this->language->get('entry_newsletter');
@@ -777,6 +888,7 @@ class ControllerSaleCustomer extends Controller {
 		$this->data['button_borrowfrom'] = $this->language->get('button_borrowfrom');
 		$this->data['button_display_2image'] = $this->language->get('button_display_2image');
 		$this->data['button_filter'] = $this->language->get('button_filter');
+		$this->data['button_edit_basic'] = $this->language->get('button_edit_basic');
 
 		$this->data['tab_order'] = $this->language->get('tab_order');
 		$this->data['tab_image'] = $this->language->get('tab_image');
@@ -791,10 +903,16 @@ class ControllerSaleCustomer extends Controller {
 
 		$this->data['token'] = $this->session->data['token'];
 
-		if (isset($this->request->get['customer_id'])) {
-			$this->data['customer_id'] = $this->request->get['customer_id'];
+		// if (isset($this->request->get['filter_customer_id'])) {
+		// 	$this->data['customer_id'] = $this->request->get['filter_customer_id'];
+		// } else {
+		// 	$this->data['customer_id'] = 0;
+		// }
+
+		if (isset($this->request->get['filter_customer_id'])) {
+			$this->data['filter_customer_id'] = $this->request->get['filter_customer_id'];
 		} else {
-			$this->data['customer_id'] = 0;
+			$this->data['filter_customer_id'] = 0;
 		}
 
 		if (isset($this->error['warning'])) {
@@ -845,6 +963,12 @@ class ControllerSaleCustomer extends Controller {
 			$this->data['error_telephone'] = $this->error['telephone'];
 		} else {
 			$this->data['error_telephone'] = '';
+		}
+
+		if (isset($this->error['mobile'])) {
+			$this->data['error_mobile'] = $this->error['mobile'];
+		} else {
+			$this->data['error_mobile'] = '';
 		}
 
 		if (isset($this->error['password'])) {
@@ -917,9 +1041,9 @@ class ControllerSaleCustomer extends Controller {
 		// // Images
 		// if (isset($this->request->post['customer_image'])) {
 		// 	$customer_images = $this->request->post['customer_image'];
-		// } elseif (isset($this->request->get['customer_id'])) {
+		// } elseif (isset($this->request->get['filter_customer_id'])) {
 		// 	$tempdata = array(
-		// 		'customer_id' => $this->request->get['customer_id']
+		// 		'customer_id' => $this->request->get['filter_customer_id']
 		// 	);	
 		// 	$customer_images = $this->model_sale_customer->getCustomerImages($tempdata);
 		// } else {
@@ -947,6 +1071,18 @@ class ControllerSaleCustomer extends Controller {
 
 		$url = '';
 
+		if (isset($this->request->get['filter_mobile'])) {
+			$url .= '&filter_mobile=' . urlencode(html_entity_decode($this->request->get['filter_mobile'], ENT_QUOTES, 'UTF-8'));
+		}
+
+		if (isset($this->request->get['filter_telephone'])) {
+			$url .= '&filter_telephone=' . urlencode(html_entity_decode($this->request->get['filter_telephone'], ENT_QUOTES, 'UTF-8'));
+		}
+
+		if (isset($this->request->get['filter_dob'])) {
+			$url .= '&filter_dob=' . urlencode(html_entity_decode($this->request->get['filter_dob'], ENT_QUOTES, 'UTF-8'));
+		}
+
 		if (isset($this->request->get['filter_name'])) {
 			$url .= '&filter_name=' . urlencode(html_entity_decode($this->request->get['filter_name'], ENT_QUOTES, 'UTF-8'));
 		}
@@ -965,6 +1101,10 @@ class ControllerSaleCustomer extends Controller {
 
 		if (isset($this->request->get['filter_status'])) {
 			$url .= '&filter_status=' . $this->request->get['filter_status'];
+		}
+
+		if (isset($this->request->get['filter_customer_id'])) {
+			$url .= '&filter_customer_id=' . $this->request->get['filter_customer_id'];
 		}
 
 		if (isset($this->request->get['filter_approved'])) {
@@ -1001,18 +1141,18 @@ class ControllerSaleCustomer extends Controller {
 			'separator' => ' :: '
 		);
 
-		if (!isset($this->request->get['customer_id'])) {
+		if (!isset($this->request->get['filter_customer_id'])) {
 			$this->data['action'] = $this->url->link('sale/customer/insert', 'token=' . $this->session->data['token'] . $url, 'SSL');
 		} else {
-			$this->data['action'] = $this->url->link('sale/customer/update', 'token=' . $this->session->data['token'] . '&customer_id=' . $this->request->get['customer_id'] . $url, 'SSL');
+			$this->data['action'] = $this->url->link('sale/customer/update', 'token=' . $this->session->data['token'] . $url, 'SSL');
 		}
 
-		$this->data['neworder'] = $this->url->link('sale/order/insert&filter_customer=' . $this->request->get['customer_id'], 'token=' . $this->session->data['token'] . $url, 'SSL');
+		$this->data['neworder'] = $this->url->link('sale/order/insert', 'token=' . $this->session->data['token'] . $url, 'SSL');
 		$this->data['cancel'] = $this->url->link('sale/customer', 'token=' . $this->session->data['token'] . $url, 'SSL');
-		// $this->data['cancel'] = $this->url->link('sale/customer/update&customer_id=' . $this->request->get['customer_id'], 'token=' . $this->session->data['token'] . $url, 'SSL');
+		// $this->data['cancel'] = $this->url->link('sale/customer/update&customer_id=' . $this->request->get['filter_customer_id'], 'token=' . $this->session->data['token'] . $url, 'SSL');
 
-		if (isset($this->request->get['customer_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
-			$customer_info = $this->model_sale_customer->getCustomer($this->request->get['customer_id']);
+		if (isset($this->request->get['filter_customer_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
+			$customer_info = $this->model_sale_customer->getCustomer($this->request->get['filter_customer_id']);
 		}
 
 		if (isset($this->request->post['firstname'])) {
@@ -1045,6 +1185,14 @@ class ControllerSaleCustomer extends Controller {
 			$this->data['telephone'] = $customer_info['telephone'];
 		} else {
 			$this->data['telephone'] = '';
+		}
+
+		if (isset($this->request->post['mobile'])) {
+			$this->data['mobile'] = $this->request->post['mobile'];
+		} elseif (!empty($customer_info)) {
+			$this->data['mobile'] = $customer_info['mobile'];
+		} else {
+			$this->data['mobile'] = '';
 		}
 
 		if (isset($this->request->post['dob'])) {
@@ -1127,16 +1275,6 @@ class ControllerSaleCustomer extends Controller {
 			$this->data['ssn'] = '';
 		}
 
-
-		if (isset($this->request->post['fax'])) {
-			$this->data['fax'] = $this->request->post['fax'];
-		} elseif (!empty($customer_info)) {
-			$this->data['fax'] = $customer_info['fax'];
-		} else {
-			$this->data['fax'] = '';
-		}
-
-
 		if (isset($this->request->post['newsletter'])) {
 			$this->data['newsletter'] = $this->request->post['newsletter'];
 		} elseif (!empty($customer_info)) {
@@ -1173,6 +1311,54 @@ class ControllerSaleCustomer extends Controller {
 
 
 
+
+
+
+
+		$query3 = $this->db->query("SELECT * FROM oc_customer_transaction WHERE status =2 AND customer_id = '" . (int)$this->data['customer_id'] ."' ORDER BY date_modified DESC LIMIT 1");
+
+		$last_doctor = '';
+		$last_beauty = '';
+		$last_consultant = '';
+		$last_outsource = '';
+		$last_visit = '';
+
+		if ($query3->num_rows) {
+
+			$last_visit = $query3->row['date_modified'];
+
+			$outsource_id = $query3->row['outsource_id'];
+
+			if ($outsource_id > 0) {
+				$result2 = $this->db->query("SELECT * FROM oc_user WHERE user_id = '$outsource_id'");
+
+				$last_outsource = $result2->row['fullname'];
+			}
+
+			$consultant_id = $query3->row['consultant_id'];
+			if ($consultant_id > 0) {
+				$result2 = $this->db->query("SELECT * FROM oc_user WHERE user_id = '$consultant_id'");
+				$last_consultant = $result2->row['fullname'];
+			}
+
+			$beauty_id = $query3->row['beauty_id'];
+			if ($beauty_id > 0) { 
+				$result2 = $this->db->query("SELECT * FROM oc_user WHERE user_id = '$beauty_id'");
+				$last_beauty = $result2->row['fullname'];
+			}
+
+			$doctor_id = $query3->row['doctor_id'];
+			if ($doctor_id > 0) {
+				$result2 = $this->db->query("SELECT * FROM oc_user WHERE user_id = '$doctor_id'");
+				$last_doctor = $result2->row['fullname'];
+			}
+		}
+
+		$this->data['last_visit'] = $last_visit;
+		$this->data['last_doctor'] = $last_doctor;
+		$this->data['last_consultant'] = $last_consultant;
+		$this->data['last_beauty'] = $last_beauty;
+		$this->data['last_outsource'] = $last_outsource;
 		
 
 		$this->data['customer_groups'] = $this->model_sale_customer_group->getCustomerGroups();
@@ -1211,8 +1397,8 @@ class ControllerSaleCustomer extends Controller {
 
 		if (isset($this->request->post['address'])) { 
 			$this->data['address'] = $this->request->post['address'];
-		} elseif (isset($this->request->get['customer_id'])) {
-			foreach ($this->model_sale_customer->getAddresses($this->request->get['customer_id']) as $key => $value) {
+		} elseif (isset($this->request->get['filter_customer_id'])) {
+			foreach ($this->model_sale_customer->getAddresses($this->request->get['filter_customer_id']) as $key => $value) {
 				$this->data['address'] = $value;
 			}
 		} else {
@@ -1236,7 +1422,7 @@ class ControllerSaleCustomer extends Controller {
 		$this->data['no_image'] = $this->model_tool_image->resize('no_image.jpg', 100, 100);
 
 		// if (!empty($customer_info)) {
-		// 	$results = $this->model_sale_customer->getIpsByCustomerId($this->request->get['customer_id']);
+		// 	$results = $this->model_sale_customer->getIpsByCustomerId($this->request->get['filter_customer_id']);
 
 		// 	foreach ($results as $result) {
 		// 		$ban_ip_total = $this->model_sale_customer->getTotalBanIpsByIp($result['ip']);
@@ -1291,12 +1477,12 @@ class ControllerSaleCustomer extends Controller {
 
 		$customer_info = $this->model_sale_customer->getCustomerByEmail($this->request->post['email']);
 
-		if (!isset($this->request->get['customer_id'])) {
+		if (!isset($this->request->get['filter_customer_id'])) {
 			if ($customer_info) {
 				$this->error['warning'] = $this->language->get('error_exists');
 			}
 		} else {
-			if ($customer_info && ($this->request->get['customer_id'] != $customer_info['customer_id'])) {
+			if ($customer_info && ($this->request->get['filter_customer_id'] != $customer_info['customer_id'])) {
 				$this->error['warning'] = $this->language->get('error_exists');
 			}
 		}
@@ -1310,15 +1496,9 @@ class ControllerSaleCustomer extends Controller {
 			$this->error['telephone'] = $this->language->get('error_telephone');
 		}
 
-		// if ($this->request->post['password'] || (!isset($this->request->get['customer_id']))) {
-		// 	if ((utf8_strlen($this->request->post['password']) < 4) || (utf8_strlen($this->request->post['password']) > 20)) {
-		// 		$this->error['password'] = $this->language->get('error_password');
-		// 	}
-
-		// 	if ($this->request->post['password'] != $this->request->post['confirm']) {
-		// 		$this->error['confirm'] = $this->language->get('error_confirm');
-		// 	}
-		// }
+		if ((utf8_strlen($this->request->post['mobile']) < 3) || (utf8_strlen($this->request->post['mobile']) > 32)) {
+			$this->error['mobile'] = $this->language->get('error_mobile');
+		}
 
 		if (isset($this->request->post['address'])) {
 			//foreach ($this->request->post['address'] as $key => $value) {
@@ -1393,8 +1573,8 @@ class ControllerSaleCustomer extends Controller {
 	public function login() {
 		$json = array();
 
-		if (isset($this->request->get['customer_id'])) {
-			$customer_id = $this->request->get['customer_id'];
+		if (isset($this->request->get['filter_customer_id'])) {
+			$customer_id = $this->request->get['filter_customer_id'];
 		} else {
 			$customer_id = 0;
 		}
@@ -1473,11 +1653,11 @@ class ControllerSaleCustomer extends Controller {
 		$this->data['text_total_expense'] = $this->language->get('text_total_expense');
 	
 
-		if (isset($this->request->get['customer_id'])) {
+		if (isset($this->request->get['filter_customer_id'])) {
 
 			$this->load->model('sale/order');
 			
-			$data = array('filter_customer_id' => $this->request->get['customer_id']);
+			$data = array('filter_customer_id' => $this->request->get['filter_customer_id']);
 			$orders = $this->model_sale_order->getOrders($data);
 			
 			foreach ($orders as $order) {
@@ -1543,7 +1723,9 @@ class ControllerSaleCustomer extends Controller {
 		
 		$this->language->load('sale/customer');
 		$this->load->model('sale/customer');
-		$this->data['customer_id'] = (isset($this->request->get['customer_id']) ? $this->request->get['customer_id'] : null);
+		// $this->data['filter_customer_id'] = (isset($this->request->get['filter_customer_id']) ? $this->request->get['filter_customer_id'] : null);
+		$filter_customer_id = (isset($this->request->get['filter_customer_id']) ? $this->request->get['filter_customer_id'] : null);  
+
 
 		$this->data['token'] = $this->session->data['token'];
 		$this->data['text_browse'] = $this->language->get('text_browse');
@@ -1568,10 +1750,9 @@ class ControllerSaleCustomer extends Controller {
 		if ($this->user->hasPermission('modify', 'sale/customer')) { 
 
 			$data = array();
-			$customer_id = (isset($this->request->get['customer_id']) ? $this->request->get['customer_id'] : null); 
 
 			// Images
-			if (isset($customer_id)) $data['customer_id'] = $customer_id; 
+			if (isset($filter_customer_id)) $data['filter_customer_id'] = $filter_customer_id; 
 			if (isset($this->request->post['filter_treatment'])) $data['filter_treatment'] = $this->request->post['filter_treatment']; 
 			if (isset($this->request->post['filter_date_added_start'])) $data['filter_date_added_start'] = $this->request->post['filter_date_added_start']; 
 			if (isset($this->request->post['filter_date_added_end'])) $data['filter_date_added_end'] = $this->request->post['filter_date_added_end']; 
@@ -1579,8 +1760,10 @@ class ControllerSaleCustomer extends Controller {
 			
 			
 			$customer_images = $this->model_sale_customer->getCustomerImages($data);
+			$images_total = $this->model_sale_customer->getTotalCustomerImages($data);
 		} else {
 			$customer_images = array();
+			$images_total = 0;
 		}
 
 		$this->data['customer_images'] = array();
@@ -1604,12 +1787,7 @@ class ControllerSaleCustomer extends Controller {
 				'bigimage'      => $this->model_tool_image->resize($image, 600, 600),
 				'sort_order' => $customer_image['sort_order']
 			);
-		}
-
-
-		// } else {
-
-		// }	
+		}	
 
 		$this->template = 'sale/customer_images.tpl';		
 
@@ -1624,7 +1802,7 @@ class ControllerSaleCustomer extends Controller {
 		$reminder = (isset($this->request->post['reminder']) ? $this->request->post['reminder'] : null); 
 		$reminder_date = (isset($this->request->post['reminder_date']) ? $this->request->post['reminder_date'] : null); 
 		$filter_user_id = (isset($this->request->post['filter_user_id']) ? $this->request->post['filter_user_id'] : null); 
-		$filter_customer_id = (isset($this->request->get['customer_id']) ? $this->request->get['customer_id'] : null);  
+		$filter_customer_id = (isset($this->request->get['filter_customer_id']) ? $this->request->get['filter_customer_id'] : null);  
 
 		if (isset($this->request->post['comment']) && utf8_strlen($this->request->post['comment']) == 0) {
 			$this->data['error_warning'] = '';
@@ -1642,7 +1820,7 @@ class ControllerSaleCustomer extends Controller {
 					'reminder' => $this->request->post['reminder'],
 					'reminder_date' => $this->request->post['reminder_date'],
 				);
-				$this->model_sale_customer->addHistory($this->request->get['customer_id'], $data);
+				$this->model_sale_customer->addHistory($this->request->get['filter_customer_id'], $data);
 				$this->data['success'] = $this->language->get('text_success');
 			} else {
 				$this->data['success'] = '';
@@ -1660,6 +1838,7 @@ class ControllerSaleCustomer extends Controller {
 		$this->data['column_comment'] = $this->language->get('column_comment');
 		$this->data['column_user'] = $this->language->get('column_user');
 		$this->data['column_customer'] = $this->language->get('column_customer');
+		$this->data['column_treatment'] = $this->language->get('column_treatment');
 
 		if (isset($this->request->get['page'])) {
 			$page = $this->request->get['page'];
@@ -1681,6 +1860,7 @@ class ControllerSaleCustomer extends Controller {
 			$this->data['histories'][] = array(
 				'customer_history_id'     => $result['customer_history_id'],
 				'if_treatment'     => $result['if_treatment'],
+				'title'     => $result['title'],
 				'comment'     => $result['comment'],
 				// 'ufirstname'     => $result['ufirstname'],
 				// 'ulastname'     => $result['ulastname'],
@@ -1702,7 +1882,7 @@ class ControllerSaleCustomer extends Controller {
 		$pagination->page = $page;
 		$pagination->limit = 10; 
 		$pagination->text = $this->language->get('text_pagination');
-		$pagination->url = $this->url->link('sale/customer/history', 'token=' . $this->session->data['token'] . '&customer_id=' . $this->request->get['customer_id'] . '&page={page}', 'SSL');
+		$pagination->url = $this->url->link('sale/customer/history', 'token=' . $this->session->data['token'] . '&filter_customer_id=' . $this->request->get['filter_customer_id'] . '&page={page}', 'SSL');
 
 		$this->data['token'] = $this->session->data['token'];
 		$this->data['pagination'] = $pagination->render();
@@ -1775,7 +1955,7 @@ class ControllerSaleCustomer extends Controller {
 
 		// $this->data['lendings'] = array();
 
-		// $results = $this->model_sale_customer->getLendings($this->request->get['customer_id'], ($page - 1) * 10, 10);
+		// $results = $this->model_sale_customer->getLendings($this->request->get['filter_customer_id'], ($page - 1) * 10, 10);
 
 		// foreach ($results as $result) {
 
@@ -1803,7 +1983,7 @@ class ControllerSaleCustomer extends Controller {
 		// 	);
 		// }
 		// 
-		// $lendings_total = $this->model_sale_customer->getTotalLendings($this->request->get['customer_id']);
+		// $lendings_total = $this->model_sale_customer->getTotalLendings($this->request->get['filter_customer_id']);
 
 		$pagination = new Pagination();
 		$pagination->total = 0;
@@ -1850,9 +2030,9 @@ class ControllerSaleCustomer extends Controller {
 		// 	$this->data['error_warning'] = $this->language->get('error_permission');
 		} else if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->user->hasPermission('modify', 'sale/customer')) { 
 			
-			if ($this->request->get['customer_id'] == $lendto_customer_id) {
+			if ($this->request->get['filter_customer_id'] == $lendto_customer_id) {
 				$this->data['error_warning'] = $this->language->get('text_error_self');
-			} else if ($this->model_sale_customer->addLending($this->request->get['customer_id'], $lendto_customer_id, $lendto_product_id, $lendto_quantity)) {
+			} else if ($this->model_sale_customer->addLending($this->request->get['filter_customer_id'], $lendto_customer_id, $lendto_product_id, $lendto_quantity)) {
 				$this->data['success'] = $this->language->get('text_success');
 			} else {
 				$this->data['error_warning'] = $this->language->get('text_error_lending');
@@ -1877,7 +2057,7 @@ class ControllerSaleCustomer extends Controller {
 
 		$this->data['lendings'] = array();
 
-		$results = $this->model_sale_customer->getLendings($this->request->get['customer_id'], ($page - 1) * 10, 10);
+		$results = $this->model_sale_customer->getLendings($this->request->get['filter_customer_id'], ($page - 1) * 10, 10);
 
 		foreach ($results as $result) {
 
@@ -1905,14 +2085,14 @@ class ControllerSaleCustomer extends Controller {
 			);
 		}
 
-		$lendings_total = $this->model_sale_customer->getTotalLendings($this->request->get['customer_id']);
+		$lendings_total = $this->model_sale_customer->getTotalLendings($this->request->get['filter_customer_id']);
 
 		$pagination = new Pagination();
 		$pagination->total = $lendings_total;
 		$pagination->page = $page;
 		$pagination->limit = 10; 
 		$pagination->text = $this->language->get('text_pagination');
-		$pagination->url = $this->url->link('sale/customer/history', 'token=' . $this->session->data['token'] . '&customer_id=' . $this->request->get['customer_id'] . '&page={page}', 'SSL');
+		$pagination->url = $this->url->link('sale/customer/history', 'token=' . $this->session->data['token'] . '&customer_id=' . $this->request->get['filter_customer_id'] . '&page={page}', 'SSL');
 
 		$this->data['token'] = $this->session->data['token'];
 		$this->data['pagination'] = $pagination->render();
@@ -1945,9 +2125,9 @@ class ControllerSaleCustomer extends Controller {
 			$this->data['error_warning'] = '';
 		} else if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->user->hasPermission('modify', 'sale/customer')) { 
 			
-			if ($this->request->get['customer_id'] == $borrowfrom_customer_id) {
+			if ($this->request->get['filter_customer_id'] == $borrowfrom_customer_id) {
 				$this->data['error_warning'] = $this->language->get('text_error_self');
-			} else if ($this->model_sale_customer->addLending($borrowfrom_customer_id, $this->request->get['customer_id'], $borrowfrom_product_id, $borrowfrom_quantity)) {
+			} else if ($this->model_sale_customer->addLending($borrowfrom_customer_id, $this->request->get['filter_customer_id'], $borrowfrom_product_id, $borrowfrom_quantity)) {
 				$this->data['success'] = $this->language->get('text_success');
 			} else {
 				$this->data['error_warning'] = $this->language->get('text_error_lending');
@@ -1973,7 +2153,7 @@ class ControllerSaleCustomer extends Controller {
 
 		$this->data['borrows'] = array();
 
-		$results = $this->model_sale_customer->getBorrows($this->request->get['customer_id'], ($page - 1) * 10, 10);
+		$results = $this->model_sale_customer->getBorrows($this->request->get['filter_customer_id'], ($page - 1) * 10, 10);
 
 		foreach ($results as $result) {
 
@@ -2001,14 +2181,14 @@ class ControllerSaleCustomer extends Controller {
 			);
 		}
 
-		$lendings_total = $this->model_sale_customer->getTotalLendings($this->request->get['customer_id']);
+		$lendings_total = $this->model_sale_customer->getTotalLendings($this->request->get['filter_customer_id']);
 
 		$pagination = new Pagination();
 		$pagination->total = $lendings_total;
 		$pagination->page = $page;
 		$pagination->limit = 10; 
 		$pagination->text = $this->language->get('text_pagination');
-		$pagination->url = $this->url->link('sale/customer/history', 'token=' . $this->session->data['token'] . '&customer_id=' . $this->request->get['customer_id'] . '&page={page}', 'SSL');
+		$pagination->url = $this->url->link('sale/customer/history', 'token=' . $this->session->data['token'] . '&customer_id=' . $this->request->get['filter_customer_id'] . '&page={page}', 'SSL');
 
 		$this->data['token'] = $this->session->data['token'];
 		$this->data['pagination'] = $pagination->render();
@@ -2292,13 +2472,13 @@ class ControllerSaleCustomer extends Controller {
 		$this->language->load('sale/customer');
 
 		$this->load->model('sale/customer');
-		// $this->data['customer_id'] = (isset($this->request->get['customer_id']) ? $this->request->get['customer_id'] : 0);
-		$this->data['customer_id'] = (isset($this->request->get['customer_id']) ? $this->request->get['customer_id'] : null);
+		// $this->data['customer_id'] = (isset($this->request->get['filter_customer_id']) ? $this->request->get['filter_customer_id'] : 0);
+		// $this->data['filter_customer_id'] = (isset($this->request->get['filter_customer_id']) ? $this->request->get['filter_customer_id'] : null);
 
 		// $reminder = (isset($this->request->post['reminder']) ? $this->request->post['reminder'] : null); 
 		// $reminder_date = (isset($this->request->post['reminder_date']) ? $this->request->post['reminder_date'] : null); 
 		$filter_user_id = (isset($this->request->get['filter_user_id']) ? $this->request->get['filter_user_id'] : null); 
-		$filter_customer_id = (isset($this->request->get['customer_id']) ? $this->request->get['customer_id'] : null);  
+		$filter_customer_id = (isset($this->request->get['filter_customer_id']) ? $this->request->get['filter_customer_id'] : null);  
 
 		$unitspend = (isset($this->request->post['unitspend']) ? $this->request->post['unitspend'] : null); 
 		$product_id = (isset($this->request->post['product_id']) ? $this->request->post['product_id'] : null); 
@@ -2306,19 +2486,19 @@ class ControllerSaleCustomer extends Controller {
 		if ($this->user->hasPermission('modify', 'sale/customer')) { 
 
 			// update information
-			if (isset($this->request->post['product_id']) && isset($this->request->post['unitspend']) && isset($this->request->get['customer_id'])) {
+			if (isset($this->request->post['product_id']) && isset($this->request->post['unitspend']) && isset($this->request->post['customer_id'])) {
 
 				// pure get
-				if (!$this->request->post['product_id'] && !$this->request->post['unitspend']) {
-					$this->data['success'] = '';	
-				} else if ($this->model_sale_customer->addTransaction2($this->request->get['customer_id'], $this->request->post['product_id'], $this->request->post['unitspend'])) {
+				if ($this->model_sale_customer->addTransaction2($this->request->post['customer_id'], $this->request->post['product_id'], $this->request->post['unitspend'])) {
 					$this->data['success'] = $this->language->get('text_success');
 				} else {
 					$this->data['error_warning'] = $this->language->get('text_cannot_use_inventory');
 				}
 			} elseif (isset($this->request->get['show_group'])) {
+				// pure get
 				$this->data['success'] = '';	
 			} else {
+				// pure get
 				$this->data['success'] = '';
 			}
 
@@ -2336,7 +2516,7 @@ class ControllerSaleCustomer extends Controller {
 		$this->data['text_cannot_use_inventory'] = $this->language->get('text_cannot_use_inventory');
 
 		$this->data['column_date_modified'] = $this->language->get('column_date_modified');
-		$this->data['column_date_added'] = $this->language->get('column_date_added');
+		$this->data['column_date_purchased'] = $this->language->get('column_date_purchased');
 		$this->data['column_description'] = $this->language->get('column_description');
 		$this->data['column_product'] = $this->language->get('column_product');
 		$this->data['column_unit_quantity'] = $this->language->get('column_unit_quantity');
@@ -2376,7 +2556,7 @@ class ControllerSaleCustomer extends Controller {
 		$this->data['transactions'] = array();
 
 		$data = array();
-		if (isset($this->request->get['customer_id'])) $data['customer_id'] = $this->request->get['customer_id'];
+		if (isset($this->request->get['filter_customer_id'])) $data['filter_customer_id'] = $this->request->get['filter_customer_id'];
 		if (isset($this->request->get['filter_customer_name'])) $data['filter_customer_name'] = $this->request->get['filter_customer_name'];
 		if (isset($this->request->get['filter_product_name'])) $data['filter_product_name'] = $this->request->get['filter_product_name'];
 		if (isset($this->request->get['filter_ssn'])) $data['filter_ssn'] = $this->request->get['filter_ssn'];
@@ -2385,7 +2565,7 @@ class ControllerSaleCustomer extends Controller {
 		$results = $this->model_sale_customer->getTransactions($data, ($page - 1) * 10, 10);
 
 		$data = array();
-		if (isset($this->request->get['customer_id'])) $data['customer_id'] = $this->request->get['customer_id'];
+		if (isset($this->request->get['filter_customer_id'])) $data['filter_customer_id'] = $this->request->get['filter_customer_id'];
 		if (isset($this->request->get['filter_customer_name'])) $data['filter_customer_name'] = $this->request->get['filter_customer_name'];
 		if (isset($this->request->get['filter_product_name'])) $data['filter_product_name'] = $this->request->get['filter_product_name'];
 		if (isset($this->request->get['filter_ssn'])) $data['filter_ssn'] = $this->request->get['filter_ssn'];
@@ -2476,7 +2656,7 @@ class ControllerSaleCustomer extends Controller {
 
 
 		$data = array();
-		if (isset($this->request->get['customer_id'])) $data['customer_id'] = $this->request->get['customer_id'];
+		if (isset($this->request->get['filter_customer_id'])) $data['customer_id'] = $this->request->get['filter_customer_id'];
 		if (isset($this->request->get['filter_customer_name'])) $data['filter_customer_name'] = $this->request->get['filter_customer_name'];
 		if (isset($this->request->get['filter_product_name'])) $data['filter_product_name'] = $this->request->get['filter_product_name'];
 		if (isset($this->request->get['filter_ssn'])) $data['filter_ssn'] = $this->request->get['filter_ssn'];
@@ -2496,6 +2676,7 @@ class ControllerSaleCustomer extends Controller {
 
 		$pagination->url = $this->url->link('sale/customer/transaction', $href, 'SSL');
 
+		$this->data['filter_customer_id'] = $filter_customer_id;
 		$this->data['pagination'] = $pagination->render();
 		$this->data['token'] = $this->session->data['token'];
 		
@@ -2512,7 +2693,7 @@ class ControllerSaleCustomer extends Controller {
 	// 	if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->user->hasPermission('modify', 'sale/customer')) { 
 	// 		if (!$this->request->post['product_id'] && !$this->request->post['unitspend']) {
 	// 			$this->data['error_warning'] = '';
-	// 		} elseif ($this->model_sale_customer->addTransaction2($this->request->get['customer_id'], $this->request->post['product_id'], $this->request->post['unitspend'])) {
+	// 		} elseif ($this->model_sale_customer->addTransaction2($this->request->get['filter_customer_id'], $this->request->post['product_id'], $this->request->post['unitspend'])) {
 	// 			$this->data['success'] = $this->language->get('text_success');
 	// 		} else {
 	// 			$this->data['error_warning'] = $this->language->get('text_cannot_use_inventory');
@@ -2556,7 +2737,7 @@ class ControllerSaleCustomer extends Controller {
 	// 	$this->data['transactions'] = array();
 
 	// 	$data = array(
-	// 		'customer_id' => $this->request->get['customer_id']
+	// 		'customer_id' => $this->request->get['filter_customer_id']
 	// 	);
 	// 	$results = $this->model_sale_customer->getTransactions($data, ($page - 1) * 10, 10);
 
@@ -2595,11 +2776,11 @@ class ControllerSaleCustomer extends Controller {
 
 	// 	$this->data['grouptransactions'] = $groupresults;
 
-	// 	$this->data['balance'] = $this->currency->format($this->model_sale_customer->getTransactionTotal($this->request->get['customer_id']), $this->config->get('config_currency'));
+	// 	$this->data['balance'] = $this->currency->format($this->model_sale_customer->getTransactionTotal($this->request->get['filter_customer_id']), $this->config->get('config_currency'));
 
 
 	// 	$data = array(
-	// 		'customer_id' => $this->request->get['customer_id']
+	// 		'customer_id' => $this->request->get['filter_customer_id']
 	// 	);
 	// 	$transaction_total = count($results); 
 
@@ -2608,7 +2789,7 @@ class ControllerSaleCustomer extends Controller {
 	// 	$pagination->page = $page;
 	// 	$pagination->limit = 10; 
 	// 	$pagination->text = $this->language->get('text_pagination');
-	// 	$pagination->url = $this->url->link('sale/customer/transaction', 'token=' . $this->session->data['token'] . '&customer_id=' . $this->request->get['customer_id'] . '&page={page}', 'SSL');
+	// 	$pagination->url = $this->url->link('sale/customer/transaction', 'token=' . $this->session->data['token'] . '&customer_id=' . $this->request->get['filter_customer_id'] . '&page={page}', 'SSL');
 
 	// 	$this->data['pagination'] = $pagination->render();
 	// 	$this->data['token'] = $this->session->data['token'];
@@ -2625,7 +2806,7 @@ class ControllerSaleCustomer extends Controller {
 	// 	$this->load->model('sale/customer');
 
 	// 	if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->user->hasPermission('modify', 'sale/customer')) { 
-	// 		$this->model_sale_customer->addReward($this->request->get['customer_id'], $this->request->post['description'], $this->request->post['points']);
+	// 		$this->model_sale_customer->addReward($this->request->get['filter_customer_id'], $this->request->post['description'], $this->request->post['points']);
 
 	// 		$this->data['success'] = $this->language->get('text_success');
 	// 	} else {
@@ -2653,7 +2834,7 @@ class ControllerSaleCustomer extends Controller {
 
 	// 	$this->data['rewards'] = array();
 
-	// 	$results = $this->model_sale_customer->getRewards($this->request->get['customer_id'], ($page - 1) * 10, 10);
+	// 	$results = $this->model_sale_customer->getRewards($this->request->get['filter_customer_id'], ($page - 1) * 10, 10);
 
 	// 	foreach ($results as $result) {
 	// 		$this->data['rewards'][] = array(
@@ -2663,16 +2844,16 @@ class ControllerSaleCustomer extends Controller {
 	// 		);
 	// 	}
 
-	// 	$this->data['balance'] = $this->model_sale_customer->getRewardTotal($this->request->get['customer_id']);
+	// 	$this->data['balance'] = $this->model_sale_customer->getRewardTotal($this->request->get['filter_customer_id']);
 
-	// 	$reward_total = $this->model_sale_customer->getTotalRewards($this->request->get['customer_id']);
+	// 	$reward_total = $this->model_sale_customer->getTotalRewards($this->request->get['filter_customer_id']);
 
 	// 	$pagination = new Pagination();
 	// 	$pagination->total = $reward_total;
 	// 	$pagination->page = $page;
 	// 	$pagination->limit = 10; 
 	// 	$pagination->text = $this->language->get('text_pagination');
-	// 	$pagination->url = $this->url->link('sale/customer/reward', 'token=' . $this->session->data['token'] . '&customer_id=' . $this->request->get['customer_id'] . '&page={page}', 'SSL');
+	// 	$pagination->url = $this->url->link('sale/customer/reward', 'token=' . $this->session->data['token'] . '&customer_id=' . $this->request->get['filter_customer_id'] . '&page={page}', 'SSL');
 
 	// 	$this->data['pagination'] = $pagination->render();
 
@@ -2754,7 +2935,7 @@ class ControllerSaleCustomer extends Controller {
 					'lastname'          => $result['lastname'],
 					'email'             => $result['email'],
 					'telephone'         => $result['telephone'],
-					'fax'               => $result['fax'],
+					'mobile'               => $result['mobile'],
 					'ssn'               => $result['ssn']
 					// 'address_id'           =>  $result['address_id'],
 					// 'address'           => $address

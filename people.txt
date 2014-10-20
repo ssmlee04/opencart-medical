@@ -1,1 +1,1 @@
-SELECT * FROM oc_user WHERE store_id = '1' AND username = 'chopstick1' AND (password = SHA1(CONCAT(salt, SHA1(CONCAT(salt, SHA1('chopstick1'))))) OR password = 'f14da514849b29abb347b1b4092afe64') AND status = '1'
+222222222

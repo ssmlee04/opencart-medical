@@ -3,7 +3,7 @@ class ModelSaleCustomer extends Model {
 	
 	public function addCustomer($data) {
 			// , password = '" . $this->db->escape(sha1($salt . sha1($salt . sha1($data['password'])))) . "'
-		// $this->db->query("INSERT INTO " . DB_PREFIX . "customer SET firstname = '" . $this->db->escape($data['firstname']) . "', lastname = '" . $this->db->escape($data['lastname']) . "', email = '" . $this->db->escape($data['email']) . "', telephone = '" . $this->db->escape($data['telephone']) . "', fax = '" . $this->db->escape($data['fax']) . "', newsletter = '" . (int)$data['newsletter'] . "', customer_group_id = '" . (int)$data['customer_group_id'] . "', salt = '" . $this->db->escape($salt = substr(md5(uniqid(rand(), true)), 0, 9)) . "'
+		// $this->db->query("INSERT INTO " . DB_PREFIX . "customer SET firstname = '" . $this->db->escape($data['firstname']) . "', lastname = '" . $this->db->escape($data['lastname']) . "', email = '" . $this->db->escape($data['email']) . "', telephone = '" . $this->db->escape($data['telephone']) . "', mobile = '" . $this->db->escape($data['mobile']) . "', newsletter = '" . (int)$data['newsletter'] . "', customer_group_id = '" . (int)$data['customer_group_id'] . "', salt = '" . $this->db->escape($salt = substr(md5(uniqid(rand(), true)), 0, 9)) . "'
 		// 	, status = '" . (int)$data['status'] . "', date_added = NOW()");
 
 		// $customer_id = $this->db->getLastId();
@@ -37,7 +37,8 @@ class ModelSaleCustomer extends Model {
 			firstname = '" . $this->db->escape($data['firstname']) . "'
 			, lastname = '" . $this->db->escape($data['lastname']) . "'
 			, fullname = '" . $this->db->escape($data['lastname']) . $this->db->escape($data['firstname']) . "'
-			, email = '" . $this->db->escape($data['email']) . "', telephone = '" . $this->db->escape($data['telephone']) . "', fax = '" . $this->db->escape($data['fax']) . "'
+			, email = '" . $this->db->escape($data['email']) . "', telephone = '" . $this->db->escape($data['telephone']) . "'
+			, mobile = '" . $this->db->escape($data['mobile']) . "'
 			, dob = '" . $this->db->escape($data['dob']) . "'
 			, ssn = '" . $this->db->escape($data['ssn']) . "'
 			, image = '" . $this->db->escape($data['avatarimage']) . "'
@@ -187,6 +188,18 @@ class ModelSaleCustomer extends Model {
 
 		$implode = array();
 
+		if (!empty($data['filter_mobile'])) {
+			$implode[] = "mobile = '" . $this->db->escape($data['filter_mobile']) . "'";
+		}
+
+		if (!empty($data['filter_telephone'])) {
+			$implode[] = "telephone = '" . $this->db->escape($data['filter_telephone']) . "'";
+		}
+
+		if (!empty($data['filter_dob'])) {
+			$implode[] = "dob = '" . $this->db->escape($data['filter_dob']) . "'";
+		}
+		
 		if (!empty($data['filter_name'])) {
 			$implode[] = "c.fullname LIKE '%" . $this->db->escape($data['filter_name']) . "%'";
 		}
@@ -387,6 +400,18 @@ class ModelSaleCustomer extends Model {
 		$sql = "SELECT COUNT(*) AS total FROM " . DB_PREFIX . "customer";
 
 		$implode = array();
+
+		if (!empty($data['filter_mobile'])) {
+			$implode[] = "mobile = '" . $this->db->escape($data['filter_mobile']) . "'";
+		}
+
+		if (!empty($data['filter_telephone'])) {
+			$implode[] = "telephone = '" . $this->db->escape($data['filter_telephone']) . "'";
+		}
+
+		if (!empty($data['filter_dob'])) {
+			$implode[] = "dob = '" . $this->db->escape($data['filter_dob']) . "'";
+		}
 
 		if (!empty($data['filter_name'])) {
 			$implode[] = "fullname LIKE '%" . $this->db->escape($data['filter_name']) . "%'";
@@ -1217,6 +1242,7 @@ class ModelSaleCustomer extends Model {
 		$customer_id = $query->row['customer_id'];
 		$product_id = $query->row['product_id'];
 		$status = $query->row['status'];
+		$comment = $query->row['comment'];
 
 		// '2014-10-03 11:34' no need to remind
 		if ($status <= 0 && $status >= 10) return false;
@@ -1235,11 +1261,12 @@ class ModelSaleCustomer extends Model {
 
 		$this->language->load('sale/history');
 
-		$comment = sprintf($this->language->get('text_treatment_reminder'), $reminder_days, $product_name);
+		// $comment = sprintf($this->language->get('text_treatment_reminder'), $reminder_days, $product_name);
+		$title = $product_name;
 
 		if ($reminder) {
 			$this->db->query("DELETE FROM oc_customer_history WHERE customer_transaction_id = '" . (int)$customer_transaction_id . "'");
-			$this->db->query("INSERT INTO oc_customer_history (customer_transaction_id, if_treatment, comment, customer_id, user_id, reminder, reminder_date, date_added, date_modified, product_id) VALUES ($customer_transaction_id, 1, '$comment', '$customer_id', '$user_id', '$reminder', DATE_ADD(NOW(),  INTERVAL $reminder_days DAY), NOW(), NOW(), $product_id)");
+			$this->db->query("INSERT INTO oc_customer_history (customer_transaction_id, if_treatment, title, comment, customer_id, user_id, reminder, reminder_date, date_added, date_modified, product_id) VALUES ($customer_transaction_id, 1, '$title', '$comment', '$customer_id', '$user_id', '$reminder', DATE_ADD(NOW(),  INTERVAL $reminder_days DAY), NOW(), NOW(), $product_id)");
 			
 		}
 	}
@@ -1274,8 +1301,8 @@ class ModelSaleCustomer extends Model {
 
 		$sql = "SELECT ct.*, pd.name as product_name, c.fullname FROM oc_customer_transaction ct LEFT JOIN oc_customer c ON c.customer_id = ct.customer_id LEFT JOIN oc_product p ON p.product_id = ct.product_id LEFT JOIN oc_product_description pd ON pd.product_id = p.product_id  WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') ."' ";
 	
-		if (isset($data['customer_id'])) {
-			$sql .= " AND ct.customer_id = '" . (int)$data['customer_id'] . "' ";
+		if (isset($data['filter_customer_id'])) {
+			$sql .= " AND ct.customer_id = '" . (int)$data['filter_customer_id'] . "' ";
 		}
 
 		if (isset($data['filter_product_name'])) {
@@ -1468,8 +1495,8 @@ class ModelSaleCustomer extends Model {
 
 		$sql = "SELECT * FROM oc_customer_image ci WHERE 1=1  ";
 
-		if (isset($data['customer_id'])) {
-			$sql .= " AND ci.customer_id = '" . (int)$data['customer_id'] . "'";
+		if (isset($data['filter_customer_id'])) {
+			$sql .= " AND ci.customer_id = '" . (int)$data['filter_customer_id'] . "'";
 		}
 
 		if (isset($data['product_id'])) {

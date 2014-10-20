@@ -26,7 +26,7 @@
           <table class="form">
             <tr>
               <td><?php echo $entry_customer; ?></td>
-              <td><input type="text" name="customer" value="<?php echo $customer; ?>" />
+              <td><?php echo $customer; ?><input type="text" style='display:none' name="customer" value="<?php echo $customer; ?>" />
                 <input type="hidden" name="customer_id" value="<?php echo $customer_id; ?>" />
                 <input type="hidden" name="customer_name" value="<?php echo $customer_name; ?>" />
                 <input type="hidden" name="customer_group_id" value="<?php echo $customer_group_id; ?>" />
@@ -38,7 +38,13 @@
             </tr>
             <tr>
               <td class="left"><?php echo $entry_store; ?></td>
-              <td class="left"><select name="store_id"  class='store_id' onchange="$(this).attr('readonly', true);">
+              <td class="left">
+
+                <?php foreach ($stores as $store) { ?>
+                  <?php if ($store['store_id'] == $store_id) {  echo $store['name']; } ?>
+                <?php } ?>
+
+                <select style='display:none' name="store_id"  class='store_id' onchange="$(this).attr('readonly', true);">
                   <option value=''><?php echo $text_select; ?></option>
                   <?php foreach ($stores as $store) { ?>
                   <?php if ($store['store_id'] == $store_id) { ?>
@@ -54,42 +60,15 @@
                   <?php } ?></td>
             </tr>
             <tr>
-              <td class="left"><?php echo $entry_customer_group; ?></td>
-              <td class="left"><select id="customer_group_id" <?php echo ($customer_id ? 'disabled="disabled"' : ''); ?>>
-                  <?php foreach ($customer_groups as $customer_group) { ?>
-                  <?php if ($customer_group['customer_group_id'] == $customer_group_id) { ?>
-                  <option value="<?php echo $customer_group['customer_group_id']; ?>" selected="selected"><?php echo $customer_group['name']; ?></option>
-                  <?php } else { ?>
-                  <option value="<?php echo $customer_group['customer_group_id']; ?>"><?php echo $customer_group['name']; ?></option>
-                  <?php } ?>
-                  <?php } ?>
-
-                </select></td>
-            </tr>
-            <tr>
-              <td><span class="required">*</span> <?php echo $entry_firstname; ?></td>
-              <td><input type="text" name="firstname" value="<?php echo $firstname; ?>"/>
-                <?php if ($error_firstname) { ?>
-                <span class="error"><?php echo $error_firstname; ?></span>
-                <?php } ?></td>
-            </tr>
-            <tr>
-              <td><span class="required">*</span> <?php echo $entry_lastname; ?></td>
-              <td><input type="text" name="lastname" value="<?php echo $lastname; ?>"/>
-                <?php if ($error_lastname) { ?>
-                <span class="error"><?php echo $error_lastname; ?></span>
-                <?php } ?></td>
-            </tr>
-            <tr>
               <td><span class="required">*</span> <?php echo $entry_email; ?></td>
-              <td><input type="text" name="email" value="<?php echo $email; ?>"/>
+              <td><?php echo $email; ?><input type="text" style='display:none' name="email" value="<?php echo $email; ?>"/>
                 <?php if ($error_email) { ?>
                 <span class="error"><?php echo $error_email; ?></span>
                 <?php } ?></td>
             </tr>
             <tr>
               <td><span class="required">*</span> <?php echo $entry_telephone; ?></td>
-              <td><input type="text" name="telephone" value="<?php echo $telephone; ?>"/>
+              <td><?php echo $telephone; ?><input type="text" style='display:none' name="telephone" value="<?php echo $telephone; ?>"/>
                 <?php if ($error_telephone) { ?>
                 <span class="error"><?php echo $error_telephone; ?></span>
                 <?php } ?></td>
@@ -117,7 +96,7 @@
               <?php foreach ($order_products as $order_product) { ?>
               <tr id="product-row<?php echo $product_row; ?>">
                 <td class="center" style="width: 3px;">
-                  <img  <?php if ($route == 'sale/order/update') echo "style='display:none'"; ?> src="view/image/delete.png" title="<?php echo $button_remove; ?>" alt="<?php echo $button_remove; ?>" style="cursor: pointer;" onclick="$('#product-row<?php echo $product_row; ?>').remove(); $('#button-update').trigger('click');" /></td>
+                  <img  <?php if (!$is_insert) echo "style='display:none'"; ?> src="view/image/delete.png" title="<?php echo $button_remove; ?>" alt="<?php echo $button_remove; ?>" style="cursor: pointer;" onclick="$('#product-row<?php echo $product_row; ?>').remove(); $('#button-update').trigger('click');" /></td>
                 <td class="left"><?php echo $order_product['name']; ?><br />
                   <input type="hidden" name="order_product[<?php echo $product_row; ?>][order_product_id]" value="<?php echo $order_product['order_product_id']; ?>" />
                   <input type="hidden" name="order_product[<?php echo $product_row; ?>][product_id]" value="<?php echo $order_product['product_id']; ?>" />
@@ -140,7 +119,9 @@
                 <td class="right"><?php echo $order_product['ref_price']; ?>
                   <input type="hidden" name="order_product[<?php echo $product_row; ?>][ref_price]" value="<?php echo $order_product['ref_price']; ?>" /></td>
 
-                <td class="right"><input type="text" id="<?php echo $product_row; ?>" name="order_product[<?php echo $product_row; ?>][price]" class="price" size="8" value="<?php echo $order_product['price']; ?>"/></td>
+                <td class="right">
+                  <?php if (!$is_insert) echo $order_product['price']; ?>
+                  <input <?php if (!$is_insert) echo "style='display:none'"; ?> type="text" id="<?php echo $product_row; ?>" name="order_product[<?php echo $product_row; ?>][price]" class="price" size="8" value="<?php echo $order_product['price']; ?>"/></td>
 
                 <td class="right"><div class="order_product[<?php echo $product_row; ?>][labeltotal]"><?php echo $order_product['total']; ?></div>
                   <input type="hidden" name="order_product[<?php echo $product_row; ?>][total]" value="<?php echo $order_product['total']; ?>" />
@@ -151,7 +132,7 @@
               <?php } ?>
               <?php } else { ?>
               <tr>
-                <td class="center" colspan="6"><?php echo $text_no_results; ?></td>
+                <td class="center" colspan="7"><?php echo $text_no_results; ?></td>
               </tr>
               <?php } ?>
             </tbody>
@@ -363,7 +344,7 @@
                 <td class="left"><php echo $entry_reward; ?></td>
                 <td class="left"><input type="text" name="reward" value="" /></td>
               </tr> -->
-              <tr>
+              <tr style='display:none'>
                 <td class="left"><?php echo $entry_order_status; ?></td>
                 <td class="left"><select name="order_status_id">
                     <?php foreach ($order_statuses as $order_status) { ?>
@@ -443,7 +424,9 @@
 
 $('input[name=\'payment_cash\'], input[name=\'payment_visa\'], input[name=\'payment_final\']').keyup(function(){
   var total = $('input[name=\'order_total[0][value]\']').val();
-  $('input[name=\'payment_balance\']').val(total - $('input[name=\'payment_final\']').val() - $('input[name=\'payment_visa\']').val() - $('input[name=\'payment_cash\']').val());
+  var balance = total - $('input[name=\'payment_final\']').val() - $('input[name=\'payment_visa\']').val() - $('input[name=\'payment_cash\']').val();
+  $('input[name=\'payment_balance\']').val(balance);
+  // if (balance < 0.5 && balance > -0.5) $('select[name=order_status_id]').val()
 });
 
 $('input[name=\'customer\']').catcomplete({
@@ -612,8 +595,8 @@ $('#button-product').live('click', function() {
   }
 
 	data  = '#tab-customer input[type=\'text\'], #tab-customer input[type=\'hidden\'], #tab-customer input[type=\'radio\']:checked, #tab-customer input[type=\'checkbox\']:checked, #tab-customer select, #tab-customer textarea, ';
-	data += '#tab-payment input[type=\'text\'], #tab-payment input[type=\'hidden\'], #tab-payment input[type=\'radio\']:checked, #tab-payment input[type=\'checkbox\']:checked, #tab-payment select, #tab-payment textarea, ';
-	data += '#tab-shipping input[type=\'text\'], #tab-shipping input[type=\'hidden\'], #tab-shipping input[type=\'radio\']:checked, #tab-shipping input[type=\'checkbox\']:checked, #tab-shipping select, #tab-shipping textarea, ';
+	// data += '#tab-payment input[type=\'text\'], #tab-payment input[type=\'hidden\'], #tab-payment input[type=\'radio\']:checked, #tab-payment input[type=\'checkbox\']:checked, #tab-payment select, #tab-payment textarea, ';
+	// data += '#tab-shipping input[type=\'text\'], #tab-shipping input[type=\'hidden\'], #tab-shipping input[type=\'radio\']:checked, #tab-shipping input[type=\'checkbox\']:checked, #tab-shipping select, #tab-shipping textarea, ';
 	
 	if ($(this).attr('id') == 'button-product') {
 		data += '#tab-product input[type=\'text\'], #tab-product input[type=\'hidden\'], #tab-product input[type=\'radio\']:checked, #tab-product input[type=\'checkbox\']:checked, #tab-product select, #tab-product textarea, ';

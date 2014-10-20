@@ -46,6 +46,20 @@
             <td><?php echo $column_ssn; ?></td>
             <td><input type="text" name="filter_ssn" value="<?php echo $filter_ssn; ?>" /></td>
           </tr>
+          <tr>
+            <td><?php echo $column_mobile; ?></td>
+            <td><input type="text" name="filter_mobile" value="<?php echo $filter_mobile; ?>" /></td>
+          </tr>
+          <tr>
+            <td><?php echo $column_telephone; ?></td>
+            <td><input type="text" name="filter_telephone" value="<?php echo $filter_telephone; ?>" /></td>
+          </tr>
+          <tr>
+            <td><?php echo $column_dob; ?></td>
+            <td><input type="text" name="filter_dob" value="<?php echo $filter_dob; ?>" /></td>
+          </tr>
+
+
           <tr><td colspan='2'>
             <a onclick="filter();" class="button"><?php echo $button_filter; ?></a>
           </td>
@@ -59,7 +73,7 @@
         <?php } ?>
 
         <br>
-        <?php if ($filter_name!='' || $filter_ssn!='' || $filter_customer_id != '' || isset($if_display)) { ?>
+        <?php if ($filter_name != '' || $filter_dob!='' || $filter_telephone!='' || $filter_mobile!='' || $filter_ssn!='' || $filter_customer_id != '' || isset($if_display)) { ?>
         <table class="list">
           <thead>
             <tr>
@@ -69,21 +83,17 @@
                 <?php } else { ?>
                 <a href="<?php echo $sort_name; ?>"><?php echo $column_name; ?></a>
                 <?php } ?></td>
-              <td class="left"><?php if ($sort == 'c.email') { ?>
-                <a href="<?php echo $sort_email; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_email; ?></a>
+              <td class="left"><?php if ($sort == 'c.dob') { ?>
+                <a href="<?php echo $sort_dob; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_dob; ?></a>
                 <?php } else { ?>
-                <a href="<?php echo $sort_email; ?>"><?php echo $column_email; ?></a>
+                <a href="<?php echo $sort_dob; ?>"><?php echo $column_dob; ?></a>
                 <?php } ?></td>
-              <td class="left"><?php if ($sort == 'customer_group') { ?>
-                <a href="<?php echo $sort_customer_group; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_customer_group; ?></a>
-                <?php } else { ?>
-                <a href="<?php echo $sort_customer_group; ?>"><?php echo $column_customer_group; ?></a>
-                <?php } ?></td>
-              <td class="left"><?php if ($sort == 'c.status') { ?>
-                <a href="<?php echo $sort_status; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_status; ?></a>
-                <?php } else { ?>
-                <a href="<?php echo $sort_status; ?>"><?php echo $column_status; ?></a>
-                <?php } ?></td>
+
+              <td class="left"><?php echo $column_mobile; ?></td>
+              <td class="left"><?php echo $column_doctor; ?></td>
+              <td class="left"><?php echo $column_consultant; ?></td>
+              <td class="left"><?php echo $column_beauty; ?></td>
+              <td class="left"><?php echo $column_outsource; ?></td>
               <!-- <td class="left"><php if ($sort == 'c.approved') { ?>
                 <a href="<php echo $sort_approved; ?>" class="<php echo strtolower($order); ?>"><php echo $column_approved; ?></a>
                 <php } else { ?>
@@ -94,13 +104,9 @@
                 <php } else { ?>
                 <a href="<php echo $sort_ip; ?>"><php echo $column_ip; ?></a>
                 <php } ?></td> -->
-              <td class="left"><?php if ($sort == 'c.date_added') { ?>
-                <a href="<?php echo $sort_date_added; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_date_added; ?></a>
-                <?php } else { ?>
-                <a href="<?php echo $sort_date_added; ?>"><?php echo $column_date_added; ?></a>
-                <?php } ?></td>
+              <td class="left"><?php echo $column_date_last_visit; ?></td>
               <!-- <td class="left"><php echo $column_login; ?></td> -->
-              <td class="right"><?php echo $column_action; ?></td>
+              <!-- <td class="right"><php echo $column_action; ?></td> -->
             </tr>
           </thead>
           <tbody>
@@ -146,13 +152,20 @@
                 <?php } else { ?>
                 <input type="checkbox" name="selected[]" value="<?php echo $customer['customer_id']; ?>" />
                 <?php } ?></td>
-              <td class="left"><?php echo $customer['fullname']; ?></td>
-              <td class="left"><?php echo $customer['email']; ?></td>
-              <td class="left"><?php echo $customer['customer_group']; ?></td>
-              <td class="left"><?php echo $customer['status']; ?></td>
+              
+              <td class="left"><?php foreach ($customer['fullname'] as $action) { ?>
+                <a href="<?php echo $action['href']; ?>"><?php echo $action['text']; ?></a>
+                <?php } ?></td>
+
+              <td class="left"><?php echo $customer['dob']; ?></td>
+              <td class="left"><?php echo $customer['mobile']; ?></td>
+              <td class="left"><?php echo $customer['last_doctor']; ?></td>
+              <td class="left"><?php echo $customer['last_consultant']; ?></td>
+              <td class="left"><?php echo $customer['last_beauty']; ?></td>
+              <td class="left"><?php echo $customer['last_outsource']; ?></td>
               <!-- <td class="left"><php echo $customer['approved']; ?></td> -->
               <!-- <td class="left"><php echo $customer['ip']; ?></td> -->
-              <td class="left"><?php echo $customer['date_added']; ?></td>
+              <td class="left"><?php echo $customer['last_visit']; ?></td>
               <!-- <td class="left"><select onchange="((this.value !== '') ? window.open('index.php?route=sale/customer/login&token=<php echo $token; ?>&customer_id=<php echo $customer['customer_id']; ?>&store_id=' + this.value) : null); this.value = '';">
                   <option value=""><php echo $text_select; ?></option>
                   <option value="0"><php echo $text_default; ?></option>
@@ -160,9 +173,9 @@
                   <option value="<php echo $store['store_id']; ?>"><php echo $store['name']; ?></option>
                   <php } ?>
                 </select></td> -->
-              <td class="right"><?php foreach ($customer['action'] as $action) { ?>
-                [ <a href="<?php echo $action['href']; ?>"><?php echo $action['text']; ?></a> ]
-                <?php } ?></td>
+              <!-- <td class="right"><php foreach ($customer['action'] as $action) { ?>
+                [ <a href="<php echo $action['href']; ?>"><php echo $action['text']; ?></a> ]
+                <php } ?></td> -->
             </tr>
             <?php } ?>
             <?php } else { ?>
@@ -257,12 +270,25 @@ function filter() {
     url += '&filter_ssn=' + encodeURIComponent(filter_ssn);
   }
 
-	// var filter_email = $('input[name=\'filter_email\']').attr('value');
-	
-	// if (filter_email) {
-	// 	url += '&filter_email=' + encodeURIComponent(filter_email);
-	// }
-	
+	var filter_mobile = $('input[name=\'filter_mobile\']').attr('value');
+  
+  if (filter_mobile) {
+    url += '&filter_mobile=' + encodeURIComponent(filter_mobile);
+  }
+  
+  var filter_telephone = $('input[name=\'filter_telephone\']').attr('value');
+  
+  if (filter_telephone) {
+    url += '&filter_telephone=' + encodeURIComponent(filter_telephone);
+  }
+
+  var filter_dob = $('input[name=\'filter_dob\']').attr('value');
+  
+  if (filter_dob) {
+    url += '&filter_dob=' + encodeURIComponent(filter_dob);
+  }
+  
+
 	// var filter_customer_group_id = $('select[name=\'filter_customer_group_id\']').attr('value');
 	
 	// if (filter_customer_group_id != '*') {
@@ -298,9 +324,9 @@ function filter() {
 //--></script>
 <script type="text/javascript"><!--
 $(document).ready(function() {
-	$('#date').datepicker({dateFormat: 'yy-mm-dd'});
+	// $('#date').datepicker({dateFormat: 'yy-mm-dd'});
 
-   $('input[name=\'filter_customer_id\'], input[name=\'filter_ssn\'], input[name=\'filter_name\']').keydown(function(e){
+   $('input').keydown(function(e){
     if (e.keyCode==13) filter();
   });
 

@@ -7,6 +7,16 @@
   .payment {
     display: none;
   }
+  <?php if ($is_insert) {?>
+    .group11 {
+    display: none; 
+  }
+  <?php } else { ?>
+ .group12 {
+    display: none; 
+  }
+    <?php } ?>
+  
 </style>
 <div id="content">
   <div class="breadcrumb">
@@ -24,12 +34,13 @@
     <div class="heading">
       <h1><img src="view/image/customer.png" alt="" /> <?php echo $heading_title; ?></h1>
       <div class="buttons">
+        <a onclick="$('.group11').toggle(); $('.group12').toggle();" class="button"><?php echo $button_edit_basic; ?></a>
         <a onclick="$('#form').submit();" class="button"><?php echo $button_save; ?></a>
         <a href="<?php echo $cancel; ?>" class="button"><?php echo $button_cancel; ?></a></div>
     </div>
     <div class="content">
       <div id="htabs" class="htabs"><a style="display:none" href="#tab-general"><?php echo $tab_general; ?></a>
-        <?php if ($customer_id) { ?>
+        <?php if ($filter_customer_id) { ?>
         <a href="#tab-history" id='tab-history-link'><?php echo $tab_history; ?></a>
         <a href="#tab-transaction" id='tab-transaction-link'><?php echo $tab_transaction; ?></a>
         <a href="#tab-lendto" id='tab-lendto-link'><?php echo $tab_lendto; ?></a>
@@ -54,79 +65,82 @@
             <table class="form">
               <tr>
                 <td><span class="required">*</span> <?php echo $entry_firstname; ?></td>
-                <td><input type="text" name="firstname" value="<?php echo $firstname; ?>" />
+                <td><div class='group11' ><?php echo $firstname; ?></div>
+                  <div class='group12' ><input type="text" name="firstname" value="<?php echo $firstname; ?>" />
                   <?php if ($error_firstname) { ?>
                   <span class="error"><?php echo $error_firstname; ?></span>
-                  <?php } ?></td>
+                  <?php } ?></div></td>
               </tr>
               <tr>
                 <td><span class="required">*</span> <?php echo $entry_lastname; ?></td>
-                <td><input type="text" name="lastname" value="<?php echo $lastname; ?>" />
+                <td><div class='group11' ><?php echo $lastname; ?></div>
+                  <div class='group12' ><input type="text" name="lastname" value="<?php echo $lastname; ?>" />
                   <?php if ($error_lastname) { ?>
                   <span class="error"><?php echo $error_lastname; ?></span>
-                  <?php } ?></td>
+                  <?php } ?></div></td>
               </tr>
               <tr>
                 <td><span class="required">*</span> <?php echo $entry_email; ?></td>
-                <td><input type="text" name="email" value="<?php echo $email; ?>" />
+                <td><div class='group11' ><?php echo $email; ?></div>
+                  <div class='group12' ><input type="text" name="email" value="<?php echo $email; ?>" />
                   <?php if ($error_email) { ?>
                   <span class="error"><?php echo $error_email; ?></span>
-                  <?php  } ?></td>
+                  <?php  } ?></div></td>
               </tr>
               <tr>
                 <td><span class="required">*</span> <?php echo $entry_telephone; ?></td>
-                <td><input type="text" name="telephone" value="<?php echo $telephone; ?>" />
+                <td><div class='group11' ><?php echo $telephone; ?></div>
+                  <div class='group12' ><input type="text" name="telephone" value="<?php echo $telephone; ?>" />
                   <?php if ($error_telephone) { ?>
                   <span class="error"><?php echo $error_telephone; ?></span>
-                  <?php  } ?></td>
+                  <?php  } ?></div></td>
               </tr>
               <tr>
-                <td><?php echo $entry_fax; ?></td>
-                <td><input type="text" name="fax" value="<?php echo $fax; ?>" /></td>
+                <td><span class="required">*</span> <?php echo $entry_mobile; ?></td>
+                <td><div class='group11' ><?php echo $mobile; ?></div>
+                  <div class='group12' ><input type="text" name="mobile" value="<?php echo $mobile; ?>" />
+                    <?php if ($error_mobile) { ?>
+                  <span class="error"><?php echo $error_mobile; ?></span>
+                  <?php  } ?></div></td>
               </tr>
               <tr>
                 <td><span class="required">*</span> <?php echo $entry_dob; ?></td>
-                <td><input type="date_available" name="dob" class='date' value="<?php echo $dob; ?>" />
-                <span class="error"><?php echo $error_dob; ?></span>
+                <td><div class='group11' ><?php echo $dob; ?></div>
+                  <div class='group12' ><input type="date_available" name="dob" class='date' value="<?php echo $dob; ?>" />
+                    <?php if ($error_dob) { ?>
+                  <span class="error"><?php echo $error_dob; ?></span>
+                  <?php  } ?><span class="error"><?php echo $error_dob; ?></div></span>
               </td>
               </tr>
               <tr>
                 <td><?php echo $entry_line_id; ?></td>
-                <td><input type="text" name="line_id" value="<?php echo $line_id; ?>" /></td>
+                <td><div class='group11' ><?php echo $line_id; ?></div>
+                  <div class='group12' ><input type="text" name="line_id" value="<?php echo $line_id; ?>" /></div></td>
               </tr>
               <tr>
                 <td><?php echo $entry_ssn; ?></td>
-                <td><input type="text" name="ssn" value="<?php echo $ssn; ?>" /></td>
+                <td><div class='group11' ><?php echo $ssn; ?></div>
+                  <div class='group12' ><input type="text" name="ssn" value="<?php echo $ssn; ?>" /></div></td>
               </tr>
               <tr>
                 <td><?php echo $entry_nickname; ?></td>
-                <td><input type="text" name="nickname" value="<?php echo $nickname; ?>" /></td>
+                <td><div class='group11' ><?php echo $nickname; ?></div>
+                  <div class='group12' ><input type="text" name="nickname" value="<?php echo $nickname; ?>" /></div></td>
               </tr>
               <tr>
                 <td><?php echo $entry_fb_id; ?></td>
-                <td><input type="text" name="fb_id" value="<?php echo $fb_id; ?>" /></td>
-              </tr>
-              <tr>
-                <td><?php echo $entry_outsource; ?></td>
-                <td><input type="text" name="outsource" value="<?php echo $outsource; ?>" /></td>
-              </tr>
-              <tr>
-                <td><?php echo $entry_counselor_id; ?></td>
-                <td><input type="text" name="counselor_id" value="<?php echo $counselor_id; ?>" /></td>
-              </tr>
-              <tr>
-                <td><?php echo $entry_location; ?></td>
-                <td><input type="text" name="location" value="<?php echo $location; ?>" /></td>
-              </tr>
-              <tr>
-                <td><?php echo $entry_misc; ?></td>
-                <td><input type="text" name="misc" value="<?php echo $misc; ?>" /></td>
+                <td><div class='group11' ><?php echo $fb_id; ?></div>
+                  <div class='group12' ><input type="text" name="fb_id" value="<?php echo $fb_id; ?>" /></div></td>
               </tr>
               <tr>
                 <td><?php echo $entry_image; ?></td>
                 <td><div class="image"><img src="<?php echo $thumb; ?>" alt="" id="avatarthumb" /><br />
                     <input type="hidden" name="avatarimage" value="<?php echo $image; ?>" id="avatarimage" />
-                    <a onclick="avatar_upload('avatarimage', 'avatarthumb');"><?php echo $text_browse; ?></a>&nbsp;&nbsp;|&nbsp;&nbsp;<a onclick="$('#avatarthumb').attr('src', '<?php echo $no_image; ?>'); $('#avatarimage').attr('value', '');"><?php echo $text_clear; ?></a></div></td>
+                    
+                    <div class='group12' >
+                    <a onclick="avatar_upload('avatarimage', 'avatarthumb');"><?php echo $text_browse; ?></a>&nbsp;&nbsp;|&nbsp;&nbsp;<a onclick="$('#avatarthumb').attr('src', '<?php echo $no_image; ?>'); $('#avatarimage').attr('value', '');"><?php echo $text_clear; ?></a></div>
+
+                  </div></td>
               </tr>
               <!-- <tr>
                 <td><php echo $entry_password; ?></td>
@@ -144,7 +158,12 @@
               </tr> -->
               <tr>
                 <td><?php echo $entry_store; ?></td>
-                <td><select name="store">
+                <td>
+                  <div class='group11' ><?php foreach ($stores as $st) { ?>
+                    <?php if ($st['store_id'] == $store) { echo $st['name']; } ?>
+                    <?php } ?></div>
+                  <div class='group12' >
+                    <select name="store">
                   <option value=""></option>
                     <?php if ($stores) { ?>
                     <?php foreach ($stores as $st) { ?>
@@ -160,12 +179,18 @@
                   </select>
                   <?php if ($error_store) { ?>
                   <span class="error"><?php echo $error_store; ?></span>
-                  <?php  } ?></td>
+                  <?php  } ?>
+                </div></td>
                 </td>
               </tr>
               <tr>
                 <td><?php echo $entry_customer_group; ?></td>
-                <td><select name="customer_group_id">
+                <td>
+                  <div class='group11' ><?php foreach ($customer_groups as $customer_group) { ?>
+                    <?php if ($customer_group['customer_group_id'] == $customer_group_id) { echo $customer_group['name']; } ?>
+                    <?php } ?></div>
+
+                  <div class='group12' ><select name="customer_group_id">
                     <?php foreach ($customer_groups as $customer_group) { ?>
                     <?php if ($customer_group['customer_group_id'] == $customer_group_id) { ?>
                     <option value="<?php echo $customer_group['customer_group_id']; ?>" selected="selected"><?php echo $customer_group['name']; ?></option>
@@ -173,45 +198,52 @@
                     <option value="<?php echo $customer_group['customer_group_id']; ?>"><?php echo $customer_group['name']; ?></option>
                     <?php } ?>
                     <?php } ?>
-                  </select></td>
+                  </select></div></td>
               </tr>
-              <tr>
-                <td><?php echo $entry_status; ?></td>
+              <!-- <tr>
+                <td><php echo $entry_status; ?></td>
                 <td><select name="status">
-                    <?php if ($status) { ?>
-                    <option value="1" selected="selected"><?php echo $text_enabled; ?></option>
-                    <option value="0"><?php echo $text_disabled; ?></option>
-                    <?php } else { ?>
-                    <option value="1"><?php echo $text_enabled; ?></option>
-                    <option value="0" selected="selected"><?php echo $text_disabled; ?></option>
-                    <?php } ?>
+                    <php if ($status) { ?>
+                    <option value="1" selected="selected"><php echo $text_enabled; ?></option>
+                    <option value="0"><php echo $text_disabled; ?></option>
+                    <php } else { ?>
+                    <option value="1"><php echo $text_enabled; ?></option>
+                    <option value="0" selected="selected"><php echo $text_disabled; ?></option>
+                    <php } ?>
                   </select></td>
-              </tr>
+              </tr> -->
               </table>
               <hr>
               <table class="form">
+               
+
               <?php $address_row = 1; ?>
               <tr>
                 <td><span class="required">*</span> <?php echo $entry_address_1; ?></td>
-                <td><input type="text" name="address[address_1]" value="<?php echo $address['address_1']; ?>" />
+                <td>
+                  <div class='group11'><?php echo $address['address_1']; ?></div>
+                  <div class='group12' ><input type="text" name="address[address_1]" value="<?php echo $address['address_1']; ?>" />
                   <?php if (isset($error_address_address_1)) { ?>
                   <span class="error"><?php echo $error_address_address_1; ?></span>
-                  <?php } ?></td>
+                  <?php } ?></div></td>
               </tr>
               <tr>
                 <td><?php echo $entry_address_2; ?></td>
-                <td><input type="text" name="address[address_2]" value="<?php echo $address['address_2']; ?>" /></td>
+                <td><div class='group11'><?php echo $address['address_2']; ?></div>
+                  <div class='group12'><input type="text" name="address[address_2]" value="<?php echo $address['address_2']; ?>" /></div></td>
               </tr>
               <tr>
                 <td><span class="required">*</span> <?php echo $entry_city; ?></td>
-                <td><input type="text" name="address[city]" value="<?php echo $address['city']; ?>" />
+                <td><div class='group11'><?php echo $address['city']; ?></div>
+                  <div class='group12'><input type="text" name="address[city]" value="<?php echo $address['city']; ?>" />
                   <?php if (isset($error_address_city)) { ?>
                   <span class="error"><?php echo $error_address_city; ?></span>
-                  <?php } ?></td>
+                  <?php } ?></div></td>
               </tr>
               <tr>
                 <td><span id="postcode-required" class="required">*</span> <?php echo $entry_postcode; ?></td>
-                <td><input type="text" name="address[postcode]" value="<?php echo $address['postcode']; ?>" /></td>
+                <td><div class='group11'><?php echo $address['postcode']; ?></div>
+                  <div class='group12'><input type="text" name="address[postcode]" value="<?php echo $address['postcode']; ?>" /></div></td>
               </tr>
               <tr style='display:none'>
                 <td><span class="required">*</span> <?php echo $entry_country; ?></td>
@@ -238,12 +270,24 @@
                   <?php } ?></td>
               </tr>
             </table>
+
+            <?php if (!$is_insert) {?>
+            <hr>
+            <table class="form">
+               <tr class='color1'><td><?php echo $entry_last_visit; ?></td><td><?php echo $last_visit; ?></td></tr>
+                <tr class='color1'><td><?php echo $entry_last_doctor; ?></td><td><?php echo $last_doctor; ?></td></tr>
+                <tr class='color1'><td><?php echo $entry_last_consultant; ?><</td><td><?php echo $last_consultant; ?></td></tr>
+                <tr class='color1'><td><?php echo $entry_last_beauty; ?><</td><td><?php echo $last_beauty; ?></td></tr>
+                <tr class='color1'><td><?php echo $entry_last_outsource; ?><</td><td><?php echo $last_outsource; ?></td></tr>
+            </table>
+            <?php } ?>
+
           </div>
 
           
         </div>
-        <?php if ($customer_id) { ?>
-        
+
+        <?php if ($filter_customer_id) { ?>
         <div id="tab-history">
           <div id="history"></div>
           <table class="form">
@@ -424,7 +468,6 @@
     </div>
   </div>
 </div>
-<script type="text/javascript" src="view/javascript/jquery/ui/jquery-ui-timepicker-addon.js"></script> 
 <link rel="stylesheet" href="view/javascript/jquery/colorbox/colorbox.css" />
 <script type="text/javascript" src="view/javascript/jquery/colorbox/jquery.colorbox-min.js"></script> 
 <script type="text/javascript"><!--
@@ -432,13 +475,6 @@
 $(document).ready(function(){
   $(".group1").colorbox({rel:'group1'});
 });
-
-// $('.date').datepicker({dateFormat: 'yy-mm-dd'});
-// $('.datetime').datetimepicker({
-//   dateFormat: 'yy-mm-dd',
-//   timeFormat: 'h:m'
-// });
-// $('.time').timepicker({timeFormat: 'h:m'});
 
 $('select[name=\'customer_group_id\']').live('change', function() {
 	var customer_group = [];
@@ -527,7 +563,7 @@ $('#history .pagination a').live('click', function() {
 $('#button-history').bind('click', function() {
 
   $.ajax({
-    url: 'index.php?route=sale/customer/history&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>',
+    url: 'index.php?route=sale/customer/history&token=<?php echo $token; ?>&filter_customer_id=<?php echo $filter_customer_id; ?>',
     type: 'post',
     dataType: 'html',
     data: 'reminder=' + $('input[name=reminder]').attr('checked') + 
@@ -592,7 +628,7 @@ $('#order').load('index.php?route=sale/order&token=<?php echo $token; ?>&filter_
 // '2014-10-07 18:15'
 $('#button-order').bind('click', function() {
   $.ajax({
-    url: 'index.php?route=sale/order&token=<?php echo $token; ?>&filter_customer_id=<?php echo $customer_id; ?>',
+    url: 'index.php?route=sale/order&token=<?php echo $token; ?>&filter_customer_id=<?php echo $filter_customer_id; ?>',
     type: 'post',
     data: 'minimum=1',
     // data: 'filter_customer_id=' +  '<?php echo $customer_id; ?>',
@@ -615,7 +651,7 @@ $('#button-order').bind('click', function() {
 
 $('#button-payment').bind('click', function() {
   $.ajax({
-    url: 'index.php?route=sale/customer/payments&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>',
+    url: 'index.php?route=sale/customer/payments&token=<?php echo $token; ?>&filter_customer_id=<?php echo $filter_customer_id; ?>',
     type: 'post',
     beforeSend: function() {
       $('.success, .warning, .attention').remove();
@@ -636,7 +672,7 @@ $('#button-payment').bind('click', function() {
 $('#button-image').bind('click', function() {
 
   $.ajax({
-    url: 'index.php?route=sale/customer/images&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>',
+    url: 'index.php?route=sale/customer/images&token=<?php echo $token; ?>&filter_customer_id=<?php echo $filter_customer_id; ?>',
     type: 'post',
     beforeSend: function() {
       $('.success, .warning, .attention').remove();
@@ -665,7 +701,7 @@ $('#button-image').bind('click', function() {
 $('#button-transaction').bind('click', function() {
 
 	$.ajax({
-		url: 'index.php?route=sale/customer/transaction&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>&show_group=1',
+		url: 'index.php?route=sale/customer/transaction&token=<?php echo $token; ?>&filter_customer_id=<?php echo $filter_customer_id; ?>&show_group=1',
 		type: 'post',
 		dataType: 'html',
 		// data: 'product_id=' + encodeURIComponent($('#tab-transaction input[name=\'product_id\']').val()) + '&unitspend=' + encodeURIComponent($('#tab-transaction input[name=\'unitspend\']').val()),
@@ -689,16 +725,9 @@ $('#button-transaction').bind('click', function() {
 	});
 });
 
-
-
-// $('#lendto').load('index.php?route=sale/customer/lendings&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>');
-
-// $('#borrowfrom').load('index.php?route=sale/customer/borrows&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>');
-
-
 $('#button-borrowfrom').bind('click', function() {
   $.ajax({
-    url: 'index.php?route=sale/customer/borrows&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>',
+    url: 'index.php?route=sale/customer/borrows&token=<?php echo $token; ?>&filter_customer_id=<?php echo $filter_customer_id; ?>',
     type: 'post',
     dataType: 'html',
     data: 'borrowfrom_customer_id=' + encodeURIComponent($('#tab-lendto input[name=\'borrowfrom_customer_id\']').val()) + '&borrowfrom_quantity=' + encodeURIComponent($('#tab-lendto input[name=\'borrowfrom_quantity\']').val()) + '&borrowfrom_product_id=' + encodeURIComponent($('#tab-lendto input[name=\'borrowfrom_product_id\']').val()),
@@ -729,7 +758,7 @@ $('#button-borrowfrom').bind('click', function() {
 $('#button-lendto').bind('click', function() {
 
   $.ajax({
-    url: 'index.php?route=sale/customer/lendings&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>',
+    url: 'index.php?route=sale/customer/lendings&token=<?php echo $token; ?>&filter_customer_id=<?php echo $filter_customer_id; ?>',
     type: 'post',
     dataType: 'html',
     data: 'lendto_customer_id=' + encodeURIComponent($('#tab-lendto input[name=\'lendto_customer_id\']').val()) + '&lendto_quantity=' + encodeURIComponent($('#tab-lendto input[name=\'lendto_quantity\']').val()) + '&lendto_product_id=' + encodeURIComponent($('#tab-lendto input[name=\'lendto_product_id\']').val()),
@@ -743,6 +772,20 @@ $('#button-lendto').bind('click', function() {
       $('.attention').remove();
     },
     success: function(html) {
+
+      // $('.attention, .success, .warning').remove();
+
+      // if (json['error']) {
+
+      //   $('#transaction').before('<div class="warning">' + json['error'] + '</div>');
+      // }
+
+      // if (json['success']) {
+
+      //   $('#button-transaction').click();
+
+      //   $('#transaction').before('<div class="success">' + json['success'] + '</div>');
+      // }
 
       $('#lendto').html(html);
 
@@ -1018,14 +1061,22 @@ function image_upload(field, thumb) {
                   //called when complete
 
                 },
-                success: function(data, textStatus, xhr) {
+                success: function(json, textStatus, xhr) {
                   //called when successful
                   // addImage();
-                
+
+                  
+                    if (json['error']) {
+                      $('.box').before('<div class="warning" style="display: none;">' + json['error'] + '</div>');
+                  
+                      $('.warning').fadeIn('slow');
+                    }
+                  
 
                 },
                 error: function(xhr, textStatus, errorThrown) {
                   //called when there is an error
+                  
                 }
               });
 

@@ -48,7 +48,7 @@
 <table class="list">
   <thead>
     <tr>
-      <td class="left"><?php echo $column_date_added; ?></td>
+      <td class="left"><?php echo $column_date_purchased; ?></td>
       <td class="left"><?php echo $column_date_modified; ?></td>
       <td class="left"><?php echo $column_customer; ?></td>
       <!-- <td class="left"></td> -->
@@ -344,7 +344,7 @@ function image_upload_treat(field, thumb, id) {
 
   $('#content').prepend('<div id="dialog" style="padding: 3px 0px 0px 0px;"><iframe src="index.php?route=common/filemanager&token=<?php echo $token; ?>&field=' + encodeURIComponent(field) + '" style="padding:0; margin: 0; display: block; width: 100%; height: 100%;" frameborder="no" scrolling="auto"></iframe></div>');
   
-  var customer_id = '<?php echo $customer_id; ?>';
+  var customer_id = '<?php echo $filter_customer_id; ?>';
   $('#dialog').dialog({
     title: '<?php echo $text_image_manager; ?>',
     close: function (event, ui) {

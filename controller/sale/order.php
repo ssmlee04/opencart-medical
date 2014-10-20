@@ -22,6 +22,8 @@ class ControllerSaleOrder extends Controller {
 
 		$this->load->model('sale/order');
 
+		$this->data['is_insert'] = true;
+
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
 			if ($this->model_sale_order->addOrder($this->request->post)) {
 				$this->session->data['success'] = $this->language->get('text_success');
@@ -29,15 +31,15 @@ class ControllerSaleOrder extends Controller {
 				$this->session->data['error'] = $this->language->get('text_cannot_add_order');
 			}
 
-
 			$url = '';
 
 			if (isset($this->request->get['filter_order_id'])) {
 				$url .= '&filter_order_id=' . $this->request->get['filter_order_id'];
 			}
 
-			if (isset($this->request->get['filter_customer'])) {
-				$url .= '&filter_customer=' . urlencode(html_entity_decode($this->request->get['filter_customer'], ENT_QUOTES, 'UTF-8'));
+			// '2014-10-20 17:02'
+			if (isset($this->request->post['customer_id'])) {
+				$url .= '&filter_customer_id=' . $this->request->post['customer_id'];
 			}
 
 			if (isset($this->request->get['filter_order_status_id'])) {
@@ -81,7 +83,7 @@ class ControllerSaleOrder extends Controller {
 			}
 
 			if (isset($this->request->post['customer_id'])) {
-				$this->redirect($this->url->link('sale/customer/update&customer_id=' . $this->request->post['customer_id'], 'token=' . $this->session->data['token'] . $url, 'SSL'));
+				$this->redirect($this->url->link('sale/customer/update', 'token=' . $this->session->data['token'] . $url, 'SSL'));
 			} else {
 				$this->redirect($this->url->link('sale/order', 'token=' . $this->session->data['token'] . $url, 'SSL'));
 			}
@@ -97,6 +99,8 @@ class ControllerSaleOrder extends Controller {
 		$this->document->setTitle($this->language->get('heading_title'));
 
 		$this->load->model('sale/order');
+
+		$this->data['is_insert'] = false;
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
 
@@ -176,7 +180,7 @@ class ControllerSaleOrder extends Controller {
 		$this->document->setTitle($this->language->get('heading_title'));
 
 		$this->load->model('sale/order');
-// $this->load->test($this->request->get);
+
 		if (isset($this->request->post['selected']) && ($this->validateDelete())) {
 			foreach ($this->request->post['selected'] as $order_id) {
 				if ($this->model_sale_order->deleteOrder($order_id, $this->request->post)) {
@@ -192,8 +196,12 @@ class ControllerSaleOrder extends Controller {
 				$url .= '&filter_order_id=' . $this->request->get['filter_order_id'];
 			}
 
-			if (isset($this->request->get['filter_customer'])) {
-				$url .= '&filter_customer=' . urlencode(html_entity_decode($this->request->get['filter_customer'], ENT_QUOTES, 'UTF-8'));
+			// if (isset($this->request->get['filter_customer'])) {
+			// 	$url .= '&filter_customer=' . urlencode(html_entity_decode($this->request->get['filter_customer'], ENT_QUOTES, 'UTF-8'));
+			// }
+
+			if (isset($this->request->get['filter_customer_id'])) {
+				$url .= '&filter_customer_id=' . $this->request->get['filter_customer_id'];
 			}
 
 			if (isset($this->request->get['filter_order_status_id'])) {
@@ -237,7 +245,7 @@ class ControllerSaleOrder extends Controller {
 			}
 
 			if (isset($this->request->get['filter_customer_id'])) {
-				$this->redirect($this->url->link('sale/customer/update&customer_id=' . $this->request->get['filter_customer_id'], 'token=' . $this->session->data['token'] . $url, 'SSL'));
+				$this->redirect($this->url->link('sale/customer/update', 'token=' . $this->session->data['token'] . $url, 'SSL'));
 			} else {
 				$this->redirect($this->url->link('sale/order', 'token=' . $this->session->data['token'] . $url, 'SSL'));
 			}
@@ -348,8 +356,8 @@ class ControllerSaleOrder extends Controller {
 			$url .= '&filter_customer_id=' . $this->request->get['filter_customer_id'];
 		}
 
-		if (isset($this->request->get['customer_id'])) {
-			$url .= '&customer_id=' . $this->request->get['customer_id'];
+		if (isset($this->request->get['filter_customer_id'])) {
+			$url .= '&filter_customer_id=' . (int)$this->request->get['filter_customer_id'];
 		}
 
 		if (isset($this->request->get['filter_order_status_id'])) {
@@ -407,7 +415,7 @@ class ControllerSaleOrder extends Controller {
 		);
 
 		$this->data['invoice'] = $this->url->link('sale/order/invoice', 'token=' . $this->session->data['token'], 'SSL');
-		$this->data['insert'] = $this->url->link('sale/order/insert&customer_id=' . $filter_customer_id, 'token=' . $this->session->data['token'], 'SSL');
+		$this->data['insert'] = $this->url->link('sale/order/insert', 'token=' . $this->session->data['token'] . $url, 'SSL');
 		$this->data['delete'] = $this->url->link('sale/order/delete', 'token=' . $this->session->data['token'] . $url, 'SSL');
 
 		$this->data['orders'] = array();
@@ -645,7 +653,13 @@ class ControllerSaleOrder extends Controller {
 		$this->data['route'] = $this->request->get['route'];
 		$this->load->model('sale/customer');	
 
-		$customer = $this->model_sale_customer->getCustomer($this->request->get['customer_id']);
+		if (isset($this->request->get['filter_customer_id'])) {
+			$filter_customer_id = $this->request->get['filter_customer_id'];
+		} else {
+			$filter_customer_id = '';
+		}
+
+		$customer = $this->model_sale_customer->getCustomer($this->request->get['filter_customer_id']);
 		if ($customer) {
 			$this->request->post['customer_id'] = $customer['customer_id'];
 			$this->request->post['customer_name'] = $customer['fullname'];
@@ -909,6 +923,10 @@ class ControllerSaleOrder extends Controller {
 			$url .= '&filter_customer=' . urlencode(html_entity_decode($this->request->get['filter_customer'], ENT_QUOTES, 'UTF-8'));
 		}
 
+		if (isset($this->request->get['filter_customer_id'])) {
+			$url .= '&filter_customer_id=' . (int)$this->request->get['filter_customer_id'];
+		}
+
 		if (isset($this->request->get['filter_order_status_id'])) {
 			$url .= '&filter_order_status_id=' . $this->request->get['filter_order_status_id'];
 		}
@@ -969,8 +987,8 @@ class ControllerSaleOrder extends Controller {
 			$this->data['action'] = $this->url->link('sale/order/update', 'token=' . $this->session->data['token'] . '&order_id=' . $this->request->get['order_id'] . $url, 'SSL');
 		}
 
-		// $this->data['cancel'] = $this->url->link('sale/order', 'token=' . $this->session->data['token'] . $url, 'SSL');
-		$this->data['cancel'] = $this->url->link('sale/customer/update&customer_id=' . $this->request->get['customer_id'], 'token=' . $this->session->data['token'] . $url, 'SSL');
+
+		$this->data['cancel'] = $this->url->link('sale/customer/update&filter_customer_id=' . $filter_customer_id, 'token=' . $this->session->data['token'] . $url, 'SSL');
 
 		if (isset($this->request->get['order_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
 			$order_info = $this->model_sale_order->getOrder($this->request->get['order_id']);
@@ -1028,6 +1046,8 @@ class ControllerSaleOrder extends Controller {
 		} else {
 			$this->data['customer_id'] = '';
 		}
+
+		
 
 		if (isset($this->request->post['customer_group_id'])) {
 			$this->data['customer_group_id'] = $this->request->post['customer_group_id'];
@@ -1111,6 +1131,7 @@ class ControllerSaleOrder extends Controller {
 			$this->data['payment_balance'] = '';
 		}
 
+		
 
 		// if (isset($this->request->post['affiliate_id'])) {
 		// 	$this->data['affiliate_id'] = $this->request->post['affiliate_id'];
@@ -1266,13 +1287,13 @@ class ControllerSaleOrder extends Controller {
 			$this->error['customer'] = $this->language->get('error_customer');
 		}
 
-		if ((utf8_strlen($this->request->post['firstname']) < 1) || (utf8_strlen($this->request->post['firstname']) > 32)) {
-			$this->error['firstname'] = $this->language->get('error_firstname');
-		}
+		// if ((utf8_strlen($this->request->post['firstname']) < 1) || (utf8_strlen($this->request->post['firstname']) > 32)) {
+		// 	$this->error['firstname'] = $this->language->get('error_firstname');
+		// }
 
-		if ((utf8_strlen($this->request->post['lastname']) < 1) || (utf8_strlen($this->request->post['lastname']) > 32)) {
-			$this->error['lastname'] = $this->language->get('error_lastname');
-		}
+		// if ((utf8_strlen($this->request->post['lastname']) < 1) || (utf8_strlen($this->request->post['lastname']) > 32)) {
+		// 	$this->error['lastname'] = $this->language->get('error_lastname');
+		// }
 
 		if ((int)$this->request->post['payment_cash'] < 0) {
 			$this->error['payment_cash'] = $this->language->get('error_payment_cash');
