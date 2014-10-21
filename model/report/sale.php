@@ -1,14 +1,31 @@
 <?php
 class ModelReportSale extends Model {
 	public function getOrders($data = array()) {
-		$sql = "SELECT MIN(tmp.date_added) AS date_start, MAX(tmp.date_added) AS date_end, COUNT(tmp.order_id) AS `orders`, SUM(tmp.products) AS products, SUM(tmp.tax) AS tax, SUM(tmp.total) AS total FROM (SELECT o.order_id, (SELECT SUM(op.quantity) FROM `" . DB_PREFIX . "order_product` op WHERE op.order_id = o.order_id GROUP BY op.order_id) AS products, (SELECT SUM(ot.value) FROM `" . DB_PREFIX . "order_total` ot WHERE ot.order_id = o.order_id AND ot.code = 'tax' GROUP BY ot.order_id) AS tax, o.total, o.date_added FROM `" . DB_PREFIX . "order` o"; 
+		$sql = "SELECT MIN(tmp.date_added) AS date_start
+		, MAX(tmp.date_added) AS date_end
+		, COUNT(tmp.order_id) AS `orders`
+		, SUM(tmp.products) AS products
+		, SUM(tmp.payment_cash) AS payment_cash
+		, SUM(tmp.payment_balance) AS payment_balance
+		, SUM(tmp.payment_visa) AS payment_visa
+		, SUM(tmp.payment_balance) AS payment_balance
+		, SUM(tmp.total) AS total 
+		, SUM(tmp.tax) AS tax, SUM(tmp.total) AS total 
+		FROM (SELECT o.order_id, (SELECT SUM(op.quantity) FROM `" . DB_PREFIX . "order_product` op WHERE op.order_id = o.order_id GROUP BY op.order_id) AS products, (SELECT SUM(ot.value) FROM `" . DB_PREFIX . "order_total` ot WHERE ot.order_id = o.order_id AND ot.code = 'tax' GROUP BY ot.order_id) AS tax, o.payment_cash, o.payment_balance, o.payment_visa, o.total, o.date_added FROM `" . DB_PREFIX . "order` o"; 
 
-		if (!empty($data['filter_order_status_id'])) {
-			$sql .= " WHERE o.order_status_id = '" . (int)$data['filter_order_status_id'] . "'";
-		} else {
-			$sql .= " WHERE o.order_status_id > '0'";
-		}
+		// if (!empty($data['filter_order_status_id'])) {
+		// 	$sql .= " WHERE o.order_status_id = '" . (int)$data['filter_order_status_id'] . "'";
+		// } else {
+		// 	$sql .= " WHERE o.order_status_id > '0'";
+		// }
 		
+		if (isset($data['filter_order_status_id'])) {
+			$sql .= " WHERE order_status_id = '" . (int)$data['filter_order_status_id'] . "'";
+		}
+		 else {
+			$sql .= " WHERE order_status_id >= '0'";
+		}
+
 		if (!empty($data['filter_date_start'])) {
 			$sql .= " AND DATE(o.date_added) >= '" . $this->db->escape($data['filter_date_start']) . "'";
 		}
@@ -54,7 +71,7 @@ class ModelReportSale extends Model {
 			
 			$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
 		}	
-		
+		// $this->load->test($sql);
 		$query = $this->db->query($sql);
 		
 		return $query->rows;
@@ -83,10 +100,11 @@ class ModelReportSale extends Model {
 				break;									
 		}
 		
-		if (!empty($data['filter_order_status_id'])) {
+		if (isset($data['filter_order_status_id'])) {
 			$sql .= " WHERE order_status_id = '" . (int)$data['filter_order_status_id'] . "'";
-		} else {
-			$sql .= " WHERE order_status_id > '0'";
+		}
+		 else {
+			$sql .= " WHERE order_status_id >= '0'";
 		}
 				
 		if (!empty($data['filter_date_start'])) {

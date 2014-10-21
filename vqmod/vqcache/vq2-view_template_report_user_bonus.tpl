@@ -52,10 +52,35 @@
         <tbody>
           <?php if ($users) { ?>
           <?php foreach ($users as $result) { ?>
-          <tr>
+          <tr class='togglethis' id='<?php echo $result['user_id']; ?>'>
             <td class="left"><?php echo $result['name']; ?></td>
             <td class="left"><?php echo $result['bonus']; ?></td>
           </tr>
+          <tr><td colspan='2'>
+            <div id="bonus<?php echo $result['user_id']; ?>"></div>
+            <div class='toggle' id='r<?php echo $result['user_id']; ?>' style='display:none'>
+              <table>
+                <tr>
+                  
+                  <td><?php echo $entry_date; ?></td>
+                  <td><?php echo $entry_customer; ?></td>
+                  <td><?php echo $entry_treatment; ?></td>
+                  <td><?php echo $entry_amount; ?></td>
+                </tr>
+                <?php if ($result['transactions']) { ?>
+                <?php foreach ($result['transactions'] as $transaction) { ?>
+                <tr>
+                  <td><?php echo $transaction['date_modified']; ?></td>
+                  <td><?php echo $transaction['customer_name']; ?></td>
+                  <td><?php echo $transaction['product_name']; ?></td>
+                  <td><?php echo $transaction['bonus']; ?></td>
+                </tr>
+                <?php } ?>
+                <?php } ?>
+              </table>
+            </div>
+          </td></tr>
+
           <?php } ?>
           <?php } else { ?>
           <tr>
@@ -81,6 +106,12 @@ $('input').on('keyup', function(e){
   }
 });
 
+$('.togglethis').one('click', function(){
+
+    var ID = $(this).attr('id');
+    
+    $('#r' + ID).toggle('show', function(){});
+  });
 
 function filter() {
 	url = 'index.php?route=report/user_bonus&token=<?php echo $token; ?>';

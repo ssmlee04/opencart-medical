@@ -45,6 +45,8 @@ $_['column_customer']         = '客戶';
 $_['column_message']         = '修改基本資料';
 $_['column_customer_id']         = '客戶編號';
 $_['column_date_purchased']         = '購買日期';
+$_['column_borrower']         = '借入人';
+$_['column_lender']         = '借出人';
 
 
 

@@ -753,6 +753,8 @@ class ModelSaleCustomer extends Model {
 		// $price = $product['price'];
 		// $subquantity = $product['subquantity'];
 
+		$user_id = $this->user->getId();
+
 		$quantity = 1 / $unit_quantity;
 
 		// $query = $this->db->query("SELECT * FROM oc_product p LEFT JOIN oc_product_description pd ON p.product_id = pd.product_id LEFT JOIN oc_unit_class_description ucd ON ucd.unit_class_id = p.unit_class_id AND pd.language_id = ucd.language_id WHERE p.product_id = '$product_id' AND ucd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
@@ -768,8 +770,9 @@ class ModelSaleCustomer extends Model {
 
 		$this->db->query("INSERT INTO oc_customer_lending SET 
 			lender_id='" . (int)$customer_id . "', 
-			product_id='" . (int)$lendto_product_id . "', 
-			quantity='" . $lendto_quantity . "', 
+			product_id='" . (int)$lendto_product_id . "'
+			, user_id = $user_id
+			, quantity='" . $lendto_quantity . "', 
 			subquantity='" . (int)$lendto_subquantity . "', 
 			borrower_id='" . (int)$lendto_customer_id . "', date_added = NOW()");
 
@@ -787,9 +790,9 @@ class ModelSaleCustomer extends Model {
 			// 10 = borrow out 
 
 			$q = $this->db->query("SELECT * FROM oc_customer_transaction WHERE customer_transaction_id = '$customer_transaction_id'");
-// $this->load->out($q);
+
 			$amount = -$q->row['amount'];
-			$user_id = $q->row['user_id'];
+			
 			$bonus_doctor = $q->row['bonus_doctor'];
 			$bonus_consultant = $q->row['bonus_consultant'];
 			$bonus_outsource = $q->row['bonus_outsource'];
@@ -815,7 +818,7 @@ class ModelSaleCustomer extends Model {
 				, customer_lending_id = '$customer_lending_id'
 				, product_id='$lendto_product_id'
 				, quantity='-$quantity'
-				, subquantity=-1
+				, subquantity = -1
 				, user_id = $user_id
 				, product_type_id = '" . (int)$product_type_id . "'
 				, customer_id = '" . (int)$lendto_customer_id . "'
@@ -829,7 +832,6 @@ class ModelSaleCustomer extends Model {
 				, amount = '" . -(float)$amount . "'
 				, date_added = NOW(), date_modified = NOW()";
 
-				// $this->load->out($sql);	
 			$this->db->query($sql);
 
 			$count++;
@@ -1208,9 +1210,7 @@ class ModelSaleCustomer extends Model {
 	public function edittransaction($customer_transaction_id, $data) {
 
 		// update message
-		$sql  = "UPDATE oc_customer_transaction SET date_modified = NOW()
-		, comment = '" . $this->db->escape($data['comment']) . "' WHERE customer_transaction_id = '" . (int)$customer_transaction_id . "'";
-		$this->db->query($sql);
+		$this->db->query("UPDATE oc_customer_transaction SET date_modified = NOW(), comment = '" . $this->db->escape($data['comment']) . "' WHERE customer_transaction_id = '" . (int)$customer_transaction_id . "'");
 
 		$affected1 = $this->db->countAffected();
 

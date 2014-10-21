@@ -31,7 +31,9 @@
       <!-- <td class="left"><php echo $lending['subquantity']; ?></td> -->
       <td class="left"><?php echo $lending['subquantity']; ?> <?php echo $lending['unit']; ?></td>
       <td class="right" style="width: 3px;">
+        <div class='group12' style='display:none'>
         <img src="view/image/delete.png" title="<?php echo $button_remove; ?>" alt="<?php echo $button_remove; ?>" style="cursor: pointer;" onclick="$(this).parent().parent().remove(); deleteCustomerlending1('<?php echo $lending['customer_lending_id']; ?>')" />
+      </div>
       </td>
       <!-- <td class="right"><php echo $lending['amount']; ?></td> -->
     </tr>

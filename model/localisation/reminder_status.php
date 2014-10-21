@@ -37,8 +37,9 @@ class ModelLocalisationReminderStatus extends Model {
 	}
 
 	public function getReminderStatuses($data = array()) {
+
 		if ($data) {
-			$sql = "SELECT * FROM " . DB_PREFIX . "reminder_status WHERE language_id = '" . (int)$this->config->get('config_language_id') . "'";
+			$sql = "SELECT * FROM " . DB_PREFIX . "reminder_status WHERE is_main = 1 AND language_id = '" . (int)$this->config->get('config_language_id') . "'";
 
 			$sql .= " ORDER BY name";	
 
@@ -64,15 +65,15 @@ class ModelLocalisationReminderStatus extends Model {
 
 			return $query->rows;
 		} else {
-			$reminder_status_data = $this->cache->get('reminder_status.' . (int)$this->config->get('config_language_id'));
+			// $reminder_status_data = $this->cache->get('reminder_status.' . (int)$this->config->get('config_language_id'));
 
-			if (!$reminder_status_data) {
-				$query = $this->db->query("SELECT reminder_status_id, name FROM " . DB_PREFIX . "reminder_status WHERE language_id = '" . (int)$this->config->get('config_language_id') . "' ORDER BY name");
+			// if (!$reminder_status_data) {
+				$query = $this->db->query("SELECT reminder_status_id, name FROM " . DB_PREFIX . "reminder_status WHERE is_main = 1 AND language_id = '" . (int)$this->config->get('config_language_id') . "' ORDER BY name");
 
 				$reminder_status_data = $query->rows;
 
-				$this->cache->set('reminder_status.' . (int)$this->config->get('config_language_id'), $reminder_status_data);
-			}	
+				// $this->cache->set('reminder_status.' . (int)$this->config->get('config_language_id'), $reminder_status_data);
+			// }	
 
 			return $reminder_status_data;				
 		}

@@ -124,8 +124,12 @@ $_['entry_quantity']             = '數量';
 $_['entry_product']             = '商品';
 $_['entry_lendto']             = '轉讓人';
 $_['entry_unit_used']             = '使用多少單位';
+$_['entry_date']      = '日期';
 $_['entry_date_start']      = '起始日期';
 $_['entry_date_end']        = '結束日期';
+$_['entry_customer']        = '客戶';
+$_['entry_treatment']        = '療程';
+$_['entry_amount']        = '金額';
 
 // Error
 $_['error_upload_1']          = '上傳的檔案超過了在php.ini指令中的上傳檔案大小上限';

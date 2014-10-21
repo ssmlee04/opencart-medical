@@ -26,7 +26,7 @@ class ControllerReportSaleOrder extends Controller {
 		if (isset($this->request->get['filter_order_status_id'])) {
 			$filter_order_status_id = $this->request->get['filter_order_status_id'];
 		} else {
-			$filter_order_status_id = 0;
+			$filter_order_status_id = null;
 		}	
 
 		if (isset($this->request->get['page'])) {
@@ -78,7 +78,7 @@ class ControllerReportSaleOrder extends Controller {
 		$data = array(
 			'filter_date_start'	     => $filter_date_start, 
 			'filter_date_end'	     => $filter_date_end, 
-			'filter_group'           => $filter_group,
+			// 'filter_group'           => $filter_group,
 			'filter_order_status_id' => $filter_order_status_id,
 			'start'                  => ($page - 1) * $this->config->get('config_admin_limit'),
 			'limit'                  => $this->config->get('config_admin_limit')
@@ -94,7 +94,10 @@ class ControllerReportSaleOrder extends Controller {
 				'date_end'   => date($this->language->get('date_format_short'), strtotime($result['date_end'])),
 				'orders'     => $result['orders'],
 				'products'   => $result['products'],
-				'tax'        => $this->currency->format($result['tax'], $this->config->get('config_currency')),
+				// 'tax'        => $this->currency->format($result['tax'], $this->config->get('config_currency')),
+				'payment_cash'      => $this->currency->format($result['payment_cash'], $this->config->get('config_currency')),
+				'payment_visa'      => $this->currency->format($result['payment_visa'], $this->config->get('config_currency')),
+				'payment_balance'      => $this->currency->format($result['payment_balance'], $this->config->get('config_currency')),
 				'total'      => $this->currency->format($result['total'], $this->config->get('config_currency'))
 			);
 		}
@@ -104,6 +107,9 @@ class ControllerReportSaleOrder extends Controller {
 		$this->data['text_no_results'] = $this->language->get('text_no_results');
 		$this->data['text_all_status'] = $this->language->get('text_all_status');
 
+		$this->data['column_payment_cash'] = $this->language->get('column_payment_cash');
+		$this->data['column_payment_visa'] = $this->language->get('column_payment_visa');
+		$this->data['column_payment_balance'] = $this->language->get('column_payment_balance');
 		$this->data['column_date_start'] = $this->language->get('column_date_start');
 		$this->data['column_date_end'] = $this->language->get('column_date_end');
 		$this->data['column_orders'] = $this->language->get('column_orders');

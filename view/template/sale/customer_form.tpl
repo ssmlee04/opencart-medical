@@ -34,11 +34,12 @@
     <div class="heading">
       <h1><img src="view/image/customer.png" alt="" /> <?php echo $heading_title; ?></h1>
       <div class="buttons">
+        <a onclick="showhide()" class="button"><?php echo $button_edit_basic; ?></a>
         <a onclick="$('#form').submit();" class="button"><?php echo $button_save; ?></a>
         <a href="<?php echo $cancel; ?>" class="button"><?php echo $button_cancel; ?></a></div>
     </div>
     <div class="content">
-      <div id="htabs" class="htabs"><a style="display:none" href="#tab-general"><?php echo $tab_general; ?></a>
+      <div id="htabs" class="htabs"><a style="display:none" href="#tab-general" id='tab-general-link'><?php echo $tab_general; ?></a>
         <?php if ($filter_customer_id) { ?>
         <a href="#tab-history" id='tab-history-link'><?php echo $tab_history; ?></a>
         <a href="#tab-transaction" id='tab-transaction-link'><?php echo $tab_transaction; ?></a>
@@ -56,7 +57,7 @@
 
       <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
         <div id="tab-general" >
-          <a onclick="$('.group12').toggle(); $('.group11').toggle()"><?php echo $button_edit_basic; ?></a>
+          
           <div id="vtabs" class="vtabs"><a href="#tab-customer"><?php echo $tab_general; ?></a>
             
 
@@ -340,7 +341,7 @@
               <td colspan="2" style="text-align: right;"></td>
             </tr>
             <tr>
-              <td colspan="4" style="text-align: right;"><a id="button-displayimage" class="button"><span><?php echo $button_display_2image; ?></span></a></td>
+              <td colspan="4" style="text-align: right;"><a id="button-displayimage" onclick="showhide1()" class="button"><span><?php echo $button_display_2image; ?></span></a></td>
             </tr>
           </table>
 
@@ -421,6 +422,7 @@
         </div>
 
         <div id="tab-image">
+          <!-- <a onclick="$('.group13').toggle(); $('.group14').toggle()"><php echo $button_edit_basic; ?></a> -->
           <div id='tab-images'></div>
           <a id="button-image" class="button"></a>
         </div>
@@ -566,8 +568,8 @@ function country(element, index, zone_id) {
 $('select[name$=\'[country_id]\']').trigger('change');
 //--></script> 
 <script type="text/javascript"><!--
-$('#transaction .pagination a').live('click', function() {
-  $('#transaction').load(this.href);
+$('#history .pagination a').live('click', function() {
+  $('#history').load(this.href);
   
   return false;
 });     
@@ -624,11 +626,20 @@ $('#transaction .pagination a').live('click', function() {
 	return false;
 });			
 
+$('#tab-general-link').on('click', function(){
+  $('.group12').hide();
+  $('.group11').show();
+});
+
 $('#tab-transaction-link').on('click', function(){
+    $('.group12').hide();
+  $('.group11').show();
   $('#button-transaction').click();
 });
 
 $('#tab-image-link').on('click', function(){
+    $('.group12').hide();
+  $('.group11').show();
   $('#button-image').click();
 });
 
@@ -641,6 +652,8 @@ $('#tab-payment-link').on('click', function(){
 });
 
 $('#tab-history-link').on('click', function(){
+    $('.group12').hide();
+  $('.group11').show();
   $('textarea[name=\'comment\']').val('');
   $('#button-history').click();
 });
@@ -658,9 +671,8 @@ $('#tab-lendto-link').on('click', function(){
 // '2014-10-07 18:15'
 $('#button-order').bind('click', function() {
   $.ajax({
-    url: 'index.php?route=sale/order&token=<?php echo $token; ?>&filter_customer_id=<?php echo $filter_customer_id; ?>',
+    url: 'index.php?route=sale/order&token=<?php echo $token; ?>&filter_customer_id=<?php echo $filter_customer_id; ?>&minimum=1',
     type: 'post',
-    data: 'minimum=1',
     beforeSend: function() {
       $('.success, .warning, .attention').remove();
       // $('#button-image').attr('disabled', true);
@@ -922,11 +934,18 @@ function avatar_upload(field, thumb) {
   });
 };
 
-
-$('#button-displayimage').on('click', function(){
-  $('.group1').toggle();
-  $('.group2').toggle();
-});
+var showhide = function(){
+  $('.group12').toggle(); $('.group11').toggle();
+};
+// var showhide13 = function(){
+//   $('.group13').toggle(); $('.group14').toggle();
+// };
+// var showhide15 = function(){
+//   $('.group15').toggle(); $('.group16').hide();
+// };
+// var showhide1 = function(){
+//   $('.group1').toggle(); $('.group2').hide();
+// };
 
 $('#button-filter').bind('click', function() {
 

@@ -133,10 +133,10 @@ class ControllerReportCustomerFeedback extends Controller {
 			$this->data['users'][] = array(
 				'user_id'       => $result['user_id'],
 				'name'       => $result['lastname'] . $result['firstname'],
-				'cname'       => $result['clastname'] . $result['cfirstname'],
+				// 'cname'       => $result['clastname'] . $result['cfirstname'],
 				'user_group_id' => $result['user_group_id'],
 				'user_group_name' => $result['name'],
-				'status'         => ($result['status'] ? $this->language->get('text_enabled') : $this->language->get('text_disabled')),
+				// 'status'         => ($result['status'] ? $this->language->get('text_enabled') : $this->language->get('text_disabled')),
 				'unread_reminders'         => $unreadcount,
 				'finished_reminders'         => $finishcount,
 				'total_reminders'         => $result['total'],
@@ -166,6 +166,7 @@ class ControllerReportCustomerFeedback extends Controller {
 		$this->data['entry_date_start'] = $this->language->get('entry_date_start');
 		$this->data['entry_date_end'] = $this->language->get('entry_date_end');
 		$this->data['entry_status'] = $this->language->get('entry_status');
+		$this->data['entry_customer'] = $this->language->get('entry_customer');
 
 		$this->data['button_filter'] = $this->language->get('button_filter');
 

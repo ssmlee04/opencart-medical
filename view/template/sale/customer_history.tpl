@@ -30,9 +30,11 @@
       <td class="left"><?php echo $history['title']; ?></td>
       <td class="left"><?php echo $history['reminder_date']; ?></td>
        <td class="right" style="width: 3px;">
-        <?php if ($history['if_treatment'] != 1) { ?>
+        <div class='group12'>
+        <?php if ($history['if_treatment'] != 1 && $candelete) { ?>
         <img src="view/image/delete.png" title="<?php echo $button_remove; ?>" alt="<?php echo $button_remove; ?>" style="cursor: pointer;" onclick="$(this).parent().parent().remove(); deleteCustomerHistory('<?php echo $history['customer_history_id']; ?>')" />
         <?php } ?>
+        </div>
       </td>
     </tr>
     <?php } ?>

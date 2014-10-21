@@ -139,7 +139,10 @@ class ControllerReportUserBonus extends Controller {
 		$this->load->model('user/user');
 		$this->data['users'] = array();
 
+
 		foreach ($bonus as $user_id => $bonus) {
+
+			$transactions = array();
 
 			if ($user_id == 0) continue;
 
@@ -160,14 +163,74 @@ class ControllerReportUserBonus extends Controller {
 			}
 
 			$user_info = $this->model_user_user->getUser($user_id);
+			$this->load->model('catalog/product');
+			$this->load->model('sale/customer');
+
+			foreach ($results as $result){
+				$customer = $this->model_sale_customer->getCustomer($result['customer_id']);
+					$product = $this->model_catalog_product->getProduct($result['product_id']);
+
+				if ($result['doctor_id'] == $user_id) {
+
+					$transactions[] = array(
+						'date_modified' => $result['date_modified'],
+						'customer_id' => $result['customer_id'],
+						'customer_name' => $customer['fullname'],
+						'product_id' => $result['product_id'],
+						'product_name' => $product['name'],
+						'customer_transaction_id' => $result['customer_transaction_id'],
+						'bonus' => $result['bonus_doctor']
+					);
+				}
+
+				if ($result['consultant_id'] == $user_id) {
+					
+					$transactions[] = array(
+						'date_modified' => $result['date_modified'],
+						'customer_id' => $result['customer_id'],
+						'customer_name' => $customer['fullname'],
+						'product_id' => $result['product_id'],
+						'product_name' => $product['name'],
+						'customer_transaction_id' => $result['customer_transaction_id'],
+						'bonus' => $result['bonus_consultant']
+					);
+				}
+
+				if ($result['beauty_id'] == $user_id) {
+
+					$transactions[] = array(
+						'date_modified' => $result['date_modified'],
+						'customer_id' => $result['customer_id'],
+						'customer_name' => $customer['fullname'],
+						'product_id' => $result['product_id'],
+						'product_name' => $product['name'],
+						'customer_transaction_id' => $result['customer_transaction_id'],
+						'bonus' => $result['bonus_beauty']
+					);
+				}
+
+				if ($result['outsource_id'] == $user_id) {
+
+					$transactions[] = array(
+						'date_modified' => $result['date_modified'],
+						'customer_id' => $result['customer_id'],
+						'customer_name' => $customer['fullname'],
+						'product_id' => $result['product_id'],
+						'product_name' => $product['name'],
+						'customer_transaction_id' => $result['customer_transaction_id'],
+						'bonus' => $result['bonus_outsource']
+					);
+				}
+			}
 
 			$this->data['users'][] = array(
 				'user_id'       => $user_id,
 				'name'       => $user_info['fullname'],
-				'bonus'       => $bonus
+				'bonus'       => $bonus, 
+				'transactions' => $transactions
 			);
 		}
-
+		// $this->load->test($results);
 		$this->data['heading_title'] = $this->language->get('heading_title');
 
 		$this->data['column_user'] = $this->language->get('column_user');
@@ -192,6 +255,11 @@ class ControllerReportUserBonus extends Controller {
 		$this->data['entry_doctor'] = $this->language->get('entry_doctor');
 		$this->data['entry_beauty'] = $this->language->get('entry_beauty');
 		$this->data['entry_user'] = $this->language->get('entry_user');
+		$this->data['entry_date'] = $this->language->get('entry_date');
+		$this->data['entry_customer'] = $this->language->get('entry_customer');
+		$this->data['entry_treatment'] = $this->language->get('entry_treatment');
+		$this->data['entry_customer'] = $this->language->get('entry_customer');
+		$this->data['entry_amount'] = $this->language->get('entry_amount');
 
 		$this->data['button_filter'] = $this->language->get('button_filter');
 

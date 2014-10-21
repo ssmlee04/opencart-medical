@@ -17,7 +17,8 @@
           <input type="hidden" name="customer_image[<?php echo $image_row; ?>][customer_transaction_id]" value="<?php echo $customer_image['customer_transaction_id']; ?>" id="trimage<?php echo $image_row; ?>"/>
           <input type="hidden" name="customer_image[<?php echo $image_row; ?>][customer_image_id]" value="<?php echo $customer_image['customer_image_id']; ?>" id="idimage<?php echo $image_row; ?>"/>
           <br />
-          <a onclick="image_upload('image<?php echo $image_row; ?>', 'thumb<?php echo $image_row; ?>');"><?php echo $text_browse; ?></a>&nbsp;&nbsp;|&nbsp;&nbsp;<a onclick="$('#thumb<?php echo $image_row; ?>').attr('src', '<?php echo $no_image; ?>'); $('#image<?php echo $image_row; ?>').attr('value', '');"><?php echo $text_clear; ?></a></div></td>
+          <div class='group12'>
+          <a onclick="image_upload('image<?php echo $image_row; ?>', 'thumb<?php echo $image_row; ?>');"><?php echo $text_browse; ?></a>&nbsp;&nbsp;|&nbsp;&nbsp;<a onclick="$('#thumb<?php echo $image_row; ?>').attr('src', '<?php echo $no_image; ?>'); $('#image<?php echo $image_row; ?>').attr('value', '');"><?php echo $text_clear; ?></a></div></div></td>
       <td class="left">
         &nbsp;
         <input type="text" name="customer_image[<?php echo $image_row; ?>][comment]" value="<?php echo $customer_image['comment']; ?>" size='100px'/>
@@ -26,7 +27,7 @@
       <td class="right">
         <input style='display:none' type="date_available" name="customer_image[<?php echo $image_row; ?>][date_added]" value="<?php echo $customer_image['date_added']; ?>" class="date"/><?php echo $customer_image['date_added']; ?>
       </td>
-      <td class="right"><a onclick="$('#image-row<?php echo $image_row; ?>').remove(); deleteImage(<?php echo $customer_image['customer_image_id']; ?>)" class="button4"><?php echo $button_remove; ?></a></td>
+      <td class="right"><div class='group12'><a onclick="$('#image-row<?php echo $image_row; ?>').remove(); deleteImage(<?php echo $customer_image['customer_image_id']; ?>)" class="button4"><?php echo $button_remove; ?></a></div></td>
     </tr>
   </tbody>
   <?php $image_row++; ?>

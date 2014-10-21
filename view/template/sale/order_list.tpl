@@ -61,7 +61,7 @@
             <tr class="filter">
               <td></td>
               <!-- <td align="right"><input type="text" name="filter_order_id" value="<php echo $filter_order_id; ?>" size="4" style="text-align: right;" /></td> -->
-              <td><input type="text" name="filter_customer" value="<?php echo $filter_customer; ?>" /></td>
+              <td><input type="customer" name="filter_customer" value="<?php echo $filter_customer; ?>" /></td>
               <td><select name="filter_order_status_id">
                   <option value="*"></option>
                   <?php foreach ($order_statuses as $order_status) { ?>
@@ -94,14 +94,16 @@
                 <input type="checkbox" name="selected[]" value="<?php echo $order['order_id']; ?>" />
                 <?php } ?></td>
               <!-- <td class="right"><php echo $order['order_id']; ?></td> -->
-              <td class="left"><?php echo $order['customer']; ?></td>
+              <td class="left"><?php foreach ($order['action'] as $action) { ?>
+                <a href="<?php echo $action['href']; ?>"><?php echo $order['customer']; ?></a>
+                <?php } ?>
+
+              </td>
               <td class="left"><?php echo $order['status']; ?></td>
               <td class="right"><?php echo $order['total']; ?></td>
               <td class="left"><?php echo $order['date_added']; ?></td>
               <td class="left"><?php echo $order['date_modified']; ?></td>
-              <td class="right"><?php foreach ($order['action'] as $action) { ?>
-                [ <a href="<?php echo $action['href']; ?>"><?php echo $action['text']; ?></a> ]
-                <?php } ?></td>
+              <td class="right"><?php echo $order['comment']; ?></td>
             </tr>
             <?php } ?>
             <?php } else { ?>
@@ -190,47 +192,47 @@ $('#form input').keydown(function(e) {
 });
 //--></script> 
 <script type="text/javascript"><!--
-$.widget('custom.catcomplete', $.ui.autocomplete, {
-	_renderMenu: function(ul, items) {
-		var self = this, currentCategory = '';
+// $.widget('custom.catcomplete', $.ui.autocomplete, {
+// 	_renderMenu: function(ul, items) {
+// 		var self = this, currentCategory = '';
 		
-		$.each(items, function(index, item) {
-			if (item.category != currentCategory) {
-				ul.append('<li class="ui-autocomplete-category">' + item.category + '</li>');
+// 		$.each(items, function(index, item) {
+// 			if (item.category != currentCategory) {
+// 				ul.append('<li class="ui-autocomplete-category">' + item.category + '</li>');
 				
-				currentCategory = item.category;
-			}
+// 				currentCategory = item.category;
+// 			}
 			
-			self._renderItem(ul, item);
-		});
-	}
-});
+// 			self._renderItem(ul, item);
+// 		});
+// 	}
+// });
 
-$('input[name=\'filter_customer\']').catcomplete({
-	delay: 500,
-	source: function(request, response) {
-		$.ajax({
-			url: 'index.php?route=sale/customer/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request.term),
-			dataType: 'json',
-			success: function(json) {		
-				response($.map(json, function(item) {
-					return {
-						category: item.customer_group,
-						label: item.name,
-						value: item.customer_id
-					}
-				}));
-			}
-		});
-	}, 
-	select: function(event, ui) {
-		$('input[name=\'filter_customer\']').val(ui.item.label);
+// $('input[name=\'filter_customer\']').catcomplete({
+// 	delay: 500,
+// 	source: function(request, response) {
+// 		$.ajax({
+// 			url: 'index.php?route=sale/customer/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request.term),
+// 			dataType: 'json',
+// 			success: function(json) {		
+// 				response($.map(json, function(item) {
+// 					return {
+// 						category: item.customer_group,
+// 						label: item.name,
+// 						value: item.customer_id
+// 					}
+// 				}));
+// 			}
+// 		});
+// 	}, 
+// 	select: function(event, ui) {
+// 		$('input[name=\'filter_customer\']').val(ui.item.label);
 						
-		return false;
-	},
-	focus: function(event, ui) {
-      	return false;
-   	}
-});
+// 		return false;
+// 	},
+// 	focus: function(event, ui) {
+//       	return false;
+//    	}
+// });
 //--></script> 
 <?php echo $footer; ?>

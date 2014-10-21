@@ -1801,10 +1801,31 @@ class ControllerSaleCustomer extends Controller {
 		$this->load->model('sale/customer');
 
 		$reminder = (isset($this->request->post['reminder']) ? $this->request->post['reminder'] : null); 
+
 		$reminder_date = (isset($this->request->post['reminder_date']) ? $this->request->post['reminder_date'] : null); 
+
 		$filter_user_id = (isset($this->request->post['filter_user_id']) ? $this->request->post['filter_user_id'] : null); 
+
 		$filter_customer_id = (isset($this->request->get['filter_customer_id']) ? $this->request->get['filter_customer_id'] : null);  
 
+		if (isset($this->request->get['candelete'])) {
+			$candelete = $this->request->get['candelete'];
+		} else {
+			$candelete = true;	
+		}
+
+		if (isset($this->request->get['filter_reminder_date_start'])) {
+			$filter_reminder_date_start = $this->request->get['filter_reminder_date_start'];
+		} else {
+			$filter_reminder_date_start = null;	
+		}
+
+		if (isset($this->request->get['filter_reminder_date_end'])) {
+			$filter_reminder_date_end = $this->request->get['filter_reminder_date_end'];
+		} else {
+			$filter_reminder_date_end = null;	
+		}
+		
 		if (isset($this->request->post['comment']) && utf8_strlen($this->request->post['comment']) == 0) {
 			$this->data['error_warning'] = '';
 		} else if (isset($this->request->post['comment']) && utf8_strlen($this->request->post['comment']) < 5) {
@@ -1851,9 +1872,10 @@ class ControllerSaleCustomer extends Controller {
 
 		$data = array(
 			'filter_user_id' => $filter_user_id,
+			'filter_reminder_date_start' => $filter_reminder_date_start,
+			'filter_reminder_date_end' => $filter_reminder_date_end,
 			'filter_customer_id' => $filter_customer_id
 		);
-
 
 		$results = $this->model_sale_customer->getHistories($data, ($page - 1) * 20, 20);
 
@@ -1874,6 +1896,8 @@ class ControllerSaleCustomer extends Controller {
 
 		$data = array(
 			'filter_user_id' => $filter_user_id,
+			'filter_reminder_date_start' => $filter_reminder_date_start,
+			'filter_reminder_date_end' => $filter_reminder_date_end,
 			'filter_customer_id' => $filter_customer_id
 		);
 		$transaction_total = $this->model_sale_customer->getTotalHistories($data);
@@ -1888,10 +1912,11 @@ class ControllerSaleCustomer extends Controller {
 		$pagination->page = $page;
 		$pagination->limit = 20; 
 		$pagination->text = $this->language->get('text_pagination');
-		$pagination->url = $this->url->link('sale/customer/history', 'token=' . $this->session->data['token'] . $url . '&page={page}', 'SSL');
+		$pagination->url = $this->url->link('sale/customer/history', 'token=' . $this->session->data['token'] . $url . '&candelete=false&page={page}', 'SSL');
 
 		$this->data['token'] = $this->session->data['token'];
 		$this->data['pagination'] = $pagination->render();
+		$this->data['candelete'] = $candelete;
 
 		$this->template = 'sale/customer_history.tpl';		
 
@@ -2084,7 +2109,7 @@ class ControllerSaleCustomer extends Controller {
 				'borrowerlastname'     => $result['borrowerlastname'],
 				'product_name'     => $product_description,
 				'unit'     => $product_unit,
-				'date_added'     => $result['date_added']
+				'date_added'     => explode(' ', $result['date_added'])[0]
 			);
 		}
 
@@ -2159,7 +2184,7 @@ class ControllerSaleCustomer extends Controller {
 			$page = 1;
 		}  
 
-		$this->data['borrows'] = array();
+		$this->data['results'] = array();
 
 		$results = $this->model_sale_customer->getBorrows($this->request->get['filter_customer_id'], ($page - 1) * 10, 10);
 
@@ -2185,7 +2210,7 @@ class ControllerSaleCustomer extends Controller {
 				'borrowerlastname'     => $result['borrowerlastname'],
 				'product_name'     => $product_description,
 				'unit'     => $product_unit,
-				'date_added'     => $result['date_added']
+				'date_added'     => explode(' ', $result['date_added'])[0]
 			);
 		}
 

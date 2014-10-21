@@ -165,6 +165,9 @@ if(array_intersect($page_name, $get_route)){
 	            <ul>
 	              <li><a href="<?php echo $customer; ?>"><?php echo $text_customer; ?></a></li>
 	              <li><a href="<?php echo $addcustomer; ?>"><?php echo $text_addcustomer; ?></a></li>
+
+			<li><a href="<?php echo $treatment; ?>"><?php echo $text_treatment; ?></a></li>
+			
 	              <li><a href="<?php echo $customer_group; ?>"><?php echo $text_customer_group; ?></a></li>
 	              <li><a href="<?php echo $allcustomer; ?>"><?php echo $text_all_customers; ?></a></li>
 	              <li><a href="<?php echo $order; ?>"><?php echo $text_order; ?></a></li>
@@ -173,22 +176,39 @@ if(array_intersect($page_name, $get_route)){
 	      	<li id="treatment"><a class="top"><?php echo $text_history; ?></a>
 	            <ul>
 	              <li><a href="<?php echo $followup; ?>"><?php echo $text_history; ?></a></li>
+
+			<li><a href="<?php echo $appointment; ?>"><?php echo $text_appointment; ?></a></li>
+			
 	            </ul>
 	      	</li>
-	      	<li id="appointment"><a class="top"><?php echo $text_appointment; ?></a>
+	      	
+			<li id="appointment" style='display:none'><a class="top"><?php echo $text_appointment; ?></a>
+			
 	            <ul>
 	              <li><a href="<?php echo $appointment; ?>"><?php echo $text_appointment; ?></a></li>
 	            </ul>
 	      	</li>
+
+			<li id="bonus"><a class="top"><?php echo $text_bonus; ?></a><ul><li><a href="<php echo $bonus; ?>"><?php echo $text_bonus; ?></a></li></ul></li>
+			
 	      	<li id="catalog"><a class="top"><?php echo $text_product; ?></a>
 		        <ul>
 		          <li><a href="<?php echo $product; ?>"><?php echo $text_product; ?></a></li>
 		          <li><a href="<?php echo $treatment_product; ?>"><?php echo $text_treatment_product; ?></a></li>
 		          <li><a href="<?php echo $waste_product; ?>"><?php echo $text_waste_product; ?></a></li>
-		         <li><a href="<?php echo $treatment; ?>"><?php echo $text_treatment; ?></a></li>
+		         
+			
+			
 		        </ul>
 		      </li>
 		      
+
+			<li id="imagemanage"><a class="top"><?php echo $text_image; ?></a>
+	            <ul>
+	              <li><a href="<?php echo $imagemanage; ?>"><?php echo $text_image; ?></a></li>
+	            </ul>
+	      	</li>
+			
 			 <li id="human_resource"><a class="top"><?php echo $text_human_resource; ?></a>
             	<ul>
               		<li><a href="<?php echo $user; ?>"><?php echo $text_user; ?></a></li>
@@ -201,7 +221,9 @@ if(array_intersect($page_name, $get_route)){
 		          <li><a href="<?php echo $purchase; ?>"><?php echo $text_purchase; ?></a></li>
 		        </ul>
 		      </li>
-	      	<li id="order"><a class="top"><?php echo $text_order; ?></a>
+	      	
+			<li id="order" style='display:none'><a class="top"><?php echo $text_order; ?></a>
+			
 		        <ul>
 		          <li><a href="<?php echo $purchase; ?>"><?php echo $text_order; ?></a></li>
 		        </ul>
@@ -240,7 +262,8 @@ if(array_intersect($page_name, $get_route)){
 				<li><a class="parent"><?php echo $text_sale; ?></a>
 					<ul>
 						<li><a href="<?php echo $report_sale_order; ?>"><?php echo $text_report_sale_order; ?></a></li>
-						<li><a href="<?php echo $bonus; ?>"><?php echo $text_bonus; ?></a></li>
+						
+			
 						<!-- <li><a href="<php echo $report_sale_tax; ?>"><php echo $text_report_sale_tax; ?></a></li>
 						<li><a href="<php echo $report_sale_shipping; ?>"><php echo $text_report_sale_shipping; ?></a></li>
 						<li><a href="<php echo $report_sale_return; ?>"><php echo $text_report_sale_return; ?></a></li>

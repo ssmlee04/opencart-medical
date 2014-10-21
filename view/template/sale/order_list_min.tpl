@@ -92,14 +92,14 @@
                 <input type="checkbox" name="selected[]" value="<?php echo $order['order_id']; ?>" />
                 <?php } ?></td>
               <!-- <td class="right"><php echo $order['order_id']; ?></td> -->
-              <td class="left"><?php echo $order['customer']; ?></td>
+              <td class="left"><?php foreach ($order['action'] as $action) { ?>
+                <a href="<?php echo $action['href']; ?>"><?php echo $order['customer']; ?></a>
+                <?php } ?></td>
               <td class="left"><?php echo $order['status']; ?></td>
               <td class="right"><?php echo $order['total']; ?></td>
               <td class="left"><?php echo $order['date_added']; ?></td>
               <td class="left"><?php echo $order['date_modified']; ?></td>
-              <td class="right"><?php foreach ($order['action'] as $action) { ?>
-                [ <a href="<?php echo $action['href']; ?>"><?php echo $action['text']; ?></a> ]
-                <?php } ?></td>
+              <td class="right"><?php echo $order['comment']; ?></td>
             </tr>
             <?php } ?>
             <?php } else { ?>

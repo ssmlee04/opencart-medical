@@ -16,21 +16,21 @@
             <input type="text" name="filter_date_start" value="<?php echo $filter_date_start; ?>" id="date-start" size="12" /></td>
           <td><?php echo $entry_date_end; ?>
             <input type="text" name="filter_date_end" value="<?php echo $filter_date_end; ?>" id="date-end" size="12" /></td>
-          <td><?php echo $entry_group; ?>
+          <!-- <td><php echo $entry_group; ?>
             <select name="filter_group">
-              <?php foreach ($groups as $groups) { ?>
-              <?php if ($groups['value'] == $filter_group) { ?>
-              <option value="<?php echo $groups['value']; ?>" selected="selected"><?php echo $groups['text']; ?></option>
-              <?php } else { ?>
-              <option value="<?php echo $groups['value']; ?>"><?php echo $groups['text']; ?></option>
-              <?php } ?>
-              <?php } ?>
-            </select></td>
+              <php foreach ($groups as $groups) { ?>
+              <php if ($groups['value'] == $filter_group) { ?>
+              <option value="<php echo $groups['value']; ?>" selected="selected">php echo $groups['text']; ?></option>
+              <php } else { ?>
+              <option value="<php echo $groups['value']; ?>"><php echo $groups['text']; ?></option>
+              <php } ?>
+              <php } ?>
+            </select></td> -->
           <td><?php echo $entry_status; ?>
             <select name="filter_order_status_id">
-              <option value="0"><?php echo $text_all_status; ?></option>
+              <option value=""><?php echo $text_all_status; ?></option>
               <?php foreach ($order_statuses as $order_status) { ?>
-              <?php if ($order_status['order_status_id'] == $filter_order_status_id) { ?>
+              <?php if ($order_status['order_status_id'] === $filter_order_status_id) { ?>
               <option value="<?php echo $order_status['order_status_id']; ?>" selected="selected"><?php echo $order_status['name']; ?></option>
               <?php } else { ?>
               <option value="<?php echo $order_status['order_status_id']; ?>"><?php echo $order_status['name']; ?></option>
@@ -47,7 +47,9 @@
             <td class="left"><?php echo $column_date_end; ?></td>
             <td class="right"><?php echo $column_orders; ?></td>
             <td class="right"><?php echo $column_products; ?></td>
-            <td class="right"><?php echo $column_tax; ?></td>
+            <td class="right"><?php echo $column_payment_cash; ?></td>
+            <td class="right"><?php echo $column_payment_visa; ?></td>
+            <td class="right"><?php echo $column_payment_balance; ?></td>
             <td class="right"><?php echo $column_total; ?></td>
           </tr>
         </thead>
@@ -59,7 +61,9 @@
             <td class="left"><?php echo $order['date_end']; ?></td>
             <td class="right"><?php echo $order['orders']; ?></td>
             <td class="right"><?php echo $order['products']; ?></td>
-            <td class="right"><?php echo $order['tax']; ?></td>
+            <td class="right"><?php echo $order['payment_cash']; ?></td>
+            <td class="right"><?php echo $order['payment_visa']; ?></td>
+            <td class="right"><?php echo $order['payment_balance']; ?></td>
             <td class="right"><?php echo $order['total']; ?></td>
           </tr>
           <?php } ?>
@@ -98,7 +102,7 @@ function filter() {
 	
 	var filter_order_status_id = $('select[name=\'filter_order_status_id\']').attr('value');
 	
-	if (filter_order_status_id != 0) {
+	if (filter_order_status_id != '') {
 		url += '&filter_order_status_id=' + encodeURIComponent(filter_order_status_id);
 	}	
 
