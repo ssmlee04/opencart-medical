@@ -163,7 +163,11 @@ class ControllerReportCustomerFeedback extends Controller {
 		$this->data['column_unread_reminders'] = $this->language->get('column_unread_reminders');
 		$this->data['column_total_reminders'] = $this->language->get('column_total_reminders');
 
+		$this->data['entry_reply'] = $this->language->get('entry_reply');
+		$this->data['entry_comment'] = $this->language->get('entry_comment');
+		$this->data['entry_status'] = $this->language->get('entry_status');
 		$this->data['entry_date_start'] = $this->language->get('entry_date_start');
+		$this->data['entry_date'] = $this->language->get('entry_date');
 		$this->data['entry_date_end'] = $this->language->get('entry_date_end');
 		$this->data['entry_status'] = $this->language->get('entry_status');
 		$this->data['entry_customer'] = $this->language->get('entry_customer');

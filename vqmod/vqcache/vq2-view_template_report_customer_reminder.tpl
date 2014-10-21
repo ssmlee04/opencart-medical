@@ -6,10 +6,14 @@
     <?php } ?>
   </div>
   <div class="box">
-    <div class="heading">
-      <h1><img src="view/image/report.png" alt="" /> <?php echo $heading_title; ?></h1>
+    
+			<div class="heading"><h1><img src="view/image/admin_theme/base5builder_impulsepro/icon-reports-large.png" alt="" /> <?php echo $heading_title; ?></h1>
+			
+
     </div>
-    <div class="content">
+    
+			<div class="content sales-report">
+			
       <table class="form">
         <tr>
           <td><?php echo $entry_date_start; ?>

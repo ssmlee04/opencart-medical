@@ -49,20 +49,21 @@
           <?php if ($users) { ?>
           <?php foreach ($users as $result) { ?>
           <tr class='togglethis' id='<?php echo $result['user_id']; ?>'>
-            <td class="left"><?php echo $result['name']; ?></td>
+            <td class="left"><a><?php echo $result['name']; ?></a></td>
             <td class="left"><?php echo $result['bonus']; ?></td>
           </tr>
           <tr><td colspan='2'>
             <div id="bonus<?php echo $result['user_id']; ?>"></div>
             <div class='toggle' id='r<?php echo $result['user_id']; ?>' style='display:none'>
-              <table>
-                <tr>
-                  
+              <table class="list">
+                <!-- <thead> -->
+                <tr style='background-color: beige'>
                   <td><?php echo $entry_date; ?></td>
                   <td><?php echo $entry_customer; ?></td>
                   <td><?php echo $entry_treatment; ?></td>
                   <td><?php echo $entry_amount; ?></td>
                 </tr>
+                <!-- </thead> -->
                 <?php if ($result['transactions']) { ?>
                 <?php foreach ($result['transactions'] as $transaction) { ?>
                 <tr>
@@ -102,11 +103,11 @@ $('input').on('keyup', function(e){
   }
 });
 
-$('.togglethis').one('click', function(){
+$('.togglethis').on('click', function(){
 
     var ID = $(this).attr('id');
     
-    $('#r' + ID).toggle('show', function(){});
+    $('#r' + ID).toggle('slow');
   });
 
 function filter() {

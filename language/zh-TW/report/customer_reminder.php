@@ -9,5 +9,7 @@ $_['column_user']         = '使用者';
 $_['entry_date_start']         = '起始日期';
 $_['entry_date_end']         = '結束日期';
 $_['entry_status']         = '回覆狀態';
+$_['entry_comment']         = '注意事項';
+$_['entry_reply']         = '回覆事項';
 
 ?>

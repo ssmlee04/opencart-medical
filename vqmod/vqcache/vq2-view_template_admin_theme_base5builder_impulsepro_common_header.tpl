@@ -270,7 +270,9 @@ if(array_intersect($page_name, $get_route)){
 						<li><a href="<php echo $report_sale_coupon; ?>"><php echo $text_report_sale_coupon; ?></a></li> -->
 					</ul>
 				</li>
-				<li><a class="parent"><?php echo $text_product; ?></a>
+				
+			<li style='display:none'><a class="parent"><?php echo $text_product; ?></a>
+			
 					<ul>
 						<!-- <li><a href="php echo $report_product_viewed; ?>"><php echo $text_report_product_viewed; ?></a></li> -->
 						<li><a href="<?php echo $report_product_purchased; ?>"><?php echo $text_report_product_purchased; ?></a></li>
