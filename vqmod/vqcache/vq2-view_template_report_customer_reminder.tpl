@@ -6,10 +6,14 @@
     <?php } ?>
   </div>
   <div class="box">
-    <div class="heading">
-      <h1><img src="view/image/report.png" alt="" /> <?php echo $heading_title; ?></h1>
+    
+			<div class="heading"><h1><img src="view/image/admin_theme/base5builder_impulsepro/icon-reports-large.png" alt="" /> <?php echo $heading_title; ?></h1>
+			
+
     </div>
-    <div class="content">
+    
+			<div class="content sales-report">
+			
       <table class="form">
         <tr>
           <td><?php echo $entry_date_start; ?>
@@ -122,10 +126,48 @@ function filter() {
 <?php echo $footer; ?>
 
 <script type='text/javascript'>
+  //  ).click(function(){
+  //   var ID = $(this).prev().attr('id');
+  //   console.log($(this).prev().attr('id'));
+  //   $('#r' + ID).toggle('show', function(){
+
+  //   });
+  // });
   
   $('.togglethis').on('click', function(){
     var ID = $(this).prev().val();
     $('#r' + ID).toggle('slow', function(){});
   });
+
+  // $('.togglethis').one('click', function(){
+  //   var ID = $(this).prev().val();
+  //   var filter_reminder_date_start = $('input[name=filter_date_start]').val();
+  //   var filter_reminder_date_end = $('input[name=filter_date_end]').val();
+  //   $.ajax({
+  //   url: 'index.php?route=sale/customer/history&token=<?php echo $token; ?>&filter_reminder_date_start=' + filter_reminder_date_start + '&filter_reminder_date_end=' + filter_reminder_date_end,
+  //   type: 'post',
+  //   dataType: 'html',
+  //   data: 'filter_user_id=' + ID,
+  //   beforeSend: function() {
+  //     // $('.success, .warning').remove();
+  //     // $('#button-history').attr('disabled', true);
+  //     // $('#history').before('<div class="attention"><img src="view/image/loading.gif" alt="" /> <?php echo $text_wait; ?></div>');
+  //   },
+  //   complete: function() {
+  //     // $('#button-history').attr('disabled', false);
+  //     // $('.attention').remove();
+  //         // $('#tab-history textarea[name=\'comment\']').val('');
+  //   },
+  //   success: function(html) {
+
+  //     $('#r' + ID).html(html);
+      
+  //     // $('#tab-history input[name=\'comment\']').val('');
+  //   }
+  // });
+
+  // });
+
+
 
 </script>

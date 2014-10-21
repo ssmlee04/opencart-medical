@@ -1724,8 +1724,18 @@ class ControllerSaleCustomer extends Controller {
 		
 		$this->language->load('sale/customer');
 		$this->load->model('sale/customer');
-		// $this->data['filter_customer_id'] = (isset($this->request->get['filter_customer_id']) ? $this->request->get['filter_customer_id'] : null);
-		$filter_customer_id = (isset($this->request->get['filter_customer_id']) ? $this->request->get['filter_customer_id'] : null);  
+
+		if (isset($this->request->get['filter_customer_id'])) {
+			$filter_customer_id = $this->request->get['filter_customer_id'];
+		} else {
+			$filter_customer_id = null;
+		}  
+
+		if (isset($this->request->get['page'])) {
+			$page = $this->request->get['page'];
+		} else {
+			$page = 1;
+		}  
 
 
 		$this->data['token'] = $this->session->data['token'];
@@ -1756,11 +1766,13 @@ class ControllerSaleCustomer extends Controller {
 			if (isset($filter_customer_id)) $data['filter_customer_id'] = $filter_customer_id; 
 			if (isset($this->request->post['filter_treatment'])) $data['filter_treatment'] = $this->request->post['filter_treatment']; 
 			if (isset($this->request->post['filter_date_added_start'])) $data['filter_date_added_start'] = $this->request->post['filter_date_added_start']; 
+
+			
 			if (isset($this->request->post['filter_date_added_end'])) $data['filter_date_added_end'] = $this->request->post['filter_date_added_end']; 
 			if (isset($this->request->post['filter_name'])) $data['filter_name'] = $this->request->post['filter_name']; 
-			
-			
-			$customer_images = $this->model_sale_customer->getCustomerImages($data);
+
+
+			$customer_images = $this->model_sale_customer->getCustomerImages($data, ($page - 1) * 20, 20);
 			$images_total = $this->model_sale_customer->getTotalCustomerImages($data);
 		} else {
 			$customer_images = array();
@@ -1789,6 +1801,46 @@ class ControllerSaleCustomer extends Controller {
 				'sort_order' => $customer_image['sort_order']
 			);
 		}	
+
+		$url = '';
+
+		if (isset($this->request->get['filter_customer'])) {
+			$url .= '&filter_customer=' . urlencode(html_entity_decode($this->request->get['filter_customer'], ENT_QUOTES, 'UTF-8'));
+		}
+
+		if (isset($this->request->get['filter_treatment'])) {
+			$url .= '&filter_treatment=' . urlencode(html_entity_decode($this->request->get['filter_treatment'], ENT_QUOTES, 'UTF-8'));
+		}
+
+		if (isset($this->request->get['filter_date_added_start'])) {
+			$url .= '&filter_date_added_start=' . urlencode(html_entity_decode($this->request->get['filter_date_added_start'], ENT_QUOTES, 'UTF-8'));
+		}
+
+		if (isset($this->request->get['filter_date_added_end'])) {
+			$url .= '&filter_date_added_end=' . urlencode(html_entity_decode($this->request->get['filter_date_added_end'], ENT_QUOTES, 'UTF-8'));
+		}
+
+		if (isset($this->request->get['filter_name'])) {
+			$url .= '&filter_name=' . $this->request->get['filter_name'];
+		}
+
+		if (isset($this->request->get['sort'])) {
+			$url .= '&sort=' . $this->request->get['sort'];
+		}
+
+		if (isset($this->request->get['order'])) {
+			$url .= '&order=' . $this->request->get['order'];
+		}
+
+		$pagination = new Pagination();
+		$pagination->total = $images_total;
+		$pagination->page = $page;
+		$pagination->limit = 20;
+		$pagination->text = $this->language->get('text_pagination');
+		$pagination->url = $this->url->link('sale/customer/images', 'token=' . $this->session->data['token'] . $url . '&page={page}', 'SSL');
+
+		$this->data['pagination'] = $pagination->render();
+
 
 		$this->template = 'sale/customer_images.tpl';		
 

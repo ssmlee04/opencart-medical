@@ -576,6 +576,13 @@ $('#history .pagination a').live('click', function() {
   return false;
 });     
 
+$('#tab-images .pagination a').live('click', function() {
+  $('#tab-images').load(this.href);
+  
+  return false;
+});     
+
+
 $('#cusorder .pagination a').live('click', function() {
   $('#cusorder').load(this.href);
   
@@ -853,7 +860,8 @@ function image_upload(field, thumb) {
   $('#dialog').dialog({
     title: '<?php echo $text_image_manager; ?>',
     close: function (event, ui) {
-      var customer_id = '<?php echo $customer_id; ?>';
+      
+      var customer_id = '<?php echo $filter_customer_id; ?>';
 
       if ($('#' + field).attr('value')) {
         $.ajax({

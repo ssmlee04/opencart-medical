@@ -1508,7 +1508,7 @@ class ModelSaleCustomer extends Model {
 	// }	
 
 	// '2014-10-03 10:46'
-	public function getCustomerImages($data) {
+	public function getCustomerImages($data, $start = 0, $limit = 10) {
 
 		$sql = "SELECT * FROM oc_customer_image ci WHERE 1=1  ";
 
@@ -1539,16 +1539,16 @@ class ModelSaleCustomer extends Model {
 
 		$sql .= " ORDER BY ci.date_added DESC";
 
-		if (isset($data['start']) || isset($data['limit'])) {
-			if ($data['start'] < 0) {
-				$data['start'] = 0;
+		if ($start || $limit) {
+			if ($start < 0) {
+				$start = 0;
 			}			
 
-			if ($data['limit'] < 1) {
-				$data['limit'] = 20;
+			if ($limit < 1) {
+				$limit = 20;
 			}	
 
-			$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
+			$sql .= " LIMIT " . (int)$start . "," . (int)$limit;
 		}		
 
 		$query = $this->db->query($sql);
@@ -1664,8 +1664,8 @@ class ModelSaleCustomer extends Model {
 
 		$sql = "SELECT count(*) as total FROM oc_customer_image ci WHERE 1=1  ";
 
-		if (isset($data['customer_id'])) {
-			$sql .= " AND ci.customer_id = '" . (int)$data['customer_id'] . "'";
+		if (isset($data['filter_customer_id'])) {
+			$sql .= " AND ci.customer_id = '" . (int)$data['filter_customer_id'] . "'";
 		}
 
 		if (isset($data['product_id'])) {
