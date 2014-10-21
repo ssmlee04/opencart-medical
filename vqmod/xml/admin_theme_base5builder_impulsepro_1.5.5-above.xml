@@ -764,7 +764,7 @@
 			<li id="catalog"><a class="top"><?php echo $text_product; ?></a>
 			]]></search>
 			<add><![CDATA[
-			<li id="bonus"><a class="top"><?php echo $text_bonus; ?></a><ul><li><a href="<php echo $bonus; ?>"><?php echo $text_bonus; ?></a></li></ul></li>
+			<li id="bonus"><a class="top"><?php echo $text_bonus; ?></a><ul><li><a href="<?php echo $bonus; ?>"><?php echo $text_bonus; ?></a></li></ul></li>
 			]]></add>
 		</operation>
 		<operation>

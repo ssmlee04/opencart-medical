@@ -1915,3 +1915,5 @@
 2014-10-21 0:30:10 - PHP Notice:  Undefined variable: total_customer_approval in /var/www/html/opencart2/view/template/common/home.tpl on line 53
 2014-10-21 0:30:10 - PHP Notice:  Undefined variable: total_affiliate in /var/www/html/opencart2/view/template/common/home.tpl on line 61
 2014-10-21 0:30:10 - PHP Notice:  Undefined variable: total_affiliate_approval in /var/www/html/opencart2/view/template/common/home.tpl on line 65
+2014-10-21 0:35:42 - PHP Notice:  Undefined index: token in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_header.php on line 145
+2014-10-21 0:36:22 - PHP Notice:  Undefined variable: filter_order_status_id in /var/www/html/opencart2/controller/report/user_bonus.php on line 309
