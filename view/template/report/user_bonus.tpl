@@ -55,7 +55,7 @@
           <tr><td colspan='2'>
             <div id="bonus<?php echo $result['user_id']; ?>"></div>
             <div class='toggle' id='r<?php echo $result['user_id']; ?>' style='display:none'>
-              <table class="list">
+              <table class="list">   
                 <!-- <thead> -->
                 <tr style='background-color: beige'>
                   <td><?php echo $entry_date; ?></td>
