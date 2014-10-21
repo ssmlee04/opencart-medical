@@ -1998,3 +1998,10 @@
 2014-10-21 2:26:32 - PHP Notice:  Undefined variable: filter_order_status_id in /var/www/html/opencart2/controller/report/user_bonus.php on line 309
 2014-10-21 2:27:22 - PHP Notice:  Undefined variable: filter_order_status_id in /var/www/html/opencart2/controller/report/user_bonus.php on line 309
 2014-10-21 2:27:58 - PHP Notice:  Undefined variable: filter_order_status_id in /var/www/html/opencart2/controller/report/user_bonus.php on line 309
+2014-10-21 2:31:21 - PHP Notice:  Undefined variable: customer_id in /var/www/html/opencart2/vqmod/vqcache/vq2-view_template_sale_customer_form.tpl on line 855
+2014-10-21 2:31:56 - PHP Notice:  Undefined variable: customer_id in /var/www/html/opencart2/vqmod/vqcache/vq2-view_template_sale_customer_form.tpl on line 856
+2014-10-21 2:32:31 - PHP Notice:  Undefined variable: customer_id in /var/www/html/opencart2/vqmod/vqcache/vq2-view_template_sale_customer_form.tpl on line 856
+2014-10-21 2:33:54 - PHP Notice:  Undefined variable: customer_id in /var/www/html/opencart2/vqmod/vqcache/vq2-view_template_sale_customer_form.tpl on line 856
+2014-10-21 2:35:13 - PHP Notice:  Undefined variable: customer_id in /var/www/html/opencart2/vqmod/vqcache/vq2-view_template_sale_customer_form.tpl on line 856
+2014-10-21 2:35:33 - PHP Notice:  Undefined variable: customer_id in /var/www/html/opencart2/vqmod/vqcache/vq2-view_template_sale_customer_form.tpl on line 856
+2014-10-21 2:36:43 - PHP Notice:  Undefined variable: customer_id in /var/www/html/opencart2/vqmod/vqcache/vq2-view_template_sale_customer_form.tpl on line 856

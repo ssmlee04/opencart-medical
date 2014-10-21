@@ -430,7 +430,7 @@
         </div>
 
         <div id="tab-order">
-          <div id='order'></div>
+          <div id='cusorder'></div>
           <a id="button-order" class="button"></a>
           <!-- <a href="<php echo $neworder; ?>">sssssssssss</a> -->
         </div>
@@ -576,8 +576,8 @@ $('#history .pagination a').live('click', function() {
   return false;
 });     
 
-$('#order .pagination a').live('click', function() {
-  $('#order').load(this.href);
+$('#cusorder .pagination a').live('click', function() {
+  $('#cusorder').load(this.href);
   
   return false;
 });     
@@ -667,7 +667,7 @@ $('#tab-lendto-link').on('click', function(){
 
 // $('#tab-images').load('index.php?route=sale/customer/images&token=<?php echo $token; ?>
 
-// $('#order').load('index.php?route=sale/order&token=<?php echo $token; ?>&filter_customer_id=<?php echo $filter_customer_id; ?>', {'minimum': 1});
+// $('#cusorder').load('index.php?route=sale/order&token=<?php echo $token; ?>&filter_customer_id=<?php echo $filter_customer_id; ?>', {'minimum': 1});
 
 
 // '2014-10-07 18:15'
@@ -678,14 +678,15 @@ $('#button-order').bind('click', function() {
     beforeSend: function() {
       $('.success, .warning, .attention').remove();
       // $('#button-image').attr('disabled', true);
-      $('#order').before('<div class="attention"><img src="view/image/loading.gif" alt="" /> <?php echo $text_wait; ?></div>');
+      $('#cusorder').before('<div class="attention"><img src="view/image/loading.gif" alt="" /> <?php echo $text_wait; ?></div>');
     },
     complete: function() {
       // $('#button-image').attr('disabled', false);
       $('.attention').remove();
     },
     success: function(html) {
-      $('#order').html(html);
+
+      $('#cusorder').html(html);
     }
   });
 
