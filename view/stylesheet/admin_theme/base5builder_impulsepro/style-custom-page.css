@@ -188,7 +188,7 @@ ul.mainnav > li > a{
 }
 
 ul.mainnav > li#dashboard > a{
-	background: url("../../../image/admin_theme/base5builder_impulsepro/css-sprite-icons.png") no-repeat scroll 16px -258px;
+	background: url("../../../image/admin_theme/base5builder_impulsepro/css-sprite-icons.png") no-repeat scroll 16px -504px;
 }
 
 ul.mainnav > li#history > a{
@@ -243,7 +243,7 @@ ul.mainnav > li > a:focus{
 
 ul.mainnav > li#dashboard > a:hover,
 ul.mainnav > li#dashboard > a:focus{
-	background: url("../../../image/admin_theme/base5builder_impulsepro/css-sprite-icons.png") no-repeat scroll -270px -258px #00a99d;
+	background: url("../../../image/admin_theme/base5builder_impulsepro/css-sprite-icons.png") no-repeat scroll -270px -504px #00a99d;
 }
 
 ul.mainnav > li#treatment > a:hover,
@@ -315,7 +315,7 @@ ul.mainnav > li.selected > a{
 }
 
 ul.mainnav > li#dashboard.selected > a{
-	background: url("../../../image/admin_theme/base5builder_impulsepro/css-sprite-icons.png") no-repeat scroll -551px -258px #FFFFFF;
+	background: url("../../../image/admin_theme/base5builder_impulsepro/css-sprite-icons.png") no-repeat scroll -551px -504px #FFFFFF;
 }
 
 ul.mainnav > li#treatment.selected > a{

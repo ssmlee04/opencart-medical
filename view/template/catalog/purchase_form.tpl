@@ -21,10 +21,11 @@
       </div>
       <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
         <div id="tab-general" class="vtabs-content">
+          
           <table class="form">
             <tr>
               <td class="left"><?php echo $entry_date; ?></td>
-              <td class="left"><input type='date_available' name='date_purchased' class='date' value='<?php echo $date_purchased; ?>'/>
+              <td class="left"><input type='date_available' name='date_purchased' value='<?php echo $date_purchased; ?>'/>
                 <?php if ($error_date) { ?>
                   <span class="error"><?php echo $error_date; ?></span>
                 <?php } ?></td>
@@ -97,7 +98,11 @@
               <?php if ($purchase_products) { ?>
               <?php foreach ($purchase_products as $purchase_product) { ?>
               <tr id="product-row<?php echo $product_row; ?>">
-                <td class="center" style="width: 3px;"><img src="view/image/delete.png" title="<?php echo $button_remove; ?>" alt="<?php echo $button_remove; ?>" style="cursor: pointer;" onclick="$('#product-row<?php echo $product_row; ?>').remove(); $('#button-update').trigger('click');" /></td>
+                <td class="center" style="width: 3px;">
+                  <?php if ($is_insert) { ?>
+                  <img src="view/image/delete.png" title="<?php echo $button_remove; ?>" alt="<?php echo $button_remove; ?>" style="cursor: pointer;" onclick="$('#product-row<?php echo $product_row; ?>').remove(); $('#button-update').trigger('click');" />
+                  <?php } ?>
+                </td>
                 <td class="left"><?php echo $purchase_product['name']; ?><br />
                   <input type="hidden" name="purchase_product[<?php echo $product_row; ?>][purchase_product_id]" value="<?php echo $purchase_product['purchase_product_id']; ?>" />
                   <input type="hidden" name="purchase_product[<?php echo $product_row; ?>][product_id]" value="<?php echo $purchase_product['product_id']; ?>" />
@@ -123,7 +128,8 @@
               <?php } ?>
             </tbody>
           </table>
-          <table class="list">
+          <?php if ($is_insert) { ?>
+          <table class="list" >
             <thead>
               <tr>
                 <td colspan="2" class="left"><?php echo $text_product; ?></td>
@@ -132,7 +138,7 @@
             <tbody>
               <tr>
                 <td class="left"><?php echo $entry_product; ?></td>
-                <td class="left"><input type="text" name="product" value="" />
+                <td class="left"><input type="product" name="product" alt="1,3" value="" />
                   <input type="hidden" name="product_id" value="" /></td>
               </tr>
               <!-- <tr id="option"></tr> -->
@@ -152,6 +158,7 @@
               </tr>
             </tfoot>
           </table>
+          <?php } ?>
         </div>
         
         
@@ -159,118 +166,6 @@
     </div>
   </div>
 </div>
-<script type="text/javascript"><!--
-
-// $('a[name=\'set_today\']').on('click', function(){
-//   alert(123);
-//   $('input[name=\'product\']').val('01/01/2014');
-//   $('input[name=\'date_purchased\']').val('01/01/2014');
-// alert(234);
-// })
-    
-
-
-$.widget('custom.catcomplete', $.ui.autocomplete, {
-  _renderMenu: function(ul, items) {
-    var self = this, currentCategory = '';
-    
-    $.each(items, function(index, item) {
-      if (item['category'] != currentCategory) {
-        ul.append('<li class="ui-autocomplete-category">' + item['category'] + '</li>');
-        
-        currentCategory = item['category'];
-      }
-      
-      self._renderItem(ul, item);
-    });
-  }
-});
-
-// $('input[name=\'user\']').catcomplete({
-//   delay: 500,
-//   source: function(request, response) {
-//     $.ajax({
-//       url: 'index.php?route=sale/user/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request.term),
-//       dataType: 'json',
-//       success: function(json) { 
-//         response($.map(json, function(item) {
-//           return {
-//             category: item['user_group'],
-//             label: item['name'],
-//             value: item['user_id'],
-//             user_group_id: item['user_group_id'],
-//             firstname: item['firstname'],
-//             lastname: item['lastname'],
-//             email: item['email'],
-//             telephone: item['telephone'],
-//             fax: item['fax'],
-//             address: item['address']
-//           }
-//         }));
-//       }
-//     });
-//   }, 
-//   select: function(event, ui) { 
-//     $('input[name=\'user\']').attr('value', ui.item['label']);
-//     $('input[name=\'user_id\']').attr('value', ui.item['value']);
-//     $('input[name=\'firstname\']').attr('value', ui.item['firstname']);
-//     $('input[name=\'lastname\']').attr('value', ui.item['lastname']);
-//     $('input[name=\'email\']').attr('value', ui.item['email']);
-//     $('input[name=\'telephone\']').attr('value', ui.item['telephone']);
-//     $('input[name=\'fax\']').attr('value', ui.item['fax']);
-      
-//     html = '<option value="0"><?php echo $text_none; ?></option>'; 
-      
-//     for (i in  ui.item['address']) {
-//       html += '<option value="' + ui.item['address'][i]['address_id'] + '">' + ui.item['address'][i]['firstname'] + ' ' + ui.item['address'][i]['lastname'] + ', ' + ui.item['address'][i]['address_1'] + ', ' + ui.item['address'][i]['city'] + ', ' + ui.item['address'][i]['country'] + '</option>';
-//     }
-    
-//     $('select[name=\'shipping_address\']').html(html);
-//     $('select[name=\'payment_address\']').html(html);
-    
-//     $('select[id=\'user_group_id\']').attr('disabled', false);
-//     $('select[id=\'user_group_id\']').attr('value', ui.item['user_group_id']);
-//     $('select[id=\'user_group_id\']').trigger('change');
-//     $('select[id=\'user_group_id\']').attr('disabled', true); 
-            
-//     return false; 
-//   },
-//   focus: function(event, ui) {
-//         return false;
-//     }
-// });
-
-//--></script> 
-<script type="text/javascript"><!--
-$('input[name=\'product\']').autocomplete({
-  delay: 500,
-  source: function(request, response) {
-    $.ajax({
-      url: 'index.php?route=catalog/product/autocompletestockables&token=<?php echo $token; ?>&filter_name=' + encodeURIComponent(request.term),
-      dataType: 'json',
-      success: function(json) { 
-        response($.map(json, function(item) {
-          return {
-            label: item.name,
-            value: item.product_id,
-            model: item.model,
-            option: item.option,
-            cost: item.cost
-          }
-        }));
-      }
-    });
-  }, 
-  select: function(event, ui) {
-    $('input[name=\'product\']').attr('value', ui.item['label']);
-    $('input[name=\'product_id\']').attr('value', ui.item['value']);
-    return false;
-  },
-  focus: function(event, ui) {
-        return false;
-    }
-}); 
-//--></script> 
 <script type="text/javascript"><!--
 
 var product_row = '<?php echo $product_row;?>';
@@ -343,16 +238,10 @@ $('#button-product, #button-voucher, #button-update').live('click', function() {
 
 }); 
 //--></script> 
-<script type="text/javascript" src="view/javascript/jquery/ui/jquery-ui-timepicker-addon.js"></script> 
 <script type="text/javascript" src="view/javascript/moment/moment.min.js"></script> 
 <script type="text/javascript"><!--
 
-$('.date').datepicker({dateFormat: 'yy-mm-dd'});
-$('.datetime').datetimepicker({
-  dateFormat: 'yy-mm-dd',
-  timeFormat: 'h:m'
-});
-$('.time').timepicker({timeFormat: 'h:m'});
+
 //--></script> 
 <script type="text/javascript"><!--
 $('.vtabs a').tabs();

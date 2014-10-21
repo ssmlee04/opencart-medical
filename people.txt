@@ -1,1 +1,15 @@
-222222222
+UPDATE oc_customer SET 
+			firstname = '小'
+			, lastname = '牛'
+			, fullname = '牛小'
+			, email = 'asdasdasd@c.com', telephone = 'asdasdasd'
+			, mobile = 'asdasdasd'
+			, dob = '2014-10-08'
+			, ssn = 'asdasd'
+			, image = 'data/before-after-dot-face-4.jpg'
+			, store_id = '2'
+			, outsource = '0'
+			, nickname = 'asdasdasd'
+			, line_id = 'sdasdadadsa'
+			, fb_id = 'asdasdasd'
+			, customer_group_id = '1', status = '0' WHERE customer_id = '31'

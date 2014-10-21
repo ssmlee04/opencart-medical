@@ -18,7 +18,7 @@ $(document).ready(function(){
 		}
 	});
 
-	$("input[type='text'][name='filter_customer']").on("focusin", function(){
+	$("input[type='customer']").on("focusin", function(){
 	   $(this).catcomplete({
 		  	delay: 500,
 		  	source: function(request, response) {
@@ -37,8 +37,12 @@ $(document).ready(function(){
 		    });
 		  }, 
 		  select: function(event, ui) { 
-		    $('input[name=\'filter_customer\']').attr('value', ui.item['fullname']);
-		    $('input[name=\'filter_customer_id\']').attr('value', ui.item['value']);
+		  	var name = $(this).attr('name');
+			$(this).attr('value', ui.item['fullname']);
+			$("input[name='" + name + "_id']").attr('value', ui.item['value']);
+			$("input[name='" + name + "_name']").attr('value', ui.item['fullname']);
+		    // $('input[name=\'filter_customer\']').attr('value', ui.item['fullname']);
+		    // $('input[name=\'filter_customer_id\']').attr('value', ui.item['value']);
 		    return false;
 		  },
 		  focus: function(event, ui) {
@@ -46,21 +50,49 @@ $(document).ready(function(){
 		  }
 		});
 	});
+	
+	
+	$("select[type='product']").load('false', function(data){
+		var product_type_ids = $(this).attr('alt');
+		var that = this;
+		var name = $(this).attr('name');
+		$.ajax({
+		  url: 'index.php?route=catalog/product/all&token=' + $('#tk').val() + '&filter_product_type_ids=' + product_type_ids,
+		  type: 'POST',
+		  dataType: 'json',
+		  complete: function(xhr, textStatus) {
+		    //called when complete
+		  },
+		  success: function(json, textStatus, xhr) {
+		    //called when successful
+				$(that).empty().append("<option></option>");
+				// $.each(json, function(d){
+				// 	$(that).append('<option></option>').text(d.name).val(d.product_id);
+				// });
+				json.map(function(d){
+					$(that).append("<option value='" + d.product_id + "''>" + d.name + "</option>");
+				});
+			
+		  },
+		  error: function(xhr, textStatus, errorThrown) {
+		    //called when there is an error
+		  }
+		});
+	});
 
-	$("input[type='text'][name='filter_product']").on("focusin", function(){
+	$("input[type='product']").on("focusin", function(){
+		var product_type_ids = $(this).attr('alt');
 		$(this).autocomplete({
 			delay: 500,
 			source: function(request, response) {
 				$.ajax({
-					url: 'index.php?route=catalog/product/autocompletesellables&token=' + $('#tk').val() + '&filter_name=' + encodeURIComponent(request.term),
+					url: 'index.php?route=catalog/product/autocomplete&token=' + $('#tk').val() + '&filter_name=' + encodeURIComponent(request.term) + '&filter_product_type_ids=' + product_type_ids,
 					dataType: 'json',
 					success: function(json) {	
 						response($.map(json, function(item) {
 							return {
 								label: item.name,
 								value: item.product_id,
-								// model: item.model,
-								// option: item.option,
 								price: item.price
 							}
 						}));
@@ -68,10 +100,10 @@ $(document).ready(function(){
 				});
 			}, 
 			select: function(event, ui) {
-				$('input[name=\'filter_product\']').attr('value', ui.item['label']);
-				$('input[name=\'filter_product_id\']').attr('value', ui.item['value']);
-
-				// $('#option td').remove();
+				var name = $(this).attr('name');
+				$(this).attr('value', ui.item['label']);
+				$("input[name='" + name + "_id']").attr('value', ui.item['value']);
+				$("input[name='" + name + "_name']").attr('value', ui.item['label']);
 				return false;
 			},
 			focus: function(event, ui) {
@@ -80,7 +112,40 @@ $(document).ready(function(){
 		});	
 	});
 
-	$("input[type='text'][name='filter_user']").on("focusin", function(){
+	// $("input[type='text'][name='filter_product']").on("focusin", function(){
+	// 	$(this).autocomplete({
+	// 		delay: 500,
+	// 		source: function(request, response) {
+	// 			$.ajax({
+	// 				url: 'index.php?route=catalog/product/autocompletesellables&token=' + $('#tk').val() + '&filter_name=' + encodeURIComponent(request.term),
+	// 				dataType: 'json',
+	// 				success: function(json) {	
+	// 					response($.map(json, function(item) {
+	// 						return {
+	// 							label: item.name,
+	// 							value: item.product_id,
+	// 							// model: item.model,
+	// 							// option: item.option,
+	// 							price: item.price
+	// 						}
+	// 					}));
+	// 				}
+	// 			});
+	// 		}, 
+	// 		select: function(event, ui) {
+	// 			$('input[name=\'filter_product\']').attr('value', ui.item['label']);
+	// 			$('input[name=\'filter_product_id\']').attr('value', ui.item['value']);
+
+	// 			// $('#option td').remove();
+	// 			return false;
+	// 		},
+	// 		focus: function(event, ui) {
+	// 	    return false;
+	// 	 	}
+	// 	});	
+	// });
+
+	$("input[type='user']").on("focusin", function(){
 		$(this).catcomplete({
 		  delay: 500,
 		  source: function(request, response) {
@@ -100,8 +165,12 @@ $(document).ready(function(){
 		    });
 		  }, 
 		  select: function(event, ui) { 
-		    $('input[name=\'filter_user\']').attr('value', ui.item['fullname']);
-		    $('input[name=\'filter_user_id\']').attr('value', ui.item['value']);
+		  	var name = $(this).attr('name');
+			$(this).attr('value', ui.item['label']);
+			$("input[name='" + name + "_id']").attr('value', ui.item['value']);
+			$("input[name='" + name + "_name']").attr('value', ui.item['label']);
+		    // $('input[name=\'filter_user\']').attr('value', ui.item['fullname']);
+		    // $('input[name=\'filter_user_id\']').attr('value', ui.item['value']);
 		    return false;
 		  },
 		  focus: function(event, ui) {
@@ -110,15 +179,26 @@ $(document).ready(function(){
 		});
 	});
 
-
-	$("input[name='filter_product']").on('keypress', function(e){
-		$("input[name='filter_product_id']").val('');
+	$("input[type='product']").on('keyup', function(e){
+		var name = $(this).attr('name');
+		// if (e.keyCode == 8) {
+			$("input[name='" + name + "_id']").attr('value', '');
+			$("input[name='" + name + "_name']").attr('value', '');
+		// }
 	});
-	$("input[name='filter_user']").on('keypress', function(e){
-		$("input[name='filter_user_id']").val('');
+	$("input[type='user']").on('keyup', function(e){
+		var name = $(this).attr('name');
+		// if (e.keyCode == 8) {
+			$("input[name='" + name + "_id']").attr('value', '');
+			$("input[name='" + name + "_name']").attr('value', '');
+		// }
 	});
-	$("input[name='filter_customer']").on('keypress', function(e){
-		$("input[name='filter_customer_id']").val('');
+	$("input[type='customer']").on('keyup', function(e){
+		var name = $(this).attr('name');
+		// if (e.keyCode == 8) {
+			$("input[name='" + name + "_id']").attr('value', '');
+			$("input[name='" + name + "_name']").attr('value', '');
+		// }
 	});
 
 });

@@ -4,6 +4,7 @@
 <?php if (isset($success) && $success) { ?>
 <div class="success"><?php echo $success; ?></div>
 <?php } ?>
+
 <table class="list">
   <thead>
     <tr>
@@ -17,9 +18,11 @@
     </tr>
   </thead>
   <tbody>
+    <?php $history_count = 0; ?>
     <?php if ($histories) { ?>
     <?php foreach ($histories as $history) { ?>
-    <tr>
+    <?php $history_count++; ?>
+    <tr <?php if ($history_count%2) echo "class='color1'"; ?>>
       <td class="left"><?php echo $history['date_added']; ?></td>
       <td class="left"><?php echo $history['ufullname']; ?></td>
       <td class="left"><?php echo $history['cfullname']; ?></td>
@@ -35,7 +38,7 @@
     <?php } ?>
     <?php } else { ?>
     <tr>
-      <td class="center" colspan="5"><?php echo $text_no_results; ?></td>
+      <td class="center" colspan="7"><?php echo $text_no_results; ?></td>
     </tr>
     <?php } ?>
   </tbody>

@@ -335,11 +335,11 @@ class ModelCatalogProduct extends Model {
 			$sql .= " AND p.status = '" . (int)$data['filter_status'] . "'";
 		}
 
-		if (isset($data['product_type_id']) && !is_null($data['product_type_id'])) {
+		if (isset($data['filter_product_type_ids']) && !empty($data['filter_product_type_ids'])) {
 			
 			$sql .= " AND ( product_type_id = "; 
 			$temp = array();
-			foreach ($data['product_type_id'] as $product_type_id) {
+			foreach ($data['filter_product_type_ids'] as $product_type_id) {
 				$temp[] = (int)$product_type_id;
 			}
 			$sql .= implode(' OR product_type_id = ', $temp) . ')';
@@ -610,11 +610,11 @@ class ModelCatalogProduct extends Model {
 			$sql .= " AND p.status = '" . (int)$data['filter_status'] . "'";
 		}
 
-		if (isset($data['product_type_id']) && !is_null($data['product_type_id'])) {
+		if (isset($data['filter_product_type_ids']) && !is_null($data['filter_product_type_ids'])) {
 			
 			$sql .= " AND ( product_type_id = "; 
 			$temp = array();
-			foreach ($data['product_type_id'] as $product_type_id) {
+			foreach ($data['filter_product_type_ids'] as $product_type_id) {
 				$temp[] = (int)$product_type_id;
 			}
 			$sql .= implode(' OR product_type_id = ', $temp) . ')';

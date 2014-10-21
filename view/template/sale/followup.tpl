@@ -40,10 +40,10 @@
             <!-- <input type="text" name="filter_consultant" value="<php echo $filter_consultant; ?>" id="consultant" size="12" /></td> -->
         </tr><tr>
             <td><?php echo $entry_user; ?>
-            <input type="text" name="filter_user" value="<?php echo $filter_user; ?>" id="user" size="12" /><input type="hidden" name="filter_user_id" value="<?php echo $filter_user_id; ?>" id="user_id" size="12" /></td>
+            <input type="user" name="filter_user" value="<?php echo $filter_user; ?>" /><input type="hidden" name="filter_user_id" value="<?php echo $filter_user_id; ?>" id="user_id" size="12" /></td>
             </tr><tr>
 			<td><?php echo $entry_customer; ?>
-            <input type="text" name="filter_customer" value="<?php echo $filter_customer; ?>" id="customer" size="12" /><input type="hidden" name="filter_customer_id" value="<?php echo $filter_customer_id; ?>" id="customer_id" size="12" /></td>
+            <input type="customer" name="filter_customer" value="<?php echo $filter_customer; ?>" /><input type="hidden" name="filter_customer_id" value="<?php echo $filter_customer_id; ?>" id="customer_id" size="12" /></td>
             </tr><tr>
 
             <td><?php echo $entry_comment; ?>

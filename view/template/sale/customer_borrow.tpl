@@ -10,26 +10,28 @@
     <tr>
       <td class="left"><?php echo $column_date_added; ?></td>
       <td class="left"><?php echo $column_borrower; ?></td>
+      <td class="left"><?php echo $column_lender; ?></td>
       <td class="left"><?php echo $column_user; ?></td>
       <td class="left"><?php echo $column_product; ?></td>
       <!-- <td class="left"><php echo $column_quantity; ?></td> -->
-      <td class="left"><?php echo $column_unit_quantity; ?></td>
+      <!-- <td class="left"><php echo $column_unit_quantity; ?></td> -->
       <td class="left"><?php echo $column_unit; ?></td>
       <td class="left"></td>
       <!-- <td class="right"><php echo $column_amount; ?></td> -->
     </tr>
   </thead>
   <tbody>
-    <?php if ($borrows) { ?>
-    <?php foreach ($borrows as $borrow) { ?>
+    <?php if ($results) { ?>
+    <?php foreach ($results as $borrow) { ?>
     <tr>
       <td class="left"><?php echo $borrow['date_added']; ?></td>
       <td class="left"><?php echo $borrow['borrowerlastname'] . $borrow['borrowerfirstname']; ?></td>
+      <td class="left"><?php echo $borrow['lenderlastname'] . $borrow['lenderfirstname']; ?></td>
       <td class="left"><?php echo $borrow['ulastname'] . $borrow['ufirstname']; ?></td>
       <td class="left"><?php echo $borrow['product_name']; ?></td>
       <!-- <td class="left"><php echo $borrow['quantity']; ?></td> -->
-      <td class="left"><?php echo $borrow['subquantity']; ?></td>
-      <td class="left"><?php echo $borrow['unit']; ?></td>
+      <!-- <td class="left"><php echo $borrow['subquantity']; ?></td> -->
+      <td class="left"><?php echo $borrow['subquantity']; ?> <?php echo $borrow['unit']; ?></td>
       <td class="right" style="width: 3px;">
         <img src="view/image/delete.png" title="<?php echo $button_remove; ?>" alt="<?php echo $button_remove; ?>" style="cursor: pointer;" onclick="$(this).parent().parent().remove(); deleteCustomerlending2('<?php echo $borrow['customer_lending_id']; ?>')" />
       </td>

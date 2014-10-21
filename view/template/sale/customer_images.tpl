@@ -12,7 +12,7 @@
   <?php foreach ($customer_images as $customer_image) { ?>
   <tbody id="image-row<?php echo $image_row; ?>">
     <tr>
-      <td class="left"><div class="image"><img src="<?php echo $customer_image['thumb']; ?>" alt="" id="thumb<?php echo $image_row; ?>" />
+      <td class="left"><div class="image"><a href="<?php echo $customer_image['bigimage']; ?>" class='group1'><img src="<?php echo $customer_image['thumb']; ?>" alt="" id="thumb<?php echo $image_row; ?>" /></a>
           <input type="hidden" name="customer_image[<?php echo $image_row; ?>][image]" value="<?php echo $customer_image['image']; ?>" id="image<?php echo $image_row; ?>" />
           <input type="hidden" name="customer_image[<?php echo $image_row; ?>][customer_transaction_id]" value="<?php echo $customer_image['customer_transaction_id']; ?>" id="trimage<?php echo $image_row; ?>"/>
           <input type="hidden" name="customer_image[<?php echo $image_row; ?>][customer_image_id]" value="<?php echo $customer_image['customer_image_id']; ?>" id="idimage<?php echo $image_row; ?>"/>
@@ -130,3 +130,12 @@ function addImage() {
 }
 //--></script> 
 
+<link rel="stylesheet" href="view/javascript/jquery/colorbox/colorbox.css" />
+<script type="text/javascript" src="view/javascript/jquery/colorbox/jquery.colorbox-min.js"></script> 
+<script type="text/javascript">  
+
+$(".group1").on('mouseover', function(){
+   $(".group1").colorbox({rel:'group1'});
+});
+
+</script>

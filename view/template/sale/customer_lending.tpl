@@ -13,7 +13,7 @@
       <td class="left"><?php echo $column_user; ?></td>
       <td class="left"><?php echo $column_product; ?></td>
       <!-- <td class="left"><php echo $column_quantity; ?></td> -->
-      <td class="left"><?php echo $column_unit_quantity; ?></td>
+      <!-- <td class="left"><php echo $column_unit_quantity; ?></td> -->
       <td class="left"><?php echo $column_unit; ?></td>
       <td class="left"></td>
       <!-- <td class="right"><php echo $column_amount; ?></td> -->
@@ -28,8 +28,8 @@
       <td class="left"><?php echo $lending['ulastname'] . $lending['ufirstname']; ?></td>
       <td class="left"><?php echo $lending['product_name']; ?></td>
       <!-- <td class="left"><php echo $lending['quantity']; ?></td> -->
-      <td class="left"><?php echo $lending['subquantity']; ?></td>
-      <td class="left"><?php echo $lending['unit']; ?></td>
+      <!-- <td class="left"><php echo $lending['subquantity']; ?></td> -->
+      <td class="left"><?php echo $lending['subquantity']; ?> <?php echo $lending['unit']; ?></td>
       <td class="right" style="width: 3px;">
         <img src="view/image/delete.png" title="<?php echo $button_remove; ?>" alt="<?php echo $button_remove; ?>" style="cursor: pointer;" onclick="$(this).parent().parent().remove(); deleteCustomerlending1('<?php echo $lending['customer_lending_id']; ?>')" />
       </td>
@@ -48,7 +48,6 @@
     <?php } ?>
   </tbody>
 </table>
-
 <div class="pagination"><?php echo $pagination; ?></div>
 
 <script type="text/javascript">  
@@ -84,6 +83,5 @@ function deleteCustomerlending1(id) {
     });
 
 }
-
 </script>
 

@@ -1,0 +1,1 @@
+a:3:{i:0;a:2:{s:15:"order_status_id";s:1:"0";s:4:"name";s:6:"取消";}i:1;a:2:{s:15:"order_status_id";s:1:"2";s:4:"name";s:6:"完成";}i:2;a:2:{s:15:"order_status_id";s:1:"1";s:4:"name";s:9:"處理中";}}

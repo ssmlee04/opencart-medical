@@ -33,7 +33,7 @@ class ModelSaleCustomer extends Model {
 
 	public function editCustomer($customer_id, $data) {
 
-		$this->db->query("UPDATE " . DB_PREFIX . "customer SET 
+		$sql = "UPDATE " . DB_PREFIX . "customer SET 
 			firstname = '" . $this->db->escape($data['firstname']) . "'
 			, lastname = '" . $this->db->escape($data['lastname']) . "'
 			, fullname = '" . $this->db->escape($data['lastname']) . $this->db->escape($data['firstname']) . "'
@@ -47,7 +47,9 @@ class ModelSaleCustomer extends Model {
 			, nickname = '" . $this->db->escape($data['nickname']) . "'
 			, line_id = '" . $this->db->escape($data['line_id']) . "'
 			, fb_id = '" . $this->db->escape($data['fb_id']) . "'
-			, customer_group_id = '" . (int)$data['customer_group_id'] . "', status = '" . (int)$data['status'] . "' WHERE customer_id = '" . (int)$customer_id . "'");
+			, customer_group_id = '" . (int)$data['customer_group_id'] . "', status = '" . (int)$data['status'] . "' WHERE customer_id = '" . (int)$customer_id . "'";
+
+		$this->db->query($sql);
 			// , newsletter = '" . (int)$data['newsletter'] . "'
 
 	
@@ -141,7 +143,7 @@ class ModelSaleCustomer extends Model {
 
 		if (isset($data['customer_transaction_id'])) {
 			$query = $this->db->query("SELECT * FROM oc_customer_image WHERE customer_transaction_id = '" . (int)$data['customer_transaction_id'] . "'");
-			if ($query->num_rows > 3) return false;
+			if ($query->num_rows >= $this->config->get('config_treatment_image_limit')) return false;
 		}
 
 		if (isset($data['customer_transaction_id']))  {
@@ -189,11 +191,11 @@ class ModelSaleCustomer extends Model {
 		$implode = array();
 
 		if (!empty($data['filter_mobile'])) {
-			$implode[] = "mobile = '" . $this->db->escape($data['filter_mobile']) . "'";
+			$implode[] = "mobile LIKE '%" . $this->db->escape($data['filter_mobile']) . "%'";
 		}
 
 		if (!empty($data['filter_telephone'])) {
-			$implode[] = "telephone = '" . $this->db->escape($data['filter_telephone']) . "'";
+			$implode[] = "telephone LIKE '%" . $this->db->escape($data['filter_telephone']) . "%'";
 		}
 
 		if (!empty($data['filter_dob'])) {
@@ -402,11 +404,11 @@ class ModelSaleCustomer extends Model {
 		$implode = array();
 
 		if (!empty($data['filter_mobile'])) {
-			$implode[] = "mobile = '" . $this->db->escape($data['filter_mobile']) . "'";
+			$implode[] = "mobile LIKE '%" . $this->db->escape($data['filter_mobile']) . "%'";
 		}
 
 		if (!empty($data['filter_telephone'])) {
-			$implode[] = "telephone = '" . $this->db->escape($data['filter_telephone']) . "'";
+			$implode[] = "telephone LIKE '%" . $this->db->escape($data['filter_telephone']) . "%'";
 		}
 
 		if (!empty($data['filter_dob'])) {
@@ -728,6 +730,13 @@ class ModelSaleCustomer extends Model {
 
 		return $query->row['total'];
 	}	
+
+	public function getTotalBorrows($customer_id) {
+		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "customer_lending WHERE borrower_id = '" . (int)$customer_id . "'");
+
+		return $query->row['total'];
+	}	
+
 
 	// '2014-10-03 10:47'
 	public function addLending($customer_id, $lendto_customer_id, $lendto_product_id, $lendto_subquantity) {
@@ -1321,6 +1330,10 @@ class ModelSaleCustomer extends Model {
 			$sql .= " AND ct.product_type_id = '" . (int)$data['filter_product_type_id'] . "' ";
 		}
 
+		if (!empty($data['filter_treatment_status'])) {
+			$sql .= " AND ct.status = '" . (int)$data['filter_treatment_status'] . "' ";
+		}
+
 		if (isset($data['filter_ssn'])) {
 			$sql .= " AND c.ssn = '" . $this->db->escape($data['filter_ssn']) . "' ";
 		}
@@ -1367,6 +1380,10 @@ class ModelSaleCustomer extends Model {
 		
 		if (isset($data['filter_ismain'])) {
 			$sql .= " AND ct.ismain = '" . (int)$data['filter_ismain'] . "' ";
+		}
+
+		if (!empty($data['filter_treatment_status'])) {
+			$sql .= " AND ct.status = '" . (int)$data['filter_treatment_status'] . "' ";
 		}
 
 		if (isset($data['filter_ssn'])) {

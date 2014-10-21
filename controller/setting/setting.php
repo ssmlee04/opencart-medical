@@ -310,6 +310,12 @@ class ControllerSettingSetting extends Controller {
 			$this->data['error_admin_limit'] = '';
 		}
 
+		if (isset($this->error['treatment_image_limit'])) {
+			$this->data['error_treatment_image_limit'] = $this->error['treatment_image_limit'];
+		} else {
+			$this->data['error_treatment_image_limit'] = '';
+		}
+
 		if (isset($this->error['encryption'])) {
 			$this->data['error_encryption'] = $this->error['encryption'];
 		} else {
@@ -494,6 +500,12 @@ class ControllerSettingSetting extends Controller {
 			$this->data['config_admin_limit'] = $this->request->post['config_admin_limit'];
 		} else {
 			$this->data['config_admin_limit'] = $this->config->get('config_admin_limit');
+		}
+
+		if (isset($this->request->post['config_treatment_image_limit'])) {
+			$this->data['config_treatment_image_limit'] = $this->request->post['config_treatment_image_limit'];
+		} else {
+			$this->data['config_treatment_image_limit'] = $this->config->get('config_treatment_image_limit');
 		}
 
 		if (isset($this->request->post['config_product_count'])) {
@@ -1160,6 +1172,10 @@ class ControllerSettingSetting extends Controller {
 
 		if (!$this->request->post['config_admin_limit']) {
 			$this->error['admin_limit'] = $this->language->get('error_limit');
+		}
+
+		if (!$this->request->post['config_treatment_image_limit']) {
+			$this->error['treatment_image_limit'] = $this->language->get('error_limit');
 		}
 
 		if ((utf8_strlen($this->request->post['config_encryption']) < 3) || (utf8_strlen($this->request->post['config_encryption']) > 32)) {

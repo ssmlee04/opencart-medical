@@ -34,7 +34,6 @@
     <div class="heading">
       <h1><img src="view/image/customer.png" alt="" /> <?php echo $heading_title; ?></h1>
       <div class="buttons">
-        <a onclick="$('.group11').toggle(); $('.group12').toggle();" class="button"><?php echo $button_edit_basic; ?></a>
         <a onclick="$('#form').submit();" class="button"><?php echo $button_save; ?></a>
         <a href="<?php echo $cancel; ?>" class="button"><?php echo $button_cancel; ?></a></div>
     </div>
@@ -57,11 +56,15 @@
 
       <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
         <div id="tab-general" >
+          <a onclick="$('.group12').toggle(); $('.group11').toggle()"><?php echo $button_edit_basic; ?></a>
           <div id="vtabs" class="vtabs"><a href="#tab-customer"><?php echo $tab_general; ?></a>
             
 
             <!-- <span id="address-add"><php echo $button_add_address; ?>&nbsp;<img src="view/image/add.png" alt="" onclick="addAddress();" /></span> --></div>
           <div id="tab-customer" class="vtabs-content">
+            
+
+            
             <table class="form">
               <tr>
                 <td><span class="required">*</span> <?php echo $entry_firstname; ?></td>
@@ -276,9 +279,9 @@
             <table class="form">
                <tr class='color1'><td><?php echo $entry_last_visit; ?></td><td><?php echo $last_visit; ?></td></tr>
                 <tr class='color1'><td><?php echo $entry_last_doctor; ?></td><td><?php echo $last_doctor; ?></td></tr>
-                <tr class='color1'><td><?php echo $entry_last_consultant; ?><</td><td><?php echo $last_consultant; ?></td></tr>
-                <tr class='color1'><td><?php echo $entry_last_beauty; ?><</td><td><?php echo $last_beauty; ?></td></tr>
-                <tr class='color1'><td><?php echo $entry_last_outsource; ?><</td><td><?php echo $last_outsource; ?></td></tr>
+                <tr class='color1'><td><?php echo $entry_last_consultant; ?></td><td><?php echo $last_consultant; ?></td></tr>
+                <tr class='color1'><td><?php echo $entry_last_beauty; ?></td><td><?php echo $last_beauty; ?></td></tr>
+                <tr class='color1'><td><?php echo $entry_last_outsource; ?></td><td><?php echo $last_outsource; ?></td></tr>
             </table>
             <?php } ?>
 
@@ -296,7 +299,8 @@
               <td><textarea name="comment" cols="40" rows="8" style="width: 99%;"></textarea></td>
             </tr>
             <tr>
-              <td colspan="2" style="text-align: right;"><input type='date_available' name='reminder_date' class='date'/><span><?php echo $text_reminder; ?></span><input type='checkbox' value='1' name='reminder'/></td>
+              <td colspan="2" style="text-align: right;"><input type='checkbox' value='1' name='reminder'/><span><?php echo $text_reminder; ?></span>
+                <input type='date_available' name='reminder_date'/></td>
             </tr>
             <tr>
               <td colspan="2" style="text-align: right;"><a id="button-history" class="button"><span><?php echo $button_add_history; ?></span></a></td>
@@ -317,11 +321,23 @@
             </tr> -->
             <tr>
               <td><?php echo $entry_product; ?></td>
-              <td><input type="text" name="treatment_product" value="" />
+              <td><input type="product" name="treatment_product" alt='2' value="" />
                 <input type="hidden" name="treatment_product_name" value="" />
                 <input type="hidden" name="treatment_product_id" value="" />
               </td>
               <td colspan="2" style="text-align: right;"><a id="button-filter" class="button"><span><?php echo $button_filter; ?></span></a></td>
+            </tr>
+            <tr>
+              <td><?php echo $entry_treatment_status; ?></td>
+              <td><select name='filter_treatment_status'>
+                <option></option>
+                <option value='-1'>ununsed</option>
+                <option value='-2'>booking</option>
+                <option value='1'>???</option>
+                <option value='2'>used</option>
+                <option value='10'>lended out</option>
+              <select></td>
+              <td colspan="2" style="text-align: right;"></td>
             </tr>
             <tr>
               <td colspan="4" style="text-align: right;"><a id="button-displayimage" class="button"><span><?php echo $button_display_2image; ?></span></a></td>
@@ -354,12 +370,12 @@
           <table class="form">
             <tr>
               <td><?php echo $entry_lendto; ?></td>
-              <td><input type="text" name="lendto_customer" value="" />
+              <td><input type="customer" name="lendto_customer" value="" />
                 <input type="hidden" name="lendto_customer_id" value="" /></td>
             </tr>
             <tr>
               <td><?php echo $entry_product; ?></td>
-              <td><input type="text" name="lendto_product" value="" />
+              <td><input type="product" name="lendto_product" alt='2' value="" />
                 <input type="hidden" name="lendto_product_id" value="" /></td>
             </tr>
             <tr>
@@ -376,12 +392,12 @@
           <table class="form">
             <tr>
               <td><?php echo $entry_borrowfrom; ?></td>
-              <td><input type="text" name="borrowfrom_customer" value="" />
+              <td><input type="customer" name="borrowfrom_customer" value="" />
                 <input type="hidden" name="borrowfrom_customer_id" value="" /></td>
             </tr>
             <tr>
               <td><?php echo $entry_product; ?></td>
-              <td><input type="text" name="borrowfrom_product" value="" />
+              <td><input type="product" name="borrowfrom_product" alt='2' value="" />
                 <input type="hidden" name="borrowfrom_product_id" value="" /></td>
             </tr>
             <tr>
@@ -550,15 +566,29 @@ function country(element, index, zone_id) {
 $('select[name$=\'[country_id]\']').trigger('change');
 //--></script> 
 <script type="text/javascript"><!--
-$('#history .pagination a').live('click', function() {
-  console.log(this.href);
-	$('#history').load(this.href);
-	
-	return false;
-});			
+$('#transaction .pagination a').live('click', function() {
+  $('#transaction').load(this.href);
+  
+  return false;
+});     
 
+$('#order .pagination a').live('click', function() {
+  $('#order').load(this.href);
+  
+  return false;
+});     
 
-// $('#history').load('index.php?route=sale/customer/history&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>&page=2');
+$('#borrowfrom .pagination a').live('click', function() {
+  $('#borrowfrom').load(this.href);
+  
+  return false;
+}); 
+
+$('#lendto .pagination a').live('click', function() {
+  $('#lendto').load(this.href);
+  
+  return false;
+});     
 
 $('#button-history').bind('click', function() {
 
@@ -620,9 +650,9 @@ $('#tab-lendto-link').on('click', function(){
   $('#button-borrowfrom').click();
 });
 
-// $('#tab-images').load('index.php?route=sale/customer/images&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>');
+// $('#tab-images').load('index.php?route=sale/customer/images&token=<?php echo $token; ?>
 
-$('#order').load('index.php?route=sale/order&token=<?php echo $token; ?>&filter_customer_id=<?php echo $customer_id; ?>', {'minimum': 1});
+// $('#order').load('index.php?route=sale/order&token=<?php echo $token; ?>&filter_customer_id=<?php echo $filter_customer_id; ?>', {'minimum': 1});
 
 
 // '2014-10-07 18:15'
@@ -631,7 +661,6 @@ $('#button-order').bind('click', function() {
     url: 'index.php?route=sale/order&token=<?php echo $token; ?>&filter_customer_id=<?php echo $filter_customer_id; ?>',
     type: 'post',
     data: 'minimum=1',
-    // data: 'filter_customer_id=' +  '<?php echo $customer_id; ?>',
     beforeSend: function() {
       $('.success, .warning, .attention').remove();
       // $('#button-image').attr('disabled', true);
@@ -690,13 +719,6 @@ $('#button-image').bind('click', function() {
 });
 
 
-
-
-
-
-// $('#transaction').load('index.php?route=sale/customer/transaction&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>', function(){
-
-// });
 
 $('#button-transaction').bind('click', function() {
 
@@ -808,230 +830,6 @@ $('.vtabs a').tabs();
 
 <script type="text/javascript"><!--
 
-// $('input[name=\'customer\']').autocomplete({
-//   delay: 500,
-//   source: function(request, response) {
-//     $.ajax({
-//       url: 'index.php?route=sale/customer/autocomplete&token=<?php echo $token; ?>&filter_name=' + encodeURIComponent(request.term),
-//       dataType: 'json',
-//       success: function(json) { 
-//         console.log(json);  
-//         response($.map(json, function(item) {
-//           return {
-//             label: item.fullname,
-//             value: item.customer_id,
-//             // model: item.model,
-//             // option: item.option,
-//             // price: item.price
-//           }
-//         }));
-//       }
-//     });
-//   }, 
-//   select: function(event, ui) {
-//     $('input[name=\'customer\']').attr('value', ui.item['label']);
-//     $('input[name=\'customer_id\']').attr('value', ui.item['value']);
-    
-//     return false;
-//   },
-//   focus: function(event, ui) {
-//         return false;
-//     }
-// }); 
-
-
-$('input[name=\'product\']').autocomplete({
-  delay: 500,
-  source: function(request, response) {
-    $.ajax({
-      url: 'index.php?route=catalog/product/autocomplete&token=<?php echo $token; ?>&filter_name=' + encodeURIComponent(request.term),
-      dataType: 'json',
-      success: function(json) { 
-        
-        response($.map(json, function(item) {
-          return {
-            label: item.name,
-            value: item.product_id,
-            model: item.model,
-            option: item.option,
-            price: item.price
-          }
-        }));
-      }
-    });
-  }, 
-  select: function(event, ui) {
-    $('input[name=\'product\']').attr('value', ui.item['label']);
-    $('input[name=\'product_id\']').attr('value', ui.item['value']);
-    
-    return false;
-  },
-  focus: function(event, ui) {
-        return false;
-    }
-}); 
-
-
-
-$('input[name=\'treatment_product\']').autocomplete({
-  delay: 500,
-  source: function(request, response) {
-    $.ajax({
-      url: 'index.php?route=catalog/product/autocompletetreatments&token=<?php echo $token; ?>&filter_name=' + encodeURIComponent(request.term),
-      dataType: 'json',
-      success: function(json) { 
-        
-        response($.map(json, function(item) {
-          return {
-            label: item.name,
-            value: item.product_id,
-            model: item.model,
-            option: item.option,
-            price: item.price
-          }
-        }));
-      }
-    });
-  }, 
-  select: function(event, ui) {
-    $('input[name=\'treatment_product\']').attr('value', ui.item['label']);
-    $('input[name=\'treatment_product_id\']').attr('value', ui.item['value']);
-    
-    return false;
-  },
-  focus: function(event, ui) {
-        return false;
-    }
-}); 
-
-$('input[name=\'borrowfrom_product\']').autocomplete({
-  delay: 500,
-  source: function(request, response) {
-    $.ajax({
-      url: 'index.php?route=catalog/product/autocompletetreatments&token=<?php echo $token; ?>&filter_name=' + encodeURIComponent(request.term),
-      dataType: 'json',
-      success: function(json) { 
-        
-        response($.map(json, function(item) {
-          return {
-            label: item.name,
-            value: item.product_id,
-            model: item.model,
-            option: item.option,
-            price: item.price
-          }
-        }));
-      }
-    });
-  }, 
-  select: function(event, ui) {
-    $('input[name=\'borrowfrom_product\']').attr('value', ui.item['label']);
-    $('input[name=\'borrowfrom_product_id\']').attr('value', ui.item['value']);
-    
-    return false;
-  },
-  focus: function(event, ui) {
-        return false;
-    }
-}); 
-
-$('input[name=\'borrowfrom_customer\']').autocomplete({
-  delay: 500,
-  source: function(request, response) {
-    $.ajax({
-      url: 'index.php?route=sale/customer/autocomplete&token=<?php echo $token; ?>&filter_name=' + encodeURIComponent(request.term),
-      dataType: 'json',
-      success: function(json) { 
-        
-        response($.map(json, function(item) {
-          return {
-            // label: item.name,
-            label: item.lastname + item.firstname + ' ' + item.ssn,
-            value: item.customer_id
-            // option: item.option,
-            // price: item.price
-          }
-        }));
-      }
-    });
-  }, 
-  select: function(event, ui) {
-    $('input[name=\'borrowfrom_customer\']').attr('value', ui.item['label']);
-    $('input[name=\'borrowfrom_customer_id\']').attr('value', ui.item['value']);
-    return false;
-  },
-  focus: function(event, ui) {
-        return false;
-    }
-}); 
-
-
-
-$('input[name=\'lendto_product\']').autocomplete({
-  delay: 500,
-  source: function(request, response) {
-    $.ajax({
-      url: 'index.php?route=catalog/product/autocompletetreatments&token=<?php echo $token; ?>&filter_name=' + encodeURIComponent(request.term),
-      dataType: 'json',
-      success: function(json) { 
-        
-        response($.map(json, function(item) {
-          return {
-            label: item.name,
-            value: item.product_id,
-            model: item.model,
-            option: item.option,
-            price: item.price
-          }
-        }));
-      }
-    });
-  }, 
-  select: function(event, ui) {
-    $('input[name=\'lendto_product\']').attr('value', ui.item['label']);
-    $('input[name=\'lendto_product_id\']').attr('value', ui.item['value']);
-    
-    return false;
-  },
-  focus: function(event, ui) {
-        return false;
-    }
-}); 
-
-$('input[name=\'lendto_customer\']').autocomplete({
-  delay: 500,
-  source: function(request, response) {
-    $.ajax({
-      url: 'index.php?route=sale/customer/autocomplete&token=<?php echo $token; ?>&filter_name=' + encodeURIComponent(request.term),
-      dataType: 'json',
-      success: function(json) { 
-        
-        response($.map(json, function(item) {
-          return {
-            // label: item.name,
-            label: item.lastname + item.firstname + ' ' + item.ssn,
-            value: item.customer_id
-            // option: item.option,
-            // price: item.price
-          }
-        }));
-      }
-    });
-  }, 
-  select: function(event, ui) {
-    $('input[name=\'lendto_customer\']').attr('value', ui.item['label']);
-    $('input[name=\'lendto_customer_id\']').attr('value', ui.item['value']);
-    return false;
-  },
-  focus: function(event, ui) {
-        return false;
-    }
-}); 
-
-//--></script> 
-
-<script type="text/javascript"><!--
-
 function image_upload(field, thumb) {
   $('#dialog').remove();
   
@@ -1126,21 +924,20 @@ function avatar_upload(field, thumb) {
 
 
 $('#button-displayimage').on('click', function(){
-
   $('.group1').toggle();
   $('.group2').toggle();
-
 });
 
 $('#button-filter').bind('click', function() {
 
   // var customer_name_sel = $('input[name=\'customer_name\']').val();
   // var customer_name = $('input[name=\'customer\']').val();
-  var product_name_sel = $('input[name=\'treatment_roduct_name\']').val();
+  var product_name_sel = $('input[name=\'treatment_product_name\']').val();
   var product_name = $('input[name=\'treatment_product\']').val();
+  var filter_treatment_status = $('select[name=\'filter_treatment_status\']').val();
   
   $.ajax({
-    url: 'index.php?route=sale/customer/transaction&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>&show_group=1&filter_product_name=' + product_name.toString() + '&filter_ismain=0',
+    url: 'index.php?route=sale/customer/transaction&token=<?php echo $token; ?>&filter_customer_id=<?php echo $filter_customer_id; ?>&show_group=1&filter_product_name=' + product_name.toString() + '&filter_ismain=0&filter_treatment_status=' + filter_treatment_status,
     type: 'post',
     dataType: 'html',
     // data: 'filter_product_name=' + product_name.toString() + '&filter_ismain=0', 

@@ -128,6 +128,10 @@ class ControllerSaleOrder extends Controller {
 				$url .= '&filter_order_status_id=' . $this->request->get['filter_order_status_id'];
 			}
 
+			if (isset($this->request->get['filter_customer_id'])) {
+				$url .= '&filter_customer_id=' . $this->request->get['filter_customer_id'];
+			}
+
 			if (isset($this->request->get['filter_total_max'])) {
 				$url .= '&filter_total_max=' . $this->request->get['filter_total_max'];
 			}
@@ -182,7 +186,9 @@ class ControllerSaleOrder extends Controller {
 		$this->load->model('sale/order');
 
 		if (isset($this->request->post['selected']) && ($this->validateDelete())) {
+
 			foreach ($this->request->post['selected'] as $order_id) {
+
 				if ($this->model_sale_order->deleteOrder($order_id, $this->request->post)) {
 					$this->session->data['success'] = $this->language->get('text_success');
 				} else {
@@ -433,8 +439,8 @@ class ControllerSaleOrder extends Controller {
 			'filter_date_modified_end'   => $filter_date_modified_end,
 			'sort'                   => $sort,
 			'order'                  => $order,
-			'start'                  => ($page - 1) * $this->config->get('config_admin_limit'),
-			'limit'                  => $this->config->get('config_admin_limit')
+			'start'                  => ($page - 1) * $this->config->get('config_admin_limit')/2,
+			'limit'                  => $this->config->get('config_admin_limit')/2
 		);
 
 		$order_total = $this->model_sale_order->getTotalOrders($data);
@@ -610,7 +616,7 @@ class ControllerSaleOrder extends Controller {
 		$pagination = new Pagination();
 		$pagination->total = $order_total;
 		$pagination->page = $page;
-		$pagination->limit = $this->config->get('config_admin_limit');
+		$pagination->limit = $this->config->get('config_admin_limit') / 2;
 		$pagination->text = $this->language->get('text_pagination');
 		$pagination->url = $this->url->link('sale/order', 'token=' . $this->session->data['token'] . $url . '&page={page}', 'SSL');
 
@@ -1257,15 +1263,13 @@ class ControllerSaleOrder extends Controller {
 		if (isset($this->request->get['order_id'])) {
 			$this->model_sale_order->editOrderPayment($this->request->get['order_id'], $this->request->post['payment_cash'], $this->request->post['payment_visa'], $this->request->post['payment_final']);
 		}
+
+		if ($this->request->post['is_insert']) {
+			if (!$this->cart->hasProducts() || !$this->cart->hasStock()) {
+				$this->error['warning'] = $this->language->get('error_no_stock');
+			}
+		} 
 		
-
-		// if (!$this->model_sale_order->canEditOrder($this->request->get['order_id'], $this->cart->getProducts())) {
-		// 	$this->error['warning'] = $this->language->get('error_cannot_edit_la');
-		// }
-
-		if (!$this->cart->hasProducts() || !$this->cart->hasStock()) {
-			$this->error['warning'] = $this->language->get('error_no_stock');
-		}
 
 		if (utf8_strlen($this->request->post['store_id']) <= 0) {
 			$this->error['store'] = $this->language->get('error_store');

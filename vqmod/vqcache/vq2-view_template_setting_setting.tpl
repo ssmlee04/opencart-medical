@@ -219,6 +219,13 @@
                 <span class="error"><?php echo $error_admin_limit; ?></span>
                 <?php } ?></td>
             </tr>
+            <tr>
+              <td><span class="required">*</span> <?php echo $entry_treatment_image_limit; ?></td>
+              <td><input type="text" name="config_treatment_image_limit" value="<?php echo $config_treatment_image_limit; ?>" size="3" />
+                <?php if ($error_treatment_image_limit) { ?>
+                <span class="error"><?php echo $error_treatment_image_limit; ?></span>
+                <?php } ?></td>
+            </tr>
           </table>
           <h2><?php echo $text_product; ?></h2>
           <table class="form">

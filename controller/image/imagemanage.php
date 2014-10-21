@@ -15,10 +15,10 @@ class ControllerImageImageManage extends Controller {
 
 	protected function getList() {
 
-		if (isset($this->request->get['filter_name'])) {
-			$filter_name = $this->request->get['filter_name'];
+		if (isset($this->request->get['filter_customer'])) {
+			$filter_customer = $this->request->get['filter_customer'];
 		} else {
-			$filter_name = null;
+			$filter_customer = null;
 		}
 
 		if (isset($this->request->get['filter_customer_id'])) {
@@ -89,8 +89,8 @@ class ControllerImageImageManage extends Controller {
 
 		$url = '';
 
-		if (isset($this->request->get['filter_name'])) {
-			$url .= '&filter_name=' . urlencode(html_entity_decode($this->request->get['filter_name'], ENT_QUOTES, 'UTF-8'));
+		if (isset($this->request->get['filter_customer'])) {
+			$url .= '&filter_customer=' . urlencode(html_entity_decode($this->request->get['filter_customer'], ENT_QUOTES, 'UTF-8'));
 		}
 
 		if (isset($this->request->get['filter_customer_id'])) {
@@ -150,7 +150,7 @@ class ControllerImageImageManage extends Controller {
 		$this->data['customers'] = array();
 
 		$data = array(
-			// 'filter_name'              => $filter_name, 
+			// 'filter_customer'              => $filter_customer, 
 			'customer_id'               => $filter_customer_id, 
 			'product_id'             => $filter_treatment, 
 			'filter_date_added_end' => $filter_date_added_end, 
@@ -170,6 +170,7 @@ class ControllerImageImageManage extends Controller {
 
 		$this->data['customer_images'] = array();
 		$this->load->model('tool/image');
+		$this->load->model('catalog/product');
 
 		foreach ($customer_images as $customer_image) {
 			if ($customer_image['image'] && file_exists(DIR_IMAGE . $customer_image['image'])) {
@@ -179,11 +180,14 @@ class ControllerImageImageManage extends Controller {
 			}
 
 			$customer_id = $customer_image['customer_id'];
+			$product_id = $customer_image['product_id'];	
 
+			$product = $this->model_catalog_product->getProduct($product_id);
 			$customer = $this->model_sale_customer->getCustomer($customer_id);
 
 			$this->data['customer_images'][] = array(
 				'image'      => $image,
+				'product_name'      => (!empty($product) ? $product['name'] : ''),
 				'comment'      => $customer_image['comment'],
 				'customer_name'      => $customer['fullname'],
 				'customer_image_id'      => $customer_image['customer_image_id'],
@@ -195,7 +199,7 @@ class ControllerImageImageManage extends Controller {
 		}
 
 		$this->load->model('catalog/product');
-		$this->data['treatments'] = $this->model_catalog_product->getProducts(array('product_type_id' => array(2)));
+		$this->data['treatments'] = $this->model_catalog_product->getProducts(array('filter_product_type_ids' => array(2)));
 
 
 		$this->data['heading_title'] = $this->language->get('heading_title');
@@ -213,6 +217,7 @@ class ControllerImageImageManage extends Controller {
 		$this->data['entry_date_added'] = $this->language->get('entry_date_added');
 		$this->data['entry_comment'] = $this->language->get('entry_comment');
 		$this->data['entry_customer'] = $this->language->get('entry_customer');
+		$this->data['entry_treatment'] = $this->language->get('entry_treatment');
 
 		$this->data['column_name'] = $this->language->get('column_name');
 		$this->data['column_customer_id'] = $this->language->get('column_customer_id');
@@ -248,8 +253,8 @@ class ControllerImageImageManage extends Controller {
 
 		$url = '';
 
-		if (isset($this->request->get['filter_name'])) {
-			$url .= '&filter_name=' . urlencode(html_entity_decode($this->request->get['filter_name'], ENT_QUOTES, 'UTF-8'));
+		if (isset($this->request->get['filter_customer'])) {
+			$url .= '&filter_customer=' . urlencode(html_entity_decode($this->request->get['filter_customer'], ENT_QUOTES, 'UTF-8'));
 		}
 
 		if (isset($this->request->get['filter_ssn'])) {
@@ -300,8 +305,8 @@ class ControllerImageImageManage extends Controller {
 
 		$url = '';
 
-		if (isset($this->request->get['filter_name'])) {
-			$url .= '&filter_name=' . urlencode(html_entity_decode($this->request->get['filter_name'], ENT_QUOTES, 'UTF-8'));
+		if (isset($this->request->get['filter_customer'])) {
+			$url .= '&filter_customer=' . urlencode(html_entity_decode($this->request->get['filter_customer'], ENT_QUOTES, 'UTF-8'));
 		}
 
 		if (isset($this->request->get['filter_ssn'])) {
@@ -350,7 +355,7 @@ class ControllerImageImageManage extends Controller {
 		$this->data['pagination'] = $pagination->render();
 
 		$this->data['filter_treatment'] = $filter_treatment;
-		$this->data['filter_name'] = $filter_name;
+		$this->data['filter_customer'] = $filter_customer;
 		// $this->data['filter_ssn'] = $filter_ssn;
 		// $this->data['filter_email'] = $filter_email;
 		// $this->data['filter_customer_group_id'] = $filter_customer_group_id;

@@ -117,7 +117,7 @@ $_['entry_comment']                           = '備註';
 $_['entry_image']                           = '圖片';
 $_['entry_treatment_image']                           = '診療圖片';
 $_['entry_dob']         = '出生年月日';
-
+$_['entry_treatment_status']         = '使用狀態';
 $_['entry_outsource']         = '外務';
 $_['entry_beauty']         = '美容師';
 $_['entry_doctor']         = '醫師';

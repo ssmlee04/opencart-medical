@@ -19,6 +19,8 @@ class ControllerCatalogPurchase extends Controller {
 
 		$this->load->model('catalog/purchase');
 
+		$this->data['is_insert'] = true;
+
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
 			$this->model_catalog_purchase->addPurchase($this->request->post);
 
@@ -82,6 +84,8 @@ class ControllerCatalogPurchase extends Controller {
 		$this->document->setTitle($this->language->get('heading_title'));
 
 		$this->load->model('catalog/purchase');
+		
+		$this->data['is_insert'] = false;
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
 			$this->model_catalog_purchase->editPurchase($this->request->get['purchase_id'], $this->request->post);

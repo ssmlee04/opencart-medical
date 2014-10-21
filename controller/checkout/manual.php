@@ -13,6 +13,8 @@ class ControllerCheckoutManual extends Controller {
 
 		$this->user = new User($this->registry);
 
+		$is_insert = (isset($this->request->get['is_insert']) ? $this->request->get['is_insert'] : false);
+
 		if ($this->user->isLogged() && $this->user->hasPermission('modify', 'sale/order')) {	
 			// Reset everything
 			$this->cart->clear();
@@ -122,8 +124,12 @@ class ControllerCheckoutManual extends Controller {
 				$json['error']['store'] = $this->language->get('error_store');
 			}	
 
+			// update always has stock
+			if (!$is_insert) {
+				
+			}
 			// Stock
-			if (!$this->cart->hasStock()) {
+			else if (!$this->cart->hasStock()) {
 				$json['error']['product']['stock'] = $this->language->get('error_stock');
 			}		
 

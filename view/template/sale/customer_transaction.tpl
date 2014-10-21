@@ -54,19 +54,22 @@
       <!-- <td class="left"></td> -->
       <td class="left"><?php echo $column_product; ?></td>
       <!-- <td class="left"><php echo $column_quantity; ?></td> -->
-      <td class="left"><?php echo $column_unit_quantity; ?></td>
+      <!-- <td class="left"><php echo $column_unit_quantity; ?></td> -->
       <td class="left"><?php echo $column_unit; ?></td>
+      <td class="right"></td>
       <td class="right"></td>
       <!-- <td class="right"><php echo $column_amount; ?></td> -->
     </tr>
   </thead>
   <tbody>
     <?php $treatment_image_row = 0; ?>
-    
+    <?php $transaction_count = 0; ?>
+
     <?php if ($transactions) { ?>
     <?php foreach ($transactions as $transaction) { ?>
+    <?php $transaction_count++; ?>
     <!-- <.php if ($transaction['status'] == 0) continue; ?> -->
-    <tr>
+    <tr <?php if ($transaction_count%2) echo "class='color1'"; ?>>
       <td class="left"><?php echo $transaction['date_added']; ?> 
         <input type='hidden' value='<?php echo $transaction['customer_transaction_id']; ?>' />
       </td>
@@ -78,8 +81,8 @@
         <?php } ?>
       </td>
       <!-- <td class="left"><php echo $transaction['quantity']; ?></td> -->
-      <td class="left"><?php echo $transaction['subquantity']; ?></td>
-      <td class="left"><?php echo $transaction['unit']; ?></td>
+      <!-- <td class="left"><php echo $transaction['subquantity']; ?></td> -->
+      <td class="left"><?php echo -$transaction['subquantity']; ?><?php echo $transaction['unit']; ?></td>
       <td class="left">
 
         <?php if ($transaction['customer_lending_id'] != 0 && $transaction['status'] == 10) { ?>
@@ -92,16 +95,14 @@
           <span>treatment</span>
         <?php } ?>
       </td>
-    </tr>
-
-
-
-    <tr>
       <td class="left">
         <input type='hidden' value='<?php echo $transaction['customer_transaction_id']; ?>' id='hidden<?php echo $transaction['customer_transaction_id']; ?>'/>
         
+        
         <?php if ($transaction['treatment_images']) { ?>
         <?php foreach ($transaction['treatment_images'] as $image) { ?>
+        
+
         <div style='display:inline' class='treatmentimage'>
 
           <!-- href="php echo $image['href']; ?>" -->
@@ -116,6 +117,7 @@
                     <!-- <img src="<php echo $customer_image['thumb']; ?>" alt="" id="thumb<php echo $image_row; ?>" /> -->
                     <!-- <input type="hidden" name="customer_image[<php echo $image_row; ?>][image]" value="<php echo $customer_image['image']; ?>" id="image<php echo $image_row; ?>" /> -->
         </div>
+
         <?php } ?>
         <?php } ?>
         <!-- value="<php echo $image['image']; ?>" -->
@@ -123,6 +125,12 @@
 
         <a class='addImage2'><?php echo $button_add_picture; ?></a>
       </td>
+    </tr>
+
+
+
+    <tr <?php if ($transaction_count%2) echo "class='color1'"; ?>>
+      
       <td colspan='7' class="left">
 
         <?php if (!$transaction['ismain'] && $transaction['status'] != 10) { ?>
@@ -180,7 +188,6 @@
             </select>
           <?php } ?>
 
-        <br/>
         <input type='text' id='comment<?php echo $transaction['customer_transaction_id']; ?>' style='width:400px' value="<?php echo $transaction['comment']; ?>"/>
         <?php if ($transaction['type'] == 2) { ?>
         <img src="view/image/delete.png" title="<?php echo $button_remove; ?>" alt="<?php echo $button_remove; ?>" style="cursor: pointer;" onclick="$(this).parent().parent().remove(); deleteCustomerTransaction('<?php echo $transaction['customer_transaction_id']; ?>')" />
@@ -201,7 +208,9 @@
       </td>
       <!-- <td class="right"><php echo $transaction['amount']; ?></td> -->
     </tr>
-    <tr><td colspan='7' style='background-color:lightgray' height='2' ></td></tr>
+    
+    <!-- <tr><td colspan='7' style='background-color:lightgray' height='2' ></td></tr> -->
+
     <?php } ?>
     <tr>
       <!-- <td>&nbsp;</td> -->
@@ -367,33 +376,39 @@ function image_upload_treat(field, thumb, id) {
             var html = '<div class="treatmentimage" style="display:inline"><img src="' + thumbimage + '" alt="" id="treatmentthumb' + treatment_image_row + '" />';
               html += '<input type="hidden" value="' + imageimage + '" name="treatment_image[' + treatment_image_row + '][image]" id="treatmentimage' + treatment_image_row +'" /></div>';
               
-              $('#hidden' + id).after(html);
               
+          
               if (text)
               $.ajax({
                 url: 'index.php?route=sale/customer/recordimage&token=<?php echo $token; ?>',
                 type: 'POST',
                 // dataType: 'xml/html/script/json/jsonp',
                 data: 'image=' + imageimage + '&customer_id=' + customer_id + '&customer_transaction_id=' + customer_transaction_id,
+                dataType: 'json',
                 complete: function(xhr, textStatus) {
-                  //called when complete
 
                 },
-                success: function(data, textStatus, xhr) {
-                  //called when successful
-                  // addImage();
+                success: function(json, textStatus, xhr) {
+                  console.log(json);
+                  if (json['success'] ) {
+                    $('#hidden' + id).after(html);
                 
-                  // $('#thumb' + (image_row - 1)).replaceWith('<img src="' + thumbimage + '" alt="" id="thumb' + (image_row - 1) + '" />');
-                  // $('#image' + image_row).replaceWith('<input src="' + text + '" alt="" id="image' + image_row + '" />');
-
+                    $('.box').before('<div class="success" style="display: none;">' + json['success'] + '</div>');
+              
+                    $('.success').fadeIn('slow');
+        
+                  } 
+                  if (json['error']) {
+                    $('.box').before('<div class="warning" style="display: none;">' + json['error'] + '</div>');
+              
+                    $('.warning').fadeIn('slow');
+                  }
                 },
                 error: function(xhr, textStatus, errorThrown) {
-                  //called when there is an error
+
                 }
               });
               
-              
-
               treatment_image_row++;
           }
         });

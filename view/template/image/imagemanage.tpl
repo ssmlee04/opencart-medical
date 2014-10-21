@@ -34,8 +34,9 @@
           <td></td>
           <!-- <td align="right"><input type="text" name="filter_customer_id" value="<php echo $filter_customer_id; ?>" size="4" style="text-align: right;" /></td> -->
           <td><input type="text" name="filter_customer_id" value="<?php echo $filter_customer_id; ?>" /></td>
-          <td><input type="text" name="filter_name" value="<?php echo $filter_name; ?>" /></td>
+          <td><input type="customer" name="filter_customer" value="<?php echo $filter_customer; ?>" /></td>
           <td>
+            <!-- <select type='product' name='filter_treatment' alt='2'></select> -->
             <select name='filter_treatment'>
               <option></option>
               <?php if ($treatments) { ?>
@@ -49,8 +50,8 @@
               <?php } ?>
             <!-- <input type="hidden" name="filter_treatment" value="<php echo $filter_treatment; ?>" /></td> -->
           <td>
-            <input type="text" name="filter_date_added_start" value="<?php echo $filter_date_added_start; ?>" size="12" class="date" />  ~
-            <input type="text" name="filter_date_added_end" value="<?php echo $filter_date_added_end; ?>" size="12" class="date" />
+            <input type="date_available" name="filter_date_added_start" value="<?php echo $filter_date_added_start; ?>" size="12" class="date" />  ~
+            <input type="date_available" name="filter_date_added_end" value="<?php echo $filter_date_added_end; ?>" size="12" class="date" />
           </td>
 <!--           <td>
             <input type="text" name="filter_date_modified_start" value="<php echo $filter_date_modified_start; ?>" size="12" class="date" /> ~ 
@@ -70,6 +71,7 @@
               <td class="left"><?php echo $entry_image; ?></td>
               <td class="left"><?php echo $entry_comment; ?></td>
               <td class="left"><?php echo $entry_customer; ?></td>
+              <td class="left"><?php echo $entry_treatment; ?></td>
               <td class="right"><?php echo $entry_date_added; ?></td>
             </tr>
           </thead>
@@ -81,8 +83,8 @@
                   </div></td>
               <td class="left">
                 <div style='color:black'><?php echo $customer_image['comment']; ?></div></td>
-              <td class="left">
-                <div style='color:black'><?php echo $customer_image['customer_name']; ?></div></td>
+              <td class="left"><div style='color:black'><?php echo $customer_image['customer_name']; ?></div></td>
+              <td class="left"><div style='color:black'><?php echo $customer_image['product_name']; ?></div></td>
               <td class="right">
                 <div style='color:black'><?php echo $customer_image['date_added']; ?></div>
                 <input style='display:none' type="date_available" name="customer_image[<?php echo $image_row; ?>][date_added]" value="<?php echo $customer_image['date_added']; ?>" class="date"/>
@@ -100,7 +102,6 @@
   </div>
 </div>
 <div class="pagination"><?php echo $pagination; ?></div>
-<script type="text/javascript" src="view/javascript/jquery/ui/jquery-ui-timepicker-addon.js"></script> 
 <link rel="stylesheet" href="view/javascript/jquery/colorbox/colorbox.css" />
 <script type="text/javascript" src="view/javascript/jquery/colorbox/jquery.colorbox-min.js"></script> 
 <script type="text/javascript"><!--
@@ -109,12 +110,12 @@ $(document).ready(function(){
   $(".group1").colorbox({rel:'group1'});
 });
 
-$('.date').datepicker({dateFormat: 'yy-mm-dd'});
-$('.datetime').datetimepicker({
-  dateFormat: 'yy-mm-dd',
-  timeFormat: 'h:m'
-});
-$('.time').timepicker({timeFormat: 'h:m'});
+// $('.date').datepicker({dateFormat: 'yy-mm-dd'});
+// $('.datetime').datetimepicker({
+//   dateFormat: 'yy-mm-dd',
+//   timeFormat: 'h:m'
+// });
+// $('.time').timepicker({timeFormat: 'h:m'});
 
 //--></script> 
 <script type="text/javascript"><!--
@@ -134,10 +135,10 @@ function filter() {
     url += '&filter_customer_id=' + encodeURIComponent(filter_customer_id);
   }
 
-  var filter_name = $('input[name=\'filter_name\']').attr('value');
+  var filter_customer = $('input[name=\'filter_customer\']').attr('value');
   
-  if (filter_name != '*') {
-    url += '&filter_name=' + encodeURIComponent(filter_name);
+  if (filter_customer != '*') {
+    url += '&filter_customer=' + encodeURIComponent(filter_customer);
   } 
 
   var filter_treatment = $('select[name=\'filter_treatment\']').attr('value');
