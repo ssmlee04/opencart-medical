@@ -144,7 +144,10 @@ class ControllerSaleTreatment extends Controller {
 			$url .= '&filter_order_status_id=' . $this->request->get['filter_order_status_id'];
 		}
 
-		$this->data['customer_id'] = 10;
+		if (isset($this->request->get['is_insert'])) {
+			$url .= '&is_insert=' . $this->request->get['is_insert'];
+		}
+
 		$this->data['button_save'] = $this->language->get('button_save');
 		$this->data['button_cancel'] = $this->language->get('button_cancel');
 		$this->data['entry_product'] = $this->language->get('entry_product');
@@ -169,6 +172,7 @@ class ControllerSaleTreatment extends Controller {
 		$this->data['filter_date_end'] = $filter_date_end;		
 		$this->data['filter_order_status_id'] = $filter_order_status_id;
 
+		// $this->template = 'sale/customer_transaction.tpl';
 		$this->template = 'sale/treatment.tpl';
 		$this->children = array(
 			'common/header',

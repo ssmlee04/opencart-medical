@@ -1,5 +1,10 @@
 <!-- <link rel="stylesheet" href="colorbox.css" /> -->
 <!-- <script type="text/javascript" src="view/javascript/colorbox/jquery.colorbox-min"></script>  -->
+<style>
+  .color1 {
+    background-color: beige;
+  }
+</style>
 
 <?php if (isset($error_warning) && $error_warning) { ?>
 <div class="warning"><?php echo $error_warning; ?></div>
@@ -7,7 +12,6 @@
 <?php if (isset($success) && $success) { ?>
 <div class="success"><?php echo $success; ?></div>
 <?php } ?>
-
 
 <?php if (isset($show_group) && $show_group) { ?>
 <!-- <php echo $text_service_not_rendered; ?> -->
@@ -122,8 +126,9 @@
         <?php } ?>
         <!-- value="<php echo $image['image']; ?>" -->
          <input type="hidden" name="image[<?php echo $treatment_image_row; ?>][image]"  id="treatmentimage<?php echo $treatment_image_row; ?>" />
-
-        <a class='addImage2'><?php echo $button_add_picture; ?></a>
+         <?php if ($is_insert) { ?>
+        <a class='addImage2'><?php echo $button_add_picture; ?> </a>
+        <?php } ?>
       </td>
     </tr>
 
@@ -204,7 +209,9 @@
         <?php } else { ?>
           <input value='x'/ type='hidden'>
         <?php } ?>
-        <a class='change_status_button' id='<?php echo $transaction['customer_transaction_id']; ?>'><?php echo $button_change_status; ?></a>
+        <?php if ($is_insert) { ?>
+        <a  class='change_status_button' id='<?php echo $transaction['customer_transaction_id']; ?>'><?php echo $button_change_status; ?></a>
+        <?php } ?>
       </td>
       <!-- <td class="right"><php echo $transaction['amount']; ?></td> -->
     </tr>

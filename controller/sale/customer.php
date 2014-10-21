@@ -2517,7 +2517,7 @@ class ControllerSaleCustomer extends Controller {
 		$this->load->model('sale/customer');
 		// $this->data['customer_id'] = (isset($this->request->get['filter_customer_id']) ? $this->request->get['filter_customer_id'] : 0);
 		// $this->data['filter_customer_id'] = (isset($this->request->get['filter_customer_id']) ? $this->request->get['filter_customer_id'] : null);
-
+// $this->load->test($this->request->get);
 		// $reminder = (isset($this->request->post['reminder']) ? $this->request->post['reminder'] : null); 
 		// $reminder_date = (isset($this->request->post['reminder_date']) ? $this->request->post['reminder_date'] : null); 
 		$filter_user_id = (isset($this->request->get['filter_user_id']) ? $this->request->get['filter_user_id'] : null); 
@@ -2610,7 +2610,7 @@ class ControllerSaleCustomer extends Controller {
 		$results = $this->model_sale_customer->getTransactions($data, ($page - 1) * 10, 10);
 
 		$data = array();
-		if (isset($this->request->get['filter_treatment_status'])) $data['filter_treatment_status'] = $this->request->get['filter_treatment_status'];
+		// if (isset($this->request->get['filter_treatment_status'])) $data['filter_treatment_status'] = $this->request->get['filter_treatment_status'];
 		if (isset($this->request->get['filter_customer_id'])) $data['filter_customer_id'] = $this->request->get['filter_customer_id'];
 		if (isset($this->request->get['filter_customer_name'])) $data['filter_customer_name'] = $this->request->get['filter_customer_name'];
 		if (isset($this->request->get['filter_product_name'])) $data['filter_product_name'] = $this->request->get['filter_product_name'];
@@ -2717,6 +2717,7 @@ class ControllerSaleCustomer extends Controller {
 		if (isset($this->request->get['filter_customer_name'])) $url .= '&filter_customer_name=' . $this->request->get['filter_customer_name'];
 		if (isset($this->request->get['filter_product_name'])) $url .= '&filter_product_name=' . $this->request->get['filter_product_name'];
 		if (isset($this->request->get['filter_ssn'])) $url .= '&filter_ssn=' . $this->request->get['filter_ssn'];
+		if (isset($this->request->get['is_insert'])) $url .= '&is_insert=' . $this->request->get['is_insert'];
 		$url .= '&filter_ismain=0&show_group=1';
 		// if (isset($this->request->get['filter_customer_id'])) $data['customer_id'] = $this->request->get['filter_customer_id'];
 		// if (isset($this->request->get['filter_customer_name'])) $data['filter_customer_name'] = $this->request->get['filter_customer_name'];
@@ -2735,6 +2736,7 @@ class ControllerSaleCustomer extends Controller {
 		$this->data['filter_customer_id'] = $filter_customer_id;
 		$this->data['pagination'] = $pagination->render();
 		$this->data['token'] = $this->session->data['token'];
+		$this->data['is_insert'] = (isset($this->request->get['is_insert']) ? $this->request->get['is_insert'] : true);
 		
 		$this->template = 'sale/customer_transaction.tpl';		
 

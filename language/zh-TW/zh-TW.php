@@ -11,6 +11,7 @@ $_['decimal_point']         = '.';
 $_['thousand_point']        = ',';
 
 // Text
+$_['text_wait']                = '請稍後';
 $_['text_yes']                = '是';
 $_['text_no']                 = '否';
 $_['text_enabled']            = '啟用';
