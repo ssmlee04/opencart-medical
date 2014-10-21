@@ -36,8 +36,12 @@ class ModelCatalogPurchase extends Model {
 			$sql .= " AND date_added = '" . $this->db->escape($data['filter_date_added']) . "'";	
 		}
 
-		if (isset($data['filter_total'])) {
-			$sql .= " AND total > '" . (int)$data['filter_total']. "'";	
+		if (isset($data['filter_total_min'])) {
+			$sql .= " AND total >= '" . (int)$data['filter_total_min']. "'";	
+		}
+
+		if (isset($data['filter_total_max'])) {
+			$sql .= " AND total <= '" . (int)$data['filter_total_max']. "'";	
 		}
 
 		$sort_data = array(
@@ -74,6 +78,73 @@ class ModelCatalogPurchase extends Model {
 		}	
 
 		return $this->db->query($sql)->rows;
+	}
+
+	function getTotalPurchases($data) {
+
+		$sql = "SELECT count(*) as total FROM oc_purchase p "; 
+
+		//$sql .= " WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "'"; 
+		$sql .= " WHERE 1=1 "; 
+
+		if (isset($data['filter_store'])) {
+			$sql .= " AND store_id = '" . (int)$data['filter_store'] . "'";	
+		}
+
+		if (isset($data['filter_user'])) {
+			$sql .= " AND user_id = '" . (int)$data['filter_user']. "'";	
+		}
+
+		if (isset($data['filter_date_purchased'])) {
+			$sql .= " AND date_purchased = '" . $this->db->escape($data['filter_date_purchased']) . "'";	
+		}
+
+		if (isset($data['filter_date_added'])) {
+			$sql .= " AND date_added = '" . $this->db->escape($data['filter_date_added']) . "'";	
+		}
+
+		if (isset($data['filter_total_min'])) {
+			$sql .= " AND total >= '" . (int)$data['filter_total_min']. "'";	
+		}
+
+		if (isset($data['filter_total_max'])) {
+			$sql .= " AND total <= '" . (int)$data['filter_total_max']. "'";	
+		}
+
+		$sort_data = array(
+			'p.total',
+			'p.store_id',
+			'p.user_id',
+			'p.date_added', 
+			'p.status',
+			'p.sort_order'
+		);	
+
+		// if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
+		// 	$sql .= " ORDER BY " . $data['sort'];	
+		// } else {
+		// 	$sql .= " ORDER BY p.purchase_id ";	
+		// }
+
+		// if (isset($data['order']) && ($data['order'] == 'DESC')) {
+		// 	$sql .= " DESC";
+		// } else {
+		// 	$sql .= " ASC";
+		// }
+
+		// if (isset($data['start']) || isset($data['limit'])) {
+		// 	if ($data['start'] < 0) {
+		// 		$data['start'] = 0;
+		// 	}				
+
+		// 	if ($data['limit'] < 1) {
+		// 		$data['limit'] = 20;
+		// 	}	
+
+		// 	$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
+		// }	
+
+		return $this->db->query($sql)->row['total'];
 	}
 
 	// '2014-09-27 03:16'

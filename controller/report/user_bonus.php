@@ -170,10 +170,12 @@ class ControllerReportUserBonus extends Controller {
 				$customer = $this->model_sale_customer->getCustomer($result['customer_id']);
 					$product = $this->model_catalog_product->getProduct($result['product_id']);
 
+				$date_modified = explode(' ', $result['date_modified'])[0];
+
 				if ($result['doctor_id'] == $user_id) {
 
 					$transactions[] = array(
-						'date_modified' => $result['date_modified'],
+						'date_modified' => $date_modified,
 						'customer_id' => $result['customer_id'],
 						'customer_name' => $customer['fullname'],
 						'product_id' => $result['product_id'],
@@ -186,7 +188,7 @@ class ControllerReportUserBonus extends Controller {
 				if ($result['consultant_id'] == $user_id) {
 					
 					$transactions[] = array(
-						'date_modified' => $result['date_modified'],
+						'date_modified' => $date_modified,
 						'customer_id' => $result['customer_id'],
 						'customer_name' => $customer['fullname'],
 						'product_id' => $result['product_id'],
@@ -199,7 +201,7 @@ class ControllerReportUserBonus extends Controller {
 				if ($result['beauty_id'] == $user_id) {
 
 					$transactions[] = array(
-						'date_modified' => $result['date_modified'],
+						'date_modified' => $date_modified,
 						'customer_id' => $result['customer_id'],
 						'customer_name' => $customer['fullname'],
 						'product_id' => $result['product_id'],
@@ -212,7 +214,7 @@ class ControllerReportUserBonus extends Controller {
 				if ($result['outsource_id'] == $user_id) {
 
 					$transactions[] = array(
-						'date_modified' => $result['date_modified'],
+						'date_modified' => $date_modified,
 						'customer_id' => $result['customer_id'],
 						'customer_name' => $customer['fullname'],
 						'product_id' => $result['product_id'],

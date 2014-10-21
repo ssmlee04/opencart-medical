@@ -139,8 +139,13 @@ $_['column_filename']       = '檔名';
 $_['column_comment']        = '備註';
 $_['column_notify']         = '通知客戶';
 $_['column_action']         = '動作';
+$_['column_actual_price']         = '實際金額';
 
 // Entry
+$_['entry_payment_cash']      = '現金付款';
+$_['entry_payment_visa']      = '信用卡付款';
+$_['entry_payment_final']      = '尾款';
+$_['entry_payment_balance']      = '餘額';
 $_['entry_store']      = '商店名稱';
 $_['entry_customer']        = '客戶';
 $_['entry_customer_group']    = '客戶群組';

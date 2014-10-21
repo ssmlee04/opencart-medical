@@ -1,4 +1,4 @@
-<!-- <modification>
+<modification>
 	<file name="view/template/admin_theme/base5builder_impulsepro/common/header.tpl">
 		<operation>
 			<search position="replace"><![CDATA[
@@ -76,4 +76,4 @@
 			]]></add>
 		</operation>
 	</file>
-</modification> -->
+</modification>

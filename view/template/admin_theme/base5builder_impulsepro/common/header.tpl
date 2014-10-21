@@ -218,18 +218,7 @@ if(array_intersect($page_name, $get_route)){
       <li id="system"><a class="top"><?php echo $text_system; ?></a>
         <ul>
           <li><a href="<?php echo $setting; ?>"><?php echo $text_setting; ?></a></li>
-          <!-- <li><a href="<php echo $contact; ?>"><php echo $text_contact; ?></a></li> -->
-          
-          <li><a class="parent"><?php echo $text_localisation; ?></a>
-            <ul>
-              <!-- <li><a href="<php echo $stock_status; ?>"><hp echo $text_stock_status; ?></a></li> -->
-              <li><a href="<?php echo $order_status; ?>"><?php echo $text_order_status; ?></a></li>
-              <!-- <li><a href="<php echo $length_class; ?>"><php echo $text_length_class; ?></a></li>
-              <li><a href="<php echo $weight_class; ?>"><php echo $text_weight_class; ?></a></li> -->
-              <!-- <li><a href="<php echo $language; ?>"><php echo $text_language; ?></a></li> -->
-              <li><a href="<?php echo $unit_class; ?>"><?php echo $text_unit_class; ?></a></li>
-            </ul>
-          </li>
+          <li><a href="<?php echo $unit_class; ?>"><?php echo $text_unit_class; ?></a></li>
           <li><a href="<?php echo $error_log; ?>"><?php echo $text_error_log; ?></a></li>
           <li><a href="<?php echo $backup; ?>"><?php echo $text_backup; ?></a></li>
 	        </ul>

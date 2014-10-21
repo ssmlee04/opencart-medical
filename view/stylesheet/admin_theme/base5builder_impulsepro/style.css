@@ -1,3 +1,4 @@
+
 html,body,input, input, select, textarea{
 	font-family: Raleway,"Helvetica Neue",Helvetica,Arial,sans-serif;
 	/*font-family: Arial,sans-serif;*/
@@ -1330,9 +1331,10 @@ table.form > tbody > tr > td:first-child{
 	overflow-y: scroll;
 	width: 350px;
 }
+.scrollbox {height: auto;max-height:400px;}
 
 .scrollbox div {
-	padding: 3px;
+	padding: 8px;
 	line-height: normal;
 }
 

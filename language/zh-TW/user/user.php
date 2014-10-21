@@ -10,6 +10,8 @@ $_['column_username']   = '名稱';
 $_['column_status']     = '狀態';
 $_['column_date_added'] = '加入日期';
 $_['column_action']     = '動作';
+$_['column_fullname']     = '使用者';
+$_['column_user_group_name']     = '使用者羣組';
 
 // Entry
 $_['entry_username']   = '帳號';

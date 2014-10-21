@@ -27,8 +27,8 @@
 
 <table class="form">
 
-  <tr onclick="$('.payment').toggle()">
-    <td><?php echo $text_total_payment; ?></td>
+  <tr onclick="$('.payment').toggle('slow')">
+    <td><a><?php echo $text_total_payment; ?></a></td>
     <td><?php echo $total_payment; ?></td>
   </tr>
 

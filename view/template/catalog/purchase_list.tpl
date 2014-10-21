@@ -65,7 +65,8 @@
             <tr class="filter">
               <td></td>
               
-              <td><select name="filter_store">
+              <td>
+                <select name="filter_store" style='display:none'>
                   <option value=""></option>
                   <?php if ($stores) { ?>
                     <?php foreach ($stores as $store) { ?>
@@ -91,11 +92,13 @@
                   <?php } ?>
                 </select></td>
 
-                <td align="left"><input type="text" name="filter_total" value="<?php echo $filter_total; ?>" size="8"/></td>
+                <td align="left"><input type="text" name="filter_total_min" value="<?php echo $filter_total_min; ?>" size="8"/>~<input type="text" name="filter_total_max" value="<?php echo $filter_total_max; ?>" size="8"/></td>
 
-                <td align="left"><input type="date_available" class='date' name="filter_date_purchased" value="<?php echo $filter_date_purchased; ?>" size=""/></td>
+                <td></td>
+                <td></td>
+                <!-- <td align="left"><input type="date_available" class='date' name="filter_date_purchased" value="<php echo $filter_date_purchased; ?>" size=""/></td> -->
 
-                <td align="left"><input type="date_available" class='date' name="filter_date_added" value="<?php echo $filter_date_added; ?>" size=""/></td>
+                <!-- <td align="left"><input type="date_available" class='date' name="filter_date_added" value="<php echo $filter_date_added; ?>" size=""/></td> -->
 
               <td align="right"><a onclick="filter();" class="button"><?php echo $button_filter; ?></a></td>
 
@@ -111,15 +114,16 @@
                 <input type="checkbox" name="selected[]" value="<?php echo $purchase['purchase_id']; ?>" />
                 <?php } ?></td>
 
-              <td class="left"><?php echo $purchase['store']; ?></td>
+              <td class="left"><?php foreach ($purchase['action'] as $action) { ?>
+                <a href="<?php echo $action['href']; ?>"><?php echo $purchase['store']; ?></a>
+                <?php } ?>
+              </td>
               <td class="left"><?php echo $purchase['name']; ?></td>
               <td class="left"><?php echo $purchase['total']; ?></td>
               <td class="left"><?php echo $purchase['date_purchased']; ?></td>
               <td class="left"><?php echo $purchase['date_added']; ?></td>
             
-              <td class="right"><?php foreach ($purchase['action'] as $action) { ?>
-                [ <a href="<?php echo $action['href']; ?>"><?php echo $action['text']; ?></a> ]
-                <?php } ?></td>
+              <td class="right"></td>
             </tr>
             <?php } ?>
             <?php } else { ?>
@@ -138,12 +142,18 @@
 function filter() {
 	url = 'index.php?route=catalog/purchase&token=<?php echo $token; ?>';
 	
-  var filter_total = $('input[name=\'filter_total\']').attr('value');
+  var filter_total_min = $('input[name=\'filter_total_min\']').attr('value');
   
-  if (filter_total) {
-    url += '&filter_total=' + encodeURIComponent(filter_total);
+  if (filter_total_min) {
+    url += '&filter_total_min=' + encodeURIComponent(filter_total_min);
   }
+ 
+  var filter_total_max = $('input[name=\'filter_total_max\']').attr('value');
   
+  if (filter_total_max) {
+    url += '&filter_total_max=' + encodeURIComponent(filter_total_max);
+  }
+
   var filter_date_purchased = $('input[name=\'filter_date_purchased\']').attr('value');
   
   if (filter_date_purchased) {

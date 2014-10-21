@@ -44,8 +44,12 @@ class ControllerCatalogPurchase extends Controller {
 			// 	$url .= '&filter_purchase_status_id=' . $this->request->get['filter_purchase_status_id'];
 			// }
 
-			if (isset($this->request->get['filter_total'])) {
-				$url .= '&filter_total=' . $this->request->get['filter_total'];
+			if (isset($this->request->get['filter_total_min'])) {
+				$url .= '&filter_total_min=' . $this->request->get['filter_total_min'];
+			}
+
+			if (isset($this->request->get['filter_total_max'])) {
+				$url .= '&filter_total_max=' . $this->request->get['filter_total_max'];
 			}
 
 			if (isset($this->request->get['filter_date_purchased'])) {
@@ -110,8 +114,12 @@ class ControllerCatalogPurchase extends Controller {
 				$url .= '&filter_purchase_status_id=' . $this->request->get['filter_purchase_status_id'];
 			}
 
-			if (isset($this->request->get['filter_total'])) {
-				$url .= '&filter_total=' . $this->request->get['filter_total'];
+			if (isset($this->request->get['filter_total_min'])) {
+				$url .= '&filter_total_min=' . $this->request->get['filter_total_min'];
+			}
+
+			if (isset($this->request->get['filter_total_max'])) {
+				$url .= '&filter_total_max=' . $this->request->get['filter_total_max'];
 			}
 
 			if (isset($this->request->get['filter_date_purchased'])) {
@@ -179,8 +187,12 @@ class ControllerCatalogPurchase extends Controller {
 				$url .= '&filter_purchase_status_id=' . $this->request->get['filter_purchase_status_id'];
 			}
 
-			if (isset($this->request->get['filter_total'])) {
-				$url .= '&filter_total=' . $this->request->get['filter_total'];
+			if (isset($this->request->get['filter_total_min'])) {
+				$url .= '&filter_total_min=' . $this->request->get['filter_total_min'];
+			}
+
+			if (isset($this->request->get['filter_total_max'])) {
+				$url .= '&filter_total_max=' . $this->request->get['filter_total_max'];
 			}
 
 			if (isset($this->request->get['filter_date_purchased'])) {
@@ -220,12 +232,13 @@ class ControllerCatalogPurchase extends Controller {
 		} else {
 			$filter_purchase_id = null;
 		}
-
+		
 		if (isset($this->request->get['filter_user'])) {
 			$filter_user = $this->request->get['filter_user'];
 		} else {
 			$filter_user = null;
 		}
+
 
 		if (isset($this->request->get['filter_store'])) {
 			$filter_store = $this->request->get['filter_store'];
@@ -233,10 +246,16 @@ class ControllerCatalogPurchase extends Controller {
 			$filter_store = null;
 		}
 
-		if (isset($this->request->get['filter_total'])) {
-			$filter_total = $this->request->get['filter_total'];
+		if (isset($this->request->get['filter_total_min'])) {
+			$filter_total_min = $this->request->get['filter_total_min'];
 		} else {
-			$filter_total = null;
+			$filter_total_min = null;
+		}
+
+		if (isset($this->request->get['filter_total_max'])) {
+			$filter_total_max = $this->request->get['filter_total_max'];
+		} else {
+			$filter_total_max = null;
 		}
 
 		if (isset($this->request->get['filter_date_purchased'])) {
@@ -287,8 +306,12 @@ class ControllerCatalogPurchase extends Controller {
 		// 	$url .= '&filter_purchase_status_id=' . $this->request->get['filter_purchase_status_id'];
 		// }
 
-		if (isset($this->request->get['filter_total'])) {
-			$url .= '&filter_total=' . $this->request->get['filter_total'];
+		if (isset($this->request->get['filter_total_min'])) {
+			$url .= '&filter_total_min=' . $this->request->get['filter_total_min'];
+		}
+
+		if (isset($this->request->get['filter_total_max'])) {
+			$url .= '&filter_total_max=' . $this->request->get['filter_total_max'];
 		}
 
 		if (isset($this->request->get['filter_date_purchased'])) {
@@ -339,7 +362,8 @@ class ControllerCatalogPurchase extends Controller {
 			'filter_purchase_id'        => $filter_purchase_id,
 			'filter_user'	     => $filter_user,
 			'filter_store' 			=> $filter_store,
-			'filter_total'           => $filter_total,
+			'filter_total_min'           => $filter_total_min,
+			'filter_total_max'           => $filter_total_max,
 			'filter_date_purchased'      => $filter_date_purchased,
 			'filter_date_added'      => $filter_date_added,
 			// 'filter_date_modified'   => $filter_date_modified,
@@ -349,12 +373,13 @@ class ControllerCatalogPurchase extends Controller {
 			'limit'                  => $this->config->get('config_admin_limit')
 		);
 
-		$purchase_total = 20; //$this->model_catalog_purchase->getTotalPurchases($data);
+		$purchase_total = $this->model_catalog_purchase->getTotalPurchases($data);
+		$results = $this->model_catalog_purchase->getPurchases($data);
 
-		$this->load->model('user/user');
+		$this->load->model('user/user')	;
 
 		$data = array();
-		// $data['']
+
 		$users = $this->model_user_user->getUsers($data);
 
 		$this->data['users'] = $users;
@@ -365,7 +390,7 @@ class ControllerCatalogPurchase extends Controller {
 
 		$this->data['stores'] = $stores;		
 
-		$results = $this->model_catalog_purchase->getPurchases($data);
+		
 
 		foreach ($results as $result) {
 			$action = array();
@@ -395,7 +420,7 @@ class ControllerCatalogPurchase extends Controller {
 				'purchase_id'      => $result['purchase_id'],
 				'user'      => $result['user_id'],
 				'store'      => $storeinfo['name'],
-				'name'      => $userinfo['lastname'] . ' ' . $userinfo['firstname'],
+				'name'      => $userinfo['fullname'],
 				// 'status'        => $result['status'],
 				'total'         => $result['total'],// //$this->currency->format($result['total'], $result['currency_code'], $result['currency_value']),
 				'date_added'    => $result['date_added'], //date($this->language->get('date_format_short'), strtotime($result['date_purchased'])),
@@ -467,8 +492,12 @@ class ControllerCatalogPurchase extends Controller {
 			$url .= '&filter_purchase_status_id=' . $this->request->get['filter_purchase_status_id'];
 		}
 
-		if (isset($this->request->get['filter_total'])) {
-			$url .= '&filter_total=' . $this->request->get['filter_total'];
+		if (isset($this->request->get['filter_total_min'])) {
+			$url .= '&filter_total_min=' . $this->request->get['filter_total_min'];
+		}
+
+		if (isset($this->request->get['filter_total_max'])) {
+			$url .= '&filter_total_max=' . $this->request->get['filter_total_max'];
 		}
 
 		if (isset($this->request->get['filter_date_purchased'])) {
@@ -521,8 +550,12 @@ class ControllerCatalogPurchase extends Controller {
 			$url .= '&filter_purchase_status_id=' . $this->request->get['filter_purchase_status_id'];
 		}
 
-		if (isset($this->request->get['filter_total'])) {
-			$url .= '&filter_total=' . $this->request->get['filter_total'];
+		if (isset($this->request->get['filter_total_min'])) {
+			$url .= '&filter_total_min=' . $this->request->get['filter_total_min'];
+		}
+
+		if (isset($this->request->get['filter_total_max'])) {
+			$url .= '&filter_total_max=' . $this->request->get['filter_total_max'];
 		}
 
 		if (isset($this->request->get['filter_date_purchased'])) {
@@ -554,7 +587,8 @@ class ControllerCatalogPurchase extends Controller {
 		$this->data['filter_user'] = $filter_user;
 		$this->data['filter_store'] = $filter_store;
 		// $this->data['filter_purchase_status_id'] = $filter_purchase_status_id;
-		$this->data['filter_total'] = $filter_total;
+		$this->data['filter_total_min'] = $filter_total_min;
+		$this->data['filter_total_max'] = $filter_total_max;
 		$this->data['filter_date_purchased'] = $filter_date_purchased;
 		$this->data['filter_date_added'] = $filter_date_added;
 		// $this->data['filter_date_modified'] = $filter_date_modified;
@@ -824,8 +858,8 @@ class ControllerCatalogPurchase extends Controller {
 			$url .= '&filter_purchase_status_id=' . $this->request->get['filter_purchase_status_id'];
 		}
 
-		if (isset($this->request->get['filter_total'])) {
-			$url .= '&filter_total=' . $this->request->get['filter_total'];
+		if (isset($this->request->get['filter_total_min'])) {
+			$url .= '&filter_total_min=' . $this->request->get['filter_total_min'];
 		}
 
 		if (isset($this->request->get['filter_date_purchased'])) {
@@ -914,10 +948,33 @@ class ControllerCatalogPurchase extends Controller {
 			$this->data['store_url'] = HTTP_CATALOG;
 		}
 
+		$this->load->model('user/user');
+		$user = $this->model_user_user->getUser($this->user->getId());
+
+		// if (isset($this->request->get['filter_user'])) {
+		// 	$filter_user = $this->request->get['filter_user'];
+		// } else if (isset($user['user_id'])) {
+		// 	$filter_store = $user['user_id'];			
+		// } else {
+		// 	$filter_user = null;
+		// }
+
+
+		// if (isset($this->request->get['filter_store'])) {
+		// 	$filter_store = $this->request->get['filter_store'];
+		// } else if (isset($user['store_id'])) {
+		// 	$filter_store = $user['store_id'];
+		// } else {
+		// 	$filter_store = null;
+		// }
+
+
 		if (isset($this->request->post['user_id'])) {
 			$this->data['user_id'] = $this->request->post['user_id'];
 		} elseif (!empty($purchase_info)) {
 			$this->data['user_id'] = $purchase_info['user_id'];
+			} else if (isset($user['user_id'])) {
+			$this->data['user_id'] = $user['user_id'];			
 		} else {
 			$this->data['user_id'] = '';
 		}
@@ -926,6 +983,8 @@ class ControllerCatalogPurchase extends Controller {
 			$this->data['store_id'] = $this->request->post['store_id'];
 		} elseif (!empty($purchase_info)) {
 			$this->data['store_id'] = $purchase_info['store_id'];
+			} else if (isset($user['store_id'])) {
+			$this->data['store_id'] = $user['store_id'];
 		} else {
 			$this->data['store_id'] = '';
 		}
@@ -987,6 +1046,7 @@ class ControllerCatalogPurchase extends Controller {
 		// } else {
 		// 	$this->data['purchase_totals'] = array();
 		// }
+
 
 
 		$this->template = 'catalog/purchase_form.tpl';
@@ -1231,8 +1291,8 @@ class ControllerCatalogPurchase extends Controller {
 				$url .= '&filter_purchase_status_id=' . $this->request->get['filter_purchase_status_id'];
 			}
 
-			if (isset($this->request->get['filter_total'])) {
-				$url .= '&filter_total=' . $this->request->get['filter_total'];
+			if (isset($this->request->get['filter_total_min'])) {
+				$url .= '&filter_total_min=' . $this->request->get['filter_total_min'];
 			}
 
 			if (isset($this->request->get['filter_date_purchased'])) {

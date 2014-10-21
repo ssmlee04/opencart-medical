@@ -34,7 +34,13 @@
 
             <tr>
               <td class="left"><?php echo $entry_store; ?></td>
-              <td class="left"><select name="store_id" class='store_id'>
+              <td class="left">
+                <?php foreach ($stores as $store) { ?>
+                  <?php if ($store['store_id'] == $store_id) { ?>
+                  <?php echo $store['name']; ?></option>
+                  <?php } ?>
+                  <?php } ?>
+                <select name="store_id" class='store_id' style='display:none'>
                   <option value=''><?php echo $text_select; ?></option>
                   <?php foreach ($stores as $store) { ?>
                   <?php if ($store['store_id'] == $store_id) { ?>
@@ -50,7 +56,14 @@
             </tr>
             <tr>
               <td class="left"><?php echo $entry_user; ?></td>
-              <td class="left"><select name="user_id" class='user_id'>
+              <td class="left">
+                <?php foreach ($users as $user) { ?>
+                  <?php if ($user['user_id'] == $user_id) { ?>
+                  <?php echo $user['lastname'] . ' ' . $user['firstname']; ?></option>
+                  <?php } ?>
+                  <?php } ?>
+
+                <select name="user_id" class='user_id' style='display:none'>
                   <option value=''><?php echo $text_select; ?></option>
                   <?php foreach ($users as $user) { ?>
                   <?php if ($user['user_id'] == $user_id) { ?>
