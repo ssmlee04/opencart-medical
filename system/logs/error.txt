@@ -41,3 +41,8 @@
 2014-10-21 6:51:02 - PHP Notice:  Undefined variable: customer_id in /var/www/html/opencart2/vqmod/vqcache/vq2-view_template_sale_customer_form.tpl on line 863
 2014-10-21 6:53:30 - PHP Notice:  Undefined variable: customer_id in /var/www/html/opencart2/vqmod/vqcache/vq2-view_template_sale_customer_form.tpl on line 864
 2014-10-21 6:54:43 - PHP Notice:  Undefined variable: filter_order_status_id in /var/www/html/opencart2/controller/report/user_bonus.php on line 311
+2014-10-21 6:56:42 - PHP Notice:  Undefined index: fullname in /var/www/html/opencart2/controller/image/imagemanage.php on line 192
+2014-10-21 6:56:42 - PHP Notice:  Undefined index: fullname in /var/www/html/opencart2/controller/image/imagemanage.php on line 192
+2014-10-21 6:56:42 - PHP Notice:  Undefined index: fullname in /var/www/html/opencart2/controller/image/imagemanage.php on line 192
+2014-10-21 6:56:42 - PHP Notice:  Undefined index: fullname in /var/www/html/opencart2/controller/image/imagemanage.php on line 192
+2014-10-21 6:56:42 - PHP Notice:  Undefined index: fullname in /var/www/html/opencart2/controller/image/imagemanage.php on line 192
