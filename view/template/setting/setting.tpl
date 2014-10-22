@@ -1085,7 +1085,7 @@ function image_upload(field, thumb) {
 	});
 };
 //--></script> 
+<?php echo $footer; ?>
 <script type="text/javascript"><!--
 $('#tabs a').tabs();
 //--></script> 
-<?php echo $footer; ?>
