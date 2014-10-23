@@ -184,7 +184,9 @@ class ControllerImageImageManage extends Controller {
 
 			$product = $this->model_catalog_product->getProduct($product_id);
 			$customer = $this->model_sale_customer->getCustomer($customer_id);
+// $this->load->test($customer);
 
+			if ($customer)
 			$this->data['customer_images'][] = array(
 				'image'      => $image,
 				'product_name'      => (!empty($product) ? $product['name'] : ''),

@@ -50,35 +50,37 @@ $(document).ready(function(){
 		  }
 		});
 	});
-	
-	
-	$("select[type='product']").load('false', function(data){
-		var product_type_ids = $(this).attr('alt');
-		var that = this;
-		var name = $(this).attr('name');
-		$.ajax({
-		  url: 'index.php?route=catalog/product/all&token=' + $('#tk').val() + '&filter_product_type_ids=' + product_type_ids,
-		  type: 'POST',
-		  dataType: 'json',
-		  complete: function(xhr, textStatus) {
-		    //called when complete
-		  },
-		  success: function(json, textStatus, xhr) {
-		    //called when successful
-				$(that).empty().append("<option></option>");
-				// $.each(json, function(d){
-				// 	$(that).append('<option></option>').text(d.name).val(d.product_id);
-				// });
-				json.map(function(d){
-					$(that).append("<option value='" + d.product_id + "''>" + d.name + "</option>");
-				});
+
+
+	// // $("select[type='product']").load('false', function(data){
+	// $("select[type='product']").on("focusin", function(){
+	// 	console.log(222);
+	// 	var product_type_ids = $(this).attr('alt');
+	// 	var that = this;
+	// 	var name = $(this).attr('name');
+	// 	$.ajax({
+	// 	  url: 'index.php?route=catalog/product/all&token=' + $('#tk').val() + '&filter_product_type_ids=' + product_type_ids,
+	// 	  type: 'POST',
+	// 	  dataType: 'json',
+	// 	  complete: function(xhr, textStatus) {
+	// 	    //called when complete
+	// 	  },
+	// 	  success: function(json, textStatus, xhr) {
+	// 	    //called when successful
+	// 			$(that).empty().append("<option></option>");
+	// 			// $.each(json, function(d){
+	// 			// 	$(that).append('<option></option>').text(d.name).val(d.product_id);
+	// 			// });
+	// 			json.map(function(d){
+	// 				$(that).append("<option value='" + d.product_id + "''>" + d.name + "</option>");
+	// 			});
 			
-		  },
-		  error: function(xhr, textStatus, errorThrown) {
-		    //called when there is an error
-		  }
-		});
-	});
+	// 	  },
+	// 	  error: function(xhr, textStatus, errorThrown) {
+	// 	    //called when there is an error
+	// 	  }
+	// 	});
+	// });
 
 	$("input[type='product']").on("focusin", function(){
 		var product_type_ids = $(this).attr('alt');

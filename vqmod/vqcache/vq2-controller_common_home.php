@@ -170,6 +170,7 @@ class ControllerCommonHome extends Controller {
 
 		$data = array(
 			'filter_user_id' => $this->user->getId(),
+			'filter_reminder' => 1,
 			'filter_reminder_status' => 0,
 			'filter_reminder_date_end' => date("Y-m-d")
 		);

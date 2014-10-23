@@ -542,6 +542,61 @@ class ControllerUserUser extends Controller {
 		}
 	}
 
+
+
+	public function all() {
+
+		$json = array();
+
+		// if (isset($this->request->get['filter_name'])) {
+			$this->load->model('user/user');
+
+			$data = array();
+			if (isset($this->request->get['filter_name'])) $data['filter_name'] = $this->request->get['filter_name'];
+			if (isset($this->request->get['filter_user_group_id'])) $data['filter_user_group_id'] = $this->request->get['filter_user_group_id'];			
+
+			// $data = array(
+			// 	'filter_name' => $this->request->get['filter_name'],
+			// 	'filter_user_group_id' => $this->request->get['filter_user_group_id'],
+			// 	// 'start'       => 0,
+			// 	// 'limit'       => 20
+			// );
+			$results = $this->model_user_user->getUsers($data);
+
+			foreach ($results as $result) {
+				
+				$json[] = array(
+					'user_id'       => $result['user_id'], 
+					// 'dob' => $result['dob'],
+					// 'store_id' => $result['store_id'],
+					// 'customer_group_id' => $result['customer_group_id'],
+					// 'name'              => strip_tags(html_entity_decode($result['name'], ENT_QUOTES, 'UTF-8')),
+					// 'customer_group'    => $result['customer_group'],
+					// 'firstname'         => $result['firstname'],
+					'fullname'          => $result['fullname'],
+					// 'lastname'          => $result['lastname'],
+					// 'email'             => $result['email'],
+					// 'telephone'         => $result['telephone'],
+					// 'fax'               => $result['fax'],
+					// 'ssn'               => $result['ssn']
+					// 'address_id'           =>  $result['address_id'],
+					// 'address'           => $address
+				);					
+			}
+		// }
+
+		$sort_order = array();
+
+		foreach ($json as $key => $value) {
+			$sort_order[] = $value['fullname'];
+		}
+
+		array_multisort($sort_order, SORT_ASC, $json);
+
+		$this->response->setOutput(json_encode($json));
+	}	
+
+
 	public function autocomplete() {
 
 		$json = array();

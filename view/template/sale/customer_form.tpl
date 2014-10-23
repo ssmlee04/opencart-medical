@@ -7,7 +7,7 @@
   .payment {
     display: none;
   }
-  <?php if ($is_insert) {?>
+  <?php if ($is_insert=='1') {?>
     .group11 {
     display: none; 
   }
@@ -18,6 +18,7 @@
     <?php } ?>
   
 </style>
+
 <div id="content">
   <div class="breadcrumb">
     <?php foreach ($breadcrumbs as $breadcrumb) { ?>
@@ -34,7 +35,9 @@
     <div class="heading">
       <h1><img src="view/image/customer.png" alt="" /> <?php echo $heading_title; ?></h1>
       <div class="buttons">
+        <?php if (!$is_insert) { ?>
         <a onclick="showhide()" class="button"><?php echo $button_edit_basic; ?></a>
+        <?php } ?>
         <a onclick="$('#form').submit();" class="button"><?php echo $button_save; ?></a>
         <a href="<?php echo $cancel; ?>" class="button"><?php echo $button_cancel; ?></a></div>
     </div>
@@ -113,23 +116,24 @@
                   <div class='group12' ><input type="date_available" name="dob" class='date' value="<?php echo $dob; ?>" />
                     <?php if ($error_dob) { ?>
                   <span class="error"><?php echo $error_dob; ?></span>
-                  <?php  } ?><span class="error"><?php echo $error_dob; ?></div></span>
+                  <?php  } ?></div></span>
               </td>
-              </tr>
               <tr>
-                <td><?php echo $entry_line_id; ?></td>
-                <td><div class='group11' ><?php echo $line_id; ?></div>
-                  <div class='group12' ><input type="text" name="line_id" value="<?php echo $line_id; ?>" /></div></td>
-              </tr>
-              <tr>
-                <td><?php echo $entry_ssn; ?></td>
+                <td><span class="required">*</span><?php echo $entry_ssn; ?></td>
                 <td><div class='group11' ><?php echo $ssn; ?></div>
-                  <div class='group12' ><input type="text" name="ssn" value="<?php echo $ssn; ?>" /></div></td>
+                  <div class='group12' ><input type="text" name="ssn" value="<?php echo $ssn; ?>" /><?php if ($error_ssn) { ?>
+                  <span class="error"><?php echo $error_ssn; ?></span>
+                  <?php  } ?></div></td>
               </tr>
               <tr>
                 <td><?php echo $entry_nickname; ?></td>
                 <td><div class='group11' ><?php echo $nickname; ?></div>
                   <div class='group12' ><input type="text" name="nickname" value="<?php echo $nickname; ?>" /></div></td>
+              </tr>
+              <tr>
+                <td><?php echo $entry_line_id; ?></td>
+                <td><div class='group11' ><?php echo $line_id; ?></div>
+                  <div class='group12' ><input type="text" name="line_id" value="<?php echo $line_id; ?>" /></div></td>
               </tr>
               <tr>
                 <td><?php echo $entry_fb_id; ?></td>
@@ -245,7 +249,7 @@
                   <?php } ?></div></td>
               </tr>
               <tr>
-                <td><span id="postcode-required" class="required">*</span> <?php echo $entry_postcode; ?></td>
+                <td><?php echo $entry_postcode; ?></td>
                 <td><div class='group11'><?php echo $address['postcode']; ?></div>
                   <div class='group12'><input type="text" name="address[postcode]" value="<?php echo $address['postcode']; ?>" /></div></td>
               </tr>
@@ -332,16 +336,14 @@
               <td><?php echo $entry_treatment_status; ?></td>
               <td><select name='filter_treatment_status'>
                 <option></option>
-                <option value='-1'>ununsed</option>
-                <option value='-2'>booking</option>
-                <option value='1'>???</option>
-                <option value='2'>used</option>
-                <option value='10'>lended out</option>
+                <?php foreach ($treatmentstatuses as $treatmentstatus) { ?>
+                  <option value="<?php echo $treatmentstatus['treatment_status_id']; ?>"><?php echo $treatmentstatus['name']; ?></option>
+                <?php } ?>
               <select></td>
               <td colspan="2" style="text-align: right;"></td>
             </tr>
             <tr>
-              <td colspan="4" style="text-align: right;"><a id="button-displayimage" onclick="showhide1()" class="button"><span><?php echo $button_display_2image; ?></span></a></td>
+              <td colspan="4" style="text-align: right;"><a id="button-displayimage" onclick="showhide2()" class="button"><span><?php echo $button_display_2image; ?></span></a></td>
             </tr>
           </table>
 
@@ -600,12 +602,11 @@ $('#lendto .pagination a').live('click', function() {
 });     
 
 $('#button-history').bind('click', function() {
-
   $.ajax({
     url: 'index.php?route=sale/customer/history&token=<?php echo $token; ?>&filter_customer_id=<?php echo $filter_customer_id; ?>',
     type: 'post',
     dataType: 'html',
-    data: 'reminder=' + $('input[name=reminder]').attr('checked') + 
+    data: 'reminder=' + $('input[name=reminder]').is(':checked')  + 
           '&reminder_date=' + encodeURIComponent($('input[name=reminder_date]').val()) + '&comment=' + encodeURIComponent($('#tab-history textarea[name=\'comment\']').val()),
     beforeSend: function() {
       $('.success, .warning').remove();
@@ -634,8 +635,10 @@ $('#transaction .pagination a').live('click', function() {
 });			
 
 $('#tab-general-link').on('click', function(){
-  $('.group12').hide();
-  $('.group11').show();
+  if ('<?php echo $is_insert; ?>' != 1) {
+    $('.group12').hide();
+    $('.group11').show();
+  }
 });
 
 $('#tab-transaction-link').on('click', function(){
@@ -946,6 +949,11 @@ function avatar_upload(field, thumb) {
 var showhide = function(){
   $('.group12').toggle(); $('.group11').toggle();
 };
+
+var showhide2 = function(){
+  $('.group1').toggle(); $('.group2').toggle();
+};
+
 // var showhide13 = function(){
 //   $('.group13').toggle(); $('.group14').toggle();
 // };

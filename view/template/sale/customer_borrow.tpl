@@ -21,7 +21,7 @@
     </tr>
   </thead>
   <tbody>
-    <?php if ($results) { ?>
+    <?php if (isset($results) && $results) { ?>
     <?php foreach ($results as $borrow) { ?>
     <tr>
       <td class="left"><?php echo $borrow['date_added']; ?></td>

@@ -146,7 +146,12 @@ class ControllerSaleTreatment extends Controller {
 
 		if (isset($this->request->get['is_insert'])) {
 			$url .= '&is_insert=' . $this->request->get['is_insert'];
-		}
+		}	
+
+
+		$query21 = $this->db->query("SELECT * FROM oc_treatment_status WHERE ismain = 1");
+		$this->data['treatmentstatuses'] = $query21->rows;
+
 
 		$this->data['button_save'] = $this->language->get('button_save');
 		$this->data['button_cancel'] = $this->language->get('button_cancel');

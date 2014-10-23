@@ -119,6 +119,7 @@ $_['entry_comment']                           = '備註';
 $_['entry_image']                           = '圖片';
 $_['entry_treatment_image']                           = '診療圖片';
 $_['entry_dob']         = '出生年月日';
+$_['entry_mobile']         = '行動電話';
 $_['entry_treatment_status']         = '使用狀態';
 $_['entry_outsource']         = '外務';
 $_['entry_beauty']         = '美容師';
@@ -128,13 +129,15 @@ $_['entry_consultant']         = '諮詢師';
 
 $_['entry_ssn']         = '身份證字號';
 $_['entry_line_id']         = 'Line id';
-
-$_['entry_counselor_id']         = 'entry_counselor_id ????????????????';
 $_['entry_fb_id']         = 'Facebook id';
 
-$_['entry_misc']         = 'entry_misc ??????????????????';
+$_['entry_last_beauty']         = '上次看診美容師';
+$_['entry_last_outsource']         = '上次看診外務';
+$_['entry_last_doctor']         = '上次看診醫師';
+$_['entry_last_consultant']         = '上次看診諮詢師';
 $_['entry_store']         = '對應商店';
 $_['entry_date_added']         = '增加日期';
+$_['entry_last_visit']         = '上次來店日期';
 
 // Error
 $_['error_warning']         = '警告發生錯誤，請再確認';
@@ -156,5 +159,7 @@ $_['error_country']           = '請選擇國家';
 $_['error_zone']              = '請選擇區域或省';
 $_['error_dob']            = '出生年日月有誤';
 $_['error_store']            = '商店設定有誤';
+$_['error_mobile']            = '行動電話有誤';
+$_['error_ssn']            = '身份證字號有誤';
 
 ?>

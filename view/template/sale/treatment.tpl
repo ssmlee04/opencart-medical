@@ -39,11 +39,9 @@
               <td><?php echo ''; ?></td>
               <td><select name='filter_treatment_status'>
                 <option></option>
-                <option value='-1'>ununsed</option>
-                <option value='-2'>booking</option>
-                <option value='1'>???</option>
-                <option value='2'>used</option>
-                <option value='10'>lended out</option>
+                <?php foreach ($treatmentstatuses as $treatmentstatus) { ?>
+                  <option value="<?php echo $treatmentstatus['treatment_status_id']; ?>"><?php echo $treatmentstatus['name']; ?></option>
+                <?php } ?>
               <select></td>
               <td colspan="2" style="text-align: right;"></td>
             </tr>

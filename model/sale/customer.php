@@ -513,7 +513,7 @@ class ModelSaleCustomer extends Model {
 			$sql .= ", comment = '" . $this->db->escape($data['comment']) . "'"; 
 		}
 
-		if (isset($data['reminder'])) {
+		if (!empty($data['reminder']) && ($data['reminder'] == true)) {
 			$sql .= ", reminder = '1', reminder_date = '" . $this->db->escape(strip_tags($data['reminder_date'])) . "'"; 
 		}
 
@@ -1271,6 +1271,8 @@ class ModelSaleCustomer extends Model {
 		$this->language->load('sale/history');
 
 		// $comment = sprintf($this->language->get('text_treatment_reminder'), $reminder_days, $product_name);
+		$comment = $this->language->get('text_treatment_reminder');
+
 		$title = $product_name;
 
 		if ($reminder) {

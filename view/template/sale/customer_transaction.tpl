@@ -153,6 +153,8 @@
             </select>
 
           <?php echo $entry_doctor; ?>
+          
+
             <select name='doctor<?php echo $transaction['customer_transaction_id']; ?>'>
             <option></option>
             <?php foreach ($doctors as $result) { ?>

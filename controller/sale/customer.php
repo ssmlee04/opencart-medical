@@ -78,7 +78,7 @@ class ControllerSaleCustomer extends Controller {
 
 			// if (isset($this->request->get['order'])) {
 			// 	$url .= '&order=' . $this->request->get['order'];
-			// }
+			// }_
 
 			// if (isset($this->request->get['page'])) {
 			// 	$url .= '&page=' . $this->request->get['page'];
@@ -942,6 +942,12 @@ class ControllerSaleCustomer extends Controller {
 			$this->data['error_dob'] = '';
 		}
 
+		if (isset($this->error['ssn'])) {
+			$this->data['error_ssn'] = $this->error['ssn'];
+		} else {
+			$this->data['error_ssn'] = '';
+		}
+
 		if (isset($this->error['firstname'])) {
 			$this->data['error_firstname'] = $this->error['firstname'];
 		} else {
@@ -1288,7 +1294,7 @@ class ControllerSaleCustomer extends Controller {
 
 		if (isset($this->request->post['avatarimage'])) {
 			$this->data['thumb'] = $this->model_tool_image->resize($this->request->post['avatarimage'], 100, 100);
-			$this->data['image'] = $this->request->post['image'];
+			$this->data['image'] = $this->request->post['avatarimage'];
 			
 		} elseif (!empty($customer_info)) {
 			$this->data['thumb'] = $this->model_tool_image->resize($customer_info['image'], 100, 100);
@@ -1311,6 +1317,9 @@ class ControllerSaleCustomer extends Controller {
 		$this->data['stores'] = $this->model_setting_store->getStores();
 
 
+		$query21 = $this->db->query("SELECT * FROM oc_treatment_status WHERE ismain = 1");
+
+		$this->data['treatmentstatuses'] = $query21->rows;
 
 
 
@@ -1355,7 +1364,7 @@ class ControllerSaleCustomer extends Controller {
 			}
 		}
 
-		$this->data['last_visit'] = $last_visit;
+		$this->data['last_visit'] = explode(' ',$last_visit)[0];
 		$this->data['last_doctor'] = $last_doctor;
 		$this->data['last_consultant'] = $last_consultant;
 		$this->data['last_beauty'] = $last_beauty;
@@ -1462,6 +1471,10 @@ class ControllerSaleCustomer extends Controller {
 
 		if (!$this->validateDate($this->request->post['dob'])) {
 			$this->error['dob'] = $this->language->get('error_dob');
+		}
+
+		if (utf8_strlen($this->request->post['ssn']) < 10) {
+			$this->error['ssn'] = $this->language->get('error_ssn');
 		}
 
 		if ((utf8_strlen($this->request->post['firstname']) < 1) || (utf8_strlen($this->request->post['firstname']) > 32)) {
@@ -1852,8 +1865,13 @@ class ControllerSaleCustomer extends Controller {
 
 		$this->load->model('sale/customer');
 
-		$reminder = (isset($this->request->post['reminder']) ? $this->request->post['reminder'] : null); 
 
+		if (isset($this->request->post['reminder']) && $this->request->post['reminder'] == 'true') {
+			$reminder = 1;
+		} else {
+			$reminder = 0;
+		}
+		
 		$reminder_date = (isset($this->request->post['reminder_date']) ? $this->request->post['reminder_date'] : null); 
 
 		$filter_user_id = (isset($this->request->post['filter_user_id']) ? $this->request->post['filter_user_id'] : null); 
@@ -1878,31 +1896,57 @@ class ControllerSaleCustomer extends Controller {
 			$filter_reminder_date_end = null;	
 		}
 		
-		if (isset($this->request->post['comment']) && utf8_strlen($this->request->post['comment']) == 0) {
-			$this->data['error_warning'] = '';
-		} else if (isset($this->request->post['comment']) && utf8_strlen($this->request->post['comment']) < 5) {
-			$this->data['error_warning'] = $this->language->get('text_comment_is_short');
-		} else if (!$this->validateDate($reminder_date) && $reminder=='checked') {
-			$this->data['error_warning'] = $this->language->get('text_date_incorrect');
-		} else if (($this->request->server['REQUEST_METHOD'] == 'POST') && !$this->user->hasPermission('modify', 'sale/customer')) {
-			$this->data['error_warning'] = $this->language->get('error_permission');
-		} else if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->user->hasPermission('modify', 'sale/customer')) { 
+		$this->data['success'] = '';
+		$this->data['error_warning'] = '';
+
+		if ($this->request->server['REQUEST_METHOD'] == 'POST' && $this->user->hasPermission('modify', 'sale/customer')) { 
+
+			// post
 			if (isset($this->request->post['comment'])) {
-				$data = array(
-					'user_id' => $this->user->getId(),
-					'comment' => $this->request->post['comment'],
-					'reminder' => $this->request->post['reminder'],
-					'reminder_date' => $this->request->post['reminder_date'],
-				);
-				$this->model_sale_customer->addHistory($this->request->get['filter_customer_id'], $data);
-				$this->data['success'] = $this->language->get('text_success');
-			} else {
-				$this->data['success'] = '';
-			}
-		
-		} else {
-			$this->data['success'] = '.';
+
+				if (utf8_strlen($this->request->post['comment']) == 0) {
+					$this->data['error_warning'] = '';
+				} else if (!$this->validateDate($reminder_date) && $reminder) {
+					$this->data['error_warning'] = $this->language->get('text_date_incorrect');
+				} else {
+					$data = array(
+						'user_id' => $this->user->getId(),
+						'comment' => $this->request->post['comment'],
+						'reminder' => $reminder,
+						'reminder_date' => $this->request->post['reminder_date'],
+					);
+					$this->model_sale_customer->addHistory($this->request->get['filter_customer_id'], $data);
+					$this->data['success'] = $this->language->get('text_success');
+				}
+			} 
 		}
+		// if (isset($this->request->post['comment']) && utf8_strlen($this->request->post['comment']) == 0) {
+		// 	$this->data['error_warning'] = '';
+		// } else if (isset($this->request->post['comment']) && utf8_strlen($this->request->post['comment']) < 5) {
+		// 	$this->data['error_warning'] = $this->language->get('text_comment_is_short');
+		// } else if (!$this->validateDate($reminder_date) && $reminder=='checked') {
+		// 	$this->data['error_warning'] = $this->language->get('text_date_incorrect');
+		// } else if (($this->request->server['REQUEST_METHOD'] == 'POST') && !$this->user->hasPermission('modify', 'sale/customer')) {
+		// 	$this->data['error_warning'] = $this->language->get('error_permission');
+		// } else if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->user->hasPermission('modify', 'sale/customer')) { 
+		// 	if (isset($this->request->post['comment'])) {
+		// 		$data = array(
+		// 			'user_id' => $this->user->getId(),
+		// 			'comment' => $this->request->post['comment'],
+		// 			'reminder' => $reminder,
+		// 			'reminder_date' => $this->request->post['reminder_date'],
+		// 		);
+		// 		$this->model_sale_customer->addHistory($this->request->get['filter_customer_id'], $data);
+		// 		$this->data['success'] = $this->language->get('text_success');
+		// 	} else {
+		// 		$this->data['success'] = '';
+		// 	}
+		
+		// } else {
+		// 	$this->data['success'] = '.';
+		// }
+
+
 
 		$this->data['text_no_results'] = $this->language->get('text_no_results');
 		$this->data['button_remove'] = $this->language->get('button_remove');
@@ -2644,10 +2688,10 @@ class ControllerSaleCustomer extends Controller {
 
 		$this->load->model('user/user');
 		
-		$this->data['beautys'] = $this->model_user_user->getUsers(array('user_group_id' => 5));
-		$this->data['doctors'] = $this->model_user_user->getUsers(array('user_group_id' => 2));
-		$this->data['consultants'] = $this->model_user_user->getUsers(array('user_group_id' => 3));
-		$this->data['outsource'] = $this->model_user_user->getUsers(array('user_group_id' => 4));
+		$this->data['beautys'] = $this->model_user_user->getUsers(array('filter_user_group_id' => 5));
+		$this->data['doctors'] = $this->model_user_user->getUsers(array('filter_user_group_id' => 2));
+		$this->data['consultants'] = $this->model_user_user->getUsers(array('filter_user_group_id' => 3));
+		$this->data['outsource'] = $this->model_user_user->getUsers(array('filter_user_group_id' => 4));
 
 		$this->data['transactions'] = array();
 

@@ -28,15 +28,16 @@ class ModelCatalogProduct extends Model {
 		if ((int)$data['product_type_id'] == 2) $subtract = 0;
 		if ((int)$data['product_type_id'] == 3) $subtract = $data['subtract'];
 		
-		$this->db->query("UPDATE " . DB_PREFIX . "product SET model = '" . $this->db->escape($data['model']) . "', 
-			minimum = '" . (int)$data['minimum'] . "'
+			// minimum = '" . (int)$data['minimum'] . "'
+			// , stock_status_id = '" . (int)$data['stock_status_id'] . "'
+			// , weight = '" . (float)$data['weight'] . "'
+		$this->db->query("UPDATE " . DB_PREFIX . "product SET 
+			model = '" . $this->db->escape($data['model']) . "' 
 			, subtract = '" . (int)$subtract . "'
-			, stock_status_id = '" . (int)$data['stock_status_id'] . "'
 			
 
 			, date_available = '" . $this->db->escape($data['date_available']) . "'
-			, manufacturer_id = '" . (int)$data['manufacturer_id'] . "', shipping = '" . (int)$data['shipping'] . "', price = '" . (float)$data['price'] . "'
-			, weight = '" . (float)$data['weight'] . "'
+			, price = '" . (float)$data['price'] . "'
 			, bonus = '" . (int)$data['bonus'] . "'
 			, product_type_id = '" . (int)$data['product_type_id'] . "'
 			, reminder = '" . (int)$data['reminder'] . "'
@@ -46,17 +47,19 @@ class ModelCatalogProduct extends Model {
 			, bonus_percent_beauty = '" . (int)$data['bonus_percent_beauty'] . "'
 			, bonus_percent_outsource = '" . (int)$data['bonus_percent_outsource'] . "'
 
-			, weight_class_id = '" . (int)$data['weight_class_id'] . "'
 			, unit_quantity = '" . (float)$data['unit_quantity'] . "'
 			, unit_class_id = '" . (int)$data['unit_class_id'] . "'
-			, length = '" . (float)$data['length'] . "'
-			, width = '" . (float)$data['width'] . "'
-			, height = '" . (float)$data['height'] . "'
-			, length_class_id = '" . (int)$data['length_class_id'] . "'
 			, status = '" . (int)$data['status'] . "'
-			, tax_class_id = '" . $this->db->escape($data['tax_class_id']) . "'
-			, sort_order = '" . (int)$data['sort_order'] . "'
 			, date_modified = NOW() WHERE product_id = '" . (int)$product_id . "'");
+			// , sort_order = '" . (int)$data['sort_order'] . "'
+			// , weight_class_id = '" . (int)$data['weight_class_id'] . "'
+			// , manufacturer_id = '" . (int)$data['manufacturer_id'] . "'
+			// , shipping = '" . (int)$data['shipping'] . "'
+			// , tax_class_id = '" . $this->db->escape($data['tax_class_id']) . "'
+			// , length = '" . (float)$data['length'] . "'
+			// , width = '" . (float)$data['width'] . "'
+			// , height = '" . (float)$data['height'] . "'
+			// , length_class_id = '" . (int)$data['length_class_id'] . "'
 
 		if (isset($data['image'])) {
 			$this->db->query("UPDATE " . DB_PREFIX . "product SET image = '" . $this->db->escape(html_entity_decode($data['image'], ENT_QUOTES, 'UTF-8')) . "' WHERE product_id = '" . (int)$product_id . "'");
@@ -65,7 +68,12 @@ class ModelCatalogProduct extends Model {
 		$this->db->query("DELETE FROM " . DB_PREFIX . "product_description WHERE product_id = '" . (int)$product_id . "'");
 
 		foreach ($data['product_description'] as $language_id => $value) {
-			$this->db->query("INSERT INTO " . DB_PREFIX . "product_description SET product_id = '" . (int)$product_id . "', language_id = '" . (int)$language_id . "', name = '" . $this->db->escape($value['name']) . "', meta_keyword = '" . $this->db->escape($value['meta_keyword']) . "', meta_description = '" . $this->db->escape($value['meta_description']) . "', description = '" . $this->db->escape($value['description']) . "', tag = '" . $this->db->escape($value['tag']) . "'");
+			$this->db->query("INSERT INTO " . DB_PREFIX . "product_description SET product_id = '" . (int)$product_id . "', language_id = '" . (int)$language_id . "', name = '" . $this->db->escape($value['name']) . "'");
+				// , description = '" . $this->db->escape($value['description']) . "'");
+				// , meta_keyword = '" . $this->db->escape($value['meta_keyword']) . "'
+				// , meta_description = '" . $this->db->escape($value['meta_description']) . "'
+				// , description = '" . $this->db->escape($value['description']) . "'
+				// , tag = '" . $this->db->escape($value['tag']) . "'");
 		}
 
 		// $this->db->query("DELETE FROM " . DB_PREFIX . "product_to_store WHERE product_id = '" . (int)$product_id . "'");
