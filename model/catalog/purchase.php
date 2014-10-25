@@ -53,17 +53,18 @@ class ModelCatalogPurchase extends Model {
 			'p.sort_order'
 		);	
 
-		if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
-			$sql .= " ORDER BY " . $data['sort'];	
-		} else {
-			$sql .= " ORDER BY p.purchase_id ";	
-		}
+		// if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
+		// 	$sql .= " ORDER BY " . $data['sort'];	
+		// } else {
+		// 	$sql .= " ORDER BY p.purchase_id ";	
+		// }
 
-		if (isset($data['order']) && ($data['order'] == 'DESC')) {
-			$sql .= " DESC";
-		} else {
-			$sql .= " ASC";
-		}
+		$sql .= " ORDER BY p.date_added DESC";
+		// if (isset($data['order']) && ($data['order'] == 'DESC')) {
+		// 	$sql .= " DESC";
+		// } else {
+		// 	$sql .= " ASC";
+		// }
 
 		if (isset($data['start']) || isset($data['limit'])) {
 			if ($data['start'] < 0) {

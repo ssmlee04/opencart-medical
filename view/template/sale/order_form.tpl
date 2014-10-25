@@ -81,9 +81,9 @@
               <tr>
                 <td></td>
                 <td class="left"><?php echo $column_product; ?></td>
-                <td class="left"><?php echo $column_model; ?></td>
+                <!-- <td class="left"><php echo $column_model; ?></td> -->
                 <td class="right"><?php echo $column_quantity; ?></td>
-                <td class="right"><?php echo $column_price; ?></td>
+                <td class="right" ><?php echo $column_price; ?></td>
                 <td class="right"><?php echo $column_actual_price; ?></td>
                 <td class="right"><?php echo $column_total; ?></td>
               </tr>
@@ -112,8 +112,8 @@
                   <php $option_row++; ?>
                   <php } ?>-->
                  </td>
-                <td class="left"><?php echo $order_product['model']; ?>
-                  <input type="hidden" name="order_product[<?php echo $product_row; ?>][model]" value="<?php echo $order_product['model']; ?>" /></td>
+                <!-- <td class="left"><php echo $order_product['model']; ?>
+                  <input type="hidden" name="order_product[<php echo $product_row; ?>][model]" value="<php echo $order_product['model']; ?>" /></td> -->
                 <td class="right"><?php echo $order_product['quantity']; ?>
                   <input type="hidden" name="order_product[<?php echo $product_row; ?>][quantity]" value="<?php echo $order_product['quantity']; ?>" /></td>                 
                 <td class="right"><?php echo $order_product['ref_price']; ?>
@@ -248,7 +248,7 @@
             <thead>
               <tr>
                 <td class="left"><?php echo $column_product; ?></td>
-                <td class="left"><?php echo $column_model; ?></td>
+                <!-- <td class="left"><php echo $column_model; ?></td> -->
                 <td class="right"><?php echo $column_quantity; ?></td>
                 <td class="right"><?php echo $column_price; ?></td>
                 <td class="right"><?php echo $column_total; ?></td>
@@ -263,7 +263,7 @@
                   <!--<php foreach ($order_product['option'] as $option) { ?>
                   - <small><php echo $option['name']; ?>: <hp echo $option['value']; ?></small><br />
                   <php } ?>--></td>
-                <td class="left"><?php echo $order_product['model']; ?></td>
+                <!-- <td class="left"><php echo $order_product['model']; ?></td> -->
                 <td class="right"><?php echo $order_product['quantity']; ?></td>
                 <td class="right"><?php echo $order_product['price']; ?></td>
                 <td class="right"><?php echo $order_product['total']; ?></td>
@@ -293,7 +293,7 @@
               <?php } ?>
               <?php } else { ?>
               <tr>
-                <td class="center" colspan="5"><?php echo $text_no_results; ?></td>
+                <td class="center" colspan="4"><?php echo $text_no_results; ?></td>
               </tr>
               <?php } ?>
             </tbody>
@@ -425,7 +425,6 @@
 
 
 
-
 $('input[name=\'payment_cash\'], input[name=\'payment_visa\'], input[name=\'payment_final\']').keyup(function(){
   var total = $('input[name=\'order_total[0][value]\']').val();
   var balance = total - $('input[name=\'payment_final\']').val() - $('input[name=\'payment_visa\']').val() - $('input[name=\'payment_cash\']').val();
@@ -433,67 +432,67 @@ $('input[name=\'payment_cash\'], input[name=\'payment_visa\'], input[name=\'paym
   // if (balance < 0.5 && balance > -0.5) $('select[name=order_status_id]').val()
 });
 
-$('input[name=\'customer\']').catcomplete({
-	delay: 500,
-	source: function(request, response) {
+// $('input[name=\'customer\']').catcomplete({
+// 	delay: 500,
+// 	source: function(request, response) {
     
-		$.ajax({
-			url: 'index.php?route=sale/customer/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request.term),
-			dataType: 'json',
-			success: function(json) {	
-        console.log(json);
-				response($.map(json, function(item) {
-					return {
-						category: item['customer_group'],
-						label: item['lastname'] + item['firstname'] + ' ' + item['ssn'],
-            value: item['customer_id'],
-						fullname: item['fullname'],
-						customer_group_id: item['customer_group_id'],
-            firstname: item['firstname'],
-						store_id: item['store_id'],
-						lastname: item['lastname'],
-						email: item['email'],
-						telephone: item['telephone'],
-						fax: item['fax'],
-						address: item['address']
-					}
-				}));
-			}
-		});
-	}, 
-	select: function(event, ui) { 
+// 		$.ajax({
+// 			url: 'index.php?route=sale/customer/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request.term),
+// 			dataType: 'json',
+// 			success: function(json) {	
+//         console.log(json);
+// 				response($.map(json, function(item) {
+// 					return {
+// 						category: item['customer_group'],
+// 						label: item['lastname'] + item['firstname'] + ' ' + item['ssn'],
+//             value: item['customer_id'],
+// 						fullname: item['fullname'],
+// 						customer_group_id: item['customer_group_id'],
+//             firstname: item['firstname'],
+// 						store_id: item['store_id'],
+// 						lastname: item['lastname'],
+// 						email: item['email'],
+// 						telephone: item['telephone'],
+// 						fax: item['fax'],
+// 						address: item['address']
+// 					}
+// 				}));
+// 			}
+// 		});
+// 	}, 
+// 	select: function(event, ui) { 
 
-    $('select[name=\'store_id\']').val(ui.item['store_id']);
-    $('input[name=\'customer\']').attr('value', ui.item['lastname'] + ui.item['firstname']);
-    $('input[name=\'customer_id\']').attr('value', ui.item['value']);
-    $('input[name=\'customer_name\']').attr('value', ui.item['fullname']);
-    $('input[name=\'firstname\']').attr('value', ui.item['firstname']);
-    $('input[name=\'lastname\']').attr('value', ui.item['lastname']);
-    $('input[name=\'email\']').attr('value', ui.item['email']);
-    $('input[name=\'telephone\']').attr('value', ui.item['telephone']);
-    // $('input[name=\'fax\']').attr('value', ui.item['fax']);
-		// $('input[name=\'customer_store_id\']').attr('value', ui.item['store_id']);
+//     $('select[name=\'store_id\']').val(ui.item['store_id']);
+//     $('input[name=\'customer\']').attr('value', ui.item['lastname'] + ui.item['firstname']);
+//     $('input[name=\'customer_id\']').attr('value', ui.item['value']);
+//     $('input[name=\'customer_name\']').attr('value', ui.item['fullname']);
+//     $('input[name=\'firstname\']').attr('value', ui.item['firstname']);
+//     $('input[name=\'lastname\']').attr('value', ui.item['lastname']);
+//     $('input[name=\'email\']').attr('value', ui.item['email']);
+//     $('input[name=\'telephone\']').attr('value', ui.item['telephone']);
+//     // $('input[name=\'fax\']').attr('value', ui.item['fax']);
+// 		// $('input[name=\'customer_store_id\']').attr('value', ui.item['store_id']);
 			
-		html = '<option value="0"><?php echo $text_none; ?></option>'; 
+// 		html = '<option value="0"><?php echo $text_none; ?></option>'; 
 			
-		for (i in  ui.item['address']) {
-			html += '<option value="' + ui.item['address'][i]['address_id'] + '">' + ui.item['address'][i]['firstname'] + ' ' + ui.item['address'][i]['lastname'] + ', ' + ui.item['address'][i]['address_1'] + ', ' + ui.item['address'][i]['city'] + ', ' + ui.item['address'][i]['country'] + '</option>';
-		}
+// 		for (i in  ui.item['address']) {
+// 			html += '<option value="' + ui.item['address'][i]['address_id'] + '">' + ui.item['address'][i]['firstname'] + ' ' + ui.item['address'][i]['lastname'] + ', ' + ui.item['address'][i]['address_1'] + ', ' + ui.item['address'][i]['city'] + ', ' + ui.item['address'][i]['country'] + '</option>';
+// 		}
 		
-		// $('select[name=\'shipping_address\']').html(html);
-		// $('select[name=\'payment_address\']').html(html);
+// 		// $('select[name=\'shipping_address\']').html(html);
+// 		// $('select[name=\'payment_address\']').html(html);
 		
-		$('select[id=\'customer_group_id\']').attr('disabled', false);
-		$('select[id=\'customer_group_id\']').attr('value', ui.item['customer_group_id']);
-		$('select[id=\'customer_group_id\']').trigger('change');
-		$('select[id=\'customer_group_id\']').attr('disabled', true); 
+// 		$('select[id=\'customer_group_id\']').attr('disabled', false);
+// 		$('select[id=\'customer_group_id\']').attr('value', ui.item['customer_group_id']);
+// 		$('select[id=\'customer_group_id\']').trigger('change');
+// 		$('select[id=\'customer_group_id\']').attr('disabled', true); 
 					 	
-		return false; 
-	},
-	focus: function(event, ui) {
-      	return false;
-   	}
-});
+// 		return false; 
+// 	},
+// 	focus: function(event, ui) {
+//       	return false;
+//    	}
+// });
 
 $('select[id=\'customer_group_id\']').live('change', function() {
 	$('input[name=\'customer_group_id\']').attr('value', this.value);
@@ -629,7 +628,7 @@ $('#button-product').live('click', function() {
 		},			
 		success: function(json) {
 			$('.success, .warning, .attention, .error').remove();
-console.log(json);
+
 			// Check for errors
 			if (json['error']) {
 				
@@ -814,7 +813,7 @@ console.log(json);
 					// }
 					
 					html += '  </td>';
-					html += '  <td class="left">' + product['model'] + '<input type="hidden" name="order_product[' + product_row + '][model]" value="' + product['model'] + '" /></td>';
+					// html += '  <td class="left">' + product['model'] + '<input type="hidden" name="order_product[' + product_row + '][model]" value="' + product['model'] + '" /></td>';
 					html += '  <td class="right">' + product['quantity'] + '<input type="hidden" name="order_product[' + product_row + '][quantity]" value="' + product['quantity'] + '" /></td>';
           html += '  <td class="right">' + product['ref_price'] + '<input type="hidden" name="order_product[' + product_row + '][ref_price]" value="' + product['ref_price'] + '" /></td>';
           
@@ -901,7 +900,7 @@ console.log(json);
 						}
 						
 						html += '  </td>';
-						html += '  <td class="left">' + product['model'] + '</td>';
+						// html += '  <td class="left">' + product['model'] + '</td>';
 						html += '  <td class="right">' + product['quantity'] + '</td>';
 						html += '  <td class="right">' + product['price'] + '</td>';
 						html += '  <td class="right">' + product['total'] + '</td>';
@@ -929,7 +928,7 @@ console.log(json);
 					total = json['order_total'][i];
 					
 					html += '<tr id="total-row' + total_row + '">';
-					html += '  <td class="right" colspan="4"><input type="hidden" name="order_total[' + total_row + '][order_total_id]" value="" /><input type="hidden" name="order_total[' + total_row + '][code]" value="' + total['code'] + '" /><input type="hidden" name="order_total[' + total_row + '][title]" value="' + total['title'] + '" /><input type="hidden" name="order_total[' + total_row + '][text]" value="' + total['text'] + '" /><input type="hidden" name="order_total[' + total_row + '][value]" value="' + total['value'] + '" /><input type="hidden" name="order_total[' + total_row + '][sort_order]" value="' + total['sort_order'] + '" />' + total['title'] + ':</td>';
+					html += '  <td class="right" colspan="3"><input type="hidden" name="order_total[' + total_row + '][order_total_id]" value="" /><input type="hidden" name="order_total[' + total_row + '][code]" value="' + total['code'] + '" /><input type="hidden" name="order_total[' + total_row + '][title]" value="' + total['title'] + '" /><input type="hidden" name="order_total[' + total_row + '][text]" value="' + total['text'] + '" /><input type="hidden" name="order_total[' + total_row + '][value]" value="' + total['value'] + '" /><input type="hidden" name="order_total[' + total_row + '][sort_order]" value="' + total['sort_order'] + '" />' + total['title'] + ':</td>';
 					html += '  <td class="right">' + total['value'] + '</td>';
 					html += '</tr>';
 					

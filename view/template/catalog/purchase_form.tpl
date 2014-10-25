@@ -12,10 +12,14 @@
   <div class="box">
     <div class="heading">
       <h1><img src="view/image/order.png" alt="" /> <?php echo $heading_title; ?></h1>
-      <div class="buttons"><a onclick="$('#form').submit();" class="button"><?php echo $button_save; ?></a><a href="<?php echo $cancel; ?>" class="button"><?php echo $button_cancel; ?></a></div>
+      <div class="buttons">
+        <?php if (!$is_insert) { ?>
+        <a onclick="showhide()" class="button"><?php echo $button_edit_basic; ?></a>
+        <?php } ?>
+        <a onclick="$('#form').submit();" class="button"><?php echo $button_save; ?></a><a href="<?php echo $cancel; ?>" class="button"><?php echo $button_cancel; ?></a></div>
     </div>
     <div class="content">
-      <div id="vtabs" class="vtabs"><a href="#tab-general"><?php echo $tab_general; ?></a>
+      <div id="vtabs" class="vtabs"><a href="#tab-general" id='tab-general-link'><?php echo $tab_general; ?></a>
         <a href="#tab-product"><?php echo $tab_product; ?></a>
       
       </div>
@@ -25,11 +29,17 @@
           <table class="form">
             <tr>
               <td class="left"><?php echo $entry_date; ?></td>
-              <td class="left"><input type='date_available' name='date_purchased' value='<?php echo $date_purchased; ?>'/>
+              <td class="left">
+                <div class='group11'>
+                <?php echo $date_purchased; ?>
+              </div>
+                <div class='group12' <?php if (!$is_insert) { echo "style='display:none'";} ?> >
+                <input type='date_available' name='date_purchased' value='<?php echo $date_purchased; ?>' />  <a onclick='setToday()'><?php echo $text_today; ?></a>
+              </div>
                 <?php if ($error_date) { ?>
                   <span class="error"><?php echo $error_date; ?></span>
                 <?php } ?></td>
-              <td class="left"><a onclick='setToday()'><?php echo $text_today; ?></a></td>
+              <td class="left"></td>
             </tr>
 
             <tr>
@@ -112,9 +122,11 @@
               <?php foreach ($purchase_products as $purchase_product) { ?>
               <tr id="product-row<?php echo $product_row; ?>">
                 <td class="center" style="width: 3px;">
-                  <?php if ($is_insert) { ?>
+                  <!-- <hp if ($is_insert) { ?> -->
+                  <div class='group12'>
                   <img src="view/image/delete.png" title="<?php echo $button_remove; ?>" alt="<?php echo $button_remove; ?>" style="cursor: pointer;" onclick="$('#product-row<?php echo $product_row; ?>').remove(); $('#button-update').trigger('click');" />
-                  <?php } ?>
+                </div>
+                  <!-- <hp } ?> -->
                 </td>
                 <td class="left"><?php echo $purchase_product['name']; ?><br />
                   <input type="hidden" name="purchase_product[<?php echo $product_row; ?>][purchase_product_id]" value="<?php echo $purchase_product['purchase_product_id']; ?>" />
@@ -141,7 +153,9 @@
               <?php } ?>
             </tbody>
           </table>
-          <?php if ($is_insert) { ?>
+
+          <!-- <php if ($is_insert) { ?> -->
+          <div class='group12'>
           <table class="list" >
             <thead>
               <tr>
@@ -171,15 +185,36 @@
               </tr>
             </tfoot>
           </table>
-          <?php } ?>
+          </div>
+          <!-- <php } ?> -->
         </div>
         
+
         
       </form>
     </div>
   </div>
 </div>
+<style>
+  <?php if ($is_insert=='1') {?>
+  .group11 {
+    display: none; 
+  }
+  <?php } else { ?>
+ .group12 {
+    display: none; 
+  }
+  <?php } ?>
+</style>
 <script type="text/javascript"><!--
+
+
+$('#tab-general-link').on('click', function(){
+  if ('<?php echo $is_insert; ?>' != 1) {
+    $('.group12').hide();
+    $('.group11').show();
+  }
+});
 
 var product_row = '<?php echo $product_row;?>';
 
@@ -262,6 +297,11 @@ $('.vtabs a').tabs();
 function setToday() {
   $('input[name=\'date_purchased\']').val(moment().format("YYYY-MM-DD"));
 }
+
+var showhide = function(){
+  $('.group12').toggle(); $('.group11').toggle();
+};
+
 
 //--></script> 
 <?php echo $footer; ?>

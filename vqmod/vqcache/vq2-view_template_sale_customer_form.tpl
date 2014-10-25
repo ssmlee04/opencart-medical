@@ -15,7 +15,7 @@
  .group12 {
     display: none; 
   }
-    <?php } ?>
+  <?php } ?>
   
 </style>
 

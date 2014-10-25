@@ -53,7 +53,7 @@
           </tr>
           <tr>
             <td><?php echo $column_dob; ?></td>
-            <td><input type="text" name="filter_dob" value="<?php echo $filter_dob; ?>" /></td>
+            <td><input type="date_available" name="filter_dob" value="<?php echo $filter_dob; ?>" /></td>
           </tr>
 
 
@@ -169,7 +169,7 @@
             <?php } ?>
             <?php } else { ?>
             <tr>
-              <td class="center" colspan="7"><?php echo $text_no_results; ?></td>
+              <td class="center" colspan="9"><?php echo $text_no_results; ?></td>
             </tr>
             <?php } ?>
           </tbody>

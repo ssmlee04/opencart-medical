@@ -528,14 +528,14 @@ class ControllerSaleCustomer extends Controller {
 
 			$action[] = array(
 				'text' => $this->language->get('text_edit'),
-				'href' => $this->url->link('sale/customer/update', 'token=' . $this->session->data['token'] . '&customer_id=' . $result['customer_id'] . $url, 'SSL')
+				'href' => $this->url->link('sale/customer/update', 'token=' . $this->session->data['token'] . '&filter_customer_id=' . $result['customer_id'] . $url, 'SSL')
 			);
 
 			$fullname = array();
 
 			$fullname[] = array(
 				'text' => $result['fullname'], 
-				'href' => $this->url->link('sale/customer/update', 'token=' . $this->session->data['token'] . '&customer_id=' . $result['customer_id'] . $url, 'SSL')
+				'href' => $this->url->link('sale/customer/update', 'token=' . $this->session->data['token'] . '&filter_customer_id=' . $result['customer_id'] . $url, 'SSL')
 			);
 
 			$query3 = $this->db->query("SELECT * FROM oc_customer_transaction WHERE status =2 AND customer_id = '" . (int)$result['customer_id'] ."' ORDER BY date_modified DESC LIMIT 1");

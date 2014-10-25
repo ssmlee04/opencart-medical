@@ -684,6 +684,7 @@ class ControllerCatalogPurchase extends Controller {
 		$this->data['button_update_total'] = $this->language->get('button_update_total');
 		$this->data['button_remove'] = $this->language->get('button_remove');
 		$this->data['button_upload'] = $this->language->get('button_upload');
+		$this->data['button_edit_basic'] = $this->language->get('button_edit_basic');
 
 		$this->data['tab_purchase'] = $this->language->get('tab_purchase');
 		$this->data['tab_customer'] = $this->language->get('tab_customer');

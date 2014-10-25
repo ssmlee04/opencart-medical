@@ -59,7 +59,9 @@
           </tr>
           <tr>
             <td><?php echo $column_dob; ?></td>
-            <td><input type="text" name="filter_dob" value="<?php echo $filter_dob; ?>" /></td>
+            
+			<td><input type="text" name="filter_dob" value="<?php echo $filter_dob; ?>" /></td>
+			
           </tr>
 
 
@@ -81,16 +83,8 @@
           <thead>
             <tr>
               <td width="1" style="text-align: center;"><input type="checkbox" onclick="$('input[name*=\'selected\']').attr('checked', this.checked);" /></td>
-              <td class="left"><?php if ($sort == 'name') { ?>
-                <a href="<?php echo $sort_name; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_name; ?></a>
-                <?php } else { ?>
-                <a href="<?php echo $sort_name; ?>"><?php echo $column_name; ?></a>
-                <?php } ?></td>
-              <td class="left"><?php if ($sort == 'c.dob') { ?>
-                <a href="<?php echo $sort_dob; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_dob; ?></a>
-                <?php } else { ?>
-                <a href="<?php echo $sort_dob; ?>"><?php echo $column_dob; ?></a>
-                <?php } ?></td>
+              <td class="left"><?php echo $column_name; ?></td>
+              <td class="left"><?php echo $column_dob; ?></td>
 
               <td class="left"><?php echo $column_mobile; ?></td>
               <td class="left"><?php echo $column_doctor; ?></td>
@@ -183,7 +177,7 @@
             <?php } ?>
             <?php } else { ?>
             <tr>
-              <td class="center" colspan="7"><?php echo $text_no_results; ?></td>
+              <td class="center" colspan="9"><?php echo $text_no_results; ?></td>
             </tr>
             <?php } ?>
           </tbody>

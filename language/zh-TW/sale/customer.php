@@ -47,6 +47,14 @@ $_['column_customer_id']         = '客戶編號';
 $_['column_date_purchased']         = '購買日期';
 $_['column_borrower']         = '借入人';
 $_['column_lender']         = '借出人';
+$_['column_mobile']         = '手機';
+$_['column_telephone']         = '電話';
+$_['column_dob']         = '出生年月日';
+$_['column_doctor']         = '上次醫師';
+$_['column_consultant']         = '上次諮詢師';
+$_['column_beauty']         = '上次美容師';
+$_['column_outsource']         = '上次外務';
+$_['column_date_last_visit']         = '上次到訪';
 
 
 
@@ -58,7 +66,6 @@ $_['button_record_history']           = '更改回覆狀態';
 $_['button_add_picture']           = '增加圖片';
 $_['button_add_image'] = '增加圖片';
 $_['button_add_history'] = '提醒設定';
-$_['button_edit_basic'] = '修改基本資料';
 $_['button_borrow_from'] = '借';
 $_['text_order_total']           = '訂單金額';
 $_['text_payment_final']           = '尾款金額';

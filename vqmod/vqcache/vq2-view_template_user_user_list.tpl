@@ -26,29 +26,13 @@
           <thead>
             <tr>
               <td width="1" style="text-align: center;"><input type="checkbox" onclick="$('input[name*=\'selected\']').attr('checked', this.checked);" /></td>
-              <td class="left"><?php if ($sort == 'fullname') { ?>
-                <a href="<?php echo $sort_fullname; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_username; ?></a>
-                <?php } else { ?>
-                <a href="<?php echo $sort_fullname; ?>"><?php echo $column_fullname ?></a>
-                <?php } ?></td>
+              <td class="left"><?php echo $column_fullname ?></td>
 
-              <td class="left"><?php if ($sort == 'user_group_name') { ?>
-                <a href="<?php echo $sort_user_group_name; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_user_group_name; ?></a>
-                <?php } else { ?>
-                <a href="<?php echo $sort_user_group_name; ?>"><?php echo $column_user_group_name; ?></a>
-                <?php } ?></td>
+              <td class="left"><?php echo $column_user_group_name; ?></td>
 
-              <td class="left"><?php if ($sort == 'status') { ?>
-                <a href="<?php echo $sort_status; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_status; ?></a>
-                <?php } else { ?>
-                <a href="<?php echo $sort_status; ?>"><?php echo $column_status; ?></a>
-                <?php } ?></td>
+              <td class="left"><?php echo $column_status; ?></td>
 
-              <td class="left"><?php if ($sort == 'date_added') { ?>
-                <a href="<?php echo $sort_date_added; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_date_added; ?></a>
-                <?php } else { ?>
-                <a href="<?php echo $sort_date_added; ?>"><?php echo $column_date_added; ?></a>
-                <?php } ?></td>
+              <td class="left"><?php echo $column_date_added; ?></td>
               <td class="right"><?php echo $column_action; ?></td>
             </tr>
           </thead>

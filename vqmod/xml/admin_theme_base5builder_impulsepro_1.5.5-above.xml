@@ -751,6 +751,11 @@
 	</file>
 
 
+
+
+
+
+	// med1
 	<file name="view/template/admin_theme/base5builder_impulsepro/common/header.tpl">
 		<operation>
 			<search position="replace"><![CDATA[
@@ -828,4 +833,82 @@
 			]]></add>
 		</operation>
 	</file>
+	<file name="view/template/sale/customer_list.tpl">
+		<operation>
+			<search position="replace"><![CDATA[
+			<td><input type="date_available" name="filter_dob" value="<?php echo $filter_dob; ?>" /></td>
+			]]></search>
+			<add><![CDATA[
+			<td><input type="text" name="filter_dob" value="<?php echo $filter_dob; ?>" /></td>
+			]]></add>
+		</operation>
+	</file>
+	<file name="model/sale/customer.php">
+		<operation>
+			<search position="replace"><![CDATA[
+			$implode[] = "dob = '" . $this->db->escape($data['filter_dob']) . "'";
+			]]></search>
+			<add><![CDATA[
+			$indexofdash = strpos($data['filter_dob'], "-"); 
+			$year = (int)substr($data['filter_dob'], 0, $indexofdash) + 1911; 
+			$rest = substr($data['filter_dob'], $indexofdash);
+			$implode[] = "dob = '" . $this->db->escape($year . $rest) . "'";
+			]]></add>
+		</operation>
+	</file>
+
+
+	// jing
+	<file name="view/template/sale/order_form.tpl">
+		<operation>
+			<search position="before"><![CDATA[
+			html += '  <td class="right">' + product['ref_price'] + '<input type="hidden" 
+			]]></search>
+			<add><![CDATA[
+			html += '  <td class="right">' + product['last_cost'] + '<input type="hidden" name="order_product[' + product_row + '][last_cost]" value="' + product['last_cost'] + '" /></td>';
+			]]></add>
+		</operation>
+		<operation>
+			<search position="before"><![CDATA[
+			$('.price').live('keyup', function(e){
+			]]></search>
+			<add><![CDATA[
+			$('.price').live('keyup', function(e){
+			
+			$('.subprice').remove();
+			var price = parseInt($(this).val());
+			var cost = parseInt($(this).parent().prev().prev().text());
+			var ret = ((price / cost) - 1) * 100;
+			$(this).parent().append('<p class="subprice">profit: ' + ret.toString() +' %</p>');
+			
+			});
+			]]></add>
+		</operation>
+		<operation>
+			<search position="before"><![CDATA[
+			<td class="right" ><?php echo $column_price; ?></td>
+			]]></search>
+			<add><![CDATA[
+			<td class="right"><?php echo $column_prev_cost; ?></td>
+			]]></add>
+		</operation>
+		<operation>
+			<search position="before"><![CDATA[
+			" value="<?php echo $order_product['ref_price']; ?>" /></td>
+			]]></search>
+			<add><![CDATA[
+			<td class="right"><?php echo $order_product['last_cost']; ?>
+                  <input type="hidden" name="order_product[<?php echo $product_row; ?>][last_cost]" value="<?php echo $order_product['last_cost']; ?>" /></td>
+			]]></add>
+		</operation>
+		<operation>
+			<search position="replace"><![CDATA[
+			html += '  <td class="right"><input type="text" size="8" value="' + product['price'] +
+			]]></search>
+			<add><![CDATA[
+			html += '  <td class="right"><input type="text" size="8" value="' + product['price'] +
+			]]></add>
+		</operation>
+	</file>
+
 </modification>

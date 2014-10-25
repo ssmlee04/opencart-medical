@@ -257,6 +257,8 @@
                 </select></td>
             </tr>
             <?php } ?>
+
+            <?php if ($type == 2) { ?>
             <tr>
               <td><?php echo $entry_bonus; ?></td>
               <td><input type="checkbox" name="bonus" value="1" size="2" <?php if ($bonus) {echo 'checked';} ?> /></td>
@@ -277,6 +279,8 @@
               <td><?php echo $entry_bonus_percent_beauty; ?></td>
               <td><input type="text" name="bonus_percent_beauty" value="<?php echo $bonus_percent_beauty; ?>" size="3"/> %</td>
             </tr>
+            <?php } ?>
+
           </div>
 
             <tr>

@@ -18,13 +18,11 @@ class ControllerCommonHeader extends Controller {
 		$this->data['direction'] = $this->language->get('direction');
 
 		$this->language->load('common/header');
-		// $this->document->addScript('view/javascript/jquery/ui/jquery-ui-timepicker-addon.js');
+		$this->data['heading_title'] = $this->language->get('heading_title');
 
 			$this->language->load('common/footer');
 			$this->data['text_footer'] = sprintf($this->language->get('text_footer'), VERSION);
 			
-		
-		$this->data['heading_title'] = $this->language->get('heading_title');
 
 		$this->data['text_affiliate'] = $this->language->get('text_affiliate');
 		$this->data['text_attribute'] = $this->language->get('text_attribute');

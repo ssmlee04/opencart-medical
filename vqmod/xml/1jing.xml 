@@ -1,0 +1,12 @@
+<modification>
+	<file name="view/template/sale/order_form.tpl">
+		<operation>
+			<search position="after"><![CDATA[
+			<td class="right"><?php echo $column_actual_price; ?></td>
+			]]></search>
+			<add><![CDATA[
+			<td class="right"><?php echo $column_actual_price; ?></td>
+			]]></add>
+		</operation>
+	</file>
+</modification>

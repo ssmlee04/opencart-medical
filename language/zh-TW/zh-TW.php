@@ -59,6 +59,7 @@ $_['button_add_attribute']    = '新增屬性';
 $_['button_add_banner']       = '新增橫幅廣告';
 $_['button_add_product']      = '新增商品';
 $_['button_add_voucher']      = '新增購物禮券';
+$_['button_edit_basic'] = '修改基本資料';
 // $_['button_add_option']       = '新增選項(Add Option)';
 // $_['button_add_option_value'] = '新增選項值(Add Option Value)';
 // $_['button_add_discount']     = '新增(Add)';
