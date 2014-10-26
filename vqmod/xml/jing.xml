@@ -772,6 +772,22 @@
 		</operation>
 		<operation>
 			<search position="replace"><![CDATA[
+			<li id="appointment"><a class="top"><?php echo $text_appointment; ?></a>
+			]]></search>
+			<add><![CDATA[
+			<li id="appointment" style='display:none'><a class="top"><?php echo $text_appointment; ?></a>
+			]]></add>
+		</operation>
+		<operation>
+			<search position="replace"><![CDATA[
+			<li><a class="parent"><?php echo $text_report_customer_feedback; ?></a>
+			]]></search>
+			<add><![CDATA[
+			<li><a class="parent" style='display:none'><?php echo $text_report_customer_feedback; ?></a>?></a>
+			]]></add>
+		</operation>
+		<operation>
+			<search position="replace"><![CDATA[
 			<li><a href="<?php echo $treatment; ?>"><?php echo $text_treatment; ?></a></li>
 			]]></search>
 			<add><![CDATA[

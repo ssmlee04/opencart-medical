@@ -179,7 +179,9 @@ if(array_intersect($page_name, $get_route)){
 	              <li><a href="<?php echo $followup; ?>"><?php echo $text_history; ?></a></li>
 	            </ul>
 	      	</li>
-	      	<li id="appointment"><a class="top"><?php echo $text_appointment; ?></a>
+	      	
+			<li id="appointment" style='display:none'><a class="top"><?php echo $text_appointment; ?></a>
+			
 	            <ul>
 	              <li><a href="<?php echo $appointment; ?>"><?php echo $text_appointment; ?></a></li>
 	            </ul>
@@ -211,11 +213,11 @@ if(array_intersect($page_name, $get_route)){
 		          <li><a href="<?php echo $purchase; ?>"><?php echo $text_purchase; ?></a></li>
 		        </ul>
 		      </li>
-	      	<li id="order"><a class="top"><?php echo $text_order; ?></a>
+	      	<!-- <li id="order"><a class="top"><php echo $text_order; ?></a>
 		        <ul>
-		          <li><a href="<?php echo $order; ?>"><?php echo $text_order; ?></a></li>
+		          <li><a href="<php echo $order; ?>"><php echo $text_order; ?></a></li>
 		        </ul>
-		      </li>
+		      </li> -->
 
       
      <!--  <li id="sale"><a class="top"><php echo $text_sale; ?></a>
@@ -261,7 +263,9 @@ if(array_intersect($page_name, $get_route)){
 						<!-- <li><a href="<php echo $report_customer_credit; ?>"><php echo $text_report_customer_credit; ?></a></li> -->
 					</ul>
 				</li>
-				<li><a class="parent"><?php echo $text_report_customer_feedback; ?></a>
+				
+			<li><a class="parent" style='display:none'><?php echo $text_report_customer_feedback; ?></a>?></a>
+			
 					<ul>
 						<li><a href="<?php echo $report_customer_feedback; ?>"><?php echo $text_report_customer_feedback; ?></a></li>
 					</ul>
