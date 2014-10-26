@@ -1222,7 +1222,10 @@ class ControllerSaleOrder extends Controller {
 			// 	$order_download = array();
 			// }
 
+			$last_cost = 0;
 			$purchase_product = $this->db->query("SELECT * FROM oc_purchase_product WHERE product_id = '" .$order_product['product_id'] . "' ORDER BY purchase_product_id DESC LIMIT 1");
+			if ($purchase_product->num_rows) $last_cost = $purchase_product->row['cost'];
+			
 			$this->data['order_products'][] = array(
 				'order_product_id' => $order_product['order_product_id'],
 				'product_id'       => $order_product['product_id'],
@@ -1233,7 +1236,7 @@ class ControllerSaleOrder extends Controller {
 				'quantity'         => $order_product['quantity'],
 				'price'            => $order_product['price'],
 				'ref_price'            => $order_product['ref_price'],
-				'last_cost'            => $purchase_product->row['cost'],
+				'last_cost'            => $last_cost,
 				'total'            => $order_product['total'],
 				// 'tax'              => $order_product['tax'],
 				// 'reward'           => $order_product['reward']

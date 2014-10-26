@@ -204,7 +204,13 @@ class ModelCatalogPurchase extends Model {
 			}
 		}
 
-		$this->db->query("UPDATE `" . DB_PREFIX . "purchase` SET total = '$grandtotal', purchase_status_id = '" . (int)$data['purchase_status_id'] . "', date_purchased = '" . $this->db->escape($data['date_purchased']) . "', date_modified = NOW(), store_id = '" . (int)$store_id . "', user_id = '" . (int)$user_id . "' WHERE purchase_id = '" . (int)$purchase_id . "'");
+		$this->db->query("UPDATE `" . DB_PREFIX . "purchase` SET total = '$grandtotal'
+			, purchase_status_id = '" . (int)$data['purchase_status_id'] . "'
+			, date_purchased = '" . $this->db->escape($data['date_purchased']) . "'
+			, image1 = '" . $this->db->escape($data['image1']) . "'
+			, image2 = '" . $this->db->escape($data['image2']) . "'
+			, image3 = '" . $this->db->escape($data['image3']) . "'
+			, date_modified = NOW(), store_id = '" . (int)$store_id . "', user_id = '" . (int)$user_id . "' WHERE purchase_id = '" . (int)$purchase_id . "'");
 
 	}
 

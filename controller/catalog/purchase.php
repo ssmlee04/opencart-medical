@@ -628,6 +628,7 @@ class ControllerCatalogPurchase extends Controller {
 		$this->data['text_error'] = $this->language->get('text_error');
 		$this->data['text_browse'] = $this->language->get('text_browse');
 		$this->data['text_clear'] = $this->language->get('text_clear');
+		$this->data['text_image_manager'] = $this->language->get('text_image_manager');
 		
 		$this->data['entry_date'] = $this->language->get('entry_date');
 		$this->data['entry_price'] = $this->language->get('entry_price');
@@ -1041,7 +1042,42 @@ class ControllerCatalogPurchase extends Controller {
 			);
 		}
 
+		$this->load->model('tool/image'); 
 
+		if (isset($this->request->post['image1'])) {
+			$this->data['image1'] = $this->request->post['image1'];
+			$this->data['thumb1'] = $this->model_tool_image->resize($this->data['image1'], 100, 100);
+		} elseif (!empty($purchase_info)) {
+			$this->data['image1'] = $purchase_info['image1'];
+			$this->data['thumb1'] = $this->model_tool_image->resize($this->data['image1'], 100, 100);
+		} else {
+			$this->data['image1'] = '';
+			$this->data['thumb1'] = '';
+		}
+
+		if (isset($this->request->post['image2'])) {
+			$this->data['image2'] = $this->request->post['image2'];
+			$this->data['thumb2'] = $this->model_tool_image->resize($this->data['image2'], 100, 100);
+		} elseif (!empty($purchase_info)) {
+			$this->data['image2'] = $purchase_info['image2'];
+			$this->data['thumb2'] = $this->model_tool_image->resize($this->data['image2'], 100, 100);
+		} else {
+			$this->data['image2'] = '';
+			$this->data['thumb2'] = '';
+		}
+
+		if (isset($this->request->post['image3'])) {
+			$this->data['image3'] = $this->request->post['image3'];
+			$this->data['thumb3'] = $this->model_tool_image->resize($this->data['image3'], 100, 100);
+		} elseif (!empty($purchase_info)) {
+			$this->data['image3'] = $purchase_info['image3'];
+			$this->data['thumb3'] = $this->model_tool_image->resize($this->data['image3'], 100, 100);
+		} else {
+			$this->data['image3'] = '';
+			$this->data['thumb3'] = '';
+		}
+
+		$this->data['no_image'] = $this->model_tool_image->resize('no_image.jpg', 100, 100);
 		// if (isset($this->request->post['purchase_total'])) {
 		// 	$this->data['purchase_totals'] = $this->request->post['purchase_total'];
 		// } elseif (isset($this->request->get['purchase_id'])) {

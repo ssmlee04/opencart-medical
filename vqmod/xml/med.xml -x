@@ -752,92 +752,117 @@
 
 
 
-	// jing
+
+
+
+	// med1
 	<file name="view/template/admin_theme/base5builder_impulsepro/common/header.tpl">
 		<operation>
 			<search position="replace"><![CDATA[
+			<li><a href="<?php echo $bonus; ?>"><?php echo $text_bonus; ?></a></li>
+			]]></search>
+			<add><![CDATA[
+			]]></add>
+		</operation>
+		<operation>
+			<search position="after"><![CDATA[
+			<li><a href="<?php echo $allcustomer; ?>"><?php echo $text_all_customers; ?></a></li>
+			]]></search>
+			<add><![CDATA[
+			<li><a href="<?php echo $order; ?>"><?php echo $text_order; ?></a></li>
+			]]></add>
+		</operation>
+		<operation>
+			<search position="before"><![CDATA[
+			<li id="catalog"><a class="top"><?php echo $text_product; ?></a>
+			]]></search>
+			<add><![CDATA[
+			<li id="bonus"><a class="top"><?php echo $text_bonus; ?></a><ul><li><a href="<?php echo $bonus; ?>"><?php echo $text_bonus; ?></a></li></ul></li>
+			]]></add>
+		</operation>
+		<operation>
+			<search position="before"><![CDATA[
+			<li id="human_resource"><a class="top"><?php echo $text_human_resource; ?></a>
+			]]></search>
+			<add><![CDATA[
 			<li id="imagemanage"><a class="top"><?php echo $text_image; ?></a>
+	            <ul>
+	              <li><a href="<?php echo $imagemanage; ?>"><?php echo $text_image; ?></a></li>
+	            </ul>
+	      	</li>
+			]]></add>
+		</operation>
+		<operation>
+			<search position="after"><![CDATA[
+			<li><a href="<?php echo $followup; ?>"><?php echo $text_history; ?></a></li>
 			]]></search>
 			<add><![CDATA[
-			<li id="imagemanage" style='display:none'><a class="top"><?php echo $text_image; ?></a>
+			<li><a href="<?php echo $appointment; ?>"><?php echo $text_appointment; ?></a></li>
 			]]></add>
 		</operation>
 		<operation>
 			<search position="replace"><![CDATA[
-			<li id="treatment"><a class="top"><?php echo $text_history; ?></a>
+			<li id="appointment"><a class="top"><?php echo $text_appointment; ?></a>
 			]]></search>
 			<add><![CDATA[
-			<li id="treatment" style='display:none'><a class="top"><?php echo $text_history; ?></a>
+			<li id="appointment" style='display:none'><a class="top"><?php echo $text_appointment; ?></a>
 			]]></add>
 		</operation>
 		<operation>
 			<search position="replace"><![CDATA[
-			<li><a href="<?php echo $treatment_product; ?>"><?php echo $text_treatment_product; ?></a></li>
+			<li id="order"><a class="top"><?php echo $text_order; ?></a>
+			]]></search>
+			<add><![CDATA[
+			<li id="order" style='display:none'><a class="top"><?php echo $text_order; ?></a>
+			]]></add>
+		</operation>
+		<operation>
+			<search position="replace"><![CDATA[
+			<li><a href="<?php echo $treatment; ?>"><?php echo $text_treatment; ?></a></li>
 			]]></search>
 			<add><![CDATA[
 			
 			]]></add>
 		</operation>
 		<operation>
-			<search position="replace"><![CDATA[
-			<li><a href="<?php echo $waste_product; ?>"><?php echo $text_waste_product; ?></a></li>
+			<search position="before"><![CDATA[
+			<li><a href="<?php echo $customer_group; ?>"><?php echo $text_customer_group; ?></a></li>
 			]]></search>
 			<add><![CDATA[
-			
+			<li><a href="<?php echo $treatment; ?>"><?php echo $text_treatment; ?></a></li>
+			]]></add>
+		</operation>
+		<operation>
+			<search position="replace"><![CDATA[
+			<li><a class="parent"><?php echo $text_product; ?></a>
+			]]></search>
+			<add><![CDATA[
+			<li style='display:none'><a class="parent"><?php echo $text_product; ?></a>
 			]]></add>
 		</operation>
 	</file>
-	<file name="view/template/sale/order_form.tpl">
-		<operation>
-			<search position="before"><![CDATA[
-			html += '  <td class="right">' + product['ref_price'] + '<input type="hidden" 
-			]]></search>
-			<add><![CDATA[
-			html += '  <td class="right">' + product['last_cost'] + '<input type="hidden" name="order_product[' + product_row + '][last_cost]" value="' + product['last_cost'] + '" /></td>';
-			]]></add>
-		</operation>
-		<operation>
-			<search position="before"><![CDATA[
-			$('.price').live('keyup', function(e){
-			]]></search>
-			<add><![CDATA[
-			$('.price').live('keyup', function(e){
-			
-			$('.subprice').remove();
-			var price = parseInt($(this).val());
-			var cost = parseInt($(this).parent().prev().prev().text());
-			var ret = ((price / cost) - 1) * 100;
-			$(this).parent().append('<p class="subprice">profit: ' + ret.toString() +' %</p>');
-			
-			});
-			]]></add>
-		</operation>
-		<operation>
-			<search position="before"><![CDATA[
-			<td class="right" ><?php echo $column_price; ?></td>
-			]]></search>
-			<add><![CDATA[
-			<td class="right"><?php echo $column_prev_cost; ?></td>
-			]]></add>
-		</operation>
-		<operation>
-			<search position="before"><![CDATA[
-			" value="<?php echo $order_product['ref_price']; ?>" /></td>
-			]]></search>
-			<add><![CDATA[
-			<td class="right"><?php echo $order_product['last_cost']; ?>
-                  <input type="hidden" name="order_product[<?php echo $product_row; ?>][last_cost]" value="<?php echo $order_product['last_cost']; ?>" /></td>
-			]]></add>
-		</operation>
+	<file name="view/template/sale/customer_list.tpl">
 		<operation>
 			<search position="replace"><![CDATA[
-			html += '  <td class="right"><input type="text" size="8" value="' + product['price'] +
+			<td><input type="date_available" name="filter_dob" value="<?php echo $filter_dob; ?>" /></td>
 			]]></search>
 			<add><![CDATA[
-			html += '  <td class="right"><input type="text" size="8" value="' + product['price'] +
+			<td><input type="text" name="filter_dob" value="<?php echo $filter_dob; ?>" />(民國, 格式 75-12-31)</td>
 			]]></add>
 		</operation>
-
+	</file>
+	<file name="model/sale/customer.php">
+		<operation>
+			<search position="replace"><![CDATA[
+			$implode[] = "dob = '" . $this->db->escape($data['filter_dob']) . "'";
+			]]></search>
+			<add><![CDATA[
+			$indexofdash = strpos($data['filter_dob'], "-"); 
+			$year = (int)substr($data['filter_dob'], 0, $indexofdash) + 1911; 
+			$rest = substr($data['filter_dob'], $indexofdash);
+			$implode[] = "dob = '" . $this->db->escape($year . $rest) . "'";
+			]]></add>
+		</operation>
 	</file>
 
 </modification>

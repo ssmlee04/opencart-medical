@@ -169,7 +169,7 @@ if(array_intersect($page_name, $get_route)){
 	              <li><a href="<?php echo $addcustomer; ?>"><?php echo $text_addcustomer; ?></a></li>
 	              <li><a href="<?php echo $customer_group; ?>"><?php echo $text_customer_group; ?></a></li>
 	              <li><a href="<?php echo $allcustomer; ?>"><?php echo $text_all_customers; ?></a></li>
-	              <li><a href="<?php echo $order; ?>"><?php echo $text_order; ?></a></li>
+	              
 	            </ul>
 	      	</li>
 	      	<li id="treatment"><a class="top"><?php echo $text_history; ?></a>
@@ -205,7 +205,7 @@ if(array_intersect($page_name, $get_route)){
 		      </li>
 	      	<li id="order"><a class="top"><?php echo $text_order; ?></a>
 		        <ul>
-		          <li><a href="<?php echo $purchase; ?>"><?php echo $text_order; ?></a></li>
+		          <li><a href="<?php echo $order; ?>"><?php echo $text_order; ?></a></li>
 		        </ul>
 		      </li>
 
