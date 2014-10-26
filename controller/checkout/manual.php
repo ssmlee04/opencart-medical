@@ -195,7 +195,9 @@ class ControllerCheckoutManual extends Controller {
 				// 	);
 				// }
 
+				$last_cost = 0;
 				$purchase_product = $this->db->query("SELECT * FROM oc_purchase_product WHERE product_id = " . $product['product_id'] . " ORDER BY purchase_product_id DESC LIMIT 1");
+				if ($purchase_product->num_rows) $last_cost = $purchase_product->row['cost'];
 
 				$total = $price *  $product['quantity'];
 				$subtotal += $total;
@@ -208,7 +210,7 @@ class ControllerCheckoutManual extends Controller {
 					'quantity'   => $product['quantity'],
 					'stock'      => $product['stock'],
 					'ref_price'      => $product['price'],	
-					'last_cost'      => $purchase_product->row['cost'],	
+					'last_cost'      => $last_cost,	
 					'price'      => $price,
 					'total'      => $total,	
 					'tax'        => $this->tax->getTax($product['price'], $product['tax_class_id']),

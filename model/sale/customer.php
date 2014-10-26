@@ -43,11 +43,13 @@ class ModelSaleCustomer extends Model {
 			, ssn = '" . $this->db->escape($data['ssn']) . "'
 			, image = '" . $this->db->escape($data['avatarimage']) . "'
 			, store_id = '" . (int)$data['store'] . "'
-			, outsource = '" . (int)$data['outsource'] . "'
 			, nickname = '" . $this->db->escape($data['nickname']) . "'
 			, line_id = '" . $this->db->escape($data['line_id']) . "'
 			, fb_id = '" . $this->db->escape($data['fb_id']) . "'
-			, customer_group_id = '" . (int)$data['customer_group_id'] . "', status = '" . (int)$data['status'] . "' WHERE customer_id = '" . (int)$customer_id . "'";
+			, customer_group_id = '" . (int)$data['customer_group_id'] . "'
+			, status = '1' 
+			WHERE customer_id = '" . (int)$customer_id . "'";
+			// , outsource = '" . (int)$data['outsource'] . "'
 
 		$this->db->query($sql);
 			// , newsletter = '" . (int)$data['newsletter'] . "'
@@ -82,8 +84,8 @@ class ModelSaleCustomer extends Model {
 					, address_1 = '" . $this->db->escape($address['address_1']) . "'
 					, address_2 = '" . $this->db->escape($address['address_2']) . "'
 					, city = '" . $this->db->escape($address['city']) . "'
-					, postcode = '" . $this->db->escape($address['postcode']) . "'
-					, country_id = '" . (int)$address['country_id'] . "'");
+					, postcode = '" . $this->db->escape($address['postcode']) . "'");
+					// , country_id = '" . (int)$address['country_id'] . "'");
 
 				// if (isset($address['default'])) {
 					$address_id = $this->db->getLastId();

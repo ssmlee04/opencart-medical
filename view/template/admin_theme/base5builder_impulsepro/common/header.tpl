@@ -220,7 +220,7 @@ if(array_intersect($page_name, $get_route)){
       <li id="system"><a class="top"><?php echo $text_system; ?></a>
         <ul>
           <li><a href="<?php echo $setting; ?>"><?php echo $text_setting; ?></a></li>
-          <li><a href="<?php echo $unit_class; ?>"><?php echo $text_unit_class; ?></a></li>
+          <!-- <li><a href="<php echo $unit_class; ?>"><php echo $text_unit_class; ?></a></li> -->
           <li><a href="<?php echo $error_log; ?>"><?php echo $text_error_log; ?></a></li>
           <li><a href="<?php echo $backup; ?>"><?php echo $text_backup; ?></a></li>
 	        </ul>

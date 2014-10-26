@@ -99,6 +99,24 @@
                     <?php } ?>
                   </select></td>
               </tr>
+
+              <tr>
+                <td class="left"></td>
+                <td><div class="image"><img src="<?php echo $thumb1; ?>" alt="" id="thumb1" /><br />
+                    <input type="hidden" name="image1" value="<?php echo $image1; ?>" id="image1" />
+ 
+                    <a onclick="image_upload('image1', 'thumb1');"><?php echo $text_browse; ?></a>&nbsp;&nbsp;|&nbsp;&nbsp;<a onclick="$('#thumb1').attr('src', '<?php echo $no_image; ?>'); $('#image1').attr('value', '');"><?php echo $text_clear; ?></a>
+                  </div><div class="image"><img src="<?php echo $thumb2; ?>" alt="" id="thumb2" /><br />
+                    <input type="hidden" name="image2" value="<?php echo $image2; ?>" id="image2" />
+ 
+                    <a onclick="image_upload('image2', 'thumb2');"><?php echo $text_browse; ?></a>&nbsp;&nbsp;|&nbsp;&nbsp;<a onclick="$('#thumb2').attr('src', '<?php echo $no_image; ?>'); $('#image2').attr('value', '');"><?php echo $text_clear; ?></a>
+                  </div></td>
+                <td style='display:none'><div class="image"><img src="<?php echo $thumb3; ?>" alt="" id="thumb3" /><br />
+                    <input type="hidden" name="image3" value="<?php echo $image3; ?>" id="image3" />
+ 
+                    <a onclick="image_upload('image3', 'thumb3');"><?php echo $text_browse; ?></a>&nbsp;&nbsp;|&nbsp;&nbsp;<a onclick="$('#thumb3').attr('src', '<?php echo $no_image; ?>'); $('#image3').attr('value', '');"><?php echo $text_clear; ?></a>
+                  </div></td>
+              </tr>
           </table>
         </div>
         
@@ -208,6 +226,36 @@
 </style>
 <script type="text/javascript"><!--
 
+
+function image_upload(field, thumb) {
+  $('#dialog').remove();
+  
+  $('#content').prepend('<div id="dialog" style="padding: 3px 0px 0px 0px;"><iframe src="index.php?route=common/filemanager&token=<?php echo $token; ?>&field=' + encodeURIComponent(field) + '" style="padding:0; margin: 0; display: block; width: 100%; height: 100%;" frameborder="no" scrolling="auto"></iframe></div>');
+  
+  $('#dialog').dialog({
+    title: '<?php echo $text_image_manager; ?>',
+    close: function (event, ui) {
+      $.ajax({
+          url: 'index.php?route=common/filemanager/image&token=<?php echo $token; ?>&image=' + encodeURIComponent($('#' + field).attr('value')),
+          dataType: 'text',
+          success: function(text) {
+          
+            $('#' + thumb).replaceWith('<img src="' + text + '" alt="" id="' + thumb + '" />');
+            var image = $('#' + field).attr('value');
+            // var customer_transaction_id = $('#tr' + field).attr('value');
+            // var customer_image_id = $('#id' + field).attr('value');
+            // alert(customer_transaction_id, customer_image_id);
+
+          }
+        });
+    },  
+    bgiframe: false,
+    width: 800,
+    height: 400,
+    resizable: false,
+    modal: false
+  });
+};
 
 $('#tab-general-link').on('click', function(){
   if ('<?php echo $is_insert; ?>' != 1) {

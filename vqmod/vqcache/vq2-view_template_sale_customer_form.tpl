@@ -255,22 +255,22 @@
                 <td><div class='group11'><?php echo $address['postcode']; ?></div>
                   <div class='group12'><input type="text" name="address[postcode]" value="<?php echo $address['postcode']; ?>" /></div></td>
               </tr>
-              <tr style='display:none'>
-                <td><span class="required">*</span> <?php echo $entry_country; ?></td>
-                <td><select name="address[country_id]" onchange="country(this, '', '<?php echo $address['zone_id']; ?>');">
-                    <option value=""><?php echo $text_select; ?></option>
-                    <?php foreach ($countries as $country) { ?>
-                    <?php if ($country['country_id'] == $address['country_id']) { ?>
-                    <option value="<?php echo $country['country_id']; ?>" selected="selected"><?php echo $country['name']; ?></option>
-                    <?php } else { ?>
-                    <option value="<?php echo $country['country_id']; ?>"><?php echo $country['name']; ?></option>
-                    <?php } ?>
-                    <?php } ?>
+              <!-- <tr style='display:none'>
+                <td><span class="required">*</span> <php echo $entry_country; ?></td>
+                <td><select name="address[country_id]" onchange="country(this, '', '<php echo $address['zone_id']; ?>');">
+                    <option value=""><php echo $text_select; ?></option>
+                    <php foreach ($countries as $country) { ?>
+                    <php if ($country['country_id'] == $address['country_id']) { ?>
+                    <option value="<php echo $country['country_id']; ?>" selected="selected"><php echo $country['name']; ?></option>
+                    <php } else { ?>
+                    <option value="<php echo $country['country_id']; ?>"><php echo $country['name']; ?></option>
+                    <php } ?>
+                    <php } ?>
                   </select>
-                  <?php if (isset($error_address_country)) { ?>
-                  <span class="error"><?php echo $error_address_country; ?></span>
-                  <?php } ?></td>
-              </tr>
+                  <php if (isset($error_address_country)) { ?>
+                  <span class="error"><php echo $error_address_country; ?></span>
+                  <php } ?></td>
+              </tr> -->
               <tr style='display:none'>
                 <td><span class="required">*</span> <?php echo $entry_zone; ?></td>
                 <td><select name="address[zone_id]">

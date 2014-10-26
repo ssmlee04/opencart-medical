@@ -85,9 +85,6 @@
                 <td class="left"><?php echo $column_product; ?></td>
                 <!-- <td class="left"><php echo $column_model; ?></td> -->
                 <td class="right"><?php echo $column_quantity; ?></td>
-
-			<td class="right"><?php echo $column_prev_cost; ?></td>
-			
                 <td class="right" ><?php echo $column_price; ?></td>
                 <td class="right"><?php echo $column_actual_price; ?></td>
                 <td class="right"><?php echo $column_total; ?></td>
@@ -122,10 +119,6 @@
                 <td class="right"><?php echo $order_product['quantity']; ?>
                   <input type="hidden" name="order_product[<?php echo $product_row; ?>][quantity]" value="<?php echo $order_product['quantity']; ?>" /></td>                 
                 <td class="right"><?php echo $order_product['ref_price']; ?>
-
-			<td class="right"><?php echo $order_product['last_cost']; ?>
-                  <input type="hidden" name="order_product[<?php echo $product_row; ?>][last_cost]" value="<?php echo $order_product['last_cost']; ?>" /></td>
-			
                   <input type="hidden" name="order_product[<?php echo $product_row; ?>][ref_price]" value="<?php echo $order_product['ref_price']; ?>" /></td>
 
                 <td class="right">
@@ -824,15 +817,10 @@ $('#button-product').live('click', function() {
 					html += '  </td>';
 					// html += '  <td class="left">' + product['model'] + '<input type="hidden" name="order_product[' + product_row + '][model]" value="' + product['model'] + '" /></td>';
 					html += '  <td class="right">' + product['quantity'] + '<input type="hidden" name="order_product[' + product_row + '][quantity]" value="' + product['quantity'] + '" /></td>';
-
-			html += '  <td class="right">' + product['last_cost'] + '<input type="hidden" name="order_product[' + product_row + '][last_cost]" value="' + product['last_cost'] + '" /></td>';
-			
           html += '  <td class="right">' + product['ref_price'] + '<input type="hidden" name="order_product[' + product_row + '][ref_price]" value="' + product['ref_price'] + '" /></td>';
           
           if ('<?php echo $is_insert; ?>') {
-            
-			html += '  <td class="right"><input type="text" size="8" value="' + product['price'] +
-			 '" class="price" name="order_product[' + product_row + '][price]"></input></td>';          } else {
+            html += '  <td class="right"><input type="text" size="8" value="' + product['price'] + '" class="price" name="order_product[' + product_row + '][price]"></input></td>';          } else {
             html += '  <td class="right">' + product['price'] + '<input type="hidden" size="8" value="' + product['price'] + '" class="price" name="order_product[' + product_row + '][price]"></input></td>';
           }
                  
@@ -1035,17 +1023,6 @@ $('.time').timepicker({timeFormat: 'h:m'});
 <script type="text/javascript"><!--
 $('.vtabs a').tabs();
 
-
-			$('.price').live('keyup', function(e){
-			
-			$('.subprice').remove();
-			var price = parseInt($(this).val());
-			var cost = parseInt($(this).parent().prev().prev().text());
-			var ret = ((price / cost) - 1) * 100;
-			$(this).parent().append('<p class="subprice">profit: ' + ret.toString() +' %</p>');
-			
-			});
-			
 $('.price').live('keyup', function(e){
   
   if (e.keyCode == 13) {

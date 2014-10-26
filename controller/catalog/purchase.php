@@ -626,7 +626,9 @@ class ControllerCatalogPurchase extends Controller {
 		$this->data['text_product_unavailable'] = $this->language->get('text_product_unavailable');
 		$this->data['text_duplicate'] = $this->language->get('text_duplicate');
 		$this->data['text_error'] = $this->language->get('text_error');
-
+		$this->data['text_browse'] = $this->language->get('text_browse');
+		$this->data['text_clear'] = $this->language->get('text_clear');
+		
 		$this->data['entry_date'] = $this->language->get('entry_date');
 		$this->data['entry_price'] = $this->language->get('entry_price');
 		$this->data['entry_store'] = $this->language->get('entry_store');

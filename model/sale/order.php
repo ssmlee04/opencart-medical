@@ -412,7 +412,6 @@ class ModelSaleOrder extends Model {
 					, order_id = '" . (int)$order_id . "'
 					, product_id = '" . (int)$order_product['product_id'] . "'
 					, name = '" . $this->db->escape($order_product['name']) . "'
-					, model = '" . $this->db->escape($order_product['model']) . "'
 					, quantity = '" . (int)$order_product['quantity'] . "'
 					, unit_class_id = '" . (int)$unit_class_id . "'
 					, subquantity = '" . (int)$subquantity . "'
@@ -420,6 +419,7 @@ class ModelSaleOrder extends Model {
 					, ref_price = '" . (float)$order_product['ref_price'] . "', total = '" . (float)$order_product['total'] . "'");
 					// , tax = '" . (float)$order_product['tax'] . "'
 					// , reward = '" . (int)$order_product['reward'] . "'");
+					// , model = '" . $this->db->escape($order_product['model']) . "'
 
 				$order_product_id = $this->db->getLastId();
 

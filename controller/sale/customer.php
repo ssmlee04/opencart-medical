@@ -2,17 +2,20 @@
 class ControllerSaleCustomer extends Controller { 
 	private $error = array();
 
-	// public function clear() {
+	/*public function clear() {
 
-	// 	$this->db->query("DELETE FROM oc_customer_transaction");
-	// 	$this->db->query("DELETE FROM oc_customer_history");
-	// 	$this->db->query("DELETE FROM oc_customer_image");
-	// 	$this->db->query("DELETE FROM oc_customer_lending");
-	// 	$this->db->query("DELETE FROM oc_order_product");
-	// 	$this->db->query("DELETE FROM oc_order_total");
-	// 	$this->db->query("DELETE FROM oc_order");
-	// 	$this->db->query("DELETE FROM oc_order_history");
-	// }
+		$this->db->query("DELETE FROM oc_customer_transaction");
+		$this->db->query("DELETE FROM oc_customer_history");
+		$this->db->query("DELETE FROM oc_customer_image");
+		$this->db->query("DELETE FROM oc_customer_lending");
+		$this->db->query("DELETE FROM oc_order_product");
+		$this->db->query("DELETE FROM oc_order_total");
+		$this->db->query("DELETE FROM oc_purchase");
+		$this->db->query("DELETE FROM oc_purchase_products");
+		$this->db->query("DELETE FROM oc_order");
+		$this->db->query("DELETE FROM oc_order_history");
+		$this->db->query("DELETE FROM oc_product_to_store");
+	}*/
 
 	public function index() {
 		$this->language->load('sale/customer');
@@ -1325,42 +1328,46 @@ class ControllerSaleCustomer extends Controller {
 
 
 
-		$query3 = $this->db->query("SELECT * FROM oc_customer_transaction WHERE status =2 AND customer_id = '" . (int)$this->request->get['filter_customer_id'] ."' ORDER BY date_modified DESC LIMIT 1");
-
+	
 		$last_doctor = '';
 		$last_beauty = '';
 		$last_consultant = '';
 		$last_outsource = '';
 		$last_visit = '';
 
-		if ($query3->num_rows) {
+		if (isset($this->request->get['filter_customer_id'])){
+			$query3 = $this->db->query("SELECT * FROM oc_customer_transaction WHERE status =2 AND customer_id = '" . (int)$this->request->get['filter_customer_id'] ."' ORDER BY date_modified DESC LIMIT 1");
 
-			$last_visit = $query3->row['date_modified'];
 
-			$outsource_id = $query3->row['outsource_id'];
+			if ($query3->num_rows) {
 
-			if ($outsource_id > 0) {
-				$result2 = $this->db->query("SELECT * FROM oc_user WHERE user_id = '$outsource_id'");
+				$last_visit = $query3->row['date_modified'];
 
-				$last_outsource = $result2->row['fullname'];
-			}
+				$outsource_id = $query3->row['outsource_id'];
 
-			$consultant_id = $query3->row['consultant_id'];
-			if ($consultant_id > 0) {
-				$result2 = $this->db->query("SELECT * FROM oc_user WHERE user_id = '$consultant_id'");
-				$last_consultant = $result2->row['fullname'];
-			}
+				if ($outsource_id > 0) {
+					$result2 = $this->db->query("SELECT * FROM oc_user WHERE user_id = '$outsource_id'");
 
-			$beauty_id = $query3->row['beauty_id'];
-			if ($beauty_id > 0) { 
-				$result2 = $this->db->query("SELECT * FROM oc_user WHERE user_id = '$beauty_id'");
-				$last_beauty = $result2->row['fullname'];
-			}
+					$last_outsource = $result2->row['fullname'];
+				}
 
-			$doctor_id = $query3->row['doctor_id'];
-			if ($doctor_id > 0) {
-				$result2 = $this->db->query("SELECT * FROM oc_user WHERE user_id = '$doctor_id'");
-				$last_doctor = $result2->row['fullname'];
+				$consultant_id = $query3->row['consultant_id'];
+				if ($consultant_id > 0) {
+					$result2 = $this->db->query("SELECT * FROM oc_user WHERE user_id = '$consultant_id'");
+					$last_consultant = $result2->row['fullname'];
+				}
+
+				$beauty_id = $query3->row['beauty_id'];
+				if ($beauty_id > 0) { 
+					$result2 = $this->db->query("SELECT * FROM oc_user WHERE user_id = '$beauty_id'");
+					$last_beauty = $result2->row['fullname'];
+				}
+
+				$doctor_id = $query3->row['doctor_id'];
+				if ($doctor_id > 0) {
+					$result2 = $this->db->query("SELECT * FROM oc_user WHERE user_id = '$doctor_id'");
+					$last_doctor = $result2->row['fullname'];
+				}
 			}
 		}
 

@@ -124,22 +124,23 @@ class ControllerCommonHome extends Controller {
 		}
 
 		// Check download directory is writable
-		$file = DIR_DOWNLOAD . 'test';
+		// $file = DIR_DOWNLOAD . 'test';
 
-		$handle = fopen($file, 'a+'); 
+		// $handle = fopen($file, 'a+'); 
 
-		fwrite($handle, '');
+		// fwrite($handle, '');
 
-		fclose($handle); 		
+		// fclose($handle); 		
 
-		if (!file_exists($file)) {
-			$this->data['error_download'] = sprintf($this->language->get('error_download'), DIR_DOWNLOAD);
-		} else {
-			$this->data['error_download'] = '';
+		// if (!file_exists($file)) {
+		// 	$this->data['error_download'] = sprintf($this->language->get('error_download'), DIR_DOWNLOAD);
+		// } else {
+		// 	$this->data['error_download'] = '';
 
-			unlink($file);
-		}
-
+		// 	unlink($file);
+		// }
+		$this->data['error_download'] = '';
+		
 		// Check logs directory is writable
 		$file = DIR_LOGS . 'test';
 
