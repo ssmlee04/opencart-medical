@@ -28,7 +28,9 @@
           <table class="form">
             <tr>
               <td><?php echo $entry_customer; ?></td>
-              <td><?php echo $customer; ?><input type="text" style='display:none' name="customer" value="<?php echo $customer; ?>" />
+              <td> <?php if (!$is_insert)  { ?>
+              <?php echo $customer; ?>
+                <?php } ?> <input <?php if (!$is_insert) echo 'style="display:none"'; ?> type="customer" name="customer" value="<?php echo $customer; ?>" />
                 <input type="hidden" name="customer_id" value="<?php echo $customer_id; ?>" />
                 <input type="hidden" name="customer_name" value="<?php echo $customer_name; ?>" />
                 <input type="hidden" name="customer_group_id" value="<?php echo $customer_group_id; ?>" />
@@ -42,11 +44,11 @@
               <td class="left"><?php echo $entry_store; ?></td>
               <td class="left">
 
+                <?php if (!$is_insert)  { ?>
                 <?php foreach ($stores as $store) { ?>
                   <?php if ($store['store_id'] == $store_id) {  echo $store['name']; } ?>
-                <?php } ?>
-
-                <select style='display:none' name="store_id"  class='store_id' onchange="$(this).attr('readonly', true);">
+                <?php } ?><?php } ?>
+                <select  name="store_id" <?php if (!$is_insert) echo 'style="display:none"'; ?>  class='store_id' onchange="$(this).attr('readonly', true);">
                   <option value=''><?php echo $text_select; ?></option>
                   <?php foreach ($stores as $store) { ?>
                   <?php if ($store['store_id'] == $store_id) { ?>
@@ -61,20 +63,20 @@
                   <span class="error"><?php echo $error_store; ?></span>
                   <?php } ?></td>
             </tr>
-            <tr>
-              <td><span class="required">*</span> <?php echo $entry_email; ?></td>
-              <td><?php echo $email; ?><input type="text" style='display:none' name="email" value="<?php echo $email; ?>"/>
-                <?php if ($error_email) { ?>
-                <span class="error"><?php echo $error_email; ?></span>
-                <?php } ?></td>
+            <!-- <tr>
+              <td><span class="required">*</span> <php echo $entry_email; ?></td>
+              <td><php echo $email; ?><input type="text" style='display:none' name="email" value="<php echo $email; ?>"/>
+                <php if ($error_email) { ?>
+                <span class="error"><php echo $error_email; ?></span>
+                <php } ?></td>
             </tr>
             <tr>
-              <td><span class="required">*</span> <?php echo $entry_telephone; ?></td>
-              <td><?php echo $telephone; ?><input type="text" style='display:none' name="telephone" value="<?php echo $telephone; ?>"/>
-                <?php if ($error_telephone) { ?>
-                <span class="error"><?php echo $error_telephone; ?></span>
-                <?php } ?></td>
-            </tr>
+              <td><span class="required">*</span> <php echo $entry_telephone; ?></td>
+              <td><php echo $telephone; ?><input type="text" style='display:none' name="telephone" value="<php echo $telephone; ?>"/>
+                <php if ($error_telephone) { ?>
+                <span class="error"><php echo $error_telephone; ?></span>
+                <php } ?></td>
+            </tr> -->
           </table>
         </div>
         <div id="tab-product" class="vtabs-content">

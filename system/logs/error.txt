@@ -6,3 +6,4 @@
 2014-10-26 6:13:08 - PHP Notice:  Undefined index: filter_customer_id in /var/www/html/opencart2/controller/sale/order.php on line 681
 2014-10-26 6:13:11 - PHP Notice:  Undefined index: filter_customer_id in /var/www/html/opencart2/controller/sale/order.php on line 681
 2014-10-26 6:16:41 - PHP Notice:  Undefined index: filter_customer_id in /var/www/html/opencart2/controller/sale/order.php on line 681
+2014-10-26 6:30:33 - PHP Notice:  Undefined index: filter_customer_id in /var/www/html/opencart2/controller/sale/order.php on line 681

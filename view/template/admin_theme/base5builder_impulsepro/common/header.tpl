@@ -203,11 +203,11 @@ if(array_intersect($page_name, $get_route)){
 		          <li><a href="<?php echo $purchase; ?>"><?php echo $text_purchase; ?></a></li>
 		        </ul>
 		      </li>
-	      	<!-- <li id="order"><a class="top"><php echo $text_order; ?></a>
+	      	<li id="order"><a class="top"><?php echo $text_order; ?></a>
 		        <ul>
-		          <li><a href="<php echo $order; ?>"><php echo $text_order; ?></a></li>
+		          <li><a href="<?php echo $order; ?>"><?php echo $text_order; ?></a></li>
 		        </ul>
-		      </li> -->
+		      </li>
 
       
      <!--  <li id="sale"><a class="top"><php echo $text_sale; ?></a>
