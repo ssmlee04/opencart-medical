@@ -53,11 +53,11 @@
                 <?php } else { ?>
                 <a href="<?php echo $sort_date_added; ?>"><?php echo $column_date_added; ?></a>
                 <?php } ?></td>
-              <td class="left"><?php if ($sort == 'o.date_modified') { ?>
-                <a href="<?php echo $sort_date_modified; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_date_modified; ?></a>
-                <?php } else { ?>
-                <a href="<?php echo $sort_date_modified; ?>"><?php echo $column_date_modified; ?></a>
-                <?php } ?></td>
+              <!-- <td class="left"><php if ($sort == 'o.date_modified') { ?>
+                <a href="<php echo $sort_date_modified; ?>" class="<php echo strtolower($order); ?>"><php echo $column_date_modified; ?></a>
+                <php } else { ?>
+                <a href="<php echo $sort_date_modified; ?>"><php echo $column_date_modified; ?></a>
+                <php } ?></td> -->
               <td class="right"><?php echo $column_action; ?></td>
             </tr>
           </thead>
@@ -83,10 +83,10 @@
                 <input type="text" name="filter_date_added_start" value="<?php echo $filter_date_added_start; ?>" size="12" class="date" />  ~
                 <input type="text" name="filter_date_added_end" value="<?php echo $filter_date_added_end; ?>" size="12" class="date" />
               </td>
-              <td>
-                <input type="text" name="filter_date_modified_start" value="<?php echo $filter_date_modified_start; ?>" size="12" class="date" /> ~ 
-                <input type="text" name="filter_date_modified_end" value="<?php echo $filter_date_modified_end; ?>" size="12" class="date" />
-              </td>
+              <!-- <td>
+                <input type="text" name="filter_date_modified_start" value="<php echo $filter_date_modified_start; ?>" size="12" class="date" /> ~ 
+                <input type="text" name="filter_date_modified_end" value="<php echo $filter_date_modified_end; ?>" size="12" class="date" />
+              </td> -->
               <td align="right"><a onclick="filter();" class="button"><?php echo $button_filter; ?></a></td>
             </tr>
             <?php if ($orders) { ?>
@@ -106,7 +106,7 @@
               <td class="left"><?php echo $order['status']; ?></td>
               <td class="right"><?php echo $order['total']; ?></td>
               <td class="left"><?php echo $order['date_added']; ?></td>
-              <td class="left"><?php echo $order['date_modified']; ?></td>
+              <!-- <td class="left"><php echo $order['date_modified']; ?></td> -->
               <td class="right"><?php echo $order['comment']; ?></td>
             </tr>
             <?php } ?>

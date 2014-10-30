@@ -827,40 +827,43 @@ class ModelSaleOrder extends Model {
 
 	// '2014-10-06 21:33'
 	public function getTotalOrders($data = array()) {
-		$sql = "SELECT COUNT(*) AS total FROM `" . DB_PREFIX . "order`";
+
+		// $sql = "SELECT o.order_id, o.payment_visa, o.payment_cash, o.payment_final, o.payment_balance, o.comment, CONCAT(o.lastname, o.firstname) AS customer, (SELECT os.name FROM " . DB_PREFIX . "order_status os WHERE os.order_status_id = o.order_status_id AND os.language_id = '" . (int)$this->config->get('config_language_id') . "') AS status, o.total, o.currency_code, o.currency_value, o.date_added, o.date_modified FROM `" . DB_PREFIX . "order` o";
+		$sql = "SELECT COUNT(*) AS total FROM `" . DB_PREFIX . "order` o";
 
 		if (isset($data['filter_order_status_id']) && !is_null($data['filter_order_status_id'])) {
-			$sql .= " WHERE order_status_id = '" . (int)$data['filter_order_status_id'] . "'";
+			$sql .= " WHERE o.order_status_id = '" . (int)$data['filter_order_status_id'] . "'";
 		} else {
-			$sql .= " WHERE order_status_id > '0'";
+			$sql .= " WHERE o.order_status_id > '0'";
+		}
+
+		// '2014-10-03 15:32'
+		if (!empty($data['filter_customer_id'])) {
+			$sql .= " AND o.customer_id = '" . (int)$data['filter_customer_id'] . "'";
 		}
 
 		if (!empty($data['filter_order_id'])) {
-			$sql .= " AND order_id = '" . (int)$data['filter_order_id'] . "'";
+			$sql .= " AND o.order_id = '" . (int)$data['filter_order_id'] . "'";
 		}
 
 		if (!empty($data['filter_customer'])) {
-			$sql .= " AND CONCAT(firstname, ' ', lastname) LIKE '%" . $this->db->escape($data['filter_customer']) . "%'";
-		}
-
-		if (!empty($data['filter_customer_id'])) {
-			$sql .= " AND customer_id = '" . (int)$data['filter_customer_id'] . "'";
+			$sql .= " AND CONCAT(o.lastname, o.firstname) LIKE '%" . $this->db->escape($data['filter_customer']) . "%'";
 		}
 
 		if (!empty($data['filter_date_added_start'])) {
-			$sql .= " AND DATE(date_added) >= DATE('" . $this->db->escape($data['filter_date_added_start']) . "')";
-		}
-
-		if (!empty($data['filter_date_modified_start'])) {
-			$sql .= " AND DATE(date_modified) >= DATE('" . $this->db->escape($data['filter_date_modified_start']) . "')";
+			$sql .= " AND DATE(o.date_added) >= DATE('" . $this->db->escape($data['filter_date_added_start']) . "')";
 		}
 
 		if (!empty($data['filter_date_added_end'])) {
-			$sql .= " AND DATE(date_added) <= DATE('" . $this->db->escape($data['filter_date_added_end']) . "')";
+			$sql .= " AND DATE(o.date_added) <= DATE('" . $this->db->escape($data['filter_date_added_end']) . "')";
+		}
+
+		if (!empty($data['filter_date_modified_start'])) {
+			$sql .= " AND DATE(o.date_modified) >= DATE('" . $this->db->escape($data['filter_date_modified_start']) . "')";
 		}
 
 		if (!empty($data['filter_date_modified_end'])) {
-			$sql .= " AND DATE(date_modified) <= DATE('" . $this->db->escape($data['filter_date_modified_end']) . "')";
+			$sql .= " AND DATE(o.date_modified) <= DATE('" . $this->db->escape($data['filter_date_modified_end']) . "')";
 		}
 
 		if (!empty($data['filter_total_max'])) {
@@ -870,10 +873,59 @@ class ModelSaleOrder extends Model {
 		if (!empty($data['filter_total_min'])) {
 			$sql .= " AND total >= '" . (float)$data['filter_total_min'] . "'";
 		}
-
+	
 		$query = $this->db->query($sql);
 
 		return $query->row['total'];
+
+
+		// $sql = "SELECT COUNT(*) AS total FROM `" . DB_PREFIX . "order`";
+
+		// if (isset($data['filter_order_status_id']) && !is_null($data['filter_order_status_id'])) {
+		// 	$sql .= " WHERE order_status_id = '" . (int)$data['filter_order_status_id'] . "'";
+		// } else {
+		// 	$sql .= " WHERE order_status_id > '0'";
+		// }
+
+		// if (!empty($data['filter_order_id'])) {
+		// 	$sql .= " AND order_id = '" . (int)$data['filter_order_id'] . "'";
+		// }
+
+		// if (!empty($data['filter_customer'])) {
+		// 	$sql .= " AND CONCAT(firstname, ' ', lastname) LIKE '%" . $this->db->escape($data['filter_customer']) . "%'";
+		// }
+
+		// if (!empty($data['filter_customer_id'])) {
+		// 	$sql .= " AND customer_id = '" . (int)$data['filter_customer_id'] . "'";
+		// }
+
+		// if (!empty($data['filter_date_added_start'])) {
+		// 	$sql .= " AND DATE(date_added) >= DATE('" . $this->db->escape($data['filter_date_added_start']) . "')";
+		// }
+
+		// if (!empty($data['filter_date_modified_start'])) {
+		// 	$sql .= " AND DATE(date_modified) >= DATE('" . $this->db->escape($data['filter_date_modified_start']) . "')";
+		// }
+
+		// if (!empty($data['filter_date_added_end'])) {
+		// 	$sql .= " AND DATE(date_added) <= DATE('" . $this->db->escape($data['filter_date_added_end']) . "')";
+		// }
+
+		// if (!empty($data['filter_date_modified_end'])) {
+		// 	$sql .= " AND DATE(date_modified) <= DATE('" . $this->db->escape($data['filter_date_modified_end']) . "')";
+		// }
+
+		// if (!empty($data['filter_total_max'])) {
+		// 	$sql .= " AND total <= '" . (float)$data['filter_total_max'] . "'";
+		// }
+
+		// if (!empty($data['filter_total_min'])) {
+		// 	$sql .= " AND total >= '" . (float)$data['filter_total_min'] . "'";
+		// }
+
+		// $query = $this->db->query($sql);
+
+		// return $query->row['total'];
 	}
 
 	public function getTotalOrdersByStoreId($store_id) {

@@ -122,6 +122,10 @@ class ControllerSaleFollowup extends Controller {
 			$url .= '&page=' . $this->request->get['page'];
 		}
 
+		if (isset($this->request->get['filter_reminder_status_id'])) {
+			$url .= '&filter_reminder_status_id=' . $this->request->get['filter_reminder_status_id'];
+		}
+
 		$this->data['heading_title'] = $this->language->get('heading_title');
 		$this->data['text_overview'] = $this->language->get('text_overview');
 		$this->data['text_statistics'] = $this->language->get('text_statistics');
@@ -147,6 +151,7 @@ class ControllerSaleFollowup extends Controller {
 		$this->data['column_message'] = $this->language->get('column_message');
 		$this->data['column_customer'] = $this->language->get('column_customer');
 		$this->data['column_status'] = $this->language->get('column_status');
+		$this->data['column_date_modified'] = $this->language->get('column_date_modified');
 		$this->data['column_date_added'] = $this->language->get('column_date_added');
 		$this->data['column_total'] = $this->language->get('column_total');
 		$this->data['column_firstname'] = $this->language->get('column_firstname');
@@ -216,6 +221,7 @@ class ControllerSaleFollowup extends Controller {
 				'ufullname' => $result['ufullname'],
 				'cfullname' => $result['cfullname'],
 				'reminder_date' => $result['reminder_date'],
+				'date_modified' => ($result['date_modified'] ? explode(' ', $result['date_modified'])[0] : ''),
 				'store_id' => $result['store_id'],
 			);
 		}

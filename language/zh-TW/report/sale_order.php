@@ -16,6 +16,9 @@ $_['column_orders']     = '訂單數量';
 $_['column_products']   = '商品數量';
 $_['column_tax']        = '稅務';
 $_['column_total']      = '總計';
+$_['column_payment_cash']      = '現金';
+$_['column_payment_visa']      = '信用卡';
+$_['column_payment_balance']      = '尾款';
 
 // Entry
 $_['entry_date_start']  = '開始日';

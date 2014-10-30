@@ -18,6 +18,7 @@
             <input type="date_available" name="filter_date_end" value="<?php echo $filter_date_end; ?>" size="20" /></td>
             </tr><tr>
           <td><?php echo $entry_status; ?>
+
             <select name="filter_reminder_status_id">
               <option value="" ></option>
               <!-- 
@@ -82,6 +83,7 @@
 								<tr>
 									<td class="left"><?php echo $column_customer; ?></td>
 									<td class="left"><?php echo $column_date_added; ?></td>
+									<td class="left"><?php echo $column_date_modified; ?></td>
 									<td class="left"><?php echo $column_user; ?></td>
 									<td class="right"><?php echo $column_message; ?></td>
 								</tr>
@@ -91,6 +93,7 @@
 									<td class="left"><input type='hidden' value='<?php echo $message['customer_history_id']; ?>'/><?php echo $message['cfullname']; ?></td>
 									
 									<td class="left"><?php echo $message['reminder_date']; ?></td>
+									<td class="left"><?php echo $message['date_modified']; ?></td>
 									<td class="left"><?php echo $message['ufullname']; ?></td>
 									<td><?php echo $message['status']; ?></td>
 									<!-- <td class="right">
@@ -105,13 +108,13 @@
 									</td> -->
 									</tr>
 									<tr class='r<?php echo $message['customer_history_id']; ?>'>
-										<td class="left" colspan='4'><?php echo $message['comment']; ?></td>
+										<td class="left" colspan='5'><?php echo $message['comment']; ?></td>
 									</tr>
-									<tr class='r<?php echo $message['customer_history_id']; ?>'><td colspan='4' style='background-color:white'></td></tr>
+									<tr class='r<?php echo $message['customer_history_id']; ?>'><td colspan='5' style='background-color:white'></td></tr>
 									<?php } ?>
 									<?php } else { ?>
 									<tr>
-										<td class="center" colspan="4"><?php echo $text_no_results; ?></td>
+										<td class="center" colspan="5"><?php echo $text_no_results; ?></td>
 									</tr>
 
 								<?php } ?>

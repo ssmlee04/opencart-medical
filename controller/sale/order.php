@@ -168,7 +168,7 @@ class ControllerSaleOrder extends Controller {
 			}
 
 			if (isset($this->request->post['customer_id'])) {
-				$this->redirect($this->url->link('sale/customer/update&customer_id=' . $this->request->post['customer_id'], 'token=' . $this->session->data['token'] . $url, 'SSL'));
+				$this->redirect($this->url->link('sale/customer/update&filter_customer_id=' . $this->request->post['customer_id'], 'token=' . $this->session->data['token'] . $url, 'SSL'));
 			} else {
 				$this->redirect($this->url->link('sale/order', 'token=' . $this->session->data['token'] . $url, 'SSL'));
 			}

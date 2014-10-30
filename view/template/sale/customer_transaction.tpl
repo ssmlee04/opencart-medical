@@ -20,7 +20,7 @@
     <tr>
       <td class="left"><?php echo $text_service_not_rendered; ?></td>
       <!-- <td class="left"><php echo $column_quantity; ?></td> -->
-      <td class="left"><?php echo $column_unit_quantity; ?></td>
+      <!-- <td class="left"><php echo $column_unit_quantity; ?></td> -->
       <td class="left"><?php echo $column_unit; ?></td>
     </tr>
   </thead>
@@ -28,10 +28,10 @@
     <?php if ($grouptransactions) { ?>
     <?php foreach ($grouptransactions as $transaction) { ?>
     <tr>
-      <td class="left"><?php echo $transaction['name']; ?></td>
+      <td class="left"><a onclick="add_filter_product('<?php echo $transaction['product_id']; ?>', '<?php echo $transaction['name']; ?>')"><?php echo $transaction['name']; ?></a></td>
       <!-- <td class="left"><hp echo $transaction['quantity']; ?></td> -->
-      <td class="left"><?php echo $transaction['subquantity']; ?></td>
-      <td class="left"><?php echo $transaction['unit']; ?></td>
+      <!-- <td class="left"><php echo $transaction['subquantity']; ?></td> -->
+      <td class="left"><?php echo $transaction['subquantity']; ?> <?php echo $transaction['unit']; ?></td>
     </tr>
     <?php } ?>
     <tr>
@@ -41,7 +41,7 @@
     </tr>
     <?php } else { ?>
     <tr>
-      <td class="center" colspan="4"><?php echo $text_no_results; ?></td>
+      <td class="center" colspan="2"><?php echo $text_no_results; ?></td>
     </tr>
     <?php } ?>
   </tbody>
@@ -212,7 +212,9 @@
           <input value='x'/ type='hidden'>
         <?php } ?>
         <?php if ($is_insert) { ?>
+        <?php if ($transaction['status'] != 2 || $transaction['canmodify']) { ?>
         <a  class='change_status_button' id='<?php echo $transaction['customer_transaction_id']; ?>'><?php echo $button_change_status; ?></a>
+        <?php } ?>
         <?php } ?>
       </td>
       <!-- <td class="right"><php echo $transaction['amount']; ?></td> -->
@@ -351,11 +353,16 @@ $('.addImage2').on('click', function(e){
 
   image_upload_treat('treatmentimage<?php echo $treatment_image_row; ?>', 'treatmentthumb<?php echo $treatment_image_row; ?>', ID);
 });
-//--></script> 
 
-
-
-<script type="text/javascript"><!--
+var add_filter_product = function(product_id, product_name){
+  $('input[name=product]').val(product_name);
+  $('input[name=product_name]').val(product_name);
+  $('input[name=product_id]').val(product_id);
+  $('input[name=treatment_product]').val(product_name);
+  $('input[name=treatment_product_name]').val(product_name);
+  $('input[name=treatment_product_id]').val(product_id);
+  $('a#button-filter').click();
+}
 
 function image_upload_treat(field, thumb, id) {
   $('#dialog').remove();  

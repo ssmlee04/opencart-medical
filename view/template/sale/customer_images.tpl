@@ -5,7 +5,7 @@
       <td class="left"><?php echo $entry_image; ?></td>
       <td class="left"><?php echo $entry_comment; ?></td>
       <td class="left"><?php echo $entry_date_added; ?></td>
-      <td class="right"></td>
+      <td class="right"><?php echo $entry_remove; ?></td>
     </tr>
   </thead>
   <?php $image_row = 0; ?>

@@ -36,10 +36,10 @@
       <h1><img src="view/image/customer.png" alt="" /> <?php echo $heading_title; ?></h1>
       <div class="buttons">
         <?php if (!$is_insert) { ?>
-        <a onclick="showhide()" class="button"><?php echo $button_edit_basic; ?></a>
+        <a onclick="showhide()" class="button" id='button_basic'><?php echo $button_edit_basic; ?></a>
         <?php } ?>
-        <a onclick="$('#form').submit();" class="button"><?php echo $button_save; ?></a>
-        <a href="<?php echo $cancel; ?>" class="button"><?php echo $button_cancel; ?></a></div>
+        <a onclick="$('#form').submit();" class="button" id='button_save'><?php echo $button_save; ?></a>
+        <a href="<?php echo $cancel; ?>" class="button" id='button_cancel'><?php echo $button_cancel; ?></a></div>
     </div>
     <div class="content">
       <div id="htabs" class="htabs"><a style="display:none" href="#tab-general" id='tab-general-link'><?php echo $tab_general; ?></a>
@@ -74,25 +74,25 @@
                 <td><span class="required">*</span> <?php echo $entry_firstname; ?></td>
                 <td><div class='group11' ><?php echo $firstname; ?></div>
                   <div class='group12' ><input type="text" name="firstname" value="<?php echo $firstname; ?>" />
-                  <?php if ($error_firstname) { ?>
+                  </div><?php if ($error_firstname) { ?>
                   <span class="error"><?php echo $error_firstname; ?></span>
-                  <?php } ?></div></td>
+                  <?php } ?></td>
               </tr>
               <tr>
                 <td><span class="required">*</span> <?php echo $entry_lastname; ?></td>
                 <td><div class='group11' ><?php echo $lastname; ?></div>
                   <div class='group12' ><input type="text" name="lastname" value="<?php echo $lastname; ?>" />
-                  <?php if ($error_lastname) { ?>
+                  </div><?php if ($error_lastname) { ?>
                   <span class="error"><?php echo $error_lastname; ?></span>
-                  <?php } ?></div></td>
+                  <?php } ?></td>
               </tr>
               <tr>
                 <td><span class="required">*</span> <?php echo $entry_email; ?></td>
                 <td><div class='group11' ><?php echo $email; ?></div>
                   <div class='group12' ><input type="text" name="email" value="<?php echo $email; ?>" />
-                  <?php if ($error_email) { ?>
+                  </div><?php if ($error_email) { ?>
                   <span class="error"><?php echo $error_email; ?></span>
-                  <?php  } ?></div></td>
+                  <?php  } ?></td>
               </tr>
               <tr>
                 <td><span class="required">*</span> <?php echo $entry_telephone; ?></td>
@@ -106,24 +106,24 @@
                 <td><span class="required">*</span> <?php echo $entry_mobile; ?></td>
                 <td><div class='group11' ><?php echo $mobile; ?></div>
                   <div class='group12' ><input type="text" name="mobile" value="<?php echo $mobile; ?>" />
-                    <?php if ($error_mobile) { ?>
+                    </div><?php if ($error_mobile) { ?>
                   <span class="error"><?php echo $error_mobile; ?></span>
-                  <?php  } ?></div></td>
+                  <?php  } ?></td>
               </tr>
               <tr>
                 <td><span class="required">*</span> <?php echo $entry_dob; ?></td>
                 <td><div class='group11' ><?php echo $dob; ?></div>
                   <div class='group12' ><input type="date_available" name="dob" class='date' value="<?php echo $dob; ?>" />
-                    <?php if ($error_dob) { ?>
+                    </div><?php if ($error_dob) { ?>
                   <span class="error"><?php echo $error_dob; ?></span>
-                  <?php  } ?></div></span>
+                  <?php  } ?></span>
               </td>
               <tr>
                 <td><span class="required">*</span><?php echo $entry_ssn; ?></td>
                 <td><div class='group11' ><?php echo $ssn; ?></div>
-                  <div class='group12' ><input type="text" name="ssn" value="<?php echo $ssn; ?>" /><?php if ($error_ssn) { ?>
+                  <div class='group12' ><input type="text" name="ssn" value="<?php echo $ssn; ?>" /></div><?php if ($error_ssn) { ?>
                   <span class="error"><?php echo $error_ssn; ?></span>
-                  <?php  } ?></div></td>
+                  <?php  } ?></td>
               </tr>
               <tr>
                 <td><?php echo $entry_nickname; ?></td>
@@ -184,11 +184,11 @@
 
                     <?php } ?>
                     <?php } ?>
-                  </select>
+                  </select></div>
                   <?php if ($error_store) { ?>
                   <span class="error"><?php echo $error_store; ?></span>
                   <?php  } ?>
-                </div></td>
+                </td>
                 </td>
               </tr>
               <tr>
@@ -231,9 +231,9 @@
                 <td>
                   <div class='group11'><?php echo $address['address_1']; ?></div>
                   <div class='group12' ><input type="text" name="address[address_1]" value="<?php echo $address['address_1']; ?>" />
-                  <?php if (isset($error_address_address_1)) { ?>
+                  </div><?php if (isset($error_address_address_1)) { ?>
                   <span class="error"><?php echo $error_address_address_1; ?></span>
-                  <?php } ?></div></td>
+                  <?php } ?></td>
               </tr>
               <tr>
                 <td><?php echo $entry_address_2; ?></td>
@@ -243,39 +243,15 @@
               <tr>
                 <td><span class="required">*</span> <?php echo $entry_city; ?></td>
                 <td><div class='group11'><?php echo $address['city']; ?></div>
-                  <div class='group12'><input type="text" name="address[city]" value="<?php echo $address['city']; ?>" />
+                  <div class='group12'><input type="text" name="address[city]" value="<?php echo $address['city']; ?>" /></div>
                   <?php if (isset($error_address_city)) { ?>
                   <span class="error"><?php echo $error_address_city; ?></span>
-                  <?php } ?></div></td>
+                  <?php } ?></td>
               </tr>
               <tr>
                 <td><?php echo $entry_postcode; ?></td>
                 <td><div class='group11'><?php echo $address['postcode']; ?></div>
                   <div class='group12'><input type="text" name="address[postcode]" value="<?php echo $address['postcode']; ?>" /></div></td>
-              </tr>
-              <!-- <tr style='display:none'>
-                <td><span class="required">*</span> <php echo $entry_country; ?></td>
-                <td><select name="address[country_id]" onchange="country(this, '', '<php echo $address['zone_id']; ?>');">
-                    <option value=""><php echo $text_select; ?></option>
-                    <php foreach ($countries as $country) { ?>
-                    <php if ($country['country_id'] == $address['country_id']) { ?>
-                    <option value="<php echo $country['country_id']; ?>" selected="selected"><php echo $country['name']; ?></option>
-                    <php } else { ?>
-                    <option value="<php echo $country['country_id']; ?>"><php echo $country['name']; ?></option>
-                    <php } ?>
-                    <php } ?>
-                  </select>
-                  <php if (isset($error_address_country)) { ?>
-                  <span class="error"><php echo $error_address_country; ?></span>
-                  <php } ?></td>
-              </tr> -->
-              <tr style='display:none'>
-                <td><span class="required">*</span> <?php echo $entry_zone; ?></td>
-                <td><select name="address[zone_id]">
-                  </select>
-                  <?php if (isset($error_address_zone)) { ?>
-                  <span class="error"><?php echo $error_address_zone; ?></span>
-                  <?php } ?></td>
               </tr>
             </table>
 
@@ -635,6 +611,7 @@ $('#transaction .pagination a').live('click', function() {
 });			
 
 $('#tab-general-link').on('click', function(){
+  $('#button_save').show();
   if ('<?php echo $is_insert; ?>' != 1) {
     $('.group12').hide();
     $('.group11').show();
@@ -642,26 +619,31 @@ $('#tab-general-link').on('click', function(){
 });
 
 $('#tab-transaction-link').on('click', function(){
-    $('.group12').hide();
+  $('#button_save').hide();
+  $('.group12').hide();
   $('.group11').show();
   $('#button-transaction').click();
 });
 
 $('#tab-image-link').on('click', function(){
+  $('#button_save').hide();
     $('.group12').hide();
   $('.group11').show();
   $('#button-image').click();
 });
 
 $('#tab-order-link').on('click', function(){
+  $('#button_save').hide();
   $('#button-order').click();
 });
 
 $('#tab-payment-link').on('click', function(){
+  $('#button_save').hide();
   $('#button-payment').click();
 });
 
 $('#tab-history-link').on('click', function(){
+  $('#button_save').hide();
     $('.group12').hide();
   $('.group11').show();
   $('textarea[name=\'comment\']').val('');
@@ -669,6 +651,7 @@ $('#tab-history-link').on('click', function(){
 });
 
 $('#tab-lendto-link').on('click', function(){
+  $('#button_save').hide();
   $('#button-lendto').click();
   $('#button-borrowfrom').click();
 });

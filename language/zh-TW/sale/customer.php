@@ -132,6 +132,7 @@ $_['entry_outsource']         = '外務';
 $_['entry_beauty']         = '美容師';
 $_['entry_doctor']         = '醫師';
 $_['entry_consultant']         = '諮詢師';
+$_['entry_remove']         = '移除';
 
 
 $_['entry_ssn']         = '身份證字號';

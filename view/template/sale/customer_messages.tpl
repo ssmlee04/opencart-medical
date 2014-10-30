@@ -75,14 +75,15 @@ $('.updatehistory').on('click', function(){
 		  },
 		  success: function(data, textStatus, xhr) {
 		    //called when successful
-		    $('#messages').html(data);
-
+		    
 		    $('.attention, .success, .warning').remove();
-	    
-			setTimeout(function(){
-				$('.box').before('<div class="success" style="display: none;"><?php echo $text_change_status_success; ?></div>');
+	    	
+	    	$('.box').before('<div class="success" style="display: none;"><?php echo $text_change_status_success; ?></div>');
 
 				$('.success').fadeIn('slow');
+
+			setTimeout(function(){
+				$('#messages').html(data);
 			}, 500);
 
 		  },

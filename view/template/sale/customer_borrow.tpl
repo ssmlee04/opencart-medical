@@ -34,7 +34,7 @@
       <td class="left"><?php echo $borrow['subquantity']; ?> <?php echo $borrow['unit']; ?></td>
       <td class="right" style="width: 3px;">
         <div class='group12'>
-        <img src="view/image/delete.png" title="<?php echo $button_remove; ?>" alt="<?php echo $button_remove; ?>" style="cursor: pointer;" onclick="$(this).parent().parent().remove(); deleteCustomerlending2('<?php echo $borrow['customer_lending_id']; ?>')" />
+        <img src="view/image/delete.png" title="<?php echo $button_remove; ?>" alt="<?php echo $button_remove; ?>" style="cursor: pointer;" onclick="deleteCustomerlending2('<?php echo $borrow['customer_lending_id']; ?>', this)" />
       </img>
       </td>
       <!-- <td class="right"><php echo $borrow['amount']; ?></td> -->
@@ -57,7 +57,8 @@
 
 <script type="text/javascript">  
 
-function deleteCustomerlending2(id) {
+function deleteCustomerlending2(id, that) {
+  
   $.ajax({
       url: 'index.php?route=sale/customer/deletecustomerlending&token=<?php echo $token; ?>&customer_lending_id=' + id,
       type: 'post',
@@ -67,19 +68,24 @@ function deleteCustomerlending2(id) {
       
       },
       success: function(json) {
-        console.log(json);
+
+          
+        // window.aaaa = $(this)
+        // var parenttable = $(this).parent().parent().parent().parent();
+        // console.log(parenttable);
         $('.attention, .success, .warning').remove();
 
         if (json['error']) {
 
-          $('#borrowfrom').before('<div class="warning">' + json['error'] + '</div>');
+          $(that).parent().parent().parent().parent().parent().before('<div class="warning">' + json['error'] + '</div>');
         }
 
         if (json['success']) {
 
-          // $('#button-lending').click();
+          $(that).parent().parent().parent().parent().parent().before('<div class="success">' + json['success'] + '</div>');
 
-          $('#borrowfrom').before('<div class="success">' + json['success'] + '</div>');
+          $(that).parent().parent().parent().remove(); 
+
         }
       },
       error: function(xhr, ajaxOptions, thrownError) {

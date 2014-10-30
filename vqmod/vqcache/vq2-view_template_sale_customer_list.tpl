@@ -59,7 +59,9 @@
           </tr>
           <tr>
             <td><?php echo $column_dob; ?></td>
-            <td><input type="date_available" name="filter_dob" value="<?php echo $filter_dob; ?>" /></td>
+            
+			<td><input type="text" name="filter_dob" value="<?php echo $filter_dob; ?>" />(民國, 格式 75-12-31)</td>
+			
           </tr>
 
 

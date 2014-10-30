@@ -1777,6 +1777,7 @@ class ControllerSaleCustomer extends Controller {
 		$this->data['entry_image'] = $this->language->get('entry_image');
 		$this->data['entry_comment'] = $this->language->get('entry_comment');
 		$this->data['entry_date_added'] = $this->language->get('entry_date_added');
+		$this->data['entry_remove'] = $this->language->get('entry_remove');
 
 		if ($this->user->hasPermission('modify', 'sale/customer')) { 
 
@@ -2716,7 +2717,7 @@ class ControllerSaleCustomer extends Controller {
 		// if (isset($this->request->get['filter_treatment_status'])) $data['filter_treatment_status'] = $this->request->get['filter_treatment_status'];
 		if (isset($this->request->get['filter_customer_id'])) $data['filter_customer_id'] = $this->request->get['filter_customer_id'];
 		if (isset($this->request->get['filter_customer_name'])) $data['filter_customer_name'] = $this->request->get['filter_customer_name'];
-		if (isset($this->request->get['filter_product_name'])) $data['filter_product_name'] = $this->request->get['filter_product_name'];
+		// if (isset($this->request->get['filter_product_name'])) $data['filter_product_name'] = $this->request->get['filter_product_name'];
 		if (isset($this->request->get['filter_ssn'])) $data['filter_ssn'] = $this->request->get['filter_ssn'];
 		$data['filter_product_type_id'] = 2;
 		$totalresults = $this->model_sale_customer->getTransactions($data, 0, 999999);
@@ -2778,7 +2779,8 @@ class ControllerSaleCustomer extends Controller {
 				'product_total_which' => $result['product_total_which'],
 				'comment' => $result['comment'],
 				'date_added'  => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
-				'date_modified'  => date($this->language->get('date_format_short'), strtotime($result['date_modified']))
+				'date_modified'  => date($this->language->get('date_format_short'), strtotime($result['date_modified'])),
+				'canmodify' => time() - strtotime($result['date_modified']) < 50000
 			);
 		}
 
@@ -2794,6 +2796,7 @@ class ControllerSaleCustomer extends Controller {
 			$unit = $this->model_catalog_product->getProductUnit($product_id);
 			
 			$groupresults[$product_id]['name'] = $product['name'];
+			$groupresults[$product_id]['product_id'] = $product['product_id'];
 			$groupresults[$product_id]['subquantity'] = (isset($groupresults[$product_id]['subquantity']) ? $groupresults[$product_id]['subquantity'] + $result['subquantity'] : $result['subquantity']);
 			$groupresults[$product_id]['quantity'] = (isset($groupresults[$product_id]['quantity']) ? $groupresults[$product_id]['quantity'] + $result['quantity'] : $result['quantity']);
 			$groupresults[$product_id]['unit'] = $unit;
