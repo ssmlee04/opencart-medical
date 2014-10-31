@@ -10,3 +10,6 @@
 2014-10-29 20:28:00 - PHP Notice:  Undefined index: filter_customer_id in /var/www/html/opencart2/controller/sale/order.php on line 681
 2014-10-29 20:29:03 - PHP Notice:  Undefined index: filter_customer_id in /var/www/html/opencart2/controller/sale/order.php on line 681
 2014-10-29 20:29:06 - PHP Notice:  Undefined index: success in /var/www/html/opencart2/controller/sale/order.php on line 109
+2014-10-29 23:46:02 - PHP Notice:  Undefined index: token in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_header.php on line 143
+2014-10-29 23:46:02 - PHP Notice:  Undefined index: token in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_header.php on line 143
+2014-10-29 23:46:09 - PHP Notice:  Undefined index: token in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_header.php on line 143
