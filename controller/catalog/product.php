@@ -752,7 +752,7 @@ class ControllerCatalogProduct extends Controller {
 		$this->data['text_length_month_semi'] = $this->language->get('text_length_month_semi');
 		$this->data['text_length_year'] = $this->language->get('text_length_year');
 
-		$this->data['button_save'] = $this->language->get('button_save');
+		$this->data['button_save'] = $this->language->get('button_save_file');
 		$this->data['button_cancel'] = $this->language->get('button_cancel');
 		$this->data['button_add_attribute'] = $this->language->get('button_add_attribute');
 		$this->data['button_add_option'] = $this->language->get('button_add_option');

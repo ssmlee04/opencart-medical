@@ -26,7 +26,7 @@
 
       <form action="" method="post" enctype="multipart/form-data" id="form">
 
-        <?php if (isset($if_search) && $if_search) { ?>
+        <!-- <php if (isset($if_search) && $if_search) { ?> -->
         <table class="list">
           <thead>
             <tr><td colspan='2'><?php echo $text_search_customer; ?></td></tr>
@@ -67,7 +67,7 @@
           </td>
               </tr>
         </table>
-        <?php } ?>
+        <!-- <php } ?> -->
 
         <br>
         <?php if ($filter_name != '' || $filter_dob!='' || $filter_telephone!='' || $filter_mobile!='' || $filter_ssn!='' || $filter_customer_id != '' || isset($if_display)) { ?>

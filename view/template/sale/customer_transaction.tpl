@@ -53,7 +53,7 @@
   <thead>
     <tr>
       <td class="left"><?php echo $column_date_purchased; ?></td>
-      <td class="left"><?php echo $column_date_modified; ?></td>
+      <td class="left"><?php echo $column_date_processed; ?></td>
       <td class="left"><?php echo $column_customer; ?></td>
       <!-- <td class="left"></td> -->
       <td class="left"><?php echo $column_product; ?></td>
@@ -405,7 +405,7 @@ function image_upload_treat(field, thumb, id) {
 
                 },
                 success: function(json, textStatus, xhr) {
-                  console.log(json);
+                  
                   if (json['success'] ) {
                     $('#hidden' + id).after(html);
                 

@@ -14,7 +14,7 @@ $_['column_action']    = '動作';
 // Entry
 $_['entry_title']      = '單位名稱';
 $_['entry_unit']       = '單位符號';
-$_['entry_value']      = '數值<br /><span class="help">如果這是您的預設重量單位，請將其設置為1.00000</span>';
+$_['entry_value']      = '數值<br /><span class="help"></span>';
 
 // Error
 $_['error_permission'] = '您沒有修改重量單位設置';

@@ -25,7 +25,7 @@ class ModelCatalogProduct extends Model {
 			//, points = '" . (int)$data['points'] . "'
 
 		if ((int)$data['product_type_id'] == 1) $subtract = 1;
-		if ((int)$data['product_type_id'] == 2) $subtract = 0;
+		if ((int)$data['product_type_id'] == 2) $subtract = $data['subtract'];
 		if ((int)$data['product_type_id'] == 3) $subtract = $data['subtract'];
 		
 			// minimum = '" . (int)$data['minimum'] . "'

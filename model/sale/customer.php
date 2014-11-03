@@ -33,6 +33,10 @@ class ModelSaleCustomer extends Model {
 
 	public function editCustomer($customer_id, $data) {
 
+		// if ($data['dob']) {
+		// 	$data['dob'] = 
+		// }
+
 		$sql = "UPDATE " . DB_PREFIX . "customer SET 
 			firstname = '" . $this->db->escape($data['firstname']) . "'
 			, lastname = '" . $this->db->escape($data['lastname']) . "'
@@ -113,9 +117,11 @@ class ModelSaleCustomer extends Model {
 		return ($this->db->countAffected() > 0 ? $this->db->getLastId() : 0);
 	}
 
-	public function editCustomerImage($id, $data) {
+	public function editCustomerImage($customer_image_id, $data) {
 
-		$sql = "UPDATE oc_customer_image SET /*date_added = '" . $this->db->escape($data['date_added']) . "',*/ image = '" . $this->db->escape($data['image']) . "'";
+		if (!$customer_image_id) return false;
+
+		$sql = "UPDATE oc_customer_image SET date_added = NOW()";
 
 		if (isset($data['customer_transaction_id'])) {
 			$query = $this->db->query("SELECT * FROM oc_customer_image WHERE customer_transaction_id = '" . (int)$data['customer_transaction_id'] . "'");
@@ -126,13 +132,26 @@ class ModelSaleCustomer extends Model {
 			$sql .= ", comment = '" . $this->db->escape($data['comment']) . "'";
 		}
 
+		if (isset($data['image']))  {
+			$sql .= ", image = '" . $this->db->escape($data['image']) . "'";
+		}
+
+		if (isset($data['date_processed']))  {
+			$sql .= ", date_processed = '" . $this->db->escape($data['date_processed']) . "'";
+		}
+
 		if (isset($data['customer_transaction_id']))  {
 			$sql .= ", customer_transaction_id = '" . $this->db->escape($data['customer_transaction_id']) . "'";
 		}
 
+		$sql .= " WHERE customer_image_id = '" . (int)$customer_image_id . "'";	
+		
+
+		$this->load->out($sql, false);
 		$query = $this->db->query($sql);
 
-		return ($this->db->countAffected() > 0 ? $this->db->getLastId() : 0);
+		return $this->db->countAffected();
+		// return ($this->db->countAffected() > 0 ? $this->db->getLastId() : 0);
 	}
 
 	// '2014-10-06 14:46'
@@ -839,7 +858,9 @@ class ModelSaleCustomer extends Model {
 			$count++;
 		}
 
-		$this->db->query("INSERT INTO oc_customer_transaction SET ismain = 1, status = 0 
+		$this->db->query("INSERT INTO oc_customer_transaction SET 
+			ismain = 0
+			, status = 9 
 			, customer_lending_id = '$customer_lending_id'
 			, product_type_id='$product_type_id'
 			, user_id = $user_id
@@ -1173,18 +1194,13 @@ class ModelSaleCustomer extends Model {
 		$candelete = true;
 		foreach ($query2->rows as $row) {
 			if ($row['status'] > 0) {
-				if ($row['status'] != 10) {
+				if ($row['status'] != 10 && $row['status'] != 9) {
 					$candelete = false;
 				}
-			} else {
-
 			}
 		}
-
-		// $subquantity = $query->row['subquantity'];
 		$borrower_id = $query->row['borrower_id'];
 		$lender_id = $query->row['lender_id'];
-		// $product_id = $query->row['product_id'];
 
 		if ($candelete) {
 		// if ($this->hasInventory($borrower_id, $product_id, $subquantity)) {
@@ -1563,7 +1579,7 @@ class ModelSaleCustomer extends Model {
 	//'2014-09-22 15:25'
 	public function getCustomerReminders($data) {
 
-		$sql = "SELECT ch.*, u.firstname as ufirstname, u.lastname as ulastname, u.store_id, u.fullname as ufullname, c.firstname as cfirstname, c.lastname as clastname, c.fullname as cfullname FROM oc_customer_history ch LEFT JOIN oc_user u ON u.user_id = ch.user_id LEFT JOIN oc_customer c ON c.customer_id = ch.customer_id ";
+		$sql = "SELECT ch.*, u.firstname as ufirstname, u.lastname as ulastname, u.store_id, u.fullname as ufullname, c.firstname as cfirstname, c.lastname as clastname, c.fullname as cfullname, c.telephone, c.mobile FROM oc_customer_history ch LEFT JOIN oc_user u ON u.user_id = ch.user_id LEFT JOIN oc_customer c ON c.customer_id = ch.customer_id ";
 
 		$sql .= " WHERE reminder = 1 "; 
 

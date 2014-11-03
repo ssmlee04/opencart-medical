@@ -18,4 +18,7 @@ $_['entry_date_start']  = '開始日';
 $_['entry_date_end']    = '結束日';
 $_['entry_status']      = '訂單狀態';
 $_['entry_customer']      = '會員';
+$_['entry_customer_id']      = '會員編號';
+$_['entry_treatment_status']      = '療程使用狀態';
+$_['entry_treatment']      = '療程使用';
 ?>

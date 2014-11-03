@@ -52,6 +52,7 @@ if(array_intersect($page_name, $get_route)){
 	<?php if(!$is_custom_page){ ?>
 	<link type="text/css" href="view/stylesheet/admin_theme/base5builder_impulsepro/bootstrap.css" rel="stylesheet" />
 	<link type="text/css" href="view/stylesheet/admin_theme/base5builder_impulsepro/style.css" rel="stylesheet" />
+	<link type="text/css" href="view/stylesheet/admin_theme/base5builder_impulsepro/common.css" rel="stylesheet" />
 	<link type="text/css" href="view/stylesheet/admin_theme/base5builder_impulsepro/bootstrap-responsive.css" rel="stylesheet" />
 	<link type="text/css" href="view/stylesheet/admin_theme/base5builder_impulsepro/style-responsive.css" rel="stylesheet" />
 	<?php }else{ ?>
@@ -220,7 +221,7 @@ if(array_intersect($page_name, $get_route)){
       <li id="system"><a class="top"><?php echo $text_system; ?></a>
         <ul>
           <li><a href="<?php echo $setting; ?>"><?php echo $text_setting; ?></a></li>
-          <!-- <li><a href="<php echo $unit_class; ?>"><php echo $text_unit_class; ?></a></li> -->
+          <li><a href="<?php echo $unit_class; ?>"><?php echo $text_unit_class; ?></a></li>
           <li><a href="<?php echo $error_log; ?>"><?php echo $text_error_log; ?></a></li>
           <li><a href="<?php echo $backup; ?>"><?php echo $text_backup; ?></a></li>
 	        </ul>

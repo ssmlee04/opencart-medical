@@ -4,15 +4,14 @@ $_['heading_title']              = '商品目錄';
 
 // Text
 $_['text_success']               = '成功 您已成功更新商品目錄';
-$_['text_default']               = '預設(Default)';
-$_['text_image_manager']         = '圖檔管理';
+$_['text_default']               = '預設';
 $_['text_browse']            = '瀏覽';
 $_['text_clear']             = '清除';
 
 // Column
-$_['column_name']                = '目錄名稱(Category Name)';
-$_['column_sort_order']          = '排序(Sort Order)';
-$_['column_action']              = '動作(Action)';
+$_['column_name']                = '目錄名稱';
+$_['column_sort_order']          = '排序';
+$_['column_action']              = '動作';
 
 // Entry
 $_['entry_name']                 = '目錄名稱(Category Name)';

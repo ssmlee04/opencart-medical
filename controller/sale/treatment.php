@@ -121,6 +121,7 @@ class ControllerSaleTreatment extends Controller {
 		$this->data['entry_date_start'] = $this->language->get('entry_date_start');
 		$this->data['entry_date_end'] = $this->language->get('entry_date_end');
 		$this->data['entry_status'] = $this->language->get('entry_status');
+		$this->data['entry_treatment'] = $this->language->get('entry_treatment');
 
 		$this->data['button_filter'] = $this->language->get('button_filter');
 
@@ -162,6 +163,7 @@ class ControllerSaleTreatment extends Controller {
 		
 		$this->data['text_wait'] = $this->language->get('text_wait');
 		$this->data['text_none'] = $this->language->get('text_none');
+		$this->data['entry_treatment_status'] = $this->language->get('entry_treatment_status');
 	
 
 		$pagination = new Pagination();

@@ -20,7 +20,7 @@ class ControllerLocalisationUnitClass extends Controller {
 		$this->load->model('localisation/unit_class');
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
-			$this->model_localisation_unit_class->addWeightClass($this->request->post);
+			$this->model_localisation_unit_class->addUnitClass($this->request->post);
 
 			$this->session->data['success'] = $this->language->get('text_success');
 
@@ -52,7 +52,7 @@ class ControllerLocalisationUnitClass extends Controller {
 		$this->load->model('localisation/unit_class');
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
-			$this->model_localisation_unit_class->editWeightClass($this->request->get['unit_class_id'], $this->request->post);
+			$this->model_localisation_unit_class->editUnitClass($this->request->get['unit_class_id'], $this->request->post);
 
 			$this->session->data['success'] = $this->language->get('text_success');
 
@@ -85,7 +85,7 @@ class ControllerLocalisationUnitClass extends Controller {
 
 		if (isset($this->request->post['selected']) && $this->validateDelete()) {
 			foreach ($this->request->post['selected'] as $unit_class_id) {
-				$this->model_localisation_unit_class->deleteWeightClass($unit_class_id);
+				$this->model_localisation_unit_class->deleteUnitClass($unit_class_id);
 			}
 
 			$this->session->data['success'] = $this->language->get('text_success');
@@ -185,7 +185,7 @@ class ControllerLocalisationUnitClass extends Controller {
 				'unit_class_id' => $result['unit_class_id'],
 				//'title'           => $result['title'] . (($result['unit'] == $this->config->get('config_unit_class')) ? $this->language->get('text_default') : null),
 				'unit'            => $result['unit'],
-				// 'value'           => $result['value'],
+				'value'           => $result['value'],
 				'selected'        => isset($this->request->post['selected']) && in_array($result['unit_class_id'], $this->request->post['selected']),
 				'action'          => $action
 			);
@@ -289,7 +289,7 @@ class ControllerLocalisationUnitClass extends Controller {
 		if (isset($this->error['unit'])) {
 			$this->data['error_unit'] = $this->error['unit'];
 		} else {
-			$this->data['error_unit'] = array();
+			$this->data['error_unit'] = '';
 		}	
 
 		$url = '';
@@ -329,19 +329,27 @@ class ControllerLocalisationUnitClass extends Controller {
 		$this->data['cancel'] = $this->url->link('localisation/unit_class', 'token=' . $this->session->data['token'] . $url, 'SSL');
 
 		if (isset($this->request->get['unit_class_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
-			$unit_class_info = $this->model_localisation_unit_class->getWeightClass($this->request->get['unit_class_id']);
+			$unit_class_info = $this->model_localisation_unit_class->getUnitClass($this->request->get['unit_class_id']);
 		}
 
 		$this->load->model('localisation/language');
 
 		$this->data['languages'] = $this->model_localisation_language->getLanguages();
 
-		if (isset($this->request->post['unit_class_description'])) {
-			$this->data['unit_class_description'] = $this->request->post['unit_class_description'];
-		} elseif (isset($this->request->get['unit_class_id'])) {
-			$this->data['unit_class_description'] = $this->model_localisation_unit_class->getWeightClassDescriptions($this->request->get['unit_class_id']);
+		// if (isset($this->request->post['unit_class_description'])) {
+		// 	$this->data['unit_class_description'] = $this->request->post['unit_class_description'];
+		// } elseif (isset($this->request->get['unit_class_id'])) {
+		// 	$this->data['unit_class_description'] = $this->request->post['unit']; //$this->model_localisation_unit_class->getUnitClassDescriptions($this->request->get['unit_class_id']);
+		// } else {
+		// 	$this->data['unit_class_description'] = array();
+		// }	
+
+		if (isset($this->request->post['unit'])) {
+			$this->data['unit'] = $this->request->post['unit'];
+		} elseif (!empty($unit_class_info)) {
+			$this->data['unit'] = $unit_class_info['unit']; //$this->model_localisation_unit_class->getUnitClassDescriptions($this->request->get['unit_class_id']);
 		} else {
-			$this->data['unit_class_description'] = array();
+			$this->data['unit'] = '';
 		}	
 
 		if (isset($this->request->post['value'])) {
@@ -366,14 +374,18 @@ class ControllerLocalisationUnitClass extends Controller {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 
-		foreach ($this->request->post['unit_class_description'] as $language_id => $value) {
-			if ((utf8_strlen($value['title']) < 3) || (utf8_strlen($value['title']) > 32)) {
-				$this->error['title'][$language_id] = $this->language->get('error_title');
-			}
+		// foreach ($this->request->post['unit'] as $language_id => $value) {
+		// 	if ((utf8_strlen($value['title']) < 3) || (utf8_strlen($value['title']) > 32)) {
+		// 		$this->error['title'][$language_id] = $this->language->get('error_title');
+		// 	}
 
-			if (!$value['unit'] || (utf8_strlen($value['unit']) > 4)) {
-				$this->error['unit'][$language_id] = $this->language->get('error_unit');
-			}
+		// 	if (!$value['unit'] || (utf8_strlen($value['unit']) > 4)) {
+		// 		$this->error['unit'][$language_id] = $this->language->get('error_unit');
+		// 	}
+		// }
+
+		if (utf8_strlen($this->request->post['unit']) == 0) {
+			$this->error['unit'] = $this->language->get('error_unit');
 		}
 
 		if (!$this->error) {
@@ -395,7 +407,7 @@ class ControllerLocalisationUnitClass extends Controller {
 				$this->error['warning'] = $this->language->get('error_default');
 			}
 
-			$product_total = $this->model_catalog_product->getTotalProductsByWeightClassId($unit_class_id);
+			$product_total = $this->model_catalog_product->getTotalProductsByUnitClassId($unit_class_id);
 
 			if ($product_total) {
 				$this->error['warning'] = sprintf($this->language->get('error_product'), $product_total);

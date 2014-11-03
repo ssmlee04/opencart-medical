@@ -70,14 +70,14 @@
 
             
             <table class="form">
-              <tr>
-                <td><span class="required">*</span> <?php echo $entry_firstname; ?></td>
-                <td><div class='group11' ><?php echo $firstname; ?></div>
-                  <div class='group12' ><input type="text" name="firstname" value="<?php echo $firstname; ?>" />
-                  </div><?php if ($error_firstname) { ?>
-                  <span class="error"><?php echo $error_firstname; ?></span>
-                  <?php } ?></td>
-              </tr>
+              <!-- <tr>
+                <td><php echo $entry_firstname; ?></td>
+                <td><div class='group11' ><php echo $firstname; ?></div>
+                  <div class='group12' ><input type="text" name="firstname" value="<php echo $firstname; ?>" />
+                  </div><php if ($error_firstname) { ?>
+                  <span class="error"><php echo $error_firstname; ?></span>
+                  <php } ?></td>
+              </tr> -->
               <tr>
                 <td><span class="required">*</span> <?php echo $entry_lastname; ?></td>
                 <td><div class='group11' ><?php echo $lastname; ?></div>
@@ -87,7 +87,7 @@
                   <?php } ?></td>
               </tr>
               <tr>
-                <td><span class="required">*</span> <?php echo $entry_email; ?></td>
+                <td><?php echo $entry_email; ?></td>
                 <td><div class='group11' ><?php echo $email; ?></div>
                   <div class='group12' ><input type="text" name="email" value="<?php echo $email; ?>" />
                   </div><?php if ($error_email) { ?>
@@ -95,7 +95,7 @@
                   <?php  } ?></td>
               </tr>
               <tr>
-                <td><span class="required">*</span> <?php echo $entry_telephone; ?></td>
+                <td><?php echo $entry_telephone; ?></td>
                 <td><div class='group11' ><?php echo $telephone; ?></div>
                   <div class='group12' ><input type="text" name="telephone" value="<?php echo $telephone; ?>" />
                   <?php if ($error_telephone) { ?>
@@ -103,7 +103,7 @@
                   <?php  } ?></div></td>
               </tr>
               <tr>
-                <td><span class="required">*</span> <?php echo $entry_mobile; ?></td>
+                <td><?php echo $entry_mobile; ?></td>
                 <td><div class='group11' ><?php echo $mobile; ?></div>
                   <div class='group12' ><input type="text" name="mobile" value="<?php echo $mobile; ?>" />
                     </div><?php if ($error_mobile) { ?>
@@ -113,13 +113,13 @@
               <tr>
                 <td><span class="required">*</span> <?php echo $entry_dob; ?></td>
                 <td><div class='group11' ><?php echo $dob; ?></div>
-                  <div class='group12' ><input type="date_available" name="dob" class='date' value="<?php echo $dob; ?>" />
+                  <div class='group12' ><input type="text" name="dob" class='date' value="<?php echo $dob; ?>" />
                     </div><?php if ($error_dob) { ?>
                   <span class="error"><?php echo $error_dob; ?></span>
                   <?php  } ?></span>
               </td>
               <tr>
-                <td><span class="required">*</span><?php echo $entry_ssn; ?></td>
+                <td><?php echo $entry_ssn; ?></td>
                 <td><div class='group11' ><?php echo $ssn; ?></div>
                   <div class='group12' ><input type="text" name="ssn" value="<?php echo $ssn; ?>" /></div><?php if ($error_ssn) { ?>
                   <span class="error"><?php echo $error_ssn; ?></span>
@@ -227,7 +227,7 @@
 
               <?php $address_row = 1; ?>
               <tr>
-                <td><span class="required">*</span> <?php echo $entry_address_1; ?></td>
+                <td><?php echo $entry_address_1; ?></td>
                 <td>
                   <div class='group11'><?php echo $address['address_1']; ?></div>
                   <div class='group12' ><input type="text" name="address[address_1]" value="<?php echo $address['address_1']; ?>" />
@@ -241,7 +241,7 @@
                   <div class='group12'><input type="text" name="address[address_2]" value="<?php echo $address['address_2']; ?>" /></div></td>
               </tr>
               <tr>
-                <td><span class="required">*</span> <?php echo $entry_city; ?></td>
+                <td><?php echo $entry_city; ?></td>
                 <td><div class='group11'><?php echo $address['city']; ?></div>
                   <div class='group12'><input type="text" name="address[city]" value="<?php echo $address['city']; ?>" /></div>
                   <?php if (isset($error_address_city)) { ?>
@@ -836,7 +836,9 @@ $('.vtabs a').tabs();
 
 <script type="text/javascript"><!--
 
-function image_upload(field, thumb) {
+function image_upload(field, thumb, customer_image_id) {
+
+  console.log(field, thumb);
   $('#dialog').remove();
   
   $('#content').prepend('<div id="dialog" style="padding: 3px 0px 0px 0px;"><iframe src="index.php?route=common/filemanager&token=<?php echo $token; ?>&field=' + encodeURIComponent(field) + '" style="padding:0; margin: 0; display: block; width: 100%; height: 100%;" frameborder="no" scrolling="auto"></iframe></div>');
@@ -858,10 +860,15 @@ function image_upload(field, thumb) {
             // var customer_transaction_id = $('#tr' + field).attr('value');
             // var customer_image_id = $('#id' + field).attr('value');
             // alert(customer_transaction_id, customer_image_id);
+            var url = 'sale/customer/recordimage';
+            if (Number(customer_image_id) > 0) url = 'sale/customer/editimage';
+            var data = 'image=' + image + '&customer_id=' + customer_id;
+            if (Number(customer_image_id) > 0) data += '&customer_image_id=' + customer_image_id;
+            
             $.ajax({
-                url: 'index.php?route=sale/customer/recordimage&token=<?php echo $token; ?>',
+                url: 'index.php?route=' + url + '&token=<?php echo $token; ?>',
                 type: 'POST',
-                data: 'image=' + image + '&customer_id=' + customer_id,
+                data: data,
                 complete: function(xhr, textStatus) {
                   //called when complete
 

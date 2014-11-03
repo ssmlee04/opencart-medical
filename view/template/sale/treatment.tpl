@@ -19,13 +19,25 @@
       <!-- </div> -->
       <!-- <form action="<php echo $action; ?>" method="post" enctype="multipart/form-data" id="form"> -->
         
+
+
+
+
+
         <div id="tab-transaction">
-          <table class="form">
+          <table class="list">
+            <thead>
+            <tr><td colspan='2'><?php echo $entry_treatment; ?></td></tr>
+          </thead>
             <tr>
               <td><?php echo $entry_customer; ?></td>
               <td><input type="customer" name="customer" value="" />
-                <input type="hidden" name="customer_id" value="" />
                 <input type="hidden" name="customer_name" value="" />
+              </td>
+            </tr>
+            <tr>
+              <td><?php echo $entry_customer_id; ?></td>
+              <td><input type="text" name="customer_id" value="" />
               </td>
             </tr>
             <tr>
@@ -36,14 +48,14 @@
               </td>
             </tr>
             <tr>
-              <td><?php echo ''; ?></td>
+              <td><?php echo $entry_treatment_status; ?></td>
               <td><select name='filter_treatment_status'>
                 <option></option>
                 <?php foreach ($treatmentstatuses as $treatmentstatus) { ?>
                   <option value="<?php echo $treatmentstatus['treatment_status_id']; ?>"><?php echo $treatmentstatus['name']; ?></option>
                 <?php } ?>
               <select></td>
-              <td colspan="2" style="text-align: right;"></td>
+              
             </tr>
             <tr>
               <td colspan="2" style="text-align: right;"><a id="button-filter" class="button"><span><?php echo $button_filter; ?></span></a></td>

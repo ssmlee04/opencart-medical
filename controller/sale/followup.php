@@ -147,6 +147,8 @@ class ControllerSaleFollowup extends Controller {
 		$this->data['text_all_status'] = $this->language->get('text_all_status');
 		$this->data['button_record_history'] = $this->language->get('button_record_history');
 		$this->data['button_filter'] = $this->language->get('button_filter');
+		$this->data['column_mobile'] = $this->language->get('column_mobile');
+		$this->data['column_telephone'] = $this->language->get('column_telephone');
 		$this->data['column_order'] = $this->language->get('column_order');
 		$this->data['column_message'] = $this->language->get('column_message');
 		$this->data['column_customer'] = $this->language->get('column_customer');
@@ -164,12 +166,14 @@ class ControllerSaleFollowup extends Controller {
 		$this->data['entry_consultant'] = $this->language->get('entry_consultant');
 		$this->data['entry_comment'] = $this->language->get('entry_comment');
 		$this->data['entry_treatment'] = $this->language->get('entry_treatment');
+		$this->data['entry_treatment'] = $this->language->get('entry_treatment');
 		$this->data['entry_range'] = $this->language->get('entry_range');
 		$this->data['entry_user'] = $this->language->get('entry_user');
 		$this->data['entry_customer'] = $this->language->get('entry_customer');
 		$this->data['text_not_processed'] = $this->language->get('text_not_processed');
 		$this->data['text_processed_not_finished'] = $this->language->get('text_processed_not_finished');
 		$this->data['text_processed_finished'] = $this->language->get('text_processed_finished');
+		$this->data['text_search'] = $this->language->get('text_search');
 
 		$this->data['breadcrumbs'] = array();
 
@@ -217,6 +221,10 @@ class ControllerSaleFollowup extends Controller {
 			$this->data['messages'][] = array(
 				'status' => $status, 
 				'comment' => $result['comment'],
+				'customer_id' => $result['customer_id'],
+				'telephone' => $result['telephone'],
+				'mobile' => $result['mobile'],
+				'href' => $this->url->link('sale/customer/update', 'token=' . $this->session->data['token'] . '&filter_customer_id=' . (int)$result['customer_id'], 'SSL'),
 				'customer_history_id' => $result['customer_history_id'],
 				'ufullname' => $result['ufullname'],
 				'cfullname' => $result['cfullname'],

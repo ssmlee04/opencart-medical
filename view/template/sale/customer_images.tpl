@@ -4,8 +4,9 @@
     <tr>
       <td class="left"><?php echo $entry_image; ?></td>
       <td class="left"><?php echo $entry_comment; ?></td>
+      <td class="left"><?php echo $entry_date_processed; ?></td>
       <td class="left"><?php echo $entry_date_added; ?></td>
-      <td class="right"><?php echo $entry_remove; ?></td>
+      <td class="right"></td>
     </tr>
   </thead>
   <?php $image_row = 0; ?>
@@ -18,57 +19,107 @@
           <input type="hidden" name="customer_image[<?php echo $image_row; ?>][customer_image_id]" value="<?php echo $customer_image['customer_image_id']; ?>" id="idimage<?php echo $image_row; ?>"/>
           <br />
           <div class='group12'>
-          <a onclick="image_upload('image<?php echo $image_row; ?>', 'thumb<?php echo $image_row; ?>');"><?php echo $text_browse; ?></a>&nbsp;&nbsp;|&nbsp;&nbsp;<a onclick="$('#thumb<?php echo $image_row; ?>').attr('src', '<?php echo $no_image; ?>'); $('#image<?php echo $image_row; ?>').attr('value', '');"><?php echo $text_clear; ?></a></div></div></td>
+            <?php $asd = $customer_image['customer_image_id']; ?>
+          <a onclick="image_upload('image<?php echo $image_row; ?>', 'thumb<?php echo $image_row; ?>', '<?php echo $asd; ?>');"><?php echo $text_browse; ?></a>&nbsp;&nbsp;|&nbsp;&nbsp;<a onclick="$('#thumb<?php echo $image_row; ?>').attr('src', '<?php echo $no_image; ?>'); $('#image<?php echo $image_row; ?>').attr('value', '');"><?php echo $text_clear; ?></a></div></div></td>
       <td class="left">
         &nbsp;
+
+        <?php if ($customer_image['product_name']) { ?>
+          <b><?php echo $text_treatment . ': '.  $customer_image['product_name']; ?></b><br>
+        <?php } ?>
+      
+        <?php echo $entry_date_processed; ?>
+        <input type="date_available" name="customer_image[<?php echo $image_row; ?>][date_processed]" value="<?php echo $customer_image['date_processed']; ?>"/>
+
+        <!-- a onclick='setToday(<php echo $customer_image['customer_image_id']; ?>)'><
+        php echo $entry_date_processed; ?>(<php echo $text_set_today; ?>)</a> -->
+        <br>
         <input type="text" name="customer_image[<?php echo $image_row; ?>][comment]" value="<?php echo $customer_image['comment']; ?>" size='100px'/>
         <a class='commentImage' id='<?php echo $customer_image['customer_image_id']; ?>'><?php echo $button_update_comment; ?></a>
+      </td>
+
+
+      <td class="right">
+        <input style='display:none' type="date_available" name="customer_image[<?php echo $image_row; ?>][date_processed]" value="<?php echo $customer_image['date_processed']; ?>" class="date"/><?php echo $customer_image['date_processed']; ?>
       </td>
       <td class="right">
         <input style='display:none' type="date_available" name="customer_image[<?php echo $image_row; ?>][date_added]" value="<?php echo $customer_image['date_added']; ?>" class="date"/><?php echo $customer_image['date_added']; ?>
       </td>
-      <td class="right"><div class='group12'><a onclick="$('#image-row<?php echo $image_row; ?>').remove(); deleteImage(<?php echo $customer_image['customer_image_id']; ?>)" class="button4"><?php echo $button_remove; ?></a></div></td>
+      <td class="right"><div class='group12'>
+        <img src="view/image/delete.png" onclick="$('#image-row<?php echo $image_row; ?>').remove(); deleteImage(<?php echo $customer_image['customer_image_id']; ?>)" class="button4"/></div></td>
     </tr>
   </tbody>
   <?php $image_row++; ?>
   <?php } ?>
   <tfoot>
     <tr>
-      <td colspan="3"></td>
-      <td class="right"><a onclick="addImage();" class="button"><?php echo $button_add_image; ?></a></td>
+      <td colspan="5" class='right'><a onclick="addImage();" class="button"><?php echo $button_add_image; ?></a></td>
+
     </tr>
   </tfoot>
 </table>
 <div class='pagination'><?php echo $pagination; ?></div>
 
-
+<script type="text/javascript" src="view/javascript/moment/moment.min.js"></script> 
 <script type="text/javascript"><!--
+
+// function setToday(customer_image_id) {
+//   // $("input[name=\'customer_image[" + row + "][date_added]\']").val(moment().format("YYYY-MM-DD"));
+
+//   var today = moment().format("YYYY-MM-DD");
+
+//   $.ajax({
+//     url: '/path/to/file',
+//     type: 'POST',
+//     dataType: 'json',
+//     data: {date_processed: customer_image_id},
+//     complete: function(xhr, textStatus) {
+//       //called when complete
+//     },
+//     success: function(data, textStatus, xhr) {
+//       //called when successful
+//     },
+//     error: function(xhr, textStatus, errorThrown) {
+//       //called when there is an error
+//     }
+//   });
+  
+
+// }
+
+
 var image_row = <?php echo $image_row; ?>;
 
 $('.commentImage').on('click', function(){
   var customer_image_id = $(this).attr('id');
   var comment = $(this).prev().val();
+  var date_processed = $(this).prev().prev().prev().val();
   $.ajax({
-    url: 'index.php?route=sale/customer/updateimagecomment&token=<?php echo $token; ?>',
+    url: 'index.php?route=sale/customer/editimage&token=<?php echo $token; ?>',
     type: 'POST',
     dataType: 'json',
-    data: 'customer_image_id=' + customer_image_id + '&comment=' + comment, 
+    data: 'customer_image_id=' + customer_image_id + '&comment=' + comment + '&date_processed=' + date_processed, 
     complete: function(xhr, textStatus) {
       //called when complete
     },
     success: function(json, textStatus, xhr) {
+
       $('.attention, .success, .warning').remove();
       
      if (json['error']) {
         $('.box').before('<div class="warning" style="display: none;">' + json['error'] + '</div>');
         
        $('.warning').fadeIn('slow');
+
      }
             
      if (json['success'] || json['success'] === 0) {
-      $('.box').before('<div class="success" style="display: none;"><?php echo $text_update_comment_success; ?></div>');
+       $('#tab-image-link').click();
+      
+        $('.box').before('<div class="success" style="display: none;"><?php echo $text_update_comment_success; ?></div>');
         
        $('.success').fadeIn('slow');
+
      }
 
     },
@@ -93,12 +144,28 @@ function deleteImage(customer_image_id) {
       //called when complete
 
     },
-    success: function(data, textStatus, xhr) {
+    success: function(json) {
       //called when successful
       // addImage();
     
       // $('#thumb' + (image_row - 1)).replaceWith('<img src="' + thumbimage + '" alt="" id="thumb' + (image_row - 1) + '" />');
       // $('#image' + image_row).replaceWith('<input src="' + text + '" alt="" id="image' + image_row + '" />');
+
+      $('.attention, .success, .warning').remove();
+
+      if (json['error']) {
+        $('.box').before('<div class="warning" style="display: none;">' + json['error'] + '</div>');
+        
+       $('.warning').fadeIn('slow');
+
+     }
+            
+     if (json['success'] || json['success'] === 0) {
+        $('.box').before('<div class="success" style="display: none;">' + json['success'] + '</div>');
+        
+       $('.success').fadeIn('slow');
+
+     }
 
     },
     error: function(xhr, textStatus, errorThrown) {
@@ -118,6 +185,7 @@ function addImage() {
   html += '<input type="hidden" name="customer_image[' + image_row + '][customer_transaction_id]" value="" id="trimage' + image_row + '" /><br />';
   html += '<input type="hidden" name="customer_image[' + image_row + '][customer_image_id]" value="" id="idimage' + image_row + '" /><br />';
   html += '<a onclick="image_upload(\'image' + image_row + '\', \'thumb' + image_row + '\');"><?php echo $text_browse; ?></a>&nbsp;&nbsp;|&nbsp;&nbsp;<a onclick="$(\'#thumb' + image_row + '\').attr(\'src\', \'<?php echo $no_image; ?>\'); $(\'#image' + image_row + '\').attr(\'value\', \'\');"><?php echo $text_clear; ?></a></div></td>';
+  html += '<td></td>';
   html += '<td></td>';
   html += '<td></td>';
   // html += '    <td class="right"><input type="date_available" class="date" name="customer_image[' + image_row + '][date_added]" value="" size="2" /></td>';

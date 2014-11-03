@@ -32,7 +32,7 @@
 			<form action="" method="post" enctype="multipart/form-data" id="form" class="form-fix">
 			
 
-        <?php if (isset($if_search) && $if_search) { ?>
+        <!-- <php if (isset($if_search) && $if_search) { ?> -->
         <table class="list">
           <thead>
             <tr><td colspan='2'><?php echo $text_search_customer; ?></td></tr>
@@ -60,7 +60,7 @@
           <tr>
             <td><?php echo $column_dob; ?></td>
             
-			<td><input type="text" name="filter_dob" value="<?php echo $filter_dob; ?>" />(民國, 格式 75-12-31)</td>
+			<td><input type="text" name="filter_dob" value="<?php echo $filter_dob; ?>" /><span> (民國, 格式 75-12-31)</span></td>
 			
           </tr>
 
@@ -75,7 +75,7 @@
           </td>
               </tr>
         </table>
-        <?php } ?>
+        <!-- <php } ?> -->
 
         <br>
         <?php if ($filter_name != '' || $filter_dob!='' || $filter_telephone!='' || $filter_mobile!='' || $filter_ssn!='' || $filter_customer_id != '' || isset($if_display)) { ?>

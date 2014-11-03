@@ -1,27 +1,30 @@
 <?php
 class ModelLocalisationUnitClass extends Model {
 	public function addUnitClass($data) {
-		$this->db->query("INSERT INTO " . DB_PREFIX . "unit_class SET value = '" . (float)$data['value'] . "'");
+		
+		$this->db->query("INSERT INTO " . DB_PREFIX . "unit_class SET date_added = NOW()");
 
 		$unit_class_id = $this->db->getLastId();
-
-		foreach ($data['unit_class_description'] as $language_id => $value) {
-			$this->db->query("INSERT INTO " . DB_PREFIX . "unit_class_description SET unit_class_id = '" . (int)$unit_class_id . "', language_id = '" . (int)$language_id . "', title = '" . $this->db->escape($value['title']) . "', unit = '" . $this->db->escape($value['unit']) . "'");
-		}
+		
+		$this->db->query("INSERT INTO " . DB_PREFIX . "unit_class_description SET unit = '". $this->db->escape($data['unit']) . "', value = '" . (float)$data['value'] . "', unit_class_id = '" . (int)$unit_class_id . "', language_id = '" . $this->config->get('config_language_id') . "'");
 
 		$this->cache->delete('unit_class');
+
+		return $this->db->countAffected();
 	}
 
 	public function editUnitClass($unit_class_id, $data) {
-		$this->db->query("UPDATE " . DB_PREFIX . "unit_class SET value = '" . (float)$data['value'] . "' WHERE unit_class_id = '" . (int)$unit_class_id . "'");
+		$this->db->query("UPDATE " . DB_PREFIX . "unit_class_description SET unit = '". $this->db->escape($data['unit']) . "', value = '" . (float)$data['value'] . "' WHERE unit_class_id = '" . (int)$unit_class_id . "'");
 
-		$this->db->query("DELETE FROM " . DB_PREFIX . "unit_class_description WHERE unit_class_id = '" . (int)$unit_class_id . "'");
+		// $this->db->query("DELETE FROM " . DB_PREFIX . "unit_class_description WHERE unit_class_id = '" . (int)$unit_class_id . "'");
 
-		foreach ($data['unit_class_description'] as $language_id => $value) {
-			$this->db->query("INSERT INTO " . DB_PREFIX . "unit_class_description SET unit_class_id = '" . (int)$unit_class_id . "', language_id = '" . (int)$language_id . "', title = '" . $this->db->escape($value['title']) . "', unit = '" . $this->db->escape($value['unit']) . "'");
-		}
+		// foreach ($data['unit_class_description'] as $language_id => $value) {
+		// 	$this->db->query("INSERT INTO " . DB_PREFIX . "unit_class_description SET unit_class_id = '" . (int)$unit_class_id . "', language_id = '" . (int)$language_id . "', title = '" . $this->db->escape($value['title']) . "', unit = '" . $this->db->escape($value['unit']) . "'");
+		// }
 
 		$this->cache->delete('unit_class');	
+
+		return $this->db->countAffected();
 	}
 
 	public function deleteUnitClass($unit_class_id) {

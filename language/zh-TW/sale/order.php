@@ -139,7 +139,7 @@ $_['column_filename']       = '檔名';
 $_['column_comment']        = '備註';
 $_['column_notify']         = '通知客戶';
 $_['column_action']         = '動作';
-$_['column_actual_price']         = '實際金額';
+$_['column_actual_price']         = '實收單價'; //實際金額';
 
 // Entry
 $_['entry_payment_cash']      = '現金付款';
@@ -215,5 +215,5 @@ $_['error_no_stock']            = '沒有庫存';
 $_['error_payment_final']            = '尾款格式錯誤';
 $_['error_cannot_edit_la']            = '成功修改訂單付款，但是無法編輯訂單';
 
-
+$_['button_cancel_prev']           = '取消回上一頁';
 ?>

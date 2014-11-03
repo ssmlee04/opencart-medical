@@ -11,9 +11,13 @@
     	<h1><img src="view/image/customer.png" alt="" /> <?php echo $heading_title; ?></h1>
 	</div>
     <div class="content">
-    	<table class="form">
+
+
+
+    	<table class="list">
+    		<thead><tr><td><?php echo $text_search;?></td></tr></thead>
         <tr>
-          <td colspan='2'><?php echo $entry_date_start; ?>
+          <td><?php echo $entry_date_start; ?>
             <input type="date_available" name="filter_date_start" value="<?php echo $filter_date_start; ?>" size="20" /> ~
             <input type="date_available" name="filter_date_end" value="<?php echo $filter_date_end; ?>" size="20" /></td>
             </tr><tr>
@@ -72,6 +76,7 @@
           <td style="text-align: right;"><a onclick="filter();" class="button"><?php echo $button_filter; ?></a></td>
         </tr>
       </table>
+      <br>
 
         <div class="">
 					<div class="dashboard-heading"><?php echo $text_latest_messages; ?></div>
@@ -82,6 +87,9 @@
 							<thead class='r<?php echo $message['customer_history_id']; ?>'>
 								<tr>
 									<td class="left"><?php echo $column_customer; ?></td>
+									<td class="left"><?php echo $column_telephone; ?></td>
+									<td class="left"><?php echo $column_mobile; ?></td>
+
 									<td class="left"><?php echo $column_date_added; ?></td>
 									<td class="left"><?php echo $column_date_modified; ?></td>
 									<td class="left"><?php echo $column_user; ?></td>
@@ -90,8 +98,10 @@
 							</thead>
 							<tbody>
 								<tr class='r<?php echo $message['customer_history_id']; ?>'>
-									<td class="left"><input type='hidden' value='<?php echo $message['customer_history_id']; ?>'/><?php echo $message['cfullname']; ?></td>
+									<td class="left"><input type='hidden' value='<?php echo $message['customer_history_id']; ?>'/><a href="<?php echo $message['href']; ?>"><?php echo $message['cfullname']; ?></a></td>
 									
+									<td class="left"><?php echo $message['telephone']; ?></td>
+									<td class="left"><?php echo $message['mobile']; ?></td>
 									<td class="left"><?php echo $message['reminder_date']; ?></td>
 									<td class="left"><?php echo $message['date_modified']; ?></td>
 									<td class="left"><?php echo $message['ufullname']; ?></td>
@@ -108,13 +118,13 @@
 									</td> -->
 									</tr>
 									<tr class='r<?php echo $message['customer_history_id']; ?>'>
-										<td class="left" colspan='5'><?php echo $message['comment']; ?></td>
+										<td class="left" colspan='7'><?php echo $message['comment']; ?></td>
 									</tr>
 									<tr class='r<?php echo $message['customer_history_id']; ?>'><td colspan='5' style='background-color:white'></td></tr>
 									<?php } ?>
 									<?php } else { ?>
 									<tr>
-										<td class="center" colspan="5"><?php echo $text_no_results; ?></td>
+										<td class="center" colspan="7"><?php echo $text_no_results; ?></td>
 									</tr>
 
 								<?php } ?>

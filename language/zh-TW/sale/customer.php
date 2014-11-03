@@ -24,7 +24,7 @@ $_['text_error_lending'] = '療程轉讓失敗';
 $_['text_appointment'] = '預約';
 $_['text_transaction_unoccured'] = '未使用療程';
 $_['text_transaction_finished'] = '完成';
-$_['text_transaction_appointed'] = '預約中';
+$_['text_transaction_appointed'] = '預約';
 $_['text_error']         = '錯誤';
 $_['text_borrowed']         = '轉讓得到';
 $_['text_remaining_balance']         = '賬戶餘額(負數代表有欠款)';
@@ -72,6 +72,12 @@ $_['text_payment_final']           = '尾款金額';
 $_['text_payment_visa']           = '信用卡金額';
 $_['text_payment_cash']           = '現金金額';
 $_['text_total_payment']           = '總付款';
+$_['text_set_today']           = '設爲今天';
+$_['text_record_image_success']           = '成功儲存圖片';
+$_['text_delete_image_success']           = '成功刪除圖片';
+$_['text_record_image_error']           = '儲存圖片失敗';
+$_['text_delete_image_error']           = '刪除圖片失敗';
+$_['text_treatment']           = '療程';
 
 // Column
 $_['column_name']             = '客戶名稱';
@@ -83,6 +89,7 @@ $_['column_login']          = '登入';
 $_['column_approved']         = '核准';
 $_['column_date_added']       = '加入日期';
 $_['column_date_modified']       = '修改日期';
+$_['column_date_processed']       = '使用日期';
 $_['column_description']    = '項目';
 $_['column_amount']         = '金額';
 $_['column_points']         = '紅利點數';
@@ -97,6 +104,7 @@ $_['column_reminder_date']           = '提醒日期';
 // Entry
 $_['entry_customer']         = '客戶';
 $_['entry_firstname']         = '名字';
+$_['entry_name']         = '名字';
 $_['entry_borrowfrom']         = '從其他人借療程';
 $_['entry_nickname']         = '昵稱';
 $_['entry_lastname']          = '姓氏';
@@ -125,7 +133,7 @@ $_['entry_description']     = '項目';
 $_['entry_comment']                           = '備註';
 $_['entry_image']                           = '圖片';
 $_['entry_treatment_image']                           = '診療圖片';
-$_['entry_dob']         = '出生年月日';
+$_['entry_dob']         = '出日(格式103-12-31)';
 $_['entry_mobile']         = '行動電話';
 $_['entry_treatment_status']         = '使用狀態';
 $_['entry_outsource']         = '外務';
@@ -133,6 +141,7 @@ $_['entry_beauty']         = '美容師';
 $_['entry_doctor']         = '醫師';
 $_['entry_consultant']         = '諮詢師';
 $_['entry_remove']         = '移除';
+$_['entry_date_processed']         = '療程日期';
 
 
 $_['entry_ssn']         = '身份證字號';

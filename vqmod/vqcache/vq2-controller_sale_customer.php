@@ -1195,7 +1195,12 @@ class ControllerSaleCustomer extends Controller {
 		if (isset($this->request->post['dob'])) {
 			$this->data['dob'] = $this->request->post['dob'];
 		} elseif (!empty($customer_info)) {
-			$this->data['dob'] = $customer_info['dob'];
+			
+			$indexofdash = strpos($customer_info['dob'], "-"); 
+			$year = (int)substr($customer_info['dob'], 0, $indexofdash) - 1911; 
+			$rest = substr($customer_info['dob'], $indexofdash);
+			$this->data['dob'] = $this->db->escape($year . $rest);
+			
 		} else {
 			$this->data['dob'] = '';
 		}

@@ -847,7 +847,20 @@
 			<td><input type="date_available" name="filter_dob" value="<?php echo $filter_dob; ?>" /></td>
 			]]></search>
 			<add><![CDATA[
-			<td><input type="text" name="filter_dob" value="<?php echo $filter_dob; ?>" />(民國, 格式 75-12-31)</td>
+			<td><input type="text" name="filter_dob" value="<?php echo $filter_dob; ?>" /><span> (民國, 格式 75-12-31)</span></td>
+			]]></add>
+		</operation>
+	</file>
+	<file name="controller/sale/customer.php">
+		<operation>
+			<search position="replace"><![CDATA[
+			$this->data['dob'] = $customer_info['dob'];
+			]]></search>
+			<add><![CDATA[
+			$indexofdash = strpos($customer_info['dob'], "-"); 
+			$year = (int)substr($customer_info['dob'], 0, $indexofdash) - 1911; 
+			$rest = substr($customer_info['dob'], $indexofdash);
+			$this->data['dob'] = $this->db->escape($year . $rest);
 			]]></add>
 		</operation>
 	</file>
@@ -861,6 +874,19 @@
 			$year = (int)substr($data['filter_dob'], 0, $indexofdash) + 1911; 
 			$rest = substr($data['filter_dob'], $indexofdash);
 			$implode[] = "dob = '" . $this->db->escape($year . $rest) . "'";
+			]]></add>
+		</operation>
+		<operation>
+			<search position="before"><![CDATA[
+			$sql = "UPDATE " . DB_PREFIX . "customer SET 
+			]]></search>
+			<add><![CDATA[
+			if ($data['dob']) {
+				$indexofdash = strpos($data['dob'], "-"); 
+				$year = (int)substr($data['dob'], 0, $indexofdash) + 1911; 
+				$rest = substr($data['dob'], $indexofdash);
+				$data['dob'] = $this->db->escape($year . $rest);
+			}
 			]]></add>
 		</operation>
 	</file>

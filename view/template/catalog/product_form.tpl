@@ -241,7 +241,7 @@
                   <?php } ?>
                 </select></td>
             </tr>
-            <?php if ($type != 2 && $type != 1) { ?>
+            <?php if ($type != 1) { ?>
             <tr>
               <td><?php echo $entry_subtract; ?></td>
               <td><select name="subtract">

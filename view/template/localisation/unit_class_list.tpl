@@ -42,7 +42,7 @@
                 <input type="checkbox" name="selected[]" value="<?php echo $unit_class['unit_class_id']; ?>" />
                 <?php } ?></td>
               <!-- <td class="left"><php echo $unit_class['title']; ?></td> -->
-              <td class="left"><?php echo $unit_class['unit']; ?></td>
+              <td class="left"><?php echo $unit_class['value']; ?> <?php echo $unit_class['unit']; ?></td>
               <!-- <td class="right"><php echo $unit_class['value']; ?></td> -->
               <td class="right"><?php foreach ($unit_class['action'] as $action) { ?>
                 [ <a href="<?php echo $action['href']; ?>"><?php echo $action['text']; ?></a> ]
