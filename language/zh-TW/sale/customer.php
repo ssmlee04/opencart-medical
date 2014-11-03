@@ -55,6 +55,7 @@ $_['column_consultant']         = '上次諮詢師';
 $_['column_beauty']         = '上次美容師';
 $_['column_outsource']         = '上次外務';
 $_['column_date_last_visit']         = '上次到訪';
+$_['column_unit_used']         = '使用數量';
 
 
 
@@ -63,6 +64,7 @@ $_['button_update_comment']           = '更新訊息';
 $_['button_display_2image']           = '並排顯示圖片';
 $_['button_change_status']           = '更改狀態';
 $_['button_record_history']           = '更改回覆狀態';
+$_['button_view_picture']           = '瀏覽圖片';
 $_['button_add_picture']           = '增加圖片';
 $_['button_add_image'] = '增加圖片';
 $_['button_add_history'] = '提醒設定';

@@ -1225,6 +1225,47 @@ class ModelSaleCustomer extends Model {
 
 	}
 
+	public function editgrouptransaction($data) {
+
+		
+
+		$this->load->model('catalog/product');
+
+		$unitspend = (isset($data['unitspend']) ? $data['unitspend'] : 0);
+		$product_id = (isset($data['product_id']) ? $data['product_id'] : 0);
+		$customer_id = (isset($data['customer_id']) ? $data['customer_id'] : 0);
+		if (!$product_id) return false;
+		if (!$customer_id) return false;
+
+		$product = $this->model_catalog_product->getProduct($product_id);
+
+		$value = $product['value']; 
+
+		if ($value > $unitspend) {
+			return false;
+		}
+
+		$number_unit_used = (int)round($unitspend / $value);
+
+		$remaining = $this->db->query("SELECT * FROM oc_customer_transaction WHERE customer_id = '" . (int)$customer_id . "' AND product_id = '" . (int)$product_id . "' AND status < 0 LIMIT 0, $number_unit_used");
+
+		if ($remaining->num_rows < $number_unit_used) {
+			return false;
+		} else {
+
+			$user_id = $this->user->getId();
+			$this->db->query("INSERT INTO oc_customer_treatment_usage (user_id, customer_id, subquantity) VALUES ('$user_id', '$customer_id', '$number_unit_used')");
+			$customer_treatment_usage_id = $this->db->getLastId();
+
+			$data['customer_treatment_usage_id'] = $customer_treatment_usage_id;
+			foreach ($remaining->rows as $result) {
+			
+				$this->edittransaction($result['customer_transaction_id'], $data);
+			}
+			return true;
+		}
+	}
+
 	public function edittransaction($customer_transaction_id, $data) {
 
 		// update message
@@ -1241,6 +1282,7 @@ class ModelSaleCustomer extends Model {
 		$sql  = "UPDATE oc_customer_transaction SET date_modified = NOW()";
 		
 		$sql .= (isset($data['status']) && $data['status'] != 'x' ? " , status = '" . $data['status'] . "'" : '');
+		$sql .= (isset($data['customer_treatment_usage_id']) ? " , treatment_usage_id = '" . $data['customer_treatment_usage_id'] . "'" : '');
 
 		if (isset($data['status']) && $data['status'] == 2) {
 			$sql .= (isset($data['doctor_id']) ? " , doctor_id = '" . $data['doctor_id'] . "'" : '');
@@ -1370,7 +1412,7 @@ class ModelSaleCustomer extends Model {
 			$limit = 10;
 		}	
 
-		$sql .= " ORDER BY ct.date_added DESC, ct.customer_transaction_id LIMIT " . (int)$start . "," . (int)$limit; 
+		$sql .= " ORDER BY ct.date_modified DESC, ct.customer_transaction_id LIMIT " . (int)$start . "," . (int)$limit; 
 
 		$query = $this->db->query($sql);
 

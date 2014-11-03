@@ -2416,6 +2416,50 @@ class ControllerSaleCustomer extends Controller {
 		$this->response->setOutput(json_encode($json));
 	}
 
+	// Chandler '2014-11-03 14:50'
+	public function editgrouptransaction() {
+
+		$json = array();
+
+		$data = array();
+
+		$this->language->load('sale/customer');
+// $this->load->out($this->request->post);
+		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->user->hasPermission('modify', 'sale/customer')) { 
+
+			if (isset($this->request->post['product_id']) && isset($this->request->post['status'])) { 		
+
+				$this->load->model('sale/customer');	
+				
+				if (isset( $this->request->post['status'])) $data['status'] = $this->request->post['status'];
+				if (isset( $this->request->post['product_id'])) $data['product_id'] = $this->request->post['product_id'];
+				if (isset( $this->request->post['customer_id'])) $data['customer_id'] = $this->request->post['customer_id'];
+				if (isset( $this->request->post['comment'])) $data['comment'] = $this->request->post['comment'];
+				if (isset( $this->request->post['doctor_id'])) $data['doctor_id'] = $this->request->post['doctor_id'];
+				if (isset( $this->request->post['consultant_id'])) $data['consultant_id'] = $this->request->post['consultant_id'];
+				if (isset( $this->request->post['outsource_id'])) $data['outsource_id'] = $this->request->post['outsource_id'];
+				if (isset( $this->request->post['beauty_id'])) $data['beauty_id'] = $this->request->post['beauty_id'];
+				if (isset( $this->request->post['unitspend'])) $data['unitspend'] = $this->request->post['unitspend'];
+
+				if ($this->model_sale_customer->editgrouptransaction($data)) {
+					$json['success'] = $this->language->get('text_edit_transaction_success');
+				} else {
+					$json['error'] = $this->language->get('text_edit_transaction_error');
+				}
+			} else {
+				$json['error'] = $this->language->get('text_error');
+			}
+
+		} else {
+			$json['error'] = $this->language->get('error_permission');
+		}
+
+
+		$this->response->setOutput(json_encode($json));
+
+	}
+
+
 	// '2014-09-30 22:35'
 	public function edittransaction() {
 
@@ -2709,11 +2753,12 @@ class ControllerSaleCustomer extends Controller {
 		$this->data['text_error'] = $this->language->get('text_error');
 		$this->data['text_cannot_use_inventory'] = $this->language->get('text_cannot_use_inventory');
 		
+		$this->data['column_unit_used'] = $this->language->get('column_unit_used');
 		$this->data['column_date_processed'] = $this->language->get('column_date_processed');
 		$this->data['column_date_modified'] = $this->language->get('column_date_modified');
 		$this->data['column_date_purchased'] = $this->language->get('column_date_purchased');
 		$this->data['column_description'] = $this->language->get('column_description');
-		$this->data['column_product'] = $this->language->get('column_product');
+		$this->data['column_product'] = $this->language->get('column_product_usage');
 		$this->data['column_unit_quantity'] = $this->language->get('column_unit_quantity');
 		$this->data['column_customer'] = $this->language->get('column_customer');
 		$this->data['column_unit'] = $this->language->get('column_unit');
@@ -2735,6 +2780,7 @@ class ControllerSaleCustomer extends Controller {
 
 		$this->data['button_change_status'] = $this->language->get('button_change_status');
 		$this->data['button_add_picture'] = $this->language->get('button_add_picture');
+		$this->data['button_view_picture'] = $this->language->get('button_view_picture');
 
 		if (isset($this->request->get['page'])) {
 			$page = $this->request->get['page'];

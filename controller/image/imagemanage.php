@@ -12,6 +12,109 @@ class ControllerImageImageManage extends Controller {
 		$this->getList();
 	}
 
+	public function treatmentimage() {
+		
+		$this->load->model('sale/customer');
+		$this->load->model('catalog/product');
+
+		$this->language->load('image/imagemanage');
+
+		$this->document->setTitle($this->language->get('heading_title'));
+
+		$this->data['heading_title'] = $this->language->get('heading_title');
+
+		$this->data['text_enabled'] = $this->language->get('text_enabled');
+		$this->data['text_disabled'] = $this->language->get('text_disabled');
+		$this->data['text_yes'] = $this->language->get('text_yes');
+		$this->data['text_no'] = $this->language->get('text_no');	
+		$this->data['text_select'] = $this->language->get('text_select');	
+		$this->data['text_default'] = $this->language->get('text_default');		
+		$this->data['text_no_results'] = $this->language->get('text_no_results');
+		$this->data['text_search_customer'] = $this->language->get('text_search_customer');
+		$this->data['text_all_customers'] = $this->language->get('text_all_customers');
+		$this->data['entry_image'] = $this->language->get('entry_image');
+		$this->data['entry_date_added'] = $this->language->get('entry_date_added');
+		$this->data['entry_comment'] = $this->language->get('entry_comment');
+		$this->data['entry_customer'] = $this->language->get('entry_customer');
+		$this->data['entry_treatment'] = $this->language->get('entry_treatment');
+		$this->data['column_name'] = $this->language->get('column_name');
+		$this->data['column_customer_id'] = $this->language->get('column_customer_id');
+		$this->data['column_treatment'] = $this->language->get('column_treatment');
+		$this->data['column_date_modified'] = $this->language->get('column_date_modified');
+		$this->data['column_approved'] = $this->language->get('column_approved');
+		$this->data['column_ip'] = $this->language->get('column_ip');
+		$this->data['column_date_added'] = $this->language->get('column_date_added');
+		$this->data['column_login'] = $this->language->get('column_login');
+		$this->data['column_action'] = $this->language->get('column_action');		
+		$this->data['column_ssn'] = $this->language->get('column_ssn');		
+		$this->data['button_approve'] = $this->language->get('button_approve');
+		$this->data['button_insert'] = $this->language->get('button_insert');
+		$this->data['button_delete'] = $this->language->get('button_delete');
+		$this->data['button_filter'] = $this->language->get('button_filter');
+		$this->data['button_display_2image'] = $this->language->get('button_display_2image');
+
+		$this->data['breadcrumbs'] = array();
+
+		$this->data['breadcrumbs'][] = array(
+			'text'      => $this->language->get('text_home'),
+			'href'      => $this->url->link('common/home', 'token=' . $this->session->data['token'], 'SSL'),
+			'separator' => false
+		);
+
+		$this->data['breadcrumbs'][] = array(
+			'text'      => $this->language->get('heading_title'),
+			'href'      => $this->url->link('sale/customer', 'token=' . $this->session->data['token'] . $url, 'SSL'),
+			'separator' => ' :: '
+		);
+
+		$customer_transaction_id = $this->request->get['customer_transaction_id'];
+
+		$transaction = $this->model_sale_customer->getTransaction($customer_transaction_id);
+
+		$images = $this->model_sale_customer->getCustomerImages(array('filter_customer_transaction_id' => $customer_transaction_id));
+
+		$this->data['transaction'] = $transaction;
+
+		$customer_id = $transaction['customer_id'];
+		$product_id = $transaction['product_id'];
+
+		$product = $this->model_catalog_product->getProduct($product_id);
+		$customer = $this->model_sale_customer->getCustomer($customer_id);
+
+		$this->data['customer'] = $customer;
+		$this->data['product'] = $product;
+		$this->data['text_product'] = $this->language->get('text_product');
+		$this->data['text_date_processed'] = $this->language->get('text_date_processed');
+		$this->data['text_customer'] = $this->language->get('text_customer');
+
+		// $this->load->out($transaction);
+		foreach ($images as $image) {
+			$thumb = '';
+			$href = '';
+			$this->load->model('tool/image');
+			$thumb = $this->model_tool_image->resize($image['image'], 80, 80);
+			$href = $this->model_tool_image->resize($image['image'], 800, 800);
+			$this->data['images'][] = array(
+					'image'      => $image['image'],
+					'href'      => $href,
+					'thumb'      => $thumb,
+					'customer_image_id'      => $image['customer_image_id'],
+					'customer_id'      => $image['customer_id'],
+					'date_added'      => explode(' ', $image['date_added']),
+					'product_id'      => $image['product_id'],
+					'comment'      => $image['comment'],
+					
+				);
+		}
+
+		$this->template = 'image/images.tpl';
+		$this->children = array(
+			'common/header',
+			'common/footer'
+		);
+
+		$this->response->setOutput($this->render());
+	}
 
 	protected function getList() {
 

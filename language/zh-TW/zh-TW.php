@@ -122,6 +122,7 @@ $_['column_quantity']             = '數量';
 $_['column_unit_quantity']             = '總內涵數量';
 $_['column_unit']             = '單位';
 $_['column_product']             = '商品';
+$_['column_product_usage']             = '療程內容';
 $_['column_user']             = '使用者';
 $_['column_bonus']             = '提成';
 $_['entry_quantity']             = '數量';

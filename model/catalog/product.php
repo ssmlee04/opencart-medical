@@ -308,14 +308,17 @@ class ModelCatalogProduct extends Model {
 	// '2014-09-26 18:44'
 	public function getProduct($product_id) {
 		
-		$query = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) WHERE p.product_id = '" . (int)$product_id . "' AND pd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
+		$query = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) 
+			 LEFT JOIN " . DB_PREFIX . "unit_class_description ucd ON (p.unit_class_id = ucd.unit_class_id AND ucd.language_id = pd.language_id)
+			 WHERE p.product_id = '" . (int)$product_id . "' AND pd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
 
 		return $query->row;
 	}
 
 	// '2014-09-26 18:44'
 	public function getProducts($data = array()) {
-		$sql = "SELECT * FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id)";
+		$sql = "SELECT * FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id)
+		LEFT JOIN " . DB_PREFIX . "unit_class_description ucd ON (p.unit_class_id = ucd.unit_class_id AND ucd.language_id = pd.language_id)";
 
 		if (!empty($data['filter_category_id'])) {
 			$sql .= " LEFT JOIN " . DB_PREFIX . "product_to_category p2c ON (p.product_id = p2c.product_id)";			
@@ -590,7 +593,10 @@ class ModelCatalogProduct extends Model {
 	// }
 
 	public function getTotalProducts($data = array()) {
-		$sql = "SELECT COUNT(DISTINCT p.product_id) AS total FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id)";
+		$sql = "SELECT COUNT(DISTINCT p.product_id) AS total FROM " . DB_PREFIX . "product p 
+		LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id)
+		LEFT JOIN " . DB_PREFIX . "unit_class_description ucd ON (p.unit_class_id = ucd.unit_class_id AND ucd.language_id = pd.language_id)
+		";
 
 		if (!empty($data['filter_category_id'])) {
 			$sql .= " LEFT JOIN " . DB_PREFIX . "product_to_category p2c ON (p.product_id = p2c.product_id)";			

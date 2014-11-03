@@ -294,6 +294,9 @@
         <div id="tab-transaction">
           <input type='hidden' id='image1'/>
           <input type='hidden' id='image2'/>
+
+
+
           <table class="form">
 <!--             <tr>
               <td>php echo $entry_customer; ?></td>
@@ -324,6 +327,31 @@
               <td colspan="4" style="text-align: right;"><a id="button-displayimage" onclick="showhide2()" class="button"><span><?php echo $button_display_2image; ?></span></a></td>
             </tr>
           </table>
+
+
+<!-- <table class="list">
+  <thead>
+    <tr>
+      <td class="left">treatment</td>
+      <td class="left">units used</td>
+      <td class="left">go</td>
+      
+    </tr>
+  </thead>
+  <tr>
+    <td><select type='product' alt='2'></select></td>
+    <td><input type='text' /></td>
+    <td><input type='button' class='group_change_status_button' value='go ahead'/></td>
+  </tr>
+  <tr>
+    <td><php echo $entry_beauty; ?><select type='user' alt='2'/></td>
+    <td><select type='user' alt='3'/></td>
+    <td><select type='user' alt='4'/></td>
+    <td><select type='user' alt='5'/></td>
+  </tr>
+</table>
+<br> -->
+
 
           <table class="form" style="display:none">
             <tr>

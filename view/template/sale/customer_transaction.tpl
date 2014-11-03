@@ -2,7 +2,10 @@
 <!-- <script type="text/javascript" src="view/javascript/colorbox/jquery.colorbox-min"></script>  -->
 <style>
   .color1 {
-    background-color: beige;
+    background-color: #F5F1DE;
+  }
+  .color2 {
+    background-color: #E7DF9C;
   }
 </style>
 
@@ -49,6 +52,46 @@
 <?php } ?>
 <br>
 
+
+
+<table class="list">
+  <thead>
+    <tr>
+      <td class="left"><?php echo $column_product; ?></td>
+      <td class="left"><?php echo $column_unit_used; ?></td>
+      
+    </tr>
+  </thead>
+  <tr>
+    <td><select type='product' alt='2'></select><div style='display:inline' id='units'></div></td>
+    <td><input type='text' id='unitspend'/><div style='display:inline' id='units2'></div>
+      <input type='hidden' id='product_id_group'/>
+      <input type='hidden' id='customer_id_group' value='<?php echo $filter_customer_id; ?>'/></td>
+  </tr>
+  <tr>
+    <td colspan='2'>
+    <?php echo $entry_beauty; ?><select name='beauty' type='user' alt='5'/>
+      <?php echo $entry_doctor; ?><select name='doctor'  type='user' alt='2'/>
+    <?php echo $entry_consultant; ?><select name='consultant'  type='user' alt='3'/>
+    <?php echo $entry_outsource; ?><select name='outsource' type='user' alt='4'/>
+    <input name='comment' type='text' id='comment' style='width:400px'/>
+
+    <select name='tran_status' >
+      <option></option>
+      <option value='-1'><?php echo $text_transaction_unoccured; ?></option>
+      <option value='-2'><?php echo $text_transaction_appointed; ?></option>
+      <option value='2' ><?php echo $text_transaction_finished; ?></option>
+    </select>
+        <?php if ($is_insert) { ?>
+        <a  class='group_change_status_button'><?php echo $button_change_status; ?></a>
+        <?php } ?>
+
+  </tr>
+</table>
+<br>
+
+
+
 <table class="list">
   <thead>
     <tr>
@@ -68,12 +111,19 @@
   <tbody>
     <?php $treatment_image_row = 0; ?>
     <?php $transaction_count = 0; ?>
+    <?php $transaction_day_prev = ''; ?>
+    <?php $transaction_day = ''; ?>
+    <?php $color = 'color1'; ?>
 
     <?php if ($transactions) { ?>
     <?php foreach ($transactions as $transaction) { ?>
-    <?php $transaction_count++; ?>
+    <?php $transaction_day_prev = $transaction_day; ?>
+    <?php $transaction_day = $transaction['date_modified']; ?>
     <!-- <.php if ($transaction['status'] == 0) continue; ?> -->
-    <tr <?php if ($transaction_count%2) echo "class='color1'"; ?>>
+    <tr <?php if ($transaction_day_prev != $transaction_day) {
+      if ($color == 'color1') $color = 'color2';
+      elseif ($color == 'color2') $color = 'color1';
+    } ?>  <?php echo "class='$color'"; ?>>
       <td class="left"><?php echo $transaction['date_added']; ?> 
         <input type='hidden' value='<?php echo $transaction['customer_transaction_id']; ?>' />
       </td>
@@ -103,38 +153,41 @@
         <input type='hidden' value='<?php echo $transaction['customer_transaction_id']; ?>' id='hidden<?php echo $transaction['customer_transaction_id']; ?>'/>
         
         
-        <?php if ($transaction['treatment_images']) { ?>
-        <?php foreach ($transaction['treatment_images'] as $image) { ?>
-        
 
-        <div style='display:inline' class='treatmentimage'>
-
-          <!-- href="php echo $image['href']; ?>" -->
-          <a class='group1' href="<?php echo $image['href']; ?>">
-          <img src="<?php echo $image['thumb']; ?>" alt="<?php echo $image['href']; ?>" id="treatmentthumb<?php echo $treatment_image_row; ?>" /></a>
-
-          <a class='group2' style='display:none'>
-          <img src="<?php echo $image['thumb']; ?>" alt="<?php echo $image['href']; ?>" style="opacity:0.4" /></a>
-
-          <input type="hidden" name="image[<?php echo $treatment_image_row; ?>][image]" value="<?php echo $image['image']; ?>" id="treatmentimage<?php echo $treatment_image_row; ?>" />
-
-                    <!-- <img src="<php echo $customer_image['thumb']; ?>" alt="" id="thumb<php echo $image_row; ?>" /> -->
-                    <!-- <input type="hidden" name="customer_image[<php echo $image_row; ?>][image]" value="<php echo $customer_image['image']; ?>" id="image<php echo $image_row; ?>" /> -->
-        </div>
-
-        <?php } ?>
-        <?php } ?>
         <!-- value="<php echo $image['image']; ?>" -->
          <input type="hidden" name="image[<?php echo $treatment_image_row; ?>][image]"  id="treatmentimage<?php echo $treatment_image_row; ?>" />
          <?php if ($is_insert) { ?>
         <a class='addImage2'><?php echo $button_add_picture; ?> </a>
         <?php } ?>
+
+
+
+         <?php if ($transaction['treatment_images']) { ?>
+         | <a class='viewImage'><?php echo $button_view_picture; ?> </a>
+
+        <!-- php foreach ($transaction['treatment_images'] as $image) { ?>
+        <div style='display:inline' class='treatmentimage'>
+
+          <a class='group1' href="<php echo $image['href']; ?>">
+          <img src="<php echo $image['thumb']; ?>" alt="<php echo $image['href']; ?>" id="treatmentthumb<php echo $treatment_image_row; ?>" /></a>
+
+          <a class='group2' style='display:none'>
+          <img src="<php echo $image['thumb']; ?>" alt="<php echo $image['href']; ?>" style="opacity:0.4" /></a>
+
+          <input type="hidden" name="image[<php echo $treatment_image_row; ?>][image]" value="<php echo $image['image']; ?>" id="treatmentimage<php echo $treatment_image_row; ?>" />
+        </div>
+        <php } ?> -->
+
+
+
+        <?php } ?>
+
       </td>
     </tr>
 
 
 
-    <tr <?php if ($transaction_count%2) echo "class='color1'"; ?>>
+    <tr <?php echo "class='$color'"; ?>>
       
       <td colspan='7' class="left">
 
@@ -197,7 +250,8 @@
 
         <input type='text' id='comment<?php echo $transaction['customer_transaction_id']; ?>' style='width:400px' value="<?php echo $transaction['comment']; ?>"/>
         <?php if ($transaction['type'] == 2) { ?>
-        <img src="view/image/delete.png" title="<?php echo $button_remove; ?>" alt="<?php echo $button_remove; ?>" style="cursor: pointer;" onclick="$(this).parent().parent().remove(); deleteCustomerTransaction('<?php echo $transaction['customer_transaction_id']; ?>')" />
+
+        <!-- <img src="view/image/delete.png" title="<php echo $button_remove; ?>" alt="<php echo $button_remove; ?>" style="cursor: pointer;" onclick="$(this).parent().parent().remove(); deleteCustomerTransaction('<php echo $transaction['customer_transaction_id']; ?>')" /> -->
         <?php } ?>
 
         <!-- <php if (!(!$transaction['ismain'] && $transaction['status'] != 10)) { $display="style='display:none'";} else { $display = ''; } ?> -->
@@ -259,7 +313,6 @@ $(".group2").on('click', function(){
     $('#image1').val('');
     $('#image2').val('');
    }
-   
 
 });
 
@@ -297,6 +350,49 @@ function deleteCustomerTransaction(id) {
     });
 
 }
+
+$('.group_change_status_button').on('click', function(e){
+
+  e.preventDefault();
+  var status = $(this).prev().val();
+  var comment = $("#comment").val();
+  var beauty_id = $("select[name='beauty']").val();
+  var doctor_id = $("select[name='doctor']").val();
+  var consultant_id = $("select[name='consultant']").val();
+  var outsource_id = $("select[name='outsource']").val();
+  var unitspend = $("#unitspend").val();
+  var product_id = $("#product_id_group").val();
+  var customer_id = $("#customer_id_group").val();
+  console.log([comment, beauty_id, doctor_id, consultant_id, outsource_id, unitspend]);
+
+  if (status)
+  $.ajax({
+      url: 'index.php?route=sale/customer/editgrouptransaction&token=<?php echo $token; ?>',
+      type: 'post',
+      data: 'status=' + status + '&comment=' + comment+ '&doctor_id=' + doctor_id+ '&consultant_id=' + consultant_id + '&outsource_id=' + outsource_id  + '&beauty_id=' + beauty_id + '&unitspend='+ unitspend + '&product_id='+ product_id+ '&customer_id='+ customer_id ,
+      dataType: 'json',
+      beforeSend: function(){
+      
+      },
+      success: function(json) {
+    console.log(json);
+        if (json['error']) {
+          $('#transaction').before('<div class="warning">' + json['error'] + '</div>');
+        }
+
+        if (json['success']) {
+          // $('#button-transaction').click();
+          $('#button-filter').click();
+          $('#transaction').before('<div class="success">' + json['success'] + '</div>');
+        }
+      },
+      error: function(xhr, ajaxOptions, thrownError) {
+        
+      } 
+    });
+
+
+});
 
 $('.change_status_button').on('click', function(e){
   
@@ -345,6 +441,14 @@ $('.change_status_button').on('click', function(e){
 <script type="text/javascript"><!--
 
   var treatment_image_row = <?php echo $treatment_image_row; ?>;
+
+$('.viewImage').on('click', function(e){
+  e.preventDefault();
+  
+  var ID = $(this).parent().children().first().val();
+
+  window.open("index.php?route=image/imagemanage/treatmentimage&token=<?php echo $token; ?>&customer_transaction_id=" + ID);
+});
 
 $('.addImage2').on('click', function(e){
   e.preventDefault();
@@ -438,5 +542,20 @@ function image_upload_treat(field, thumb, id) {
   });
 };
 
+
+$('select[type="product"]').change(function(){
+  var value = $(this).find(":selected").attr('alt2');
+  var unit = $(this).find(":selected").attr('alt');
+  var product_id = $(this).val();
+  if (value && unit) $('#units').text(value + ' ' + unit);
+  if (value && unit) $('#units2').text( unit);
+  if (value && unit) $('#product_id_group').val( product_id);
+
+  if (!$(this).val()) {
+    $('#units').text('');
+    $('#units2').text('');
+    $('#product_id_group').val('');
+  }
+})
 
 //--></script> 

@@ -1,1 +1,1 @@
-SELECT * FROM oc_user WHERE store_id = '1' AND username = 'admin' AND (password = SHA1(CONCAT(salt, SHA1(CONCAT(salt, SHA1('admin'))))) OR password = '21232f297a57a5a743894a0e4a801fc3') AND status = '1'
+UPDATE oc_customer_image SET date_added = NOW(), comment = '13123131312321132123', date_processed = '2014-3-22' WHERE customer_image_id = '138'

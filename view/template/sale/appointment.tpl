@@ -33,6 +33,9 @@
 
 $(document).ready(function() {
 	
+	$('.fc-month-button').click(function(){
+		alert(222);
+	})
 	var events = <?php echo json_encode($events); ?>;
 	
 	$('#calendar').fullCalendar({
@@ -101,7 +104,7 @@ $(document).ready(function() {
 			}
 			$('#calendar').fullCalendar('unselect');
 		},
-		editable: false,
+		editable: true,
 		eventLimit: true, // allow "more" link when too many events
 		eventClick: function(calEvent, jsEvent, view) {
 			

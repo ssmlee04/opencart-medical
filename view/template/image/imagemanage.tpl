@@ -110,6 +110,7 @@ $(document).ready(function(){
   $(".group1").colorbox({rel:'group1'});
 });
 
+
 // $('.date').datepicker({dateFormat: 'yy-mm-dd'});
 // $('.datetime').datetimepicker({
 //   dateFormat: 'yy-mm-dd',
