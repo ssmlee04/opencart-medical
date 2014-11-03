@@ -2512,6 +2512,35 @@ class ControllerSaleCustomer extends Controller {
 		$this->response->setOutput(json_encode($json));
 	}	
 
+	public function editevent() {
+
+		$json = array();
+
+		$this->language->load('sale/customer');
+
+		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->user->hasPermission('modify', 'sale/customer')) { 
+
+			if (isset($this->request->post['customer_event_id']) && isset($this->request->post['date_start']) && isset($this->request->post['date_end'])) { 		
+
+				$this->load->model('sale/customer');	
+		
+				if ($this->model_sale_customer->editevent($this->request->post['customer_event_id'], $this->request->post)) {
+					$json['success'] = $this->language->get('text_edit_event_success');
+				} else {
+					$json['error'] = $this->language->get('text_edit_event_error');
+				}
+			} else {
+				$json['error'] = $this->language->get('text_record_event_error');
+			}
+
+		} else {
+			$json['error'] = $this->language->get('error_permission');
+		}
+
+		$this->load->out($json);
+
+		$this->response->setOutput(json_encode($json));
+	}
 
 	// '2014-10-14 12:11'
 	public function recordevent() {

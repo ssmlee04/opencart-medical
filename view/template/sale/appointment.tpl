@@ -106,6 +106,56 @@ $(document).ready(function() {
 		},
 		editable: true,
 		eventLimit: true, // allow "more" link when too many events
+		eventDrop: function(event, delta, revertFunc) {
+			console.log(event);
+			// var that = this;
+			var customer_event_id = event.id;
+			var date_start = event.start._d;
+			var date_end = event.end._d;
+			date_start = moment(date_start).format('YYYY-MM-DD HH:mm:ss');
+			date_end = moment(date_end).format('YYYY-MM-DD HH:mm:ss');
+			
+
+			if (!confirm("Are you sure about this change?")) {
+	            revertFunc();
+	        }
+
+			$.ajax({
+				  url: 'index.php?route=sale/customer/editevent&token=<?php echo $token; ?>',
+				  type: 'POST',
+				  dataType: 'json',
+				  data: 'customer_event_id=' + customer_event_id + '&date_start=' + date_start + '&date_end=' + date_end,
+				  complete: function(xhr, textStatus) {
+				    //called when complete
+				  },
+				  success: function(json, textStatus, xhr) {
+				    //called when successful
+				    $('.attention, .success, .warning').remove();
+
+				    if (json['success']) {
+				    	$('.box').before('<div class="success" style="display: none;">' + json['success'] + '</div>');
+			
+						$('.success').fadeIn('slow');
+
+						// $('#calendar').fullCalendar('removeEvents', calEvent.id, function (calEvent) {
+			   //              return true;
+			   //          });
+				    } 
+
+				    if (json['error']['warning']) {
+
+				    	$('.box').before('<div class="warning" style="display: none;">' + json['error']['warning'] + '</div>');
+			
+						$('.warning').fadeIn('slow');
+				    }
+				  },
+				  error: function(xhr, textStatus, errorThrown) {
+				    //called when there is an error
+				  }
+				});
+
+
+		},
 		eventClick: function(calEvent, jsEvent, view) {
 			
 

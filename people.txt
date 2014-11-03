@@ -1,1 +1,4 @@
-UPDATE oc_customer_image SET date_added = NOW(), comment = '13123131312321132123', date_processed = '2014-3-22' WHERE customer_image_id = '138'
+Array
+(
+    [success] => text_edit_event_success
+)

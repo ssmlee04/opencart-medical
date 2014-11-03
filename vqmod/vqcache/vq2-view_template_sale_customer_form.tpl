@@ -310,6 +310,8 @@
               <td><input type="product" name="treatment_product" alt='2' value="" />
                 <input type="hidden" name="treatment_product_name" value="" />
                 <input type="hidden" name="treatment_product_id" value="" />
+
+
               </td>
               <td colspan="2" style="text-align: right;"><a id="button-filter" class="button"><span><?php echo $button_filter; ?></span></a></td>
             </tr>

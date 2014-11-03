@@ -1266,6 +1266,23 @@ class ModelSaleCustomer extends Model {
 		}
 	}
 
+	// Chandler '2014-11-03 23:02'
+	public function editevent($customer_event_id, $data) {
+
+		$sql  = "UPDATE oc_customer_event SET date_added = NOW()";
+		
+		$sql .= (isset($data['date_start']) ? " , date_start = '" . $data['date_start'] . "'" : '');
+		$sql .= (isset($data['date_end']) ? " , date_end = '" . $data['date_end'] . "'" : '');
+	
+		$sql .= " WHERE customer_event_id = '" . (int)$customer_event_id . "'";
+
+// $this->load->out($sql);
+		$this->db->query($sql);
+
+		return $this->db->countAffected();
+
+	}
+
 	public function edittransaction($customer_transaction_id, $data) {
 
 		// update message

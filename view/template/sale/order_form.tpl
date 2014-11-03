@@ -153,7 +153,10 @@
                 <td class="left">
                   <!-- <input type="product" name="product23" alt='1,2,3' value="" /> -->
                   <input type="text" name="product" value="" />
-                  <input type="hidden" name="product_id" value="" /></td>
+                  <input type="hidden" name="product_id" value="" />
+                 / 
+                
+                <select type='product' alt='2'/></td>
               </tr>
               <tr id="option"></tr>
               <tr>
@@ -592,10 +595,23 @@ $('#button-product').live('click', function() {
   var store_id = $('.store_id').val();
   var customer_id = $('input[name=\'customer_id\']').val();
   
-  if (!store_id || !customer_id) {
-    $('.success, .warning, .attention, .error').remove();
-    // $('.box').before('<div class="attention"><img src="view/image/loading.gif" alt="" /> <?php echo $text_wait; ?></div>');
-    $('.box').before('<div class="warning"><?php echo $text_error; ?></div>');
+      $('.success, .warning, .attention, .error').remove();
+
+  if (!store_id) {
+
+        $('.box').before('<div class="warning" style="display: none;"><?php echo $text_error_store; ?></div>');
+      
+    $('.warning').fadeIn('slow');    
+    
+    return;
+  }
+
+  if (!customer_id) {
+
+    $('.box').before('<div class="warning" style="display: none;"><?php echo $text_error_customer; ?></div>');
+      
+    $('.warning').fadeIn('slow');       
+
     return;
   }
 
@@ -624,6 +640,7 @@ $('#button-product').live('click', function() {
 		data: $(data),
 		dataType: 'json',	
 		beforeSend: function() {
+
 			$('.success, .warning, .attention, .error').remove();
 			
 			$('.box').before('<div class="attention"><img src="view/image/loading.gif" alt="" /> <?php echo $text_wait; ?></div>');
@@ -631,6 +648,7 @@ $('#button-product').live('click', function() {
 		success: function(json) {
 			$('.success, .warning, .attention, .error').remove();
 
+      console.log(json);
 			// Check for errors
 			if (json['error']) {
 				
@@ -1003,6 +1021,7 @@ $('#button-product').live('click', function() {
 			// }	
 		},
 		error: function(xhr, ajaxOptions, thrownError) {
+
 			console.log(thrownError, xhr.statusText, xhr.responseText);
 		}
 	});	
@@ -1013,12 +1032,20 @@ $('#button-product').live('click', function() {
 //--></script> 
 <script type="text/javascript" src="view/javascript/jquery/ui/jquery-ui-timepicker-addon.js"></script> 
 <script type="text/javascript"><!--
-$('.date').datepicker({dateFormat: 'yy-mm-dd'});
-$('.datetime').datetimepicker({
-	dateFormat: 'yy-mm-dd',
-	timeFormat: 'h:m'
-});
-$('.time').timepicker({timeFormat: 'h:m'});
+
+  $("select[type='product']").change(function(){
+    var product_id = $("select[type='product'] option:selected").val();
+    var product = $("select[type='product'] option:selected").text();
+    $("input[name='product_id']").val(product_id)
+    $("input[name='product']").val(product)
+  });
+
+// $('.date').datepicker({dateFormat: 'yy-mm-dd'});
+// $('.datetime').datetimepicker({
+// 	dateFormat: 'yy-mm-dd',
+// 	timeFormat: 'h:m'
+// });
+// $('.time').timepicker({timeFormat: 'h:m'});
 //--></script> 
 <script type="text/javascript"><!--
 $('.vtabs a').tabs();

@@ -696,6 +696,8 @@ class ControllerSaleOrder extends Controller {
 
 		$this->data['text_no_results'] = $this->language->get('text_no_results');
 		$this->data['text_error'] = $this->language->get('text_error');
+		$this->data['text_error_store'] = $this->language->get('text_error_store');
+		$this->data['text_error_customer'] = $this->language->get('text_error_customer');
 		$this->data['text_default'] = $this->language->get('text_default');
 		$this->data['text_select'] = $this->language->get('text_select');
 		$this->data['text_none'] = $this->language->get('text_none');
