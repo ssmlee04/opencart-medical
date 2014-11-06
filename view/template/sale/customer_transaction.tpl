@@ -34,7 +34,7 @@
       <td class="left"><a onclick="add_filter_product('<?php echo $transaction['product_id']; ?>', '<?php echo $transaction['name']; ?>')"><?php echo $transaction['name']; ?></a></td>
       <!-- <td class="left"><hp echo $transaction['quantity']; ?></td> -->
       <!-- <td class="left"><php echo $transaction['subquantity']; ?></td> -->
-      <td class="left"><?php echo $transaction['subquantity']; ?> <?php echo $transaction['unit']; ?></td>
+      <td class="left"><?php echo $transaction['subquantity'] * $transaction['value']; ?> <?php echo $transaction['unit']; ?></td>
     </tr>
     <?php } ?>
     <tr>
@@ -114,16 +114,20 @@
     <?php $transaction_day_prev = ''; ?>
     <?php $transaction_day = ''; ?>
     <?php $color = 'color1'; ?>
+    <?php $count = 0; ?>
 
     <?php if ($transactions) { ?>
     <?php foreach ($transactions as $transaction) { ?>
+    <?php $count++; ?>
     <?php $transaction_day_prev = $transaction_day; ?>
     <?php $transaction_day = $transaction['date_modified']; ?>
-    <!-- <.php if ($transaction['status'] == 0) continue; ?> -->
-    <tr <?php if ($transaction_day_prev != $transaction_day) {
+    <?php $color = ($count%2  ? 'color1' : 'color2') ?>
+    <!-- <php if ($transaction_day_prev != $transaction_day) {
       if ($color == 'color1') $color = 'color2';
       elseif ($color == 'color2') $color = 'color1';
-    } ?>  <?php echo "class='$color'"; ?>>
+    } ?>   -->
+    <!-- <.php if ($transaction['status'] == 0) continue; ?> -->
+    <tr <?php echo "class='$color'"; ?>>
       <td class="left"><?php echo $transaction['date_added']; ?> 
         <input type='hidden' value='<?php echo $transaction['customer_transaction_id']; ?>' />
       </td>
@@ -136,7 +140,7 @@
       </td>
       <!-- <td class="left"><php echo $transaction['quantity']; ?></td> -->
       <!-- <td class="left"><php echo $transaction['subquantity']; ?></td> -->
-      <td class="left"><?php echo -$transaction['subquantity']; ?><?php echo $transaction['unit']; ?></td>
+      <td class="left"><?php echo -$transaction['subquantity'] * $transaction['value']; ?> <?php echo $transaction['unit']; ?></td>
       <td class="left">
 
         <?php if ($transaction['customer_lending_id'] != 0 && $transaction['status'] == 10) { ?>
@@ -265,6 +269,7 @@
         <?php } else { ?>
           <input value='x'/ type='hidden'>
         <?php } ?>
+
         <?php if ($is_insert) { ?>
         <?php if ($transaction['status'] != 2 || $transaction['canmodify']) { ?>
         <a  class='change_status_button' id='<?php echo $transaction['customer_transaction_id']; ?>'><?php echo $button_change_status; ?></a>
@@ -351,6 +356,7 @@ function deleteCustomerTransaction(id) {
 
 }
 
+
 $('.group_change_status_button').on('click', function(e){
 
   e.preventDefault();
@@ -363,7 +369,8 @@ $('.group_change_status_button').on('click', function(e){
   var unitspend = $("#unitspend").val();
   var product_id = $("#product_id_group").val();
   var customer_id = $("#customer_id_group").val();
-  console.log([comment, beauty_id, doctor_id, consultant_id, outsource_id, unitspend]);
+
+  $('.attention, .success, .warning').remove();
 
   if (status)
   $.ajax({
@@ -375,7 +382,7 @@ $('.group_change_status_button').on('click', function(e){
       
       },
       success: function(json) {
-    console.log(json);
+    
         if (json['error']) {
           $('#transaction').before('<div class="warning">' + json['error'] + '</div>');
         }
@@ -394,6 +401,8 @@ $('.group_change_status_button').on('click', function(e){
 
 });
 
+
+// Chandler '2014-11-06 11:27' change to group edit
 $('.change_status_button').on('click', function(e){
   
   e.preventDefault();
@@ -410,7 +419,7 @@ $('.change_status_button').on('click', function(e){
 
   if (status)
   $.ajax({
-      url: 'index.php?route=sale/customer/edittransaction&token=<?php echo $token; ?>',
+      url: 'index.php?route=sale/customer/groupedittransaction&token=<?php echo $token; ?>',
       type: 'post',
       data: 'customer_transaction_id=' + id + '&status=' + status + '&comment=' + comment+ '&doctor_id=' + doctor_id+ '&consultant_id=' + consultant_id + '&outsource_id=' + outsource_id  + '&beauty_id=' + beauty_id,
       dataType: 'json',
@@ -479,6 +488,8 @@ function image_upload_treat(field, thumb, id) {
     close: function (event, ui) {
       // if (true) {
 
+        $('.attention, .success, .warning').remove();
+        
       if ($('#' + field).attr('value')) {
         
         $.ajax({
@@ -547,8 +558,8 @@ $('select[type="product"]').change(function(){
   var value = $(this).find(":selected").attr('alt2');
   var unit = $(this).find(":selected").attr('alt');
   var product_id = $(this).val();
-  if (value && unit) $('#units').text(value + ' ' + unit);
-  if (value && unit) $('#units2').text( unit);
+  if (value && unit) $('#units').html('<span style="margin-left:10px">minimim: ' + value + ' ' + unit + '</span>');
+  if (value && unit) $('#units2').html('<span style="margin-left:10px">'  +unit + '</span>');
   if (value && unit) $('#product_id_group').val( product_id);
 
   if (!$(this).val()) {

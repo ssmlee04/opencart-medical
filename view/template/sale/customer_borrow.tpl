@@ -31,7 +31,7 @@
       <td class="left"><?php echo $borrow['product_name']; ?></td>
       <!-- <td class="left"><php echo $borrow['quantity']; ?></td> -->
       <!-- <td class="left"><php echo $borrow['subquantity']; ?></td> -->
-      <td class="left"><?php echo $borrow['subquantity']; ?> <?php echo $borrow['unit']; ?></td>
+      <td class="left"><?php echo $borrow['subquantity'] * $borrow['value']; ?>  <?php echo $borrow['unit']; ?></td>
       <td class="right" style="width: 3px;">
         <div class='group12'>
         <img src="view/image/delete.png" title="<?php echo $button_remove; ?>" alt="<?php echo $button_remove; ?>" style="cursor: pointer;" onclick="deleteCustomerlending2('<?php echo $borrow['customer_lending_id']; ?>', this)" />

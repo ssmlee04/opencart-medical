@@ -156,7 +156,7 @@
                   <input type="hidden" name="product_id" value="" />
                  / 
                 
-                <select type='product' alt='2'/></td>
+                <select type='product' alt='1,2,3'/></td>
               </tr>
               <tr id="option"></tr>
               <tr>

@@ -302,7 +302,7 @@ class ModelCatalogProduct extends Model {
 
 		$query = $this->db->query("SELECT * FROM oc_product p LEFT JOIN oc_unit_class uc ON uc.unit_class_id = p.unit_class_id LEFT JOIN oc_unit_class_description ucd ON uc.unit_class_id = ucd.unit_class_id WHERE p.product_id = '" . (int)$product_id . "' AND ucd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
 
-		return $query->row['unit'];
+		return $query->row;
 	}
 
 	// '2014-09-26 18:44'
@@ -330,6 +330,10 @@ class ModelCatalogProduct extends Model {
 			$sql .= " AND pd.name LIKE '" . $this->db->escape($data['filter_name']) . "%'";
 		}
 
+		if (isset($data['filter_subtract'])) {
+			$sql .= " AND p.subtract = '" . (int)$data['filter_subtract'] . "%'";
+		}
+
 		if (!empty($data['filter_model'])) {
 			$sql .= " AND p.model LIKE '" . $this->db->escape($data['filter_model']) . "%'";
 		}
@@ -355,7 +359,7 @@ class ModelCatalogProduct extends Model {
 			}
 			$sql .= implode(' OR product_type_id = ', $temp) . ')';
 		}
-
+// $this->load->out($sql);
 		$sql .= " GROUP BY p.product_id";
 
 		$sort_data = array(

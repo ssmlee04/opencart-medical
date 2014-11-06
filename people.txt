@@ -1,4 +1,1 @@
-Array
-(
-    [success] => text_edit_event_success
-)
+UPDATE oc_customer_image SET date_added = NOW(), comment = 'ugifuif', date_processed = '2014-11-20' WHERE customer_image_id = '151'

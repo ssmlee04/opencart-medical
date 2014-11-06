@@ -1,6 +1,8 @@
 $(document).ready(function(){
 
-	$("input[type='date_available']").on("focusin", function(){
+	$('body').on('focusin', "input[type='date_available']", function(){
+	// $("input[type='date_available']").on("focusin", function(){
+		console.log(123);
 	   $(this).datepicker({dateFormat: 'yy-mm-dd'});
 	});
 
@@ -18,7 +20,8 @@ $(document).ready(function(){
 		}
 	});
 
-	$("input[type='customer']").on("focusin", function(){
+	$('body').on('focusin', "input[type='customer", function(){
+	// $("input[type='customer']").on("focusin", function(){
 	   $(this).catcomplete({
 		  	delay: 500,
 		  	source: function(request, response) {
@@ -83,15 +86,54 @@ $(document).ready(function(){
 		  }
 		});
 	});
-
-	$("input[type='product']").on("focusin", function(){
-		console.log(2313321);
+	
+	$('body').on('focusin', "input[type='product']", function(){
+	// $("input[type='product']").on("focusin", function(){
 		var product_type_ids = $(this).attr('alt');
 		$(this).autocomplete({
 			delay: 500,
 			source: function(request, response) {
 				$.ajax({
 					url: 'index.php?route=catalog/product/autocomplete&token=' + $('#tk').val() + '&filter_name=' + encodeURIComponent(request.term) + '&filter_product_type_ids=' + product_type_ids,
+					dataType: 'json',
+					success: function(json) {	
+						response($.map(json, function(item) {
+							return {
+								label: item.name,
+								value: item.product_id,
+								price: item.price,
+								unit: item.unit,
+								unitvalue: item.value
+							}
+						}));
+					}
+				});
+			}, 
+			select: function(event, ui) {
+				var name = $(this).attr('name');
+				console.log(ui.item);
+				$(this).attr('value', ui.item['label']);
+				$("input[name='" + name + "_id']").attr('value', ui.item['value']);
+				$("input[name='" + name + "_name']").attr('value', ui.item['label']);
+				$("input[name='" + name + "_unit']").attr('value', ui.item['unit']);
+				$("input[name='" + name + "_unitvalue']").attr('value', ui.item['unitvalue']);
+				return false;
+			},
+			focus: function(event, ui) {
+		    return false;
+		 	}
+		});	
+	});
+	
+	$('body').on('focusin', "input[type='subtractproduct']", function(){
+	// $("input[type='subtractproduct']").on("focusin", function(){
+		// console.log(123123);
+		var product_type_ids = $(this).attr('alt');
+		$(this).autocomplete({
+			delay: 500,
+			source: function(request, response) {
+				$.ajax({
+					url: 'index.php?route=catalog/product/autocomplete&token=' + $('#tk').val() + '&filter_name=' + encodeURIComponent(request.term) + '&filter_product_type_ids=' + product_type_ids + '&filter_subtract=1',
 					dataType: 'json',
 					success: function(json) {	
 						response($.map(json, function(item) {
@@ -117,40 +159,8 @@ $(document).ready(function(){
 		});	
 	});
 
-	// $("input[type='text'][name='filter_product']").on("focusin", function(){
-	// 	$(this).autocomplete({
-	// 		delay: 500,
-	// 		source: function(request, response) {
-	// 			$.ajax({
-	// 				url: 'index.php?route=catalog/product/autocompletesellables&token=' + $('#tk').val() + '&filter_name=' + encodeURIComponent(request.term),
-	// 				dataType: 'json',
-	// 				success: function(json) {	
-	// 					response($.map(json, function(item) {
-	// 						return {
-	// 							label: item.name,
-	// 							value: item.product_id,
-	// 							// model: item.model,
-	// 							// option: item.option,
-	// 							price: item.price
-	// 						}
-	// 					}));
-	// 				}
-	// 			});
-	// 		}, 
-	// 		select: function(event, ui) {
-	// 			$('input[name=\'filter_product\']').attr('value', ui.item['label']);
-	// 			$('input[name=\'filter_product_id\']').attr('value', ui.item['value']);
 
-	// 			// $('#option td').remove();
-	// 			return false;
-	// 		},
-	// 		focus: function(event, ui) {
-	// 	    return false;
-	// 	 	}
-	// 	});	
-	// });
-	
-	// $("select[type='user']").load("false", function(){
+
 	$('body').on('focusin', "select[type='user']", function(){
 		console.log(232);
 		var user_group_id = $(this).attr('alt');
@@ -179,7 +189,9 @@ $(document).ready(function(){
 		});
 	});
 
-	$("input[type='user']").on("focusin", function(){
+
+	$('body').on('focusin', "input[type='user']", function(){
+	// $("input[type='user']").on("focusin", function(){
 		$(this).catcomplete({
 		  delay: 500,
 		  source: function(request, response) {

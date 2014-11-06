@@ -780,7 +780,7 @@ class ModelSaleCustomer extends Model {
 	// '2014-10-03 10:47'
 	public function addLending($customer_id, $lendto_customer_id, $lendto_product_id, $lendto_subquantity) {
 
-		$query = $this->db->query("SELECT * FROM oc_customer_transaction WHERE customer_id = '" . (int)$customer_id . "' AND status < 0 AND product_id = '$lendto_product_id' AND customer_lending_id = 0");
+		$query = $this->db->query("SELECT * FROM oc_customer_transaction WHERE customer_id = '" . (int)$customer_id . "' AND status = -1 AND product_id = '$lendto_product_id' AND customer_lending_id = 0");
 
 		if ($query->num_rows < $lendto_subquantity) return false;
 
@@ -835,9 +835,11 @@ class ModelSaleCustomer extends Model {
 			$bonus_doctor = $q->row['bonus_doctor'];
 			$bonus_consultant = $q->row['bonus_consultant'];
 			$bonus_outsource = $q->row['bonus_outsource'];
+			$bonus_beauty = $q->row['bonus_beauty'];
 			$bonus_percent_doctor = $q->row['bonus_percent_doctor'];
 			$bonus_percent_consultant = $q->row['bonus_percent_consultant'];
 			$bonus_percent_outsource = $q->row['bonus_percent_outsource'];
+			$bonus_percent_beauty = $q->row['bonus_percent_beauty'];
 			$product_type_id = $q->row['product_type_id'];
 			$unit_class_id = $q->row['unit_class_id'];
 			
@@ -864,13 +866,15 @@ class ModelSaleCustomer extends Model {
 				, bonus_outsource = '" . (float)$bonus_outsource . "'
 				, bonus_consultant = '" . (float)$bonus_consultant . "'
 				, bonus_doctor = '" . (float)$bonus_doctor . "'
+				, bonus_beauty = '" . (float)$bonus_beauty . "'
 				, bonus_percent_doctor = '" . (int)$bonus_percent_doctor . "'
 				, bonus_percent_consultant = '" . (int)$bonus_percent_consultant . "'
 				, bonus_percent_outsource = '" . (int)$bonus_percent_outsource . "'
+				, bonus_percent_beauty = '" . (int)$bonus_percent_beauty . "'
 				, unit_class_id = '" . (int)$unit_class_id . "'
 				, amount = '" . -(float)$amount . "'
 				, date_added = NOW(), date_modified = NOW()";
-
+$this->load->out($sql, false);
 			$this->db->query($sql);
 
 			$count++;
@@ -1195,12 +1199,6 @@ class ModelSaleCustomer extends Model {
 	}
 
 	// '2014-10-03 10:47'
-	// public function deleteTransaction($order_id) {
-	// 	$this->db->query("DELETE FROM " . DB_PREFIX . "customer_transaction WHERE order_id = '" . (int)$order_id . "'");
-
-	// }
-
-	// '2014-10-03 10:47'
 	public function deleteCustomerLending($customer_lending_id) {
 
 		$query = $this->db->query("SELECT * FROM oc_customer_lending WHERE customer_lending_id = '" . (int)$customer_lending_id . "'");
@@ -1294,7 +1292,6 @@ class ModelSaleCustomer extends Model {
 	
 		$sql .= " WHERE customer_event_id = '" . (int)$customer_event_id . "'";
 
-// $this->load->out($sql);
 		$this->db->query($sql);
 
 		return $this->db->countAffected();
@@ -1328,7 +1325,7 @@ class ModelSaleCustomer extends Model {
 		}
 	
 		$sql .= " WHERE customer_transaction_id = '" . (int)$customer_transaction_id . "' AND quantity < 0";
-
+$this->load->out($sql, false);
 		$this->db->query($sql);
 
 		$affected2 = $this->db->countAffected();
@@ -1348,8 +1345,11 @@ class ModelSaleCustomer extends Model {
 		$status = $query->row['status'];
 		$comment = $query->row['comment'];
 
+
+		$this->db->query("DELETE FROM oc_customer_history WHERE customer_transaction_id = '" . (int)$customer_transaction_id . "'");
+
 		// '2014-10-03 11:34' no need to remind
-		if ($status <= 0 && $status >= 10) return false;
+		if ($status <= 0 || $status >= 10) return false;
 
 		$this->load->model('catalog/product');
 
@@ -1371,7 +1371,7 @@ class ModelSaleCustomer extends Model {
 		$title = $product_name;
 
 		if ($reminder) {
-			$this->db->query("DELETE FROM oc_customer_history WHERE customer_transaction_id = '" . (int)$customer_transaction_id . "'");
+			// $this->db->query("DELETE FROM oc_customer_history WHERE customer_transaction_id = '" . (int)$customer_transaction_id . "'");
 			$this->db->query("INSERT INTO oc_customer_history (customer_transaction_id, if_treatment, title, comment, customer_id, user_id, reminder, reminder_date, date_added, date_modified, product_id) VALUES ($customer_transaction_id, 1, '$title', '$comment', '$customer_id', '$user_id', '$reminder', DATE_ADD(NOW(),  INTERVAL $reminder_days DAY), NOW(), NOW(), $product_id)");
 			
 		}
@@ -1405,8 +1405,14 @@ class ModelSaleCustomer extends Model {
 	// '2014-09-29 22:00'
 	public function getTransactions($data, $start = 0, $limit = 10) {
 
-		$sql = "SELECT ct.*, pd.name as product_name, c.fullname FROM oc_customer_transaction ct LEFT JOIN oc_customer c ON c.customer_id = ct.customer_id LEFT JOIN oc_product p ON p.product_id = ct.product_id LEFT JOIN oc_product_description pd ON pd.product_id = p.product_id  WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') ."' ";
-	
+		$sql = "SELECT ct.*, pd.name as product_name, c.fullname  ";
+
+		if (isset($data['filter_group_usage'])) {
+			$sql .= " , sum(ct.subquantity) as subquantity"; 
+		}
+
+		$sql .= " FROM oc_customer_transaction ct LEFT JOIN oc_customer c ON c.customer_id = ct.customer_id LEFT JOIN oc_product p ON p.product_id = ct.product_id LEFT JOIN oc_product_description pd ON pd.product_id = p.product_id  WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') ."' ";
+		
 		if (isset($data['filter_customer_id'])) {
 			$sql .= " AND ct.customer_id = '" . (int)$data['filter_customer_id'] . "' ";
 		}
@@ -1437,6 +1443,10 @@ class ModelSaleCustomer extends Model {
 
 		if (isset($data['filter_unused'])) {
 			$sql .= " AND ct.status >= 0 ";
+		}
+
+		if (isset($data['filter_group_usage'])) {
+			$sql .= " AND treatment_usage_id > 0 GROUP BY treatment_usage_id"; 
 		}
 
 		if ($start < 0) {
@@ -1471,13 +1481,13 @@ class ModelSaleCustomer extends Model {
 			$sql .= " AND c.fullname LIKE '%" . $this->db->escape($data['filter_customer_name']) . "%'";
 		}
 
-		if (isset($data['filter_product_type_id'])) {
-			$sql .= " AND ct.product_type_id = '" . (int)$data['filter_product_type_id'] . "' ";
-		}
-		
 		if (isset($data['filter_ismain'])) {
 			$sql .= " AND ct.ismain = '" . (int)$data['filter_ismain'] . "' ";
 		}
+
+		if (isset($data['filter_product_type_id'])) {
+			$sql .= " AND ct.product_type_id = '" . (int)$data['filter_product_type_id'] . "' ";
+		}		
 
 		if (!empty($data['filter_treatment_status'])) {
 			$sql .= " AND ct.status = '" . (int)$data['filter_treatment_status'] . "' ";
@@ -1491,9 +1501,14 @@ class ModelSaleCustomer extends Model {
 			$sql .= " AND ct.status >= 0 ";
 		}
 
+		if (isset($data['filter_group_usage'])) {
+			$sql .= " AND treatment_usage_id > 0 GROUP BY treatment_usage_id"; 
+		}
+
 		$query = $this->db->query($sql);
 
-		return $query->row['total'];
+		return $query->num_rows;
+		// return $query->row['total'];
 	}
 
 	// public function getTransactionTotal($customer_id) {

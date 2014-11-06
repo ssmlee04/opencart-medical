@@ -183,7 +183,7 @@
             <tbody>
               <tr>
                 <td class="left"><?php echo $entry_product; ?></td>
-                <td class="left"><input type="product" name="product" alt="1,3" value="" />
+                <td class="left"><input type="subtractproduct" name="product" alt="1,2,3" value="" />
                   <input type="hidden" name="product_id" value="" /></td>
               </tr>
               <!-- <tr id="option"></tr> -->

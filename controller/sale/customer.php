@@ -2,20 +2,20 @@
 class ControllerSaleCustomer extends Controller { 
 	private $error = array();
 
-	/*public function clear() {
+	// public function clear() {
 
-		$this->db->query("DELETE FROM oc_customer_transaction");
-		$this->db->query("DELETE FROM oc_customer_history");
-		$this->db->query("DELETE FROM oc_customer_image");
-		$this->db->query("DELETE FROM oc_customer_lending");
-		$this->db->query("DELETE FROM oc_order_product");
-		$this->db->query("DELETE FROM oc_order_total");
-		$this->db->query("DELETE FROM oc_purchase");
-		$this->db->query("DELETE FROM oc_purchase_products");
-		$this->db->query("DELETE FROM oc_order");
-		$this->db->query("DELETE FROM oc_order_history");
-		$this->db->query("DELETE FROM oc_product_to_store");
-	}*/
+	// 	$this->db->query("DELETE FROM oc_customer_transaction");
+	// 	$this->db->query("DELETE FROM oc_customer_history");
+	// 	$this->db->query("DELETE FROM oc_customer_image");
+	// 	$this->db->query("DELETE FROM oc_customer_lending");
+	// 	$this->db->query("DELETE FROM oc_order_product");
+	// 	$this->db->query("DELETE FROM oc_order_total");
+	// 	$this->db->query("DELETE FROM oc_purchase");
+	// 	$this->db->query("DELETE FROM oc_purchase_product");
+	// 	$this->db->query("DELETE FROM oc_order");
+	// 	$this->db->query("DELETE FROM oc_order_history");
+	// 	$this->db->query("DELETE FROM oc_product_to_store");
+	// }
 
 	public function index() {
 		$this->language->load('sale/customer');
@@ -2179,6 +2179,11 @@ class ControllerSaleCustomer extends Controller {
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->user->hasPermission('modify', 'sale/customer')) { 
 			
 			if ($lendto_quantity && $lendto_customer_id && $lendto_product_id && $this->request->get['filter_customer_id']) {
+
+				$this->load->model('catalog/product');
+				$product = $this->model_catalog_product->getProduct($lendto_product_id);
+				$lendto_quantity = round($lendto_quantity / $product['value']);
+
 				if ($this->request->get['filter_customer_id'] == $lendto_customer_id) {
 					$this->data['error_warning'] = $this->language->get('text_error_self');
 				} else if ($this->model_sale_customer->addLending($this->request->get['filter_customer_id'], $lendto_customer_id, $lendto_product_id, $lendto_quantity)) {
@@ -2213,7 +2218,7 @@ class ControllerSaleCustomer extends Controller {
 		foreach ($results as $result) {
 
 			$product_descriptions = $this->model_catalog_product->getProductDescriptions($result['product_id']);
-			$product_unit = $this->model_catalog_product->getProductUnit($result['product_id']);
+			$unit = $this->model_catalog_product->getProductUnit($result['product_id']);
 			$product_description = $product_descriptions[(int)$this->config->get('config_language_id')]['name'];
 
 			$this->data['results'][] = array(
@@ -2231,7 +2236,8 @@ class ControllerSaleCustomer extends Controller {
 				'borrowerfirstname'     => $result['borrowerfirstname'],
 				'borrowerlastname'     => $result['borrowerlastname'],
 				'product_name'     => $product_description,
-				'unit'     => $product_unit,
+				'unit'     => $unit['unit'],
+				'value'     => $unit['value'],
 				'date_added'     => explode(' ', $result['date_added'])[0]
 			);
 		}
@@ -2281,6 +2287,10 @@ class ControllerSaleCustomer extends Controller {
 			$this->data['error_warning'] = '';
 		} else if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->user->hasPermission('modify', 'sale/customer')) { 
 			
+			$this->load->model('catalog/product');
+				$product = $this->model_catalog_product->getProduct($borrowfrom_product_id);
+				$borrowfrom_quantity = round($borrowfrom_quantity / $product['value']);
+
 			if ($this->request->get['filter_customer_id'] == $borrowfrom_customer_id) {
 				$this->data['error_warning'] = $this->language->get('text_error_self');
 			} else if ($this->model_sale_customer->addLending($borrowfrom_customer_id, $this->request->get['filter_customer_id'], $borrowfrom_product_id, $borrowfrom_quantity)) {
@@ -2314,7 +2324,7 @@ class ControllerSaleCustomer extends Controller {
 		foreach ($results as $result) {
 
 			$product_descriptions = $this->model_catalog_product->getProductDescriptions($result['product_id']);
-			$product_unit = $this->model_catalog_product->getProductUnit($result['product_id']);
+			$unit = $this->model_catalog_product->getProductUnit($result['product_id']);
 			$product_description = $product_descriptions[(int)$this->config->get('config_language_id')]['name'];
 
 			$this->data['results'][] = array(
@@ -2332,7 +2342,8 @@ class ControllerSaleCustomer extends Controller {
 				'borrowerfirstname'     => $result['borrowerfirstname'],
 				'borrowerlastname'     => $result['borrowerlastname'],
 				'product_name'     => $product_description,
-				'unit'     => $product_unit,
+				'value'     => $unit['value'],
+				'unit'     => $unit['unit'],
 				'date_added'     => explode(' ', $result['date_added'])[0]
 			);
 		}
@@ -2457,6 +2468,68 @@ class ControllerSaleCustomer extends Controller {
 
 		$this->response->setOutput(json_encode($json));
 
+	}
+
+	public function groupedittransaction(){
+
+		$json = array();
+
+		$data = array();
+
+		$this->language->load('sale/customer');
+
+		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->user->hasPermission('modify', 'sale/customer')) { 
+
+			if (isset($this->request->post['customer_transaction_id']) && isset($this->request->post['status'])) { 		
+
+				$query = $this->db->query("SELECT * FROM oc_customer_transaction WHERE customer_transaction_id = '" . (int)$this->request->post['customer_transaction_id']  . "'");
+				$treatment_usage_id = $query->row['treatment_usage_id'];
+				$query = $this->db->query("SELECT * FROM oc_customer_transaction WHERE treatment_usage_id = '$treatment_usage_id'");
+
+
+				$this->load->model('sale/customer');	
+				
+				if (isset( $this->request->post['status'])) $data['status'] = $this->request->post['status'];
+				if (isset( $this->request->post['comment'])) $data['comment'] = $this->request->post['comment'];
+				if (isset( $this->request->post['doctor_id'])) $data['doctor_id'] = $this->request->post['doctor_id'];
+				if (isset( $this->request->post['consultant_id'])) $data['consultant_id'] = $this->request->post['consultant_id'];
+				if (isset( $this->request->post['outsource_id'])) $data['outsource_id'] = $this->request->post['outsource_id'];
+				if (isset( $this->request->post['beauty_id'])) $data['beauty_id'] = $this->request->post['beauty_id'];
+
+				if ($data['status'] == -1) {
+					$data['comment'] = '';
+					$data['customer_treatment_usage_id'] = 0;
+					$data['doctor_id'] = 0;
+					$data['consultant_id'] = 0;
+					$data['outsource_id'] = 0;
+					$data['beauty_id'] = 0;
+				}
+
+				foreach ($query->rows as $result) {
+					
+					$customer_transaction_id = $result['customer_transaction_id'];
+
+					if ($this->model_sale_customer->edittransaction($customer_transaction_id, $data)) {
+						$json['success'] = $this->language->get('text_edit_transaction_success');
+					} else {
+						$json['error'] = $this->language->get('text_edit_transaction_error');
+					}
+				}
+				// if ($this->model_sale_customer->edittransaction($this->request->post['customer_transaction_id'], $data)) {
+				// 	$json['success'] = $this->language->get('text_edit_transaction_success');
+				// } else {
+				// 	$json['error'] = $this->language->get('text_edit_transaction_error');
+				// }
+
+			} else {
+				$json['error'] = $this->language->get('text_error');
+			}
+
+		} else {
+			$json['error'] = $this->language->get('error_permission');
+		}
+
+		$this->response->setOutput(json_encode($json));
 	}
 
 
@@ -2836,6 +2909,8 @@ class ControllerSaleCustomer extends Controller {
 		if (isset($this->request->get['filter_product_name'])) $data['filter_product_name'] = $this->request->get['filter_product_name'];
 		if (isset($this->request->get['filter_ssn'])) $data['filter_ssn'] = $this->request->get['filter_ssn'];
 		$data['filter_product_type_id'] = 2;
+		$data['filter_group_usage'] = 1;
+
 		$data['filter_ismain'] = 0;
 		$results = $this->model_sale_customer->getTransactions($data, ($page - 1) * 10, 10);
 
@@ -2846,6 +2921,7 @@ class ControllerSaleCustomer extends Controller {
 		// if (isset($this->request->get['filter_product_name'])) $data['filter_product_name'] = $this->request->get['filter_product_name'];
 		if (isset($this->request->get['filter_ssn'])) $data['filter_ssn'] = $this->request->get['filter_ssn'];
 		$data['filter_product_type_id'] = 2;
+		// $data['filter_group_usage'] = 1;
 		$totalresults = $this->model_sale_customer->getTransactions($data, 0, 999999);
 
 		$this->load->model('catalog/product');
@@ -2861,7 +2937,7 @@ class ControllerSaleCustomer extends Controller {
 			$product = $this->model_catalog_product->getProduct($product_id);
 			
 			$unit = $this->model_catalog_product->getProductUnit($product_id);
-
+		
 			$tempdata = array(); 
 			if ($filter_customer_id) $tempdata['customer_id'] = $filter_customer_id;
 			$tempdata['filter_customer_transaction_id'] = $result['customer_transaction_id'];
@@ -2896,7 +2972,8 @@ class ControllerSaleCustomer extends Controller {
 				'subquantity' => ( $filter_treatment_status == 9 ? -1 : 1) * $result['subquantity'],
 				'customer_transaction_id' => $result['customer_transaction_id'],
 				'quantity' => ( $filter_treatment_status == 9 ? -1 : 1) * $result['quantity'],
-				'unit' => $unit,
+				'value' => $unit['value'],
+				'unit' => $unit['unit'],
 				'ismain' => $result['ismain'],
 				'treatment_images' => $treatment_images,
 				'type' => $result['type'],
@@ -2925,7 +3002,8 @@ class ControllerSaleCustomer extends Controller {
 			$groupresults[$product_id]['product_id'] = $product['product_id'];
 			$groupresults[$product_id]['subquantity'] = (isset($groupresults[$product_id]['subquantity']) ? $groupresults[$product_id]['subquantity'] + $result['subquantity'] : $result['subquantity']);
 			$groupresults[$product_id]['quantity'] = (isset($groupresults[$product_id]['quantity']) ? $groupresults[$product_id]['quantity'] + $result['quantity'] : $result['quantity']);
-			$groupresults[$product_id]['unit'] = $unit;
+			$groupresults[$product_id]['unit'] = $unit['unit'];
+			$groupresults[$product_id]['value'] = $unit['value'];
 		}
 
 
@@ -2941,6 +3019,7 @@ class ControllerSaleCustomer extends Controller {
 		if (isset($this->request->get['filter_ssn'])) $data['filter_ssn'] = $this->request->get['filter_ssn'];
 		$data['filter_product_type_id'] = 2;
 		$data['filter_ismain'] = 0;
+		$data['filter_group_usage'] = 1;
 		$transaction_total = $this->model_sale_customer->getTotalTransactions($data);
 
 		$url = '';

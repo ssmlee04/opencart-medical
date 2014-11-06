@@ -62,7 +62,7 @@ $_['entry_weight_class']     = '重量單位';
 $_['entry_weight']           = '重量';
 $_['entry_length']           = '長度單位';
 $_['entry_dimension']        = '長度(L x W x H)';
-$_['entry_image']            = '商品圖<br /><span class="help">點擊更換.</span>';
+$_['entry_image']            = '商品圖';
 $_['entry_customer_group']   = '客戶群組';
 $_['entry_date_start']       = '開始日期';
 $_['entry_date_end']         = '結束日期';

@@ -74,65 +74,11 @@
             
           </tr>
           <?php } ?>
-
-
-            <tr>
-              <td><span class="required">*</span> <?php echo $entry_model; ?></td>
-              <td><input type="text" name="model" value="<?php echo $model; ?>" />
-                <?php if ($error_model) { ?>
-                <span class="error"><?php echo $error_model; ?></span>
-                <?php } ?></td>
-            </tr>
-            <!-- <tr>
-              <td><php echo $entry_sku; ?></td>
-              <td><input type="text" name="sku" value="<php echo $sku; ?>" /></td>
-            </tr>
-            <tr>
-              <td><php echo $entry_upc; ?></td>
-              <td><input type="text" name="upc" value="<php echo $upc; ?>" /></td>
-            </tr>
-            <tr>
-              <td><php echo $entry_ean; ?></td>
-              <td><input type="text" name="ean" value="<php echo $ean; ?>" /></td>
-            </tr>
-            <tr>
-              <td><php echo $entry_jan; ?></td>
-              <td><input type="text" name="jan" value="<php echo $jan; ?>" /></td>
-            </tr>
-            <tr>
-              <td><php echo $entry_isbn; ?></td>
-              <td><input type="text" name="isbn" value="<php echo $isbn; ?>" /></td>
-            </tr> -->
-            <!-- <tr>
-              <td><php echo $entry_mpn; ?></td>
-              <td><input type="text" name="mpn" value="<php echo $mpn; ?>" /></td>
-            </tr> -->
-            <!-- <tr>
-              <td>php echo $entry_location; ?></td>
-              <td><input type="text" name="location" value="<php echo $location; ?>" /></td>
-            </tr> -->
             <tr>
                 <td><?php echo $entry_price; ?></td>
                 <td><input type="text" name="price" value="<?php echo $price; ?>" /></td>
             </tr>
-            <!-- <tr>
-              <td><php echo $entry_tax_class; ?></td>
-              <td><select name="tax_class_id">
-                  <option value="0"><php echo $text_none; ?></option>
-                  <php foreach ($tax_classes as $tax_class) { ?>
-                  <php if ($tax_class['tax_class_id'] == $tax_class_id) { ?>
-                  <option value="<php echo $tax_class['tax_class_id']; ?>" selected="selected"><php echo $tax_class['title']; ?></option>
-                  <php } else { ?>
-                  <option value="<php echo $tax_class['tax_class_id']; ?>"><php echo $tax_class['title']; ?></option>
-                  <php } ?>
-                  <php } ?>
-                </select></td>
-            </tr> -->
-<!--             <tr>
-              <td><php echo $entry_minimum; ?></td>
-              <td><input type="text" name="minimum" value="<php echo $minimum; ?>" size="5" /></td>
-            </tr>
- -->        <tr>
+            <tr>
               <td><?php echo $entry_unit_quantity; ?></td>
               <td><input type="text" name="unit_quantity" value="<?php echo $unit_quantity; ?>" size="5" /></td>
             </tr>
@@ -141,52 +87,13 @@
               <td><select name="unit_class_id">
                   <?php foreach ($unit_classes as $unit_class) { ?>
                   <?php if ($unit_class['unit_class_id'] == $unit_class_id) { ?>
-                  <option value="<?php echo $unit_class['unit_class_id']; ?>" selected="selected"><?php echo $unit_class['unit']; ?></option>
+                  <option value="<?php echo $unit_class['unit_class_id']; ?>" selected="selected"><?php echo $unit_class['value'] . $unit_class['unit']; ?></option>
                   <?php } else { ?>
-                  <option value="<?php echo $unit_class['unit_class_id']; ?>"><?php echo $unit_class['unit']; ?></option>
+                  <option value="<?php echo $unit_class['unit_class_id']; ?>"><?php echo $unit_class['value'] . $unit_class['unit']; ?></option>
                   <?php } ?>
                   <?php } ?>
                 </select></td>
             </tr>
-
-            <!-- <tr>
-              <td><php echo $entry_subtract; ?></td>
-              <td><select name="subtract">
-                  <php if ($subtract) { ?>
-                  <option value="1" selected="selected"><php echo $text_yes; ?></option>
-                  <option value="0"><php echo $text_no; ?></option>
-                  <php } else { ?>
-                  <option value="1"><php echo $text_yes; ?></option>
-                  <option value="0" selected="selected"><php echo $text_no; ?></option>
-                  <php } ?>
-                </select></td>
-            </tr> -->
-            <!-- <tr>
-              <td><php echo $entry_stock_status; ?></td>
-              <td><select name="stock_status_id">
-                  <php foreach ($stock_statuses as $stock_status) { ?>
-                  <php if ($stock_status['stock_status_id'] == $stock_status_id) { ?>
-                  <option value="<php echo $stock_status['stock_status_id']; ?>" selected="selected"><php echo $stock_status['name']; ?></option>
-                  <php } else { ?>
-                  <option value="<php echo $stock_status['stock_status_id']; ?>"><php echo $stock_status['name']; ?></option>
-                  <php } ?>
-                  <php } ?>
-                </select></td>
-            </tr> -->
-     <!--        <tr>
-              <td><php echo $entry_shipping; ?></td>
-              <td><php if ($shipping) { ?>
-                <input type="radio" name="shipping" value="1" checked="checked" />
-                <php echo $text_yes; ?>
-                <input type="radio" name="shipping" value="0" />
-                <php echo $text_no; ?>
-                <php } else { ?>
-                <input type="radio" name="shipping" value="1" />
-                <php echo $text_yes; ?>
-                <input type="radio" name="shipping" value="0" checked="checked" />
-                <php echo $text_no; ?>
-                <php } ?></td>
-            </tr> -->
             <tr>
               <td><?php echo $entry_image; ?></td>
               <td><div class="image"><img src="<?php echo $thumb; ?>" alt="" id="thumb" /><br />
@@ -197,40 +104,6 @@
               <td><?php echo $entry_date_available; ?></td>
               <td><input type="text" name="date_available" value="<?php echo $date_available; ?>" size="12" class="date" /></td>
             </tr>
-            <!-- <tr>
-              <td><php echo $entry_dimension; ?></td>
-              <td><input type="text" name="length" value="<php echo $length; ?>" size="4" />
-                <input type="text" name="width" value="<php echo $width; ?>" size="4" />
-                <input type="text" name="height" value="<php echo $height; ?>" size="4" /></td>
-            </tr>
-            <tr>
-              <td><php echo $entry_length; ?></td>
-              <td><select name="length_class_id">
-                  <php foreach ($length_classes as $length_class) { ?>
-                  <php if ($length_class['length_class_id'] == $length_class_id) { ?>
-                  <option value="<php echo $length_class['length_class_id']; ?>" selected="selected"><php echo $length_class['title']; ?></option>
-                  <php } else { ?>
-                  <option value="<php echo $length_class['length_class_id']; ?>"><php echo $length_class['title']; ?></option>
-                  <php } ?>
-                  <php } ?>
-                </select></td>
-            </tr>
-            <tr>
-              <td><php echo $entry_weight; ?></td>
-              <td><input type="text" name="weight" value="<php echo $weight; ?>" /></td>
-            </tr>
-            <tr>
-              <td><php echo $entry_weight_class; ?></td>
-              <td><select name="weight_class_id">
-                  <php foreach ($weight_classes as $weight_class) { ?>
-                  <php if ($weight_class['weight_class_id'] == $weight_class_id) { ?>
-                  <option value="<php echo $weight_class['weight_class_id']; ?>" selected="selected"><php echo $weight_class['title']; ?></option>
-                  <php } else { ?>
-                  <option value="<php echo $weight_class['weight_class_id']; ?>"><php echo $weight_class['title']; ?></option>
-                  <php } ?>
-                  <php } ?>
-                </select></td>
-            </tr> -->
             <tr>
               <td><?php echo $entry_status; ?></td>
               <td><select name="status">

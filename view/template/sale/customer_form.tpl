@@ -389,7 +389,12 @@
             </tr>
             <tr>
               <td><?php echo $entry_quantity; ?></td>
-              <td><input type="text" name="lendto_quantity" value="" /></td>
+              <td><input type="text" name="lendto_quantity" value="" />
+                <div id='lendto_minunit2' style='display:inline'></div>
+                <input type="hidden" name="lendto_product_unit" value="" />
+                <input type="hidden" name="lendto_product_unitvalue" value="" />
+                <div id='lendto_minunit'></div>
+              </td>
             </tr>
             <tr>
               <td colspan="2" style="text-align: right;"><a id="button-lendto" class="button"><span><?php echo $button_lendto; ?></span></a></td>
@@ -411,7 +416,12 @@
             </tr>
             <tr>
               <td><?php echo $entry_quantity; ?></td>
-              <td><input type="text" name="borrowfrom_quantity" value="" /></td>
+              <td><input type="text" name="borrowfrom_quantity" value="" />
+                <div id='borrowfrom_minunit2'  style='display:inline'></div>
+                <input type="hidden" name="borrowfrom_product_unit" value="" />
+                <input type="hidden" name="borrowfrom_product_unitvalue" value="" />
+                <div id='borrowfrom_minunit'></div>
+              </td>
             </tr>
             <tr>
               <td colspan="2" style="text-align: right;"><a id="button-borrowfrom" class="button"><span><?php echo $button_borrowfrom; ?></span></a></td>
@@ -1019,7 +1029,23 @@ $('#button-filter').bind('click', function() {
 
 });
 
+$('input[type="product"]').on('blur', function(){
+  $('input[name="borrowfrom_product_unit"]').change();  
+  $('input[name="lendto_product_unit"]').change();  
+})
 
+$('input[name="borrowfrom_product_unit"]').on('change', function(){
+  if ($('input[name="borrowfrom_product_unitvalue"]').val() + $(this).val()) {
+    $('#borrowfrom_minunit').html('minimum ' + $('input[name="borrowfrom_product_unitvalue"]').val() + ' ' + $(this).val());
+    $('#borrowfrom_minunit2').html($(this).val());
+  }
+})
+
+$('input[name="lendto_product_unit"]').on('change', function(){
+  if ($('input[name="lendto_product_unitvalue"]').val() + $(this).val())
+  $('#lendto_minunit').html('minimum ' +  $('input[name="lendto_product_unitvalue"]').val() + ' ' + $(this).val());
+  $('#lendto_minunit2').html($(this).val());
+})
 
 //--></script> 
 

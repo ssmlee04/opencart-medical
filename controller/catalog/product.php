@@ -1573,9 +1573,9 @@ class ControllerCatalogProduct extends Controller {
 			}
 		}
 
-		if ((utf8_strlen($this->request->post['model']) < 1) || (utf8_strlen($this->request->post['model']) > 64)) {
-			$this->error['model'] = $this->language->get('error_model');
-		}
+		// if ((utf8_strlen($this->request->post['model']) < 1) || (utf8_strlen($this->request->post['model']) > 64)) {
+		// 	$this->error['model'] = $this->language->get('error_model');
+		// }
 
 		if ($this->error && !isset($this->error['warning'])) {
 			$this->error['warning'] = $this->language->get('error_warning');
@@ -1805,6 +1805,12 @@ class ControllerCatalogProduct extends Controller {
 				$filter_product_type_ids = array();
 			}
 
+			if (isset($this->request->get['filter_subtract'])) {
+				$filter_subtract = $this->request->get['filter_subtract'];
+			} else {
+				$filter_subtract = null;
+			}
+
 			if (isset($this->request->get['limit'])) {
 				$limit = $this->request->get['limit'];	
 			} else {
@@ -1815,17 +1821,21 @@ class ControllerCatalogProduct extends Controller {
 				'filter_name'  => $filter_name,
 				'start'        => 0,
 				'limit'        => $limit,
+				'filter_subtract'        => $filter_subtract,
 				'filter_product_type_ids' => $filter_product_type_ids,
 			);
 
 			$results = $this->model_catalog_product->getProducts($data);
 
 			foreach ($results as $result) {
+				// $unit_id = $results[]
 				$json[] = array(
 					'product_id' => $result['product_id'],
 					'name'       => strip_tags(html_entity_decode($result['name'], ENT_QUOTES, 'UTF-8')),	
 					'model'      => $result['model'],
-					'price'      => $result['price']
+					'price'      => $result['price'],
+					'unit'      => $result['unit'],
+					'value'      => $result['value']
 				);	
 			}
 		}
