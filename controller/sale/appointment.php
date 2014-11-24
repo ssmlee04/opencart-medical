@@ -47,6 +47,7 @@ class ControllerSaleAppointment extends Controller {
 		$this->data['text_year'] = $this->language->get('text_year');
 		$this->data['text_no_results'] = $this->language->get('text_no_results');
 		$this->data['text_all_status'] = $this->language->get('text_all_status');
+		$this->data['text_please_refresh'] = $this->language->get('text_please_refresh');
 		
 
 

@@ -37,13 +37,16 @@ $(document).ready(function() {
 		alert(222);
 	})
 	var events = <?php echo json_encode($events); ?>;
-	
+	console.log(events);
+
 	$('#calendar').fullCalendar({
 		header: {
 			left: 'prev,next today',
 			center: 'title',
 			right: 'month,agendaWeek,agendaDay'
 		},
+		// timezoneParam: "America/Chicago", 
+		timezone: false,
 		defaultDate: Date(),
 		selectable: true,
 		selectHelper: true,
@@ -83,6 +86,8 @@ $(document).ready(function() {
 						$('.success').fadeIn('slow');
 
 						$('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
+
+						// location.reload();
 				    } 
 
 				    if (json['error']['warning']) {
@@ -106,15 +111,40 @@ $(document).ready(function() {
 		},
 		editable: true,
 		eventLimit: true, // allow "more" link when too many events
+		
 		eventDrop: function(event, delta, revertFunc) {
-			console.log(event);
 			// var that = this;
+
+			console.log('event');
+			console.log(event);
 			var customer_event_id = event.id;
+
+			if (!customer_event_id) {
+$('.attention, .success, .warning').remove();
+				$('.box').before('<div class="warning" style="display: none;">' + '<?php echo $text_please_refresh; ?>' + '</div>');
+			
+				$('.warning').fadeIn('slow');
+				revertFunc();
+				return; 
+			}
+
 			var date_start = event.start._d;
 			var date_end = event.end._d;
-			date_start = moment(date_start).format('YYYY-MM-DD HH:mm:ss');
-			date_end = moment(date_end).format('YYYY-MM-DD HH:mm:ss');
+			date_start = moment(date_start).add(-8, 'hour').format('YYYY-MM-DD HH:mm:ss')
+			date_end = moment(date_end).add(-8, 'hour').format('YYYY-MM-DD HH:mm:ss')
 			
+			var a = $.fullCalendar.moment.utc(date_start);
+			var b = $.fullCalendar.moment.utc(date_start);
+			console.log(a);
+			console.log(b);
+
+			// var m = $.fullCalendar.moment.parseZone(event.start._d);
+			// console.log(m);
+			// m.stripZone();
+			// m.format();
+			// console.log(m);
+			// console.log(event);
+			console.log([date_start, date_end]);
 
 			if (!confirm("Are you sure about this change?")) {
 	            revertFunc();
@@ -129,6 +159,8 @@ $(document).ready(function() {
 				    //called when complete
 				  },
 				  success: function(json, textStatus, xhr) {
+
+				  	console.log(json);
 				    //called when successful
 				    $('.attention, .success, .warning').remove();
 
@@ -156,6 +188,66 @@ $(document).ready(function() {
 
 
 		},
+
+		eventResize: function(event, delta, revertFunc) {
+
+
+			console.log(event);
+			var customer_event_id = event.id;
+			var date_start = event.start._d;
+			var date_end = event.end._d;
+
+
+if (!customer_event_id) {
+			$('.attention, .success, .warning').remove();
+				$('.box').before('<div class="warning" style="display: none;">' + '<?php echo $text_please_refresh; ?>' + '</div>');
+			
+				$('.warning').fadeIn('slow');
+revertFunc();
+				return; 
+			}
+
+
+			// temp fix
+			date_start = moment(date_start).add(-8, 'hour').format('YYYY-MM-DD HH:mm:ss')
+			date_end = moment(date_end).add(-8, 'hour').format('YYYY-MM-DD HH:mm:ss')
+			console.log([date_start, date_end]);
+
+			if (!confirm("Are you sure about this change?")) {
+	            revertFunc();
+	        }
+
+			$.ajax({
+				  url: 'index.php?route=sale/customer/editevent&token=<?php echo $token; ?>',
+				  type: 'POST',
+				  dataType: 'json',
+				  data: 'customer_event_id=' + customer_event_id + '&date_start=' + date_start + '&date_end=' + date_end,
+				  success: function(json, textStatus, xhr) {
+				    //called when successful
+				    $('.attention, .success, .warning').remove();
+
+				    console.log(json);
+				    if (json['success']) {
+				    	$('.box').before('<div class="success" style="display: none;">' + json['success'] + '</div>');
+			
+						$('.success').fadeIn('slow');
+				    } 
+
+				    if (json['error']['warning']) {
+
+				    	$('.box').before('<div class="warning" style="display: none;">' + json['error']['warning'] + '</div>');
+			
+						$('.warning').fadeIn('slow');
+				    }
+				  },
+				  error: function(xhr, textStatus, errorThrown) {
+				    //called when there is an error
+				  }
+				});
+
+
+		},
+
 		eventClick: function(calEvent, jsEvent, view) {
 			
 

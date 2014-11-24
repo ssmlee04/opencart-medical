@@ -16,6 +16,7 @@ $_['text_all_status']                = '回覆狀態';
 $_['text_not_processed']                = '未回覆';
 $_['text_processed_not_finished']                = '回覆但未完成';
 $_['text_processed_finished']                = '回覆完成';
+$_['text_please_refresh']                = '修改新增資料請刷新頁面';
 // $_['text_total_customer_approval'] = '待審核的客戶數';
 // $_['text_total_review_approval']    = '待批准的評論(Reviews Awaiting Approval)';
 // $_['text_total_affiliate']          = '推薦客戶數(No. of Affiliates)';

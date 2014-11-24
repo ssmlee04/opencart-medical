@@ -1,12 +1,6 @@
 Array
 (
-    [status] => 2
-    [product_id] => 79
-    [customer_id] => 9
-    [comment] => 
-    [doctor_id] => null
-    [consultant_id] => null
-    [outsource_id] => null
-    [beauty_id] => 
-    [unitspend] => 0.2
+    [customer_event_id] => 19
+    [date_start] => 2014-10-28 00:00:00
+    [date_end] => 2014-10-29 00:00:00
 )

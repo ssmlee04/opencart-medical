@@ -166,3 +166,6 @@
 2014-11-24 1:39:37 - PHP Notice:  Array to string conversion in /var/www/html/opencart2/vqmod/vqcache/vq2-view_template_sale_customer_form.tpl on line 560
 2014-11-24 1:40:07 - PHP Notice:  Array to string conversion in /var/www/html/opencart2/vqmod/vqcache/vq2-view_template_sale_customer_form.tpl on line 560
 2014-11-24 1:40:25 - PHP Notice:  Array to string conversion in /var/www/html/opencart2/vqmod/vqcache/vq2-view_template_sale_customer_form.tpl on line 560
+2014-11-24 2:43:52 - PHP Notice:  Undefined variable: filter_customer_id in /var/www/html/opencart2/view/template/sale/treatment.tpl on line 113
+2014-11-24 8:29:57 - PHP Notice:  Undefined index: token in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_header.php on line 143
+2014-11-24 8:59:46 - PHP Notice:  Undefined index: token in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_header.php on line 143

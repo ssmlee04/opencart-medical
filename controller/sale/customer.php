@@ -2627,6 +2627,7 @@ class ControllerSaleCustomer extends Controller {
 
 				$this->load->model('sale/customer');	
 		
+		// $this->load->out($this->request->post, false);
 				if ($this->model_sale_customer->editevent($this->request->post['customer_event_id'], $this->request->post)) {
 					$json['success'] = $this->language->get('text_edit_event_success');
 				} else {
@@ -2640,7 +2641,7 @@ class ControllerSaleCustomer extends Controller {
 			$json['error'] = $this->language->get('error_permission');
 		}
 
-		$this->load->out($json);
+		// $this->load->out($json, false);
 
 		$this->response->setOutput(json_encode($json));
 	}

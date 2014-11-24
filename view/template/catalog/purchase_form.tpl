@@ -184,7 +184,8 @@
               <tr>
                 <td class="left"><?php echo $entry_product; ?></td>
                 <td class="left"><input type="subtractproduct" name="product" alt="1,2,3" value="" />
-                  <input type="hidden" name="product_id" value="" /></td>
+                  <input type="hidden" name="product_id" value="" /><select type="product" name="product_add" alt='1,2,3'></select>
+                  </td>
               </tr>
               <!-- <tr id="option"></tr> -->
               <tr>
@@ -349,6 +350,11 @@ function setToday() {
 var showhide = function(){
   $('.group12').toggle(); $('.group11').toggle();
 };
+
+$('select[name=\'product_add\']').on('change', function(){
+  var str = $(this).find(":selected").text();
+  $('input[name=product]').val(str);
+});
 
 
 //--></script> 
