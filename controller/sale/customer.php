@@ -316,6 +316,7 @@ class ControllerSaleCustomer extends Controller {
 
 		$this->data['if_search'] = false;
 		$this->data['if_display'] = true;
+		$this->data['is_all'] = true;
 
 		unset($this->request->get['filter_name']);
 		unset($this->request->get['filter_ssn']);
@@ -401,7 +402,8 @@ class ControllerSaleCustomer extends Controller {
 			$filter_date_added = $this->request->get['filter_date_added'];
 		} else {
 			$filter_date_added = null;
-		}		
+		}	
+
 
 		if (isset($this->request->get['sort'])) {
 			$sort = $this->request->get['sort'];
@@ -580,10 +582,13 @@ class ControllerSaleCustomer extends Controller {
 				}
 			}
 
+			$dobs = explode('-', $result['dob']);
+			$dob = ((int)$dobs[0] - 1911) . '-' . $dobs[1] . '-' . $dobs[2];
+
 			$this->data['customers'][] = array(
 				'customer_id'    => $result['customer_id'],
 				'fullname'           => $fullname,
-				'dob'          => $result['dob'],
+				'dob'          => $dob,
 				'mobile'          => $result['mobile'],
 				'email'          => $result['email'],
 				'customer_group' => $result['customer_group'],
@@ -770,6 +775,9 @@ class ControllerSaleCustomer extends Controller {
 		$pagination->text = $this->language->get('text_pagination');
 		$pagination->url = $this->url->link('sale/customer', 'token=' . $this->session->data['token'] . $url . '&page={page}', 'SSL');
 
+
+		if ($this->data['is_all']) $pagination->url = $this->url->link('sale/customer/all', 'token=' . $this->session->data['token'] . $url . '&page={page}', 'SSL');
+
 		$this->data['pagination'] = $pagination->render();
 
 		$this->data['filter_name'] = $filter_name;
@@ -835,9 +843,11 @@ class ControllerSaleCustomer extends Controller {
 		$this->data['entry_last_beauty'] = $this->language->get('entry_last_beauty');
 		$this->data['entry_last_visit'] = $this->language->get('entry_last_visit');
 		$this->data['entry_borrowfrom'] = $this->language->get('entry_borrowfrom');
+		
 		// $this->data['entry_firstname'] = $this->language->get('entry_firstname');
 		// $this->data['entry_lastname'] = $this->language->get('entry_lastname');
 		$this->data['entry_lastname'] = $this->language->get('entry_name');
+		$this->data['entry_name'] = $this->language->get('entry_name');
 		$this->data['entry_email'] = $this->language->get('entry_email');
 		$this->data['entry_telephone'] = $this->language->get('entry_telephone');
 		$this->data['entry_mobile'] = $this->language->get('entry_mobile');
@@ -905,8 +915,20 @@ class ControllerSaleCustomer extends Controller {
 		$this->data['tab_ip'] = $this->language->get('tab_ip');
 		$this->data['tab_lendto'] = $this->language->get('tab_lendto');
 		$this->data['tab_payment'] = $this->language->get('tab_payment');
+		$this->data['tab_product'] = $this->language->get('tab_product');
+
+		$this->data['column_product'] = $this->language->get('column_product');
+		$this->data['column_unit_used'] = $this->language->get('column_unit_used');
+		$this->data['entry_beauty'] = $this->language->get('entry_beauty');
+		$this->data['entry_consultant'] = $this->language->get('entry_consultant');
+		$this->data['entry_outsource'] = $this->language->get('entry_outsource');
+		$this->data['entry_doctor'] = $this->language->get('entry_doctor');
+		$this->data['text_transaction_unoccured'] = $this->language->get('text_transaction_unoccured');
+		$this->data['text_transaction_appointed'] = $this->language->get('text_transaction_appointed');
+		$this->data['text_transaction_finished'] = $this->language->get('text_transaction_finished');
 
 		$this->data['token'] = $this->session->data['token'];
+		
 
 		// if (isset($this->request->get['filter_customer_id'])) {
 		// 	$this->data['customer_id'] = $this->request->get['filter_customer_id'];
@@ -1325,6 +1347,8 @@ class ControllerSaleCustomer extends Controller {
 
 		$this->data['treatmentstatuses'] = $query21->rows;
 
+		$this->load->model('catalog/product');
+		$this->data['totalproducts'] = $this->model_catalog_product->getProducts();
 
 
 
@@ -1501,17 +1525,17 @@ class ControllerSaleCustomer extends Controller {
 		// 	$this->error['email'] = $this->language->get('error_email');
 		// }
 
-		$customer_info = $this->model_sale_customer->getCustomerByEmail($this->request->post['email']);
+		// $customer_info = $this->model_sale_customer->getCustomerByEmail($this->request->post['email']);
 
-		if (!isset($this->request->get['filter_customer_id'])) {
-			if ($customer_info) {
-				$this->error['warning'] = $this->language->get('error_exists');
-			}
-		} else {
-			if ($customer_info && ($this->request->get['filter_customer_id'] != $customer_info['customer_id'])) {
-				$this->error['warning'] = $this->language->get('error_exists');
-			}
-		}
+		// if (!isset($this->request->get['filter_customer_id'])) {
+		// 	if ($customer_info) {
+		// 		$this->error['warning'] = $this->language->get('error_exists');
+		// 	}
+		// } else {
+		// 	if ($customer_info && ($this->request->get['filter_customer_id'] != $customer_info['customer_id'])) {
+		// 		$this->error['warning'] = $this->language->get('error_exists');
+		// 	}
+		// }
 
 		// '2014-09-27 22:27'
 		if (empty($this->request->post['store'])) {
@@ -1984,6 +2008,7 @@ class ControllerSaleCustomer extends Controller {
 		$this->data['column_user'] = $this->language->get('column_user');
 		$this->data['column_customer'] = $this->language->get('column_customer');
 		$this->data['column_treatment'] = $this->language->get('column_treatment');
+		$this->data['column_reply'] = $this->language->get('column_reply');
 
 		if (isset($this->request->get['page'])) {
 			$page = $this->request->get['page'];
@@ -2008,6 +2033,7 @@ class ControllerSaleCustomer extends Controller {
 				'if_treatment'     => $result['if_treatment'],
 				'title'     => $result['title'],
 				'comment'     => $result['comment'],
+				'reply'     => $result['reply'],
 				// 'ufirstname'     => $result['ufirstname'],
 				// 'ulastname'     => $result['ulastname'],
 				'ufullname'     => $result['ufullname'],
@@ -2063,6 +2089,9 @@ class ControllerSaleCustomer extends Controller {
 
 		$user_id = $this->user->getId();
 
+		$this->data['column_title'] = $this->language->get('column_title');
+		$this->data['column_mobile'] = $this->language->get('column_mobile');
+		$this->data['column_telephone'] = $this->language->get('column_telephone');
 		$this->data['column_customer'] = $this->language->get('column_customer');
 		$this->data['column_date_added'] = $this->language->get('column_date_added');
 		$this->data['column_user'] = $this->language->get('column_user');
@@ -2435,7 +2464,8 @@ class ControllerSaleCustomer extends Controller {
 		$data = array();
 
 		$this->language->load('sale/customer');
-// $this->load->out($this->request->post);
+
+// $this->load->out( $this->request->post, false);
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->user->hasPermission('modify', 'sale/customer')) { 
 
 			if (isset($this->request->post['product_id']) && isset($this->request->post['status'])) { 		
@@ -2451,6 +2481,8 @@ class ControllerSaleCustomer extends Controller {
 				if (isset( $this->request->post['outsource_id'])) $data['outsource_id'] = $this->request->post['outsource_id'];
 				if (isset( $this->request->post['beauty_id'])) $data['beauty_id'] = $this->request->post['beauty_id'];
 				if (isset( $this->request->post['unitspend'])) $data['unitspend'] = $this->request->post['unitspend'];
+
+// $json['success'] = 123; $this->response->setOutput(json_encode($json)); return;
 
 				if ($this->model_sale_customer->editgrouptransaction($data)) {
 					$json['success'] = $this->language->get('text_edit_transaction_success');
@@ -2505,15 +2537,18 @@ class ControllerSaleCustomer extends Controller {
 					$data['beauty_id'] = 0;
 				}
 
+				$if_remind = true;
 				foreach ($query->rows as $result) {
 					
 					$customer_transaction_id = $result['customer_transaction_id'];
 
-					if ($this->model_sale_customer->edittransaction($customer_transaction_id, $data)) {
+					if ($this->model_sale_customer->edittransaction($customer_transaction_id, $data, $if_remind)) {
 						$json['success'] = $this->language->get('text_edit_transaction_success');
 					} else {
 						$json['error'] = $this->language->get('text_edit_transaction_error');
 					}
+
+					$if_remind = false;
 				}
 				// if ($this->model_sale_customer->edittransaction($this->request->post['customer_transaction_id'], $data)) {
 				// 	$json['success'] = $this->language->get('text_edit_transaction_success');
@@ -2819,6 +2854,10 @@ class ControllerSaleCustomer extends Controller {
 		// $reminder_date = (isset($this->request->post['reminder_date']) ? $this->request->post['reminder_date'] : null); 
 		$filter_user_id = (isset($this->request->get['filter_user_id']) ? $this->request->get['filter_user_id'] : null); 
 		$filter_customer_id = (isset($this->request->get['filter_customer_id']) ? $this->request->get['filter_customer_id'] : null);  
+		$filter_product_type_id = (isset($this->request->get['filter_product_type_id']) ? $this->request->get['filter_product_type_id'] : null);  
+
+
+// $this->load->out($this->request->get, false);
 
 		$unitspend = (isset($this->request->post['unitspend']) ? $this->request->post['unitspend'] : null); 
 		$product_id = (isset($this->request->post['product_id']) ? $this->request->post['product_id'] : null); 
@@ -2907,8 +2946,9 @@ class ControllerSaleCustomer extends Controller {
 		if (isset($this->request->get['filter_customer_id'])) $data['filter_customer_id'] = $this->request->get['filter_customer_id'];
 		if (isset($this->request->get['filter_customer_name'])) $data['filter_customer_name'] = $this->request->get['filter_customer_name'];
 		if (isset($this->request->get['filter_product_name'])) $data['filter_product_name'] = $this->request->get['filter_product_name'];
+		if (isset($this->request->get['filter_product_type_id'])) $data['filter_product_type_id'] = $this->request->get['filter_product_type_id'];
 		if (isset($this->request->get['filter_ssn'])) $data['filter_ssn'] = $this->request->get['filter_ssn'];
-		$data['filter_product_type_id'] = 2;
+		// $data['filter_product_type_id'] = 2;
 		$data['filter_group_usage'] = 1;
 
 		$data['filter_ismain'] = 0;
@@ -2920,7 +2960,8 @@ class ControllerSaleCustomer extends Controller {
 		if (isset($this->request->get['filter_customer_name'])) $data['filter_customer_name'] = $this->request->get['filter_customer_name'];
 		// if (isset($this->request->get['filter_product_name'])) $data['filter_product_name'] = $this->request->get['filter_product_name'];
 		if (isset($this->request->get['filter_ssn'])) $data['filter_ssn'] = $this->request->get['filter_ssn'];
-		$data['filter_product_type_id'] = 2;
+		if (isset($this->request->get['filter_product_type_id'])) $data['filter_product_type_id'] = $this->request->get['filter_product_type_id'];
+		// $data['filter_product_type_id'] = 2;
 		// $data['filter_group_usage'] = 1;
 		$totalresults = $this->model_sale_customer->getTransactions($data, 0, 999999);
 
@@ -3017,12 +3058,14 @@ class ControllerSaleCustomer extends Controller {
 		if (isset($this->request->get['filter_customer_name'])) $data['filter_customer_name'] = $this->request->get['filter_customer_name'];
 		if (isset($this->request->get['filter_product_name'])) $data['filter_product_name'] = $this->request->get['filter_product_name'];
 		if (isset($this->request->get['filter_ssn'])) $data['filter_ssn'] = $this->request->get['filter_ssn'];
-		$data['filter_product_type_id'] = 2;
+		if (isset($this->request->get['filter_product_type_id'])) $data['filter_product_type_id'] = $this->request->get['filter_product_type_id'];
+		// $data['filter_product_type_id'] = 2;
 		$data['filter_ismain'] = 0;
 		$data['filter_group_usage'] = 1;
 		$transaction_total = $this->model_sale_customer->getTotalTransactions($data);
 
 		$url = '';
+		if (isset($this->request->get['filter_product_type_id'])) $url .= '&filter_product_type_id=' . $this->request->get['filter_product_type_id'];
 		if (isset($this->request->get['filter_treatment_status'])) $url .= '&filter_treatment_status=' . $this->request->get['filter_treatment_status'];
 		if (isset($this->request->get['filter_customer_id'])) $url .= '&filter_customer_id=' . $this->request->get['filter_customer_id'];
 		if (isset($this->request->get['filter_customer_name'])) $url .= '&filter_customer_name=' . $this->request->get['filter_customer_name'];
@@ -3044,6 +3087,7 @@ class ControllerSaleCustomer extends Controller {
 
 		$pagination->url = $this->url->link('sale/customer/transaction', 'token=' . $this->session->data['token'] . '&page={page}' . $url, 'SSL');
 
+		$this->data['filter_product_type_id'] = $filter_product_type_id;
 		$this->data['filter_customer_id'] = $filter_customer_id;
 		$this->data['pagination'] = $pagination->render();
 		$this->data['token'] = $this->session->data['token'];

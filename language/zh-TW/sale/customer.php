@@ -56,6 +56,9 @@ $_['column_beauty']         = '上次美容師';
 $_['column_outsource']         = '上次外務';
 $_['column_date_last_visit']         = '上次到訪';
 $_['column_unit_used']         = '使用數量';
+$_['column_reply']         = '回覆情形';
+$_['column_treatment']         = '療程';
+$_['column_mobile']         = '手機';
 
 
 
@@ -79,6 +82,7 @@ $_['text_record_image_success']           = '成功儲存圖片';
 $_['text_delete_image_success']           = '成功刪除圖片';
 $_['text_record_image_error']           = '儲存圖片失敗';
 $_['text_delete_image_error']           = '刪除圖片失敗';
+$_['text_remind_again']           = ' (再次提醒)';
 $_['text_treatment']           = '療程';
 
 // Column
@@ -99,8 +103,9 @@ $_['column_ip']             = 'IP位址';
 $_['column_total']          = '客戶數量';
 $_['column_action']           = '動作';
 $_['column_ssn']           = '身份證';
-$_['column_comment']           = '內容';
+$_['column_comment']           = '備註';
 $_['column_reminder_date']           = '提醒日期';
+$_['column_title']           = '項目';
 
 
 // Entry
@@ -144,6 +149,7 @@ $_['entry_doctor']         = '醫師';
 $_['entry_consultant']         = '諮詢師';
 $_['entry_remove']         = '移除';
 $_['entry_date_processed']         = '療程日期';
+$_['entry_name']         = '姓名';
 
 
 $_['entry_ssn']         = '身份證字號';

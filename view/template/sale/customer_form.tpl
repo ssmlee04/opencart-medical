@@ -46,6 +46,7 @@
         <?php if ($filter_customer_id) { ?>
         <a href="#tab-history" id='tab-history-link'><?php echo $tab_history; ?></a>
         <a href="#tab-transaction" id='tab-transaction-link'><?php echo $tab_transaction; ?></a>
+        <a href="#tab-transaction2" id='tab-transaction2-link'><?php echo $tab_product; ?></a>
         <a href="#tab-lendto" id='tab-lendto-link'><?php echo $tab_lendto; ?></a>
         <a href="#tab-payment" id='tab-payment-link'><?php echo $tab_payment; ?></a>
         <a href="#tab-image" id='tab-image-link'><?php echo $tab_image; ?></a>
@@ -70,16 +71,8 @@
 
             
             <table class="form">
-              <!-- <tr>
-                <td><php echo $entry_firstname; ?></td>
-                <td><div class='group11' ><php echo $firstname; ?></div>
-                  <div class='group12' ><input type="text" name="firstname" value="<php echo $firstname; ?>" />
-                  </div><php if ($error_firstname) { ?>
-                  <span class="error"><php echo $error_firstname; ?></span>
-                  <php } ?></td>
-              </tr> -->
               <tr>
-                <td><span class="required">*</span> <?php echo $entry_lastname; ?></td>
+                <td><span class="required">*</span> <?php echo $entry_name; ?></td>
                 <td><div class='group11' ><?php echo $lastname; ?></div>
                   <div class='group12' ><input type="text" name="lastname" value="<?php echo $lastname; ?>" />
                   </div><?php if ($error_lastname) { ?>
@@ -165,7 +158,7 @@
                   <php  } ?></td>
               </tr> -->
               <tr>
-                <td><?php echo $entry_store; ?></td>
+                <td><span class="required">*</span><?php echo $entry_store; ?></td>
                 <td>
                   <div class='group11' ><?php foreach ($stores as $st) { ?>
                     <?php if ($st['store_id'] == $store) { echo $st['name']; } ?>
@@ -289,6 +282,58 @@
           </table>
         </div>
 
+
+
+
+
+        <div id="tab-transaction2">
+          <table class="form">
+
+            <tr>
+              <td><?php echo $entry_product; ?></td>
+              <td><input type="product" name="treatment_product2" alt='1' value="" />
+                <input type="hidden" name="treatment_product2_name" value="" />
+                <input type="hidden" name="treatment_product2_id" value="" />
+
+                <select type="product" name="treatment_product2_add" alt='1'></select>
+              </td>
+              <td colspan="2" style="text-align: right;"><a id="button-filter2" class="button"><span><?php echo $button_filter; ?></span></a></td>
+            </tr>
+            <tr>
+              <td><?php echo $entry_treatment_status; ?></td>
+              <td><select name='filter_treatment_status2'>
+                <option></option>
+                <?php foreach ($treatmentstatuses as $treatmentstatus) { ?>
+                  <option value="<?php echo $treatmentstatus['treatment_status_id']; ?>"><?php echo $treatmentstatus['name']; ?></option>
+                <?php } ?>
+              <select></td>
+              <td colspan="2" style="text-align: right;"></td>
+            </tr>
+            <tr>
+              <td colspan="4" style="text-align: right;"></td>
+            </tr>
+          </table>
+
+          <table class="form" style="display:none">
+            <tr>
+              <td><?php echo $entry_product; ?></td>
+              <td><input type="text" name="product" value="" /><input type="hidden" name="product_id" value="" /></td>
+            </tr>
+            <tr>
+              <td><?php echo $entry_unit_used; ?></td>
+              <td><input type="text" name="unitspend" value="" /></td>
+            </tr>
+            <tr>
+              <td colspan="2" style="text-align: right;"><a id="button-transaction2" class="button"><span><?php echo $button_add_transaction; ?></span></a></td>
+            </tr>
+          </table>
+          <div id="transaction2"></div>
+        </div>
+
+
+
+
+
         <div id="tab-transaction">
           <input type='hidden' id='image1'/>
           <input type='hidden' id='image2'/>
@@ -309,6 +354,8 @@
                 <input type="hidden" name="treatment_product_name" value="" />
                 <input type="hidden" name="treatment_product_id" value="" />
 
+                <select type="product" name="treatment_product_add" alt='2'></select>
+                <!-- <a class='group101'>132123</a> -->
 
               </td>
               <td colspan="2" style="text-align: right;"><a id="button-filter" class="button"><span><?php echo $button_filter; ?></span></a></td>
@@ -508,8 +555,27 @@
 <script type="text/javascript" src="view/javascript/jquery/colorbox/jquery.colorbox-min.js"></script> 
 <script type="text/javascript"><!--
 
+var totalproducts = <?php echo json_encode($totalproducts); ?>;// '<?php echo $totalproducts; ?>';
+// console.log(totalproducts);
+
+  var changename = function(str){
+    // console.log(str);
+    $('input[type=product]').val(str);
+  }
+
 $(document).ready(function(){
   $(".group1").colorbox({rel:'group1'});
+
+  var html = '<table>'; 
+  // console.log(totalproducts);
+  for (var i=0; i<totalproducts.length; i++) {
+
+    // console.log(totalproducts[i].name);
+    html += "<tr><td onclick='changename(" + totalproducts[i].name.toString() + ")'>" + totalproducts[i].name.toString()  +"</td></tr>";
+  }
+  html += '</table>';
+
+  $(".group101").colorbox({html: html});
 });
 
 $('select[name=\'customer_group_id\']').live('change', function() {
@@ -645,7 +711,13 @@ $('#button-history').bind('click', function() {
 //--></script> 
 <script type="text/javascript"><!--
 $('#transaction .pagination a').live('click', function() {
-	$('#transaction').load(this.href);
+  $('#transaction').load(this.href);
+  
+  return false;
+}); 
+
+$('#transaction2 .pagination a').live('click', function() {
+	$('#transaction2').load(this.href);
 	
 	return false;
 });			
@@ -663,6 +735,32 @@ $('#tab-transaction-link').on('click', function(){
   $('.group12').hide();
   $('.group11').show();
   $('#button-transaction').click();
+
+
+  // $('input[name=treatment_product]').remove();
+  // $('input[name=treatment_product_name]').remove();
+  // $('input[name=treatment_product_id]').remove();  
+  // $('input[name=treatment_product2]').remove();
+  // $('input[name=treatment_product2_name]').remove();
+  // $('input[name=treatment_product2_id]').remove();
+
+  $('#transactionactionpanel').remove();
+});
+
+$('#tab-transaction2-link').on('click', function(){
+  $('#button_save').hide();
+  $('.group12').hide();
+  $('.group11').show();
+  $('#button-transaction2').click();
+
+  //   $('input[name=treatment_product]').remove();
+  // $('input[name=treatment_product_name]').remove();
+  // $('input[name=treatment_product_id]').remove();  
+  // $('input[name=treatment_product2]').remove();
+  // $('input[name=treatment_product2_name]').remove();
+  // $('input[name=treatment_product2_id]').remove();
+
+  $('#transactionactionpanel').remove();
 });
 
 $('#tab-image-link').on('click', function(){
@@ -766,10 +864,39 @@ $('#button-image').bind('click', function() {
 
 
 
+$('#button-transaction2').bind('click', function() {
+
+console.log(123);
+
+  $.ajax({
+    url: 'index.php?route=sale/customer/transaction&token=<?php echo $token; ?>&filter_product_type_id=1&filter_customer_id=<?php echo $filter_customer_id; ?>&show_group=1',
+    type: 'post',
+    dataType: 'html',
+    // data: 'product_id=' + encodeURIComponent($('#tab-transaction input[name=\'product_id\']').val()) + '&unitspend=' + encodeURIComponent($('#tab-transaction input[name=\'unitspend\']').val()),
+    beforeSend: function() {
+      $('.success, .warning, .attention').remove();
+      $('#button-transaction2').attr('disabled', true);
+      $('#transaction2').before('<div class="attention"><img src="view/image/loading.gif" alt="" /> <?php echo $text_wait; ?></div>');
+    },
+    complete: function() {
+      $('#button-transaction2').attr('disabled', false);
+      $('.attention').remove();
+    },
+    success: function(html) {
+
+      $('#transaction2').html(html);
+
+      $('#tab-transaction2 input[name=\'product_id\']').val('');
+      $('#tab-transaction2 input[name=\'product\']').val('');
+      $('#tab-transaction2 input[name=\'unitspend\']').val('');
+    }
+  });
+});
+
 $('#button-transaction').bind('click', function() {
 
 	$.ajax({
-		url: 'index.php?route=sale/customer/transaction&token=<?php echo $token; ?>&filter_customer_id=<?php echo $filter_customer_id; ?>&show_group=1',
+		url: 'index.php?route=sale/customer/transaction&token=<?php echo $token; ?>&filter_product_type_id=2&filter_customer_id=<?php echo $filter_customer_id; ?>&show_group=1',
 		type: 'post',
 		dataType: 'html',
 		// data: 'product_id=' + encodeURIComponent($('#tab-transaction input[name=\'product_id\']').val()) + '&unitspend=' + encodeURIComponent($('#tab-transaction input[name=\'unitspend\']').val()),
@@ -984,6 +1111,8 @@ var showhide2 = function(){
   $('.group1').toggle(); $('.group2').toggle();
 };
 
+
+
 // var showhide13 = function(){
 //   $('.group13').toggle(); $('.group14').toggle();
 // };
@@ -994,16 +1123,28 @@ var showhide2 = function(){
 //   $('.group1').toggle(); $('.group2').hide();
 // };
 
+
+
+$('select[name=\'treatment_product_add\']').on('change', function(){
+  var str = $(this).find(":selected").text();
+  $('input[name=treatment_product]').val(str);
+});
+
+$('select[name=\'treatment_product2_add\']').on('change', function(){
+  var str = $(this).find(":selected").text();
+  $('input[name=treatment_product2]').val(str);
+});
+
 $('#button-filter').bind('click', function() {
 
   // var customer_name_sel = $('input[name=\'customer_name\']').val();
   // var customer_name = $('input[name=\'customer\']').val();
-  var product_name_sel = $('input[name=\'treatment_product_name\']').val();
-  var product_name = $('input[name=\'treatment_product\']').val();
+  // var product_name_sel = $('input[name=\'treatment_product_name\']').val();
+  var product_name = $('input[name=\'treatment_product\']').val(); 
   var filter_treatment_status = $('select[name=\'filter_treatment_status\']').val();
   
   $.ajax({
-    url: 'index.php?route=sale/customer/transaction&token=<?php echo $token; ?>&filter_customer_id=<?php echo $filter_customer_id; ?>&show_group=1&filter_product_name=' + product_name.toString() + '&filter_ismain=0&filter_treatment_status=' + filter_treatment_status,
+    url: 'index.php?route=sale/customer/transaction&token=<?php echo $token; ?>&filter_customer_id=<?php echo $filter_customer_id; ?>&show_group=1&filter_product_name=' + product_name.toString() + '&filter_ismain=0&filter_treatment_status=' + filter_treatment_status + '&filter_ismain=0&filter_product_type_id=2',
     type: 'post',
     dataType: 'html',
     // data: 'filter_product_name=' + product_name.toString() + '&filter_ismain=0', 
@@ -1017,17 +1158,44 @@ $('#button-filter').bind('click', function() {
       $('.attention').remove();
     },
     success: function(html) {
-
       $('#transaction').html(html);
-
-      // $('#tab-transaction input[name=\'product_id\']').val('');
-      // $('#tab-transaction input[name=\'product\']').val('');
-      // $('#tab-transaction input[name=\'unitspend\']').val('');
-
     }
   });
-
 });
+
+$('#button-filter2').bind('click', function() {
+
+  // var customer_name_sel = $('input[name=\'customer_name\']').val();
+  // var customer_name = $('input[name=\'customer\']').val();
+  var product_name_sel = $('input[name=\'treatment_product2_name\']').val();
+  var product_name = $('input[name=\'treatment_product2\']').val() || $('input[name=\'treatment_product2_add\']').val();
+  var filter_treatment_status = $('select[name=\'filter_treatment_status2\']').val();
+  
+
+  // console.log([product_name_sel, product_name, filter_treatment_status]);
+  $.ajax({
+    url: 'index.php?route=sale/customer/transaction&token=<?php echo $token; ?>&filter_customer_id=<?php echo $filter_customer_id; ?>&show_group=1&filter_product_name=' + product_name.toString() + '&filter_ismain=0&filter_treatment_status=' + filter_treatment_status + '&filter_ismain=0&filter_product_type_id=1',
+    type: 'post',
+    dataType: 'html',
+    // data: 'filter_product_name=' + product_name.toString() + '&filter_ismain=0', 
+    beforeSend: function() {
+      $('.success, .warning').remove();
+      $('#button-filter2').attr('disabled', true);
+      $('#transaction2').before('<div class="attention"><img src="view/image/loading.gif" alt="" /> <?php echo $text_wait; ?></div>');
+    },
+    complete: function() {
+      $('#button-filter2').attr('disabled', false);
+      $('.attention').remove();
+    },
+    success: function(html) {
+
+      // console.log(html);
+      $('#transaction2').html(html);
+    }
+  });
+});
+
+
 
 $('input[type="product"]').on('blur', function(){
   $('input[name="borrowfrom_product_unit"]').change();  
@@ -1040,6 +1208,11 @@ $('input[name="borrowfrom_product_unit"]').on('change', function(){
     $('#borrowfrom_minunit2').html($(this).val());
   }
 })
+
+// $('input[name="treatment_product_add"]').live('change', function(){
+//   console.log(123);
+//   // $('input[name="treatment_product"]').val(123);
+// });
 
 $('input[name="lendto_product_unit"]').on('change', function(){
   if ($('input[name="lendto_product_unitvalue"]').val() + $(this).val())

@@ -36,6 +36,14 @@ class ModelSaleOrder extends Model {
 		return true;
 	}
 
+	public function getOrderTotal($order_id) {
+
+		$query = $this->db->query("SELECT * FROM oc_order WHERE order_id = '" . (int)$order_id . "'");
+
+		return $query->row['total'];
+	}
+	
+
 	// '2014-10-08 01:38'
 	public function canEditOrder($order_id, $cartproducts) {
 
@@ -347,11 +355,10 @@ class ModelSaleOrder extends Model {
 		
 		// check if can restock or not..... 
 		$transaction_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "customer_transaction WHERE order_id = '" . (int)$order_id . "'");
+		
 		foreach ($transaction_query->rows as $transaction) {
-			if ($transaction['status'] > 0 & $transaction['product_type_id'] == 2) return false;
+			if ($transaction['status'] > 0 && $transaction['product_type_id'] == 2) return false;
 		}
-
-	
 		
 		// Restock products before subtracting the stock later on ****
 		$order_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "order` WHERE order_status_id > '0' AND order_id = '" . (int)$order_id . "'");

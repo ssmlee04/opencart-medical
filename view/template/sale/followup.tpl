@@ -91,6 +91,7 @@
 									<td class="left"><?php echo $column_mobile; ?></td>
 
 									<td class="left"><?php echo $column_date_added; ?></td>
+									<td class="left"><?php echo $column_treatment; ?></td>
 									<td class="left"><?php echo $column_date_modified; ?></td>
 									<td class="left"><?php echo $column_user; ?></td>
 									<td class="right"><?php echo $column_message; ?></td>
@@ -103,6 +104,7 @@
 									<td class="left"><?php echo $message['telephone']; ?></td>
 									<td class="left"><?php echo $message['mobile']; ?></td>
 									<td class="left"><?php echo $message['reminder_date']; ?></td>
+									<td class="left"><?php echo $message['title']; ?></td>
 									<td class="left"><?php echo $message['date_modified']; ?></td>
 									<td class="left"><?php echo $message['ufullname']; ?></td>
 									<td><?php echo $message['status']; ?></td>
@@ -118,13 +120,13 @@
 									</td> -->
 									</tr>
 									<tr class='r<?php echo $message['customer_history_id']; ?>'>
-										<td class="left" colspan='7'><?php echo $message['comment']; ?></td>
+										<td class="left" colspan='8'><?php echo $message['comment']; ?></td>
 									</tr>
 									<tr class='r<?php echo $message['customer_history_id']; ?>'><td colspan='5' style='background-color:white'></td></tr>
 									<?php } ?>
 									<?php } else { ?>
 									<tr>
-										<td class="center" colspan="7"><?php echo $text_no_results; ?></td>
+										<td class="center" colspan='8'><?php echo $text_no_results; ?></td>
 									</tr>
 
 								<?php } ?>

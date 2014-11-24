@@ -79,8 +79,8 @@
           <?php foreach ($customer_images as $customer_image) { ?>
           <tbody id="image-row<?php echo $image_row; ?>">
             <tr>
-              <td class="left"><div class="image"><img src="<?php echo $customer_image['thumb']; ?>" alt="" id="thumb<?php echo $image_row; ?>" />
-                  </div></td>
+              <td class="left"><a class='group1' href='<?php echo $customer_image['bigimage']; ?>'> <div class="image"><img src="<?php echo $customer_image['thumb']; ?>" alt="" id="thumb<?php echo $image_row; ?>" />
+                  </div></a></td>
               <td class="left">
                 <div style='color:black'><?php echo $customer_image['comment']; ?></div></td>
               <td class="left"><div style='color:black'><?php echo $customer_image['customer_name']; ?></div></td>
@@ -224,8 +224,9 @@ $('input').on('keypress', function(e){
   if (e.keyCode == 13) {
     filter();
   }
-  $(this).val('');
+  // $(this).val('');
 });
+
 $("input[name='filter_name']").on('keydown', function(e){
   if (e.keyCode == 8) {
     $("input[name='filter_customer_id']").val('');
@@ -234,3 +235,13 @@ $("input[name='filter_name']").on('keydown', function(e){
 //--></script> 
 
 <?php echo $footer; ?>
+
+<link rel="stylesheet" href="view/javascript/jquery/colorbox/colorbox.css" />
+<script type="text/javascript" src="view/javascript/jquery/colorbox/jquery.colorbox-min.js"></script> 
+<script type="text/javascript">  
+
+$(".group1").on('mouseover', function(){
+   $(".group1").colorbox({rel:'group1'});
+});
+
+</script>

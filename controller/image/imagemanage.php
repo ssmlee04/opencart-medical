@@ -118,6 +118,9 @@ class ControllerImageImageManage extends Controller {
 
 	protected function getList() {
 
+
+		// $this->load->test($this->request->get);
+
 		if (isset($this->request->get['filter_customer'])) {
 			$filter_customer = $this->request->get['filter_customer'];
 		} else {
@@ -252,9 +255,11 @@ class ControllerImageImageManage extends Controller {
 
 		$this->data['customers'] = array();
 
+
 		$data = array(
 			// 'filter_customer'              => $filter_customer, 
-			'customer_id'               => $filter_customer_id, 
+			'filter_customer_id'               => $filter_customer_id, 
+			'filter_customer'               => $filter_customer, 
 			'product_id'             => $filter_treatment, 
 			'filter_date_added_end' => $filter_date_added_end, 
 			'filter_date_added_start'            => $filter_date_added_start, 
@@ -267,10 +272,10 @@ class ControllerImageImageManage extends Controller {
 			'start'                    => ($page - 1) * 10,
 			'limit'                    => 10
 		);
-
 		$customer_images = $this->model_sale_customer->getCustomerImages($data);
 		$total_customer_images = $this->model_sale_customer->getTotalCustomerImages($data);
 
+// $this->load->test($customer_images);
 		$this->data['customer_images'] = array();
 		$this->load->model('tool/image');
 		$this->load->model('catalog/product');
@@ -299,6 +304,7 @@ class ControllerImageImageManage extends Controller {
 				'customer_transaction_id'      => $customer_image['customer_transaction_id'],
 				'date_added'      =>  trim(explode(' ' ,$customer_image['date_added'])[0]),
 				'thumb'      => $this->model_tool_image->resize($image, 100, 100),
+				'bigimage'      => $this->model_tool_image->resize($image, 800, 800),
 				'sort_order' => $customer_image['sort_order']
 			);
 		}

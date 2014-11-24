@@ -6,8 +6,12 @@
 		<thead class='r<?php echo $message['customer_history_id']; ?>'>
 			<tr>
 				<td class="left"><?php echo $column_customer; ?></td>
+				<td class="left"><?php echo $column_telephone; ?></td>
+				<td class="left"><?php echo $column_mobile; ?></td>
 				<td class="left"><?php echo $column_date_added; ?></td>
+				<td class="right"><?php echo $column_title; ?></td>
 				<td class="right"><?php echo $column_user; ?></td>
+
 				<td class="right"><?php echo $column_message; ?></td>
 			</tr>
 		</thead>
@@ -15,7 +19,10 @@
 			<tr class='r<?php echo $message['customer_history_id']; ?>'>
 				<td class="left"><input type='hidden' value='<?php echo $message['customer_history_id']; ?>'/><?php echo $message['clastname'] . ' ' . $message['cfirstname']; ?></td>
 				
+				<td class="left"><?php echo $message['telephone']; ?></td>
+				<td class="left"><?php echo $message['mobile']; ?></td>
 				<td class="left"><?php echo $message['reminder_date']; ?></td>
+				<td class="left"><?php echo $message['title']; ?></td>
 				<td class="left"><?php echo $message['ufullname']; ?></td>
 
 
@@ -36,17 +43,17 @@
 
 				</tr>
 				<tr class='r<?php echo $message['customer_history_id']; ?>'>
-					<td class="left" colspan='4'><?php echo $message['comment']; ?></td>
+					<td class="left" colspan='7'><?php echo $message['comment']; ?></td>
 				</tr>
 
 				<tr class='r<?php echo $message['customer_history_id']; ?>'>
-					<td colspan='4' style='background-color:white'></td>
+					<td colspan='7' style='background-color:white'></td>
 				</tr>
 
 				<?php } ?>
 				<?php } else { ?>
 				<tr>
-					<td class="center" colspan='4'><?php echo $text_no_results; ?></td>
+					<td class="center" colspan='7'><?php echo $text_no_results; ?></td>
 				</tr>
 
 			<?php } ?>

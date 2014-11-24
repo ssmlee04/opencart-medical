@@ -267,27 +267,27 @@ class ModelSaleCustomer extends Model {
 			$sql .= " AND " . implode(" AND ", $implode);
 		}
 
-		$sort_data = array(
-			'name',
-			'c.email',
-			'customer_group',
-			'c.status',
-			'c.approved',
-			'c.ip',
-			'c.date_added'
-		);	
+		// $sort_data = array(
+		// 	'name',
+		// 	'c.email',
+		// 	'customer_group',
+		// 	'c.status',
+		// 	'c.approved',
+		// 	'c.ip',
+		// 	'c.date_added'
+		// );	
 
-		if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
-			$sql .= " ORDER BY " . $data['sort'];	
-		} else {
-			$sql .= " ORDER BY name";	
-		}
+		// if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
+		// 	$sql .= " ORDER BY " . $data['sort'];	
+		// } else {
+		// 	$sql .= " ORDER BY name";	
+		// }
 
-		if (isset($data['order']) && ($data['order'] == 'DESC')) {
-			$sql .= " DESC";
-		} else {
-			$sql .= " ASC";
-		}
+		// if (isset($data['order']) && ($data['order'] == 'DESC')) {
+		// 	$sql .= " DESC";
+		// } else {
+		// 	$sql .= " ASC";
+		// }
 
 		if (isset($data['start']) || isset($data['limit'])) {
 			if ($data['start'] < 0) {
@@ -300,6 +300,8 @@ class ModelSaleCustomer extends Model {
 
 			$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
 		}		
+
+// $this->load->test($sql);
 
 		$query = $this->db->query($sql);
 
@@ -658,6 +660,8 @@ class ModelSaleCustomer extends Model {
 		, c.firstname as cfirstname
 		, c.lastname as clastname
 		, c.fullname as cfullname
+		, c.telephone
+		, c.mobile
 		 FROM " . DB_PREFIX . "customer_history ch LEFT JOIN oc_user u ON u.user_id = ch.user_id LEFT JOIN oc_customer c ON c.customer_id = ch.customer_id WHERE 1=1 ";  
 
 		if (isset($data['filter_customer_id'])) {
@@ -918,6 +922,8 @@ $this->load->out($sql, false);
 	// minus transaction
 	public function addTransaction2($customer_id, $product_id, $subquantity, $customer_lending_id = 0, $lender_id = 0, $status = 0, $amount = 0) {
 		
+
+		$this->load->out('addTransaction2', false);
 		if ($product_id <= 0) return false;
 		
 		if ($subquantity <= 0) return false;
@@ -1041,6 +1047,9 @@ $this->load->out($sql, false);
 		
 		$order_product_info = $this->model_sale_order->getOrderProducts($order_id);
 
+		
+
+
 		if ($customer_info && $order_product_info) { 
 
 			$this->db->query("DELETE FROM oc_customer_transaction WHERE order_id = '$order_id' AND customer_id = '$customer_id'");
@@ -1060,6 +1069,7 @@ $this->load->out($sql, false);
 				$unit_class_id = $product_info['unit_class_id'];
 				$subquantity = $product_info['subquantity'] * $quantity;
 				$price = $product_info['price'];
+				$total = $product_info['total'];
 				$amount = $price * $quantity; 
 
 				// $this->load->out($amount, false);
@@ -1077,7 +1087,14 @@ $this->load->out($sql, false);
 					, date_added = NOW(), date_modified= NOW()");
 
 				// add treatment appointments
-				if ($product_type_id == 2) {
+
+				$reminded = false;
+
+
+				
+
+				// chandler
+				if ($product_type_id == 2 || $product_type_id == 1) {
 
 					$temp = 1 / $product_info['subquantity']; 
 					$eachamount = $amount / $subquantity;
@@ -1102,9 +1119,12 @@ $this->load->out($sql, false);
 							,customer_id = '" . (int)$customer_id . "'
 							,product_id = '" . (int)$product_id . "'
 						 , product_type_id = '" . (int)$product_type_id . "'
+						 , total_amount = '$total'
 						 , subquantity = '" . -1 . "',  order_id = '" . (int)$order_id . "'
 						 , unit_class_id = '" . (int)$unit_class_id . "'
-						 , date_modified = NOW(), date_added = NOW()");						
+						 , date_modified = NOW(), date_added = NOW()");		
+
+						 $total = 0;				
 					}
 				} else {
 					//use up
@@ -1130,13 +1150,16 @@ $this->load->out($sql, false);
 							,customer_id = '" . (int)$customer_id . "'
 							,product_id = '" . (int)$product_id . "'
 						 , product_type_id = '" . (int)$product_type_id . "'
+						 , total_amount = '$total'
 						 ,  order_id = '" . (int)$order_id . "'
 						 , unit_class_id = '" . (int)$unit_class_id . "'
 						 , date_modified = NOW(), date_added = NOW()");		
+		
+						$total = 0;
 
 						 $customer_transaction_id = $this->db->getLastId();	
-
-						 $this->remindProduct($customer_transaction_id);
+						 if (!$reminded) $this->remindProduct($customer_transaction_id);
+						$reminded = true;
 					
 
 				}
@@ -1225,13 +1248,12 @@ $this->load->out($sql, false);
 
 	public function editgrouptransaction($data) {
 
-		
-
 		$this->load->model('catalog/product');
 
 		$unitspend = (isset($data['unitspend']) ? $data['unitspend'] : 0);
 		$product_id = (isset($data['product_id']) ? $data['product_id'] : 0);
 		$customer_id = (isset($data['customer_id']) ? $data['customer_id'] : 0);
+		
 		if (!$product_id) return false;
 		if (!$customer_id) return false;
 
@@ -1245,7 +1267,7 @@ $this->load->out($sql, false);
 
 		$number_unit_used = (int)round($unitspend / $value);
 
-		$remaining = $this->db->query("SELECT * FROM oc_customer_transaction WHERE customer_id = '" . (int)$customer_id . "' AND product_id = '" . (int)$product_id . "' AND status < 0 LIMIT 0, $number_unit_used");
+		$remaining = $this->db->query("SELECT * FROM oc_customer_transaction WHERE customer_id = '" . (int)$customer_id . "' AND product_id = '" . (int)$product_id . "' AND status < 0 ORDER BY total_amount DESC LIMIT 0, $number_unit_used");
 
 		if ($remaining->num_rows < $number_unit_used) {
 			return false;
@@ -1256,9 +1278,12 @@ $this->load->out($sql, false);
 			$customer_treatment_usage_id = $this->db->getLastId();
 
 			$data['customer_treatment_usage_id'] = $customer_treatment_usage_id;
+
+			$if_remind = true;
 			foreach ($remaining->rows as $result) {
-			
-				$this->edittransaction($result['customer_transaction_id'], $data);
+				
+				$this->edittransaction($result['customer_transaction_id'], $data, $if_remind);
+				$if_remind = false;
 			}
 			return true;
 		}
@@ -1280,17 +1305,14 @@ $this->load->out($sql, false);
 
 	}
 
-	public function edittransaction($customer_transaction_id, $data) {
+
+	public function edittransaction($customer_transaction_id, $data, $if_remind) {
 
 		// update message
 		$this->db->query("UPDATE oc_customer_transaction SET date_modified = NOW(), comment = '" . $this->db->escape($data['comment']) . "' WHERE customer_transaction_id = '" . (int)$customer_transaction_id . "'");
 
 		$affected1 = $this->db->countAffected();
 
-		// $query = $this->db->query("SELECT * FROM oc_customer_transaction WHERE customer_transaction_id = '$customer_transaction_id'");
-		// if(!$query->num_rows) return false;
-		// if($query->row['status'] == 10) return false;
-		// if($query->row['status'] == 2) return false;
 
 		// update status
 		$sql  = "UPDATE oc_customer_transaction SET date_modified = NOW()";
@@ -1307,12 +1329,12 @@ $this->load->out($sql, false);
 		}
 	
 		$sql .= " WHERE customer_transaction_id = '" . (int)$customer_transaction_id . "' AND quantity < 0";
-$this->load->out($sql, false);
+
 		$this->db->query($sql);
 
 		$affected2 = $this->db->countAffected();
 
-		$this->remindProduct($customer_transaction_id);
+		if ($if_remind) $this->remindProduct($customer_transaction_id);
 
 		return $affected1 || $affected2; 
 	}
@@ -1604,10 +1626,14 @@ $this->load->out($sql, false);
 	// '2014-10-03 10:46'
 	public function getCustomerImages($data, $start = 0, $limit = 10) {
 
-		$sql = "SELECT * FROM oc_customer_image ci WHERE 1=1  ";
+		$sql = "SELECT ci.* FROM oc_customer_image ci LEFT JOIN oc_customer c ON c.customer_id = ci.customer_id WHERE 1=1  ";
 
 		if (isset($data['filter_customer_id'])) {
 			$sql .= " AND ci.customer_id = '" . (int)$data['filter_customer_id'] . "'";
+		}
+
+		if (isset($data['filter_customer'])) {
+			$sql .= " AND c.fullname = '" . $this->db->escape($data['filter_customer']) . "'";
 		}
 
 		if (isset($data['product_id'])) {
@@ -1756,10 +1782,14 @@ $this->load->out($sql, false);
 	// '2014-10-03 10:46'
 	public function getTotalCustomerImages($data) {
 
-		$sql = "SELECT count(*) as total FROM oc_customer_image ci WHERE 1=1  ";
+		$sql = "SELECT count(*) as total FROM oc_customer_image ci LEFT JOIN oc_customer c ON c.customer_id = ci.customer_id WHERE 1=1  ";
 
 		if (isset($data['filter_customer_id'])) {
 			$sql .= " AND ci.customer_id = '" . (int)$data['filter_customer_id'] . "'";
+		}
+
+		if (isset($data['filter_customer'])) {
+			$sql .= " AND c.fullname = '" . $this->db->escape($data['filter_customer']) . "'";
 		}
 
 		if (isset($data['product_id'])) {
@@ -1784,10 +1814,42 @@ $this->load->out($sql, false);
 
 		$query = $this->db->query($sql);
 
+
+
+		// $sql = "SELECT count(*) as total FROM oc_customer_image ci WHERE 1=1  ";
+
+		// if (isset($data['filter_customer_id'])) {
+		// 	$sql .= " AND ci.customer_id = '" . (int)$data['filter_customer_id'] . "'";
+		// }
+
+		// if (isset($data['product_id'])) {
+		// 	$sql .= " AND ci.product_id = '" . (int)$data['product_id'] . "'";
+		// }
+
+		// if (isset($data['filter_customer_transaction_id'])) {
+		// 	$sql .= " AND ci.customer_transaction_id = '" . (int)$data['filter_customer_transaction_id'] . "'";
+		// }
+
+		// if (isset($data['filter_date_added_start'])) {
+		// 	$sql .= " AND ci.date_added >= '" . $this->db->escape($data['filter_date_added_start']) . "'";
+		// }
+
+		// if (isset($data['filter_date_added_end'])) {
+		// 	$sql .= " AND ci.date_added <= '" . $this->db->escape($data['filter_date_added_end']) . "'";
+		// }
+
+		// if (isset($data['filter_treatment'])) {
+		// 	$sql .= " AND ci.date_added < '" . (int)$data['filter_treatment'] . "'";
+		// }
+
+		// $query = $this->db->query($sql);
+
 		return $query->row['total'];
 	}
 
 	function updatehistory($user_id, $reminder_status_id, $customer_history_id, $reply){
+
+		$this->language->load('sale/customer');
 
 		$query = $this->db->query("SELECT * FROM oc_reminder_status WHERE reminder_status_id = '$reminder_status_id'");
 
@@ -1800,13 +1862,30 @@ $this->load->out($sql, false);
 		if ($reminder_status_id == 4) $days = 5;
 		if ($reminder_status_id == 3) $days = 3;
 
-		// if ($reminder_status_id > 0) 
-			// $sql = "UPDATE oc_customer_history SET reminder_date = DATE_ADD(NOW(), INTERVAL $days DAY), reminder_status = '$reminder_status_id', reminded_already='1', reply='" . $this->db->escape($reply) . "', date_modified = NOW() WHERE customer_history_id = $customer_history_id AND user_id = $user_id";
 
-		// else 
-			$sql = "UPDATE oc_customer_history SET reminder_date = DATE_ADD(NOW(), INTERVAL $days DAY), reminder_status = '$target', reminded_already='1', reply='" . $this->db->escape($reply) . "', date_modified = NOW() WHERE customer_history_id = $customer_history_id AND user_id = $user_id";
+		$query = $this->db->query("SELECT * FROM oc_customer_history WHERE customer_history_id = '". (int)$customer_history_id . "' AND reminded_already = 0"); 
 
+		if (!$query->num_rows) return false;
+
+		$customer_transaction_id = $query->row['customer_transaction_id'];
+		$title = $query->row['title'];
+		$product_id = $query->row['product_id'];
+		$if_treatment = $query->row['if_treatment'];
+		$customer_id = $query->row['customer_id'];
+
+		$this->load->out($user_id . '-' . $reminder_status_id . '-' . $customer_history_id . '-' . $reply . '-' . $days . '-' . $customer_transaction_id, false);
+		// $sql = "UPDATE oc_customer_history SET reminder_date = DATE_ADD(NOW(), INTERVAL $days DAY), reminder_status = '$target', reminded_already='1', reply='" . $this->db->escape($reply) . "', date_modified = NOW() WHERE customer_history_id = $customer_history_id AND user_id = $user_id";
+
+		$sql = "UPDATE oc_customer_history SET reminder_status = '$target', reminded_already=1, reply='" . $this->db->escape($reply) . "', date_modified = NOW() WHERE customer_history_id = $customer_history_id AND user_id = $user_id";
+		
 		$this->db->query($sql);
+
+		if ($days) {
+
+			$reply .= $this->language->get('text_remind_again');
+			$sql = "INSERT INTO oc_customer_history SET reminder = 1, if_treatment = '$if_treatment', product_id = '$product_id', customer_id = '$customer_id', title = '$title', comment = '$reply', customer_transaction_id = '$customer_transaction_id', reminder_date = DATE_ADD(NOW(), INTERVAL $days DAY), date_modified = NOW(), date_added = NOW(), user_id = $user_id";
+			$this->db->query($sql);
+		}
 
 		return $this->db->countAffected();
 	}

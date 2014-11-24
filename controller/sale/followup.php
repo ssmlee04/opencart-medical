@@ -156,10 +156,11 @@ class ControllerSaleFollowup extends Controller {
 		$this->data['column_date_modified'] = $this->language->get('column_date_modified');
 		$this->data['column_date_added'] = $this->language->get('column_date_added');
 		$this->data['column_total'] = $this->language->get('column_total');
+		$this->data['column_treatment'] = $this->language->get('column_treatment');
 		$this->data['column_firstname'] = $this->language->get('column_firstname');
 		$this->data['column_lastname'] = $this->language->get('column_lastname');
 		$this->data['column_action'] = $this->language->get('column_action');
-		$this->data['column_user'] = $this->language->get('column_user');
+		$this->data['column_user'] = $this->language->get('column_followup_user');
 		$this->data['entry_date_start'] = $this->language->get('entry_date_start');
 		$this->data['entry_date_end'] = $this->language->get('entry_date_end');
 		$this->data['entry_status'] = $this->language->get('entry_status');
@@ -220,6 +221,7 @@ class ControllerSaleFollowup extends Controller {
 			}
 			$this->data['messages'][] = array(
 				'status' => $status, 
+				'title' => $result['title'],
 				'comment' => $result['comment'],
 				'customer_id' => $result['customer_id'],
 				'telephone' => $result['telephone'],
@@ -233,7 +235,8 @@ class ControllerSaleFollowup extends Controller {
 				'store_id' => $result['store_id'],
 			);
 		}
-	
+
+// $this->load->test($reminders)	;
 
 		$this->data['filter_date_start'] = $filter_date_start;
 		$this->data['filter_date_end'] = $filter_date_end;
