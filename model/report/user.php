@@ -136,7 +136,7 @@ class ModelReportUser extends Model {
 		// ,sum(bonus_beauty) as total_bonus_beauty
 		// ,sum(bonus_consultant) as total_bonus_consultant
 		// ,sum(bonus_outsource) as total_bonus_outsource
-		$sql .= " FROM oc_customer_transaction WHERE 1=1"; 
+		$sql .= " FROM oc_customer_transaction WHERE status = 2 "; 
 
 		if (!empty($data['filter_date_start'])) {
 			$sql .= " AND DATE(date_modified) >= '" . $this->db->escape($data['filter_date_start']) . "'";
@@ -172,7 +172,7 @@ class ModelReportUser extends Model {
 		// else if (isset($data['filter_beauty_id'])) {
 		// 	$sql .= " GROUP BY beauty_id ORDER BY beauty_id DESC";
 		// }
-
+// $this->load->test($sql);;
 		$query = $this->db->query($sql);
 	
 		return $query->rows;

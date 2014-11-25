@@ -85,12 +85,14 @@
               <td><select name="unit_class_id">
                   <?php foreach ($unit_classes as $unit_class) { ?>
                   <?php if ($unit_class['unit_class_id'] == $unit_class_id) { ?>
-                  <option value="<?php echo $unit_class['unit_class_id']; ?>" selected="selected"><?php echo $unit_class['value'] . $unit_class['unit']; ?></option>
+                  <option alt="<?php echo $unit_class['value']; ?>" alt2="<?php echo $unit_class['unit']; ?>" value="<?php echo $unit_class['unit_class_id']; ?>" selected="selected"><?php echo $unit_class['value'] . $unit_class['unit']; ?></option>
                   <?php } else { ?>
-                  <option value="<?php echo $unit_class['unit_class_id']; ?>"><?php echo $unit_class['value'] . $unit_class['unit']; ?></option>
+                  <option alt="<?php echo $unit_class['value']; ?>" alt2="<?php echo $unit_class['unit']; ?>" value="<?php echo $unit_class['unit_class_id']; ?>"><?php echo $unit_class['value'] . $unit_class['unit']; ?></option>
                   <?php } ?>
                   <?php } ?>
-                </select></td>
+                  </select>
+                  <div style='display:inline'  id='unit_total'></div>
+                </td>
             </tr>
             <tr>
               <td><?php echo $entry_image; ?></td>
@@ -655,6 +657,30 @@ $('input[name=\'reminder\']').on('change', function(){
 if (!$('input[name=\'bonus\']').attr('checked')) $(".bonusgroup").hide();
 $('input[name=\'bonus\']').on('change', function(){
   $(".bonusgroup").toggle($(this).attr('checked'));
+});
+
+var displayunit = function(){
+  var value = $('select[name="unit_class_id"]').find(":selected").attr('alt');
+  var unit = $('select[name="unit_class_id"]').find(":selected").attr('alt2');
+  var unit_quantity = $('input[name=unit_quantity]').val();
+
+  var unit_id = $('select[name="unit_class_id"]').val();
+  if (value && unit) {
+    $('#unit_total').html('<span style="margin-left:10px">total: ' + (unit_quantity * value) + ' ' + unit + '</span>');
+    console.log('<span style="margin-left:10px">(total: ' + (unit_quantity * value) + ' ' + unit + ')</span>');
+  }
+  // if (value && unit) $('#product_id_group').val( product_id);
+
+  if (!$('select[name="unit_class_id"]').val()) {
+    $('#unit_total').text('');
+  }
+}
+
+$('select[name="unit_class_id"]').change(function(){
+  displayunit();
+});
+$('input[name="unit_quantity"]').keyup(function(){
+  displayunit();
 });
 
 //--></script>

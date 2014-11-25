@@ -81,7 +81,7 @@ $_['entry_related']          = '相關商品<br /><span class="help">(自動完�
 $_['entry_tag']          	 = '標籤<br /><span class="help">請用逗號分隔</span>';
 $_['entry_reward']           = '回饋紅利點數';
 $_['entry_layout']           = '版面覆蓋';
-$_['entry_unit_class']          = '最小單位';
+$_['entry_unit_class']          = '計算單位';
 
 // Error
 $_['error_warning']          = '發生錯誤,請再確認';

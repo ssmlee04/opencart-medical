@@ -335,7 +335,6 @@ class ControllerCatalogProduct extends Controller {
 		if (!$product_type_id) $this->redirect($this->url->link('catalog/product&type=1', 'token=' . $this->session->data['token'] . $url, 'SSL'));
 
 		$this->data['type'] = $product_type_id;
-		// $this->load->test($product_type_id);
 
 		if (isset($this->request->get['filter_name'])) {
 			$filter_name = $this->request->get['filter_name'];
@@ -507,6 +506,7 @@ class ControllerCatalogProduct extends Controller {
 				'name'       => $result['name'],
 				'model'      => $result['model'],
 				'price'      => $result['price'],
+				'href'      => $this->url->link('catalog/product/update&type=' . (int)$product_type_id, 'token=' . $this->session->data['token'] . '&product_id=' . $result['product_id'] . $url, 'SSL'),
 				'product_type_id' => $result['product_type_id'],
 				'image'      => $image,
 				'quantity'   => $quantity,
@@ -583,6 +583,8 @@ class ControllerCatalogProduct extends Controller {
 			$url .= '&order=ASC';
 		}
 
+
+
 		if (isset($this->request->get['page'])) {
 			$url .= '&page=' . $this->request->get['page'];
 		}
@@ -620,9 +622,14 @@ class ControllerCatalogProduct extends Controller {
 			$url .= '&sort=' . $this->request->get['sort'];
 		}
 
+		if (isset($this->request->get['type'])) {
+			$url .= '&type=' . $this->request->get['type'];
+		}
+
 		if (isset($this->request->get['order'])) {
 			$url .= '&order=' . $this->request->get['order'];
 		}
+// $this->load->test($url, false);
 
 		$pagination = new Pagination();
 		$pagination->total = $product_total;

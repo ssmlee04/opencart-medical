@@ -103,16 +103,18 @@ $('#transaction .pagination a').live('click', function() {
 $('#button-filter').bind('click', function() {
 
   var customer_name_sel = $('input[name=\'customer_name\']').val();
+  var customer_id = $('input[name=\'customer_id\']').val();
   var customer_name = $('input[name=\'customer\']').val();
   var product_name_sel = $('input[name=\'product_name\']').val();
   var product_name = $('input[name=\'product\']').val();
   var filter_treatment_status = $('select[name=\'filter_treatment_status\']').val();
   
+
   // if (customer_name_sel == customer_name && product_name_sel==product_name)
 	$.ajax({
         // url: 'index.php?route=sale/customer/transaction&token=<?php echo $token; ?>&filter_customer_id=<?php echo $filter_customer_id; ?>&show_group=1&filter_product_name=' + product_name.toString() + '&filter_ismain=0&filter_treatment_status=' + filter_treatment_status,
 
-		url: 'index.php?route=sale/customer/transaction&token=<?php echo $token; ?>&show_group=1&filter_customer_name=' + customer_name.toString() + '&filter_product_name=' + product_name.toString() + '&filter_treatment_status=' + filter_treatment_status + '&is_insert=0',
+		url: 'index.php?route=sale/customer/transaction&token=<?php echo $token; ?>&show_group=1&filter_customer_id=' + customer_id + '&filter_customer_name=' + customer_name.toString() + '&filter_product_type_id=' + 2 + '&filter_product_name=' + product_name.toString() + '&filter_treatment_status=' + filter_treatment_status + '&is_insert=0',
 		type: 'post',
 		dataType: 'html',
 		data: 'product_id=' + encodeURIComponent($('#tab-transaction input[name=\'product_id\']').val()) 
@@ -253,6 +255,9 @@ $('.vtabs a').tabs();
 //   }
 // }); 
 
+$('input').keydown(function(e){
+  if (e.keyCode==13) $('#button-filter').click();
+});
 
 //--></script> 
 

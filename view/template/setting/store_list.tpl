@@ -24,7 +24,7 @@
               <td width="1" style="text-align: center;"><input type="checkbox" onclick="$('input[name*=\'selected\']').attr('checked', this.checked);" /></td>
               <td class="left"><?php echo $column_name; ?></a></td>
               <td class="left"><?php echo $column_url; ?></td>
-              <td class="right"><?php echo $column_action; ?></td>
+              <!-- <td class="right"><php echo $column_action; ?></td> -->
             </tr>
           </thead>
           <tbody>
@@ -36,11 +36,11 @@
                 <?php } else { ?>
                 <input type="checkbox" name="selected[]" value="<?php echo $store['store_id']; ?>" />
                 <?php } ?></td>
-              <td class="left"><?php echo $store['name']; ?></td>
+              <td class="left"><a href="<?php echo $store['href']; ?>"><?php echo $store['name']; ?></a></td>
               <td class="left"><?php echo $store['url']; ?></td>
-              <td class="right"><?php foreach ($store['action'] as $action) { ?>
-                [ <a href="<?php echo $action['href']; ?>"><?php echo $action['text']; ?></a> ]
-                <?php } ?></td>
+              <!-- <td class="right"><php foreach ($store['action'] as $action) { ?> -->
+                <!-- [ <a href="<php echo $action['href']; ?>"><php echo $action['text']; ?></a> ] -->
+                <!-- <php } ?></td> -->
             </tr>
             <?php } ?>
             <?php } else { ?>

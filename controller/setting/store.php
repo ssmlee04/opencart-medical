@@ -136,6 +136,7 @@ class ControllerSettingStore extends Controller {
 		
 			$this->data['stores'][] = array(
 				'store_id' => $result['store_id'],
+				'href' => $this->url->link('setting/store/update', 'token=' . $this->session->data['token'] . '&store_id=' . $result['store_id'], 'SSL'),
 				'name'     => $result['name'],
 				'url'      => $result['url'],
 				'selected' => isset($this->request->post['selected']) && in_array($result['store_id'], $this->request->post['selected']),

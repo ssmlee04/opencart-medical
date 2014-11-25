@@ -11,6 +11,16 @@ class ModelCatalogProduct extends Model {
 		$this->editProduct($product_id, $data);
 		
 		$this->cache->delete('product');
+
+
+		$this->load->model('setting/store');
+
+		$stores = $this->model_setting_store->getStores();
+
+		foreach ($stores as $key => $store) {
+			$this->db->query("INSERT INTO " . DB_PREFIX . "product_to_store (product_id, store_id) VALUES ('" .(int)$product_id . "', '" . $store['store_id'] . "')");
+			
+		}
 	}
 
 	public function editProduct($product_id, $data) {

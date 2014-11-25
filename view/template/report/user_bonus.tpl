@@ -61,6 +61,7 @@
                   <td><?php echo $entry_date; ?></td>
                   <td><?php echo $entry_customer; ?></td>
                   <td><?php echo $entry_treatment; ?></td>
+                  <td><?php echo ''; ?></td>
                   <td><?php echo $entry_amount; ?></td>
                 </tr>
                 <!-- </thead> -->
@@ -70,6 +71,7 @@
                   <td><?php echo $transaction['date_modified']; ?></td>
                   <td><?php echo $transaction['customer_name']; ?></td>
                   <td><?php echo $transaction['product_name']; ?></td>
+                  <td><?php echo $transaction['used_unit']; ?></td>
                   <td><?php echo $transaction['bonus']; ?></td>
                 </tr>
                 <?php } ?>

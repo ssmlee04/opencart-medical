@@ -1,6 +1,6 @@
 <?php
 // Heading
-$_['heading_title']         = '業績統計';
+$_['heading_title']         = '提成統計';
 
 // Column
 $_['column_customer']       = 'Customer Name';

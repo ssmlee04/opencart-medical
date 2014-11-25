@@ -167,15 +167,22 @@ class ControllerReportUserBonus extends Controller {
 			$this->load->model('sale/customer');
 
 			foreach ($results as $result){
+
+				// $this->load->test($result);
+
 				$customer = $this->model_sale_customer->getCustomer($result['customer_id']);
 					$product = $this->model_catalog_product->getProduct($result['product_id']);
 
 				$date_modified = explode(' ', $result['date_modified'])[0];
 
+				$used_unit = $product['value'] * $result['subquantity'] . ' ' . $product['unit'];
+				// $this->load->test($used_unit);
+
 				if ($result['doctor_id'] == $user_id) {
 
 					$transactions[] = array(
 						'date_modified' => $date_modified,
+						'used_unit' => $used_unit, 
 						'customer_id' => $result['customer_id'],
 						'customer_name' => $customer['fullname'],
 						'product_id' => $result['product_id'],
