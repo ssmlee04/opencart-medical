@@ -114,6 +114,33 @@ class ModelReportUser extends Model {
 	}	
 
 
+	public function getBonusesGroupbyTreatment($data) {
+
+		$sql = "SELECT ct.*, sum(subquantity) as subquantity, sum(amount) as amount, sum(total_amount) as total_amount, u1.fullname as beauty_name, u2.fullname as consultant_name, u3.fullname as outsource_name, u4.fullname as doctor_name, u0.fullname as ufullname, c.fullname as cfullname FROM oc_customer_transaction ct";
+
+		$sql .= " LEFT JOIN oc_customer c ON ct.customer_id = c.customer_id";
+		$sql .= " LEFT JOIN oc_user u0 ON ct.user_id = u0.user_id";
+		$sql .= " LEFT JOIN oc_user u1 ON ct.beauty_id = u1.user_id";
+		$sql .= " LEFT JOIN oc_user u2 ON ct.consultant_id = u2.user_id";
+		$sql .= " LEFT JOIN oc_user u3 ON ct.outsource_id = u3.user_id";
+		$sql .= " LEFT JOIN oc_user u4 ON ct.doctor_id = u4.user_id";
+
+		$sql .= " WHERE ct.status = 2 "; 
+
+		if (!empty($data['filter_date_start'])) {
+			$sql .= " AND DATE(ct.date_modified) >= '" . $this->db->escape($data['filter_date_start']) . "'";
+		}
+		if (!empty($data['filter_date_end'])) {
+			$sql .= " AND DATE(ct.date_modified) <= '" . $this->db->escape($data['filter_date_end']) . "'";
+		}
+
+		$sql .= " GROUP BY ct.treatment_usage_id";
+
+		$query = $this->db->query($sql);
+
+		return $query->rows;
+	}
+
 	// '2014-10-15 14:10'
 	public function getBonuses($data = array()) { 
 		

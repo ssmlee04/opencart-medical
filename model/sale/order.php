@@ -380,8 +380,9 @@ class ModelSaleOrder extends Model {
 
 		$customer = $this->model_sale_customer->getCustomer($customer_id);
 
-		$firstname = $customer['firstname'];
-		$lastname = $customer['lastname'];
+		// $firstname = $customer['firstname'];
+		$firstname = '';
+		$lastname = $customer['fullname'];
 
 		$this->db->query("UPDATE `" . DB_PREFIX . "order` SET 
 			firstname = '" . $firstname . "'

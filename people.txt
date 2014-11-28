@@ -1,30 +1,4 @@
 Array
 (
-    [0] => Array
-        (
-            [store_id] => 5
-            [email] => 
-            [name] => 小三美日
-            [url] => smallthree@gmail.com
-            [ssl] => 
-        )
-
-    [1] => Array
-        (
-            [store_id] => 1
-            [email] => 
-            [name] => 信義醫療診所
-            [url] => www.store1.com
-            [ssl] => 
-        )
-
-    [2] => Array
-        (
-            [store_id] => 2
-            [email] => 
-            [name] => 厲害商店
-            [url] => www.store2.com
-            [ssl] => 
-        )
-
+    [success] => *
 )

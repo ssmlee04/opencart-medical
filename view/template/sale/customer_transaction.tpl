@@ -384,6 +384,7 @@ $('.group_change_status_button').on('click', function(e){
   $('.attention, .success, .warning').remove();
 
 console.log('sssssssssstatus=' + status + '&comment=' + comment+ '&doctor_id=' + doctor_id+ '&consultant_id=' + consultant_id + '&outsource_id=' + outsource_id  + '&beauty_id=' + beauty_id + '&unitspend='+ unitspend + '&product_id='+ product_id+ '&customer_id='+ customer_id );
+// console.log('<?php echo $token; ?>');
   if (status)
   $.ajax({
       url: 'index.php?route=sale/customer/editgrouptransaction&token=<?php echo $token; ?>',
@@ -395,6 +396,9 @@ console.log('sssssssssstatus=' + status + '&comment=' + comment+ '&doctor_id=' +
       },
       success: function(json) {
     
+    console.log(json);
+    console.log('<?php echo $filter_product_type_id; ?>');
+    
         if (json['error']) {
           if ('<?php echo $filter_product_type_id; ?>' == 1) $('#transaction2').before('<div class="warning">' + json['error'] + '</div>');
           if ('<?php echo $filter_product_type_id; ?>' == 2) $('#transaction').before('<div class="warning">' + json['error'] + '</div>');
@@ -404,6 +408,7 @@ console.log('sssssssssstatus=' + status + '&comment=' + comment+ '&doctor_id=' +
           // $('#button-transaction').click();
           if ('<?php echo $filter_product_type_id; ?>' == 1) $('#button-filter2').click();
           if ('<?php echo $filter_product_type_id; ?>' == 2) $('#button-filter').click();
+
           if ('<?php echo $filter_product_type_id; ?>' == 1)  $('#transaction2').before('<div class="success">' + json['success'] + '</div>');
           if ('<?php echo $filter_product_type_id; ?>' == 2)  $('#transaction').before('<div class="success">' + json['success'] + '</div>');
         }

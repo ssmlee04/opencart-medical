@@ -818,6 +818,7 @@ class ModelSaleCustomer extends Model {
 
 			$amount = -$q->row['amount'];
 			
+			$total_amount = $q->row['total_amount'];
 			$bonus_doctor = $q->row['bonus_doctor'];
 			$bonus_consultant = $q->row['bonus_consultant'];
 			$bonus_outsource = $q->row['bonus_outsource'];
@@ -853,6 +854,7 @@ class ModelSaleCustomer extends Model {
 				, bonus_consultant = '" . (float)$bonus_consultant . "'
 				, bonus_doctor = '" . (float)$bonus_doctor . "'
 				, bonus_beauty = '" . (float)$bonus_beauty . "'
+				, total_amount = '" . (float)$total_amount . "'
 				, bonus_percent_doctor = '" . (int)$bonus_percent_doctor . "'
 				, bonus_percent_consultant = '" . (int)$bonus_percent_consultant . "'
 				, bonus_percent_outsource = '" . (int)$bonus_percent_outsource . "'
@@ -1248,6 +1250,8 @@ $this->load->out($sql, false);
 
 	public function editgrouptransaction($data) {
 
+		// $this->load->out(123123131);
+		
 		$this->load->model('catalog/product');
 
 		$unitspend = (isset($data['unitspend']) ? $data['unitspend'] : 0);

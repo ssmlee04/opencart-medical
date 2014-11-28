@@ -765,6 +765,13 @@
 			]]></add>
 		</operation>
 		<operation>
+			<search position="replace"><![CDATA[
+			<li><a href="<?php echo $treatment_bonus; ?>"><?php echo $text_treatment_bonus; ?></a></li>
+			]]></search>
+			<add><![CDATA[
+			]]></add>
+		</operation>
+		<operation>
 			<search position="after"><![CDATA[
 			<li><a href="<?php echo $allcustomer; ?>"><?php echo $text_all_customers; ?></a></li>
 			]]></search>
@@ -777,7 +784,10 @@
 			<li id="catalog"><a class="top"><?php echo $text_product; ?></a>
 			]]></search>
 			<add><![CDATA[
-			<li id="bonus"><a class="top"><?php echo $text_bonus; ?></a><ul><li><a href="<?php echo $bonus; ?>"><?php echo $text_bonus; ?></a></li></ul></li>
+			<li id="bonus"><a class="top"><?php echo $text_bonus; ?></a><ul>
+			<li><a href="<?php echo $bonus; ?>"><?php echo $text_bonus; ?></a></li>
+			<li><a href="<?php echo $treatment_bonus; ?>"><?php echo $text_treatment_bonus; ?></a></li>
+			</ul></li>
 			]]></add>
 		</operation>
 		<operation>

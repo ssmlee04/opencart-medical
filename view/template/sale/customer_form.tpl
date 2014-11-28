@@ -555,28 +555,28 @@
 <script type="text/javascript" src="view/javascript/jquery/colorbox/jquery.colorbox-min.js"></script> 
 <script type="text/javascript"><!--
 
-var totalproducts = <?php echo json_encode($totalproducts); ?>;// '<?php echo $totalproducts; ?>';
-// console.log(totalproducts);
+// var totalproducts = <php echo json_encode($totalproducts); ?>;// '<php echo $totalproducts; ?>';
+// // console.log(totalproducts);
 
-  var changename = function(str){
-    // console.log(str);
-    $('input[type=product]').val(str);
-  }
+//   var changename = function(str){
+//     // console.log(str);
+//     $('input[type=product]').val(str);
+//   }
 
-$(document).ready(function(){
-  $(".group1").colorbox({rel:'group1'});
+// $(document).ready(function(){
+//   $(".group1").colorbox({rel:'group1'});
 
-  var html = '<table>'; 
-  // console.log(totalproducts);
-  for (var i=0; i<totalproducts.length; i++) {
+//   var html = '<table>'; 
+//   // console.log(totalproducts);
+//   for (var i=0; i<totalproducts.length; i++) {
 
-    // console.log(totalproducts[i].name);
-    html += "<tr><td onclick='changename(" + totalproducts[i].name.toString() + ")'>" + totalproducts[i].name.toString()  +"</td></tr>";
-  }
-  html += '</table>';
+//     // console.log(totalproducts[i].name);
+//     html += "<tr><td onclick='changename(" + totalproducts[i].name.toString() + ")'>" + totalproducts[i].name.toString()  +"</td></tr>";
+//   }
+//   html += '</table>';
 
-  $(".group101").colorbox({html: html});
-});
+//   $(".group101").colorbox({html: html});
+// });
 
 $('select[name=\'customer_group_id\']').live('change', function() {
 	var customer_group = [];
@@ -1137,6 +1137,8 @@ $('select[name=\'treatment_product2_add\']').on('change', function(){
 
 $('#button-filter').bind('click', function() {
 
+
+  console.log('wwwwwwwwwwwwwwwwhy');
   // var customer_name_sel = $('input[name=\'customer_name\']').val();
   // var customer_name = $('input[name=\'customer\']').val();
   // var product_name_sel = $('input[name=\'treatment_product_name\']').val();
@@ -1167,11 +1169,13 @@ $('#button-filter2').bind('click', function() {
 
   // var customer_name_sel = $('input[name=\'customer_name\']').val();
   // var customer_name = $('input[name=\'customer\']').val();
-  var product_name_sel = $('input[name=\'treatment_product2_name\']').val();
-  var product_name = $('input[name=\'treatment_product2\']').val() || $('input[name=\'treatment_product2_add\']').val();
+  // var product_name_sel = $('input[name=\'treatment_product2_name\']').val();
+  // var product_name = $('input[name=\'treatment_product2\']').val() || $('input[name=\'treatment_product2_add\']').val();
+
+  var product_name = $('input[name=\'treatment_product2_name\']').val();
   var filter_treatment_status = $('select[name=\'filter_treatment_status2\']').val();
   
-
+console.log('asd0a9d90a09hudasd');
   // console.log([product_name_sel, product_name, filter_treatment_status]);
   $.ajax({
     url: 'index.php?route=sale/customer/transaction&token=<?php echo $token; ?>&filter_customer_id=<?php echo $filter_customer_id; ?>&show_group=1&filter_product_name=' + product_name.toString() + '&filter_ismain=0&filter_treatment_status=' + filter_treatment_status + '&filter_ismain=0&filter_product_type_id=1',

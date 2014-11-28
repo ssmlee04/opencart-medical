@@ -2435,7 +2435,7 @@ class ControllerSaleCustomer extends Controller {
 
 	public function deletecustomerhistory() {
 
-		$json = array();
+		$json = array(); 
 
 		$this->language->load('sale/customer');
 
@@ -2464,11 +2464,18 @@ class ControllerSaleCustomer extends Controller {
 	// Chandler '2014-11-03 14:50'
 	public function editgrouptransaction() {
 
+
 		$json = array();
 
 		$data = array();
 
 		$this->language->load('sale/customer');
+
+
+		// $json['success'] = '*'; 
+		// $this->response->setOutput(json_encode($json)); 
+		// $this->load->out($json, false);
+		// return;
 
 // $this->load->out( $this->request->post, false);
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->user->hasPermission('modify', 'sale/customer')) { 

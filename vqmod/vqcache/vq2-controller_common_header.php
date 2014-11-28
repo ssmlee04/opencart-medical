@@ -28,6 +28,7 @@ class ControllerCommonHeader extends Controller {
 		$this->data['text_attribute'] = $this->language->get('text_attribute');
 		$this->data['text_attribute_group'] = $this->language->get('text_attribute_group');
 		$this->data['text_backup'] = $this->language->get('text_backup');
+		$this->data['text_treatment_bonus'] = $this->language->get('text_treatment_bonus');
 		$this->data['text_bonus'] = $this->language->get('text_bonus');
 		$this->data['text_addcustomer'] = $this->language->get('text_addcustomer');
 		$this->data['text_treatment'] = $this->language->get('text_treatment');
@@ -230,6 +231,7 @@ class ControllerCommonHeader extends Controller {
 			$this->data['zone'] = $this->url->link('localisation/zone', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['purchase'] = $this->url->link('catalog/purchase', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['bonus'] = $this->url->link('report/user_bonus', 'token=' . $this->session->data['token'], 'SSL');
+			$this->data['treatment_bonus'] = $this->url->link('report/user_treatment_bonus', 'token=' . $this->session->data['token'], 'SSL');
 
 			// $this->data['openbay_show_menu'] = $this->config->get('openbaymanager_show_menu');
 

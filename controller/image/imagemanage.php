@@ -63,7 +63,7 @@ class ControllerImageImageManage extends Controller {
 
 		$this->data['breadcrumbs'][] = array(
 			'text'      => $this->language->get('heading_title'),
-			'href'      => $this->url->link('sale/customer', 'token=' . $this->session->data['token'] . $url, 'SSL'),
+			'href'      => $this->url->link('sale/customer', 'token=' . $this->session->data['token'], 'SSL'),
 			'separator' => ' :: '
 		);
 

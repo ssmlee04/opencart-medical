@@ -231,6 +231,7 @@ if(array_intersect($page_name, $get_route)){
 			<ul>
 				<li><a class="parent"><?php echo $text_sale; ?></a>
 					<ul>
+						<li><a href="<?php echo $treatment_bonus; ?>"><?php echo $text_treatment_bonus; ?></a></li>
 						<li><a href="<?php echo $report_sale_order; ?>"><?php echo $text_report_sale_order; ?></a></li>
 						<li><a href="<?php echo $bonus; ?>"><?php echo $text_bonus; ?></a></li>
 						<!-- <li><a href="<php echo $report_sale_tax; ?>"><php echo $text_report_sale_tax; ?></a></li>

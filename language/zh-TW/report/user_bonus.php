@@ -18,4 +18,28 @@ $_['entry_doctor']          = '醫師';
 $_['entry_beauty']          = '美容師';
 $_['entry_consultant']          = '諮詢師';
 $_['entry_outsource']          = '外務';
+
+
+$_['text_customer_id']          = '客戶代碼';
+$_['text_customer_fullname']          = '客戶';
+$_['text_product_name']          = '療程';
+$_['text_comment']          = '評論';
+$_['text_unit_used']          = '使用數量';
+$_['text_doctor_name']          = '醫師';
+$_['text_beauty_name']          = '美容師';
+$_['text_consultant_name']          = '諮詢師';
+$_['text_outsource_name']          = '外務';
+
+$_['text_payment_cash']          = '現金付款';
+$_['text_payment_visa']          = '信用卡付款';
+$_['text_payment_balance']          = '尾款';
+$_['text_payment_final']          = '欠款';
+$_['text_user_fullname']          = '管理者';
+
+$_['text_date_used']          = '使用日期';
+$_['text_total_amount']          = '訂單金額';
+
+
+
+
 ?>
