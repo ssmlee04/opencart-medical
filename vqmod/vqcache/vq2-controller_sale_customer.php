@@ -1714,7 +1714,7 @@ class ControllerSaleCustomer extends Controller {
 			
 			$data = array('filter_customer_id' => $this->request->get['filter_customer_id']);
 			$orders = $this->model_sale_order->getOrders($data);
-			
+	
 			foreach ($orders as $order) {
 
 				if ((float)$order['total'] >= 0) {
@@ -1748,13 +1748,14 @@ class ControllerSaleCustomer extends Controller {
 				}
 
 				if ((float)$order['payment_visa'] > 0) {
+
 					$payments[] = array(
 						'order_id' => $order['order_id'],
 						'message' => $this->language->get('text_payment_visa'),
 						'date_added' => $order['date_added'],
 						'amount' => $order['payment_visa']
 					);
-					$total_visa += (float)$order['payment_cash'];
+					$total_visa += (float)$order['payment_visa'];
 				}
 
 				$balance += $order['payment_balance'];
@@ -1762,13 +1763,13 @@ class ControllerSaleCustomer extends Controller {
 			}
 		}
 
-
 		$this->data['balance'] = $balance;
 		$this->data['total_expense'] = $total_expense;
 		$this->data['total_cash'] = $total_cash;
 		$this->data['total_visa'] = $total_visa;
 		$this->data['total_payment'] = $total_visa + $total_cash;
 		$this->data['payments'] = $payments;
+
 		$this->template = 'sale/customer_payment.tpl';		
 		$this->response->setOutput($this->render());
 
@@ -3037,7 +3038,7 @@ class ControllerSaleCustomer extends Controller {
 				'comment' => $result['comment'],
 				'date_added'  => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
 				'date_modified'  => date($this->language->get('date_format_short'), strtotime($result['date_modified'])),
-				'canmodify' => time() - strtotime($result['date_modified']) < 50000
+				'canmodify' => (time() - strtotime($result['date_modified']) < 50000) || $result['status'] <> 2
 			);
 		}
 

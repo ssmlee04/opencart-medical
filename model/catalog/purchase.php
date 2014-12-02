@@ -217,6 +217,12 @@ class ModelCatalogPurchase extends Model {
 	// '2014-09-27 03:17'
 	public function deletePurchase($purchase_id, $remove_from_db = false) {
 
+		$purchase = $this->db->query("SELECT * FROM oc_purchase WHERE purchase_id = '" . (int)$purchase_id . "'");
+
+		if (!$purchase) return false;
+
+		$store_id = $purchase->row['store_id'];
+
 		$products = $this->getPurchaseProducts($purchase_id); 
 
 		$this->cart->clear();
@@ -225,7 +231,7 @@ class ModelCatalogPurchase extends Model {
 			$this->cart->add($product['product_id'], $product['quantity'], '', '');
 		}
 
-		if (!$this->cart->hasStock()) {
+		if (!$this->cart->hasStock($store_id)) {
 			$this->cart->clear();			
 			return false;
 		}

@@ -25,6 +25,7 @@ class ControllerSaleOrder extends Controller {
 		$this->data['is_insert'] = true;
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
+
 			if ($this->model_sale_order->addOrder($this->request->post)) {
 				$this->session->data['success'] = $this->language->get('text_success');
 			} else {
@@ -1285,8 +1286,13 @@ class ControllerSaleOrder extends Controller {
 			$this->model_sale_order->editOrderPayment($this->request->get['order_id'], $this->request->post['payment_cash'], $this->request->post['payment_visa'], $this->request->post['payment_final']);
 		}
 
+		$store_id = 0;
+		if (isset($this->request->post['store_id'])) {
+			$store_id = $this->request->post['store_id'];
+		} 
+
 		if ($this->request->post['is_insert']) {
-			if (!$this->cart->hasProducts() || !$this->cart->hasStock()) {
+			if (!$this->cart->hasProducts() || !$this->cart->hasStock($store_id)) {
 				$this->error['warning'] = $this->language->get('error_no_stock');
 			}
 		} 

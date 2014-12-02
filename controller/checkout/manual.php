@@ -128,8 +128,10 @@ class ControllerCheckoutManual extends Controller {
 			if (!$is_insert) {
 				
 			}
+// $this->load->test($this->session->data);
+
 			// Stock
-			else if (!$this->cart->hasStock()) {
+			else if (!$this->cart->hasStock($this->session->data['store_id'])) {
 				$json['error']['product']['stock'] = $this->language->get('error_stock');
 			}		
 

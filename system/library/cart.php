@@ -447,15 +447,23 @@ class Cart {
 	// 	return count($this->getRecurringProducts());
 	// }
 
-	public function hasStock() {
+	public function hasStock($store_id) {
 
 		$stock = true;
+
 		foreach ($this->getProducts() as $product) {
 
-			//'2014-09-28 10:50'
-			if (!$product['stock'] && $product['subtract']) {
+			//'2014-12-1 10:50'
+			$store_product_query = $this->db->query("SELECT * FROM oc_product_to_store ps LEFT JOIN oc_product p ON p.product_id = ps.product_id WHERE p.product_id = '" . (int)$product['product_id'] . "' AND p.date_available <= NOW() AND p.status = '1' AND ps.store_id = '" . $store_id . "'");
+			
+			
+			if ((!$store_product_query->num_rows || ($store_product_query->row['quantity'] < $product['quantity'])) && $product['subtract']) {
 				$stock = false;
 			}
+
+			// if (!$product['stock'] && $product['subtract']) {
+				// $stock = false;
+			// }
 		}
 
 		return $stock;

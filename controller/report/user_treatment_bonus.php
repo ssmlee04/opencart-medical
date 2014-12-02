@@ -341,6 +341,7 @@ class ControllerReportUserTreatmentBonus extends Controller {
 		$this->data['text_total_amount'] = $this->language->get('text_total_amount');
 
 		$this->data['button_filter'] = $this->language->get('button_filter');
+		$this->data['button_print'] = $this->language->get('button_print');
 
 		$this->data['token'] = $this->session->data['token'];
 
@@ -389,11 +390,17 @@ class ControllerReportUserTreatmentBonus extends Controller {
 
 
 
+
 		$this->template = 'report/user_treatment_bonus.tpl';
 		$this->children = array(
 			'common/header',
 			'common/footer'
 		);
+
+		if ($this->request->get['print']) {
+			$this->template = 'report/user_treatment_bonus_print.tpl';			
+		}
+
 
 		$this->response->setOutput($this->render());
 	}

@@ -386,8 +386,6 @@ class ControllerCatalogPurchase extends Controller {
 
 		$this->load->model('setting/store');
 		
-		$stores = $this->model_setting_store->getStores();
-
 		$this->data['stores'] = $stores;		
 
 		
@@ -716,6 +714,18 @@ class ControllerCatalogPurchase extends Controller {
 			$this->data['error_user'] = '';
 		}
 
+		if (isset($this->error['quantity'])) {
+			$this->data['error_quantity'] = $this->error['quantity'];
+		} else {
+			$this->data['error_quantity'] = '';
+		}
+
+		if (isset($this->error['cost'])) {
+			$this->data['error_cost'] = $this->error['cost'];
+		} else {
+			$this->data['error_cost'] = '';
+		}
+
 		if (isset($this->error['warning'])) {
 			$this->data['error_warning'] = $this->error['warning'];
 		} else {
@@ -940,7 +950,23 @@ class ControllerCatalogPurchase extends Controller {
 
 		$this->load->model('setting/store');
 
-		$this->data['stores'] = $this->model_setting_store->getStores();
+		$stores = $this->model_setting_store->getStores();
+
+
+		$user_store_permissions = json_decode($this->user->getStorePermission());
+		
+		$this->data['stores'] = [];
+		
+		foreach ($stores as $store) {
+			foreach ($user_store_permissions as $key => $value) {
+				if ($value == $store['store_id']) {
+					$this->data['stores'][] = $store;
+					
+				}
+			}
+		}
+
+
 
 		$this->load->model('user/user');
 
@@ -1104,6 +1130,12 @@ class ControllerCatalogPurchase extends Controller {
 	}
 
 	protected function validateForm() {
+
+		foreach ($this->request->post['purchase_product'] as $key => $purchase_product) {
+			if ($purchase_product['quantity'] <= 0) $this->error['quantity'] = $this->language->get('error_warning');
+			if ($purchase_product['cost'] <= 0) $this->error['cost'] = $this->language->get('error_warning');
+		}
+
 		if (!$this->user->hasPermission('modify', 'catalog/purchase')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}

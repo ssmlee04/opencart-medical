@@ -157,6 +157,7 @@ class ControllerCheckoutCart extends Controller {
 			$this->data['text_recurring_item'] = $this->language->get('text_recurring_item');
 			$this->data['text_payment_profile'] = $this->language->get('text_payment_profile');
 
+			$this->load->test('something is wrong and breakpoint is set');
 			if (isset($this->error['warning'])) {
 				$this->data['error_warning'] = $this->error['warning'];
 			} elseif (!$this->cart->hasStock() && (!$this->config->get('config_stock_checkout') || $this->config->get('config_stock_warning'))) {

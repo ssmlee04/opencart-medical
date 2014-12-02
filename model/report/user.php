@@ -141,10 +141,19 @@ class ModelReportUser extends Model {
 		return $query->rows;
 	}
 
+
 	// '2014-10-15 14:10'
-	public function getBonuses($data = array()) { 
+	public function getBonuses($data = array(), $start = 0, $limit = 10) { 
 		
 		$sql = "SELECT * "; 
+
+		if (isset($data['filter_group_usage'])) {
+			$sql .= " , sum(subquantity) as subquantity"; 
+			$sql .= " , sum(bonus_doctor) as bonus_doctor"; 
+			$sql .= " , sum(bonus_consultant) as bonus_consultant"; 
+			$sql .= " , sum(bonus_outsource) as bonus_outsource"; 
+			$sql .= " , sum(bonus_beauty) as bonus_beauty"; 
+		}
 
 		// if (isset($data['filter_doctor_id'])) {
 		// 	$sql .= " sum(bonus_doctor) as total, doctor_id as user_id";
@@ -200,6 +209,19 @@ class ModelReportUser extends Model {
 		// 	$sql .= " GROUP BY beauty_id ORDER BY beauty_id DESC";
 		// }
 // $this->load->test($sql);;
+
+		if (isset($data['filter_group_usage'])) {
+			$sql .= " AND treatment_usage_id > 0 GROUP BY treatment_usage_id"; 
+		}
+
+		// if ($start < 0) {
+		// 	$start = 0;
+		// }
+
+		// if ($limit < 1) {
+		// 	$limit = 10;
+		// }
+// $this->load->test($sql);
 		$query = $this->db->query($sql);
 	
 		return $query->rows;

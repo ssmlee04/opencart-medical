@@ -54,13 +54,17 @@ $(document).ready(function(){
 		});
 	});
 	
-	$('body').on('focusin', "select[type='product']", function(){
 	
 
-	// $("select[type='product']").load('false', function(data){
-	// $("select[type='product']").on("focusin", function(){
+	// $('body').on('focusin', "select[type='product']", function(){
+	$('body').on('mouseenter', "select[type='product']", function(){
+		
+		// console.log(123);
+
 		var product_type_ids = $(this).attr('alt');
 		var that = this;
+		if ($(this).val()) return true;
+
 		// var name = $(this).attr('name');
 		$.ajax({
 		  url: 'index.php?route=catalog/product/all&token=' + $('#tk').val() + '&filter_product_type_ids=' + product_type_ids,
@@ -72,11 +76,7 @@ $(document).ready(function(){
 		  success: function(json, textStatus, xhr) {
 		    //called when successful
 				$(that).empty().append("<option></option>");
-				// $.each(json, function(d){
-				// 	$(that).append('<option></option>').text(d.name).val(d.product_id);
-				// });
 				json.map(function(d){
-					console.log(d);
 					$(that).append("<option alt='" + d.unit + "' alt2='" + d.value + "' value='" + d.product_id + "''>" + d.name + "</option>");
 				});
 			
@@ -85,10 +85,12 @@ $(document).ready(function(){
 		    //called when there is an error
 		  }
 		});
+
 	});
-	
+
+
 	$('body').on('focusin', "input[type='product']", function(){
-	// $("input[type='product']").on("focusin", function(){
+	
 		var product_type_ids = $(this).attr('alt');
 		$(this).autocomplete({
 			delay: 500,
@@ -159,12 +161,13 @@ $(document).ready(function(){
 		});	
 	});
 
+	
+	var loaduser = function(that) {
 
+		if ($(that).val()) return true;
 
-	$('body').on('focusin', "select[type='user']", function(){
-		console.log(232);
-		var user_group_id = $(this).attr('alt');
-		var that = this;
+		var user_group_id = $(that).attr('alt');
+		var that = that;
 		$.ajax({
 		  url: 'index.php?route=user/user/all&token=' + $('#tk').val() + '&filter_user_group_id=' + user_group_id,
 		  type: 'POST',
@@ -187,8 +190,10 @@ $(document).ready(function(){
 		    //called when there is an error
 		  }
 		});
-	});
+	};
 
+	$('body').on('mouseenter', "select[type='user']", function(){loaduser(this);});
+	
 
 	$('body').on('focusin', "input[type='user']", function(){
 	// $("input[type='user']").on("focusin", function(){

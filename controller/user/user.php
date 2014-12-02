@@ -283,7 +283,7 @@ class ControllerUserUser extends Controller {
 		$this->data['entry_password'] = $this->language->get('entry_password');
 		$this->data['entry_confirm'] = $this->language->get('entry_confirm');
 		$this->data['entry_firstname'] = $this->language->get('entry_firstname');
-		$this->data['entry_lastname'] = $this->language->get('entry_lastname');
+		$this->data['entry_lastname'] = $this->language->get('entry_fullname');
 		$this->data['entry_email'] = $this->language->get('entry_email');
 		$this->data['entry_user_group'] = $this->language->get('entry_user_group');
 		$this->data['entry_status'] = $this->language->get('entry_status');
@@ -517,9 +517,9 @@ class ControllerUserUser extends Controller {
 			$this->error['defaultstore'] = $this->language->get('error_defaultstore');
 		}
 
-		if ((utf8_strlen($this->request->post['firstname']) < 1) || (utf8_strlen($this->request->post['firstname']) > 32)) {
-			$this->error['firstname'] = $this->language->get('error_firstname');
-		}
+		// if ((utf8_strlen($this->request->post['firstname']) < 1) || (utf8_strlen($this->request->post['firstname']) > 32)) {
+		// 	$this->error['firstname'] = $this->language->get('error_firstname');
+		// }
 
 		if ((utf8_strlen($this->request->post['lastname']) < 1) || (utf8_strlen($this->request->post['lastname']) > 32)) {
 			$this->error['lastname'] = $this->language->get('error_lastname');

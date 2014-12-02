@@ -116,6 +116,7 @@ class ControllerReportUserBonus extends Controller {
 		$this->data['customers'] = array();
 
 		$data = array(
+			'filter_group_usage'	=> 1,
 			'filter_doctor_id'	     => $filter_doctor_id, 
 			'filter_beauty_id'	     => $filter_beauty_id, 
 			'filter_consultant_id'	 => $filter_consultant_id, 
@@ -196,6 +197,7 @@ class ControllerReportUserBonus extends Controller {
 					
 					$transactions[] = array(
 						'date_modified' => $date_modified,
+						'used_unit' => $used_unit, 
 						'customer_id' => $result['customer_id'],
 						'customer_name' => $customer['fullname'],
 						'product_id' => $result['product_id'],
@@ -209,6 +211,7 @@ class ControllerReportUserBonus extends Controller {
 
 					$transactions[] = array(
 						'date_modified' => $date_modified,
+						'used_unit' => $used_unit, 
 						'customer_id' => $result['customer_id'],
 						'customer_name' => $customer['fullname'],
 						'product_id' => $result['product_id'],
@@ -222,6 +225,7 @@ class ControllerReportUserBonus extends Controller {
 
 					$transactions[] = array(
 						'date_modified' => $date_modified,
+						'used_unit' => $used_unit, 
 						'customer_id' => $result['customer_id'],
 						'customer_name' => $customer['fullname'],
 						'product_id' => $result['product_id'],
@@ -239,7 +243,7 @@ class ControllerReportUserBonus extends Controller {
 				'transactions' => $transactions
 			);
 		}
-		// $this->load->test($results);
+		
 		$this->data['heading_title'] = $this->language->get('heading_title');
 
 		$this->data['column_user'] = $this->language->get('column_user');

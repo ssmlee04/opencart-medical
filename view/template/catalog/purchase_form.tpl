@@ -45,12 +45,13 @@
             <tr>
               <td class="left"><?php echo $entry_store; ?></td>
               <td class="left">
-                <?php foreach ($stores as $store) { ?>
-                  <?php if ($store['store_id'] == $store_id) { ?>
-                  <?php echo $store['name']; ?></option>
-                  <?php } ?>
-                  <?php } ?>
-                <select name="store_id" class='store_id' style='display:none'>
+<!--                 <php foreach ($stores as $store) { ?>
+                  <php if ($store['store_id'] == $store_id) { ?>
+                  <php echo $store['name']; ?></option>
+                  <php } ?>
+                  <php } ?> -->
+
+                <select name="store_id" class='store_id'>
                   <option value=''><?php echo $text_select; ?></option>
                   <?php foreach ($stores as $store) { ?>
                   <?php if ($store['store_id'] == $store_id) { ?>
@@ -172,6 +173,12 @@
             </tbody>
           </table>
 
+          <?php if ($error_quantity) { ?>
+                  <span class="error"><?php echo $error_quantity; ?></span>
+                <?php } ?></td><?php if ($error_cost) { ?>
+                  <span class="error"><?php echo $error_cost; ?></span>
+                <?php } ?></td>
+
           <!-- <php if ($is_insert) { ?> -->
           <div class='group12'>
           <table class="list" >
@@ -273,9 +280,9 @@ $('#button-product, #button-voucher, #button-update').live('click', function() {
   $('.success, .warning, .attention, .error').remove();
 
   var product = $('input[name=\'product\']').val();
-  var product_id = $('input[name=\'product_id\']').val();
-  var quantity = $('input[name=\'quantity\']').val();
-  var cost = $('input[name=\'cost\']').val();
+  var product_id = parseInt($('input[name=\'product_id\']').val());
+  var quantity = parseInt($('input[name=\'quantity\']').val());
+  var cost = parseFloat($('input[name=\'cost\']').val());
   var total = cost * quantity;
 
   var match = false;

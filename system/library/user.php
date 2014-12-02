@@ -3,6 +3,7 @@ class User {
 	private $user_id;
 	private $user_group_id;
 	private $username;
+	private $getStorePermission;
 	private $permission = array();
 
 	public function __construct($registry) {
@@ -17,6 +18,7 @@ class User {
 				$this->user_id = $user_query->row['user_id'];
 				$this->username = $user_query->row['username'];
 				$this->user_group_id = $user_query->row['user_group_id'];
+				$this->store_permission = $user_query->row['store_permission'];
 
 				$this->db->query("UPDATE " . DB_PREFIX . "user SET ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "' WHERE user_id = '" . (int)$this->session->data['user_id'] . "'");
 
@@ -116,6 +118,10 @@ class User {
 
 	public function getId() {
 		return $this->user_id;
+	}
+
+	public function getStorePermission() {
+		return $this->store_permission;
 	}
 
 	public function getUserName() {

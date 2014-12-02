@@ -38,7 +38,8 @@
           <td>
               <input type="text" name="filter_outsource" value="<php echo $filter_outsource; ?>" id="user" size="12" /><input type="hidden" name="filter_outsource_id" value="<php echo $filter_outsource_id; ?>" id="outsource_id" size="12" /></td> -->
             <tr></tr>
-          <td style="text-align: right;" colspan='1'><a onclick="filter();" class="button"><?php echo $button_filter; ?></a></td>
+          <td style="text-align: right;" colspan='1'><a onclick="filter();" class="button"><?php echo $button_filter; ?></a> | <a onclick="print();" class="button"><?php echo $button_print; ?></a></td>
+
         </tr>
       </table>
       <br>
@@ -179,6 +180,77 @@ function filter() {
 
 	location = url;
 }
+
+
+
+function print() {
+  url = 'index.php?route=report/user_treatment_bonus&token=<?php echo $token; ?>';
+  
+  var filter_date_start = $('input[name=\'filter_date_start\']').attr('value');
+  
+  if (filter_date_start) {
+    url += '&filter_date_start=' + encodeURIComponent(filter_date_start);
+  }
+
+  var filter_date_end = $('input[name=\'filter_date_end\']').attr('value');
+  
+  if (filter_date_end) {
+    url += '&filter_date_end=' + encodeURIComponent(filter_date_end);
+  }
+
+  var filter_doctor = $('input[name=\'filter_doctor\']').attr('value');
+  
+  if (filter_doctor) {
+    url += '&filter_doctor=' + encodeURIComponent(filter_doctor);
+  } 
+
+  var filter_beauty = $('input[name=\'filter_beauty\']').attr('value');
+  
+  if (filter_beauty) {
+    url += '&filter_beauty=' + encodeURIComponent(filter_beauty);
+  } 
+
+  var filter_outsource = $('input[name=\'filter_outsource\']').attr('value');
+  
+  if (filter_outsource) {
+    url += '&filter_outsource=' + encodeURIComponent(filter_outsource);
+  } 
+
+  var filter_consultant = $('input[name=\'filter_consultant\']').attr('value');
+  
+  if (filter_consultant) {
+    url += '&filter_consultant=' + encodeURIComponent(filter_consultant);
+  } 
+
+  var filter_doctor_id = $('input[name=\'filter_doctor_id\']').attr('value');
+  
+  if (filter_doctor_id) {
+    url += '&filter_doctor_id=' + encodeURIComponent(filter_doctor_id);
+  }
+
+  var filter_beauty_id = $('input[name=\'filter_beauty_id\']').attr('value');
+  
+  if (filter_beauty_id) {
+    url += '&filter_beauty_id=' + encodeURIComponent(filter_beauty_id);
+  }
+  
+  var filter_consultant_id = $('input[name=\'filter_consultant_id\']').attr('value');
+  
+  if (filter_consultant_id) {
+    url += '&filter_consultant_id=' + encodeURIComponent(filter_consultant_id);
+  }
+  
+  var filter_outsource_id = $('input[name=\'filter_outsource_id\']').attr('value');
+  
+  if (filter_outsource_id) {
+    url += '&filter_outsource_id=' + encodeURIComponent(filter_outsource_id);
+  }
+
+  url += '&print=1';
+
+  window.open (url);
+}
+
 //--></script> 
 <script type="text/javascript"><!--
 

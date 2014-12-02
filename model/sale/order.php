@@ -4,7 +4,7 @@ class ModelSaleOrder extends Model {
 	// '2014-09-28 23:37'
 	public function addOrder($data) {
 
-		if (!$this->cart->hasProducts() || !$this->cart->hasStock()) {
+		if (!$this->cart->hasProducts() || !$this->cart->hasStock($data['store_id'])) {
 			return false;
 		}
 

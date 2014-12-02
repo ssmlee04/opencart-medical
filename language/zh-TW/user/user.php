@@ -19,6 +19,8 @@ $_['entry_password']   = '密碼';
 $_['entry_confirm']    = '確認密碼';
 $_['entry_firstname']  = '名字';
 $_['entry_lastname']   = '姓氏';
+$_['entry_fullname']   = '姓名';
+
 $_['entry_email']      = '電子信箱';
 $_['entry_user_group'] = '管理員群組';
 $_['entry_status']     = '狀態';

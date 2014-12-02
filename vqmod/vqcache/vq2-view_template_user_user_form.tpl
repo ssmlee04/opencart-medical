@@ -25,13 +25,13 @@
               <span class="error"><?php echo $error_username; ?></span>
               <?php } ?></td>
           </tr>
-          <tr>
-            <td><span class="required">*</span> <?php echo $entry_firstname; ?></td>
-            <td><input type="text" name="firstname" value="<?php echo $firstname; ?>" />
-              <?php if ($error_firstname) { ?>
-              <span class="error"><?php echo $error_firstname; ?></span>
-              <?php } ?></td>
-          </tr>
+<!--           <tr>
+            <td><span class="required">*</span> <php echo $entry_firstname; ?></td>
+            <td><input type="text" name="firstname" value="<php echo $firstname; ?>" />
+              <php if ($error_firstname) { ?>
+              <span class="error"><php echo $error_firstname; ?></span>
+              <php } ?></td>
+          </tr> -->
           <tr>
             <td><span class="required">*</span> <?php echo $entry_lastname; ?></td>
             <td><input type="text" name="lastname" value="<?php echo $lastname; ?>" />
@@ -39,10 +39,10 @@
               <span class="error"><?php echo $error_lastname; ?></span>
               <?php } ?></td>
           </tr>
-          <tr>
-            <td><?php echo $entry_email; ?></td>
-            <td><input type="text" name="email" value="<?php echo $email; ?>" /></td>
-          </tr>
+<!--           <tr>
+            <td><php echo $entry_email; ?></td>
+            <td><input type="text" name="email" value="<php echo $email; ?>" /></td>
+          </tr> -->
           <tr>
             <td><?php echo $entry_user_group; ?></td>
             <td><select name="user_group_id">
@@ -59,14 +59,14 @@
          
           <tr>
             <td><?php echo $entry_password; ?></td>
-            <td><input type="password" name="password" value="<?php echo $password; ?>"  />
+            <td><input type="password" name="password" />
               <?php if ($error_password) { ?>
               <span class="error"><?php echo $error_password; ?></span>
               <?php  } ?></td>
           </tr>
           <tr>
             <td><?php echo $entry_confirm; ?></td>
-            <td><input type="password" name="confirm" value="<?php echo $confirm; ?>" />
+            <td><input type="password" name="confirm" value="" />
               <?php if ($error_confirm) { ?>
               <span class="error"><?php echo $error_confirm; ?></span>
               <?php  } ?></td>
