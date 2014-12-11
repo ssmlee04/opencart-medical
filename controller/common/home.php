@@ -186,6 +186,7 @@ class ControllerCommonHome extends Controller {
 		);
 
 		$this->data['user_group_id'] = 2; //$this->user->getUserGroupId();
+		$this->data['user_id'] = $this->user->getId();
 		
 		// $this->load->test($this->data['reminder_classes']);
 		

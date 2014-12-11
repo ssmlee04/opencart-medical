@@ -25,6 +25,7 @@
 	<?php if ($error_logs) { ?>
 	<div class="warning"><?php echo $error_logs; ?></div>
 	<?php } ?>
+
 	<div class="box">
 		<div class="heading">
 			<h1><img src="view/image/admin_theme/base5builder_impulsepro/icon-dashboard-large.png" alt="" /> <?php echo $heading_title; ?></h1>
@@ -32,7 +33,7 @@
 		<div class="content">
 			<div class="dashboard-top">
 				
-				<?php if ($user_group_id == 1) { ?>
+				<?php if ($user_id == 0) { ?>
 				<div class="statistic">
 					<div class="range clearfix">
 						<div class="range-label"><?php echo $entry_range; ?></div>
@@ -120,7 +121,7 @@
 			</div>
 			<div class="dashboard-bottom">
 				
-				<?php if ($user_group_id == 1) { ?>
+				<?php if ($user_id == 0) { ?>
 				<div class="latest">
 					<div class="dashboard-heading"><?php echo $text_latest_10_orders; ?></div>
 					<div class="dashboard-content">
@@ -159,11 +160,9 @@
 						</table>
 					</div>
 				</div>
-				<?php } else { ?>
-				<div class="" id="messages">
-					
-				</div>
 				<?php } ?>
+				<div class="" id="messages"></div>
+				
 			</div>
 			<div class="clear"></div>
 		</div>
