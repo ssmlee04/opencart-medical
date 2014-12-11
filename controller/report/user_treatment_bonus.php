@@ -58,13 +58,13 @@ class ControllerReportUserTreatmentBonus extends Controller {
 		if (isset($this->request->get['filter_date_start'])) {
 			$filter_date_start = $this->request->get['filter_date_start'];
 		} else {
-			$filter_date_start = '';
+			$filter_date_start = date('Y-m-d', strtotime(date('Y') . '-' . date('m') . '-01'));
 		}
 
 		if (isset($this->request->get['filter_date_end'])) {
 			$filter_date_end = $this->request->get['filter_date_end'];
 		} else {
-			$filter_date_end = '';
+			$filter_date_end = date('Y-m-d');
 		}
 // $this->load->test($this->request->get);
 		if (isset($this->request->get['filter_order_status_id'])) {
@@ -397,7 +397,7 @@ class ControllerReportUserTreatmentBonus extends Controller {
 			'common/footer'
 		);
 
-		if ($this->request->get['print']) {
+		if (isset($this->request->get['print']) && $this->request->get['print']) {
 			$this->template = 'report/user_treatment_bonus_print.tpl';			
 		}
 

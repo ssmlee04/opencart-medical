@@ -140,3 +140,23 @@
 2014-12-11 7:44:44 - PHP Notice:  Trying to get property of non-object in /var/www/html/opencart2/model/catalog/purchase.php on line 215
 2014-12-11 7:44:57 - PHP Notice:  Undefined variable: store_product in /var/www/html/opencart2/model/catalog/purchase.php on line 215
 2014-12-11 7:44:57 - PHP Notice:  Trying to get property of non-object in /var/www/html/opencart2/model/catalog/purchase.php on line 215
+2014-12-11 8:05:37 - PHP Notice:  Undefined variable: thisstore in /var/www/html/opencart2/view/template/catalog/purchase_form.tpl on line 68
+2014-12-11 8:05:48 - PHP Notice:  Undefined variable: bonus in /var/www/html/opencart2/controller/report/user_bonus.php on line 144
+2014-12-11 8:05:48 - PHP Warning:  Invalid argument supplied for foreach() in /var/www/html/opencart2/controller/report/user_bonus.php on line 144
+2014-12-11 8:05:48 - PHP Notice:  Undefined variable: filter_order_status_id in /var/www/html/opencart2/controller/report/user_bonus.php on line 322
+2014-12-11 8:06:01 - PHP Notice:  Undefined index: print in /var/www/html/opencart2/controller/report/user_treatment_bonus.php on line 400
+2014-12-11 8:06:31 - PHP Notice:  Undefined index: print in /var/www/html/opencart2/controller/report/user_treatment_bonus.php on line 400
+2014-12-11 8:06:36 - PHP Notice:  Undefined index: print in /var/www/html/opencart2/controller/report/user_treatment_bonus.php on line 400
+2014-12-11 8:06:38 - PHP Notice:  Undefined variable: filter_order_status_id in /var/www/html/opencart2/controller/report/user_bonus.php on line 322
+2014-12-11 8:41:47 - PHP Notice:  Undefined variable: filter_order_status_id in /var/www/html/opencart2/controller/report/user_bonus.php on line 322
+2014-12-11 8:41:47 - PHP Notice:  Undefined index: print in /var/www/html/opencart2/controller/report/user_treatment_bonus.php on line 400
+2014-12-11 8:42:17 - PHP Notice:  Undefined variable: bonus in /var/www/html/opencart2/controller/report/user_bonus.php on line 144
+2014-12-11 8:42:17 - PHP Warning:  Invalid argument supplied for foreach() in /var/www/html/opencart2/controller/report/user_bonus.php on line 144
+2014-12-11 8:42:17 - PHP Notice:  Undefined variable: filter_order_status_id in /var/www/html/opencart2/controller/report/user_bonus.php on line 322
+2014-12-11 8:42:50 - PHP Notice:  Undefined index: print in /var/www/html/opencart2/controller/report/user_treatment_bonus.php on line 400
+2014-12-11 8:43:11 - PHP Notice:  Undefined index: print in /var/www/html/opencart2/controller/report/user_treatment_bonus.php on line 400
+2014-12-11 8:44:01 - PHP Notice:  Undefined variable: bonus in /var/www/html/opencart2/controller/report/user_bonus.php on line 144
+2014-12-11 8:44:01 - PHP Notice:  Undefined variable: filter_order_status_id in /var/www/html/opencart2/controller/report/user_bonus.php on line 322
+2014-12-11 8:44:16 - PHP Notice:  Undefined variable: filter_order_status_id in /var/www/html/opencart2/controller/report/user_bonus.php on line 322
+2014-12-11 8:44:38 - PHP Notice:  Undefined index: print in /var/www/html/opencart2/controller/report/user_treatment_bonus.php on line 400
+2014-12-11 8:45:15 - PHP Notice:  Undefined index: filter_customer_id in /var/www/html/opencart2/controller/sale/order.php on line 682

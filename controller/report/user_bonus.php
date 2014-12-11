@@ -58,13 +58,13 @@ class ControllerReportUserBonus extends Controller {
 		if (isset($this->request->get['filter_date_start'])) {
 			$filter_date_start = $this->request->get['filter_date_start'];
 		} else {
-			$filter_date_start = '';
+			$filter_date_start = date('Y-m-d', strtotime(date('Y') . '-' . date('m') . '-01'));
 		}
 
 		if (isset($this->request->get['filter_date_end'])) {
 			$filter_date_end = $this->request->get['filter_date_end'];
 		} else {
-			$filter_date_end = '';
+			$filter_date_end = date('Y-m-d');
 		}
 // $this->load->test($this->request->get);
 		// if (isset($this->request->get['filter_order_status_id'])) {
@@ -140,8 +140,8 @@ class ControllerReportUserBonus extends Controller {
 		$this->load->model('user/user');
 		$this->data['users'] = array();
 
-
-		foreach ($bonus as $user_id => $bonus) {
+		if (!empty($bonus))
+		foreach ($bonus as $user_id => $bonussmall) {
 
 			$transactions = array();
 
@@ -239,7 +239,7 @@ class ControllerReportUserBonus extends Controller {
 			$this->data['users'][] = array(
 				'user_id'       => $user_id,
 				'name'       => $user_info['fullname'],
-				'bonus'       => $bonus, 
+				'bonus'       => $bonussmall, 
 				'transactions' => $transactions
 			);
 		}
@@ -319,7 +319,7 @@ class ControllerReportUserBonus extends Controller {
 		$this->data['filter_outsource'] = $filter_outsource;		
 		$this->data['filter_beauty_id'] = $filter_beauty_id;		
 		$this->data['filter_beauty'] = $filter_beauty;		
-		$this->data['filter_order_status_id'] = $filter_order_status_id;
+		// $this->data['filter_order_status_id'] = $filter_order_status_id;
 
 
 
