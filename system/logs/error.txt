@@ -449,3 +449,6 @@
 2014-12-10 20:06:47 - PHP Notice:  Undefined index: print in /var/www/html/opencart2/controller/report/user_treatment_bonus.php on line 400
 2014-12-10 20:07:01 - PHP Notice:  Undefined variable: filter_order_status_id in /var/www/html/opencart2/controller/report/user_bonus.php on line 322
 2014-12-10 20:07:13 - PHP Notice:  Undefined index: print in /var/www/html/opencart2/controller/report/user_treatment_bonus.php on line 400
+2014-12-10 20:18:51 - PHP Notice:  Undefined index: customer_group in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_sale_customer.php on line 600
+2014-12-10 20:18:51 - PHP Notice:  Undefined index: customer_group in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_sale_customer.php on line 600
+2014-12-10 20:26:08 - PHP Notice:  Undefined index: is_all in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_sale_customer.php on line 785

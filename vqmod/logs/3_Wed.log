@@ -1288,3 +1288,48 @@ VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <div class="heading">
 ----------------------------------------------------------------------
 
 
+---------- Date: 2014-12-10 20:18:55 ~ IP : 127.0.0.1 ----------
+REQUEST URI : /opencart2/index.php?route=sale/customer/transaction&amp;token=b0c43c498195a7f05906842f1c367f5b&amp;filter_product_type_id=1&amp;filter_customer_id=40&amp;show_group=1
+MOD DETAILS:
+   modFile   : /var/www/html/opencart2/vqmod/xml/med.xml
+   id        : Admin Theme - Base 5 Builder - ImpulsePro
+   version   : 1.0.4
+   vqmver    : 2.0
+   author    : Niyi Sodipe - Base5Builder.com
+
+File Name    : view/template/sale/customer_*(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <div class="heading">
+
+----------------------------------------------------------------------
+
+
+---------- Date: 2014-12-10 20:18:57 ~ IP : 127.0.0.1 ----------
+REQUEST URI : /opencart2/index.php?route=sale/customer/transaction&amp;token=b0c43c498195a7f05906842f1c367f5b&amp;filter_product_type_id=2&amp;filter_customer_id=40&amp;show_group=1
+MOD DETAILS:
+   modFile   : /var/www/html/opencart2/vqmod/xml/med.xml
+   id        : Admin Theme - Base 5 Builder - ImpulsePro
+   version   : 1.0.4
+   vqmver    : 2.0
+   author    : Niyi Sodipe - Base5Builder.com
+
+File Name    : view/template/sale/customer_*(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <div class="heading">
+
+----------------------------------------------------------------------
+
+
+---------- Date: 2014-12-10 20:19:00 ~ IP : 127.0.0.1 ----------
+REQUEST URI : /opencart2/index.php?route=sale/customer/transaction&amp;token=b0c43c498195a7f05906842f1c367f5b&amp;filter_product_type_id=1&amp;filter_customer_id=40&amp;show_group=1
+MOD DETAILS:
+   modFile   : /var/www/html/opencart2/vqmod/xml/med.xml
+   id        : Admin Theme - Base 5 Builder - ImpulsePro
+   version   : 1.0.4
+   vqmver    : 2.0
+   author    : Niyi Sodipe - Base5Builder.com
+
+File Name    : view/template/sale/customer_*(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <div class="heading">
+
+----------------------------------------------------------------------
+
+

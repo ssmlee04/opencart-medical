@@ -597,7 +597,7 @@ class ControllerSaleCustomer extends Controller {
 				'dob'          => $dob,
 				'mobile'          => $result['mobile'],
 				'email'          => $result['email'],
-				'customer_group' => $result['customer_group'],
+				// 'customer_group' => $result['customer_group'],
 				'status'         => ($result['status'] ? $this->language->get('text_enabled') : $this->language->get('text_disabled')),
 				'approved'       => ($result['approved'] ? $this->language->get('text_yes') : $this->language->get('text_no')),
 				'ip'             => $result['ip'],
@@ -782,7 +782,7 @@ class ControllerSaleCustomer extends Controller {
 		$pagination->url = $this->url->link('sale/customer', 'token=' . $this->session->data['token'] . $url . '&page={page}', 'SSL');
 
 
-		if ($this->data['is_all']) $pagination->url = $this->url->link('sale/customer/all', 'token=' . $this->session->data['token'] . $url . '&page={page}', 'SSL');
+		if (isset($this->data['is_all'])) $pagination->url = $this->url->link('sale/customer/all', 'token=' . $this->session->data['token'] . $url . '&page={page}', 'SSL');
 
 		$this->data['pagination'] = $pagination->render();
 
