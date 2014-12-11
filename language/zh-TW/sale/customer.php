@@ -3,6 +3,8 @@
 $_['heading_title']           = '客戶';
 
 // Text
+$_['text_sex_male']            = '男';
+$_['text_sex_female']            = '女';
 $_['text_appointment_start']            = '預約時間';
 $_['text_appointment_end']            = '至';
 $_['text_success']            = '已成功修改客戶的設置';
@@ -112,6 +114,7 @@ $_['button_borrowfrom']           = '借入';
 
 
 // Entry
+$_['entry_sex']         = '性別';
 $_['entry_customer']         = '客戶';
 $_['entry_firstname']         = '名字';
 $_['entry_name']         = '名字';

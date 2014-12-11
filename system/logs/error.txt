@@ -1,20 +1,21 @@
-2014-12-11 9:25:53 - PHP Notice:  Undefined index: fullname in /var/www/html/opencart2/model/sale/order.php on line 385
-2014-12-11 9:25:53 - PHP Notice:  Undefined index: customer_id in /var/www/html/opencart2/model/sale/order.php on line 460
-2014-12-11 9:25:53 - PHP Notice:  Undefined index: payment_cash in /var/www/html/opencart2/model/sale/order.php on line 462
-2014-12-11 9:25:53 - PHP Notice:  Undefined index: payment_visa in /var/www/html/opencart2/model/sale/order.php on line 462
-2014-12-11 9:25:53 - PHP Notice:  Undefined index: payment_final in /var/www/html/opencart2/model/sale/order.php on line 462
-2014-12-11 9:35:05 - PHP Notice:  Undefined variable: text_transaction_appointeds in /var/www/html/opencart2/view/template/sale/customer_transaction.tpl on line 87
-2014-12-11 10:19:52 - PHP Warning:  date_format() expects parameter 1 to be DateTimeInterface, integer given in /var/www/html/opencart2/vqmod/vqcache/vq2-model_sale_customer.php on line 1289
-2014-12-11 10:20:21 - PHP Warning:  date_format() expects parameter 1 to be DateTimeInterface, integer given in /var/www/html/opencart2/vqmod/vqcache/vq2-model_sale_customer.php on line 1289
-2014-12-11 10:20:29 - PHP Warning:  date_format() expects parameter 1 to be DateTimeInterface, integer given in /var/www/html/opencart2/vqmod/vqcache/vq2-model_sale_customer.php on line 1289
-2014-12-11 10:20:44 - PHP Warning:  date_format() expects parameter 1 to be DateTimeInterface, integer given in /var/www/html/opencart2/vqmod/vqcache/vq2-model_sale_customer.php on line 1289
-2014-12-11 10:28:08 - PHP Notice:  Undefined index: name in /var/www/html/opencart2/vqmod/vqcache/vq2-model_sale_customer.php on line 1344
-2014-12-11 10:28:11 - PHP Notice:  Undefined index: name in /var/www/html/opencart2/vqmod/vqcache/vq2-model_sale_customer.php on line 1344
-2014-12-11 10:28:28 - PHP Notice:  Undefined index: name in /var/www/html/opencart2/vqmod/vqcache/vq2-model_sale_customer.php on line 1346
-2014-12-11 10:29:06 - PHP Notice:  Undefined index: name in /var/www/html/opencart2/vqmod/vqcache/vq2-model_sale_customer.php on line 1346
-2014-12-11 10:29:07 - PHP Notice:  Undefined index: name in /var/www/html/opencart2/vqmod/vqcache/vq2-model_sale_customer.php on line 1346
-2014-12-11 10:29:07 - PHP Notice:  Undefined index: name in /var/www/html/opencart2/vqmod/vqcache/vq2-model_sale_customer.php on line 1346
-2014-12-11 10:29:09 - PHP Notice:  Undefined index: name in /var/www/html/opencart2/vqmod/vqcache/vq2-model_sale_customer.php on line 1346
-2014-12-11 10:29:34 - PHP Notice:  Undefined index: name in /var/www/html/opencart2/vqmod/vqcache/vq2-model_sale_customer.php on line 1346
-2014-12-11 10:29:35 - PHP Notice:  Undefined index: name in /var/www/html/opencart2/vqmod/vqcache/vq2-model_sale_customer.php on line 1346
-2014-12-11 10:32:39 - PHP Notice:  Undefined index: name in /var/www/html/opencart2/vqmod/vqcache/vq2-model_sale_customer.php on line 1351
+2014-12-11 10:42:26 - PHP Notice:  Undefined index: firstname in /var/www/html/opencart2/model/user/user.php on line 27
+2014-12-11 10:42:26 - PHP Notice:  Undefined index: firstname in /var/www/html/opencart2/model/user/user.php on line 29
+2014-12-11 10:42:26 - PHP Notice:  Undefined index: email in /var/www/html/opencart2/model/user/user.php on line 30
+2014-12-11 10:53:59 - PHP Notice:  Undefined variable: entry_sex in /var/www/html/opencart2/vqmod/vqcache/vq2-view_template_sale_customer_form.tpl on line 86
+2014-12-11 10:53:59 - PHP Notice:  Undefined variable: sex in /var/www/html/opencart2/vqmod/vqcache/vq2-view_template_sale_customer_form.tpl on line 92
+2014-12-11 10:53:59 - PHP Notice:  Undefined variable: text_sex_male in /var/www/html/opencart2/vqmod/vqcache/vq2-view_template_sale_customer_form.tpl on line 92
+2014-12-11 10:53:59 - PHP Notice:  Undefined variable: sex in /var/www/html/opencart2/vqmod/vqcache/vq2-view_template_sale_customer_form.tpl on line 93
+2014-12-11 10:53:59 - PHP Notice:  Undefined variable: text_sex_female in /var/www/html/opencart2/vqmod/vqcache/vq2-view_template_sale_customer_form.tpl on line 93
+2014-12-11 10:53:59 - PHP Notice:  Undefined variable: error_sex in /var/www/html/opencart2/vqmod/vqcache/vq2-view_template_sale_customer_form.tpl on line 95
+2014-12-11 10:54:29 - PHP Notice:  Undefined variable: entry_sex in /var/www/html/opencart2/vqmod/vqcache/vq2-view_template_sale_customer_form.tpl on line 86
+2014-12-11 10:54:29 - PHP Notice:  Undefined variable: sex in /var/www/html/opencart2/vqmod/vqcache/vq2-view_template_sale_customer_form.tpl on line 92
+2014-12-11 10:54:29 - PHP Notice:  Undefined variable: sex in /var/www/html/opencart2/vqmod/vqcache/vq2-view_template_sale_customer_form.tpl on line 93
+2014-12-11 10:54:29 - PHP Notice:  Undefined variable: error_sex in /var/www/html/opencart2/vqmod/vqcache/vq2-view_template_sale_customer_form.tpl on line 95
+2014-12-11 10:55:34 - PHP Notice:  Undefined variable: entry_sex in /var/www/html/opencart2/vqmod/vqcache/vq2-view_template_sale_customer_form.tpl on line 86
+2014-12-11 10:56:22 - PHP Notice:  Undefined variable: entry_sex in /var/www/html/opencart2/vqmod/vqcache/vq2-view_template_sale_customer_form.tpl on line 86
+2014-12-11 10:57:24 - PHP Notice:  Undefined index: firstname in /var/www/html/opencart2/vqmod/vqcache/vq2-model_sale_customer.php on line 49
+2014-12-11 10:57:24 - PHP Notice:  Undefined index: firstname in /var/www/html/opencart2/vqmod/vqcache/vq2-model_sale_customer.php on line 51
+2014-12-11 10:58:02 - PHP Notice:  Undefined index: firstname in /var/www/html/opencart2/vqmod/vqcache/vq2-model_sale_customer.php on line 49
+2014-12-11 10:58:02 - PHP Notice:  Undefined index: firstname in /var/www/html/opencart2/vqmod/vqcache/vq2-model_sale_customer.php on line 51
+2014-12-11 10:59:06 - PHP Notice:  Undefined index: firstname in /var/www/html/opencart2/vqmod/vqcache/vq2-model_sale_customer.php on line 49
+2014-12-11 10:59:06 - PHP Notice:  Undefined index: firstname in /var/www/html/opencart2/vqmod/vqcache/vq2-model_sale_customer.php on line 51

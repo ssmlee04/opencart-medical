@@ -826,6 +826,8 @@ class ControllerSaleCustomer extends Controller {
 
 		$this->data['heading_title'] = $this->language->get('heading_title');
 		
+		$this->data['text_sex_female'] = $this->language->get('text_sex_female');
+		$this->data['text_sex_male'] = $this->language->get('text_sex_male');
 		$this->data['text_browse'] = $this->language->get('text_browse');
 		$this->data['text_clear'] = $this->language->get('text_clear');
 		$this->data['text_enabled'] = $this->language->get('text_enabled');
@@ -852,6 +854,7 @@ class ControllerSaleCustomer extends Controller {
 		
 		// $this->data['entry_firstname'] = $this->language->get('entry_firstname');
 		// $this->data['entry_lastname'] = $this->language->get('entry_lastname');
+		$this->data['entry_sex'] = $this->language->get('entry_sex');
 		$this->data['entry_lastname'] = $this->language->get('entry_name');
 		$this->data['entry_name'] = $this->language->get('entry_name');
 		$this->data['entry_email'] = $this->language->get('entry_email');
@@ -1074,6 +1077,12 @@ class ControllerSaleCustomer extends Controller {
 			$this->data['error_store'] = $this->error['store'];
 		} else {
 			$this->data['error_store'] = '';
+		}
+
+		if (isset($this->error['sex'])) {
+			$this->data['error_sex'] = $this->error['sex'];
+		} else {
+			$this->data['error_sex'] = '';
 		}
 
 
@@ -1320,6 +1329,14 @@ class ControllerSaleCustomer extends Controller {
 		} else {
 			$this->data['image'] = '';
 			$this->data['thumb'] = $this->model_tool_image->resize('no_image.jpg', 100, 100);
+		}
+
+		if (isset($this->request->post['sex'])) {
+			$this->data['sex'] = $this->request->post['sex'];
+		} elseif (!empty($customer_info)) {
+			$this->data['sex'] = $customer_info['sex'];
+		} else {
+			$this->data['sex'] = '';
 		}
 
 		if (isset($this->request->post['store'])) {

@@ -46,6 +46,7 @@ class ModelSaleCustomer extends Model {
 			, dob = '" . $this->db->escape($data['dob']) . "'
 			, ssn = '" . $this->db->escape($data['ssn']) . "'
 			, image = '" . $this->db->escape($data['avatarimage']) . "'
+			, sex = '" . (int)$data['sex'] . "'
 			, store_id = '" . (int)$data['store'] . "'
 			, nickname = '" . $this->db->escape($data['nickname']) . "'
 			, line_id = '" . $this->db->escape($data['line_id']) . "'

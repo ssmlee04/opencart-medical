@@ -79,6 +79,27 @@
                   <span class="error"><?php echo $error_lastname; ?></span>
                   <?php } ?></td>
               </tr>
+
+    <tr>
+      <td><span class="required">*</span><?php echo $entry_sex; ?></td>
+      <td>
+      <?php $sexname = '';?>
+      <?php if ($sex==1) $sexname = $text_sex_male; ?>
+      <?php if ($sex==2) $sexname = $text_sex_female; ?>
+        <div class='group11' ><?php echo $sexname; ?></div>
+        <div class='group12' >
+          <select name="sex">
+        <option value=""></option>
+        <option value="1" <?php if ($sex==1) echo 'selected'; ?>><?php echo $text_sex_male; ?></option>
+        <option value="2" <?php if ($sex==2) echo 'selected'; ?>><?php echo $text_sex_female; ?></option>
+        </select></div>
+        <?php if ($error_sex) { ?>
+        <span class="error"><?php echo $error_sex; ?></span>
+        <?php  } ?>
+      </td>
+      </td>
+    </tr>
+
               <tr>
                 <td><?php echo $entry_email; ?></td>
                 <td><div class='group11' ><?php echo $email; ?></div>
@@ -95,6 +116,7 @@
                   <span class="error"><?php echo $error_telephone; ?></span>
                   <?php  } ?></div></td>
               </tr>
+
               <tr>
                 <td><?php echo $entry_mobile; ?></td>
                 <td><div class='group11' ><?php echo $mobile; ?></div>
