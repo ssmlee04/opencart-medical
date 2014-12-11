@@ -46,7 +46,7 @@
                 <?php foreach ($stores as $store) { ?>
                   <?php if ($store['store_id'] == $store_id) {  echo $store['name']; } ?>
                 <?php } ?><?php } ?>
-                <select  name="store_id" <?php if (!$is_insert) echo 'style="display:none"'; ?>  class='store_id' onchange="$(this).attr('readonly', true);">
+                <select name="store_id" <?php if (!$is_insert) echo 'style="display:none"'; ?>>
                   <option value=''><?php echo $text_select; ?></option>
                   <?php foreach ($stores as $store) { ?>
                   <?php if ($store['store_id'] == $store_id) { ?>
@@ -285,7 +285,7 @@
               <php } ?> -->
               <?php foreach ($order_totals as $order_total) { ?>
               <tr id="total-row<?php echo $total_row; ?>">
-                <td class="right" colspan="4"><?php echo $order_total['title']; ?>:
+                <td class="right" colspan="3"><?php echo $order_total['title']; ?>:
                   <input type="hidden" name="order_total[<?php echo $total_row; ?>][order_total_id]" value="<?php echo $order_total['order_total_id']; ?>" />
                   <input type="hidden" name="order_total[<?php echo $total_row; ?>][code]" value="<?php echo $order_total['code']; ?>" />
                   <input type="hidden" name="order_total[<?php echo $total_row; ?>][title]" value="<?php echo $order_total['title']; ?>" />
@@ -592,7 +592,7 @@ $('#button-product').live('click', function() {
 // });
 
 
-  var store_id = $('.store_id').val();
+  var store_id = $('select[name=\'store_id\']').val();
   var customer_id = $('input[name=\'customer_id\']').val();
   
       $('.success, .warning, .attention, .error').remove();

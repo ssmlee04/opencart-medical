@@ -610,12 +610,16 @@ class ModelSaleCustomer extends Model {
 	// '2014-10-14 12:13'
 	public function recordevent($customer_id, $data) {
 
+		if (strtotime($data['end']) - strtotime($data['start']) <= 0) return false;
+		if (strtotime($data['end']) - strtotime($data['start']) > 86400 * 2) return false;
+
 		$sql  = "INSERT INTO oc_customer_event SET date_added = NOW(), customer_id = " . (int)$customer_id;
 
 		if (isset($data['title'])) $sql .= ", title='" . $data['title'] . "'"; 
 		if (isset($data['end'])) $sql .= ", date_end='" . $data['end'] ."'";
 		if (isset($data['start'])) $sql .= ", date_start='" . $data['start'] . "'";
 
+$this->load->out($sql, false);
 		$this->db->query($sql);
 
 		return $this->db->countAffected();
@@ -1254,19 +1258,34 @@ $this->load->out($sql, false);
 
 	public function editgrouptransaction($data) {
 
-		// $this->load->out(123123131);
-		
 		$this->load->model('catalog/product');
 
+		$comment = (isset($data['comment']) ? $data['comment'] : '');
+		$customer_id = (isset($data['customer_id']) ? $data['customer_id'] : 0);
 		$unitspend = (isset($data['unitspend']) ? $data['unitspend'] : 0);
 		$product_id = (isset($data['product_id']) ? $data['product_id'] : 0);
-		$customer_id = (isset($data['customer_id']) ? $data['customer_id'] : 0);
+		$appstart = (isset($data['appstart']) ? $data['appstart'] : 0);
+		$append = (isset($data['append']) ? $data['append'] : 0);
+		$status = (isset($data['status']) ? $data['status'] : 0);
+		if ($appstart) $appstart = date('Y-m-d H:i:s', strtotime($appstart));
+		if ($append) $append = date('Y-m-d H:i:s', strtotime($append));
+// $this->load->out(DATE_FORMAT(strtotime($append), '%Y-%m-%d %T'));
+		// $this->load->out(date('Y-m-d H:i:s', strtotime($append)));
+		if ($status == -2) {
+			if ($appstart && $append) {
+				if (strtotime($appstart) >= strtotime($append)) return false;
+				if (strtotime($append)- strtotime($appstart) > 86400 * 2) return false;
+			}
+		}
 
 		if (!$product_id) return false;
 		if (!$customer_id) return false;
 
 		$product = $this->model_catalog_product->getProduct($product_id);
 
+		if (!$product) return false;
+
+		$name = $product['name'];
 		$value = $product['value']; 
 
 		if ($value > $unitspend) {
@@ -1278,21 +1297,47 @@ $this->load->out($sql, false);
 		$remaining = $this->db->query("SELECT * FROM oc_customer_transaction WHERE customer_id = '" . (int)$customer_id . "' AND product_id = '" . (int)$product_id . "' AND status < 0 ORDER BY total_amount DESC LIMIT 0, $number_unit_used");
 
 		if ($remaining->num_rows < $number_unit_used) {
+			// not enough treatment left
 			return false;
+
 		} else {
 
 			$user_id = $this->user->getId();
-			$this->db->query("INSERT INTO oc_customer_treatment_usage (user_id, customer_id, subquantity) VALUES ('$user_id', '$customer_id', '$number_unit_used')");
+
+			$this->db->query("INSERT INTO oc_customer_treatment_usage (user_id, customer_id, subquantity) VALUES ('" . (int)$user_id . "', '" . (int)$customer_id . "', '" . (int)$number_unit_used . "')");
+			
 			$customer_treatment_usage_id = $this->db->getLastId();
 
 			$data['customer_treatment_usage_id'] = $customer_treatment_usage_id;
 
 			$if_remind = true;
+
+			$allcorrect = true;
+
 			foreach ($remaining->rows as $result) {
 				
-				$this->edittransaction($result['customer_transaction_id'], $data, $if_remind);
+				if (!$this->edittransaction($result['customer_transaction_id'], $data, $if_remind)) {
+					$allcorrect = false;
+				}
+
 				$if_remind = false;
 			}
+
+			if ($status == -2 && $customer_id) {
+				
+				$this->load->model('sale/customer');
+
+				$customer = $this->model_sale_customer->getCustomer($customer_id);
+
+				$tempdata = array(
+					'title' => $customer['fullname'] . '->' . $comment, 
+					'start' => $appstart,
+					'end' => $append
+				);
+
+				$this->recordevent($customer_id, $tempdata);
+			}
+
 			return true;
 		}
 	}
@@ -1300,7 +1345,6 @@ $this->load->out($sql, false);
 	// Chandler '2014-11-03 23:02'
 	public function editevent($customer_event_id, $data) {
 
-$this->load->out($data, false);
 		$sql  = "UPDATE oc_customer_event SET date_added = NOW()";
 		
 		$sql .= (isset($data['date_start']) ? " , date_start = '" . $data['date_start'] . "'" : '');

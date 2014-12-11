@@ -87,12 +87,16 @@
       <option value='-2'><?php echo $text_transaction_appointed; ?></option>
       <option value='2' ><?php echo $text_transaction_finished; ?></option>
     </select>
+  
         <?php if ($is_insert) { ?>
         <a  class='group_change_status_button'><?php echo $button_change_status; ?></a>
         <?php } ?>
+
+        <br>
+    <div id='tranapp' style="display:inline"></div>
+
   </tr>
 </table>
-
 
 
 
@@ -372,6 +376,8 @@ $('.group_change_status_button').on('click', function(e){
 
   e.preventDefault();
   var status = $(this).prev().val();
+  var appstart = $("input[name='appstart']").val();
+  var append = $("input[name='append']").val();
   var comment = $("#comment").val();
   var beauty_id = $("select[name='beauty']").val();
   var doctor_id = $("select[name='doctor']").val();
@@ -380,16 +386,14 @@ $('.group_change_status_button').on('click', function(e){
   var unitspend = $("#unitspend").val();
   var product_id = $("#product_id_group").val();
   var customer_id = $("#customer_id_group").val();
-
+// console.log([appstart, append])
   $('.attention, .success, .warning').remove();
 
-console.log('sssssssssstatus=' + status + '&comment=' + comment+ '&doctor_id=' + doctor_id+ '&consultant_id=' + consultant_id + '&outsource_id=' + outsource_id  + '&beauty_id=' + beauty_id + '&unitspend='+ unitspend + '&product_id='+ product_id+ '&customer_id='+ customer_id );
-// console.log('<?php echo $token; ?>');
   if (status)
   $.ajax({
       url: 'index.php?route=sale/customer/editgrouptransaction&token=<?php echo $token; ?>',
       type: 'post',
-      data: 'status=' + status + '&comment=' + comment+ '&doctor_id=' + doctor_id+ '&consultant_id=' + consultant_id + '&outsource_id=' + outsource_id  + '&beauty_id=' + beauty_id + '&unitspend='+ unitspend + '&product_id='+ product_id+ '&customer_id='+ customer_id ,
+      data: 'status=' + status + '&comment=' + comment+ '&doctor_id=' + doctor_id+ '&consultant_id=' + consultant_id + '&outsource_id=' + outsource_id  + '&beauty_id=' + beauty_id + '&unitspend='+ unitspend + '&product_id='+ product_id+ '&customer_id='+ customer_id +'&appstart='+ appstart +'&append='+ append ,
       dataType: 'json',
       beforeSend: function(){
       
@@ -588,6 +592,17 @@ function image_upload_treat(field, thumb, id) {
   });
 };
 
+$("select[name='tran_status']").on('change', function(){
+  var value = $(this).find(":selected").val();
+  if (value == -2) {
+    $('#tranapp').html("<?php echo $text_appointment_start; ?><input type='text' name='appstart' class='datetime'/><?php echo $text_appointment_end; ?><input type='text' name='append' class='datetime'/>");
+    $('.datetime').datetimepicker();
+
+  }
+  else {
+    $('#tranapp').html('');
+  }
+});
 
 $('select[type="product"]#producttr').change(function(){
   var value = $(this).find(":selected").attr('alt2');

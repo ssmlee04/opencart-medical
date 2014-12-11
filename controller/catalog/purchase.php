@@ -959,19 +959,20 @@ class ControllerCatalogPurchase extends Controller {
 
 		$stores = $this->model_setting_store->getStores();
 
-
-		$user_store_permissions = json_decode($this->user->getStorePermission());
+		$this->data['stores'] = $stores;
 		
-		$this->data['stores'] = [];
+		// $user_store_permissions = json_decode($this->user->getStorePermission());
 		
-		foreach ($stores as $store) {
-			foreach ($user_store_permissions as $key => $value) {
-				if ($value == $store['store_id']) {
-					$this->data['stores'][] = $store;
+		// $this->data['stores'] = [];
+		
+		// foreach ($stores as $store) {
+		// 	foreach ($user_store_permissions as $key => $value) {
+		// 		if ($value == $store['store_id']) {
+		// 			$this->data['stores'][] = $store;
 					
-				}
-			}
-		}
+		// 		}
+		// 	}
+		// }
 
 
 
@@ -1159,6 +1160,10 @@ class ControllerCatalogPurchase extends Controller {
 			$this->error['store'] = $this->language->get('error_store');
 		}
 
+		if (!$this->user->hasPermission('modifystore', $this->request->post['store_id'])) {
+			$this->error['warning'] = $this->language->get('error_store_permission');
+		}
+		
 		if ($this->error && !isset($this->error['warning'])) {
 			$this->error['warning'] = $this->language->get('error_warning');
 		}

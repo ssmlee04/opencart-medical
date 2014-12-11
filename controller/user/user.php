@@ -176,9 +176,10 @@ class ControllerUserUser extends Controller {
 		$this->load->model('user/user_group');
 
 		foreach ($results as $result) {
-			$action = array();
+			// $action = array();
 
-			$action[] = array(
+			// $action[] = array(
+			$action = array(
 				'text' => $this->language->get('text_edit'),
 				'href' => $this->url->link('user/user/update', 'token=' . $this->session->data['token'] . '&user_id=' . $result['user_id'] . $url, 'SSL')
 			);
@@ -194,7 +195,8 @@ class ControllerUserUser extends Controller {
 				'status'     => ($result['status'] ? $this->language->get('text_enabled') : $this->language->get('text_disabled')),
 				'date_added' => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
 				'selected'   => isset($this->request->post['selected']) && in_array($result['user_id'], $this->request->post['selected']),
-				'action'     => $action
+				// 'action'     => $action
+				'href' => $this->url->link('user/user/update', 'token=' . $this->session->data['token'] . '&user_id=' . $result['user_id'] . $url, 'SSL')
 			);
 		}
 

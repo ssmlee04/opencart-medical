@@ -1139,11 +1139,6 @@ $('select[name=\'treatment_product2_add\']').on('change', function(){
 
 $('#button-filter').bind('click', function() {
 
-
-  console.log('wwwwwwwwwwwwwwwwhy');
-  // var customer_name_sel = $('input[name=\'customer_name\']').val();
-  // var customer_name = $('input[name=\'customer\']').val();
-  // var product_name_sel = $('input[name=\'treatment_product_name\']').val();
   var product_name = $('input[name=\'treatment_product\']').val(); 
   var filter_treatment_status = $('select[name=\'filter_treatment_status\']').val();
   

@@ -2471,39 +2471,30 @@ class ControllerSaleCustomer extends Controller {
 	// Chandler '2014-11-03 14:50'
 	public function editgrouptransaction() {
 
-
 		$json = array();
-
 		$data = array();
-
 		$this->language->load('sale/customer');
 
-
-		// $json['success'] = '*'; 
-		// $this->response->setOutput(json_encode($json)); 
-		// $this->load->out($json, false);
-		// return;
-
-// $this->load->out( $this->request->post, false);
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->user->hasPermission('modify', 'sale/customer')) { 
 
 			if (isset($this->request->post['product_id']) && isset($this->request->post['status'])) { 		
 
 				$this->load->model('sale/customer');	
 				
-				if (isset( $this->request->post['status'])) $data['status'] = $this->request->post['status'];
-				if (isset( $this->request->post['product_id'])) $data['product_id'] = $this->request->post['product_id'];
-				if (isset( $this->request->post['customer_id'])) $data['customer_id'] = $this->request->post['customer_id'];
-				if (isset( $this->request->post['comment'])) $data['comment'] = $this->request->post['comment'];
-				if (isset( $this->request->post['doctor_id'])) $data['doctor_id'] = $this->request->post['doctor_id'];
-				if (isset( $this->request->post['consultant_id'])) $data['consultant_id'] = $this->request->post['consultant_id'];
-				if (isset( $this->request->post['outsource_id'])) $data['outsource_id'] = $this->request->post['outsource_id'];
-				if (isset( $this->request->post['beauty_id'])) $data['beauty_id'] = $this->request->post['beauty_id'];
-				if (isset( $this->request->post['unitspend'])) $data['unitspend'] = $this->request->post['unitspend'];
+				// if (isset( $this->request->post['status'])) $data['status'] = $this->request->post['status'];
+				// if (isset( $this->request->post['product_id'])) $data['product_id'] = $this->request->post['product_id'];
+				// if (isset( $this->request->post['customer_id'])) $data['customer_id'] = $this->request->post['customer_id'];
+				// if (isset( $this->request->post['comment'])) $data['comment'] = $this->request->post['comment'];
+				// if (isset( $this->request->post['doctor_id'])) $data['doctor_id'] = $this->request->post['doctor_id'];
+				// if (isset( $this->request->post['consultant_id'])) $data['consultant_id'] = $this->request->post['consultant_id'];
+				// if (isset( $this->request->post['outsource_id'])) $data['outsource_id'] = $this->request->post['outsource_id'];
+				// if (isset( $this->request->post['beauty_id'])) $data['beauty_id'] = $this->request->post['beauty_id'];
+				// if (isset( $this->request->post['unitspend'])) $data['unitspend'] = $this->request->post['unitspend'];
+				// if (isset( $this->request->post['unitspend'])) $data['unitspend'] = $this->request->post['unitspend'];
 
 // $json['success'] = 123; $this->response->setOutput(json_encode($json)); return;
 
-				if ($this->model_sale_customer->editgrouptransaction($data)) {
+				if ($this->model_sale_customer->editgrouptransaction($this->request->post)) {
 					$json['success'] = $this->language->get('text_edit_transaction_success');
 				} else {
 					$json['error'] = $this->language->get('text_edit_transaction_error');
@@ -2913,6 +2904,8 @@ class ControllerSaleCustomer extends Controller {
 		$this->data['text_image_manager'] = $this->language->get('text_image_manager');
 		$this->data['text_error'] = $this->language->get('text_error');
 		$this->data['text_cannot_use_inventory'] = $this->language->get('text_cannot_use_inventory');
+		$this->data['text_appointment_start'] = $this->language->get('text_appointment_start');
+		$this->data['text_appointment_end'] = $this->language->get('text_appointment_end');
 		
 		$this->data['column_unit_used'] = $this->language->get('column_unit_used');
 		$this->data['column_date_processed'] = $this->language->get('column_date_processed');

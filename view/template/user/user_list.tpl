@@ -31,7 +31,7 @@
               <td class="left"><?php echo $column_status; ?></td>
 
               <td class="left"><?php echo $column_date_added; ?></td>
-              <td class="right"><?php echo $column_action; ?></td>
+              <!-- <td class="right"><php echo $column_action; ?></td> -->
             </tr>
           </thead>
           <tbody>
@@ -43,18 +43,18 @@
                 <?php } else { ?>
                 <input type="checkbox" name="selected[]" value="<?php echo $user['user_id']; ?>" />
                 <?php } ?></td>
-              <td class="left"><?php echo $user['fullname']; ?></td>
+              <td class="left"><a href="<?php echo $user['href']; ?>"><?php echo $user['fullname']; ?></a></td>
               <td class="left"><?php echo $user['user_group_name']; ?></td>
               <td class="left"><?php echo $user['status']; ?></td>
               <td class="left"><?php echo $user['date_added']; ?></td>
-              <td class="right"><?php foreach ($user['action'] as $action) { ?>
-                [ <a href="<?php echo $action['href']; ?>"><?php echo $action['text']; ?></a> ]
-                <?php } ?></td>
+             <!--  <td class="right"><php foreach ($user['action'] as $action) { ?>
+                [ <a href="<php echo $action['href']; ?>"><php echo $action['text']; ?></a> ]
+                <php } ?></td> -->
             </tr>
             <?php } ?>
             <?php } else { ?>
             <tr>
-              <td class="center" colspan="5"><?php echo $text_no_results; ?></td>
+              <td class='center' colspan='4'><?php echo $text_no_results; ?></td>
             </tr>
             <?php } ?>
           </tbody>

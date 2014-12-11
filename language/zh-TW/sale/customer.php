@@ -3,6 +3,8 @@
 $_['heading_title']           = '客戶';
 
 // Text
+$_['text_appointment_start']            = '預約時間';
+$_['text_appointment_end']            = '至';
 $_['text_success']            = '已成功修改客戶的設置';
 $_['text_default']          = '預設';
 $_['text_approved']           = '您已核准%s 個客戶的申請';

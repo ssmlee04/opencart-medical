@@ -144,5 +144,6 @@ $_['error_upload_6']          = '缺少暫存資料夾';
 $_['error_upload_7']          = '無法寫入檔案';
 $_['error_upload_8']          = '檔案上傳終止';
 $_['error_upload_999']        = '沒有可提供的錯誤代碼';
+$_['error_store_permission']        = '沒有商店權限';
 
 ?>

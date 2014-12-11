@@ -680,12 +680,13 @@ class ControllerSaleOrder extends Controller {
 		}
 
 		$customer = $this->model_sale_customer->getCustomer($this->request->get['filter_customer_id']);
+		
 		if ($customer) {
 			$this->request->post['customer_id'] = $customer['customer_id'];
 			$this->request->post['customer_name'] = $customer['fullname'];
 			$this->request->post['customer'] = $customer['fullname'];
 			$this->request->post['customer_group_id'] = $customer['customer_group_id'];
-			$this->request->post['store_id'] = $customer['store_id'];
+			// $this->request->post['store_id'] = $customer['store_id'];
 			$this->request->post['firstname'] = $customer['firstname'];
 			$this->request->post['lastname'] = $customer['lastname'];
 			$this->request->post['email'] = $customer['email'];
@@ -1029,10 +1030,12 @@ class ControllerSaleOrder extends Controller {
 			$this->data['store_id'] = $this->request->post['store_id'];
 		} elseif (!empty($order_info)) {
 			$this->data['store_id'] = $order_info['store_id'];
+		} elseif ($customer['store_id']) {
+			$this->data['store_id'] = $customer['store_id'];
 		} else {
 			$this->data['store_id'] = '';
 		}
-
+// $this->load->test($this->request->post);
 		$this->load->model('setting/store');
 
 		$this->data['stores'] = $this->model_setting_store->getStores();
@@ -1233,7 +1236,7 @@ class ControllerSaleOrder extends Controller {
 				'order_product_id' => $order_product['order_product_id'],
 				'product_id'       => $order_product['product_id'],
 				'name'             => $order_product['name'],
-				'model'            => $order_product['model'],
+				// 'model'            => $order_product['model'],
 				// 'option'           => $order_option,
 				// 'download'         => $order_download,
 				'quantity'         => $order_product['quantity'],
@@ -1266,6 +1269,7 @@ class ControllerSaleOrder extends Controller {
 			$this->data['order_totals'] = array();
 		}
 
+		// $this->load->test(array(1=>$this->data['stores'], 2=>$this->data['store_id']));
 		$this->template = 'sale/order_form.tpl';
 		$this->children = array(
 			'common/header',
@@ -1297,9 +1301,12 @@ class ControllerSaleOrder extends Controller {
 			}
 		} 
 		
-
 		if (utf8_strlen($this->request->post['store_id']) <= 0) {
 			$this->error['store'] = $this->language->get('error_store');
+		}
+
+		if (!$this->user->hasPermission('modifystore', $this->request->post['store_id'])) {
+			$this->error['warning'] = $this->language->get('error_store_permission');
 		}
 
 		if (utf8_strlen($this->request->post['customer_name']) <= 0) {

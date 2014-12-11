@@ -4,7 +4,7 @@ class User {
 	private $user_group_id;
 	private $username;
 	private $getStorePermission;
-	private $permission = array();
+	public $permission = array();
 
 	public function __construct($registry) {
 		$this->db = $registry->get('db');
@@ -96,7 +96,7 @@ class User {
 	}
 
 
-	// public function hasStorePermission($key, $value) {
+	// public function hasStorePermission($store_id) {
 	// 	if (isset($this->permission[$key])) {
 	// 		return in_array($value, $this->permission[$key]);
 	// 	} else {
@@ -105,6 +105,8 @@ class User {
 	// }
 
 	public function hasPermission($key, $value) {
+
+
 		if (isset($this->permission[$key])) {
 			return in_array($value, $this->permission[$key]);
 		} else {

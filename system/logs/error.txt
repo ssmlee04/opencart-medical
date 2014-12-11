@@ -1,162 +1,20 @@
-2014-12-11 3:18:27 - PHP Notice:  Undefined variable: thisstore in /var/www/html/opencart2/view/template/catalog/purchase_form.tpl on line 56
-2014-12-11 4:02:27 - PHP Notice:  Undefined index: token in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_header.php on line 144
-2014-12-11 6:18:18 - PHP Notice:  Undefined index: token in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_header.php on line 144
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:31 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:34 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:34 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:46 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:42:46 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:43:27 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 143
-2014-12-11 6:43:29 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 143
-2014-12-11 6:43:59 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:43:59 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:43:59 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:43:59 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:43:59 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:43:59 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:43:59 - PHP Unknown:  Only variables should be passed by reference in /var/www/html/opencart2/vqmod/vqcache/vq2-controller_common_filemanager.php on line 145
-2014-12-11 6:53:48 - PHP Notice:  Undefined index: purchase_product in /var/www/html/opencart2/controller/catalog/purchase.php on line 1141
-2014-12-11 6:53:48 - PHP Warning:  Invalid argument supplied for foreach() in /var/www/html/opencart2/controller/catalog/purchase.php on line 1141
-2014-12-11 7:25:07 - PHP Notice:  Undefined index: fullname in /var/www/html/opencart2/model/sale/order.php on line 385
-2014-12-11 7:25:07 - PHP Notice:  Undefined index: customer_id in /var/www/html/opencart2/model/sale/order.php on line 460
-2014-12-11 7:25:07 - PHP Notice:  Undefined index: payment_cash in /var/www/html/opencart2/model/sale/order.php on line 462
-2014-12-11 7:25:07 - PHP Notice:  Undefined index: payment_visa in /var/www/html/opencart2/model/sale/order.php on line 462
-2014-12-11 7:25:07 - PHP Notice:  Undefined index: payment_final in /var/www/html/opencart2/model/sale/order.php on line 462
-2014-12-11 7:25:17 - PHP Notice:  Undefined index: fullname in /var/www/html/opencart2/model/sale/order.php on line 385
-2014-12-11 7:25:17 - PHP Notice:  Undefined index: customer_id in /var/www/html/opencart2/model/sale/order.php on line 460
-2014-12-11 7:25:17 - PHP Notice:  Undefined index: payment_cash in /var/www/html/opencart2/model/sale/order.php on line 462
-2014-12-11 7:25:17 - PHP Notice:  Undefined index: payment_visa in /var/www/html/opencart2/model/sale/order.php on line 462
-2014-12-11 7:25:17 - PHP Notice:  Undefined index: payment_final in /var/www/html/opencart2/model/sale/order.php on line 462
-2014-12-11 7:25:17 - PHP Notice:  Undefined index: fullname in /var/www/html/opencart2/model/sale/order.php on line 385
-2014-12-11 7:25:17 - PHP Notice:  Undefined index: customer_id in /var/www/html/opencart2/model/sale/order.php on line 460
-2014-12-11 7:25:17 - PHP Notice:  Undefined index: payment_cash in /var/www/html/opencart2/model/sale/order.php on line 462
-2014-12-11 7:25:17 - PHP Notice:  Undefined index: payment_visa in /var/www/html/opencart2/model/sale/order.php on line 462
-2014-12-11 7:25:17 - PHP Notice:  Undefined index: payment_final in /var/www/html/opencart2/model/sale/order.php on line 462
-2014-12-11 7:25:17 - PHP Notice:  Undefined index: fullname in /var/www/html/opencart2/model/sale/order.php on line 385
-2014-12-11 7:25:17 - PHP Notice:  Undefined index: customer_id in /var/www/html/opencart2/model/sale/order.php on line 460
-2014-12-11 7:25:17 - PHP Notice:  Undefined index: payment_cash in /var/www/html/opencart2/model/sale/order.php on line 462
-2014-12-11 7:25:17 - PHP Notice:  Undefined index: payment_visa in /var/www/html/opencart2/model/sale/order.php on line 462
-2014-12-11 7:25:17 - PHP Notice:  Undefined index: payment_final in /var/www/html/opencart2/model/sale/order.php on line 462
-2014-12-11 7:44:32 - PHP Notice:  Undefined variable: store_product in /var/www/html/opencart2/model/catalog/purchase.php on line 215
-2014-12-11 7:44:32 - PHP Notice:  Trying to get property of non-object in /var/www/html/opencart2/model/catalog/purchase.php on line 215
-2014-12-11 7:44:44 - PHP Notice:  Undefined variable: store_product in /var/www/html/opencart2/model/catalog/purchase.php on line 215
-2014-12-11 7:44:44 - PHP Notice:  Trying to get property of non-object in /var/www/html/opencart2/model/catalog/purchase.php on line 215
-2014-12-11 7:44:57 - PHP Notice:  Undefined variable: store_product in /var/www/html/opencart2/model/catalog/purchase.php on line 215
-2014-12-11 7:44:57 - PHP Notice:  Trying to get property of non-object in /var/www/html/opencart2/model/catalog/purchase.php on line 215
-2014-12-11 8:05:37 - PHP Notice:  Undefined variable: thisstore in /var/www/html/opencart2/view/template/catalog/purchase_form.tpl on line 68
-2014-12-11 8:05:48 - PHP Notice:  Undefined variable: bonus in /var/www/html/opencart2/controller/report/user_bonus.php on line 144
-2014-12-11 8:05:48 - PHP Warning:  Invalid argument supplied for foreach() in /var/www/html/opencart2/controller/report/user_bonus.php on line 144
-2014-12-11 8:05:48 - PHP Notice:  Undefined variable: filter_order_status_id in /var/www/html/opencart2/controller/report/user_bonus.php on line 322
-2014-12-11 8:06:01 - PHP Notice:  Undefined index: print in /var/www/html/opencart2/controller/report/user_treatment_bonus.php on line 400
-2014-12-11 8:06:31 - PHP Notice:  Undefined index: print in /var/www/html/opencart2/controller/report/user_treatment_bonus.php on line 400
-2014-12-11 8:06:36 - PHP Notice:  Undefined index: print in /var/www/html/opencart2/controller/report/user_treatment_bonus.php on line 400
-2014-12-11 8:06:38 - PHP Notice:  Undefined variable: filter_order_status_id in /var/www/html/opencart2/controller/report/user_bonus.php on line 322
-2014-12-11 8:41:47 - PHP Notice:  Undefined variable: filter_order_status_id in /var/www/html/opencart2/controller/report/user_bonus.php on line 322
-2014-12-11 8:41:47 - PHP Notice:  Undefined index: print in /var/www/html/opencart2/controller/report/user_treatment_bonus.php on line 400
-2014-12-11 8:42:17 - PHP Notice:  Undefined variable: bonus in /var/www/html/opencart2/controller/report/user_bonus.php on line 144
-2014-12-11 8:42:17 - PHP Warning:  Invalid argument supplied for foreach() in /var/www/html/opencart2/controller/report/user_bonus.php on line 144
-2014-12-11 8:42:17 - PHP Notice:  Undefined variable: filter_order_status_id in /var/www/html/opencart2/controller/report/user_bonus.php on line 322
-2014-12-11 8:42:50 - PHP Notice:  Undefined index: print in /var/www/html/opencart2/controller/report/user_treatment_bonus.php on line 400
-2014-12-11 8:43:11 - PHP Notice:  Undefined index: print in /var/www/html/opencart2/controller/report/user_treatment_bonus.php on line 400
-2014-12-11 8:44:01 - PHP Notice:  Undefined variable: bonus in /var/www/html/opencart2/controller/report/user_bonus.php on line 144
-2014-12-11 8:44:01 - PHP Notice:  Undefined variable: filter_order_status_id in /var/www/html/opencart2/controller/report/user_bonus.php on line 322
-2014-12-11 8:44:16 - PHP Notice:  Undefined variable: filter_order_status_id in /var/www/html/opencart2/controller/report/user_bonus.php on line 322
-2014-12-11 8:44:38 - PHP Notice:  Undefined index: print in /var/www/html/opencart2/controller/report/user_treatment_bonus.php on line 400
-2014-12-11 8:45:15 - PHP Notice:  Undefined index: filter_customer_id in /var/www/html/opencart2/controller/sale/order.php on line 682
+2014-12-11 9:25:53 - PHP Notice:  Undefined index: fullname in /var/www/html/opencart2/model/sale/order.php on line 385
+2014-12-11 9:25:53 - PHP Notice:  Undefined index: customer_id in /var/www/html/opencart2/model/sale/order.php on line 460
+2014-12-11 9:25:53 - PHP Notice:  Undefined index: payment_cash in /var/www/html/opencart2/model/sale/order.php on line 462
+2014-12-11 9:25:53 - PHP Notice:  Undefined index: payment_visa in /var/www/html/opencart2/model/sale/order.php on line 462
+2014-12-11 9:25:53 - PHP Notice:  Undefined index: payment_final in /var/www/html/opencart2/model/sale/order.php on line 462
+2014-12-11 9:35:05 - PHP Notice:  Undefined variable: text_transaction_appointeds in /var/www/html/opencart2/view/template/sale/customer_transaction.tpl on line 87
+2014-12-11 10:19:52 - PHP Warning:  date_format() expects parameter 1 to be DateTimeInterface, integer given in /var/www/html/opencart2/vqmod/vqcache/vq2-model_sale_customer.php on line 1289
+2014-12-11 10:20:21 - PHP Warning:  date_format() expects parameter 1 to be DateTimeInterface, integer given in /var/www/html/opencart2/vqmod/vqcache/vq2-model_sale_customer.php on line 1289
+2014-12-11 10:20:29 - PHP Warning:  date_format() expects parameter 1 to be DateTimeInterface, integer given in /var/www/html/opencart2/vqmod/vqcache/vq2-model_sale_customer.php on line 1289
+2014-12-11 10:20:44 - PHP Warning:  date_format() expects parameter 1 to be DateTimeInterface, integer given in /var/www/html/opencart2/vqmod/vqcache/vq2-model_sale_customer.php on line 1289
+2014-12-11 10:28:08 - PHP Notice:  Undefined index: name in /var/www/html/opencart2/vqmod/vqcache/vq2-model_sale_customer.php on line 1344
+2014-12-11 10:28:11 - PHP Notice:  Undefined index: name in /var/www/html/opencart2/vqmod/vqcache/vq2-model_sale_customer.php on line 1344
+2014-12-11 10:28:28 - PHP Notice:  Undefined index: name in /var/www/html/opencart2/vqmod/vqcache/vq2-model_sale_customer.php on line 1346
+2014-12-11 10:29:06 - PHP Notice:  Undefined index: name in /var/www/html/opencart2/vqmod/vqcache/vq2-model_sale_customer.php on line 1346
+2014-12-11 10:29:07 - PHP Notice:  Undefined index: name in /var/www/html/opencart2/vqmod/vqcache/vq2-model_sale_customer.php on line 1346
+2014-12-11 10:29:07 - PHP Notice:  Undefined index: name in /var/www/html/opencart2/vqmod/vqcache/vq2-model_sale_customer.php on line 1346
+2014-12-11 10:29:09 - PHP Notice:  Undefined index: name in /var/www/html/opencart2/vqmod/vqcache/vq2-model_sale_customer.php on line 1346
+2014-12-11 10:29:34 - PHP Notice:  Undefined index: name in /var/www/html/opencart2/vqmod/vqcache/vq2-model_sale_customer.php on line 1346
+2014-12-11 10:29:35 - PHP Notice:  Undefined index: name in /var/www/html/opencart2/vqmod/vqcache/vq2-model_sale_customer.php on line 1346
+2014-12-11 10:32:39 - PHP Notice:  Undefined index: name in /var/www/html/opencart2/vqmod/vqcache/vq2-model_sale_customer.php on line 1351
