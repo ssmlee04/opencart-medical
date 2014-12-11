@@ -7,6 +7,8 @@ class ControllerSaleCustomer extends Controller {
 	// 	$this->db->query("DELETE FROM oc_customer_transaction");
 	// 	$this->db->query("DELETE FROM oc_customer_history");
 	// 	$this->db->query("DELETE FROM oc_customer_image");
+	// 	$this->db->query("DELETE FROM oc_customer_reward");
+	// 	$this->db->query("DELETE FROM oc_customer_treatment_usage");
 	// 	$this->db->query("DELETE FROM oc_customer_lending");
 	// 	$this->db->query("DELETE FROM oc_order_product");
 	// 	$this->db->query("DELETE FROM oc_order_total");
@@ -15,6 +17,10 @@ class ControllerSaleCustomer extends Controller {
 	// 	$this->db->query("DELETE FROM oc_order");
 	// 	$this->db->query("DELETE FROM oc_order_history");
 	// 	$this->db->query("DELETE FROM oc_product_to_store");
+	//  $this->db->query("DELETE FROM oc_customer_group");
+	//  $this->db->query("DELETE FROM oc_customer_group_description");
+	//  $this->db->query("DELETE FROM oc_customer");
+	//  $this->db->query("DELETE FROM oc_user WHERE user_id > 1");
 	// }
 
 	public function index() {
@@ -3337,7 +3343,7 @@ class ControllerSaleCustomer extends Controller {
 				'limit'       => 20
 			);
 			$results = $this->model_sale_customer->getCustomers($data);
-
+// $this->load->out($results);
 			foreach ($results as $result) {
 				// $address = '';
 				// foreach ($this->model_sale_customer->getAddresses($result['customer_id']) as $key => $value) {
@@ -3351,7 +3357,7 @@ class ControllerSaleCustomer extends Controller {
 					'store_id' => $result['store_id'],
 					'customer_group_id' => $result['customer_group_id'],
 					// 'name'              => strip_tags(html_entity_decode($result['name'], ENT_QUOTES, 'UTF-8')),
-					'customer_group'    => $result['customer_group'],
+					// 'customer_group'    => $result['customer_group'],
 					'firstname'         => $result['firstname'],
 					'fullname'          => $result['fullname'],
 					'lastname'          => $result['lastname'],

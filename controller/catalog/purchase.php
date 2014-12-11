@@ -21,6 +21,7 @@ class ControllerCatalogPurchase extends Controller {
 
 		$this->data['is_insert'] = true;
 
+// $this->load->out($this->request->post);
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
 			$this->model_catalog_purchase->addPurchase($this->request->post);
 

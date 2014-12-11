@@ -23,7 +23,22 @@ class ControllerCatalogProduct extends Controller {
 
 		$this->load->model('catalog/product');
 
-		$product = $this->model_catalog_product->getProduct($product_id);
+		if (!empty($product_id)) $product = $this->model_catalog_product->getProduct($product_id);
+
+		else if (!empty($name)) {
+// $this->load->out("SELECT * FROM oc_product p LEFT JOIN oc_product_description pd ON p.product_id = pd.product_id WHERE language_id = '" . $this->config->get('config_language_id') .  "' AND name = '" . $this->db->escape($name) . "'");
+			$query = $this->db->query("SELECT * FROM oc_product p LEFT JOIN oc_product_description pd ON p.product_id = pd.product_id WHERE language_id = '" . $this->config->get('config_language_id') .  "' AND name = '" . $this->db->escape($name) . "'");
+
+			// $this->load->out($query);
+			if ($query->num_rows != 1) {
+				return false;
+			} else {
+				$product_id = $query->row['product_id'];
+				$product = $this->model_catalog_product->getProduct($product_id);
+			}
+		} else {
+			return false;
+		}
 
 		if (!empty($product) && $product['name']==$name) {
 			$json['success'] = $this->language->get('text_success');
@@ -1772,6 +1787,105 @@ class ControllerCatalogProduct extends Controller {
 				// 'filter_name'  => $filter_name,
 				'start'        => 0,
 				'limit'        => $limit,
+				'filter_product_type_ids' => $filter_product_type_ids,
+			);
+
+			$results = $this->model_catalog_product->getProducts($data);
+// $this->load->out($results);
+			foreach ($results as $result) {
+				$json[] = array(
+					'product_id' => $result['product_id'],
+					'name'       => strip_tags(html_entity_decode($result['name'], ENT_QUOTES, 'UTF-8')),	
+					'model'      => $result['model'],
+					'value'      => $result['value'],
+					'unit'      => $result['unit'],
+					'price'      => $result['price']
+				);	
+			}
+		// }
+
+		$this->response->setOutput(json_encode($json));
+	}
+
+
+	public function sellable() {
+		$json = array();
+
+		// if (isset($this->request->get['filter_name'])) {
+			$this->load->model('catalog/product');
+
+			// if (isset($this->request->get['filter_name'])) {
+			// 	$filter_name = $this->request->get['filter_name'];
+			// } else {
+			// 	$filter_name = '';
+			// }
+
+			if (isset($this->request->get['filter_product_type_ids'])) {
+				$filter_product_type_ids = explode(',', $this->request->get['filter_product_type_ids']);
+			} else {
+				$filter_product_type_ids = array();
+			}
+
+			if (isset($this->request->get['limit'])) {
+				$limit = $this->request->get['limit'];	
+			} else {
+				$limit = 99999;	
+			}			
+
+			$data = array(
+				// 'filter_name'  => $filter_name,
+				'start'        => 0,
+				'limit'        => $limit,
+				'filter_subtract'     => 1, 
+				'filter_product_type_ids' => $filter_product_type_ids,
+			);
+
+			$results = $this->model_catalog_product->getProducts($data);
+// $this->load->out($results);
+			foreach ($results as $result) {
+				$json[] = array(
+					'product_id' => $result['product_id'],
+					'name'       => strip_tags(html_entity_decode($result['name'], ENT_QUOTES, 'UTF-8')),	
+					'model'      => $result['model'],
+					'value'      => $result['value'],
+					'unit'      => $result['unit'],
+					'price'      => $result['price']
+				);	
+			}
+		// }
+
+		$this->response->setOutput(json_encode($json));
+	}
+
+	public function treatment() {
+		$json = array();
+
+		// if (isset($this->request->get['filter_name'])) {
+			$this->load->model('catalog/product');
+
+			// if (isset($this->request->get['filter_name'])) {
+			// 	$filter_name = $this->request->get['filter_name'];
+			// } else {
+			// 	$filter_name = '';
+			// }
+
+			if (isset($this->request->get['filter_product_type_ids'])) {
+				$filter_product_type_ids = explode(',', $this->request->get['filter_product_type_ids']);
+			} else {
+				$filter_product_type_ids = array();
+			}
+
+			if (isset($this->request->get['limit'])) {
+				$limit = $this->request->get['limit'];	
+			} else {
+				$limit = 99999;	
+			}			
+
+			$data = array(
+				// 'filter_name'  => $filter_name,
+				'start'        => 0,
+				'limit'        => $limit,
+				'filter_subtract'     => 0, 
 				'filter_product_type_ids' => $filter_product_type_ids,
 			);
 

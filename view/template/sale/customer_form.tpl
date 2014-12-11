@@ -350,7 +350,7 @@
             </tr> -->
             <tr>
               <td><?php echo $entry_product; ?></td>
-              <td><input type="product" name="treatment_product" alt='2' value="" />
+              <td><input type='treatment' name="treatment_product" alt='2' value="" />
                 <input type="hidden" name="treatment_product_name" value="" />
                 <input type="hidden" name="treatment_product_id" value="" />
 

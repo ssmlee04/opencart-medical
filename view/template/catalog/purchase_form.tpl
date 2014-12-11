@@ -191,7 +191,7 @@
               <tr>
                 <td class="left"><?php echo $entry_product; ?></td>
                 <td class="left"><input type="subtractproduct" name="product" alt="1,2,3" value="" />
-                  <input type="hidden" name="product_id" value="" /><select type="product" name="product_add" alt='1,2,3'></select>
+                  <input type="hidden" name="product_id" value="" /><select type='sellable' name="product_add" alt='1,2,3'></select>
                   </td>
               </tr>
               <!-- <tr id="option"></tr> -->
@@ -280,7 +280,7 @@ $('#button-product, #button-voucher, #button-update').live('click', function() {
   $('.success, .warning, .attention, .error').remove();
 
   var product = $('input[name=\'product\']').val();
-  var product_id = parseInt($('input[name=\'product_id\']').val());
+  var product_id = parseInt($('input[name=\'product_id\']').val()) || 0;
   var quantity = parseInt($('input[name=\'quantity\']').val());
   var cost = parseFloat($('input[name=\'cost\']').val());
   var total = cost * quantity;
@@ -291,6 +291,7 @@ $('#button-product, #button-voucher, #button-update').live('click', function() {
       if (cell1 == product_id) match = true;
   });
 
+// console.log([product, product_id, quantity, cost, total]);
   if (quantity != parseInt(quantity)) {
     $('.box').before('<div class="warning"><?php echo $text_error; ?></div>');
   }

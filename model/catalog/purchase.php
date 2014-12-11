@@ -166,10 +166,42 @@ class ModelCatalogPurchase extends Model {
 
 		$user_id = $data['user_id'];
 
-
 		// Restock products before subtracting the stock later on ****
 		$purchase_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "purchase` WHERE purchase_status_id > '0' AND purchase_id = '" . (int)$purchase_id . "'");
 
+		$can_proceed = true;
+// $this->load->out($data['purchase_product']);
+
+		if ($data['purchase_product'])
+		foreach ($data['purchase_product'] as $key => $value) {
+			if (!empty($value['product_id'])) {
+				echo 123;
+			// ok
+			} else if (!empty($value['name'])) {
+
+				// $this->load->out("SELECT * FROM oc_product p LEFT JOIN oc_product_description pd ON p.product_id = pd.product_id WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
+				$query = $this->db->query("SELECT * FROM oc_product p LEFT JOIN oc_product_description pd ON p.product_id = pd.product_id WHERE pd.name = '" . $this->db->escape($value['name']). "' AND pd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
+				if (!$query->num_rows) $can_proceed = false;
+				else {
+					$value['product_id'] = $query->row['product_id'];
+					// $this->load->out($value);
+					$data['purchase_product'][$key] = $value;
+				}
+
+			} else {
+				echo 345;
+				$can_proceed = false;
+			}
+		}
+// $this->load->out($data['purchase_product']);
+		if (!$can_proceed) {
+			$query = $this->db->query("SELECT * FROM oc_purchase_product WHERE purchase_id = '$purchase_id'");
+
+			if (!$query->num_rows) $this->db->query("DELETE FROM oc_purchase WHERE purchase_id = '$purchase_id'");
+
+			return false;
+		}
+		
 		$store_id_prev = $purchase_query->row['store_id'];
 
 		$user_id_prev = $purchase_query->row['user_id'];
@@ -180,7 +212,10 @@ class ModelCatalogPurchase extends Model {
 
 			// '2014-09-08 21:04'
 			foreach($product_query->rows as $product) {
-				$this->db->query("UPDATE `" . DB_PREFIX . "product_to_store` SET quantity = (quantity - " . (int)$product['quantity'] . ") WHERE product_id = '" . (int)$product['product_id'] . "' AND store_id = '$store_id_prev'");
+
+				if ($store_id && $product['product_id']) $this->db->query("INSERT IGNORE INTO oc_product_to_store (product_id, store_id) VALUES ('". (int)$product['product_id']. "', '$store_id')");
+				if ($store_id_prev && $product['product_id']) $this->db->query("INSERT IGNORE INTO oc_product_to_store (product_id, store_id) VALUES ('". (int)$product['product_id']. "', '$store_id_prev')");
+				if ($store_id_prev && $product['product_id']) $this->db->query("UPDATE `" . DB_PREFIX . "product_to_store` SET quantity = (quantity - " . (int)$product['quantity'] . ") WHERE product_id = '" . (int)$product['product_id'] . "' AND store_id = '$store_id_prev'");
 			}
 		}
 
@@ -188,6 +223,7 @@ class ModelCatalogPurchase extends Model {
 		$this->db->query("DELETE FROM " . DB_PREFIX . "purchase_product WHERE purchase_id = '" . (int)$purchase_id . "'"); 
 
 		$grandtotal = 0;
+
 
 		if (isset($data['purchase_product'])) {
 			foreach ($data['purchase_product'] as $purchase_product) {

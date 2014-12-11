@@ -55,6 +55,68 @@ $(document).ready(function(){
 	});
 	
 	
+	
+	$('body').on('mouseenter', "select[type='treatment']", function(){
+		
+		// console.log(123);
+
+		var product_type_ids = $(this).attr('alt');
+		var that = this;
+		if ($(this).val()) return true;
+
+		// var name = $(this).attr('name');
+		$.ajax({
+		  url: 'index.php?route=catalog/product/treatment&token=' + $('#tk').val() + '&filter_product_type_ids=' + product_type_ids,
+		  type: 'POST',
+		  dataType: 'json',
+		  complete: function(xhr, textStatus) {
+		    //called when complete
+		  },
+		  success: function(json, textStatus, xhr) {
+		    //called when successful
+				$(that).empty().append("<option></option>");
+				json.map(function(d){
+					$(that).append("<option alt='" + d.unit + "' alt2='" + d.value + "' value='" + d.product_id + "''>" + d.name + "</option>");
+				});
+			
+		  },
+		  error: function(xhr, textStatus, errorThrown) {
+		    //called when there is an error
+		  }
+		});
+
+	});
+
+	$('body').on('mouseenter', "select[type='sellable']", function(){
+		
+		// console.log(123);
+
+		var product_type_ids = $(this).attr('alt');
+		var that = this;
+		if ($(this).val()) return true;
+
+		// var name = $(this).attr('name');
+		$.ajax({
+		  url: 'index.php?route=catalog/product/sellable&token=' + $('#tk').val() + '&filter_product_type_ids=' + product_type_ids,
+		  type: 'POST',
+		  dataType: 'json',
+		  complete: function(xhr, textStatus) {
+		    //called when complete
+		  },
+		  success: function(json, textStatus, xhr) {
+		    //called when successful
+				$(that).empty().append("<option></option>");
+				json.map(function(d){
+					$(that).append("<option alt='" + d.unit + "' alt2='" + d.value + "' value='" + d.product_id + "''>" + d.name + "</option>");
+				});
+			
+		  },
+		  error: function(xhr, textStatus, errorThrown) {
+		    //called when there is an error
+		  }
+		});
+
+	});
 
 	// $('body').on('focusin', "select[type='product']", function(){
 	$('body').on('mouseenter', "select[type='product']", function(){

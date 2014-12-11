@@ -106,6 +106,7 @@ $_['column_ssn']           = '身份證';
 $_['column_comment']           = '備註';
 $_['column_reminder_date']           = '提醒日期';
 $_['column_title']           = '項目';
+$_['button_borrowfrom']           = '借入';
 
 
 // Entry

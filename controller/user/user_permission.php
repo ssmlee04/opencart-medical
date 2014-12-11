@@ -12,7 +12,7 @@ class ControllerUserUserPermission extends Controller {
 		$this->getList();
 	}
 
-	public function insert() {
+	/*public function insert() {
 		$this->language->load('user/user_group');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -42,7 +42,7 @@ class ControllerUserUserPermission extends Controller {
 		}
 
 		$this->getForm();
-	}
+	}*/
 
 	public function update() {
 		$this->language->load('user/user_group');
@@ -76,7 +76,8 @@ class ControllerUserUserPermission extends Controller {
 		$this->getForm();
 	}
 
-	public function delete() { 
+	/*public function delete() { 
+
 		$this->language->load('user/user_group');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -108,7 +109,7 @@ class ControllerUserUserPermission extends Controller {
 		}
 
 		$this->getList();
-	}
+	}*/
 
 	protected function getList() {
 		if (isset($this->request->get['sort'])) {

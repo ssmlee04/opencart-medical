@@ -98,6 +98,8 @@ class ModelSaleCustomer extends Model {
 				// }
 			// }
 		}
+
+
 	}
 
 	// '2014-10-06 14:45'
@@ -207,7 +209,9 @@ class ModelSaleCustomer extends Model {
 	}
 
 	public function getCustomers($data = array()) {
-		$sql = "SELECT *, c.fullname AS cfullname, cgd.name AS customer_group FROM " . DB_PREFIX . "customer c LEFT JOIN " . DB_PREFIX . "customer_group_description cgd ON (c.customer_group_id = cgd.customer_group_id) WHERE cgd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
+		$sql = "SELECT *, c.fullname AS cfullname FROM " . DB_PREFIX . "customer c WHERE 1=1 ";
+		// cgd.name AS customer_group
+		// LEFT JOIN " . DB_PREFIX . "customer_group_description cgd ON (c.customer_group_id = cgd.customer_group_id) WHERE cgd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
 
 		$implode = array();
 
@@ -235,9 +239,9 @@ class ModelSaleCustomer extends Model {
 			$implode[] = "c.email LIKE '" . $this->db->escape($data['filter_email']) . "%'";
 		}
 
-		if (isset($data['filter_newsletter']) && !is_null($data['filter_newsletter'])) {
-			$implode[] = "c.newsletter = '" . (int)$data['filter_newsletter'] . "'";
-		}	
+		// if (isset($data['filter_newsletter']) && !is_null($data['filter_newsletter'])) {
+		// 	$implode[] = "c.newsletter = '" . (int)$data['filter_newsletter'] . "'";
+		// }	
 
 		if (!empty($data['filter_customer_group_id'])) {
 			$implode[] = "c.customer_group_id = '" . (int)$data['filter_customer_group_id'] . "'";

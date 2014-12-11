@@ -1,20 +1,12 @@
-INSERT INTO oc_customer_transaction SET status=-1
-				, customer_lending_id = '5'
-				, product_id='79'
-				, quantity='-0.1'
-				, subquantity = -1
-				, user_id = 1
-				, product_type_id = '2'
-				, customer_id = '16'
-				, bonus_outsource = '90'
-				, bonus_consultant = '90'
-				, bonus_doctor = '135'
-				, bonus_beauty = '90'
-				, total_amount = '0'
-				, bonus_percent_doctor = '15'
-				, bonus_percent_consultant = '10'
-				, bonus_percent_outsource = '10'
-				, bonus_percent_beauty = '10'
-				, unit_class_id = '8'
-				, amount = '-900'
-				, date_added = NOW(), date_modified = NOW()
+Array
+(
+    [1] => Array
+        (
+            [purchase_product_id] => 
+            [product_id] => 0
+            [name] => 1膠囊 (5個裝)
+            [quantity] => 10
+            [cost] => 100
+        )
+
+)
