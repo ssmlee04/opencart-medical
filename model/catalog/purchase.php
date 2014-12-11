@@ -162,68 +162,134 @@ class ModelCatalogPurchase extends Model {
 	// '2014-09-27 03:16'
 	public function editPurchase($purchase_id, $data) {
 
-		$store_id = $data['store_id'];
+		$store_id = isset($data['store_id']) ? $data['store_id'] : 0;
 
-		$user_id = $data['user_id'];
+		$user_id = isset($data['user_id']) ? $data['user_id'] : 0;
 
 		// Restock products before subtracting the stock later on ****
-		$purchase_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "purchase` WHERE purchase_status_id > '0' AND purchase_id = '" . (int)$purchase_id . "'");
+		$purchase_query_prev = $this->db->query("SELECT * FROM `" . DB_PREFIX . "purchase` WHERE purchase_status_id > '0' AND purchase_id = '" . (int)$purchase_id . "'");
+// $this->load->out($purchase_query_prev);
+		// if (!$purchase_query_prev->num_rows && !isset($data['purchase_product'])) {
+		// 	// delete me 
+		// 	$this->db->query("DELETE FROM " . DB_PREFIX . "purchase_product WHERE purchase_id = '" . (int)$purchase_id . "'"); 
+		// 	$this->db->query("DELETE FROM " . DB_PREFIX . "purchase WHERE purchase_id = '" . (int)$purchase_id . "'"); 
+		// 	return true;
+		// }
 
-		$can_proceed = true;
-// $this->load->out($data['purchase_product']);
+		$store_id_prev = $purchase_query_prev->row['store_id'];
 
-		if ($data['purchase_product'])
-		foreach ($data['purchase_product'] as $key => $value) {
-			if (!empty($value['product_id'])) {
-				echo 123;
-			// ok
-			} else if (!empty($value['name'])) {
+		$user_id_prev = $purchase_query_prev->row['user_id'];
 
-				// $this->load->out("SELECT * FROM oc_product p LEFT JOIN oc_product_description pd ON p.product_id = pd.product_id WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
-				$query = $this->db->query("SELECT * FROM oc_product p LEFT JOIN oc_product_description pd ON p.product_id = pd.product_id WHERE pd.name = '" . $this->db->escape($value['name']). "' AND pd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
-				if (!$query->num_rows) $can_proceed = false;
-				else {
-					$value['product_id'] = $query->row['product_id'];
-					// $this->load->out($value);
-					$data['purchase_product'][$key] = $value;
+
+		if (!$store_id_prev ) return false;
+		if (!$store_id && $data['purchase_product']) return false;
+		if (!$user_id && $data['purchase_product']) return false;
+
+		$purchase_products_prev = $this->db->query("SELECT * FROM oc_purchase_product WHERE purchase_id = '" . (int)$purchase_id . "'");
+
+		$canproceed = true;
+
+		if ($store_id_prev != $store_id) {
+			// calculate quantity this way
+
+			// foreach ($data['purchase_product'] as $key => $value_new) {
+
+			// 	if (!$value_new['product_id']) return false;
+
+			// 	if ($value_new['product_id']) $this->db->query("INSERT IGNORE INTO oc_product_to_store (product_id, store_id) VALUES ('". (int)$value_new['product_id']. "', '$store_id')");
+
+			// 	if ($value_new['product_id']) $this->db->query("INSERT IGNORE INTO oc_product_to_store (product_id, store_id) VALUES ('". (int)$value_new['product_id']. "', '$store_id_prev')");
+
+			// 	$found = false;
+			// 	$store_product = $this->db->query("SELECT * FROM oc_product_to_store WHERE store_id = '$store_id_prev' AND product_id = '" .$value_new['product_id'] . "'");
+
+				foreach ($purchase_products_prev->rows as $key2 => $value_old) { 
+					
+					if (!$value_old['product_id']) return false;
+
+					// if ($value_old['product_id'] == $value_new['product_id']) {
+						
+						$store_product = $this->db->query("SELECT * FROM oc_product_to_store WHERE store_id = '$store_id_prev' AND product_id = '" .$value_old['product_id'] . "'");
+
+						if ($store_product->row['quantity'] - $value_old['quantity'] <0) {
+							$canproceed = false;
+						}
+					// }
 				}
+			// }
 
-			} else {
-				echo 345;
-				$can_proceed = false;
+		} else {
+			// calculate quantity
+
+			foreach ($data['purchase_product'] as $key => $value_new) {
+
+				if (!$value_new['product_id']) return false;
+
+				if ($value_new['product_id']) $this->db->query("INSERT IGNORE INTO oc_product_to_store (product_id, store_id) VALUES ('". (int)$value_new['product_id']. "', '$store_id')");
+
+				if ($value_new['product_id']) $this->db->query("INSERT IGNORE INTO oc_product_to_store (product_id, store_id) VALUES ('". (int)$value_new['product_id']. "', '$store_id_prev')");
+
+				$found = false;
+
+				$store_product = $this->db->query("SELECT * FROM oc_product_to_store WHERE store_id = '$store_id_prev' AND product_id = '" .$value_new['product_id'] . "'");
+
+				foreach ($purchase_products_prev->rows as $key2 => $value_old) { 
+					
+					if (!$value_old['product_id']) return false;
+
+					if ($value_old['product_id'] == $value_new['product_id']) {
+						
+						$found = true;
+
+						if ($store_product->row['quantity'] - $value_old['quantity'] + $value_new['quantity'] <0) {
+							$canproceed = false;
+						}
+					}
+				}
 			}
 		}
-// $this->load->out($data['purchase_product']);
-		if (!$can_proceed) {
-			$query = $this->db->query("SELECT * FROM oc_purchase_product WHERE purchase_id = '$purchase_id'");
 
-			if (!$query->num_rows) $this->db->query("DELETE FROM oc_purchase WHERE purchase_id = '$purchase_id'");
 
-			return false;
-		}
-		
-		$store_id_prev = $purchase_query->row['store_id'];
+		if (!$canproceed) return false;
 
-		$user_id_prev = $purchase_query->row['user_id'];
+		// restock 
+		// if ($data['purchase_product']) {
+		// 	foreach ($data['purchase_product'] as $key => $value) {
 
-		if ($purchase_query->num_rows) {
+		// 		$product_idt = $value['product_id'];
+				
+		// 		$quantityt = $value['quantity'];
+				
+		// 		$qq = $this->db->query("SELECT * FROM oc_product_to_store WHERE store_id = '$store_id_prev' AND product_id = '$product_idt'");
+		// 		if (!$qq->num_rows) {
+		// 			return false;
+		// 		}
+		// 		if ($qq->row['quantity'] < $quantityt) {
+		// 			return false;
+		// 		}
+		// 	}
+		// } 
+
+		// if ($purchase_query_prev->num_rows) {
 			
-			$product_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "purchase_product WHERE purchase_id = '" . (int)$purchase_id . "'");
+			// $product_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "purchase_product WHERE purchase_id = '" . (int)$purchase_id . "'");
 
 			// '2014-09-08 21:04'
-			foreach($product_query->rows as $product) {
+		//restock
+		
+			foreach($purchase_products_prev->rows as $product) {
+			// foreach($product_query->rows as $product) {
 
-				if ($store_id && $product['product_id']) $this->db->query("INSERT IGNORE INTO oc_product_to_store (product_id, store_id) VALUES ('". (int)$product['product_id']. "', '$store_id')");
-				if ($store_id_prev && $product['product_id']) $this->db->query("INSERT IGNORE INTO oc_product_to_store (product_id, store_id) VALUES ('". (int)$product['product_id']. "', '$store_id_prev')");
-				if ($store_id_prev && $product['product_id']) $this->db->query("UPDATE `" . DB_PREFIX . "product_to_store` SET quantity = (quantity - " . (int)$product['quantity'] . ") WHERE product_id = '" . (int)$product['product_id'] . "' AND store_id = '$store_id_prev'");
+				// if ($store_id && $product['product_id']) $this->db->query("INSERT IGNORE INTO oc_product_to_store (product_id, store_id) VALUES ('". (int)$product['product_id']. "', '$store_id')");
+				// if ($store_id_prev && $product['product_id']) $this->db->query("INSERT IGNORE INTO oc_product_to_store (product_id, store_id) VALUES ('". (int)$product['product_id']. "', '$store_id_prev')");
+				$this->db->query("UPDATE `" . DB_PREFIX . "product_to_store` SET quantity = (quantity - " . (int)$product['quantity'] . ") WHERE product_id = '" . (int)$product['product_id'] . "' AND store_id = '$store_id_prev'");
 			}
-		}
+		// }
 
 
 		$this->db->query("DELETE FROM " . DB_PREFIX . "purchase_product WHERE purchase_id = '" . (int)$purchase_id . "'"); 
 
 		$grandtotal = 0;
-
 
 		if (isset($data['purchase_product'])) {
 			foreach ($data['purchase_product'] as $purchase_product) {
@@ -238,9 +304,8 @@ class ModelCatalogPurchase extends Model {
 
 				$this->db->query("INSERT INTO oc_product_to_store (quantity, product_id, store_id) VALUES ('" . (int)$purchase_product['quantity'] . "', '" . (int)$purchase_product['product_id'] . "', '$store_id') ON DUPLICATE KEY UPDATE quantity = (quantity + " . (int)$purchase_product['quantity'] . ")");
 			}
-		}
 
-		$this->db->query("UPDATE `" . DB_PREFIX . "purchase` SET total = '$grandtotal'
+			$this->db->query("UPDATE `" . DB_PREFIX . "purchase` SET total = '$grandtotal'
 			, purchase_status_id = '" . (int)$data['purchase_status_id'] . "'
 			, date_purchased = '" . $this->db->escape($data['date_purchased']) . "'
 			, image1 = '" . $this->db->escape($data['image1']) . "'
@@ -248,39 +313,51 @@ class ModelCatalogPurchase extends Model {
 			, image3 = '" . $this->db->escape($data['image3']) . "'
 			, date_modified = NOW(), store_id = '" . (int)$store_id . "', user_id = '" . (int)$user_id . "' WHERE purchase_id = '" . (int)$purchase_id . "'");
 
+			return true;
+		} else {
+			
+			$this->db->query("DELETE FROM oc_purchase WHERE purchase_id = '$purchase_id'");
+
+			return true;
+		}
+
+		
 	}
 
 	// '2014-09-27 03:17'
 	public function deletePurchase($purchase_id, $remove_from_db = false) {
 
-		$purchase = $this->db->query("SELECT * FROM oc_purchase WHERE purchase_id = '" . (int)$purchase_id . "'");
+		return $this->editPurchase($purchase_id, null);
 
-		if (!$purchase) return false;
+		// $purchase = $this->db->query("SELECT * FROM oc_purchase WHERE purchase_id = '" . (int)$purchase_id . "'");
 
-		$store_id = $purchase->row['store_id'];
+		// if (!$purchase) return false;
 
-		$products = $this->getPurchaseProducts($purchase_id); 
+		// $store_id = $purchase->row['store_id'];
 
-		$this->cart->clear();
+		// $products = $this->getPurchaseProducts($purchase_id); 
 
-		foreach ($products as $product) {
-			$this->cart->add($product['product_id'], $product['quantity'], '', '');
-		}
+		// $this->cart->clear();
 
-		if (!$this->cart->hasStock($store_id)) {
-			$this->cart->clear();			
-			return false;
-		}
+		// foreach ($products as $product) {
+		// 	$this->cart->add($product['product_id'], $product['quantity'], '', '');
+		// }
 
-		$this->cart->clear();
+		// if (!$this->cart->hasStock($store_id)) {
+		// 	$this->cart->clear();			
+		// 	return false;
+		// }
+
+		// $this->cart->clear();
 		
-		$this->editPurchase($purchase_id, null);
+		// $this->editPurchase($purchase_id, null);
 
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "purchase` WHERE purchase_id = '" . (int)$purchase_id . "'");
+		// $this->db->query("DELETE FROM `" . DB_PREFIX . "purchase` WHERE purchase_id = '" . (int)$purchase_id . "'");
 
-		$this->db->query("DELETE FROM " . DB_PREFIX . "purchase_product WHERE purchase_id = '" . (int)$purchase_id . "'");
+		// $this->db->query("DELETE FROM " . DB_PREFIX . "purchase_product WHERE purchase_id = '" . (int)$purchase_id . "'");
 
-		return true;
+
+		// return true;
 
 	}
 

@@ -31,8 +31,8 @@
               <td class="left"><?php echo $entry_date; ?></td>
               <td class="left">
                 <div class='group11'>
-                <?php echo $date_purchased; ?>
-              </div>
+                  <?php echo $date_purchased; ?>
+                </div>
                 <div class='group12' <?php if (!$is_insert) { echo "style='display:none'";} ?> >
                 <input type='date_available' name='date_purchased' value='<?php echo $date_purchased; ?>' />  <a onclick='setToday()'><?php echo $text_today; ?></a>
               </div>
@@ -51,16 +51,23 @@
                   <php } ?>
                   <php } ?> -->
 
-                <select name="store_id" class='store_id'>
+
+                
+                <select name="store_id" class='group12'>
                   <option value=''><?php echo $text_select; ?></option>
                   <?php foreach ($stores as $store) { ?>
                   <?php if ($store['store_id'] == $store_id) { ?>
+                  <?php $thisstore = $store['name']; ?>
                   <option value="<?php echo $store['store_id']; ?>" selected="selected"><?php echo $store['name']; ?></option>
                   <?php } else { ?>
                   <option value="<?php echo $store['store_id']; ?>"><?php echo $store['name']; ?></option>
                   <?php } ?>
                   <?php } ?>
                 </select>
+                <div class='group11'>
+                  <?php echo $thisstore; ?>
+                </div>
+
                 <?php if ($error_store) { ?>
                   <span class="error"><?php echo $error_store; ?></span>
                   <?php } ?></td>
@@ -288,11 +295,13 @@ $('#button-product, #button-voucher, #button-update').live('click', function() {
   var match = false;
   $('.list').eq(0).find('tr').map(function(inx,val){
       var cell1 = $(val).find('td').eq(1).find('input').eq(1).attr('value');  
+      console.log([product_id, cell1]);
       if (cell1 == product_id) match = true;
   });
 
+
 // console.log([product, product_id, quantity, cost, total]);
-  if (quantity != parseInt(quantity)) {
+  if (quantity != parseInt(quantity) || !product_id) {
     $('.box').before('<div class="warning"><?php echo $text_error; ?></div>');
   }
   else if (match) {
@@ -361,7 +370,18 @@ var showhide = function(){
 
 $('select[name=\'product_add\']').on('change', function(){
   var str = $(this).find(":selected").text();
-  $('input[name=product]').val(str);
+  $.ajax({
+    url: 'index.php?route=catalog/product/getproductidbyname&token=<?php echo $token; ?>&name=' + str,
+    dataType: 'json',
+    success: function(json) { 
+      if (json['success']) {
+        $('input[name=product]').val(str);
+        $('input[name=product_id]').val(json['product_id']);
+      } else if (json['error']){
+        $('.box').before('<div class="warning">' + json['error'] + '</div>');
+      }
+    }
+  });
 });
 
 

@@ -8,7 +8,7 @@
 <script type="text/javascript" src="view/javascript/jquery/ui/jquery-ui-1.8.16.custom.min.js"></script>
 <link rel="stylesheet" type="text/css" href="view/javascript/jquery/ui/themes/ui-lightness/jquery-ui-1.8.16.custom.css" />
 <script type="text/javascript" src="view/javascript/jquery/ui/external/jquery.bgiframe-2.1.2.js"></script>
-<script type="text/javascript" src="view/javascript/jquery/jstree/jquery.tree.min.js"></script>
+<script type="text/javascript" src="view/javascript/jquery/jstree/jquery.tree.js"></script>
 <script type="text/javascript" src="view/javascript/jquery/ajaxupload.js"></script>
 <style type="text/css">
 body {
@@ -214,7 +214,9 @@ $(document).ready(function() {
 		},
 		callback: {
 			beforedata: function(NODE, TREE_OBJ) { 
+				console.log(1234);
 				if (NODE == false) {
+					console.log(12345);
 					TREE_OBJ.settings.data.opts.static = [ 
 						{
 							data: 'image',
@@ -228,12 +230,14 @@ $(document).ready(function() {
 					
 					return { 'directory': '' } 
 				} else {
+					console.log(12343123);
 					TREE_OBJ.settings.data.opts.static = false;  
 					
 					return { 'directory': $(NODE).attr('directory') } 
 				}
 			},		
 			onselect: function (NODE, TREE_OBJ) {
+				console.log(234);
 				$.ajax({
 					url: 'index.php?route=common/filemanager/files&token=<?php echo $token; ?>',
 					type: 'post',
@@ -286,6 +290,7 @@ $(document).ready(function() {
 	});		
 						
 	$('#create').bind('click', function() {
+
 		var tree = $.tree.focused();
 		
 		if (tree.selected) {
@@ -303,15 +308,18 @@ $(document).ready(function() {
 			});	
 			
 			$('#dialog input[type=\'button\']').bind('click', function() {
+				console.log(encodeURIComponent($('#dialog input[name=\'name\']').val()));
+				console.log('sss');
 				$.ajax({
 					url: 'index.php?route=common/filemanager/create&token=<?php echo $token; ?>',
 					type: 'post',
-					data: 'directory=' + encodeURIComponent($(tree.selected).attr('directory')) + '&name=' + encodeURIComponent($('#dialog input[name=\'name\']').val()),
+					data: 'directory=' + encodeURIComponent($(tree.selected).attr('directory')) + '&name=' + $('#dialog input[name=\'name\']').val(),
 					dataType: 'json',
 					success: function(json) {
 						if (json.success) {
 							$('#dialog').remove();
 							
+							console.log(tree);
 							tree.refresh(tree.selected);
 							
 							alert(json.success);

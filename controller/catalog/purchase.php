@@ -93,9 +93,13 @@ class ControllerCatalogPurchase extends Controller {
 		$this->data['is_insert'] = false;
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
-			$this->model_catalog_purchase->editPurchase($this->request->get['purchase_id'], $this->request->post);
+			if ($this->model_catalog_purchase->editPurchase($this->request->get['purchase_id'], $this->request->post)) {
+				$this->session->data['success'] = $this->language->get('text_success');
+			} else {
+				$this->session->data['error'] = $this->language->get('text_error');
+			}
 
-			$this->session->data['success'] = $this->language->get('text_success');
+			
 
 			$url = '';
 
@@ -386,7 +390,9 @@ class ControllerCatalogPurchase extends Controller {
 		$this->data['users'] = $users;
 
 		$this->load->model('setting/store');
-		
+	
+		$stores = $this->model_setting_store->getStores();
+				
 		$this->data['stores'] = $stores;		
 
 		

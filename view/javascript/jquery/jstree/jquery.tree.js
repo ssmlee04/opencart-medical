@@ -244,6 +244,7 @@
 				this.focus();
 			},
 			refresh : function (obj) {
+				console.log(this);
 				if(this.locked) return this.error("LOCKED");
 				var _this = this;
 				if(obj && !this.settings.data.async) obj = false;
@@ -308,6 +309,7 @@
 				if(this.container.children("ul").size() == 0) {
 					this.container.html("<ul class='ltr' style='direction:ltr;'><li class='last'><a class='loading' href='#'><ins>&nbsp;</ins>" + (this.settings.lang.loading || "Loading ...") + "</a></li></ul>");
 				}
+
 				_datastore.load(this.callback("beforedata",[false,this]),this,this.settings.data.opts,function(data) {
 					data = _this.callback("ondata",[data, _this]);
 					_datastore.parse(data,_this,_this.settings.data.opts,function(str) {
@@ -766,6 +768,7 @@
 				if(obj.hasClass("open"))	return this.close_branch(obj); 
 			},
 			open_branch : function (obj, disable_animation, callback) {
+				console.log('open_branch');
 				var _this = this;
 
 				if(this.locked) return this.error("LOCKED");
@@ -787,6 +790,12 @@
 							if(callback) callback.call();
 							return;
 						}
+						console.log(data);
+						// Chandler
+						data = data.map(function(d){
+							d.data = d.attributes.directory;
+							return d;
+						});
 						_datastore.parse(data,_this,_this.settings.data.opts,function(str){
 							str = _this.callback("onparse", [str, _this]);
 							// if(obj.children('ul:eq(0)').children('li').size() > 1) obj.children("ul").find('.loaading').parent().replaceWith(str); else 

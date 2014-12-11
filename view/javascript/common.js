@@ -118,7 +118,6 @@ $(document).ready(function(){
 
 	});
 
-	// $('body').on('focusin', "select[type='product']", function(){
 	$('body').on('mouseenter', "select[type='product']", function(){
 		
 		// console.log(123);

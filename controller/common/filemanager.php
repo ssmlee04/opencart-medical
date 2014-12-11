@@ -68,7 +68,7 @@ class ControllerCommonFileManager extends Controller {
 
 		if (isset($this->request->post['directory'])) {
 			$directories = glob(rtrim(DIR_IMAGE . 'data/' . str_replace('../', '', $this->request->post['directory']), '/') . '/*', GLOB_ONLYDIR);
-
+// $this->load->out($directories);
 			if ($directories) {
 				$i = 0;
 
@@ -86,7 +86,7 @@ class ControllerCommonFileManager extends Controller {
 				}
 			}
 		}
-
+		// $this->load->out($json);
 		$this->response->setOutput(json_encode($json));
 	}
 
@@ -137,16 +137,18 @@ class ControllerCommonFileManager extends Controller {
 						$size = $size / 1024;
 						$i++;
 					}
-
+					
+					// Chandler fix 201412
+					$exp = explode('/', $file);
 					$json[] = array(
-						'filename' => basename($file),
+						'filename' => $exp[count($exp) - 1], //basename($file),
 						'file'     => utf8_substr($file, utf8_strlen(DIR_IMAGE . 'data/')),
 						'size'     => round(utf8_substr($size, 0, utf8_strpos($size, '.') + 4), 2) . $suffix[$i]
 					);
 				}
 			}
 		}
-
+		// $this->load->out($json);
 		$this->response->setOutput(json_encode($json));
 	}
 
@@ -178,6 +180,7 @@ class ControllerCommonFileManager extends Controller {
 		}
 
 		if (!isset($json['error'])) {
+			// $this->load->out($directory . '/' . str_replace('../', '', $this->request->post['name']));
 			mkdir($directory . '/' . str_replace('../', '', $this->request->post['name']), 0777);
 
 			$json['success'] = $this->language->get('text_create');

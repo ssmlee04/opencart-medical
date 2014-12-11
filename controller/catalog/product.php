@@ -12,6 +12,7 @@ class ControllerCatalogProduct extends Controller {
 		$this->getList();
 	}
 
+
 	// '2014-09-27 01:05'
 	public function productExist() {
 
@@ -1757,6 +1758,25 @@ class ControllerCatalogProduct extends Controller {
 	// }
 
 
+	public function getproductidbyname(){
+		$json = array();
+
+		if (isset($this->request->get['name'])) {
+			$query = $this->db->query("SELECT * FROM oc_product p LEFT JOIN oc_product_description pd ON p.product_id = pd.product_id WHERE pd.name = '" . $this->request->get['name'] . "' AND pd.language_id = '" . $this->config->get('config_language_id') . "'");
+
+			if (!$query->num_rows) {
+				$json['error'] = 'not eist';
+			} else {
+				$json['success'] = 'success';
+				$json['product_id'] = $query->row['product_id'];
+			}
+		} else {
+			$json['error'] = 'not eist22';
+		}
+
+		$this->response->setOutput(json_encode($json));
+		
+	}
 
 	// '2014-10-20 22:21'
 	public function all() {

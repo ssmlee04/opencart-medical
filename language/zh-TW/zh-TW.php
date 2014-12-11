@@ -35,8 +35,6 @@ $_['text_browse']               = '瀏覽';
 $_['text_clear']               = '清除';
 $_['text_change_status_success']             = '成功修改狀態';
 $_['text_service_not_rendered']             = '剩餘可用療程';
-$_['text_clear']             = '清除';
-$_['text_browse']             = '瀏覽';
 $_['text_image_manager']         = '圖檔管理';
 // Button
 $_['button_insert']           = '新增';
