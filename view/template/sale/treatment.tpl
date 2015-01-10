@@ -42,7 +42,7 @@
             </tr>
             <tr>
               <td><?php echo $entry_product; ?></td>
-              <td><input type="product" name="product" alt='2' value="" />
+              <td><input type="product" name="product" alt='2' alt2='1' value="" />
                 <input type="hidden" name="product_name" value="" />
                 <input type="hidden" name="product_id" value="" />
               </td>

@@ -1,1 +1,2 @@
-INSERT INTO oc_customer_event SET date_added = NOW(), customer_id = 3, title='l', date_end='2014-12-30 07:30:00', date_start='2014-12-30 07:00:00'
+SELECT * FROM oc_product p LEFT JOIN oc_product_description pd ON (p.product_id = pd.product_id)
+		LEFT JOIN oc_unit_class_description ucd ON (p.unit_class_id = ucd.unit_class_id AND ucd.language_id = pd.language_id) WHERE pd.language_id = '2' GROUP BY p.product_id ORDER BY pd.name ASC

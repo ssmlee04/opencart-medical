@@ -356,9 +356,19 @@ class ModelCatalogProduct extends Model {
 			$sql .= " AND p.quantity = '" . $this->db->escape($data['filter_quantity']) . "'";
 		}
 
-		if (isset($data['filter_status']) && !is_null($data['filter_status'])) {
-			$sql .= " AND p.status = '" . (int)$data['filter_status'] . "'";
-		}
+		// if (isset($data['filter_status']) && !is_null($data['filter_status'])) {
+		// 	$sql .= " AND p.status = '" . (int)$data['filter_status'] . "'";
+		// }
+
+		if (isset($data['filter_status_ids']) && !empty($data['filter_status_ids'])) {
+			
+			$sql .= " AND ( p.status = "; 
+			$temp = array();
+			foreach ($data['filter_status_ids'] as $status_id) {
+				$temp[] = (int)$status_id;
+			}
+			$sql .= implode(' OR p.status = ', $temp) . ')';
+		} 
 
 		if (isset($data['filter_product_type_ids']) && !empty($data['filter_product_type_ids'])) {
 			
@@ -369,6 +379,8 @@ class ModelCatalogProduct extends Model {
 			}
 			$sql .= implode(' OR product_type_id = ', $temp) . ')';
 		}
+
+
 // $this->load->out($sql);
 		$sql .= " GROUP BY p.product_id";
 
@@ -405,6 +417,7 @@ class ModelCatalogProduct extends Model {
 			$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
 		}	
 
+$this->load->out($sql, false);
 		$query = $this->db->query($sql);
 
 		return $query->rows;

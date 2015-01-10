@@ -67,7 +67,7 @@ class ControllerCommonHome extends Controller {
 
 		// Check install directory exists
 		if (is_dir(dirname(DIR_APPLICATION) . '/install')) {
-			$this->data['error_install'] = $this->language->get('error_install');
+			$this->data['error_install'] = ''; //$this->language->get('error_install');
 		} else {
 			$this->data['error_install'] = '';
 		}

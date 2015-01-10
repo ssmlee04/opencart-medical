@@ -2,9 +2,9 @@
 // HTTP
 
 // $NODE_ENV = getenv('NODE_ENV');
-$NODE_ENV = 'opencart2';
+$NODE_ENV = 'med';
 $WEBSITE_ENV = 'localhost';
-$RELPATH = '/var/www/html';
+$RELPATH = '/Applications/XAMPP/htdocs';
 
 define('HTTP_SERVER', 'http://' . $WEBSITE_ENV . '/' . $NODE_ENV . '/');
 define('HTTP_CATALOG', 'http://' . $WEBSITE_ENV .'/' . $NODE_ENV . '/');
@@ -31,6 +31,6 @@ define('DB_DRIVER', 'mysqli');
 define('DB_HOSTNAME', 'localhost');
 define('DB_USERNAME', 'root');
 define('DB_PASSWORD', 'aenge1012');
-define('DB_DATABASE', 'opencart');
+define('DB_DATABASE', 'med');
 define('DB_PREFIX', 'oc_');
 ?>

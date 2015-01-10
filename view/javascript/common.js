@@ -61,12 +61,15 @@ $(document).ready(function(){
 		// console.log(123);
 
 		var product_type_ids = $(this).attr('alt');
+		var status_ids = $(this).attr('alt2');
 		var that = this;
 		if ($(this).val()) return true;
 
 		// var name = $(this).attr('name');
 		$.ajax({
-		  url: 'index.php?route=catalog/product/treatment&token=' + $('#tk').val() + '&filter_product_type_ids=' + product_type_ids,
+		  url: 'index.php?route=catalog/product/treatment&token=' + $('#tk').val() 
+		  + '&filter_status_ids=' + status_ids
+		  + '&filter_product_type_ids=' + product_type_ids,
 		  type: 'POST',
 		  dataType: 'json',
 		  complete: function(xhr, textStatus) {
@@ -92,12 +95,15 @@ $(document).ready(function(){
 		// console.log(123);
 
 		var product_type_ids = $(this).attr('alt');
+		var status_ids = $(this).attr('alt2');
 		var that = this;
 		if ($(this).val()) return true;
 
 		// var name = $(this).attr('name');
 		$.ajax({
-		  url: 'index.php?route=catalog/product/sellable&token=' + $('#tk').val() + '&filter_product_type_ids=' + product_type_ids,
+		  url: 'index.php?route=catalog/product/sellable&token=' + $('#tk').val() 
+		  + '&filter_status_ids=' + status_ids
+		  + '&filter_product_type_ids=' + product_type_ids,
 		  type: 'POST',
 		  dataType: 'json',
 		  complete: function(xhr, textStatus) {
@@ -119,20 +125,25 @@ $(document).ready(function(){
 	});
 
 	$('body').on('mouseenter', "select[type='product']", function(){
-		
-		// console.log(123);
 
 		var product_type_ids = $(this).attr('alt');
+		var status_ids = $(this).attr('alt2');
 		var that = this;
 		if ($(this).val()) return true;
 
+console.log('index.php?route=catalog/product/all&token=' + $('#tk').val() 
+		  + '&filter_status_ids=' + status_ids
+		  + '&filter_product_type_ids=' + product_type_ids);
 		// var name = $(this).attr('name');
 		$.ajax({
-		  url: 'index.php?route=catalog/product/all&token=' + $('#tk').val() + '&filter_product_type_ids=' + product_type_ids,
+		  url: 'index.php?route=catalog/product/all&token=' + $('#tk').val() 
+		  + '&filter_status_ids=' + status_ids
+		  + '&filter_product_type_ids=' + product_type_ids,
 		  type: 'POST',
 		  dataType: 'json',
 		  complete: function(xhr, textStatus) {
 		    //called when complete
+		    console.log('complete');
 		  },
 		  success: function(json, textStatus, xhr) {
 		    //called when successful
@@ -153,11 +164,15 @@ $(document).ready(function(){
 	$('body').on('focusin', "input[type='product']", function(){
 	
 		var product_type_ids = $(this).attr('alt');
+		var status_ids = $(this).attr('alt2');
 		$(this).autocomplete({
 			delay: 500,
 			source: function(request, response) {
 				$.ajax({
-					url: 'index.php?route=catalog/product/autocomplete&token=' + $('#tk').val() + '&filter_name=' + encodeURIComponent(request.term) + '&filter_product_type_ids=' + product_type_ids,
+					url: 'index.php?route=catalog/product/autocomplete&token=' + $('#tk').val() 
++ '&filter_status_ids=' + status_ids
+					+ '&filter_name=' + encodeURIComponent(request.term) 
+					+ '&filter_product_type_ids=' + product_type_ids,
 					dataType: 'json',
 					success: function(json) {	
 						response($.map(json, function(item) {
@@ -188,15 +203,21 @@ $(document).ready(function(){
 		});	
 	});
 	
+	
 	$('body').on('focusin', "input[type='subtractproduct']", function(){
 	// $("input[type='subtractproduct']").on("focusin", function(){
 		// console.log(123123);
 		var product_type_ids = $(this).attr('alt');
+		var status_ids = $(this).attr('alt2');
 		$(this).autocomplete({
 			delay: 500,
 			source: function(request, response) {
 				$.ajax({
-					url: 'index.php?route=catalog/product/autocomplete&token=' + $('#tk').val() + '&filter_name=' + encodeURIComponent(request.term) + '&filter_product_type_ids=' + product_type_ids + '&filter_subtract=1',
+					url: 'index.php?route=catalog/product/autocomplete&token=' + $('#tk').val() 
+				+ '&filter_status_ids=' + status_ids
+					+ '&filter_name=' + encodeURIComponent(request.term) 
+					+ '&filter_product_type_ids=' + product_type_ids 
+					+ '&filter_subtract=1',
 					dataType: 'json',
 					success: function(json) {	
 						response($.map(json, function(item) {
@@ -292,7 +313,6 @@ $(document).ready(function(){
 	});
 
 	$("input[type='product']").on('keyup', function(e){
-		console.log(2332);
 		var name = $(this).attr('name');
 		// if (e.keyCode == 8) {
 			$("input[name='" + name + "_id']").attr('value', '');

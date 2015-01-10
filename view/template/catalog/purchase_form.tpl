@@ -197,8 +197,9 @@
             <tbody>
               <tr>
                 <td class="left"><?php echo $entry_product; ?></td>
-                <td class="left"><input type="subtractproduct" name="product" alt="1,2,3" value="" />
-                  <input type="hidden" name="product_id" value="" /><select type='sellable' name="product_add" alt='1,2,3'></select>
+                <td class="left"><input type="subtractproduct" name="product" alt="1,2,3" alt2='1' value="" />
+                  <input type="hidden" name="product_id" value="" />
+                  <select type='sellable' name="product_add" alt='1,2,3' alt2='1'></select>
                   </td>
               </tr>
               <!-- <tr id="option"></tr> -->
@@ -309,7 +310,7 @@ $('#button-product, #button-voucher, #button-update').live('click', function() {
 
   } else {
     $.ajax({
-        url: 'index.php?route=catalog/product/productExist&token=<?php echo $token; ?>&product_id=' +  product_id + '&name=' + product,
+        url: 'index.php?route=catalog/product/productExist&token=<?php echo $token; ?>&product_id=' +  product_id + '&name=' + encodeURIComponent(product),
         dataType: 'json',
         success: function(json) { 
 
@@ -370,8 +371,9 @@ var showhide = function(){
 
 $('select[name=\'product_add\']').on('change', function(){
   var str = $(this).find(":selected").text();
+  console.log(str);
   $.ajax({
-    url: 'index.php?route=catalog/product/getproductidbyname&token=<?php echo $token; ?>&name=' + str,
+    url: 'index.php?route=catalog/product/getproductidbyname&token=<?php echo $token; ?>&name=' + encodeURIComponent(str),
     dataType: 'json',
     success: function(json) { 
       if (json['success']) {

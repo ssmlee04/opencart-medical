@@ -1761,17 +1761,18 @@ class ControllerCatalogProduct extends Controller {
 	public function getproductidbyname(){
 		$json = array();
 
+		
 		if (isset($this->request->get['name'])) {
 			$query = $this->db->query("SELECT * FROM oc_product p LEFT JOIN oc_product_description pd ON p.product_id = pd.product_id WHERE pd.name = '" . $this->request->get['name'] . "' AND pd.language_id = '" . $this->config->get('config_language_id') . "'");
 
 			if (!$query->num_rows) {
-				$json['error'] = 'not eist';
+				$json['error'] = 'not exist';
 			} else {
 				$json['success'] = 'success';
 				$json['product_id'] = $query->row['product_id'];
 			}
 		} else {
-			$json['error'] = 'not eist22';
+			$json['error'] = 'not exists2';
 		}
 
 		$this->response->setOutput(json_encode($json));
@@ -1781,7 +1782,6 @@ class ControllerCatalogProduct extends Controller {
 	// '2014-10-20 22:21'
 	public function all() {
 		$json = array();
-
 		// if (isset($this->request->get['filter_name'])) {
 			$this->load->model('catalog/product');
 
@@ -1790,11 +1790,16 @@ class ControllerCatalogProduct extends Controller {
 			// } else {
 			// 	$filter_name = '';
 			// }
-
 			if (isset($this->request->get['filter_product_type_ids'])) {
 				$filter_product_type_ids = explode(',', $this->request->get['filter_product_type_ids']);
 			} else {
 				$filter_product_type_ids = array();
+			}
+
+			if (isset($this->request->get['filter_status_ids'])) {
+				$filter_status_ids = explode(',', $this->request->get['filter_status_ids']);
+			} else {
+				$filter_status_ids = array();
 			}
 
 			if (isset($this->request->get['limit'])) {
@@ -1808,10 +1813,11 @@ class ControllerCatalogProduct extends Controller {
 				'start'        => 0,
 				'limit'        => $limit,
 				'filter_product_type_ids' => $filter_product_type_ids,
+				'filter_status_ids' => $filter_status_ids,
 			);
 
 			$results = $this->model_catalog_product->getProducts($data);
-// $this->load->out($results);
+
 			foreach ($results as $result) {
 				$json[] = array(
 					'product_id' => $result['product_id'],
@@ -1846,6 +1852,13 @@ class ControllerCatalogProduct extends Controller {
 				$filter_product_type_ids = array();
 			}
 
+
+			if (isset($this->request->get['filter_status_ids'])) {
+				$filter_status_ids = explode(',', $this->request->get['filter_status_ids']);
+			} else {
+				$filter_status_ids = array();
+			}
+
 			if (isset($this->request->get['limit'])) {
 				$limit = $this->request->get['limit'];	
 			} else {
@@ -1858,6 +1871,7 @@ class ControllerCatalogProduct extends Controller {
 				'limit'        => $limit,
 				'filter_subtract'     => 1, 
 				'filter_product_type_ids' => $filter_product_type_ids,
+				'filter_status_ids' => $filter_status_ids,
 			);
 
 			$results = $this->model_catalog_product->getProducts($data);
@@ -1895,6 +1909,13 @@ class ControllerCatalogProduct extends Controller {
 				$filter_product_type_ids = array();
 			}
 
+
+			if (isset($this->request->get['filter_status_ids'])) {
+				$filter_status_ids = explode(',', $this->request->get['filter_status_ids']);
+			} else {
+				$filter_status_ids = array();
+			}
+
 			if (isset($this->request->get['limit'])) {
 				$limit = $this->request->get['limit'];	
 			} else {
@@ -1907,7 +1928,10 @@ class ControllerCatalogProduct extends Controller {
 				'limit'        => $limit,
 				'filter_subtract'     => 0, 
 				'filter_product_type_ids' => $filter_product_type_ids,
+				'filter_status_ids' => $filter_status_ids,
 			);
+
+			$this->load->out($data);
 
 			$results = $this->model_catalog_product->getProducts($data);
 // $this->load->out($results);
@@ -1946,6 +1970,13 @@ class ControllerCatalogProduct extends Controller {
 				$filter_product_type_ids = array();
 			}
 
+
+			if (isset($this->request->get['filter_status_ids'])) {
+				$filter_status_ids = explode(',', $this->request->get['filter_status_ids']);
+			} else {
+				$filter_status_ids = array();
+			}
+
 			if (isset($this->request->get['filter_subtract'])) {
 				$filter_subtract = $this->request->get['filter_subtract'];
 			} else {
@@ -1964,6 +1995,7 @@ class ControllerCatalogProduct extends Controller {
 				'limit'        => $limit,
 				'filter_subtract'        => $filter_subtract,
 				'filter_product_type_ids' => $filter_product_type_ids,
+				'filter_status_ids' => $filter_status_ids,
 			);
 
 			$results = $this->model_catalog_product->getProducts($data);

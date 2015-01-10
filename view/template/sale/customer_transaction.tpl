@@ -68,7 +68,7 @@
     </tr>
   </thead>
   <tr>
-    <td><select type='product' id='producttr' alt='<?php echo $filter_product_type_id; ?>'></select><div style='display:inline' id='units'></div></td>
+    <td><select type='product' id='producttr' alt='<?php echo $filter_product_type_id; ?>' alt2='1'></select><div style='display:inline' id='units'></div></td>
     <td><input type='text' id='unitspend'/><div style='display:inline' id='units2'></div>
       <input type='hidden' id='product_id_group'/>
       <input type='hidden' id='customer_id_group' value='<?php echo $filter_customer_id; ?>'/></td>

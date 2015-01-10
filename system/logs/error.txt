@@ -19,3 +19,88 @@
 2014-12-11 10:58:02 - PHP Notice:  Undefined index: firstname in /var/www/html/opencart2/vqmod/vqcache/vq2-model_sale_customer.php on line 51
 2014-12-11 10:59:06 - PHP Notice:  Undefined index: firstname in /var/www/html/opencart2/vqmod/vqcache/vq2-model_sale_customer.php on line 49
 2014-12-11 10:59:06 - PHP Notice:  Undefined index: firstname in /var/www/html/opencart2/vqmod/vqcache/vq2-model_sale_customer.php on line 51
+2015-01-10 8:25:05 - PHP Notice:  Undefined index: token in /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/vqcache/vq2-controller_common_header.php on line 144
+2015-01-10 8:25:14 - PHP Warning:  file_put_contents(people.txt): failed to open stream: Permission denied in /Applications/XAMPP/xamppfiles/htdocs/med/system/library/user.php on line 55
+2015-01-10 8:25:14 - PHP Warning:  fopen(/Applications/XAMPP/htdocs/med/image/test): failed to open stream: Permission denied in /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/vqcache/vq2-controller_common_home.php on line 78
+2015-01-10 8:25:14 - PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/vqcache/vq2-controller_common_home.php on line 80
+2015-01-10 8:25:14 - PHP Warning:  fclose() expects parameter 1 to be resource, boolean given in /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/vqcache/vq2-controller_common_home.php on line 82
+2015-01-10 8:25:14 - PHP Warning:  fopen(/Applications/XAMPP/htdocs/med/image/cache/test): failed to open stream: Permission denied in /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/vqcache/vq2-controller_common_home.php on line 95
+2015-01-10 8:25:14 - PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/vqcache/vq2-controller_common_home.php on line 97
+2015-01-10 8:25:14 - PHP Warning:  fclose() expects parameter 1 to be resource, boolean given in /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/vqcache/vq2-controller_common_home.php on line 99
+2015-01-10 8:25:36 - PHP Warning:  fopen(/Applications/XAMPP/htdocs/med/image/test): failed to open stream: Permission denied in /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/vqcache/vq2-controller_common_home.php on line 78
+2015-01-10 8:25:36 - PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/vqcache/vq2-controller_common_home.php on line 80
+2015-01-10 8:25:36 - PHP Warning:  fclose() expects parameter 1 to be resource, boolean given in /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/vqcache/vq2-controller_common_home.php on line 82
+2015-01-10 8:25:36 - PHP Warning:  fopen(/Applications/XAMPP/htdocs/med/image/cache/test): failed to open stream: Permission denied in /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/vqcache/vq2-controller_common_home.php on line 95
+2015-01-10 8:25:36 - PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/vqcache/vq2-controller_common_home.php on line 97
+2015-01-10 8:25:36 - PHP Warning:  fclose() expects parameter 1 to be resource, boolean given in /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/vqcache/vq2-controller_common_home.php on line 99
+2015-01-10 9:13:21 - PHP Warning:  file_put_contents(people.txt): failed to open stream: Permission denied in /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/vqcache/vq2-system_engine_loader.php on line 94
+2015-01-10 9:13:21 - PHP Warning:  file_put_contents(people.txt): failed to open stream: Permission denied in /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/vqcache/vq2-system_engine_loader.php on line 94
+2015-01-10 9:13:23 - PHP Warning:  file_put_contents(people.txt): failed to open stream: Permission denied in /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/vqcache/vq2-system_engine_loader.php on line 94
+2015-01-10 9:14:01 - PHP Warning:  file_put_contents(people.txt): failed to open stream: Permission denied in /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/vqcache/vq2-system_engine_loader.php on line 94
+2015-01-10 9:14:17 - PHP Warning:  file_put_contents(people.txt): failed to open stream: Permission denied in /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/vqcache/vq2-system_engine_loader.php on line 94
+2015-01-10 9:14:21 - PHP Warning:  file_put_contents(people.txt): failed to open stream: Permission denied in /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/vqcache/vq2-system_engine_loader.php on line 94
+2015-01-10 9:15:05 - PHP Warning:  file_put_contents(people.txt): failed to open stream: Permission denied in /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/vqcache/vq2-system_engine_loader.php on line 94
+2015-01-10 9:15:29 - PHP Warning:  file_put_contents(people.txt): failed to open stream: Permission denied in /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/vqcache/vq2-system_engine_loader.php on line 94
+2015-01-10 9:15:57 - PHP Warning:  file_put_contents(people.txt): failed to open stream: Permission denied in /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/vqcache/vq2-system_engine_loader.php on line 94
+2015-01-10 9:16:06 - PHP Warning:  file_put_contents(people.txt): failed to open stream: Permission denied in /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/vqcache/vq2-system_engine_loader.php on line 94
+2015-01-10 9:16:17 - PHP Warning:  file_put_contents(people.txt): failed to open stream: Permission denied in /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/vqcache/vq2-system_engine_loader.php on line 94
+2015-01-10 9:16:44 - PHP Warning:  file_put_contents(people.txt): failed to open stream: Permission denied in /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/vqcache/vq2-system_engine_loader.php on line 94
+2015-01-10 9:18:21 - PHP Warning:  file_put_contents(people.txt): failed to open stream: Permission denied in /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/vqcache/vq2-system_engine_loader.php on line 94
+2015-01-10 9:18:22 - PHP Warning:  file_put_contents(people.txt): failed to open stream: Permission denied in /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/vqcache/vq2-system_engine_loader.php on line 94
+2015-01-10 9:18:55 - PHP Warning:  file_put_contents(people.txt): failed to open stream: Permission denied in /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/vqcache/vq2-system_engine_loader.php on line 94
+2015-01-10 9:18:56 - PHP Warning:  file_put_contents(people.txt): failed to open stream: Permission denied in /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/vqcache/vq2-system_engine_loader.php on line 94
+2015-01-10 9:19:11 - PHP Warning:  file_put_contents(people.txt): failed to open stream: Permission denied in /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/vqcache/vq2-system_engine_loader.php on line 94
+2015-01-10 9:19:11 - PHP Warning:  file_put_contents(people.txt): failed to open stream: Permission denied in /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/vqcache/vq2-system_engine_loader.php on line 94
+2015-01-10 9:19:35 - PHP Warning:  file_put_contents(people.txt): failed to open stream: Permission denied in /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/vqcache/vq2-system_engine_loader.php on line 94
+2015-01-10 9:20:02 - PHP Warning:  file_put_contents(people.txt): failed to open stream: Permission denied in /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/vqcache/vq2-system_engine_loader.php on line 94
+2015-01-10 9:20:02 - PHP Warning:  file_put_contents(people.txt): failed to open stream: Permission denied in /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/vqcache/vq2-system_engine_loader.php on line 94
+2015-01-10 9:20:02 - PHP Warning:  file_put_contents(people.txt): failed to open stream: Permission denied in /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/vqcache/vq2-system_engine_loader.php on line 94
+2015-01-10 9:20:02 - PHP Warning:  file_put_contents(people.txt): failed to open stream: Permission denied in /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/vqcache/vq2-system_engine_loader.php on line 94
+2015-01-10 9:20:03 - PHP Warning:  file_put_contents(people.txt): failed to open stream: Permission denied in /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/vqcache/vq2-system_engine_loader.php on line 94
+2015-01-10 9:20:03 - PHP Warning:  file_put_contents(people.txt): failed to open stream: Permission denied in /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/vqcache/vq2-system_engine_loader.php on line 94
+2015-01-10 9:20:03 - PHP Warning:  file_put_contents(people.txt): failed to open stream: Permission denied in /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/vqcache/vq2-system_engine_loader.php on line 94
+2015-01-10 9:20:03 - PHP Warning:  file_put_contents(people.txt): failed to open stream: Permission denied in /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/vqcache/vq2-system_engine_loader.php on line 94
+2015-01-10 9:20:03 - PHP Warning:  file_put_contents(people.txt): failed to open stream: Permission denied in /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/vqcache/vq2-system_engine_loader.php on line 94
+2015-01-10 9:20:03 - PHP Warning:  file_put_contents(people.txt): failed to open stream: Permission denied in /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/vqcache/vq2-system_engine_loader.php on line 94
+2015-01-10 9:20:03 - PHP Warning:  file_put_contents(people.txt): failed to open stream: Permission denied in /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/vqcache/vq2-system_engine_loader.php on line 94
+2015-01-10 9:20:03 - PHP Warning:  file_put_contents(people.txt): failed to open stream: Permission denied in /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/vqcache/vq2-system_engine_loader.php on line 94
+2015-01-10 9:20:06 - PHP Warning:  file_put_contents(people.txt): failed to open stream: Permission denied in /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/vqcache/vq2-system_engine_loader.php on line 94
+2015-01-10 9:20:06 - PHP Warning:  file_put_contents(people.txt): failed to open stream: Permission denied in /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/vqcache/vq2-system_engine_loader.php on line 94
+2015-01-10 9:20:06 - PHP Warning:  file_put_contents(people.txt): failed to open stream: Permission denied in /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/vqcache/vq2-system_engine_loader.php on line 94
+2015-01-10 9:20:06 - PHP Warning:  file_put_contents(people.txt): failed to open stream: Permission denied in /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/vqcache/vq2-system_engine_loader.php on line 94
+2015-01-10 9:25:30 - PHP Notice:  Undefined variable: filter_customer_id in /Applications/XAMPP/xamppfiles/htdocs/med/view/template/sale/treatment.tpl on line 115
+2015-01-10 9:26:15 - PHP Notice:  Undefined variable: filter_customer_id in /Applications/XAMPP/xamppfiles/htdocs/med/view/template/sale/treatment.tpl on line 115
+2015-01-10 9:33:21 - PHP Notice:  Undefined index: model in /Applications/XAMPP/xamppfiles/htdocs/med/model/catalog/product.php on line 7
+2015-01-10 9:33:21 - PHP Notice:  Undefined index: model in /Applications/XAMPP/xamppfiles/htdocs/med/model/catalog/product.php on line 45
+2015-01-10 9:33:21 - PHP Notice:  Undefined index: bonus in /Applications/XAMPP/xamppfiles/htdocs/med/model/catalog/product.php on line 51
+2015-01-10 9:33:21 - PHP Notice:  Undefined index: reminder in /Applications/XAMPP/xamppfiles/htdocs/med/model/catalog/product.php on line 53
+2015-01-10 9:33:21 - PHP Notice:  Undefined index: bonus_percent_doctor in /Applications/XAMPP/xamppfiles/htdocs/med/model/catalog/product.php on line 55
+2015-01-10 9:33:21 - PHP Notice:  Undefined index: bonus_percent_consultant in /Applications/XAMPP/xamppfiles/htdocs/med/model/catalog/product.php on line 56
+2015-01-10 9:33:21 - PHP Notice:  Undefined index: bonus_percent_beauty in /Applications/XAMPP/xamppfiles/htdocs/med/model/catalog/product.php on line 57
+2015-01-10 9:33:21 - PHP Notice:  Undefined index: bonus_percent_outsource in /Applications/XAMPP/xamppfiles/htdocs/med/model/catalog/product.php on line 58
+2015-01-10 9:48:30 - PHP Notice:  Undefined index: model in /Applications/XAMPP/xamppfiles/htdocs/med/model/catalog/product.php on line 45
+2015-01-10 9:48:30 - PHP Notice:  Undefined index: bonus in /Applications/XAMPP/xamppfiles/htdocs/med/model/catalog/product.php on line 51
+2015-01-10 9:48:30 - PHP Notice:  Undefined index: reminder in /Applications/XAMPP/xamppfiles/htdocs/med/model/catalog/product.php on line 53
+2015-01-10 9:48:30 - PHP Notice:  Undefined index: bonus_percent_doctor in /Applications/XAMPP/xamppfiles/htdocs/med/model/catalog/product.php on line 55
+2015-01-10 9:48:30 - PHP Notice:  Undefined index: bonus_percent_consultant in /Applications/XAMPP/xamppfiles/htdocs/med/model/catalog/product.php on line 56
+2015-01-10 9:48:30 - PHP Notice:  Undefined index: bonus_percent_beauty in /Applications/XAMPP/xamppfiles/htdocs/med/model/catalog/product.php on line 57
+2015-01-10 9:48:30 - PHP Notice:  Undefined index: bonus_percent_outsource in /Applications/XAMPP/xamppfiles/htdocs/med/model/catalog/product.php on line 58
+2015-01-10 10:01:11 - PHP Notice:  Undefined variable: filter_customer_id in /Applications/XAMPP/xamppfiles/htdocs/med/view/template/sale/treatment.tpl on line 115
+2015-01-10 10:03:22 - PHP Notice:  Undefined index: firstname in /Applications/XAMPP/xamppfiles/htdocs/med/model/user/user.php on line 27
+2015-01-10 10:03:22 - PHP Notice:  Undefined index: firstname in /Applications/XAMPP/xamppfiles/htdocs/med/model/user/user.php on line 29
+2015-01-10 10:03:22 - PHP Notice:  Undefined index: email in /Applications/XAMPP/xamppfiles/htdocs/med/model/user/user.php on line 30
+2015-01-10 10:12:19 - PHP Notice:  Undefined index: model in /Applications/XAMPP/xamppfiles/htdocs/med/model/catalog/product.php on line 7
+2015-01-10 10:12:19 - PHP Notice:  Undefined index: model in /Applications/XAMPP/xamppfiles/htdocs/med/model/catalog/product.php on line 45
+2015-01-10 10:12:19 - PHP Notice:  Undefined index: bonus in /Applications/XAMPP/xamppfiles/htdocs/med/model/catalog/product.php on line 51
+2015-01-10 10:12:19 - PHP Notice:  Undefined index: reminder in /Applications/XAMPP/xamppfiles/htdocs/med/model/catalog/product.php on line 53
+2015-01-10 10:12:19 - PHP Notice:  Undefined index: bonus_percent_doctor in /Applications/XAMPP/xamppfiles/htdocs/med/model/catalog/product.php on line 55
+2015-01-10 10:12:19 - PHP Notice:  Undefined index: bonus_percent_consultant in /Applications/XAMPP/xamppfiles/htdocs/med/model/catalog/product.php on line 56
+2015-01-10 10:12:19 - PHP Notice:  Undefined index: bonus_percent_beauty in /Applications/XAMPP/xamppfiles/htdocs/med/model/catalog/product.php on line 57
+2015-01-10 10:12:19 - PHP Notice:  Undefined index: bonus_percent_outsource in /Applications/XAMPP/xamppfiles/htdocs/med/model/catalog/product.php on line 58
+2015-01-10 10:12:43 - PHP Notice:  Undefined index: model in /Applications/XAMPP/xamppfiles/htdocs/med/model/catalog/product.php on line 45
+2015-01-10 10:12:43 - PHP Notice:  Undefined index: bonus in /Applications/XAMPP/xamppfiles/htdocs/med/model/catalog/product.php on line 51
+2015-01-10 10:12:43 - PHP Notice:  Undefined index: reminder in /Applications/XAMPP/xamppfiles/htdocs/med/model/catalog/product.php on line 53
+2015-01-10 10:12:43 - PHP Notice:  Undefined index: bonus_percent_doctor in /Applications/XAMPP/xamppfiles/htdocs/med/model/catalog/product.php on line 55
+2015-01-10 10:12:43 - PHP Notice:  Undefined index: bonus_percent_consultant in /Applications/XAMPP/xamppfiles/htdocs/med/model/catalog/product.php on line 56
+2015-01-10 10:12:43 - PHP Notice:  Undefined index: bonus_percent_beauty in /Applications/XAMPP/xamppfiles/htdocs/med/model/catalog/product.php on line 57
+2015-01-10 10:12:43 - PHP Notice:  Undefined index: bonus_percent_outsource in /Applications/XAMPP/xamppfiles/htdocs/med/model/catalog/product.php on line 58
