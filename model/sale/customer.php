@@ -1262,6 +1262,7 @@ $this->load->out($sql, false);
 		$this->load->model('catalog/product');
 
 		$comment = (isset($data['comment']) ? $data['comment'] : '');
+		$beauty_fixed = (isset($data['beauty_fixed']) ? $data['beauty_fixed'] : 0);
 		$customer_id = (isset($data['customer_id']) ? $data['customer_id'] : 0);
 		$unitspend = (isset($data['unitspend']) ? $data['unitspend'] : 0);
 		$product_id = (isset($data['product_id']) ? $data['product_id'] : 0);
@@ -1270,8 +1271,6 @@ $this->load->out($sql, false);
 		$status = (isset($data['status']) ? $data['status'] : 0);
 		if ($appstart) $appstart = date('Y-m-d H:i:s', strtotime($appstart));
 		if ($append) $append = date('Y-m-d H:i:s', strtotime($append));
-// $this->load->out(DATE_FORMAT(strtotime($append), '%Y-%m-%d %T'));
-		// $this->load->out(date('Y-m-d H:i:s', strtotime($append)));
 		if ($status == -2) {
 			if ($appstart && $append) {
 				if (strtotime($appstart) >= strtotime($append)) return false;
@@ -1321,6 +1320,7 @@ $this->load->out($sql, false);
 					$allcorrect = false;
 				}
 
+				$data['beauty_fixed'] = 0;
 				$if_remind = false;
 			}
 
@@ -1379,13 +1379,14 @@ $this->load->out($sql, false);
 			$sql .= (isset($data['consultant_id']) ? " , consultant_id = '" . $data['consultant_id'] . "'" : '');
 			$sql .= (isset($data['outsource_id']) ? " , outsource_id = '" . $data['outsource_id'] . "'" : '');
 			$sql .= (isset($data['beauty_id']) ? " , beauty_id = '" . $data['beauty_id'] . "'" : '');
+			$sql .= (isset($data['beauty_id']) && isset($data['beauty_fixed']) ? " , bonus_beauty_fixed = '" . (float)$data['beauty_fixed'] . "'" : '');
 			
 		}
 	
 		$sql .= " WHERE customer_transaction_id = '" . (int)$customer_transaction_id . "' AND quantity < 0";
-
+// $this->load->out($sql);
 		$this->db->query($sql);
-
+// $this->load->out($data);
 		$affected2 = $this->db->countAffected();
 
 		if ($if_remind) $this->remindProduct($customer_transaction_id);

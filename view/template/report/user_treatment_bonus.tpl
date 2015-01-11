@@ -53,10 +53,10 @@
               <td><?php echo $text_consultant_name; ?></td>
               <td><?php echo $text_beauty_name; ?></td>
               <td><?php echo $text_total_amount; ?></td>
-          <!--     <td><php echo $text_payment_cash; ?></td>
-              <td><php echo $text_payment_visa; ?></td>
-              <td><php echo $text_payment_balance; ?></td>
-              <td><php echo $text_payment_final; ?></td> -->
+              <td><?php echo $text_payment_cash; ?></td>
+              <td><?php echo $text_payment_visa; ?></td>
+              <td><?php echo $text_payment_balance; ?></td>
+              <td><?php echo $text_payment_final; ?></td>
               <td><?php echo $text_user_fullname; ?></td>
               
           </tr>
@@ -77,10 +77,10 @@
               <td><?php echo $result['consultant_name']; ?></td>
               <td><?php echo $result['beauty_name']; ?></td>
               <td><?php echo $result['total_amount']; ?></td>
-              <!-- <td><php echo $result['payment_cash']; ?></td> -->
-              <!-- <td><php echo $result['payment_visa']; ?></td> -->
-              <!-- <td><php echo $result['payment_balance']; ?></td> -->
-              <!-- <td><php echo $result['payment_final']; ?></td> -->
+              <td><?php echo $result['payment_cash']; ?></td>
+              <td><?php echo $result['payment_visa']; ?></td>
+              <td><?php echo $result['payment_balance']; ?></td>
+              <td><?php echo $result['payment_final']; ?></td>
               <td><?php echo $result['ufullname']; ?></td>
             </tr>
           <?php } ?>

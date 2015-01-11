@@ -76,10 +76,11 @@
   <tr>
     <td colspan='2'>
     <?php echo $entry_beauty; ?><select name='beauty' type='user' alt='5'/>
+    <input name='beauty_fixed' type='text' id='beauty_fixed' style='width:30px'/>
     <?php echo $entry_doctor; ?><select name='doctor'  type='user' alt='2'/>
     <?php echo $entry_consultant; ?><select name='consultant'  type='user' alt='3'/>
     <?php echo $entry_outsource; ?><select name='outsource' type='user' alt='4'/>
-    <input name='comment' type='text' id='comment' style='width:400px'/>
+    <input name='comment' type='text' id='comment' style='width:320px'/>
 
     <select name='tran_status' >
       <option></option>
@@ -379,6 +380,7 @@ $('.group_change_status_button').on('click', function(e){
   var appstart = $("input[name='appstart']").val();
   var append = $("input[name='append']").val();
   var comment = $("#comment").val();
+  var beauty_fixed = $("#beauty_fixed").val();
   var beauty_id = $("select[name='beauty']").val();
   var doctor_id = $("select[name='doctor']").val();
   var consultant_id = $("select[name='consultant']").val();
@@ -393,7 +395,7 @@ $('.group_change_status_button').on('click', function(e){
   $.ajax({
       url: 'index.php?route=sale/customer/editgrouptransaction&token=<?php echo $token; ?>',
       type: 'post',
-      data: 'status=' + status + '&comment=' + comment+ '&doctor_id=' + doctor_id+ '&consultant_id=' + consultant_id + '&outsource_id=' + outsource_id  + '&beauty_id=' + beauty_id + '&unitspend='+ unitspend + '&product_id='+ product_id+ '&customer_id='+ customer_id +'&appstart='+ appstart +'&append='+ append ,
+      data: 'status=' + status + '&comment=' + comment+ '&doctor_id=' + doctor_id+ '&consultant_id=' + consultant_id + '&outsource_id=' + outsource_id  + '&beauty_id=' + beauty_id + '&unitspend='+ unitspend + '&product_id='+ product_id+ '&customer_id='+ customer_id +'&appstart='+ appstart +'&append='+ append +'&beauty_fixed='+ beauty_fixed ,
       dataType: 'json',
       beforeSend: function(){
       
