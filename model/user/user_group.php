@@ -5,7 +5,12 @@ class ModelUserUserGroup extends Model {
 	}
 
 	public function editUserGroup($user_group_id, $data) {
-		$this->db->query("UPDATE " . DB_PREFIX . "user_group SET name = '" . $this->db->escape($data['name']) . "', permission = '" . (isset($data['permission']) ? serialize($data['permission']) : '') . "' WHERE user_group_id = '" . (int)$user_group_id . "'");
+		$sql = "UPDATE " . DB_PREFIX . "user_group SET name = '" . $this->db->escape($data['name']) . "'
+			, producttypepermission = '" . (isset($data['producttypepermission']) ? serialize($data['producttypepermission']) : '') . "' 
+			, permission = '" . (isset($data['permission']) ? serialize($data['permission']) : '') . "' 
+			WHERE user_group_id = '" . (int)$user_group_id . "'";
+		// $this->load->out($sql);
+		$this->db->query($sql);
 	}
 
 	public function deleteUserGroup($user_group_id) {
@@ -33,7 +38,8 @@ class ModelUserUserGroup extends Model {
 
 		$user_group = array(
 			'name'       => $query->row['name'],
-			'permission' => unserialize($query->row['permission'])
+			'permission' => unserialize($query->row['permission']),
+			'producttypepermission' => unserialize($query->row['producttypepermission'])
 		);
 
 		return $user_group;

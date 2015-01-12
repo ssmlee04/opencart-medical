@@ -315,11 +315,11 @@
 
             <tr>
               <td><?php echo $entry_product; ?></td>
-              <td><input type="product" name="treatment_product2" alt='1' value="" />
+              <td><input type="product" name="treatment_product2" alt='1' alt2='1' value="" />
                 <input type="hidden" name="treatment_product2_name" value="" />
                 <input type="hidden" name="treatment_product2_id" value="" />
 
-                <select type="product" name="treatment_product2_add" alt='1'></select>
+                <select type="product" name="treatment_product2_add" alt='1' alt2='1' ></select>
               </td>
               <td colspan="2" style="text-align: right;"><a id="button-filter2" class="button"><span><?php echo $button_filter; ?></span></a></td>
             </tr>
@@ -374,11 +374,11 @@
             </tr> -->
             <tr>
               <td><?php echo $entry_product; ?></td>
-              <td><input type='treatment' name="treatment_product" alt='2' value="" />
+              <td><input type='product' name="treatment_product" alt='2' alt2='1' value="" />
                 <input type="hidden" name="treatment_product_name" value="" />
                 <input type="hidden" name="treatment_product_id" value="" />
 
-                <select type="product" name="treatment_product_add" alt='2'></select>
+                <select type="product" name="treatment_product_add" alt='2' alt2='1'></select>
                 <!-- <a class='group101'>132123</a> -->
 
               </td>

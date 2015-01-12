@@ -13,6 +13,7 @@ $_['column_action']    = '動作';
 $_['entry_name']       = '群組名稱';
 $_['entry_access']     = '查看權限';
 $_['entry_modify']     = '修改權限';
+$_['entry_producttype']     = '商品權限';
 
 // Error
 $_['error_permission'] = '您沒有權限更改管理員群組的設置';

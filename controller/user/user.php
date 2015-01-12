@@ -50,7 +50,7 @@ class ControllerUserUser extends Controller {
 		$this->document->setTitle($this->language->get('heading_title'));
 
 		$this->load->model('user/user');
-
+// $this->load->out($this->request->post);
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
 			$this->model_user_user->editUser($this->request->get['user_id'], $this->request->post);
 
@@ -310,19 +310,51 @@ class ControllerUserUser extends Controller {
 			$stores = array();
 		}
 
+		// if (isset($this->request->post['producttypes'])) {
+		// 	$stores = $this->request->post['store'];
+		// } elseif (isset($this->request->get['user_id'])) {		
+		// 	$stores = json_decode($this->model_setting_store->getUserStorePermission($this->request->get['user_id']));
+		// } else {
+		// 	$stores = array();
+		// }
+
 		$this->data['allowedstores'] = array();
+		// $this->data['allowedproducts'] = array();
 		$this->data['stores'] = $this->model_setting_store->getStores();
+
+		// if ($producttypes)
+		// foreach ($producttypes as $key => $store) {
+			// $producttypeinfo = $this->model_setting_store->getStore($store);
+			// $this->data['allowedproducts'][] = array(
+			// 	'id' => 1,
+			// 	'name'        => 'products'
+			// );
+			// $this->data['allowedproducts'][] = array(
+			// 	'id' => 2,
+			// 	'name'        => 'treatments'
+			// );
+			// $this->data['allowedproducts'][] = array(
+			// 	'id' => 3,
+			// 	'name'        => 'wastes'
+			// );
+		// }
+
+		// if ($producttypes)
+		// foreach ($producttypes as $key => $store) {
+		// 	// $storeinfo = $this->model_setting_store->getStore($store);
+		// 	$this->data['allowedstores'][] = array(
+		// 		'id' => $store,
+		// 		'name'        => $storeinfo['name']
+		// 	);
+		// }
 
 		if ($stores)
 		foreach ($stores as $key => $store) {
-
 			$storeinfo = $this->model_setting_store->getStore($store);
-
 			$this->data['allowedstores'][] = array(
 				'store_id' => $store,
 				'name'        => $storeinfo['name']
 			);
-		
 		}
 
 		if (isset($this->error['warning'])) {

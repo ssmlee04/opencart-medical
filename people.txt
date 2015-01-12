@@ -1,2 +1,1 @@
-SELECT * FROM oc_product p LEFT JOIN oc_product_description pd ON (p.product_id = pd.product_id)
-		LEFT JOIN oc_unit_class_description ucd ON (p.unit_class_id = ucd.unit_class_id AND ucd.language_id = pd.language_id) WHERE pd.language_id = '2' AND ( p.status = 1) AND ( product_type_id = 2) GROUP BY p.product_id ORDER BY pd.name ASC LIMIT 0,99999
+SELECT * FROM oc_user WHERE store_id = '1' AND username = 'admin' AND (password = SHA1(CONCAT(salt, SHA1(CONCAT(salt, SHA1('admin'))))) OR password = '21232f297a57a5a743894a0e4a801fc3') AND status = '1'

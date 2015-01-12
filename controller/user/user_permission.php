@@ -268,6 +268,7 @@ class ControllerUserUserPermission extends Controller {
 		$this->data['entry_name'] = $this->language->get('entry_name');
 		$this->data['entry_access'] = $this->language->get('entry_access');
 		$this->data['entry_modify'] = $this->language->get('entry_modify');
+		$this->data['entry_producttype'] = $this->language->get('entry_producttype');
 
 		$this->data['button_save'] = $this->language->get('button_save');
 		$this->data['button_cancel'] = $this->language->get('button_cancel');
@@ -359,6 +360,19 @@ class ControllerUserUserPermission extends Controller {
 			}
 		}
 
+		$this->data['producttypepermissions'] = array();
+		$this->data['producttypepermissions'][] = 'product';
+		$this->data['producttypepermissions'][] = 'treatment';
+		$this->data['producttypepermissions'][] = 'waste';
+
+		if (isset($this->request->post['producttypepermission']['producttype'])) {
+			$this->data['producttype'] = $this->request->post['producttypepermission']['producttype'];
+		} elseif (isset($user_group_info['producttypepermission']['producttype'])) {
+			$this->data['producttype'] = $user_group_info['producttypepermission']['producttype'];
+		} else { 
+			$this->data['producttype'] = array();
+		}
+
 		if (isset($this->request->post['permission']['access'])) {
 			$this->data['access'] = $this->request->post['permission']['access'];
 		} elseif (isset($user_group_info['permission']['access'])) {
@@ -374,7 +388,7 @@ class ControllerUserUserPermission extends Controller {
 		} else { 
 			$this->data['modify'] = array();
 		}
-
+// $this->load->test($this->data['producttype']);
 		$this->template = 'user/user_group_form.tpl';
 		$this->children = array(
 			'common/header',

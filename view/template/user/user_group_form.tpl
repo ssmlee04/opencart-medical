@@ -24,6 +24,26 @@
               <?php  } ?></td>
           </tr>
           <tr>
+            <td><?php echo $entry_producttype; ?></td>
+            <td><div class="scrollbox">
+                <?php $class = 'odd'; ?>
+                <?php foreach ($producttypepermissions as $permission) { ?>
+                <?php $class = ($class == 'even' ? 'odd' : 'even'); ?>
+                <div class="<?php echo $class; ?>">
+                  <?php if (in_array($permission, $producttype)) { ?>
+                  <input type="checkbox" name="producttypepermission[producttype][]" value="<?php echo $permission; ?>" checked="checked" />
+                  <?php echo $permission; ?>
+                  <?php } else { ?>
+                  <input type="checkbox" name="producttypepermission[producttype][]" value="<?php echo $permission; ?>" />
+                  <?php echo $permission; ?>
+                  <?php } ?>
+                </div>
+                <?php } ?>
+              </div>
+              <!-- <a onclick="$(this).parent().find(':checkbox').attr('checked', true);"><php echo $text_select_all; ?></a> / <a onclick="$(this).parent().find(':checkbox').attr('checked', false);"><php echo $text_unselect_all; ?></a> -->
+              </td>
+          </tr>
+          <tr>
             <td><?php echo $entry_access; ?></td>
             <td><div class="scrollbox">
                 <?php $class = 'odd'; ?>

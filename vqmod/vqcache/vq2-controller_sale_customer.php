@@ -589,7 +589,10 @@ class ControllerSaleCustomer extends Controller {
 			}
 
 			$dobs = explode('-', $result['dob']);
-			$dob = ((int)$dobs[0] - 1911) . '-' . $dobs[1] . '-' . $dobs[2];
+			$dob = ((int)$dobs[0]) . '-' . $dobs[1] . '-' . $dobs[2];
+
+			// $dobs = explode('-', $result['dob']);
+			// $dob = ((int)$dobs[0] - 1911) . '-' . $dobs[1] . '-' . $dobs[2];
 
 			$this->data['customers'][] = array(
 				'customer_id'    => $result['customer_id'],

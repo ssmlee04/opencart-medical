@@ -20,6 +20,13 @@ $_['column_payment_cash']      = '現金';
 $_['column_payment_visa']      = '信用卡';
 $_['column_payment_balance']      = '尾款';
 
+$_['column_price']      = '售價';
+$_['column_date']      = '發生日期';
+$_['column_product']      = '商品';
+$_['column_cost']      = '成本';
+$_['column_quantity']      = '數量';
+
+
 // Entry
 $_['entry_date_start']  = '開始日';
 $_['entry_date_end']    = '結束日';

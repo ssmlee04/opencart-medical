@@ -97,6 +97,24 @@ class ModelSettingStore extends Model {
 		return $query->row['total'];		
 	}	
 
+	public function getUserProductPermission($user_id) {
+
+		$query = $this->db->query("SELECT product_permission FROM oc_user WHERE user_id = '" . (int)$user_id . "'");
+
+		if (!$query->num_rows) return false;
+		
+		return $query->row['product_permission'];
+	}
+	
+	// public function setUserProductPermission($user_id, $stores) {
+
+	// 	$query = $this->db->query("SELECT product_permission FROM oc_user WHERE user_id = '" . (int)$user_id . "'");
+
+	// 	if (!$query->num_rows) return false;
+		
+	// 	return json_encode($query->row['store_permission']);
+	// }
+
 	public function getUserStorePermission($user_id) {
 
 		$query = $this->db->query("SELECT store_permission FROM oc_user WHERE user_id = '" . (int)$user_id . "'");
@@ -106,16 +124,14 @@ class ModelSettingStore extends Model {
 		return $query->row['store_permission'];
 	}
 
-	public function setUserStorePermission($user_id, $stores) {
+	// public function setUserStorePermission($user_id, $stores) {
 
-		//$query = $this->db->query("SELECT store_permission FROM oc_user WHERE user_id = '" . (int)$user_id . "'");
+	// 	$query = $this->db->query("SELECT store_permission FROM oc_user WHERE user_id = '" . (int)$user_id . "'");
 
+	// 	if (!$query->num_rows) return false;
 		
-
-		if (!$query->num_rows) return false;
-		
-		return json_encode($query->row['store_permission']);
-	}
+	// 	return json_encode($query->row['store_permission']);
+	// }
 
 }
 ?>

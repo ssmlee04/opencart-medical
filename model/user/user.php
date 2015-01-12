@@ -15,19 +15,24 @@ class ModelUserUser extends Model {
 		$default_store_id = (int)$this->db->escape($data['defaultstore']);
 
 		if (empty($data['store'])) $data['store'] = array();
+		if (empty($data['product'])) $data['product'] = array();
 
 		if (!in_array($default_store_id, $data['store'])) array_push($data['store'], $default_store_id);
 
+		$product_permission = '[' . implode(',', $data['product']) . ']'; 
 		$store_permission = '[' . implode(',', $data['store']) . ']'; 
 
 		$this->db->query("UPDATE `" . DB_PREFIX . "user` SET 
-			store_permission = '" . $this->db->escape($store_permission) . "'
+			product_permission = '" . $this->db->escape($product_permission) . "'
+			, store_permission = '" . $this->db->escape($store_permission) . "'
 			, username = '" . $this->db->escape($data['username']) . "'
 			, store_id = '" . (int)$this->db->escape($data['defaultstore']) . "'
 			, firstname = '" . $this->db->escape($data['firstname']) . "'
 			, lastname = '" . $this->db->escape($data['lastname']) . "'
 			, fullname = '" . $this->db->escape($data['lastname']) . $this->db->escape($data['firstname']) . "'
-			, email = '" . $this->db->escape($data['email']) . "', user_group_id = '" . (int)$data['user_group_id'] . "', status = '" . (int)$data['status'] . "' WHERE user_id = '" . (int)$user_id . "'");
+			, email = '" . $this->db->escape($data['email']) . "'
+			, user_group_id = '" . (int)$data['user_group_id'] . "'
+			, status = '" . (int)$data['status'] . "' WHERE user_id = '" . (int)$user_id . "'");
 
 		if ($data['password']) {
 			$this->db->query("UPDATE `" . DB_PREFIX . "user` SET salt = '" . $this->db->escape($salt = substr(md5(uniqid(rand(), true)), 0, 9)) . "', password = '" . $this->db->escape(sha1($salt . sha1($salt . sha1($data['password'])))) . "' WHERE user_id = '" . (int)$user_id . "'");

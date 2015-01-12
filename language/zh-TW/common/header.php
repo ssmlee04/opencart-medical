@@ -96,4 +96,6 @@ $_['text_image']              = '圖像管理';
 $_['text_addcustomer']              = '新客管理';
 $_['text_treatment']              = '療程查詢';
 $_['text_appointment']              = '預約管理';
+$_['text_report_inventory']              = '庫存分析';
+$_['text_inventory_management']              = '庫存管理';
 ?>

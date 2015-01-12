@@ -20,6 +20,8 @@ class ControllerCommonHeader extends Controller {
 		$this->language->load('common/header');
 		$this->data['heading_title'] = $this->language->get('heading_title');
 
+		$this->data['text_inventory_management'] = $this->language->get('text_inventory_management');
+		$this->data['text_report_inventory'] = $this->language->get('text_report_inventory');
 		$this->data['text_affiliate'] = $this->language->get('text_affiliate');
 		$this->data['text_attribute'] = $this->language->get('text_attribute');
 		$this->data['text_attribute_group'] = $this->language->get('text_attribute_group');
@@ -189,6 +191,7 @@ class ControllerCommonHeader extends Controller {
 			$this->data['waste_product'] = $this->url->link('catalog/product&type=3', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['imagemanage'] = $this->url->link('image/imagemanage', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['profile'] = $this->url->link('catalog/profile', 'token=' . $this->session->data['token'], 'SSL');
+			$this->data['report_inventory'] = $this->url->link('report/inventory', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['report_sale_order'] = $this->url->link('report/sale_order', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['report_sale_tax'] = $this->url->link('report/sale_tax', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['report_sale_shipping'] = $this->url->link('report/sale_shipping', 'token=' . $this->session->data['token'], 'SSL');
@@ -202,6 +205,7 @@ class ControllerCommonHeader extends Controller {
 			$this->data['report_customer_reward'] = $this->url->link('report/customer_reward', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['report_customer_credit'] = $this->url->link('report/customer_credit', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['report_affiliate_commission'] = $this->url->link('report/affiliate_commission', 'token=' . $this->session->data['token'], 'SSL');
+			$this->data['report_inventory'] = $this->url->link('report/sale_inventory', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['review'] = $this->url->link('catalog/review', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['return'] = $this->url->link('sale/return', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['return_action'] = $this->url->link('localisation/return_action', 'token=' . $this->session->data['token'], 'SSL');

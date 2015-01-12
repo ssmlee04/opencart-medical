@@ -154,11 +154,12 @@
                 <td class="left"><?php echo $entry_product; ?></td>
                 <td class="left">
                   <!-- <input type="product" name="product23" alt='1,2,3' value="" /> -->
-                  <input type="text" name="product" value="" />
+                  <input type="product" name="product" alt='1,2,3' alt2='1' value="" />
+                  <!-- <input type="text" name="product" alt='1,2,3' alt2='1' value="" /> -->
                   <input type="hidden" name="product_id" value="" />
                  / 
                 
-                <select type='product' alt='1,2,3'/></td>
+                <select type='product' alt='1,2,3' alt2='1'/></td>
               </tr>
               <tr id="option"></tr>
               <tr>

@@ -61,7 +61,7 @@ if(array_intersect($page_name, $get_route)){
 	<?php
 }
 ?>
-<link type="text/css" href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' />
+<!-- <link type="text/css" href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' /> -->
 <link type="text/css" href="view/javascript/admin_theme/base5builder_impulsepro/ui/themes/ui-lightness/jquery-ui-1.8.20.custom-min.css" rel="stylesheet" />
 	  <!--[if IE 7]>
 	  <link type="text/css" href="view/stylesheet/admin_theme/base5builder_impulsepro/style-ie7.css" rel="stylesheet">
@@ -238,6 +238,12 @@ if(array_intersect($page_name, $get_route)){
 						<li><a href="<php echo $report_sale_shipping; ?>"><php echo $text_report_sale_shipping; ?></a></li>
 						<li><a href="<php echo $report_sale_return; ?>"><php echo $text_report_sale_return; ?></a></li>
 						<li><a href="<php echo $report_sale_coupon; ?>"><php echo $text_report_sale_coupon; ?></a></li> -->
+					</ul>
+				</li>
+				<li><a class="parent"><?php echo $text_inventory_management; ?></a>
+					<ul>
+						<!-- <li><a href="php echo $report_product_viewed; ?>"><php echo $text_report_product_viewed; ?></a></li> -->
+						<li><a href="<?php echo $report_inventory; ?>"><?php echo $text_report_inventory; ?></a></li>
 					</ul>
 				</li>
 				<li><a class="parent"><?php echo $text_product; ?></a>
