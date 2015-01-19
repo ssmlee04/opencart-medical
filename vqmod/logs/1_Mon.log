@@ -1,5 +1,20 @@
----------- Date: 2015-01-12 04:38:07 ~ IP : ::1 ----------
-REQUEST URI : /med/index.php?route=sale/customer/messages&amp;token=b6162739c20155eebfb670969f1924b1
+---------- Date: 2015-01-19 08:42:53 ~ IP : ::1 ----------
+REQUEST URI : /med/index.php?route=sale/customer/messages&amp;token=bddbba33d6927e4e3522462f7068ed19
+MOD DETAILS:
+   modFile   : /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/xml/med.xml
+   id        : Admin Theme - Base 5 Builder - ImpulsePro
+   version   : 1.0.4
+   vqmver    : 2.0
+   author    : Niyi Sodipe - Base5Builder.com
+
+File Name    : view/template/sale/customer_*(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <div class="heading">
+
+----------------------------------------------------------------------
+
+
+---------- Date: 2015-01-19 09:03:36 ~ IP : ::1 ----------
+REQUEST URI : /med/index.php?route=sale/customer/messages&amp;token=1858f6ad2622f28e7a760d092c2f80eb
 MOD DETAILS:
    modFile   : /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/xml/med.xml
    id        : Admin Theme - Base 5 Builder - ImpulsePro

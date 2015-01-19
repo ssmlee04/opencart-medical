@@ -16,6 +16,13 @@ $_['text_percent']           = '百分比';
 $_['text_amount']            = '固定數';
 $_['text_cannot_delete']            = '這個產品有交易記錄不能刪除';
 $_['text_recover']            = '還原';
+$_['text_purchase_info']            = '採購歷史';
+$_['text_order_info']            = '交易歷史';
+$_['tab_history']            = '交易歷史';
+$_['text_purchase_id']            = '採購編號';
+$_['text_order_id']            = '訂單編號';
+$_['text_date_added']            = '發生日期';
+$_['text_order_total']            = '金額';
 
 // Column
 $_['column_name']            = '商品名稱';

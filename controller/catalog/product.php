@@ -677,6 +677,8 @@ class ControllerCatalogProduct extends Controller {
 	protected function getForm() {
 		$this->data['heading_title'] = $this->language->get('heading_title');
 
+		$this->data['text_order_info'] = $this->language->get('text_order_info');
+		$this->data['text_purchase_info'] = $this->language->get('text_purchase_info');
 		$this->data['text_enabled'] = $this->language->get('text_enabled');
 		$this->data['text_disabled'] = $this->language->get('text_disabled');
 		$this->data['text_none'] = $this->language->get('text_none');
@@ -769,6 +771,10 @@ class ControllerCatalogProduct extends Controller {
 		$this->data['entry_trial_length'] = $this->language->get('entry_trial_length');
 		$this->data['entry_trial_cycle'] = $this->language->get('entry_trial_cycle');
 
+		$this->data['text_purchase_id'] = $this->language->get('text_purchase_id');
+		$this->data['text_order_total'] = $this->language->get('text_order_total');
+		$this->data['text_date_added'] = $this->language->get('text_date_added');
+		$this->data['text_order_id'] = $this->language->get('text_order_id');
 		$this->data['text_length_day'] = $this->language->get('text_length_day');
 		$this->data['text_length_week'] = $this->language->get('text_length_week');
 		$this->data['text_length_month'] = $this->language->get('text_length_month');
@@ -787,6 +793,7 @@ class ControllerCatalogProduct extends Controller {
 		$this->data['button_add_profile'] = $this->language->get('button_add_profile');
 		$this->data['button_add_store_quantity'] = $this->language->get('button_add_store_quantity');
 
+		$this->data['tab_history'] = $this->language->get('tab_history');
 		$this->data['tab_general'] = $this->language->get('tab_general');
 		$this->data['tab_data'] = $this->language->get('tab_data');
 		$this->data['tab_attribute'] = $this->language->get('tab_attribute');
@@ -906,6 +913,19 @@ class ControllerCatalogProduct extends Controller {
 		if (isset($this->request->get['product_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
 			$product_info = $this->model_catalog_product->getProduct($this->request->get['product_id']);
 		}
+
+		$this->data['order_infos'] = [];
+		$this->data['purchase_infos'] = [];
+		if (isset($this->request->get['product_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
+			
+			$order_query = $this->db->query("SELECT * FROM oc_order o LEFT JOIN  oc_order_product op ON o.order_id = op.order_id WHERE product_id = '" . $this->request->get['product_id'] . "'");
+			$purchase_query = $this->db->query("SELECT * FROM oc_purchase o LEFT JOIN  oc_purchase_product op ON o.purchase_id = op.purchase_id WHERE product_id = '" . $this->request->get['product_id'] . "'");
+
+			$this->data['order_infos'] = $order_query->rows;
+			$this->data['purchase_infos'] = $purchase_query->rows;
+		}
+
+		// $this->load->test($this->data['order_infos']);
 
 		$this->data['token'] = $this->session->data['token'];
 

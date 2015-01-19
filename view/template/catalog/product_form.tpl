@@ -15,15 +15,57 @@
     </div>
     <div class="content">
       <div id="tabs" class="htabs">
-        <!-- <a href="#tab-general"><php echo $tab_general; ?></a> -->
         <a href="#tab-data"><?php echo $tab_data; ?></a>
+        <a href="#tab-history"><?php echo $tab_history; ?></a>
         <!-- <a href="#tab-image"><php echo $tab_image; ?></a> -->
 
       </div>
       <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
         <!-- <input type='' name='type' value='<php echo $type;?>'/> -->
-        <!-- <div id="tab-general">
-        </div> -->
+        <div id="tab-history">
+
+        <h4><?php echo $text_purchase_info; ?></h4>
+        <table class="list">
+          <thead>
+          <tr>
+            <td><?php echo $text_purchase_id; ?></td>
+            <td><?php echo $text_date_added; ?></td>
+            <td><?php echo $text_order_total; ?></td>
+          </tr>
+          </thead>
+          <tbody>
+          <?php foreach ($purchase_infos as $info) { ?>
+            <tr>
+            <td><?php echo $info['purchase_id']; ?></td>
+            <td><?php echo $info['date_added']; ?></td>
+            <td><?php echo $info['total']; ?></td>
+            </tr>
+          <?php } ?>
+          </tbody>
+        </table>
+        <br>
+
+        <h4><?php echo $text_order_info; ?></h4>
+        <table class="list">
+          <thead>
+          <tr>
+            <td><?php echo $text_order_id; ?></td>
+            <td><?php echo $text_date_added; ?></td>
+            <td><?php echo $text_order_total; ?></td>
+          </tr>
+          </thead>
+          <tbody>
+          <?php foreach ($order_infos as $info) { ?>
+            <tr>
+            <td><?php echo $info['order_id']; ?></td>
+            <td><?php echo $info['date_added']; ?></td>
+            <td><?php echo $info['total']; ?></td>
+            </tr>
+          <?php } ?>
+          </tbody>
+        </table>
+
+        </div>
         <div id="tab-data">
           <input type='hidden' name='product_type_id' value = '<?php echo $type; ?>'/>
           <table id="storequantity" class="list">

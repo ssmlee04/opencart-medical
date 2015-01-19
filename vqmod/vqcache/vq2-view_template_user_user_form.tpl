@@ -103,7 +103,7 @@
             </tr>
            <tr>
               <td><?php echo $entry_store_permission; ?></td>
-              <td><input type="text" name="store" value="" /></td>
+              <td><input type="text" name="st" value="" /></td>
             </tr>
             <tr>
               <td>&nbsp;</td>
@@ -117,6 +117,7 @@
                   <?php } ?>
                 </div></td>
             </tr> 
+        
 
 
         </table>
