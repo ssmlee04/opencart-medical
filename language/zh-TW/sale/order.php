@@ -3,6 +3,7 @@
 $_['heading_title']         = '訂單';
 
 // Text
+$_['text_edit']          = '修改';
 $_['text_success']          = '已成功修改訂單的設置';
 $_['text_order_id']         = '訂單 ID';
 $_['text_invoice_no']       = '發票號碼';

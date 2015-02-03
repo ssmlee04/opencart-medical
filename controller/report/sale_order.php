@@ -88,7 +88,9 @@ class ControllerReportSaleOrder extends Controller {
 
 		$results = $this->model_report_sale->getOrders($data);
 
+		$total = 0;
 		foreach ($results as $result) {
+			$total += $result['total'];
 			$this->data['orders'][] = array(
 				'date_start' => date($this->language->get('date_format_short'), strtotime($result['date_start'])),
 				'date_end'   => date($this->language->get('date_format_short'), strtotime($result['date_end'])),
@@ -102,6 +104,7 @@ class ControllerReportSaleOrder extends Controller {
 			);
 		}
 
+		$this->data['total'] = $this->currency->format($total, $this->config->get('config_currency'));
 		$this->data['heading_title'] = $this->language->get('heading_title');
 
 		$this->data['text_no_results'] = $this->language->get('text_no_results');

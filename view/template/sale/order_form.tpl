@@ -38,6 +38,18 @@
 
                 </td>
             </tr>
+             <tr>
+              <td><?php echo $entry_date; ?></td>
+              <td> <?php if (!$is_insert)  { ?>
+              <?php echo $date; ?>
+                <?php } ?> <input <?php if (!$is_insert) echo 'style="display:none"'; ?> type="date_available" name="date" value="<?php echo $date; ?>" />
+                <?php if ($error_date) { ?>
+                  <span class="error"><?php echo $error_date; ?></span>
+                <?php } ?>
+
+                </td>
+            </tr>
+
             <tr>
               <td class="left"><?php echo $entry_store; ?></td>
               <td class="left">
@@ -594,6 +606,7 @@ $('#button-product').live('click', function() {
 
 
   var store_id = $('select[name=\'store_id\']').val();
+  var date = $('input[name=\'date\']').val();
   var customer_id = $('input[name=\'customer_id\']').val();
   
       $('.success, .warning, .attention, .error').remove();
@@ -601,6 +614,15 @@ $('#button-product').live('click', function() {
   if (!store_id) {
 
         $('.box').before('<div class="warning" style="display: none;"><?php echo $text_error_store; ?></div>');
+      
+    $('.warning').fadeIn('slow');    
+    
+    return;
+  }
+
+  if (!date) {
+
+        $('.box').before('<div class="warning" style="display: none;"><?php echo $text_error_date; ?></div>');
       
     $('.warning').fadeIn('slow');    
     
@@ -636,7 +658,7 @@ $('#button-product').live('click', function() {
 	data += '#tab-total input[type=\'text\'], #tab-total input[type=\'hidden\'], #tab-total input[type=\'radio\']:checked, #tab-total input[type=\'checkbox\']:checked, #tab-total select, #tab-total textarea';
 
 	$.ajax({
-    url: 'index.php?route=checkout/manual&is_insert=<?php echo $is_insert; ?>&store_id=<?php echo $store_id; ?>&token=<?php echo $token; ?>',
+    url: 'index.php?route=checkout/manual&is_insert=<?php echo $is_insert; ?>&store_id=<?php echo $store_id; ?>&token=<?php echo $token; ?>&date=<?php echo $date; ?>',
 		type: 'post',
 		data: $(data),
 		dataType: 'json',	
@@ -1031,7 +1053,7 @@ $('#button-product').live('click', function() {
 
 });
 //--></script> 
-<script type="text/javascript" src="view/javascript/jquery/ui/jquery-ui-timepicker-addon.js"></script> 
+<!-- <script type="text/javascript" src="view/javascript/jquery/ui/jquery-ui-timepicker-addon.js"></script>  -->
 <script type="text/javascript"><!--
 
   $("select[type='product']").change(function(){
@@ -1067,6 +1089,10 @@ $('.price').live('keyup', function(e){
 
   
 });
+
+// $(document).ready(function() {
+//   $('inupt[type="date_available"]').datepicker({dateFormat: 'yy-mm-dd'});
+// });
 
 //--></script> 
 <?php echo $footer; ?>

@@ -126,6 +126,7 @@ class ControllerReportCustomerFeedback extends Controller {
 			$reminders = array();
 			foreach ($rms as $reminder) {
 				if ($reminder['user_id'] == $result['user_id']) {
+					if ($reminder['reminder_date'] == '0000-00-00') $reminder['reminder_date'] = '';
 					$reminders[] = $reminder;
 				}
 			}
@@ -178,7 +179,14 @@ class ControllerReportCustomerFeedback extends Controller {
 
 		$this->load->model('localisation/reminder_status');
 
+		// $reminder_statuses = $this->model_localisation_reminder_status->getReminderStatuses();
+		// $this->load->test($reminder_statuses);
+		// foreach ($reminder_statuses as $r) {
+		// 	if ($r[])
+		// }
+
 		$this->data['reminder_statuses'] = $this->model_localisation_reminder_status->getReminderStatuses();
+
 
 		$url = '';
 

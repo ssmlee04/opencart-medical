@@ -95,7 +95,7 @@
                 <?php } ?></td>
               <!-- <td class="right"><php echo $order['order_id']; ?></td> -->
               <td class="left"><?php foreach ($order['action'] as $action) { ?>
-                <a href="<?php echo $action['href']; ?>"><?php echo $order['customer']; ?></a>
+                <a href="<?php echo $action['user']; ?>"><?php echo $order['customer']; ?></a>
                 <?php } ?>
 
               </td>
@@ -103,7 +103,9 @@
               <td class="right"><?php echo $order['total']; ?></td>
               <td class="left"><?php echo $order['date_added']; ?></td>
               <!-- <td class="left"><php echo $order['date_modified']; ?></td> -->
-              <td class="right"><?php echo $order['comment']; ?></td>
+              <td class="right"><?php echo $order['comment']; ?>
+              <a href="<?php echo $action['href']; ?>"><?php echo $text_edit; ?></a>
+              </td>
             </tr>
             <?php } ?>
             <?php } else { ?>

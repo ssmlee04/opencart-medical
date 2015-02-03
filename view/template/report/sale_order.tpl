@@ -67,6 +67,7 @@
             <td class="right"><?php echo $order['total']; ?></td>
           </tr>
           <?php } ?>
+          <td class="right" colspan='8'><?php echo $total; ?></td>
           <?php } else { ?>
           <tr>
             <td class="center" colspan="8"><?php echo $text_no_results; ?></td>

@@ -455,10 +455,11 @@ class ControllerSaleOrder extends Controller {
 			// 	'text' => $this->language->get('text_view'),
 			// 	'href' => $this->url->link('sale/order/info', 'token=' . $this->session->data['token'] . '&order_id=' . $result['order_id'] . $url, 'SSL')
 			// );
-
+			// $this->load->test($result);
 			// if (strtotime($result['date_added']) > strtotime('-' . (int)$this->config->get('config_order_edit') . ' day')) {
 				$action[] = array(
 					'text' => $this->language->get('text_edit'),
+					'user' => $this->url->link('sale/customer/update&filter_customer_id='. $result['customer_id'], 'token=' . $this->session->data['token'] . '&order_id=' . $result['order_id'] . $url, 'SSL'),
 					'href' => $this->url->link('sale/order/update', 'token=' . $this->session->data['token'] . '&order_id=' . $result['order_id'] . $url, 'SSL')
 				);
 			// }
@@ -478,6 +479,7 @@ class ControllerSaleOrder extends Controller {
 
 		$this->data['heading_title'] = $this->language->get('heading_title');
 
+		$this->data['text_edit'] = $this->language->get('text_edit');
 		$this->data['text_no_results'] = $this->language->get('text_no_results');
 		$this->data['text_missing'] = $this->language->get('text_missing');
 
@@ -714,6 +716,7 @@ class ControllerSaleOrder extends Controller {
 		$this->data['entry_payment_balance'] = $this->language->get('entry_payment_balance');
 		$this->data['entry_store'] = $this->language->get('entry_store');
 		$this->data['entry_store'] = $this->language->get('entry_store');
+		$this->data['entry_date'] = $this->language->get('entry_date');
 		$this->data['entry_customer'] = $this->language->get('entry_customer');
 		$this->data['entry_customer_group'] = $this->language->get('entry_customer_group');
 		$this->data['entry_firstname'] = $this->language->get('entry_firstname');
@@ -779,6 +782,12 @@ class ControllerSaleOrder extends Controller {
 			$this->data['error_customer'] = $this->error['customer'];
 		} else {
 			$this->data['error_customer'] = '';
+		}
+
+		if (isset($this->error['date'])) {
+			$this->data['error_date'] = $this->error['date'];
+		} else {
+			$this->data['error_date'] = '';
 		}
 
 		if (isset($this->error['store'])) {
@@ -1055,6 +1064,15 @@ class ControllerSaleOrder extends Controller {
 			$this->data['customer'] = '';
 		}
 
+		if (isset($this->request->post['date'])) {
+			$this->data['date'] = $this->request->post['date'];
+		} elseif (!empty($order_info)) {
+			
+			$this->data['date'] = $order_info['date_added'];
+		} else {
+			$this->data['date'] = '';
+		}
+
 		if (isset($this->request->post['customer_id'])) {
 			$this->data['customer_name'] = $this->request->post['customer_name'];
 		} elseif (!empty($order_info)) {
@@ -1279,7 +1297,16 @@ class ControllerSaleOrder extends Controller {
 		$this->response->setOutput($this->render());
 	}
 
+	
+
 	protected function validateForm() {
+
+		function validateDate($date, $format = 'Y-m-d')
+		{
+		    $d = DateTime::createFromFormat($format, $date);
+		    return $d && $d->format($format) == $date;
+		}
+
 		if (!$this->user->hasPermission('modify', 'sale/order')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
@@ -1311,6 +1338,10 @@ class ControllerSaleOrder extends Controller {
 
 		if (utf8_strlen($this->request->post['customer_name']) <= 0) {
 			$this->error['customer'] = $this->language->get('error_customer');
+		}
+
+		if (!validateDate($this->request->post['date'])) {
+			$this->error['date'] = $this->language->get('error_date');
 		}
 
 		if (utf8_strlen($this->request->post['customer_id']) <= 0) {
@@ -1739,6 +1770,12 @@ class ControllerSaleOrder extends Controller {
 				$this->data['customer'] = $this->url->link('sale/customer/update', 'token=' . $this->session->data['token'] . '&customer_id=' . $order_info['customer_id'], 'SSL');
 			} else {
 				$this->data['customer'] = '';
+			}
+
+			if ($order_info['date_added']) {
+				$this->data['date'] = $order_info['date_added'];
+			} else {
+				$this->data['date'] = '';
 			}
 
 			$this->load->model('sale/customer_group');

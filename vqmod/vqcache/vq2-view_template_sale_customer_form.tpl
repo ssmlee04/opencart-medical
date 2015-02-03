@@ -455,7 +455,7 @@
             </tr>
             <tr>
               <td><?php echo $entry_product; ?></td>
-              <td><input type="product" name="lendto_product" alt='2' value="" />
+              <td><input type="product" name="lendto_product" alt='2' alt2='1' value="" />
                 <input type="hidden" name="lendto_product_id" value="" /></td>
             </tr>
             <tr>
@@ -482,7 +482,7 @@
             </tr>
             <tr>
               <td><?php echo $entry_product; ?></td>
-              <td><input type="product" name="borrowfrom_product" alt='2' value="" />
+              <td><input type="product" name="borrowfrom_product" alt='2' alt2='1' value="" />
                 <input type="hidden" name="borrowfrom_product_id" value="" /></td>
             </tr>
             <tr>
