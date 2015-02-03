@@ -583,3 +583,363 @@ VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <div class="heading">
 ----------------------------------------------------------------------
 
 
+---------- Date: 2015-02-03 04:04:31 ~ IP : ::1 ----------
+REQUEST URI : /med/index.php?route=sale/customer/messages&amp;token=2f67d8d292c2e0ca3dd925a603261918
+MOD DETAILS:
+   modFile   : /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/xml/med.xml
+   id        : Admin Theme - Base 5 Builder - ImpulsePro
+   version   : 1.0.4
+   vqmver    : 2.0
+   author    : Niyi Sodipe - Base5Builder.com
+
+File Name    : view/template/sale/customer_*(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <div class="heading">
+
+----------------------------------------------------------------------
+
+
+---------- Date: 2015-02-03 04:05:04 ~ IP : ::1 ----------
+REQUEST URI : /med/index.php?route=sale/customer/transaction&amp;token=2f67d8d292c2e0ca3dd925a603261918&amp;filter_product_type_id=1&amp;filter_customer_id=40&amp;show_group=1
+MOD DETAILS:
+   modFile   : /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/xml/med.xml
+   id        : Admin Theme - Base 5 Builder - ImpulsePro
+   version   : 1.0.4
+   vqmver    : 2.0
+   author    : Niyi Sodipe - Base5Builder.com
+
+File Name    : view/template/sale/customer_*(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <div class="heading">
+
+----------------------------------------------------------------------
+
+
+---------- Date: 2015-02-03 04:05:06 ~ IP : ::1 ----------
+REQUEST URI : /med/index.php?route=sale/customer/lendings&amp;token=2f67d8d292c2e0ca3dd925a603261918&amp;filter_customer_id=40
+MOD DETAILS:
+   modFile   : /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/xml/med.xml
+   id        : Admin Theme - Base 5 Builder - ImpulsePro
+   version   : 1.0.4
+   vqmver    : 2.0
+   author    : Niyi Sodipe - Base5Builder.com
+
+File Name    : view/template/sale/customer_*(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <div class="heading">
+
+----------------------------------------------------------------------
+
+
+---------- Date: 2015-02-03 04:05:06 ~ IP : ::1 ----------
+REQUEST URI : /med/index.php?route=sale/customer/borrows&amp;token=2f67d8d292c2e0ca3dd925a603261918&amp;filter_customer_id=40
+MOD DETAILS:
+   modFile   : /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/xml/med.xml
+   id        : Admin Theme - Base 5 Builder - ImpulsePro
+   version   : 1.0.4
+   vqmver    : 2.0
+   author    : Niyi Sodipe - Base5Builder.com
+
+File Name    : view/template/sale/customer_*(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <div class="heading">
+
+----------------------------------------------------------------------
+
+
+---------- Date: 2015-02-03 04:05:13 ~ IP : ::1 ----------
+REQUEST URI : /med/index.php?route=sale/customer/lendings&amp;token=2f67d8d292c2e0ca3dd925a603261918&amp;filter_customer_id=40
+MOD DETAILS:
+   modFile   : /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/xml/med.xml
+   id        : Admin Theme - Base 5 Builder - ImpulsePro
+   version   : 1.0.4
+   vqmver    : 2.0
+   author    : Niyi Sodipe - Base5Builder.com
+
+File Name    : view/template/sale/customer_*(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <div class="heading">
+
+----------------------------------------------------------------------
+
+
+---------- Date: 2015-02-03 04:05:24 ~ IP : ::1 ----------
+REQUEST URI : /med/index.php?route=sale/customer/lendings&amp;token=2f67d8d292c2e0ca3dd925a603261918&amp;filter_customer_id=40
+MOD DETAILS:
+   modFile   : /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/xml/med.xml
+   id        : Admin Theme - Base 5 Builder - ImpulsePro
+   version   : 1.0.4
+   vqmver    : 2.0
+   author    : Niyi Sodipe - Base5Builder.com
+
+File Name    : view/template/sale/customer_*(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <div class="heading">
+
+----------------------------------------------------------------------
+
+
+---------- Date: 2015-02-03 04:05:26 ~ IP : ::1 ----------
+REQUEST URI : /med/index.php?route=sale/customer/transaction&amp;token=2f67d8d292c2e0ca3dd925a603261918&amp;filter_product_type_id=1&amp;filter_customer_id=40&amp;show_group=1
+MOD DETAILS:
+   modFile   : /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/xml/med.xml
+   id        : Admin Theme - Base 5 Builder - ImpulsePro
+   version   : 1.0.4
+   vqmver    : 2.0
+   author    : Niyi Sodipe - Base5Builder.com
+
+File Name    : view/template/sale/customer_*(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <div class="heading">
+
+----------------------------------------------------------------------
+
+
+---------- Date: 2015-02-03 04:05:27 ~ IP : ::1 ----------
+REQUEST URI : /med/index.php?route=sale/customer/lendings&amp;token=2f67d8d292c2e0ca3dd925a603261918&amp;filter_customer_id=40
+MOD DETAILS:
+   modFile   : /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/xml/med.xml
+   id        : Admin Theme - Base 5 Builder - ImpulsePro
+   version   : 1.0.4
+   vqmver    : 2.0
+   author    : Niyi Sodipe - Base5Builder.com
+
+File Name    : view/template/sale/customer_*(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <div class="heading">
+
+----------------------------------------------------------------------
+
+
+---------- Date: 2015-02-03 04:05:27 ~ IP : ::1 ----------
+REQUEST URI : /med/index.php?route=sale/customer/borrows&amp;token=2f67d8d292c2e0ca3dd925a603261918&amp;filter_customer_id=40
+MOD DETAILS:
+   modFile   : /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/xml/med.xml
+   id        : Admin Theme - Base 5 Builder - ImpulsePro
+   version   : 1.0.4
+   vqmver    : 2.0
+   author    : Niyi Sodipe - Base5Builder.com
+
+File Name    : view/template/sale/customer_*(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <div class="heading">
+
+----------------------------------------------------------------------
+
+
+---------- Date: 2015-02-03 04:05:27 ~ IP : ::1 ----------
+REQUEST URI : /med/index.php?route=sale/customer/borrows&amp;token=2f67d8d292c2e0ca3dd925a603261918&amp;filter_customer_id=40
+MOD DETAILS:
+   modFile   : /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/xml/med.xml
+   id        : Admin Theme - Base 5 Builder - ImpulsePro
+   version   : 1.0.4
+   vqmver    : 2.0
+   author    : Niyi Sodipe - Base5Builder.com
+
+File Name    : view/template/sale/customer_*(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <div class="heading">
+
+----------------------------------------------------------------------
+
+
+---------- Date: 2015-02-03 04:05:27 ~ IP : ::1 ----------
+REQUEST URI : /med/index.php?route=sale/customer/lendings&amp;token=2f67d8d292c2e0ca3dd925a603261918&amp;filter_customer_id=40
+MOD DETAILS:
+   modFile   : /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/xml/med.xml
+   id        : Admin Theme - Base 5 Builder - ImpulsePro
+   version   : 1.0.4
+   vqmver    : 2.0
+   author    : Niyi Sodipe - Base5Builder.com
+
+File Name    : view/template/sale/customer_*(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <div class="heading">
+
+----------------------------------------------------------------------
+
+
+---------- Date: 2015-02-03 04:05:31 ~ IP : ::1 ----------
+REQUEST URI : /med/index.php?route=sale/customer/transaction&amp;token=2f67d8d292c2e0ca3dd925a603261918&amp;filter_product_type_id=1&amp;filter_customer_id=40&amp;show_group=1
+MOD DETAILS:
+   modFile   : /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/xml/med.xml
+   id        : Admin Theme - Base 5 Builder - ImpulsePro
+   version   : 1.0.4
+   vqmver    : 2.0
+   author    : Niyi Sodipe - Base5Builder.com
+
+File Name    : view/template/sale/customer_*(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <div class="heading">
+
+----------------------------------------------------------------------
+
+
+---------- Date: 2015-02-03 04:05:31 ~ IP : ::1 ----------
+REQUEST URI : /med/index.php?route=sale/customer/transaction&amp;token=2f67d8d292c2e0ca3dd925a603261918&amp;filter_product_type_id=2&amp;filter_customer_id=40&amp;show_group=1
+MOD DETAILS:
+   modFile   : /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/xml/med.xml
+   id        : Admin Theme - Base 5 Builder - ImpulsePro
+   version   : 1.0.4
+   vqmver    : 2.0
+   author    : Niyi Sodipe - Base5Builder.com
+
+File Name    : view/template/sale/customer_*(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <div class="heading">
+
+----------------------------------------------------------------------
+
+
+---------- Date: 2015-02-03 04:05:32 ~ IP : ::1 ----------
+REQUEST URI : /med/index.php?route=sale/customer/transaction&amp;token=2f67d8d292c2e0ca3dd925a603261918&amp;filter_product_type_id=2&amp;filter_customer_id=40&amp;show_group=1
+MOD DETAILS:
+   modFile   : /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/xml/med.xml
+   id        : Admin Theme - Base 5 Builder - ImpulsePro
+   version   : 1.0.4
+   vqmver    : 2.0
+   author    : Niyi Sodipe - Base5Builder.com
+
+File Name    : view/template/sale/customer_*(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <div class="heading">
+
+----------------------------------------------------------------------
+
+
+---------- Date: 2015-02-03 04:05:48 ~ IP : ::1 ----------
+REQUEST URI : /med/index.php?route=sale/customer/transaction&amp;token=2f67d8d292c2e0ca3dd925a603261918&amp;filter_customer_id=40&amp;show_group=1&amp;filter_product_name=&amp;filter_ismain=0&amp;filter_treatment_status=-2&amp;filter_ismain=0&amp;filter_product_type_id=2
+MOD DETAILS:
+   modFile   : /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/xml/med.xml
+   id        : Admin Theme - Base 5 Builder - ImpulsePro
+   version   : 1.0.4
+   vqmver    : 2.0
+   author    : Niyi Sodipe - Base5Builder.com
+
+File Name    : view/template/sale/customer_*(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <div class="heading">
+
+----------------------------------------------------------------------
+
+
+---------- Date: 2015-02-03 04:05:52 ~ IP : ::1 ----------
+REQUEST URI : /med/index.php?route=sale/customer/transaction&amp;token=2f67d8d292c2e0ca3dd925a603261918&amp;filter_customer_id=40&amp;show_group=1&amp;filter_product_name=&amp;filter_ismain=0&amp;filter_treatment_status=2&amp;filter_ismain=0&amp;filter_product_type_id=2
+MOD DETAILS:
+   modFile   : /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/xml/med.xml
+   id        : Admin Theme - Base 5 Builder - ImpulsePro
+   version   : 1.0.4
+   vqmver    : 2.0
+   author    : Niyi Sodipe - Base5Builder.com
+
+File Name    : view/template/sale/customer_*(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <div class="heading">
+
+----------------------------------------------------------------------
+
+
+---------- Date: 2015-02-03 04:06:04 ~ IP : ::1 ----------
+REQUEST URI : /med/index.php?route=sale/customer/lendings&amp;token=2f67d8d292c2e0ca3dd925a603261918&amp;filter_customer_id=40
+MOD DETAILS:
+   modFile   : /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/xml/med.xml
+   id        : Admin Theme - Base 5 Builder - ImpulsePro
+   version   : 1.0.4
+   vqmver    : 2.0
+   author    : Niyi Sodipe - Base5Builder.com
+
+File Name    : view/template/sale/customer_*(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <div class="heading">
+
+----------------------------------------------------------------------
+
+
+---------- Date: 2015-02-03 04:06:04 ~ IP : ::1 ----------
+REQUEST URI : /med/index.php?route=sale/customer/borrows&amp;token=2f67d8d292c2e0ca3dd925a603261918&amp;filter_customer_id=40
+MOD DETAILS:
+   modFile   : /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/xml/med.xml
+   id        : Admin Theme - Base 5 Builder - ImpulsePro
+   version   : 1.0.4
+   vqmver    : 2.0
+   author    : Niyi Sodipe - Base5Builder.com
+
+File Name    : view/template/sale/customer_*(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <div class="heading">
+
+----------------------------------------------------------------------
+
+
+---------- Date: 2015-02-03 04:06:05 ~ IP : ::1 ----------
+REQUEST URI : /med/index.php?route=sale/customer/transaction&amp;token=2f67d8d292c2e0ca3dd925a603261918&amp;filter_product_type_id=2&amp;filter_customer_id=40&amp;show_group=1
+MOD DETAILS:
+   modFile   : /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/xml/med.xml
+   id        : Admin Theme - Base 5 Builder - ImpulsePro
+   version   : 1.0.4
+   vqmver    : 2.0
+   author    : Niyi Sodipe - Base5Builder.com
+
+File Name    : view/template/sale/customer_*(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <div class="heading">
+
+----------------------------------------------------------------------
+
+
+---------- Date: 2015-02-03 04:38:52 ~ IP : ::1 ----------
+REQUEST URI : /med/index.php?route=sale/customer/messages&amp;token=5c91fb9abdcda258a54d5f01e1c1eaf5
+MOD DETAILS:
+   modFile   : /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/xml/med.xml
+   id        : Admin Theme - Base 5 Builder - ImpulsePro
+   version   : 1.0.4
+   vqmver    : 2.0
+   author    : Niyi Sodipe - Base5Builder.com
+
+File Name    : view/template/sale/customer_*(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <div class="heading">
+
+----------------------------------------------------------------------
+
+
+---------- Date: 2015-02-03 04:38:58 ~ IP : ::1 ----------
+REQUEST URI : /med/index.php?route=sale/customer/transaction&amp;token=5c91fb9abdcda258a54d5f01e1c1eaf5&amp;filter_product_type_id=2&amp;filter_customer_id=41&amp;show_group=1
+MOD DETAILS:
+   modFile   : /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/xml/med.xml
+   id        : Admin Theme - Base 5 Builder - ImpulsePro
+   version   : 1.0.4
+   vqmver    : 2.0
+   author    : Niyi Sodipe - Base5Builder.com
+
+File Name    : view/template/sale/customer_*(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <div class="heading">
+
+----------------------------------------------------------------------
+
+
+---------- Date: 2015-02-03 04:39:02 ~ IP : ::1 ----------
+REQUEST URI : /med/index.php?route=sale/customer/lendings&amp;token=5c91fb9abdcda258a54d5f01e1c1eaf5&amp;filter_customer_id=41
+MOD DETAILS:
+   modFile   : /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/xml/med.xml
+   id        : Admin Theme - Base 5 Builder - ImpulsePro
+   version   : 1.0.4
+   vqmver    : 2.0
+   author    : Niyi Sodipe - Base5Builder.com
+
+File Name    : view/template/sale/customer_*(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <div class="heading">
+
+----------------------------------------------------------------------
+
+
+---------- Date: 2015-02-03 04:39:02 ~ IP : ::1 ----------
+REQUEST URI : /med/index.php?route=sale/customer/borrows&amp;token=5c91fb9abdcda258a54d5f01e1c1eaf5&amp;filter_customer_id=41
+MOD DETAILS:
+   modFile   : /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/xml/med.xml
+   id        : Admin Theme - Base 5 Builder - ImpulsePro
+   version   : 1.0.4
+   vqmver    : 2.0
+   author    : Niyi Sodipe - Base5Builder.com
+
+File Name    : view/template/sale/customer_*(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <div class="heading">
+
+----------------------------------------------------------------------
+
+
+---------- Date: 2015-02-03 05:44:51 ~ IP : ::1 ----------
+REQUEST URI : /med/index.php?route=sale/customer/messages&amp;token=f92ae6950684fa54d4070cb8942c400a
+MOD DETAILS:
+   modFile   : /Applications/XAMPP/xamppfiles/htdocs/med/vqmod/xml/med.xml
+   id        : Admin Theme - Base 5 Builder - ImpulsePro
+   version   : 1.0.4
+   vqmver    : 2.0
+   author    : Niyi Sodipe - Base5Builder.com
+
+File Name    : view/template/sale/customer_*(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <div class="heading">
+
+----------------------------------------------------------------------
+
+

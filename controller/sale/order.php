@@ -708,6 +708,7 @@ class ControllerSaleOrder extends Controller {
 		$this->data['text_wait'] = $this->language->get('text_wait');
 		$this->data['text_product'] = $this->language->get('text_product');
 		$this->data['text_voucher'] = $this->language->get('text_voucher');
+		$this->data['text_error_date'] = $this->language->get('text_error_date');
 		$this->data['text_order'] = $this->language->get('text_order');
 
 		$this->data['entry_payment_cash'] = $this->language->get('entry_payment_cash');

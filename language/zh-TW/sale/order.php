@@ -73,6 +73,7 @@ $_['text_payment_balance']                           = '尚餘欠款';
 $_['text_upload']             = '檔案已成功上傳';
 $_['text_error_store']             = '請選擇一個商店';
 $_['text_error_customer']             = '請選擇一個客戶';
+$_['text_error_date']             = '訂單日期錯誤';
 $_['text_error']             = '訂單無法更新';
 $_['text_success_payment']             = '訂單金額更新成功';
 // $_['text_country_match']                      = 'Country Match<br /><span class="help">Whether country of IP address matches billing address country (mismatch = higher risk).</span>';
