@@ -71,8 +71,6 @@
           <?php foreach ($treatment_bonus as $result) { ?>
         <?$total += $result['total_amount']; ?>
             <tr>
-              <!-- <td><php echo $result['order_id']; ?></td> -->
-              <!-- <td><php echo $result['customer_transaction_id']; ?></td> -->
               <td><?php echo $result['cfullname']; ?></td>
               <td><?php echo $result['customer_id']; ?></td>
               <td><?php echo $result['product_name']; ?></td>

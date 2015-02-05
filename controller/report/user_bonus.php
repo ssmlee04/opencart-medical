@@ -131,12 +131,13 @@ class ControllerReportUserBonus extends Controller {
 		$results = $this->model_report_user->getBonuses($data);
 
 		foreach ($results as $result) {
-			$bonus[$result['doctor_id']] = (isset($bonus[$result['doctor_id']]) ? $bonus[$result['doctor_id']] + $result['bonus_doctor'] : $result['bonus_doctor']);
-			$bonus[$result['consultant_id']] = (isset($bonus[$result['consultant_id']]) ? $bonus[$result['consultant_id']] + $result['bonus_consultant'] : $result['bonus_consultant']);
-			$bonus[$result['beauty_id']] = (isset($bonus[$result['beauty_id']]) ? $bonus[$result['beauty_id']] + $result['bonus_beauty'] : $result['bonus_beauty']);
-			$bonus[$result['outsource_id']] = (isset($bonus[$result['outsource_id']]) ? $bonus[$result['outsource_id']] + $result['bonus_outsource'] : $result['bonus_outsource']);
+			$bonus[$result['doctor_id']] = (isset($bonus[$result['doctor_id']]) ? $bonus[$result['doctor_id']] + $result['bonus_doctor'] + $result['bonus_doctor_fixed'] : $result['bonus_doctor'] + $result['bonus_doctor_fixed']);
+			$bonus[$result['consultant_id']] = (isset($bonus[$result['consultant_id']]) ? $bonus[$result['consultant_id']] + $result['bonus_consultant'] + $result['bonus_consultant_fixed'] : $result['bonus_consultant'] + $result['bonus_consultant_fixed']);
+			$bonus[$result['beauty_id']] = (isset($bonus[$result['beauty_id']]) ? $bonus[$result['beauty_id']] + $result['bonus_beauty'] + $result['bonus_beauty_fixed'] : $result['bonus_beauty'] + $result['bonus_beauty_fixed']);
+			$bonus[$result['outsource_id']] = (isset($bonus[$result['outsource_id']]) ? $bonus[$result['outsource_id']] + $result['bonus_outsource'] + $result['bonus_outsource_fixed'] : $result['bonus_outsource'] + $result['bonus_outsource_fixed']);
 		}
 
+		// $this->load->test($bonus)
 		$this->load->model('user/user');
 		$this->data['users'] = array();
 
@@ -172,7 +173,7 @@ class ControllerReportUserBonus extends Controller {
 				// $this->load->test($result);
 
 				$customer = $this->model_sale_customer->getCustomer($result['customer_id']);
-					$product = $this->model_catalog_product->getProduct($result['product_id']);
+				$product = $this->model_catalog_product->getProduct($result['product_id']);
 
 				$date_modified = explode(' ', $result['date_modified'])[0];
 
@@ -189,7 +190,7 @@ class ControllerReportUserBonus extends Controller {
 						'product_id' => $result['product_id'],
 						'product_name' => $product['name'],
 						'customer_transaction_id' => $result['customer_transaction_id'],
-						'bonus' => $result['bonus_doctor']
+						'bonus' => $result['bonus_doctor'] + $result['bonus_doctor_fixed']
 					);
 				}
 
@@ -203,7 +204,7 @@ class ControllerReportUserBonus extends Controller {
 						'product_id' => $result['product_id'],
 						'product_name' => $product['name'],
 						'customer_transaction_id' => $result['customer_transaction_id'],
-						'bonus' => $result['bonus_consultant']
+						'bonus' => $result['bonus_consultant'] + $result['bonus_consultant_fixed']
 					);
 				}
 
@@ -217,7 +218,7 @@ class ControllerReportUserBonus extends Controller {
 						'product_id' => $result['product_id'],
 						'product_name' => $product['name'],
 						'customer_transaction_id' => $result['customer_transaction_id'],
-						'bonus' => $result['bonus_beauty']
+						'bonus' => $result['bonus_beauty']+ $result['bonus_beauty_fixed']
 					);
 				}
 
@@ -231,7 +232,7 @@ class ControllerReportUserBonus extends Controller {
 						'product_id' => $result['product_id'],
 						'product_name' => $product['name'],
 						'customer_transaction_id' => $result['customer_transaction_id'],
-						'bonus' => $result['bonus_outsource']
+						'bonus' => $result['bonus_outsource']+$result['bonus_outsource_fixed']
 					);
 				}
 			}

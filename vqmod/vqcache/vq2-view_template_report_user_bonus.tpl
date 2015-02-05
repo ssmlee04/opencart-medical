@@ -18,10 +18,10 @@
         <thead>
           <tr>
             <td><?php echo $entry_date_start; ?></td>
-            <td><?php echo $entry_doctor; ?></td>
-            <td><?php echo $entry_beauty; ?></td>
-            <td><?php echo $entry_consultant; ?></td>
-            <td><?php echo $entry_outsource; ?></td>
+            <!-- <td><?php echo $entry_doctor; ?></td> -->
+            <!-- <td><?php echo $entry_beauty; ?></td> -->
+            <!-- <td><?php echo $entry_consultant; ?></td> -->
+            <!-- <td><?php echo $entry_outsource; ?></td> -->
           </tr>
         </thead>
         <tr>
@@ -29,16 +29,16 @@
             <input type="date_available" name="filter_date_start" value="<?php echo $filter_date_start; ?>"  size="12" />
             ~
             <input type="date_available" name="filter_date_end" value="<?php echo $filter_date_end; ?>" size="12" /></td>
+          <!-- <td>
+              <input type="text" name="filter_doctor" value="<php echo $filter_doctor; ?>" id="user" size="12" /><input type="hidden" name="filter_doctor_id" value="<php echo $filter_doctor_id; ?>" id="doctor_id" size="12" /></td>
           <td>
-              <input type="text" name="filter_doctor" value="<?php echo $filter_doctor; ?>" id="user" size="12" /><input type="hidden" name="filter_doctor_id" value="<?php echo $filter_doctor_id; ?>" id="doctor_id" size="12" /></td>
+              <input type="text" name="filter_beauty" value="<php echo $filter_beauty; ?>" id="user" size="12" /><input type="hidden" name="filter_beauty_id" value="<php echo $filter_beauty_id; ?>" id="beauty_id" size="12" /></td>
           <td>
-              <input type="text" name="filter_beauty" value="<?php echo $filter_beauty; ?>" id="user" size="12" /><input type="hidden" name="filter_beauty_id" value="<?php echo $filter_beauty_id; ?>" id="beauty_id" size="12" /></td>
+              <input type="text" name="filter_consultant" value="<php echo $filter_consultant; ?>" id="user" size="12" /><input type="hidden" name="filter_consultant_id" value="<php echo $filter_consultant_id; ?>" id="consultant_id" size="12" /></td>
           <td>
-              <input type="text" name="filter_consultant" value="<?php echo $filter_consultant; ?>" id="user" size="12" /><input type="hidden" name="filter_consultant_id" value="<?php echo $filter_consultant_id; ?>" id="consultant_id" size="12" /></td>
-          <td>
-              <input type="text" name="filter_outsource" value="<?php echo $filter_outsource; ?>" id="user" size="12" /><input type="hidden" name="filter_outsource_id" value="<?php echo $filter_outsource_id; ?>" id="outsource_id" size="12" /></td>
+              <input type="text" name="filter_outsource" value="<php echo $filter_outsource; ?>" id="user" size="12" /><input type="hidden" name="filter_outsource_id" value="<php echo $filter_outsource_id; ?>" id="outsource_id" size="12" /></td> -->
             <tr></tr>
-          <td style="text-align: right;" colspan='5'><a onclick="filter();" class="button"><?php echo $button_filter; ?></a></td>
+          <td style="text-align: right;" ><a onclick="filter();" class="button"><?php echo $button_filter; ?></a></td>
         </tr>
       </table>
       <br>

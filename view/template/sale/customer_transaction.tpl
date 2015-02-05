@@ -225,10 +225,10 @@
               <?php } ?>
             <?php } ?>
             </select>
+            <span style='color:red'><b><?php echo $transaction['bonus_beauty_fixed']; ?></b></span>
+
 
           <?php echo $entry_doctor; ?>
-          
-
             <select name='doctor<?php echo $transaction['customer_transaction_id']; ?>'>
             <option></option>
             <?php foreach ($doctors as $result) { ?>
@@ -239,6 +239,7 @@
               <?php } ?>
             <?php } ?>
             </select>
+            <span style='color:red'><b><?php echo $transaction['bonus_doctor_fixed']; ?></b></span>
 
           <?php echo $entry_consultant; ?>
           <select name='consultant<?php echo $transaction['customer_transaction_id']; ?>'>
@@ -250,9 +251,10 @@
               <?php } else { ?>
             <option value='<?php echo $result['user_id']; ?>'><?php echo $result['fullname']; ?></option>
               <?php } ?>
-
             <?php } ?>
             </select>
+      <span style='color:red'><b><?php echo $transaction['bonus_consultant_fixed']; ?></b></span>
+
 
           <?php echo $entry_outsource; ?> 
             <select name='outsource<?php echo $transaction['customer_transaction_id']; ?>'>
@@ -264,9 +266,11 @@
               <?php } else { ?>
             <option value='<?php echo $result['user_id']; ?>'><?php echo $result['fullname']; ?></option>
               <?php } ?>
-
             <?php } ?>
             </select>
+          <span style='color:red'><b><?php echo $transaction['bonus_outsource_fixed']; ?></b></span>
+
+
           <?php } ?>
 
         <input type='text' id='comment<?php echo $transaction['customer_transaction_id']; ?>' style='width:400px' value="<?php echo $transaction['comment']; ?>"/>
