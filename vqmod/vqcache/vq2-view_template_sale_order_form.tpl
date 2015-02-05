@@ -101,6 +101,7 @@
                 <td class="right"><?php echo $column_quantity; ?></td>
                 <td class="right" ><?php echo $column_price; ?></td>
                 <td class="right"><?php echo $column_actual_price; ?></td>
+                <td class="right"><?php echo $column_actual_price_total; ?></td>
                 <td class="right"><?php echo $column_total; ?></td>
               </tr>
             </thead>
@@ -134,11 +135,12 @@
                   <input type="hidden" name="order_product[<?php echo $product_row; ?>][quantity]" value="<?php echo $order_product['quantity']; ?>" /></td>                 
                 <td class="right"><?php echo $order_product['ref_price']; ?>
                   <input type="hidden" name="order_product[<?php echo $product_row; ?>][ref_price]" value="<?php echo $order_product['ref_price']; ?>" /></td>
-
                 <td class="right">
                   <?php if (!$is_insert) echo $order_product['price']; ?>
                   <input <?php if (!$is_insert) echo "style='display:none'"; ?> type="text" id="<?php echo $product_row; ?>" name="order_product[<?php echo $product_row; ?>][price]" class="price" size="8" value="<?php echo $order_product['price']; ?>"/></td>
-
+                <td class="right">
+                  <?php if (!$is_insert) echo $order_product['price_total']; ?>
+                  <input <?php if (!$is_insert) echo "style='display:none'"; ?> type="text" name="order_product[<?php echo $product_row; ?>][price_total]" class="price_total" size="8" value="<?php echo $order_product['price_total']; ?>"/></td>
                 <td class="right"><div class="order_product[<?php echo $product_row; ?>][labeltotal]"><?php echo $order_product['total']; ?></div>
                   <input type="hidden" name="order_product[<?php echo $product_row; ?>][total]" value="<?php echo $order_product['total']; ?>" />
                   <!-- <input type="hidden" name="order_product[<php echo $product_row; ?>][tax]" value="<php echo $order_product['tax']; ?>" />
@@ -866,6 +868,11 @@ $('#button-product').live('click', function() {
             html += '  <td class="right"><input type="text" size="8" value="' + product['price'] + '" class="price" name="order_product[' + product_row + '][price]"></input></td>';          } else {
             html += '  <td class="right">' + product['price'] + '<input type="hidden" size="8" value="' + product['price'] + '" class="price" name="order_product[' + product_row + '][price]"></input></td>';
           }
+
+          if ('<?php echo $is_insert; ?>') {
+            html += '  <td class="right"><input type="text" size="8" value="' + product['price_total'] + '" class="price_total" name="order_product[' + product_row + '][price_total]"></input></td>';          } else {
+            html += '  <td class="right">' + product['price_total'] + '<input type="hidden" size="8" value="' + product['price_total'] + '" class="price" name="order_product[' + product_row + '][price_total]"></input></td>';
+          }
                  
              
 					html += '  <td class="right">' + product['total'] + '<input type="hidden" name="order_product[' + product_row + '][total]" value="' + product['total'] + '" /><input type="hidden" name="order_product[' + product_row + '][tax]" value="' + product['tax'] + '" /><input type="hidden" name="order_product[' + product_row + '][reward]" value="' + product['reward'] + '" /></td>';
@@ -1076,20 +1083,31 @@ $('#button-product').live('click', function() {
 $('.vtabs a').tabs();
 
 $('.price').live('keyup', function(e){
-  
+  var quantity = parseInt($(this).parent().parent().children().eq(2).children().first().val());
+  var price = parseFloat($(this).val());
+  $(this).parent().parent().children().eq(5).children().first().val(price * quantity);
+  // $('.price_total').val(price * quantity);
   if (e.keyCode == 13) {
     clearinput();
   $('#button-product').click()
+}
+});
 
-  }
-  
-  // change product total
-  // var val = $(this).val();
-  // $(this).parent().next().children().val(val);
-    
-  // change total logic  
+$('.price_total').live('keyup', function(e){
+  var quantity = parseInt($(this).parent().parent().children().eq(2).children().first().val());
+  var price_total = parseFloat($(this).val());
+  console.log($(this).parent().parent().children().eq(4).children().first());
+  console.log($(this).parent().parent().children().eq(4).children().first());
+  console.log($(this).parent().parent().children().eq(4).children().first());
+  console.log($(this).parent().parent().children().eq(5).children().first());
+  console.log($(this).parent().parent().children().eq(5).children().first());
+  console.log($(this).parent().parent().children().eq(5).children().first());
+  $(this).parent().parent().children().eq(4).children().first().val(price_total / quantity);
 
-  
+  if (e.keyCode == 13) {
+    clearinput();
+  $('#button-product').click()
+}
 });
 
 // $(document).ready(function() {

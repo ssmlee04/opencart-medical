@@ -4,6 +4,7 @@ class ModelSaleOrder extends Model {
 	// '2014-09-28 23:37'
 	public function addOrder($data) {
 
+		// $this->load->out($data);
 		if (!$this->cart->hasProducts() || !$this->cart->hasStock($data['store_id'])) {
 			return false;
 		}	
@@ -348,6 +349,10 @@ class ModelSaleOrder extends Model {
 		$comment = (isset($data['comment']) ? $this->db->escape($data['comment']) : '');
 		$telephone = (isset($data['telephone']) ? $this->db->escape($data['telephone']) : '');
 		$customer_id = (isset($data['customer_id']) ? (int)$data['customer_id'] : 0);
+		
+		// $date_added = (isset($data['customer_id']) ? (int)$data['customer_id'] : 0);
+
+		$date_added = $data['date'];
 		// $order_status_id = (isset($data['order_status_id']) ? (int)$data['order_status_id'] : 0);
 		// $this->load->model('localisation/country');
 
@@ -406,9 +411,13 @@ class ModelSaleOrder extends Model {
 
 		$total = 0;
 		
+		// $this->load->out($data['order_product']);
 		if (isset($data['order_product'])) {
 			foreach ($data['order_product'] as $order_product) {
 
+				$sss = $order_product['price'];
+				$order_product['price'] = str_replace(',', '', $order_product['price']);
+				// $this->load->out($sss . ' ' . $order_product['price']);
 				//chandler
 				$q = $this->db->query("SELECT * FROM oc_product WHERE product_id = '" . (int)$order_product['product_id'] . "'"); 
 				
@@ -435,6 +444,10 @@ class ModelSaleOrder extends Model {
 
 				$order_product_id = $this->db->getLastId();
 
+				// $this->load->out(array(
+				// 	'1' => 	$order_product['price'],
+				// 	'2' => $order_product['quantity'],
+				// ));
 				$total += (float)$order_product['price'] * (int)$order_product['quantity'];
 
 				// '2014-09-08 21:04'
@@ -458,6 +471,8 @@ class ModelSaleOrder extends Model {
 		
 		// '2014-09-09 14:01'
 		$this->load->model('sale/customer');
+
+		// $this->load->out($total);
 
 		$this->db->query("UPDATE `" . DB_PREFIX . "order` SET total = '" . (float)$total . "' WHERE order_id = '" . (int)$order_id . "'");
 

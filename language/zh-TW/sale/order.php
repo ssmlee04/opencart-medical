@@ -143,6 +143,7 @@ $_['column_comment']        = '備註';
 $_['column_notify']         = '通知客戶';
 $_['column_action']         = '動作';
 $_['column_actual_price']         = '實收單價'; //實際金額';
+$_['column_actual_price_total']         = '實收總價'; //實際金額';
 
 // Entry
 $_['entry_payment_cash']      = '現金付款';

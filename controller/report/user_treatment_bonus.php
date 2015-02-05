@@ -155,11 +155,9 @@ class ControllerReportUserTreatmentBonus extends Controller {
 				$payment_final = $order_info['payment_final'];
 			}
 
-							$used_unit = -1 * $product['value'] * $result['subquantity'] . ' ' . $product['unit'];
-
+			$used_unit = -1 * $product['value'] * $result['subquantity'] . ' ' . $product['unit'];
+			
 			$this->data['treatment_bonus'][] = array(
-				// 'date_modified' => $date_modified,
-
 				'ufullname' => $result['ufullname'],
 				'product_type_id' => $result['product_type_id'],
 				'treatment_usage_id' => $result['treatment_usage_id'],

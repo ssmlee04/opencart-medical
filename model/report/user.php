@@ -125,16 +125,32 @@ class ModelReportUser extends Model {
 		$sql .= " LEFT JOIN oc_user u3 ON ct.outsource_id = u3.user_id";
 		$sql .= " LEFT JOIN oc_user u4 ON ct.doctor_id = u4.user_id";
 
-		$sql .= " WHERE ct.status = 2 "; 
+		// $sql .= " WHERE ct.status = 2 "; 
 
-		if (!empty($data['filter_date_start'])) {
-			$sql .= " AND DATE(ct.date_modified) >= '" . $this->db->escape($data['filter_date_start']) . "'";
-		}
-		if (!empty($data['filter_date_end'])) {
-			$sql .= " AND DATE(ct.date_modified) <= '" . $this->db->escape($data['filter_date_end']) . "'";
+		// if (!empty($data['filter_date_start'])) {
+		// 	$sql .= " AND DATE(ct.date_modified) >= '" . $this->db->escape($data['filter_date_start']) . "'";
+		// }
+		// if (!empty($data['filter_date_end'])) {
+		// 	$sql .= " AND DATE(ct.date_modified) <= '" . $this->db->escape($data['filter_date_end']) . "'";
+		// }
+
+		$sql .= " WHERE 1=1 "; 
+		$xx = '1=0';
+		$yy = '1=0';
+
+		if (!empty($data['filter_date_start']) && !empty($data['filter_date_end'])) {
+			$yy = "(DATE(ct.date_added) >= '" . $this->db->escape($data['filter_date_start']) . "'
+			AND DATE(ct.date_added) <= '" . $this->db->escape($data['filter_date_end']) . "' AND total_amount > 0)";
+			$xx = " (ct.status = 2 AND DATE(ct.date_modified) >= '" . $this->db->escape($data['filter_date_start']) . "'";
+			$xx .= " AND DATE(ct.date_modified) <= '" . $this->db->escape($data['filter_date_end']) . "'";
+			$xx .= " AND total_amount = 0 )";
 		}
 
+		$sql .= " AND ($xx OR $yy)";
 		$sql .= " GROUP BY ct.treatment_usage_id";
+		// $this->load->test($sql, false);
+
+		// $sql .= " GROUP BY ct.treatment_usage_id";
 
 		$query = $this->db->query($sql);
 

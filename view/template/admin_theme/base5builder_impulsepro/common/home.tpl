@@ -125,6 +125,7 @@
 				<div class="latest">
 					<div class="dashboard-heading"><?php echo $text_latest_10_orders; ?></div>
 					<div class="dashboard-content">
+						<div class='row'>
 						<table class="list">
 							<thead>
 								<tr>
@@ -154,10 +155,12 @@
 									<tr>
 										<td class="center" colspan="6"><?php echo $text_no_results; ?></td>
 									</tr>
+									
 								</tr>
 								<?php } ?>
-							</tbody>
 						</table>
+							</tbody>
+						</div>
 					</div>
 				</div>
 				<?php } ?>

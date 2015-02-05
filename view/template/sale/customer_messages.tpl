@@ -11,7 +11,6 @@
 				<td class="left"><?php echo $column_date_added; ?></td>
 				<td class="right"><?php echo $column_title; ?></td>
 				<td class="right"><?php echo $column_user; ?></td>
-
 				<td class="right"><?php echo $column_message; ?></td>
 			</tr>
 		</thead>
@@ -24,23 +23,20 @@
 				<td class="left"><?php echo $message['reminder_date']; ?></td>
 				<td class="left"><?php echo $message['title']; ?></td>
 				<td class="left"><?php echo $message['ufullname']; ?></td>
+				</tr>
 
 
-				<td class="right" >
-
-					<input type='text' value='<?php echo $message['reply']; ?>' size='100px'/>
-
-					<select id="reminder_class">
+				<tr>
+				<td class="right" colspan='7'>
+					<input type='text' style="display:inline" value='<?php echo $message['reply']; ?>' size='80px'/>
+					<select id="reminder_class" style="display:inline">
 						<option></option>
 						<?php foreach ($reminder_classes as $reminder_class) { ?>
 						<option value="<?php echo $reminder_class['reminder_status_id']; ?>"><?php echo $reminder_class['name']; ?></option>
 						<?php } ?>
 					</select>
-
-
 					<button id='<?php echo $message['customer_history_id']; ?>' class='updatehistory'><?php echo $button_record_history; ?></button>
 				</td>
-
 				</tr>
 				<tr class='r<?php echo $message['customer_history_id']; ?>'>
 					<td class="left" colspan='7'><?php echo $message['comment']; ?></td>

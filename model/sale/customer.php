@@ -1058,7 +1058,10 @@ $this->load->out($sql, false);
 		
 		$order_product_info = $this->model_sale_order->getOrderProducts($order_id);
 
-		
+		$qqq = $this->db->query("SELECT * FROM oc_order WHERE order_id = '$order_id'");
+		// $this->load->out($qqq);
+		$date_added = $qqq->row['date_added'];
+		// $this->load->out($date_added);
 
 
 		if ($customer_info && $order_product_info) { 
@@ -1094,8 +1097,9 @@ $this->load->out($sql, false);
 					, order_id = '" . (int)$order_id . "'
 					, unit_class_id = '" . (int)$unit_class_id . "'
 					, amount = '" . (float)$amount . "'
-					,ismain=1
-					, date_added = NOW(), date_modified= NOW()");
+					, ismain=1
+					, date_added = '" . $date_added . "'
+					, date_modified= NOW()");
 
 				// add treatment appointments
 
@@ -1133,7 +1137,9 @@ $this->load->out($sql, false);
 						 , total_amount = '$total'
 						 , subquantity = '" . -1 . "',  order_id = '" . (int)$order_id . "'
 						 , unit_class_id = '" . (int)$unit_class_id . "'
-						 , date_modified = NOW(), date_added = NOW()");		
+						, date_added = '" . $date_added . "'
+						 , date_modified = NOW()");		
+						 // , date_modified = NOW()
 
 						 $total = 0;				
 					}
@@ -1164,7 +1170,8 @@ $this->load->out($sql, false);
 						 , total_amount = '$total'
 						 ,  order_id = '" . (int)$order_id . "'
 						 , unit_class_id = '" . (int)$unit_class_id . "'
-						 , date_modified = NOW(), date_added = NOW()");		
+						 , date_added = $date_added
+						 , date_modified = NOW()");		
 		
 						$total = 0;
 
@@ -1261,8 +1268,13 @@ $this->load->out($sql, false);
 
 		$this->load->model('catalog/product');
 
+		// $this->loda->out($data);
+		
 		$comment = (isset($data['comment']) ? $data['comment'] : '');
 		$beauty_fixed = (isset($data['beauty_fixed']) ? $data['beauty_fixed'] : 0);
+		$outsource_fixed = (isset($data['outsource_fixed']) ? $data['outsource_fixed'] : 0);
+		$consultant_fixed = (isset($data['consultant_fixed']) ? $data['consultant_fixed'] : 0);
+		$doctor_fixed = (isset($data['doctor_fixed']) ? $data['doctor_fixed'] : 0);
 		$customer_id = (isset($data['customer_id']) ? $data['customer_id'] : 0);
 		$unitspend = (isset($data['unitspend']) ? $data['unitspend'] : 0);
 		$product_id = (isset($data['product_id']) ? $data['product_id'] : 0);
@@ -1294,7 +1306,7 @@ $this->load->out($sql, false);
 
 		$number_unit_used = (int)round($unitspend / $value);
 
-		$remaining = $this->db->query("SELECT * FROM oc_customer_transaction WHERE customer_id = '" . (int)$customer_id . "' AND product_id = '" . (int)$product_id . "' AND status < 0 ORDER BY total_amount DESC LIMIT 0, $number_unit_used");
+		$remaining = $this->db->query("SELECT * FROM oc_customer_transaction WHERE customer_id = '" . (int)$customer_id . "' AND product_id = '" . (int)$product_id . "' AND status < 0 ORDER BY order_id DESC LIMIT 0, $number_unit_used");
 
 		if ($remaining->num_rows < $number_unit_used) {
 			// not enough treatment left
@@ -1321,6 +1333,9 @@ $this->load->out($sql, false);
 				}
 
 				$data['beauty_fixed'] = 0;
+				$data['doctor_fixed'] = 0;
+				$data['consultant_fixed'] = 0;
+				$data['outsource_fixed'] = 0;
 				$if_remind = false;
 			}
 
@@ -1380,6 +1395,9 @@ $this->load->out($sql, false);
 			$sql .= (isset($data['outsource_id']) ? " , outsource_id = '" . $data['outsource_id'] . "'" : '');
 			$sql .= (isset($data['beauty_id']) ? " , beauty_id = '" . $data['beauty_id'] . "'" : '');
 			$sql .= (isset($data['beauty_id']) && isset($data['beauty_fixed']) ? " , bonus_beauty_fixed = '" . (float)$data['beauty_fixed'] . "'" : '');
+			$sql .= (isset($data['consultant_id']) && isset($data['consultant_fixed']) ? " , bonus_consultant_fixed = '" . (float)$data['consultant_fixed'] . "'" : '');
+			$sql .= (isset($data['outsource_id']) && isset($data['outsource_fixed']) ? " , bonus_outsource_fixed = '" . (float)$data['outsource_fixed'] . "'" : '');
+			$sql .= (isset($data['doctor_id']) && isset($data['doctor_fixed']) ? " , bonus_doctor_fixed = '" . (float)$data['doctor_fixed'] . "'" : '');
 			
 		}
 	

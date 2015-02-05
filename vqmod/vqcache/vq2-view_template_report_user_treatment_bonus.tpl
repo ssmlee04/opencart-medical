@@ -66,10 +66,13 @@
           </tr>
         </thead>
         <tbody>
+        <?php $total = 0;?>
           <?php if ($treatment_bonus) { ?>
           <?php foreach ($treatment_bonus as $result) { ?>
-    
+        <?$total += $result['total_amount']; ?>
             <tr>
+              <!-- <td><php echo $result['order_id']; ?></td> -->
+              <!-- <td><php echo $result['customer_transaction_id']; ?></td> -->
               <td><?php echo $result['cfullname']; ?></td>
               <td><?php echo $result['customer_id']; ?></td>
               <td><?php echo $result['product_name']; ?></td>
@@ -89,6 +92,10 @@
             </tr>
           <?php } ?>
           <?php } ?>
+            <tr>
+              <td colspan="11" style="text-align: right;"><?php echo $total; ?></td>
+              <td ></td>
+            </tr>
         </tbody>
       </table>
       <!-- <div class="pagination"><php echo $pagination; ?></div> -->

@@ -203,6 +203,8 @@ class ControllerCheckoutManual extends Controller {
 
 				$total = $price *  $product['quantity'];
 				$subtotal += $total;
+
+				// $this->load->out([$price, $product['quantity'], $product['quantity'] * ]);
 				$json['order_product'][] = array(
 					'product_id' => $product['product_id'],
 					'name'       => $product['name'],
@@ -211,9 +213,10 @@ class ControllerCheckoutManual extends Controller {
 					// 'download'   => $download_data,
 					'quantity'   => $product['quantity'],
 					'stock'      => $product['stock'],
-					'ref_price'      => $product['price'],	
-					'last_cost'      => $last_cost,	
-					'price'      => $price,
+					'ref_price'      => number_format($product['price'], 2),	
+					'last_cost'      => number_format($last_cost, 2),	
+					'price'      => number_format($price, 2),	
+					'price_total'      => number_format($price * $product['quantity'], 2),	
 					'total'      => $total,	
 					'tax'        => $this->tax->getTax($product['price'], $product['tax_class_id']),
 					// 'reward'     => $product['reward']				

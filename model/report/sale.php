@@ -71,7 +71,6 @@ class ModelReportSale extends Model {
 			
 			$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
 		}	
-		// $this->load->test($sql);
 		$query = $this->db->query($sql);
 		
 		return $query->rows;

@@ -78,8 +78,12 @@
     <?php echo $entry_beauty; ?><select name='beauty' type='user' alt='5'/>
     <input name='beauty_fixed' type='text' id='beauty_fixed' style='width:30px'/>
     <?php echo $entry_doctor; ?><select name='doctor'  type='user' alt='2'/>
+    <input name='doctor_fixed' type='text' id='doctor_fixed' style='width:30px'/>
     <?php echo $entry_consultant; ?><select name='consultant'  type='user' alt='3'/>
+    <input name='consultant_fixed' type='text' id='consultant_fixed' style='width:30px'/>
+
     <?php echo $entry_outsource; ?><select name='outsource' type='user' alt='4'/>
+    <input name='outsource_fixed' type='text' id='outsource_fixed' style='width:30px'/>
     <input name='comment' type='text' id='comment' style='width:320px'/>
 
     <select name='tran_status' >
@@ -381,6 +385,9 @@ $('.group_change_status_button').on('click', function(e){
   var append = $("input[name='append']").val();
   var comment = $("#comment").val();
   var beauty_fixed = $("#beauty_fixed").val();
+  var outsource_fixed = $("#outsource_fixed").val();
+  var consultant_fixed = $("#consultant_fixed").val();
+  var doctor_fixed = $("#doctor_fixed").val();
   var beauty_id = $("select[name='beauty']").val();
   var doctor_id = $("select[name='doctor']").val();
   var consultant_id = $("select[name='consultant']").val();
@@ -395,7 +402,7 @@ $('.group_change_status_button').on('click', function(e){
   $.ajax({
       url: 'index.php?route=sale/customer/editgrouptransaction&token=<?php echo $token; ?>',
       type: 'post',
-      data: 'status=' + status + '&comment=' + comment+ '&doctor_id=' + doctor_id+ '&consultant_id=' + consultant_id + '&outsource_id=' + outsource_id  + '&beauty_id=' + beauty_id + '&unitspend='+ unitspend + '&product_id='+ product_id+ '&customer_id='+ customer_id +'&appstart='+ appstart +'&append='+ append +'&beauty_fixed='+ beauty_fixed ,
+      data: 'status=' + status + '&comment=' + comment+ '&doctor_id=' + doctor_id+ '&consultant_id=' + consultant_id + '&outsource_id=' + outsource_id  + '&beauty_id=' + beauty_id + '&unitspend='+ unitspend + '&product_id='+ product_id+ '&customer_id='+ customer_id +'&appstart='+ appstart +'&append='+ append +'&beauty_fixed='+ beauty_fixed+'&outsource_fixed='+ outsource_fixed+'&doctor_fixed='+ doctor_fixed+'&consultant_fixed='+ consultant_fixed ,
       dataType: 'json',
       beforeSend: function(){
       

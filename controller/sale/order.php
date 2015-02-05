@@ -760,6 +760,7 @@ class ControllerSaleOrder extends Controller {
 		$this->data['column_quantity'] = $this->language->get('column_quantity');
 		$this->data['column_price'] = $this->language->get('column_price');
 		$this->data['column_prev_cost'] = $this->language->get('column_prev_cost');
+		$this->data['column_actual_price_total'] = $this->language->get('column_actual_price_total');
 		$this->data['column_actual_price'] = $this->language->get('column_actual_price');
 		$this->data['column_total'] = $this->language->get('column_total');
 
@@ -1259,7 +1260,8 @@ class ControllerSaleOrder extends Controller {
 				// 'option'           => $order_option,
 				// 'download'         => $order_download,
 				'quantity'         => $order_product['quantity'],
-				'price'            => $order_product['price'],
+				'price'            => number_format($order_product['price'], 2),
+				'price_total'            => number_format($order_product['price'] * $order_product['quantity'], 2),
 				'ref_price'            => $order_product['ref_price'],
 				'last_cost'            => $last_cost,
 				'total'            => $order_product['total'],
