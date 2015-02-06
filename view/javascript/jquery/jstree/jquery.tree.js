@@ -175,7 +175,7 @@
 		console.log(this);
 		return this.each(function() {
 			var conf = $.extend({},opts);
-			console.log('$(this).attr('id')');
+			console.log('$(this).attr(s)');
 			console.log($(this).attr('id'));
 			if(tree_component.inst && tree_component.inst[$(this).attr('id')]) tree_component.inst[$(this).attr('id')].destroy();
 			console.log('this');
