@@ -86,7 +86,8 @@ class ControllerCommonFileManager extends Controller {
 				}
 			}
 		}
-		// $this->load->out($json);
+		// $this->load->out(json_encode($json));
+		// return $json;
 		$this->response->setOutput(json_encode($json));
 	}
 
@@ -98,6 +99,7 @@ class ControllerCommonFileManager extends Controller {
 		} else {
 			$directory = DIR_IMAGE . 'data/';
 		}
+		// $this->load->out($directory);
 
 		$allowed = array(
 			'.jpg',
@@ -141,14 +143,15 @@ class ControllerCommonFileManager extends Controller {
 					// Chandler fix 201412
 					$exp = explode('/', $file);
 					$json[] = array(
-						'filename' => $exp[count($exp) - 1], //basename($file),
+						// 'filename' => $exp[count($exp) - 1], //basename($file),
+						'filename' => basename($file),
 						'file'     => utf8_substr($file, utf8_strlen(DIR_IMAGE . 'data/')),
 						'size'     => round(utf8_substr($size, 0, utf8_strpos($size, '.') + 4), 2) . $suffix[$i]
 					);
 				}
 			}
 		}
-		// $this->load->out($json);
+		// $this->load->out($json, false);
 		$this->response->setOutput(json_encode($json));
 	}
 
@@ -246,6 +249,7 @@ class ControllerCommonFileManager extends Controller {
 			$json['success'] = $this->language->get('text_delete');
 		}
 
+		// return $json;
 		$this->response->setOutput(json_encode($json));
 	}
 

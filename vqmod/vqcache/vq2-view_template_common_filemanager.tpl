@@ -246,6 +246,11 @@ $(document).ready(function() {
 					data: 'directory=' + encodeURIComponent($(NODE).attr('directory')),
 					dataType: 'json',
 					success: function(json) {
+
+						console.log('123');
+						console.log(json);
+						console.log(json.length);
+						console.log(123123);
 						html = '<div>';
 						
 						if (json) {
