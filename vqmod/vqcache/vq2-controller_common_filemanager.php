@@ -76,8 +76,9 @@ class ControllerCommonFileManager extends Controller {
 				$i = 0;
 
 				foreach ($directories as $directory) {
-					$json[$i]['data'] = basename($directory);
-					$json[$i]['attributes']['directory'] = utf8_substr($directory, strlen(DIR_IMAGE . 'data/'));
+					$json[$i]['data'] = iconv(mb_detect_encoding(basename($directory), mb_detect_order(), true), "UTF-8", basename($directory));
+					$json[$i]['attributes']['directory'] = iconv(mb_detect_encoding(utf8_substr($directory, strlen(DIR_IMAGE . 'data/')), mb_detect_order(), true), "UTF-8", utf8_substr($directory, strlen(DIR_IMAGE . 'data/')));
+					// utf8_substr($directory, strlen(DIR_IMAGE . 'data/'));
 
 					$children = glob(rtrim($directory, '/') . '/*', GLOB_ONLYDIR);
 
@@ -147,7 +148,7 @@ class ControllerCommonFileManager extends Controller {
 					$exp = explode('/', $file);
 					$json[] = array(
 						// 'filename' => $exp[count($exp) - 1], //basename($file),
-						'filename' => basename($file),
+						'filename' => iconv(mb_detect_encoding(basename($file), mb_detect_order(), true), "UTF-8", basename($file)),
 						'file'     => utf8_substr($file, utf8_strlen(DIR_IMAGE . 'data/')),
 						'size'     => round(utf8_substr($size, 0, utf8_strpos($size, '.') + 4), 2) . $suffix[$i]
 					);
