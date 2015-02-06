@@ -212,6 +212,7 @@ $(document).ready(function() {
 		callback: {
 			beforedata: function(NODE, TREE_OBJ) { 
 				console.log(1234);
+				console.log(1234);
 				if (NODE == false) {
 					console.log(12345);
 					TREE_OBJ.settings.data.opts.static = [ 
@@ -234,7 +235,8 @@ $(document).ready(function() {
 				}
 			},		
 			onselect: function (NODE, TREE_OBJ) {
-				console.log(234);
+				console.log(2345);
+				console.log(2345);
 				$.ajax({
 					url: 'index.php?route=common/filemanager/files&token=<?php echo $token; ?>',
 					type: 'post',
@@ -316,6 +318,7 @@ $(document).ready(function() {
 						if (json.success) {
 							$('#dialog').remove();
 							
+							console.log('tree');
 							console.log(tree);
 							tree.refresh(tree.selected);
 							

@@ -768,6 +768,7 @@
 				if(obj.hasClass("open"))	return this.close_branch(obj); 
 			},
 			open_branch : function (obj, disable_animation, callback) {
+				console.log('open_branch2');
 				console.log('open_branch');
 				var _this = this;
 
@@ -776,15 +777,18 @@
 				if(!obj.size()) return this.error("OPEN: NO SUCH NODE");
 				if(obj.hasClass("leaf")) return this.error("OPEN: OPENING LEAF NODE");
 				if(this.settings.data.async && obj.find("li").size() == 0) {
-					
+					console.log('obj.get(0)');
+					console.log(obj.get(0));
 					if(this.callback("beforeopen",[obj.get(0),this]) === false) return this.error("OPEN: STOPPED BY USER");
 
 					obj.children("ul:eq(0)").remove().end().append("<ul><li class='last'><a class='loading' href='#'><ins>&nbsp;</ins>" + (_this.settings.lang.loading || "Loading ...") + "</a></li></ul>");
 					obj.removeClass("closed").addClass("open");
-
+console.log('obj');console.log(obj);
 					var _datastore = new $.tree.datastores[this.settings.data.type]();
 					_datastore.load(this.callback("beforedata",[obj,this]),this,this.settings.data.opts,function(data){
 						data = _this.callback("ondata", [data, _this]);
+						console.log('data');
+						console.log(data);
 						if(!data || data.length == 0) {
 							obj.removeClass("closed").removeClass("open").addClass("leaf").children("ul").remove();
 							if(callback) callback.call();
