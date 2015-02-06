@@ -1721,6 +1721,18 @@ class ControllerSaleCustomer extends Controller {
 		$total_visa = 0;
 		$total_expense = 0;	
 
+		if (!$this->user->hasPermission('access', 'sale/payment')) { 
+
+			$this->data['error_warning'] = $this->language->get('error_permission');
+
+			$this->template = 'sale/error.tpl';		
+
+			$this->response->setOutput($this->render());
+
+			return false;
+		}
+
+
 		$this->language->load('sale/customer');
 		$this->data['text_total_visa'] = $this->language->get('text_total_visa');
 		$this->data['text_total_cash'] = $this->language->get('text_total_cash');
@@ -1943,6 +1955,17 @@ class ControllerSaleCustomer extends Controller {
 
 		$this->load->model('sale/customer');
 
+		if (!$this->user->hasPermission('access', 'sale/history')) { 
+
+			$this->data['error_warning'] = $this->language->get('error_permission');
+
+			$this->template = 'sale/error.tpl';		
+
+			$this->response->setOutput($this->render());
+
+			return false;
+		}
+
 
 		if (isset($this->request->post['reminder']) && $this->request->post['reminder'] == 'true') {
 			$reminder = 1;
@@ -1982,11 +2005,25 @@ class ControllerSaleCustomer extends Controller {
 			// post
 			if (isset($this->request->post['comment'])) {
 
+				
+
 				if (utf8_strlen($this->request->post['comment']) == 0) {
 					$this->data['error_warning'] = '';
 				} else if (!$this->validateDate($reminder_date) && $reminder) {
 					$this->data['error_warning'] = $this->language->get('text_date_incorrect');
 				} else {
+
+					if (!$this->user->hasPermission('modify', 'sale/history')) { 
+
+						$this->data['error_warning'] = $this->language->get('error_permission');
+
+						$this->template = 'sale/error.tpl';		
+
+						$this->response->setOutput($this->render());
+
+						return false;
+					}
+
 					$data = array(
 						'user_id' => $this->user->getId(),
 						'comment' => $this->request->post['comment'],
@@ -2214,6 +2251,19 @@ class ControllerSaleCustomer extends Controller {
 
 
 	public function lendings() {
+
+		if (!$this->user->hasPermission('access', 'sale/lending')) { 
+
+						$this->data['error_warning'] = $this->language->get('error_permission');
+
+						$this->template = 'sale/error.tpl';		
+
+						$this->response->setOutput($this->render());
+
+						return false;
+					}
+
+
 		$this->language->load('sale/customer');
 
 		$this->load->model('sale/customer');
@@ -2240,7 +2290,18 @@ class ControllerSaleCustomer extends Controller {
 				$product = $this->model_catalog_product->getProduct($lendto_product_id);
 				$lendto_quantity = round($lendto_quantity / $product['value']);
 
-				if ($this->request->get['filter_customer_id'] == $lendto_customer_id) {
+				if (!$this->user->hasPermission('modify', 'sale/lending')) { 
+
+						$this->data['error_warning'] = $this->language->get('error_permission');
+
+						$this->template = 'sale/error.tpl';		
+
+						$this->response->setOutput($this->render());
+
+						return false;
+					}
+
+				else if ($this->request->get['filter_customer_id'] == $lendto_customer_id) {
 					$this->data['error_warning'] = $this->language->get('text_error_self');
 				} else if ($this->model_sale_customer->addLending($this->request->get['filter_customer_id'], $lendto_customer_id, $lendto_product_id, $lendto_quantity)) {
 					$this->data['success'] = $this->language->get('text_success');
@@ -2321,6 +2382,18 @@ class ControllerSaleCustomer extends Controller {
 
 
 	public function borrows() {
+
+		if (!$this->user->hasPermission('access', 'sale/lending')) { 
+
+						$this->data['error_warning'] = $this->language->get('error_permission');
+
+						$this->template = 'sale/error.tpl';		
+
+						$this->response->setOutput($this->render());
+
+						return false;
+					}
+
 		$this->language->load('sale/customer');
 
 		$this->load->model('sale/customer');
@@ -2346,8 +2419,19 @@ class ControllerSaleCustomer extends Controller {
 			$this->load->model('catalog/product');
 				$product = $this->model_catalog_product->getProduct($borrowfrom_product_id);
 				$borrowfrom_quantity = round($borrowfrom_quantity / $product['value']);
+				if (!$this->user->hasPermission('modify', 'sale/lending')) { 
 
-			if ($this->request->get['filter_customer_id'] == $borrowfrom_customer_id) {
+						$this->data['error_warning'] = $this->language->get('error_permission');
+
+						$this->template = 'sale/error.tpl';		
+
+						$this->response->setOutput($this->render());
+
+						return false;
+					}
+
+
+			else if ($this->request->get['filter_customer_id'] == $borrowfrom_customer_id) {
 				$this->data['error_warning'] = $this->language->get('text_error_self');
 			} else if ($this->model_sale_customer->addLending($borrowfrom_customer_id, $this->request->get['filter_customer_id'], $borrowfrom_product_id, $borrowfrom_quantity)) {
 				$this->data['success'] = $this->language->get('text_success');
@@ -2496,6 +2580,13 @@ class ControllerSaleCustomer extends Controller {
 
 				$this->load->model('sale/customer');	
 				
+				if (!$this->user->hasPermission('modify', 'catalog/product')) { 
+
+					$json['error'] = $this->language->get('error_permission');
+
+
+				}
+
 				// if (isset( $this->request->post['status'])) $data['status'] = $this->request->post['status'];
 				// if (isset( $this->request->post['product_id'])) $data['product_id'] = $this->request->post['product_id'];
 				// if (isset( $this->request->post['customer_id'])) $data['customer_id'] = $this->request->post['customer_id'];
@@ -2509,7 +2600,7 @@ class ControllerSaleCustomer extends Controller {
 
 // $json['success'] = 123; $this->response->setOutput(json_encode($json)); return;
 
-				if ($this->model_sale_customer->editgrouptransaction($this->request->post)) {
+				else if ($this->model_sale_customer->editgrouptransaction($this->request->post)) {
 					$json['success'] = $this->language->get('text_edit_transaction_success');
 				} else {
 					$json['error'] = $this->language->get('text_edit_transaction_error');
@@ -2652,8 +2743,10 @@ class ControllerSaleCustomer extends Controller {
 
 				$this->load->model('sale/customer');	
 		
-		// $this->load->out($this->request->post, false);
-				if ($this->model_sale_customer->editevent($this->request->post['customer_event_id'], $this->request->post)) {
+				if (!$this->user->hasPermission('modify', 'sale/appointment')) { 
+
+					$json['error'] = $this->language->get('error_permission');
+				} else if ($this->model_sale_customer->editevent($this->request->post['customer_event_id'], $this->request->post)) {
 					$json['success'] = $this->language->get('text_edit_event_success');
 				} else {
 					$json['error'] = $this->language->get('text_edit_event_error');
@@ -2684,7 +2777,9 @@ class ControllerSaleCustomer extends Controller {
 
 				$this->load->model('sale/customer');	
 		
-				if ($this->model_sale_customer->recordevent($this->request->post['customer_id'], $this->request->post)) {
+				if (!$this->user->hasPermission('modify', 'sale/appointment')) { 
+					$json['error'] = $this->language->get('error_permission');
+				} else if ($this->model_sale_customer->recordevent($this->request->post['customer_id'], $this->request->post)) {
 					$json['success'] = $this->language->get('text_record_event_success');
 				} else {
 					$json['error'] = $this->language->get('text_record_event_error');
@@ -2713,8 +2808,10 @@ class ControllerSaleCustomer extends Controller {
 			if (isset($this->request->post['customer_event_id'])) { 		
 
 				$this->load->model('sale/customer');	
-		
-				if ($this->model_sale_customer->deleteevent($this->request->post['customer_event_id'])) {
+			
+				if (!$this->user->hasPermission('modify', 'sale/appointment')) { 
+					$json['error'] = $this->language->get('error_permission');
+				} else if ($this->model_sale_customer->deleteevent($this->request->post['customer_event_id'])) {
 					$json['success'] = $this->language->get('text_delete_event_success');
 				} else {
 					$json['error'] = $this->language->get('text_delete_event_error');
@@ -2742,8 +2839,12 @@ class ControllerSaleCustomer extends Controller {
 			if (isset($this->request->post['customer_transaction_id'])) { 		
 
 				$this->load->model('sale/customer');	
-		
-				if ($this->model_sale_customer->deletetransaction($this->request->post['customer_transaction_id'])) {
+			
+			if (!$this->user->hasPermission('modify', 'catalog/product')) { 
+
+						$this->data['error'] = $this->language->get('error_permission');
+					}
+				else if ($this->model_sale_customer->deletetransaction($this->request->post['customer_transaction_id'])) {
 					$json['success'] = $this->language->get('text_delete_transaction_success');
 				} else {
 					$json['error'] = $this->language->get('text_delete_transaction_error');
@@ -2870,6 +2971,18 @@ class ControllerSaleCustomer extends Controller {
 
 	// '2014-10-06 13:46'
 	public function transaction() {
+
+		if (!$this->user->hasPermission('access', 'catalog/product')) { 
+
+						$this->data['error_warning'] = $this->language->get('error_permission');
+
+						$this->template = 'sale/error.tpl';		
+
+						$this->response->setOutput($this->render());
+
+						return false;
+					}
+
 		$this->language->load('sale/customer');
 
 		$this->load->model('sale/customer');
@@ -2893,13 +3006,24 @@ class ControllerSaleCustomer extends Controller {
 			// update information
 			if (isset($this->request->post['product_id']) && isset($this->request->post['unitspend']) && isset($this->request->post['customer_id'])) {
 
+				if (!$this->user->hasPermission('modify', 'catalog/product')) { 
+
+						$this->data['error_warning'] = $this->language->get('error_permission');
+
+						$this->template = 'sale/error.tpl';		
+
+						$this->response->setOutput($this->render());
+
+						return false;
+					}
+
 				// pure get
 				if ($this->model_sale_customer->addTransaction2($this->request->post['customer_id'], $this->request->post['product_id'], $this->request->post['unitspend'])) {
 					$this->data['success'] = $this->language->get('text_success');
 				} else {
 					$this->data['error_warning'] = $this->language->get('text_cannot_use_inventory');
 				}
-			} elseif (isset($this->request->get['show_group'])) {
+			} else if (isset($this->request->get['show_group'])) {
 				// pure get
 				$this->data['success'] = '';	
 			} else {

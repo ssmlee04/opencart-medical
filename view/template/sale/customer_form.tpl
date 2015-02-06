@@ -836,7 +836,6 @@ $('#button-order').bind('click', function() {
       $('.attention').remove();
     },
     success: function(html) {
-
       $('#cusorder').html(html);
     }
   });

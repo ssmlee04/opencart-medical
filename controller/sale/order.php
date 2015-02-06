@@ -447,6 +447,7 @@ class ControllerSaleOrder extends Controller {
 
 		$results = $this->model_sale_order->getOrders($data);
 
+
 		foreach ($results as $result) {
 			
 			$action = array();
@@ -469,6 +470,7 @@ class ControllerSaleOrder extends Controller {
 				'comment'      => $result['comment'],
 				'customer'      => $result['customer'],
 				'status'        => $result['status'],
+				'order_products' => $this->model_sale_order->getOrderProducts($result['order_id']),
 				'total'         => $this->currency->format($result['total'], $result['currency_code'], $result['currency_value']),
 				'date_added'    => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
 				'date_modified' => date($this->language->get('date_format_short'), strtotime($result['date_modified'])),
@@ -489,6 +491,7 @@ class ControllerSaleOrder extends Controller {
 		$this->data['column_total'] = $this->language->get('column_total');
 		$this->data['column_date_added'] = $this->language->get('column_date_added');
 		$this->data['column_date_modified'] = $this->language->get('column_date_modified');
+		$this->data['column_products'] = $this->language->get('column_products');
 		$this->data['column_action'] = $this->language->get('column_action');
 
 		$this->data['button_invoice'] = $this->language->get('button_invoice');

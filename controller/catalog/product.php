@@ -177,7 +177,7 @@ class ControllerCatalogProduct extends Controller {
 		if (isset($this->request->post['selected']) && $this->validateDelete()) {
 
 			$deletable = true;
-
+			
 			foreach ($this->request->post['selected'] as $product_id) {
 				$deletable = $this->model_catalog_product->deleteProduct($product_id) && $deletable;
 			}

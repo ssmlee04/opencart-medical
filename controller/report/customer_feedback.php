@@ -127,6 +127,8 @@ class ControllerReportCustomerFeedback extends Controller {
 			foreach ($rms as $reminder) {
 				if ($reminder['user_id'] == $result['user_id']) {
 					if ($reminder['reminder_date'] == '0000-00-00') $reminder['reminder_date'] = '';
+					// $this->load->test($reminder);
+					$reminder['href'] = $this->url->link('sale/customer/update&filter_customer_id=' . $reminder['customer_id'], 'token=' . $this->session->data['token'], 'SSL');
 					$reminders[] = $reminder;
 				}
 			}
@@ -134,6 +136,7 @@ class ControllerReportCustomerFeedback extends Controller {
 			$this->data['users'][] = array(
 				'user_id'       => $result['user_id'],
 				'name'       => $result['lastname'] . $result['firstname'],
+
 				// 'cname'       => $result['clastname'] . $result['cfirstname'],
 				'user_group_id' => $result['user_group_id'],
 				'user_group_name' => $result['name'],

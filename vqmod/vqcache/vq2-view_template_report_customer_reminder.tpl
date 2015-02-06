@@ -74,7 +74,7 @@
                 <?php if ($user['reminders']) { ?>
                 <?php foreach ($user['reminders'] as $reminder) { ?>
                 <tr>
-                  <td><?php echo $reminder['clastname'] . $reminder['cfirstname']; ?></td>
+                  <td><a href="<?php echo $reminder['href'];?>"><?php echo $reminder['clastname'] . $reminder['cfirstname']; ?></a></td>
                   <td><?php echo $reminder['comment']; ?></td>
                   <td><?php echo $reminder['reply']; ?></td>
                   <td><?php echo $reminder['rname']; ?></td>

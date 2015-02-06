@@ -166,7 +166,7 @@ class ControllerCheckoutManual extends Controller {
 				if (!empty($this->request->post['order_product']))
 				foreach ($this->request->post['order_product'] as $product_3) {
 					if ($product_3['product_id'] == $product['product_id']) {
-						$price = $product_3['price'];
+						$price = str_replace(',', '', $product_3['price']);
 					}
 				}
 
@@ -204,6 +204,7 @@ class ControllerCheckoutManual extends Controller {
 				$total = $price *  $product['quantity'];
 				$subtotal += $total;
 
+				// $this->load->out($price);
 				// $this->load->out([$price, $product['quantity'], $product['quantity'] * ]);
 				$json['order_product'][] = array(
 					'product_id' => $product['product_id'],

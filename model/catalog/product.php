@@ -276,8 +276,13 @@ class ModelCatalogProduct extends Model {
 			$query3 = $this->db->query("SELECT * FROM oc_order_product WHERE product_id = '" . (int)$product_id . "'");
 			// $query4 = $this->db->query("SELECT * FROM oc_customer_borrow WHERE product_id = '" . (int)$product_id . "'");
 			$query5 = $this->db->query("SELECT * FROM oc_product_to_store WHERE product_id = '" . (int)$product_id . "'");
-			if ($query1->num_rows || $query2->num_rows || $query3->num_rows /*|| $query4->num_rows */ || $query5->num_rows) {
+			if ($query1->num_rows || $query2->num_rows || $query3->num_rows /*|| $query4->num_rows */) {
 				return false;
+			}
+			if ($query5->num_rows) {
+				foreach ($query5->rows as $row) {
+					if ($row['quantity'] > 0) return false;
+				}
 			}
 
 			$this->db->query("DELETE FROM " . DB_PREFIX . "product WHERE product_id = '" . (int)$product_id . "'");

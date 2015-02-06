@@ -54,6 +54,7 @@
                 <php } else { ?>
                 <a href="<php echo $sort_date_modified; ?>"><php echo $column_date_modified; ?></a>
                 <php } ?></td> -->
+                <td class="right"><?php echo $column_products; ?></td>
               <td class="right"><?php echo $column_action; ?></td>
             </tr>
           </thead>
@@ -61,7 +62,7 @@
             <tr class="filter">
               <td></td>
               <!-- <td align="right"><input type="text" name="filter_order_id" value="<php echo $filter_order_id; ?>" size="4" style="text-align: right;" /></td> -->
-              <td><input type="customer" name="filter_customer" value="<?php echo $filter_customer; ?>" /></td>
+              <td><input type="customer" name="filter_customer" value="<?php echo $filter_customer; ?>"  style='width: 60px'/></td>
               <td><select name="filter_order_status_id">
                   <option value="*"></option>
                   <?php foreach ($order_statuses as $order_status) { ?>
@@ -73,16 +74,17 @@
                   <?php } ?>
                 </select></td>
               <td align="right">
-                <input type="text" name="filter_total_min" value="<?php echo $filter_total_min; ?>" size="4" style="text-align: right;" /> ~ <input type="text" name="filter_total_max" value="<?php echo $filter_total_max; ?>" size="4" style="text-align: right;" />
+                <input type="text" name="filter_total_min" value="<?php echo $filter_total_min; ?>" size="2" style="text-align: right; width: 60px" /> ~ <input type="text" name="filter_total_max" value="<?php echo $filter_total_max; ?>" size="2" style="text-align: right; width: 60px" />
               </td>
               <td>
-                <input type="text" name="filter_date_added_start" value="<?php echo $filter_date_added_start; ?>" size="12" class="date" />  ~
-                <input type="text" name="filter_date_added_end" value="<?php echo $filter_date_added_end; ?>" size="12" class="date" />
+                <input type="text" name="filter_date_added_start" value="<?php echo $filter_date_added_start; ?>" size="4" class="date"  style='width: 80px'/>  ~
+                <input type="text" name="filter_date_added_end" value="<?php echo $filter_date_added_end; ?>" size="4" class="date"  style='width: 80px'/>
               </td>
               <!-- <td>
                 <input type="text" name="filter_date_modified_start" value="<php echo $filter_date_modified_start; ?>" size="12" class="date" /> ~ 
                 <input type="text" name="filter_date_modified_end" value="<php echo $filter_date_modified_end; ?>" size="12" class="date" />
               </td> -->
+              <td align="right"></td>
               <td align="right"><a onclick="filter();" class="button"><?php echo $button_filter; ?></a></td>
             </tr>
             <?php if ($orders) { ?>
@@ -102,8 +104,11 @@
               <td class="left"><?php echo $order['status']; ?></td>
               <td class="right"><?php echo $order['total']; ?></td>
               <td class="left"><?php echo $order['date_added']; ?></td>
-              <!-- <td class="left"><php echo $order['date_modified']; ?></td> -->
+              <td class="left"><?php foreach ($order['order_products'] as $order_product) {
+                echo $order_product['name'] . ' x' . $order_product['quantity'] . ','; 
+              } ?></td>
               <td class="right"><?php echo $order['comment']; ?>
+              <!-- <td class="left"><php echo $order['date_modified']; ?></td> -->
               <a href="<?php echo $action['href']; ?>"><?php echo $text_edit; ?></a>
               </td>
             </tr>

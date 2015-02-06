@@ -69,7 +69,7 @@
         <?php $total = 0;?>
           <?php if ($treatment_bonus) { ?>
           <?php foreach ($treatment_bonus as $result) { ?>
-        <?$total += $result['total_amount']; ?>
+        <?php $total += (float)$result['total_amount']; ?>
             <tr>
               <td><?php echo $result['cfullname']; ?></td>
               <td><?php echo $result['customer_id']; ?></td>

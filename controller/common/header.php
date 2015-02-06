@@ -258,10 +258,10 @@ class ControllerCommonHeader extends Controller {
 			// $this->data['recurring_profile'] = $this->url->link('sale/recurring', 'token=' . $this->session->data['token'], 'SSL');
 
 			$this->data['stores'] = array();
-
 			$this->load->model('setting/store');
 
 			$results = $this->model_setting_store->getStores();
+			// $this->load->test($results);
 
 			foreach ($results as $result) {
 				$this->data['stores'][] = array(

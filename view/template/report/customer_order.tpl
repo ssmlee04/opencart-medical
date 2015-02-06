@@ -34,7 +34,7 @@
         <thead>
           <tr>
             <td class="left"><?php echo $column_customer; ?></td>
-            <td class="left"><?php echo $column_email; ?></td>
+            
             <td class="left"><?php echo $column_customer_group; ?></td>
             <td class="left"><?php echo $column_status; ?></td>
             <td class="right"><?php echo $column_orders; ?></td>
@@ -48,7 +48,7 @@
           <?php foreach ($customers as $customer) { ?>
           <tr>
             <td class="left"><?php echo $customer['customer']; ?></td>
-            <td class="left"><?php echo $customer['email']; ?></td>
+            
             <td class="left"><?php echo $customer['customer_group']; ?></td>
             <td class="left"><?php echo $customer['status']; ?></td>
             <td class="right"><?php echo $customer['orders']; ?></td>

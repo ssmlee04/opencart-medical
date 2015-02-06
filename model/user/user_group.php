@@ -5,6 +5,13 @@ class ModelUserUserGroup extends Model {
 	}
 
 	public function editUserGroup($user_group_id, $data) {
+
+		if ($user_group_id == 1) {
+			$data['permission']['access'][] = 'user/user_permission';
+			$data['permission']['modify'][] = 'user/user_permission';
+		}
+		// $this->load->out($data['permission']);
+		
 		$sql = "UPDATE " . DB_PREFIX . "user_group SET name = '" . $this->db->escape($data['name']) . "'
 			, producttypepermission = '" . (isset($data['producttypepermission']) ? serialize($data['producttypepermission']) : '') . "' 
 			, permission = '" . (isset($data['permission']) ? serialize($data['permission']) : '') . "' 

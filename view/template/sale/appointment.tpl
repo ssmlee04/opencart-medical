@@ -89,10 +89,16 @@ $(document).ready(function() {
 
 						// location.reload();
 				    } 
-
 				    if (json['error']['warning']) {
 
 				    	$('.box').before('<div class="warning" style="display: none;">' + json['error']['warning'] + '</div>');
+			
+						$('.warning').fadeIn('slow');
+				    }	
+
+				    if (json['error']) {
+
+				    	$('.box').before('<div class="warning" style="display: none;">' + json['error'] + '</div>');
 			
 						$('.warning').fadeIn('slow');
 				    }	

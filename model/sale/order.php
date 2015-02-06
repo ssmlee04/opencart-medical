@@ -23,6 +23,10 @@ class ModelSaleOrder extends Model {
 	// '2014-09-28 23:37'
 	public function editOrderPayment($order_id, $payment_cash, $payment_visa, $payment_final) {
 
+		// $payment_cash = round($payment_cash, 0);
+		// $payment_visa = round($payment_visa, 0);
+		// $payment_final = round($payment_final, 0);
+
 		$this->db->query("UPDATE `" . DB_PREFIX . "order` SET 
 				payment_cash = '" . (float)$payment_cash . "'
 				, payment_visa = '" . (float)$payment_visa . "'
@@ -474,6 +478,7 @@ class ModelSaleOrder extends Model {
 
 		// $this->load->out($total);
 
+		// $total = round($total, 0);
 		$this->db->query("UPDATE `" . DB_PREFIX . "order` SET total = '" . (float)$total . "' WHERE order_id = '" . (int)$order_id . "'");
 
 		$this->model_sale_customer->addTransaction($data['customer_id'], '', '', $order_id);

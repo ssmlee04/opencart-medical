@@ -75,7 +75,7 @@ class ControllerCommonLogin extends Controller {
 		$this->load->model('setting/store');
 
 		$this->data['stores'] = $this->model_setting_store->getStores();
-
+		// $this->load->test($this->data['stores']);
 		if (isset($this->request->post['store'])) {
 			$this->data['store_id'] = $this->request->post['store'];
 		} else {

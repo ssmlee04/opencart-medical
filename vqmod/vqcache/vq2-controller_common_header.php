@@ -143,7 +143,7 @@ class ControllerCommonHeader extends Controller {
 		$this->data['text_paypal_express'] = $this->language->get('text_paypal_manage');
 		$this->data['text_paypal_express_search'] = $this->language->get('text_paypal_search');
 		$this->data['text_recurring_profile'] = $this->language->get('text_recurring_profile');
-		$this->data['token'] = (isset($this->request->get['token']) ? $this->request->get['token'] : '');
+		$this->data['token'] = $this->request->get['token'];
 		
 		if (!$this->user->isLogged() || !isset($this->request->get['token']) || !isset($this->session->data['token']) || ($this->request->get['token'] != $this->session->data['token'])) {
 			$this->data['logged'] = '';
@@ -264,10 +264,10 @@ class ControllerCommonHeader extends Controller {
 			// $this->data['recurring_profile'] = $this->url->link('sale/recurring', 'token=' . $this->session->data['token'], 'SSL');
 
 			$this->data['stores'] = array();
-
 			$this->load->model('setting/store');
 
 			$results = $this->model_setting_store->getStores();
+			// $this->load->test($results);
 
 			foreach ($results as $result) {
 				$this->data['stores'][] = array(

@@ -354,12 +354,41 @@ class ControllerUserUserPermission extends Controller {
 			$data = explode('/', dirname($file));
 
 			$permission = end($data) . '/' . basename($file, '.php');
-
+// $this->load->test($files);
 			if (!in_array($permission, $ignore)) {
-				$this->data['permissions'][] = $permission;
+				// if ($permission == 'catalog/category') $this->data['permissions'][] = array('key' => $permission,'value' => $this->language->get('text_catalog_category'));
+				if ($permission == 'catalog/product') $this->data['permissions'][] = array('value'=>$this->language->get('text_catalog_product'), 'key'=>$permission);
+				else if ($permission == 'catalog/purchase') $this->data['permissions'][] = array('value'=>$this->language->get('text_catalog_purchase'), 'key'=>$permission);
+				else if ($permission == 'image/imagemanage') $this->data['permissions'][] = array('value'=>$this->language->get('text_image_manage'), 'key'=>$permission);
+				// else if ($permission == 'report/product_purchased') $this->data['permissions'][] = array('value'=>$this->language->get('text_product_purchased'), 'key'=>$permission);
+				else if ($permission == 'report/sale_inventory') $this->data['permissions'][] = array('value'=>$this->language->get('text_report_sale_inventory'), 'key'=>$permission);
+				else if ($permission == 'sale/payment') $this->data['permissions'][] = array('value'=>$this->language->get('text_sale_payment'), 'key'=>$permission);
+				else if ($permission == 'report/sale_order') $this->data['permissions'][] = array('value'=>$this->language->get('text_report_sale_order'), 'key'=>$permission);
+				// else if ($permission == 'report/treatment_purchased') $this->data['permissions'][] = array('value'=>$this->language->get('text_report_treatment_purchased'), 'key'=>$permission);
+				else if ($permission == 'report/customer_order') $this->data['permissions'][] = array('value'=>$this->language->get('text_report_customer_order'), 'key'=>$permission);
+				else if ($permission == 'report/user_bonus') $this->data['permissions'][] = array('value'=>$this->language->get('text_user_bonus'), 'key'=>$permission);
+				else if ($permission == 'report/user_treatment_bonus') $this->data['permissions'][] = array('value'=>$this->language->get('text_user_treatment_bonus'), 'key'=>$permission);
+				else if ($permission == 'sale/appointment') $this->data['permissions'][] = array('value'=>$this->language->get('text_sale_appointment'), 'key'=>$permission);
+				else if ($permission == 'sale/customer_group') $this->data['permissions'][] = array('value'=>$this->language->get('text_sale_customer_group'), 'key'=>$permission);
+				else if ($permission == 'sale/customer') $this->data['permissions'][] = array('value'=>$this->language->get('text_sale_customer'), 'key'=>$permission);
+				else if ($permission == 'sale/lending') $this->data['permissions'][] = array('value'=>$this->language->get('text_sale_lending'), 'key'=>$permission);
+				else if ($permission == 'sale/history') $this->data['permissions'][] = array('value'=>$this->language->get('text_sale_history'), 'key'=>$permission);
+				else if ($permission == 'sale/order') $this->data['permissions'][] = array('value'=>$this->language->get('text_sale_order'), 'key'=>$permission);
+				// else if ($permission == 'sale/treatment') $this->data['permissions'][] = array('value'=>$this->language->get('text_sale_treatment'), 'key'=>$permission);
+				// else if ($permission == 'sale/transaction') $this->data['permissions'][] = array('value'=>$this->language->get('text_sale_transaction'), 'key'=>$permission);
+				else if ($permission == 'setting/store') $this->data['permissions'][] = array('value'=>$this->language->get('text_setting_store'), 'key'=>$permission);
+				else if ($permission == 'sale/followup') $this->data['permissions'][] = array('value'=>$this->language->get('text_sale_followup'), 'key'=>$permission);
+				else if ($permission == 'tool/backup') $this->data['permissions'][] = array('value'=>$this->language->get('text_tool_backup'), 'key'=>$permission);
+				else if ($permission == 'tool/error_log') $this->data['permissions'][] = array('value'=>$this->language->get('text_tool_error_log'), 'key'=>$permission);
+				else if ($permission == 'user/user') $this->data['permissions'][] = array('value'=>$this->language->get('text_user_user'), 'key'=>$permission);
+				else if ($permission == 'user/user_permission') $this->data['permissions'][] = array('value'=>$this->language->get('text_user_user_permission'), 'key'=>$permission);
+				else if ($permission == 'report/customer_feedback') $this->data['permissions'][] = array('value'=>$this->language->get('report_customer_feedback'), 'key'=>$permission);
+				else if ($permission == 'localisation/unit_class') $this->data['permissions'][] = array('value'=>$this->language->get('text_local_unit'), 'key'=>$permission);
+
+
 			}
 		}
-
+// $this->load->test($this->data['permissions']);
 		$this->data['producttypepermissions'] = array();
 		$this->data['producttypepermissions'][] = 'product';
 		$this->data['producttypepermissions'][] = 'treatment';
@@ -381,6 +410,9 @@ class ControllerUserUserPermission extends Controller {
 			$this->data['access'] = array();
 		}
 
+		$this->data['accessdisplay'] = array();
+		$this->data['modifydisplay'] = array();
+		
 		if (isset($this->request->post['permission']['modify'])) {
 			$this->data['modify'] = $this->request->post['permission']['modify'];
 		} elseif (isset($user_group_info['permission']['modify'])) {
@@ -388,7 +420,7 @@ class ControllerUserUserPermission extends Controller {
 		} else { 
 			$this->data['modify'] = array();
 		}
-// $this->load->test($this->data['producttype']);
+
 		$this->template = 'user/user_group_form.tpl';
 		$this->children = array(
 			'common/header',

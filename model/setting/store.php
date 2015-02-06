@@ -28,7 +28,7 @@ class ModelSettingStore extends Model {
 	}
 
 	public function getStores($data = array()) {
-		$store_data = $this->cache->get('store');
+		$store_data = null; //$this->cache->get('store');
 
 		if (!$store_data) {
 			$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "store ORDER BY url");

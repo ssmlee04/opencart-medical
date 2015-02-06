@@ -46,6 +46,7 @@
                 <?php } else { ?>
                 <a href="<?php echo $sort_date_modified; ?>"><?php echo $column_date_modified; ?></a>
                 <?php } ?></td>
+              <td class="right"><?php echo $column_products; ?></td>
               <td class="right"><?php echo $column_action; ?></td>
             </tr>
           </thead>
@@ -99,6 +100,9 @@
               <td class="right"><?php echo $order['total']; ?></td>
               <td class="left"><?php echo $order['date_added']; ?></td>
               <td class="left"><?php echo $order['date_modified']; ?></td>
+              <td class="left"><?php foreach ($order['order_products'] as $order_product) {
+                echo $order_product['name'] . ' x' . $order_product['quantity'] . ','; 
+              } ?></td>
               <td class="right"><?php echo $order['comment']; ?></td>
             </tr>
             <?php } ?>

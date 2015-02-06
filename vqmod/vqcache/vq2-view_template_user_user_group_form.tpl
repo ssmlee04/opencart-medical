@@ -49,15 +49,15 @@
             <td><?php echo $entry_access; ?></td>
             <td><div class="scrollbox">
                 <?php $class = 'odd'; ?>
-                <?php foreach ($permissions as $permission) { ?>
+                <?php foreach ($permissions as $key => $permission) { ?>
                 <?php $class = ($class == 'even' ? 'odd' : 'even'); ?>
                 <div class="<?php echo $class; ?>">
-                  <?php if (in_array($permission, $access)) { ?>
-                  <input type="checkbox" name="permission[access][]" value="<?php echo $permission; ?>" checked="checked" />
-                  <?php echo $permission; ?>
+                  <?php if (in_array($permission['key'], $access)) { ?>
+                  <input type="checkbox" name="permission[access][]" value="<?php echo $permission['key']; ?>" checked="checked" />
+                  <?php echo $permission['value']; ?>
                   <?php } else { ?>
-                  <input type="checkbox" name="permission[access][]" value="<?php echo $permission; ?>" />
-                  <?php echo $permission; ?>
+                  <input type="checkbox" name="permission[access][]" value="<?php echo $permission['key']; ?>" />
+                  <?php echo $permission['value']; ?>
                   <?php } ?>
                 </div>
                 <?php } ?>
@@ -71,12 +71,12 @@
                 <?php foreach ($permissions as $permission) { ?>
                 <?php $class = ($class == 'even' ? 'odd' : 'even'); ?>
                 <div class="<?php echo $class; ?>">
-                  <?php if (in_array($permission, $modify)) { ?>
-                  <input type="checkbox" name="permission[modify][]" value="<?php echo $permission; ?>" checked="checked" />
-                  <?php echo $permission; ?>
+                  <?php if (in_array($permission['key'], $modify)) { ?>
+                  <input type="checkbox" name="permission[modify][]" value="<?php echo $permission['key']; ?>" checked="checked" />
+                  <?php echo $permission['value']; ?>
                   <?php } else { ?>
-                  <input type="checkbox" name="permission[modify][]" value="<?php echo $permission; ?>" />
-                  <?php echo $permission; ?>
+                  <input type="checkbox" name="permission[modify][]" value="<?php echo $permission['key']; ?>" />
+                  <?php echo $permission['value']; ?>
                   <?php } ?>
                 </div>
                 <?php } ?>
