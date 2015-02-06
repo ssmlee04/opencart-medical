@@ -384,6 +384,7 @@ class ControllerUserUserPermission extends Controller {
 				else if ($permission == 'user/user_permission') $this->data['permissions'][] = array('value'=>$this->language->get('text_user_user_permission'), 'key'=>$permission);
 				else if ($permission == 'report/customer_feedback') $this->data['permissions'][] = array('value'=>$this->language->get('report_customer_feedback'), 'key'=>$permission);
 				else if ($permission == 'localisation/unit_class') $this->data['permissions'][] = array('value'=>$this->language->get('text_local_unit'), 'key'=>$permission);
+				else if ($permission == 'common/filemanager') $this->data['permissions'][] = array('value'=>$this->language->get('text_filemanager'), 'key'=>$permission);
 
 
 			}

@@ -40,6 +40,7 @@ $_['text_sale_followup'] = '電訪管理';
 $_['text_sale_history'] = '歷史記錄';
 $_['text_sale_lending'] = '療程轉讓';
 $_['text_setting_store'] = '商店管理';
+$_['text_filemanager'] = '檔案管理';
 $_['text_sale_order'] = '訂單管理';
 // $_['text_sale_transaction'] = 'text_sale_transaction';
 $_['text_sale_product'] = '商品使用管理';
