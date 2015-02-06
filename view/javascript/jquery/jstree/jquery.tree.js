@@ -169,9 +169,19 @@
 		drag_end	: false
 	};
 	$.fn.tree = function (opts) {
+
+		console.log('bbo');
+		console.log(opts);
+		console.log(this);
 		return this.each(function() {
 			var conf = $.extend({},opts);
+			console.log('$(this).attr('id')');
+			console.log($(this).attr('id'));
 			if(tree_component.inst && tree_component.inst[$(this).attr('id')]) tree_component.inst[$(this).attr('id')].destroy();
+			console.log('this');
+			console.log(tree_component.inst);
+			console.log(conf);
+			console.log(this);
 			if(conf !== false) new tree_component().init(this, conf);
 		});
 	};
@@ -183,6 +193,13 @@
 			settings : $.extend({},$.tree.defaults),
 
 			init : function(elem, conf) {
+
+				console.log('elem');
+				console.log(elem);
+				console.log(elem);
+				console.log(elem);
+				console.log(elem);
+				console.log(elem);
 				var _this = this;
 				this.container = $(elem);
 				if(this.container.size == 0) return false;
@@ -815,6 +832,9 @@ console.log('obj');console.log(obj);
 						console.log(data);
 						// Chandler
 						data = data.map(function(d){
+
+							console.log('d.attributes.directory');
+							console.log(d.attributes.directory);
 							d.data = d.attributes.directory;
 							return d;
 						});
