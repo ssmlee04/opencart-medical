@@ -191,7 +191,6 @@
 				tree_component.inst[this.container.attr("id")] = tree_component.inst[this.cntr];
 				tree_component.focused = this.cntr;
 				this.settings = $.extend(true, {}, this.settings, conf);
-
 				// DEAL WITH LANGUAGE VERSIONS
 				if(this.settings.languages && this.settings.languages.length) {
 					this.current_lang = this.settings.languages[0];
@@ -687,6 +686,9 @@
 				this.scroll_into_view(this.hovered);
 			},
 			select_branch : function (obj, multiple) {
+
+				console.log('-----f-----');
+				console.log(obj);
 				if(this.locked) return this.error("LOCKED");
 				if(!obj && this.hovered !== false) obj = this.hovered;
 				var _this = this;
@@ -764,6 +766,13 @@
 			toggle_branch : function (obj) {
 				if(this.locked) return this.error("LOCKED");
 				var obj = this.get_node(obj);
+				console.log('toggle_branch');
+				console.log('toggle_branch');
+				console.log('toggle_branch');
+				console.log('toggle_branch');
+				console.log('toggle_branch');
+				console.log(this);
+				console.log(obj);
 				if(obj.hasClass("closed"))	return this.open_branch(obj);
 				if(obj.hasClass("open"))	return this.close_branch(obj); 
 			},
@@ -960,6 +969,8 @@ console.log('obj');console.log(obj);
 				var obj_s = $.tree.datastores.json().parse(obj,this);
 				obj_s = this.callback("onparse", [obj_s, this]);
 				var $li = $(obj_s);
+				console.log('$li');
+				console.log($li);
 
 				if($li.children("ul").size()) {
 					if(!$li.is(".open")) $li.addClass("closed");
