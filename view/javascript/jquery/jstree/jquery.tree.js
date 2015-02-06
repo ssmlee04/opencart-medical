@@ -773,7 +773,11 @@
 				var _this = this;
 
 				if(this.locked) return this.error("LOCKED");
+				console.log('gcms');
+				console.log(obj);
 				var obj = this.get_node(obj);
+				console.log("obj");
+				console.log(obj);
 				if(!obj.size()) return this.error("OPEN: NO SUCH NODE");
 				if(obj.hasClass("leaf")) return this.error("OPEN: OPENING LEAF NODE");
 				if(this.settings.data.async && obj.find("li").size() == 0) {
@@ -788,7 +792,7 @@ console.log('obj');console.log(obj);
 
 										console.log('this.settings.data.opts');
 					console.log(this.settings.data.opts);
-					
+
 					_datastore.load(this.callback("beforedata",[obj,this]),this,this.settings.data.opts,function(data){
 						console.log(data);
 						data = _this.callback("ondata", [data, _this]);
