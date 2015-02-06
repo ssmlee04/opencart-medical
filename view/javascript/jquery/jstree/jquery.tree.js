@@ -785,7 +785,12 @@
 					obj.removeClass("closed").addClass("open");
 console.log('obj');console.log(obj);
 					var _datastore = new $.tree.datastores[this.settings.data.type]();
+
+										console.log('this.settings.data.opts');
+					console.log(this.settings.data.opts);
+					
 					_datastore.load(this.callback("beforedata",[obj,this]),this,this.settings.data.opts,function(data){
+						console.log(data);
 						data = _this.callback("ondata", [data, _this]);
 						console.log('data');
 						console.log(data);
@@ -1836,10 +1841,15 @@ console.log('obj');console.log(obj);
 					return obj && $(obj).size() ? $('<div>').append(tree.get_node(obj).clone()).html() : tree.container.children("ul:eq(0)").html();
 				},
 				parse	: function(data, tree, opts, callback) {
+					console.log('parse');
 					if(callback) callback.call(null, data);
 					return data;
 				},
 				load	: function(data, tree, opts, callback) {
+					console.log('========');
+					console.log(opts);
+					console.log(opts.url);
+					console.log('opts.url');
 					if(opts.url) {
 						$.ajax({
 							'type'		: opts.method,
