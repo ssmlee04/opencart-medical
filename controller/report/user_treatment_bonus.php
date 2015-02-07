@@ -350,33 +350,33 @@ class ControllerReportUserTreatmentBonus extends Controller {
 
 			$qqqq = $this->db->query("SELECT *, sum(subquantity) as subquantity FROM oc_customer_transaction WHERE treatment_usage_id = '$treatment_usage_id' GROUP BY treatment_usage_id")->row;
 
-			// $treatment_bonus[] = array(
-			// 		'cfullname' => $qq['cfullname'],
-			// 		'ufullname' => $qq['ufullname'],
-			// 		// 'product_type_id' => $qq['product_type_id'],
-			// 		'treatment_usage_id' => $qq['treatment_usage_id'],
-			// 		// 'customer_transaction_id' => $qq['customer_transaction_id'],
-			// 		'comment' => $qq['comment'],
-			// 		'customer_id' => $qq['customer_id'],
-			// 		'consultant_name' => $qq['consultant_name'],
-			// 		'outsource_name' => $qq['outsource_name'],
-			// 		'doctor_name' => $qq['doctor_name'],
-			// 		'beauty_name' => $qq['beauty_name'],
-			// 		// 'cfullname' => $qq['cfullname'],
-			// 		'date_added' => explode(' ', $qq['tr_date_added'])[0],
-			// 		'date_modified' => explode(' ', $qq['tr_date_modified'])[0],
-			// 		'product_id' => $qq['product_id'],
-			// 		'product_name' => $qq['pname'],
-			// 		'order_id' => $qq['order_id'],
+			$treatment_bonus[] = array(
+					'cfullname' => $qq['cfullname'],
+					'ufullname' => $qq['ufullname'],
+					// 'product_type_id' => $qq['product_type_id'],
+					'treatment_usage_id' => $qq['treatment_usage_id'],
+					// 'customer_transaction_id' => $qq['customer_transaction_id'],
+					'comment' => $qq['comment'],
+					'customer_id' => $qq['customer_id'],
+					'consultant_name' => $qq['consultant_name'],
+					'outsource_name' => $qq['outsource_name'],
+					'doctor_name' => $qq['doctor_name'],
+					'beauty_name' => $qq['beauty_name'],
+					// 'cfullname' => $qq['cfullname'],
+					'date_added' => explode(' ', $qq['tr_date_added'])[0],
+					'date_modified' => explode(' ', $qq['tr_date_modified'])[0],
+					'product_id' => $qq['product_id'],
+					'product_name' => $qq['pname'],
+					'order_id' => $qq['order_id'],
 
-			// 		'subquantity' => -1 * $qqqq['subquantity'],
-			// 		'total_amount' => 0, 
-			// 		// 'total' => $order_info['total'], 
-			// 		// 'payment_cash' => $payment_cash, 
-			// 		// 'payment_visa' => $payment_visa, 
-			// 		// 'payment_balance' => $payment_balance, 
-			// 		// 'payment_final' => $payment_final, 
-			// 	);
+					'subquantity' => -1 * $qqqq['subquantity'],
+					'total_amount' => 0, 
+					// 'total' => $order_info['total'], 
+					// 'payment_cash' => $payment_cash, 
+					// 'payment_visa' => $payment_visa, 
+					// 'payment_balance' => $payment_balance, 
+					// 'payment_final' => $payment_final, 
+				);
 
 		}
 
