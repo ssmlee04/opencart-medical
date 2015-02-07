@@ -41,14 +41,14 @@
                 <a href="<?php echo $sort_total; ?>"><?php echo $column_total; ?></a>
                 <?php } ?></td>
 
-                <td class="left"><?php if ($sort == 'p.date_purchased') { ?>
-                <a href="<?php echo $sort_date_purchased; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_date_purchased; ?></a>
+                <td class="left"><?php if ($sort == 'p.date_expensed') { ?>
+                <a href="<?php echo $sort_date_expensed; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_date_expensed; ?></a>
                 <?php } else { ?>
-                <a href="<?php echo $sort_date_purchased; ?>"><?php echo $column_date_purchased; ?></a>
+                <a href="<?php echo $sort_date_expensed; ?>"><?php echo $column_date_expensed; ?></a>
                 <?php } ?></td>
 
                 <td class="left"><?php if ($sort == 'p.date_added') { ?>
-                <a href="<?php echo $sort_date_added; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_date_purchased; ?></a>
+                <a href="<?php echo $sort_date_added; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_date_expensed; ?></a>
                 <?php } else { ?>
                 <a href="<?php echo $sort_date_added; ?>"><?php echo $column_date_added ?></a>
                 <?php } ?></td>
@@ -79,24 +79,28 @@
                   <?php } ?>
                 </select></td>
               
-              <td><select name="filter_user">
+              <td>
+              <!-- <select name="filter_user">
                   <option value=""></option>
-                  <?php if ($users) { ?>
-                    <?php foreach ($users as $user) { ?>  
-                       <?php if ($filter_user == $user['user_id']) { ?>
-                        <option value="<?php echo $user['user_id']; ?>" selected><?php echo $user['lastname'] . ' ' . $user['firstname']; ?></option>
-                      <?php } else { ?>
-                        <option value="<?php echo $user['user_id']; ?>"><?php echo $user['lastname'] . ' ' . $user['firstname']; ?></option>
-                      <?php } ?>
-                    <?php } ?>
-                  <?php } ?>
-                </select></td>
+                  <php if ($users) { ?>
+                    <php foreach ($users as $user) { ?>  
+                       <php if ($filter_user == $user['user_id']) { ?>
+                        <option value="<php echo $user['user_id']; ?>" selected><php echo $user['lastname'] . ' ' . $user['firstname']; ?></option>
+                      <php } else { ?>
+                        <option value="<php echo $user['user_id']; ?>"><php echo $user['lastname'] . ' ' . $user['firstname']; ?></option>
+                      <php } ?>
+                    php } ?>
+                  <php } ?>
+                </select> -->
+                </td>
 
-                <td align="left"><input type="text" name="filter_total_min" value="<?php echo $filter_total_min; ?>" size="8"/>~<input type="text" name="filter_total_max" value="<?php echo $filter_total_max; ?>" size="8"/></td>
+                <td align="left"><input type="text" name="filter_total_min" value="<?php echo $filter_total_min; ?>" style='width: 60px'/>~<input type="text" name="filter_total_max" value="<?php echo $filter_total_max; ?>" style='width: 60px'/></td>
 
-                <td></td>
-                <td></td>
-                <!-- <td align="left"><input type="date_available" class='date' name="filter_date_purchased" value="<php echo $filter_date_purchased; ?>" size=""/></td> -->
+                <td align="left"><input type="date_available" name="filter_date_expensed_start" value="<?php echo $filter_date_expensed_start; ?>" size="8"/>~<input type="date_available" name="filter_date_expensed_end" value="<?php echo $filter_date_expensed_end; ?>" size="8"/></td>
+
+                <td align="left"></td>
+
+                <!-- <td align="left"><input type="date_available" class='date' name="filter_date_expensed" value="<php echo $filter_date_expensed; ?>" size=""/></td> -->
 
                 <!-- <td align="left"><input type="date_available" class='date' name="filter_date_added" value="<php echo $filter_date_added; ?>" size=""/></td> -->
 
@@ -120,10 +124,10 @@
               </td>
               <td class="left"><?php echo $expense['name']; ?></td>
               <td class="left"><?php echo $expense['total']; ?></td>
-              <td class="left"><?php echo $expense['date_purchased']; ?></td>
+              <td class="left"><?php echo $expense['date_expensed']; ?></td>
               <td class="left"><?php echo $expense['date_added']; ?></td>
             
-              <td class="right"></td>
+              <td class="right"><?php echo $expense['message']; ?></td>
             </tr>
             <?php } ?>
             <?php } else { ?>
@@ -140,7 +144,7 @@
 </div>
 <script type="text/javascript"><!--
 function filter() {
-	url = 'index.php?route=catalog/expense&token=<?php echo $token; ?>';
+	url = 'index.php?route=sale/expense&token=<?php echo $token; ?>';
 	
   var filter_total_min = $('input[name=\'filter_total_min\']').attr('value');
   
@@ -154,10 +158,16 @@ function filter() {
     url += '&filter_total_max=' + encodeURIComponent(filter_total_max);
   }
 
-  var filter_date_purchased = $('input[name=\'filter_date_purchased\']').attr('value');
+  var filter_date_expensed_start = $('input[name=\'filter_date_expensed_start\']').attr('value');
   
-  if (filter_date_purchased) {
-    url += '&filter_date_purchased=' + encodeURIComponent(filter_date_purchased);
+  if (filter_date_expensed_start) {
+    url += '&filter_date_expensed_start=' + encodeURIComponent(filter_date_expensed_start);
+  } 
+
+  var filter_date_expensed_end = $('input[name=\'filter_date_expensed_end\']').attr('value');
+  
+  if (filter_date_expensed_end) {
+    url += '&filter_date_expensed_end=' + encodeURIComponent(filter_date_expensed_end);
   } 
 
   var filter_date_added = $('input[name=\'filter_date_added\']').attr('value');

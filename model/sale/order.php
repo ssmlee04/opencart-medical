@@ -365,6 +365,10 @@ class ModelSaleOrder extends Model {
 		$payment_cash = (isset($data['payment_cash']) ? $data['payment_cash'] : 0);
 		$payment_visa = (isset($data['payment_visa']) ? $data['payment_visa'] : 0);
 		$payment_final = (isset($data['payment_final']) ? $data['payment_final'] : 0);
+		// $payment_cash = round($payment_cash);
+		// $payment_visa = round($payment_visa);
+		// $payment_final = round($payment_final);
+
 		$email = (isset($data['email']) ? $this->db->escape($data['email']) : '');
 		// $firstname = (isset($data['firstname']) ? $this->db->escape($data['firstname']) : '');
 		// $lastname = (isset($data['lastname']) ? $this->db->escape($data['lastname']) : '');
@@ -497,6 +501,7 @@ class ModelSaleOrder extends Model {
 		// $this->load->out($total);
 
 		// $total = round($total, 0);
+		$total = round($total);
 		$this->db->query("UPDATE `" . DB_PREFIX . "order` SET total = '" . (float)$total . "' WHERE order_id = '" . (int)$order_id . "'");
 
 		$this->model_sale_customer->addTransaction($data['customer_id'], '', '', $order_id);

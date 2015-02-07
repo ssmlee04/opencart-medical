@@ -142,8 +142,10 @@ class ControllerCommonFileManager extends Controller {
 					// Chandler fix 201412
 					$exp = explode('/', $file);
 					$json[] = array(
+						// 'filename' => mb_convert_encoding($exp[count($exp) - 1], "UTF-8", "Windows-1252"), //basename($file),
 						'filename' => $exp[count($exp) - 1], //basename($file),
 						'file'     => utf8_substr($file, utf8_strlen(DIR_IMAGE . 'data/')),
+						// 'file'     => mb_convert_encoding(utf8_substr($file, utf8_strlen(DIR_IMAGE . 'data/')), "UTF-8", "Windows-1252"),
 						'size'     => round(utf8_substr($size, 0, utf8_strpos($size, '.') + 4), 2) . $suffix[$i]
 					);
 				}
