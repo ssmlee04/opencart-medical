@@ -66,11 +66,13 @@
           <?php if ($treatment_bonus) { ?>
           <?php foreach ($treatment_bonus as $result) { ?>
         <?php $total += (float)$result['total_amount']; ?>
-            <tr>
+            <tr style="background-color: <?php echo $result['color']; ?>">
               <td><?php echo $result['cfullname']; ?></td>
               <td><?php echo $result['customer_id']; ?></td>
               <td><?php echo $result['product_name']; ?></td>
-              <td><?php echo $result['date_modified']; ?></td>
+              <td><?php echo $result['date']; ?></td>
+              <!-- <td><php echo $result['date_added']; ?></td> -->
+              <!-- <td><php echo $result['date_modified']; ?></td> -->
               <td><?php echo $result['comment']; ?></td>
               <td><?php echo $result['subquantity']; ?></td>
               <td><?php echo $result['doctor_name']; ?></td>
@@ -83,6 +85,7 @@
               <td><php echo $result['payment_balance']; ?></td>
               <td><php echo $result['payment_final']; ?></td> -->
               <td><?php echo $result['ufullname']; ?></td>
+              <td><?php echo $result['treatment_usage_id']; ?></td>
             </tr>
           <?php } ?>
           <?php } ?>

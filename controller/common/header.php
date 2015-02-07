@@ -21,6 +21,7 @@ class ControllerCommonHeader extends Controller {
 		$this->data['heading_title'] = $this->language->get('heading_title');
 
 		$this->data['text_inventory_management'] = $this->language->get('text_inventory_management');
+		$this->data['text_expense'] = $this->language->get('text_expense');
 		$this->data['text_report_inventory'] = $this->language->get('text_report_inventory');
 		$this->data['text_affiliate'] = $this->language->get('text_affiliate');
 		$this->data['text_attribute'] = $this->language->get('text_attribute');
@@ -229,6 +230,7 @@ class ControllerCommonHeader extends Controller {
 			$this->data['zone'] = $this->url->link('localisation/zone', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['purchase'] = $this->url->link('catalog/purchase', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['bonus'] = $this->url->link('report/user_bonus', 'token=' . $this->session->data['token'], 'SSL');
+			$this->data['expense'] = $this->url->link('sale/expense', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['treatment_bonus'] = $this->url->link('report/user_treatment_bonus', 'token=' . $this->session->data['token'], 'SSL');
 
 			// $this->data['openbay_show_menu'] = $this->config->get('openbaymanager_show_menu');

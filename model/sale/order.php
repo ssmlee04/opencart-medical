@@ -53,6 +53,24 @@ class ModelSaleOrder extends Model {
 	}
 	
 
+	public function canDeleteOrder($order_id) {
+		$this->load->model('sale/order');
+		$orderproducts = $this->model_sale_order->getOrderProducts($order_id);
+		$candelete = true;
+
+		$transaction_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "customer_transaction WHERE order_id = '" . (int)$order_id . "'");
+		foreach ($transaction_query->rows as $transaction) {
+			// $this->load->out($transaction_query->rows);
+			if ($transaction['status'] > 0 && $transaction['product_type_id'] != 3) {
+				// $this->load->out($transaction);
+				$candelete = false;
+			}
+		}
+// $this->load->out('222' . $candelete);
+		return $candelete;
+
+	}
+
 	// '2014-10-08 01:38'
 	public function canEditOrder($order_id, $cartproducts) {
 
@@ -63,10 +81,10 @@ class ModelSaleOrder extends Model {
 		$transaction_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "customer_transaction WHERE order_id = '" . (int)$order_id . "'");
 
 		foreach ($transaction_query->rows as $transaction) {
-			if ($transaction['status'] > 0) $canedit = false;
+			if ($transaction['status'] > 0 && $transaction['product_type_id'] !== 3) $canedit = false;
 		}
 
-
+		// cannot reduce
 		foreach ($orderproducts as $orderproduct) {
 			$foundall = false;
 			foreach ($cartproducts as $cartproduct) {
@@ -490,7 +508,8 @@ class ModelSaleOrder extends Model {
 
 	public function deleteOrder($order_id, $data) {
 
-		if ($this->editOrder($order_id, array())) {
+		if ($this->canDeleteOrder($order_id)) {
+		// if ($this->editOrder($order_id, array())) {
 
 			$this->db->query("DELETE FROM `" . DB_PREFIX . "order` WHERE order_id = '" . (int)$order_id . "'");
 			$this->db->query("DELETE FROM " . DB_PREFIX . "order_product WHERE order_id = '" . (int)$order_id . "'");

@@ -7,6 +7,7 @@ $_['heading_title']          = '管理介面';
 // $_['text_attribute']        = '商品屬性';
 // $_['text_attribute_group']  = '屬性類別';
 $_['text_backup']            = '數據維護';
+$_['text_expense']           = '費用管理';
 $_['text_banner']           = '廣告管理';
 $_['text_catalog']           = '商品管理';
 $_['text_category']          = '商品目錄';

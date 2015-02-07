@@ -118,16 +118,19 @@ class ControllerReportUserTreatmentBonus extends Controller {
 		$data['filter_date_start'] = $filter_date_start;
 		$data['filter_date_end'] = $filter_date_end;
 
+		// main case
 		$yy = "(DATE(ct.date_added) >= '" . $this->db->escape($data['filter_date_start']) . "'AND DATE(ct.date_added) <= '" . $this->db->escape($data['filter_date_end']) . "' AND total_amount > 0)";
+		
 
+		// nonmain case
 		$xx = " (ct.status = 2 AND DATE(ct.date_modified) >= '" . $this->db->escape($data['filter_date_start']) . "'";
 		$xx .= " AND DATE(ct.date_modified) <= '" . $this->db->escape($data['filter_date_end']) . "'";
 		$xx .= " AND total_amount = 0 )";
-
+		
+		// product_type_id = 3 case
 		$zz = " (ct.status = 0 AND p.product_type_id = 3 AND DATE(ct.date_added) >= '" . $this->db->escape($data['filter_date_start']) . "'AND DATE(ct.date_added) <= '" . $this->db->escape($data['filter_date_end']) . "') ";
 
 		$sql = "SELECT ct.*, p.*, ct.date_modified as tr_date_modified, ct.date_added as tr_date_added, pd.name as pname, u1.fullname as beauty_name, u2.fullname as consultant_name, u3.fullname as outsource_name, u4.fullname as doctor_name, u0.fullname as ufullname, c.fullname as cfullname FROM oc_customer_transaction ct LEFT JOIN oc_product p ON ct.product_id = p.product_id ";
-
 		$sql .= " LEFT JOIN oc_customer c ON ct.customer_id = c.customer_id";
 		$sql .= " LEFT JOIN oc_user u0 ON ct.user_id = u0.user_id";
 		$sql .= " LEFT JOIN oc_user u1 ON ct.beauty_id = u1.user_id";
@@ -135,8 +138,7 @@ class ControllerReportUserTreatmentBonus extends Controller {
 		$sql .= " LEFT JOIN oc_user u3 ON ct.outsource_id = u3.user_id";
 		$sql .= " LEFT JOIN oc_user u4 ON ct.doctor_id = u4.user_id";
 		$sql .= " LEFT JOIN oc_product_description pd ON ct.product_id = pd.product_id ";
-
-		$sql .= " WHERE ($xx or $yy or $zz) AND pd.language_id = '2'";
+		$sql .= " WHERE ($xx or $yy or $zz ) AND pd.language_id = '2'";
 		
 		$q = $this->db->query($sql);
 		$queue = array();
@@ -150,15 +152,15 @@ class ControllerReportUserTreatmentBonus extends Controller {
 			}
 		}
 
+		// actual used ids
 		foreach ($treatment_usage_ids as $k => $treatment_usage_id) {
 			$is_main = false;
 			$main_total = 0;
 
-			// $this->load->test($q->rows);
 			foreach ($q->rows as $qq) { 
 				if ($qq['total_amount'] > 0 && $qq['treatment_usage_id'] == $treatment_usage_id) {
 					$is_main = true;
-					$main_total = $qq['total_amount'];
+					$main_total += $qq['total_amount'];
 				}
 			}
 
@@ -178,6 +180,7 @@ class ControllerReportUserTreatmentBonus extends Controller {
 				if ($q2['treatment_usage_id'] == $treatment_usage_id) {
 					$ufullname = $q2['ufullname'];
 					$subquantity += $q2['subquantity'];
+					// $treatment_usage_id = $q2['treatment_usage_id'];
 					$cfullname = $q2['cfullname'];
 					$order_id = $q2['order_id'];
 					$product_id = $q2['product_id'];
@@ -193,9 +196,6 @@ class ControllerReportUserTreatmentBonus extends Controller {
 			};
 
 			if ($is_main) {
-
-				
-
 				$treatment_bonus[] = array(
 					'ufullname' => $ufullname,
 					'cfullname' => $cfullname,
@@ -209,12 +209,14 @@ class ControllerReportUserTreatmentBonus extends Controller {
 					'beauty_name' => $beauty_name,
 					// 'cfullname' => $qq['cfullname'],
 					'date_modified' => explode(' ', $qq['tr_date_modified'])[0],
+					'date_added' => explode(' ', $qq['tr_date_added'])[0],
 					'product_id' => $product_id,
 					'product_name' => $pname,
 					'order_id' => $order_id,
 
 					'subquantity' => -1* $subquantity,
 					'total_amount' => $main_total,
+					'color' => 'pink'
 					// 'total' => $order_info['total'], 
 					// 'payment_cash' => $payment_cash, 
 					// 'payment_visa' => $payment_visa, 
@@ -234,6 +236,7 @@ class ControllerReportUserTreatmentBonus extends Controller {
 					'doctor_name' => $doctor_name,
 					'beauty_name' => $beauty_name,
 					// 'cfullname' => $qq['cfullname'],
+					'date_added' => explode(' ', $qq['tr_date_added'])[0],
 					'date_modified' => explode(' ', $qq['tr_date_modified'])[0],
 					'product_id' => $product_id,
 					'product_name' => $pname,
@@ -241,6 +244,7 @@ class ControllerReportUserTreatmentBonus extends Controller {
 
 					'subquantity' => -1* $subquantity,
 					'total_amount' => 0,
+					'color' => 'lightblue'
 					// 'total' => $order_info['total'], 
 					// 'payment_cash' => $payment_cash, 
 					// 'payment_visa' => $payment_visa, 
@@ -267,13 +271,15 @@ class ControllerReportUserTreatmentBonus extends Controller {
 					'doctor_name' => $qq['doctor_name'],
 					'beauty_name' => $qq['beauty_name'],
 					// 'cfullname' => $qq['cfullname'],
+					'date_added' => explode(' ', $qq['tr_date_added'])[0],
 					'date_modified' => explode(' ', $qq['tr_date_modified'])[0],
 					'product_id' => $qq['product_id'],
 					'product_name' => $qq['pname'],
 					'order_id' => $qq['order_id'],
 
-					'subquantity' => 0,
+					'subquantity' => '',
 					'total_amount' => $qq['total_amount'],
+					'color' => 'lightgreen'
 					// 'total' => $order_info['total'], 
 					// 'payment_cash' => $payment_cash, 
 					// 'payment_visa' => $payment_visa, 
@@ -302,13 +308,15 @@ class ControllerReportUserTreatmentBonus extends Controller {
 					'doctor_name' => $qq['doctor_name'],
 					'beauty_name' => $qq['beauty_name'],
 					// 'cfullname' => $qq['cfullname'],
+					'date_added' => explode(' ', $qq['tr_date_added'])[0],
 					'date_modified' => explode(' ', $qq['tr_date_modified'])[0],
 					'product_id' => $qq['product_id'],
 					'product_name' => $qq['pname'],
 					'order_id' => $qq['order_id'],
 
-					'subquantity' => 0,
+					'subquantity' => '',
 					'total_amount' => $pro['total'],
+					'color' => 'lightyellow'
 					// 'total' => $order_info['total'], 
 					// 'payment_cash' => $payment_cash, 
 					// 'payment_visa' => $payment_visa, 
@@ -320,11 +328,127 @@ class ControllerReportUserTreatmentBonus extends Controller {
 
 
 
+		// $yy = "(DATE(ct.date_added) >= '" . $this->db->escape($data['filter_date_start']) . "'AND DATE(ct.date_added) <= '" . $this->db->escape($data['filter_date_end']) . "' AND total_amount > 0)";
+		$uu = " (ct.treatment_usage_id > 0 AND DATE(ct.date_modified) >= '" . $this->db->escape($data['filter_date_start']) . "'";
+		$uu .= " AND DATE(ct.date_modified) <= '" . $this->db->escape($data['filter_date_end']) . "'";
+		$uu .= " AND total_amount > 0 AND ct.date_modified <> ct.date_added)";
+		// $zz = " (ct.status = 0 AND p.product_type_id = 3 AND DATE(ct.date_added) >= '" . $this->db->escape($data['filter_date_start']) . "'AND DATE(ct.date_added) <= '" . $this->db->escape($data['filter_date_end']) . "') ";
+
+		$sql = "SELECT ct.*, p.*, ct.date_modified as tr_date_modified, ct.date_added as tr_date_added, pd.name as pname, u1.fullname as beauty_name, u2.fullname as consultant_name, u3.fullname as outsource_name, u4.fullname as doctor_name, u0.fullname as ufullname, c.fullname as cfullname FROM oc_customer_transaction ct LEFT JOIN oc_product p ON ct.product_id = p.product_id ";
+		$sql .= " LEFT JOIN oc_customer c ON ct.customer_id = c.customer_id";
+		$sql .= " LEFT JOIN oc_user u0 ON ct.user_id = u0.user_id";
+		$sql .= " LEFT JOIN oc_user u1 ON ct.beauty_id = u1.user_id";
+		$sql .= " LEFT JOIN oc_user u2 ON ct.consultant_id = u2.user_id";
+		$sql .= " LEFT JOIN oc_user u3 ON ct.outsource_id = u3.user_id";
+		$sql .= " LEFT JOIN oc_user u4 ON ct.doctor_id = u4.user_id";
+		$sql .= " LEFT JOIN oc_product_description pd ON ct.product_id = pd.product_id ";
+		$sql .= " WHERE ($uu) AND pd.language_id = '2'";
+		
+		$q = $this->db->query($sql);
+		foreach ($q->rows as $qq) {
+			$treatment_usage_id = $qq['treatment_usage_id'];
+
+			$qqqq = $this->db->query("SELECT *, sum(subquantity) as subquantity FROM oc_customer_transaction WHERE treatment_usage_id = '$treatment_usage_id' GROUP BY treatment_usage_id")->row;
+
+			$treatment_bonus[] = array(
+					'cfullname' => $qq['cfullname'],
+					'ufullname' => $qq['ufullname'],
+					// 'product_type_id' => $qq['product_type_id'],
+					'treatment_usage_id' => $qq['treatment_usage_id'],
+					// 'customer_transaction_id' => $qq['customer_transaction_id'],
+					'comment' => $qq['comment'],
+					'customer_id' => $qq['customer_id'],
+					'consultant_name' => $qq['consultant_name'],
+					'outsource_name' => $qq['outsource_name'],
+					'doctor_name' => $qq['doctor_name'],
+					'beauty_name' => $qq['beauty_name'],
+					// 'cfullname' => $qq['cfullname'],
+					'date_added' => explode(' ', $qq['tr_date_added'])[0],
+					'date_modified' => explode(' ', $qq['tr_date_modified'])[0],
+					'product_id' => $qq['product_id'],
+					'product_name' => $qq['pname'],
+					'order_id' => $qq['order_id'],
+
+					'subquantity' => -1 * $qqqq['subquantity'],
+					'total_amount' => 0, 
+					// 'total' => $order_info['total'], 
+					// 'payment_cash' => $payment_cash, 
+					// 'payment_visa' => $payment_visa, 
+					// 'payment_balance' => $payment_balance, 
+					// 'payment_final' => $payment_final, 
+				);
+
+		}
+
+
+// $this->load->test($treatment_bonus);
+$trlist = array();
+$minis = -1;
+foreach ($treatment_bonus as $ttr) {
+	
+	if (!isset($trlist[$ttr['treatment_usage_id']]) && $ttr['treatment_usage_id'] > 0) {
+		$trlist[$ttr['treatment_usage_id']] = array(
+			'subquantity' => 0,
+			'total_amount' => 0,
+			'product_name' => '',
+			'product_id' => '',
+			'date_added' => '9999-99-99',
+			'date_modified' => '9999-99-99',
+			'beauty_name' => '',
+			'doctor_name' => '',
+			'outsource_name' => '',
+			'consultant_name' => '',
+			'customer_id' => '',
+			'ufullname' => '',
+			'cfullname' => '',
+			'treatment_usage_id' => $ttr['treatment_usage_id'],
+		);
+	}
+
+	if ($ttr['treatment_usage_id']  > 0) {
+	$trlist[$ttr['treatment_usage_id']]['total_amount'] += $ttr['total_amount'];
+	$trlist[$ttr['treatment_usage_id']]['date_added'] = min($trlist[$ttr['treatment_usage_id']]['date_added'], $ttr['date_added']);
+	$trlist[$ttr['treatment_usage_id']]['date_modified'] = min($trlist[$ttr['treatment_usage_id']]['date_modified'], $ttr['date_modified']);
+	$trlist[$ttr['treatment_usage_id']]['ufullname'] = $ttr['ufullname'];
+	$trlist[$ttr['treatment_usage_id']]['cfullname'] = $ttr['cfullname'];
+	$trlist[$ttr['treatment_usage_id']]['comment'] = $ttr['comment'];
+	$trlist[$ttr['treatment_usage_id']]['beauty_name'] = $ttr['beauty_name'];
+	$trlist[$ttr['treatment_usage_id']]['doctor_name'] = $ttr['doctor_name'];
+	$trlist[$ttr['treatment_usage_id']]['outsource_name'] = $ttr['outsource_name'];
+	$trlist[$ttr['treatment_usage_id']]['consultant_name'] = $ttr['consultant_name'];
+	$trlist[$ttr['treatment_usage_id']]['product_name'] = $ttr['product_name'];
+	$trlist[$ttr['treatment_usage_id']]['customer_id'] = $ttr['customer_id'];
+	$trlist[$ttr['treatment_usage_id']]['subquantity'] = $ttr['subquantity'];
+		
+	} else {
+		$trlist[$minis--] = $ttr;
+	}
+	
+	// $trlist[$ttr['treatment_usage_id']]['']
+	# code...
+	// if ()
+}
+
+foreach ($trlist as $k => $tr) {
+	if ($tr['subquantity']=='') {
+		$trlist[$k]['date'] = $tr['date_added'];
+	} else {
+		$trlist[$k]['date'] = $tr['date_modified'];
+	}
+	if ($trlist[$k]['date'] > $filter_date_end) {
+		$trlist[$k]['date'] = 'purchase on '.  $tr['date_added'];
+		$trlist[$k]['subquantity'] = '-';
+	}
+	else if ($trlist[$k]['subquantity'] == '') {
+		$trlist[$k]['date'] = 'purchase on '.  $tr['date_added'];
+	}
+}
 // $this->load->test($treatment_bonus);
 
 
-$this->data['treatment_bonus'] = $treatment_bonus;
-
+$this->data['treatment_bonus'] = $trlist;
+// $this->data['treatment_bonus'] = $treatment_bonus;
+// 
 
 
 
