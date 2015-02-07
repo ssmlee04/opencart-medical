@@ -10,6 +10,9 @@ class ModelUserUserGroup extends Model {
 			$data['permission']['access'][] = 'user/user_permission';
 			$data['permission']['modify'][] = 'user/user_permission';
 		}
+
+		$data['permission']['access'][] = 'checkout/manual';
+			$data['permission']['modify'][] = 'checkout/manual';
 		// $this->load->out($data['permission']);
 		
 		$sql = "UPDATE " . DB_PREFIX . "user_group SET name = '" . $this->db->escape($data['name']) . "'
