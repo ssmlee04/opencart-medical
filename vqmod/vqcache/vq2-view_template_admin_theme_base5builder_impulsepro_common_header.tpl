@@ -255,6 +255,13 @@ if(array_intersect($page_name, $get_route)){
 	        </ul>
       </li>
 
+      <li id="expense"><a class="top"><?php echo $text_expense; ?></a>
+        <ul>
+          <li><a href="<?php echo $expense; ?>"><?php echo $text_expense; ?></a></li>
+         
+	        </ul>
+      </li>
+
 		<li id="reports"><a class="top"><?php echo $text_reports; ?></a>
 			<ul>
 				<li><a class="parent"><?php echo $text_sale; ?></a>

@@ -1324,7 +1324,7 @@ $this->load->out($sql, false);
 
 		$number_unit_used = (int)round($unitspend / $value);
 
-		$remaining = $this->db->query("SELECT * FROM oc_customer_transaction WHERE customer_id = '" . (int)$customer_id . "' AND product_id = '" . (int)$product_id . "' AND status < 0 ORDER BY order_id DESC LIMIT 0, $number_unit_used");
+		$remaining = $this->db->query("SELECT * FROM oc_customer_transaction WHERE customer_id = '" . (int)$customer_id . "' AND product_id = '" . (int)$product_id . "' AND status < 0 ORDER BY total_amount DESC LIMIT 0, $number_unit_used");
 
 		if ($remaining->num_rows < $number_unit_used) {
 			// not enough treatment left

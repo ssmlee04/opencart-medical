@@ -115,73 +115,482 @@ class ControllerReportUserTreatmentBonus extends Controller {
 
 		$this->data['customers'] = array();
 
-		$data = array(
-			// 'filter_doctor_id'	     => $filter_doctor_id, 
-			// 'filter_beauty_id'	     => $filter_beauty_id, 
-			// 'filter_consultant_id'	 => $filter_consultant_id, 
-			// 'filter_outsource_id'    => $filter_outsource_id, 
-			'filter_date_start'	     => $filter_date_start, 
-			'filter_date_end'	     => $filter_date_end, 
-			// 'filter_order_status_id' => $filter_order_status_id,
-			'start'                  => ($page - 1) * $this->config->get('config_admin_limit'),
-			'limit'                  => $this->config->get('config_admin_limit')
-		);
+		$data['filter_date_start'] = $filter_date_start;
+		$data['filter_date_end'] = $filter_date_end;
 
-		$results = $this->model_report_user->getBonusesGroupbyTreatment($data);
+		$yy = "(DATE(ct.date_added) >= '" . $this->db->escape($data['filter_date_start']) . "'AND DATE(ct.date_added) <= '" . $this->db->escape($data['filter_date_end']) . "' AND total_amount > 0)";
 
-		$this->data['treatment_bonus'] = [];//$results;
+		$xx = " (ct.status = 2 AND DATE(ct.date_modified) >= '" . $this->db->escape($data['filter_date_start']) . "'";
+		$xx .= " AND DATE(ct.date_modified) <= '" . $this->db->escape($data['filter_date_end']) . "'";
+		$xx .= " AND total_amount = 0 )";
 
-		$this->load->model('sale/order');
-		$this->load->model('catalog/product');
+		$zz = " (ct.status = 0 AND p.product_type_id = 3 AND DATE(ct.date_added) >= '" . $this->db->escape($data['filter_date_start']) . "'AND DATE(ct.date_added) <= '" . $this->db->escape($data['filter_date_end']) . "') ";
 
-		foreach ($results as $result) {
-			$order_id = $result['order_id'];
-			
-			$product_id = $result['product_id'];
+		$sql = "SELECT ct.*, p.*, ct.date_modified as tr_date_modified, ct.date_added as tr_date_added, pd.name as pname, u1.fullname as beauty_name, u2.fullname as consultant_name, u3.fullname as outsource_name, u4.fullname as doctor_name, u0.fullname as ufullname, c.fullname as cfullname FROM oc_customer_transaction ct LEFT JOIN oc_product p ON ct.product_id = p.product_id ";
 
-			$order_info = $this->model_sale_order->getOrder($order_id);
+		$sql .= " LEFT JOIN oc_customer c ON ct.customer_id = c.customer_id";
+		$sql .= " LEFT JOIN oc_user u0 ON ct.user_id = u0.user_id";
+		$sql .= " LEFT JOIN oc_user u1 ON ct.beauty_id = u1.user_id";
+		$sql .= " LEFT JOIN oc_user u2 ON ct.consultant_id = u2.user_id";
+		$sql .= " LEFT JOIN oc_user u3 ON ct.outsource_id = u3.user_id";
+		$sql .= " LEFT JOIN oc_user u4 ON ct.doctor_id = u4.user_id";
+		$sql .= " LEFT JOIN oc_product_description pd ON ct.product_id = pd.product_id ";
 
-			$product = $this->model_catalog_product->getProduct($product_id);
+		$sql .= " WHERE ($xx or $yy or $zz) AND pd.language_id = '2'";
+		
+		$q = $this->db->query($sql);
+		$queue = array();
+		$treatment_usage_ids = array();
+		$treatment_bonus = array();
 
-			$payment_cash = 0;
-			$payment_visa = 0;
-			$payment_balance = 0;
-			$payment_final = 0;
+		// pre
+		foreach ($q->rows as $qq) {
+			if ($qq['treatment_usage_id'] > 0 && !in_array($qq['treatment_usage_id'], $treatment_usage_ids) ) {	
+				$treatment_usage_ids[] = $qq['treatment_usage_id'];
+			}
+		}
 
-			if ($result['total_amount']) {
-				$payment_cash = $order_info['payment_cash'];
-				$payment_visa = $order_info['payment_visa'];
-				$payment_balance = $order_info['payment_balance'];
-				$payment_final = $order_info['payment_final'];
+		foreach ($treatment_usage_ids as $k => $treatment_usage_id) {
+			$is_main = false;
+			$main_total = 0;
+
+			// $this->load->test($q->rows);
+			foreach ($q->rows as $qq) { 
+				if ($qq['total_amount'] > 0 && $qq['treatment_usage_id'] == $treatment_usage_id) {
+					$is_main = true;
+					$main_total = $qq['total_amount'];
+				}
 			}
 
-			$used_unit = -1 * $product['value'] * $result['subquantity'] . ' ' . $product['unit'];
-			
-			$this->data['treatment_bonus'][] = array(
-				'ufullname' => $result['ufullname'],
-				'product_type_id' => $result['product_type_id'],
-				'treatment_usage_id' => $result['treatment_usage_id'],
-				'customer_transaction_id' => $result['customer_transaction_id'],
-				'comment' => $result['comment'],
-				'customer_id' => $result['customer_id'],
-				'consultant_name' => $result['consultant_name'],
-				'outsource_name' => $result['outsource_name'],
-				'doctor_name' => $result['doctor_name'],
-				'beauty_name' => $result['beauty_name'],
-				'cfullname' => $result['cfullname'],
-				'date_modified' => explode(' ', $result['date_modified'])[0],
-				'product_id' => $result['product_id'],
-				'product_name' => $product['name'],
-				'order_id' => $result['order_id'],
-				'subquantity' => $used_unit,
-				'total_amount' => $result['total_amount'], 
-				'total' => $order_info['total'], 
-				'payment_cash' => $payment_cash, 
-				'payment_visa' => $payment_visa, 
-				'payment_balance' => $payment_balance, 
-				'payment_final' => $payment_final, 
-			);
+			$order_id = 0;
+			$product_id = 0;
+			$ufullname = '';
+			$cfullname = '';
+			$pname = '';
+			$cid = 0;
+			$subquantity = 0;
+			$beauty_name = '';
+			$consultant_name = '';
+			$doctor_name = '';
+			$outsource_name = '';
+
+			foreach ($q->rows as $q2) {
+				if ($q2['treatment_usage_id'] == $treatment_usage_id) {
+					$ufullname = $q2['ufullname'];
+					$subquantity += $q2['subquantity'];
+					$cfullname = $q2['cfullname'];
+					$order_id = $q2['order_id'];
+					$product_id = $q2['product_id'];
+					$cid = $q2['customer_id'];
+					$pname = $q2['pname'];
+					
+					$beauty_name = $q2['beauty_name'];
+					$consultant_name = $q2['consultant_name'];
+					$doctor_name = $q2['doctor_name'];
+					$outsource_name = $q2['outsource_name'];
+
+				}
+			};
+
+			if ($is_main) {
+
+				
+
+				$treatment_bonus[] = array(
+					'ufullname' => $ufullname,
+					'cfullname' => $cfullname,
+					// 'product_type_id' => $qq['product_type_id'],
+					'treatment_usage_id' => $treatment_usage_id,
+					'comment' => $qq['comment'],
+					'customer_id' => $cid,
+					'consultant_name' => $consultant_name,
+					'outsource_name' => $outsource_name,
+					'doctor_name' => $doctor_name,
+					'beauty_name' => $beauty_name,
+					// 'cfullname' => $qq['cfullname'],
+					'date_modified' => explode(' ', $qq['tr_date_modified'])[0],
+					'product_id' => $product_id,
+					'product_name' => $pname,
+					'order_id' => $order_id,
+
+					'subquantity' => -1* $subquantity,
+					'total_amount' => $main_total,
+					// 'total' => $order_info['total'], 
+					// 'payment_cash' => $payment_cash, 
+					// 'payment_visa' => $payment_visa, 
+					// 'payment_balance' => $payment_balance, 
+					// 'payment_final' => $payment_final, 
+				);
+			} else {
+				$treatment_bonus[] = array(
+					'ufullname' => $ufullname,
+					'cfullname' => $cfullname,
+					'treatment_usage_id' => $treatment_usage_id,
+					// 'customer_transaction_id' => $qq['customer_transaction_id'],
+					'comment' => $qq['comment'],
+					'customer_id' => $cid,
+					'consultant_name' => $consultant_name,
+					'outsource_name' => $outsource_name,
+					'doctor_name' => $doctor_name,
+					'beauty_name' => $beauty_name,
+					// 'cfullname' => $qq['cfullname'],
+					'date_modified' => explode(' ', $qq['tr_date_modified'])[0],
+					'product_id' => $product_id,
+					'product_name' => $pname,
+					'order_id' => $order_id,
+
+					'subquantity' => -1* $subquantity,
+					'total_amount' => 0,
+					// 'total' => $order_info['total'], 
+					// 'payment_cash' => $payment_cash, 
+					// 'payment_visa' => $payment_visa, 
+					// 'payment_balance' => $payment_balance, 
+					// 'payment_final' => $payment_final, 
+				);
+			}
+		} 
+
+		// record non-treatments here
+		// if main is not used add main
+		foreach ($q->rows as $qq) {
+			if ($qq['treatment_usage_id'] == 0 && $qq['total_amount'] > 0 && $qq['product_type_id'] != 3) {	
+				$treatment_bonus[] = array(
+					'ufullname' => $qq['ufullname'],
+					'cfullname' => $qq['cfullname'],
+					// 'product_type_id' => $qq['product_type_id'],
+					'treatment_usage_id' => $qq['treatment_usage_id'],
+					// 'customer_transaction_id' => $qq['customer_transaction_id'],
+					'comment' => $qq['comment'],
+					'customer_id' => $qq['customer_id'],
+					'consultant_name' => $qq['consultant_name'],
+					'outsource_name' => $qq['outsource_name'],
+					'doctor_name' => $qq['doctor_name'],
+					'beauty_name' => $qq['beauty_name'],
+					// 'cfullname' => $qq['cfullname'],
+					'date_modified' => explode(' ', $qq['tr_date_modified'])[0],
+					'product_id' => $qq['product_id'],
+					'product_name' => $qq['pname'],
+					'order_id' => $qq['order_id'],
+
+					'subquantity' => 0,
+					'total_amount' => $qq['total_amount'],
+					// 'total' => $order_info['total'], 
+					// 'payment_cash' => $payment_cash, 
+					// 'payment_visa' => $payment_visa, 
+					// 'payment_balance' => $payment_balance, 
+					// 'payment_final' => $payment_final, 
+				);
+			}
 		}
+
+
+		foreach ($q->rows as $qq) {
+			if ($qq['product_type_id'] == 3) {	
+
+				$pro = $this->db->query("SELECT * FROM oc_order_product WHERE order_id = '" .$qq['order_id'] . "' AND product_id = '" . $qq['product_id'] ."'")->row;
+				// $this->load->test($pro);
+				$treatment_bonus[] = array(
+					'cfullname' => $qq['cfullname'],
+					'ufullname' => $qq['ufullname'],
+					// 'product_type_id' => $qq['product_type_id'],
+					'treatment_usage_id' => $qq['treatment_usage_id'],
+					// 'customer_transaction_id' => $qq['customer_transaction_id'],
+					'comment' => $qq['comment'],
+					'customer_id' => $qq['customer_id'],
+					'consultant_name' => $qq['consultant_name'],
+					'outsource_name' => $qq['outsource_name'],
+					'doctor_name' => $qq['doctor_name'],
+					'beauty_name' => $qq['beauty_name'],
+					// 'cfullname' => $qq['cfullname'],
+					'date_modified' => explode(' ', $qq['tr_date_modified'])[0],
+					'product_id' => $qq['product_id'],
+					'product_name' => $qq['pname'],
+					'order_id' => $qq['order_id'],
+
+					'subquantity' => 0,
+					'total_amount' => $pro['total'],
+					// 'total' => $order_info['total'], 
+					// 'payment_cash' => $payment_cash, 
+					// 'payment_visa' => $payment_visa, 
+					// 'payment_balance' => $payment_balance, 
+					// 'payment_final' => $payment_final, 
+				);
+			}
+		}
+
+
+
+// $this->load->test($treatment_bonus);
+
+
+$this->data['treatment_bonus'] = $treatment_bonus;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// 		$data = array(
+// 			// 'filter_doctor_id'	     => $filter_doctor_id, 
+// 			// 'filter_beauty_id'	     => $filter_beauty_id, 
+// 			// 'filter_consultant_id'	 => $filter_consultant_id, 
+// 			// 'filter_outsource_id'    => $filter_outsource_id, 
+// 			'filter_date_start'	     => $filter_date_start, 
+// 			'filter_date_end'	     => $filter_date_end, 
+// 			// 'filter_order_status_id' => $filter_order_status_id,
+// 			'start'                  => ($page - 1) * $this->config->get('config_admin_limit'),
+// 			'limit'                  => $this->config->get('config_admin_limit')
+// 		);
+
+// 		$results = $this->model_report_user->getBonusesGroupbyTreatment($data);
+// // $this->load->test($results);
+// 		$this->data['treatment_bonus'] = [];//$results;
+
+// 		$this->load->model('sale/order');
+// 		$this->load->model('catalog/product');
+
+// 		$treatment_bonus = array();
+
+// 		foreach ($results as $result) {
+// 			$order_id = $result['order_id'];
+			
+// 			$product_id = $result['product_id'];
+
+// 			$order_info = $this->model_sale_order->getOrder($order_id);
+// 			$product = $this->model_catalog_product->getProduct($product_id);
+
+// 			$payment_cash = 0;
+// 			$payment_visa = 0;
+// 			$payment_balance = 0;
+// 			$payment_final = 0;
+
+// 			if ($result['total_amount']) {
+// 				$payment_cash = $order_info['payment_cash'];
+// 				$payment_visa = $order_info['payment_visa'];
+// 				$payment_balance = $order_info['payment_balance'];
+// 				$payment_final = $order_info['payment_final'];
+// 			}
+
+// 			$used_unit = -1 * $product['value'] * $result['subquantity'] . ' ' . $product['unit'];
+			
+
+// 			$treatment_bonus[] = array(
+// 			// $this->data['treatment_bonus'][] = array(
+// 				'ufullname' => $result['ufullname'],
+// 				'product_type_id' => $result['product_type_id'],
+// 				'treatment_usage_id' => $result['treatment_usage_id'],
+// 				'customer_transaction_id' => $result['customer_transaction_id'],
+// 				'comment' => $result['comment'],
+// 				'customer_id' => $result['customer_id'],
+// 				'consultant_name' => $result['consultant_name'],
+// 				'outsource_name' => $result['outsource_name'],
+// 				'doctor_name' => $result['doctor_name'],
+// 				'beauty_name' => $result['beauty_name'],
+// 				'cfullname' => $result['cfullname'],
+// 				'date_modified' => explode(' ', $result['date_modified'])[0],
+// 				'product_id' => $result['product_id'],
+// 				'product_name' => $product['name'],
+// 				'order_id' => $result['order_id'],
+// 				'subquantity' => $used_unit,
+// 				'total_amount' => $result['total_amount'], 
+// 				'total' => $order_info['total'], 
+// 				'payment_cash' => $payment_cash, 
+// 				'payment_visa' => $payment_visa, 
+// 				'payment_balance' => $payment_balance, 
+// 				'payment_final' => $payment_final, 
+// 			);
+// 		}
+
+// 		foreach ($treatment_bonus as $tr) {
+
+// 			// $this->load->test(1234);
+// 			// $product = $this->model_catalog_product->getProduct($result['product_id']);
+
+// 			if ($tr['treatment_usage_id'] > 0) {
+// 				$this->data['treatment_bonus'][] = $tr;
+// 			} else {
+				
+// 				$qq = $this->model_report_user->getrest($data);
+// 				foreach ($qq as $key => $result) {
+// 					$this->data['treatment_bonus'][] = array(
+// 			// $this->data['treatment_bonus'][] = array(
+// 				'ufullname' => $result['ufullname'],
+// 				'product_type_id' => $result['product_type_id'],
+// 				'treatment_usage_id' => $result['treatment_usage_id'],
+// 				'customer_transaction_id' => $result['customer_transaction_id'],
+// 				'comment' => $result['comment'],
+// 				'customer_id' => $result['customer_id'],
+// 				'consultant_name' => $result['consultant_name'],
+// 				'outsource_name' => $result['outsource_name'],
+// 				'doctor_name' => $result['doctor_name'],
+// 				'beauty_name' => $result['beauty_name'],
+// 				'cfullname' => $result['cfullname'],
+// 				'date_modified' => explode(' ', $result['date_modified'])[0],
+// 				'product_id' => $result['product_id'],
+// 				'product_name' => $product['name'],
+// 				'order_id' => $result['order_id'],
+// 				'subquantity' => $used_unit,
+// 				'total_amount' => $result['total_amount'], 
+// 				'total' => $order_info['total'], 
+// 				'payment_cash' => $payment_cash, 
+// 				'payment_visa' => $payment_visa, 
+// 				'payment_balance' => $payment_balance, 
+// 				'payment_final' => $payment_final, 
+// 			);
+// 				}
+// 				// $thi
+// 			}
+// 		}
+
+// 		$data = array(
+// 			// 'filter_order_id'        => $filter_order_id,
+// 			// 'filter_customer'	     => $filter_customer,
+// 			// 'filter_customer_id'	     => $filter_customer_id,
+// 			// 'filter_order_status_id' => $filter_order_status_id,
+// 			// 'filter_total_max'           => $filter_total_max,
+// 			// 'filter_total_min'           => $filter_total_min,
+// 			'filter_date_added_start'      => $filter_date_start,
+// 			'filter_date_added_end'      => $filter_date_end,
+// 			// 'filter_date_modified_start'   => $filter_date_modified_start,
+// 			// 'filter_date_modified_end'   => $filter_date_modified_end,
+// 			// 'sort'                   => $sort,
+// 			// 'order'                  => $order,
+// 			'start'                  => 1,
+// 			'limit'                  => 10000000
+// 		);
+
+// 		// $order_total = $this->model_sale_order->getTotalOrders($data);
+
+// 		$results = $this->model_sale_order->getOrders($data);
+
+// 		foreach ($results as $key => $result) {
+
+// 			$has3 = false;
+// 			$q = $this->model_sale_order->getOrderProducts($result['order_id']);
+// 			$product = null;
+// 			$sump = array();
+// 			$othert = 0;
+// 			$othername = '';
+// 			$otheru = '';
+// 			$otherc = '';
+			
+
+// 			foreach ($q as $key2 => $p) {
+// 				# code...
+
+// 				$product = $this->model_catalog_product->getProduct($p['product_id']);
+
+// 				//$this->load->test($product);
+// 				if ($product['product_type_id'] == 3) {
+// 					$has3 = true;
+// 					$sump[] = $p;
+
+// 					$othername = $p['name'] + $this->language->get('text_etc');
+// 					$othert += $p['total'];
+
+// 				}
+// 			}
+
+// 			if ($has3) {
+
+// 				$this->data['treatment_bonus'][] = array(
+// 					'ufullname' => $result['ufullname'],
+// 					'product_type_id' => $result['product_type_id'],
+// 					'treatment_usage_id' => $result['treatment_usage_id'],
+// 					'customer_transaction_id' => $result['customer_transaction_id'],
+// 					'comment' => $result['comment'],
+// 					'customer_id' => $result['customer_id'],
+// 					'consultant_name' => $result['consultant_name'],
+// 					'outsource_name' => $result['outsource_name'],
+// 					'doctor_name' => $result['doctor_name'],
+// 					'beauty_name' => $result['beauty_name'],
+// 					'cfullname' => $result['cfullname'],
+// 					'date_modified' => explode(' ', $result['date_modified'])[0],
+// 					'product_id' => $result['product_id'],
+// 					'product_name' => $product['name'],
+// 					'order_id' => $result['order_id'],
+// 					'subquantity' => $used_unit,
+// 					'total_amount' => $othert, 
+// 					'total' => $othert, 
+// 					'payment_cash' => $payment_cash, 
+// 					'payment_visa' => $payment_visa, 
+// 					'payment_balance' => $payment_balance, 
+// 					'payment_final' => $payment_final, 
+// 				);
+
+// 			}
+			
+// 		}
+
+		// $this->load->out()
 
 // $this->load->test($this->data['treatment_bonus']);
 // $this->load->test($results);
