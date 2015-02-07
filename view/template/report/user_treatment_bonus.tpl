@@ -68,8 +68,8 @@
         <?php $total += (float)$result['total_amount']; ?>
             <tr style="background-color: <?php echo $result['color']; ?>">
 
-            <td><?php echo $result['treatment_usage_id']; ?></td>
-            <td><?php echo $result['order_id']; ?></td>
+            <!-- <td><php echo $result['treatment_usage_id']; ?></td> -->
+            <!-- <td><php echo $result['order_id']; ?></td> -->
 
               <td><?php echo $result['cfullname']; ?></td>
               <td><?php echo $result['customer_id']; ?></td>

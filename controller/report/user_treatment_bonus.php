@@ -118,17 +118,18 @@ class ControllerReportUserTreatmentBonus extends Controller {
 		$data['filter_date_start'] = $filter_date_start;
 		$data['filter_date_end'] = $filter_date_end;
 
-		// main case
+		// main case 
 		$yy = "(DATE(ct.date_added) >= '" . $this->db->escape($data['filter_date_start']) . "'AND DATE(ct.date_added) <= '" . $this->db->escape($data['filter_date_end']) . "' AND total_amount > 0)";
 		
 
-		// nonmain case
+		// nonmain case 
 		$xx = " (ct.status = 2 AND DATE(ct.date_modified) >= '" . $this->db->escape($data['filter_date_start']) . "'";
 		$xx .= " AND DATE(ct.date_modified) <= '" . $this->db->escape($data['filter_date_end']) . "'";
 		$xx .= " AND total_amount = 0 )";
 		
 		// product_type_id = 3 case
-		$zz = " (ct.status = 0 AND p.product_type_id = 3 AND DATE(ct.date_added) >= '" . $this->db->escape($data['filter_date_start']) . "'AND DATE(ct.date_added) <= '" . $this->db->escape($data['filter_date_end']) . "') ";
+		$zz = " (ct.status = 2 AND ct.total_amount > 0 AND p.product_type_id = 3 AND DATE(ct.date_added) >= '" . $this->db->escape($data['filter_date_start']) . "'AND DATE(ct.date_added) <= '" . $this->db->escape($data['filter_date_end']) . "') ";
+		// $zz = " (ct.status = 0 AND p.product_type_id = 3 AND DATE(ct.date_added) >= '" . $this->db->escape($data['filter_date_start']) . "'AND DATE(ct.date_added) <= '" . $this->db->escape($data['filter_date_end']) . "') ";
 
 		$sql = "SELECT ct.*, p.*, ct.date_modified as tr_date_modified, ct.date_added as tr_date_added, pd.name as pname, u1.fullname as beauty_name, u2.fullname as consultant_name, u3.fullname as outsource_name, u4.fullname as doctor_name, u0.fullname as ufullname, c.fullname as cfullname FROM oc_customer_transaction ct LEFT JOIN oc_product p ON ct.product_id = p.product_id ";
 		$sql .= " LEFT JOIN oc_customer c ON ct.customer_id = c.customer_id";
@@ -215,7 +216,7 @@ class ControllerReportUserTreatmentBonus extends Controller {
 					'order_id' => $order_id,
 
 					'subquantity' => -1* $subquantity,
-					'total_amount' => $main_total,
+					'total_amount' => round($main_total),
 					'color' => 'pink'
 					// 'total' => $order_info['total'], 
 					// 'payment_cash' => $payment_cash, 
@@ -278,7 +279,7 @@ class ControllerReportUserTreatmentBonus extends Controller {
 					'order_id' => $qq['order_id'],
 
 					'subquantity' => '',
-					'total_amount' => $qq['total_amount'],
+					'total_amount' => round($qq['total_amount']),
 					'color' => 'lightgreen'
 					// 'total' => $order_info['total'], 
 					// 'payment_cash' => $payment_cash, 
@@ -315,7 +316,7 @@ class ControllerReportUserTreatmentBonus extends Controller {
 					'order_id' => $qq['order_id'],
 
 					'subquantity' => '',
-					'total_amount' => $pro['total'],
+					'total_amount' => round($pro['total']),
 					'color' => 'lightyellow'
 					// 'total' => $order_info['total'], 
 					// 'payment_cash' => $payment_cash, 
@@ -371,6 +372,7 @@ class ControllerReportUserTreatmentBonus extends Controller {
 
 					'subquantity' => -1 * $qqqq['subquantity'],
 					'total_amount' => 0, 
+					'color' => 'red',
 					// 'total' => $order_info['total'], 
 					// 'payment_cash' => $payment_cash, 
 					// 'payment_visa' => $payment_visa, 
