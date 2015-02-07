@@ -446,8 +446,8 @@ foreach ($trlist as $k => $tr) {
 // $this->load->test($treatment_bonus);
 
 
-// $this->data['treatment_bonus'] = $trlist;
-$this->data['treatment_bonus'] = $treatment_bonus;
+$this->data['treatment_bonus'] = $trlist;
+// $this->data['treatment_bonus'] = $treatment_bonus;
 // 
 
 
