@@ -126,7 +126,7 @@ class ModelSaleExpense extends Model {
 			user_id = '" . (int)$data['user_id'] . "', 
 			total = '" . (float)$data['total'] . "', 
 			date_expensed = '" . $this->db->escape($data['date_expensed']) . "', 
-			date_added = '" . $data['date_expensed'] . "', 
+			date_added = NOW(), 
 			date_modified = NOW()");
 
 		return $this->db->countAffected();
@@ -139,7 +139,7 @@ class ModelSaleExpense extends Model {
 		
 		if (isset($data['message'])) $sql .= "message = '" . $this->db->escape($data['message']) . "',"; 
 		if (isset($data['date_expensed'])) $sql .= "date_expensed = '" . $this->db->escape($data['date_expensed']) . "',"; 
-		if (isset($data['date_added'])) $sql .= "date_added = '" . $this->db->escape($data['date_added']) . "',"; 
+		// if (isset($data['date_added'])) $sql .= "date_added = '" . $this->db->escape($data['date_added']) . "',"; 
 		if (isset($data['store_id'])) $sql .= "store_id = '" . (int)$data['store_id'] . "',"; 
 		if (isset($data['user_id'])) $sql .= "user_id = '" . (int)$data['user_id'] . "',"; 
 		if (isset($data['total'])) $sql .= "total = '" . (float)$data['total'] . "',"; 
