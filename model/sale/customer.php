@@ -1170,7 +1170,7 @@ $this->load->out($sql, false);
 						 , total_amount = '$total'
 						 ,  order_id = '" . (int)$order_id . "'
 						 , unit_class_id = '" . (int)$unit_class_id . "'
-						 , date_added = $date_added
+						 , date_added = '" . $date_added . "'
 						 , date_modified = NOW()");		
 		
 						$total = 0;

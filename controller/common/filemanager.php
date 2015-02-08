@@ -105,7 +105,7 @@ class ControllerCommonFileManager extends Controller {
 		);
 
 		$files = glob(rtrim($directory, '/') . '/*');
-
+// $this->load->out($files);
 		if ($files) {
 			foreach ($files as $file) {
 				if (is_file($file)) {

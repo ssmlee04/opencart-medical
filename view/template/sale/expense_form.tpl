@@ -46,13 +46,21 @@
             <td><select name='user_id'>
               <option></option>
               <?php foreach ($users as $user) { ?>
-                <option value='<?php echo $user['user_id']; ?>'><?php echo $user['fullname']; ?></option>
+              <?php if ($user['user_id'] == $defaultuser) { ?>
+                  <option value="<?php echo $user['user_id']; ?>" selected="selected"><?php echo $user['fullname']; ?></option>
+                  <?php } else { ?>
+                  <option value="<?php echo $user['user_id']; ?>"><?php echo $user['fullname']; ?></option>
+                  <?php } ?>
               <?php } ?>
             </select></td>
           </tr>
           <tr>
             <td><?php echo $entry_date_expensed; ?></td>
-            <td><input type='date_available' name='date_expensed'/></td>
+            <td><input type='date_available' name='date_expensed' value='<?php echo $date_expensed; ?>'/></td>
+          </tr>
+          <tr>
+            <td><?php echo $entry_total; ?></td>
+            <td><input type='' name='total' value='<?php echo $total; ?>'/></td>
           </tr>
         </table>
       </form>

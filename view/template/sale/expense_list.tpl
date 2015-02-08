@@ -113,9 +113,9 @@
             <?php foreach ($expenses as $expense) { ?>
             <tr>
               <td style="text-align: center;"><?php if ($expense['selected']) { ?>
-                <input type="checkbox" name="selected[]" value="<?php echo $expense['purchase_id']; ?>" checked="checked" />
+                <input type="checkbox" name="selected[]" value="<?php echo $expense['expense_id']; ?>" checked="checked" />
                 <?php } else { ?>
-                <input type="checkbox" name="selected[]" value="<?php echo $expense['purchase_id']; ?>" />
+                <input type="checkbox" name="selected[]" value="<?php echo $expense['expense_id']; ?>" />
                 <?php } ?></td>
 
               <td class="left"><?php foreach ($expense['action'] as $action) { ?>

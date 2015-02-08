@@ -19,8 +19,6 @@ class ControllerSaleExpense extends Controller {
 
 		$this->load->model('sale/expense');
 
-		$this->data['is_insert'] = true;
-
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
 			$this->model_sale_expense->addExpense($this->request->post);
 
@@ -40,10 +38,6 @@ class ControllerSaleExpense extends Controller {
 				$url .= '&filter_user=' . urlencode(html_entity_decode($this->request->get['filter_user'], ENT_QUOTES, 'UTF-8'));
 			}
 
-			// if (isset($this->request->get['filter_expense_status_id'])) {
-			// 	$url .= '&filter_expense_status_id=' . $this->request->get['filter_expense_status_id'];
-			// }
-
 			if (isset($this->request->get['filter_total_min'])) {
 				$url .= '&filter_total_min=' . $this->request->get['filter_total_min'];
 			}
@@ -56,25 +50,21 @@ class ControllerSaleExpense extends Controller {
 				$url .= '&filter_date_expensed=' . $this->request->get['filter_date_expensed'];
 			}
 
-			if (isset($this->request->get['filter_date_added'])) {
-				$url .= '&filter_date_added=' . $this->request->get['filter_date_added'];
-			}
-
-			// if (isset($this->request->get['filter_date_modified'])) {
-			// 	$url .= '&filter_date_modified=' . $this->request->get['filter_date_modified'];
+			// if (isset($this->request->get['filter_date_added'])) {
+			// 	$url .= '&filter_date_added=' . $this->request->get['filter_date_added'];
 			// }
 
-			if (isset($this->request->get['sort'])) {
-				$url .= '&sort=' . $this->request->get['sort'];
-			}
+			// if (isset($this->request->get['sort'])) {
+			// 	$url .= '&sort=' . $this->request->get['sort'];
+			// }
 
-			if (isset($this->request->get['expense'])) {
-				$url .= '&expense=' . $this->request->get['expense'];
-			}
+			// if (isset($this->request->get['order'])) {
+			// 	$url .= '&order=' . $this->request->get['order'];
+			// }
 
-			if (isset($this->request->get['page'])) {
-				$url .= '&page=' . $this->request->get['page'];
-			}
+			// if (isset($this->request->get['page'])) {
+			// 	$url .= '&page=' . $this->request->get['page'];
+			// }
 
 			$this->redirect($this->url->link('sale/expense', 'token=' . $this->session->data['token'] . $url, 'SSL'));
 		}
@@ -166,7 +156,7 @@ class ControllerSaleExpense extends Controller {
 		if (isset($this->request->post['selected']) && ($this->validateDelete())) {
 			foreach ($this->request->post['selected'] as $expense_id) {
 
-				if ($this->model_sale_expense->deleteexpense($expense_id, $this->request->post)) {
+				if ($this->model_sale_expense->deleteExpense($expense_id, $this->request->post)) {
 					$this->session->data['success'] = $this->language->get('text_success');
 				} else {
 					$this->session->data['error'] = $this->language->get('text_error');
@@ -403,8 +393,6 @@ class ControllerSaleExpense extends Controller {
 				
 		$this->data['stores'] = $stores;		
 
-		
-
 		foreach ($results as $result) {
 			$action = array();
 
@@ -601,7 +589,7 @@ class ControllerSaleExpense extends Controller {
 		$this->data['filter_date_expensed_start'] = $filter_date_expensed_start;
 		$this->data['filter_total_min'] = $filter_total_min;
 		$this->data['filter_total_max'] = $filter_total_max;
-		$this->data['filter_date_expensed'] = $filter_date_expensed;
+		// $this->data['filter_date_expensed'] = $filter_date_expensed;
 		$this->data['filter_date_added'] = $filter_date_added;
 		// $this->data['filter_date_modified'] = $filter_date_modified;
 
@@ -686,6 +674,8 @@ class ControllerSaleExpense extends Controller {
 		$this->data['entry_cost'] = $this->language->get('entry_cost');
 		$this->data['entry_user'] = $this->language->get('entry_user');
 		$this->data['entry_product'] = $this->language->get('entry_product');
+		$this->data['entry_total'] = $this->language->get('entry_total');
+		$this->data['entry_date_expensed'] = $this->language->get('entry_date_expensed');
 
 		$this->data['column_product'] = $this->language->get('column_product');
 		$this->data['column_model'] = $this->language->get('column_model');
@@ -876,49 +866,49 @@ class ControllerSaleExpense extends Controller {
 
 		$url = '';
 
-		if (isset($this->request->get['filter_expense_id'])) {
-			$url .= '&filter_expense_id=' . $this->request->get['filter_expense_id'];
-		}
+		// if (isset($this->request->get['filter_expense_id'])) {
+		// 	$url .= '&filter_expense_id=' . $this->request->get['filter_expense_id'];
+		// }
 
-		if (isset($this->request->get['filter_user'])) {
-			$url .= '&filter_user=' . urlencode(html_entity_decode($this->request->get['filter_user'], ENT_QUOTES, 'UTF-8'));
-		}
+		// if (isset($this->request->get['filter_user'])) {
+		// 	$url .= '&filter_user=' . urlencode(html_entity_decode($this->request->get['filter_user'], ENT_QUOTES, 'UTF-8'));
+		// }
 
-		if (isset($this->request->get['filter_expense_status_id'])) {
-			$url .= '&filter_expense_status_id=' . $this->request->get['filter_expense_status_id'];
-		}
+		// if (isset($this->request->get['filter_expense_status_id'])) {
+		// 	$url .= '&filter_expense_status_id=' . $this->request->get['filter_expense_status_id'];
+		// }
 
-		if (isset($this->request->get['filter_total_min'])) {
-			$url .= '&filter_total_min=' . $this->request->get['filter_total_min'];
-		}
+		// if (isset($this->request->get['filter_total_min'])) {
+		// 	$url .= '&filter_total_min=' . $this->request->get['filter_total_min'];
+		// }
 
-		if (isset($this->request->get['filter_date_expensed_start'])) {
-			$url .= '&filter_date_expensed_start=' . $this->request->get['filter_date_expensed_start'];
-		}
+		// if (isset($this->request->get['filter_date_expensed_start'])) {
+		// 	$url .= '&filter_date_expensed_start=' . $this->request->get['filter_date_expensed_start'];
+		// }
 
-		if (isset($this->request->get['filter_date_expensed_end'])) {
-			$url .= '&filter_date_expensed_end=' . $this->request->get['filter_date_expensed_end'];
-		}
+		// if (isset($this->request->get['filter_date_expensed_end'])) {
+		// 	$url .= '&filter_date_expensed_end=' . $this->request->get['filter_date_expensed_end'];
+		// }
 
-		if (isset($this->request->get['filter_date_added'])) {
-			$url .= '&filter_date_added=' . $this->request->get['filter_date_added'];
-		}
+		// if (isset($this->request->get['filter_date_added'])) {
+		// 	$url .= '&filter_date_added=' . $this->request->get['filter_date_added'];
+		// }
 
-		if (isset($this->request->get['filter_date_modified'])) {
-			$url .= '&filter_date_modified=' . $this->request->get['filter_date_modified'];
-		}
+		// if (isset($this->request->get['filter_date_modified'])) {
+		// 	$url .= '&filter_date_modified=' . $this->request->get['filter_date_modified'];
+		// }
 
-		if (isset($this->request->get['sort'])) {
-			$url .= '&sort=' . $this->request->get['sort'];
-		}
+		// if (isset($this->request->get['sort'])) {
+		// 	$url .= '&sort=' . $this->request->get['sort'];
+		// }
 
-		if (isset($this->request->get['expense'])) {
-			$url .= '&expense=' . $this->request->get['expense'];
-		}
+		// if (isset($this->request->get['expense'])) {
+		// 	$url .= '&expense=' . $this->request->get['expense'];
+		// }
 
-		if (isset($this->request->get['page'])) {
-			$url .= '&page=' . $this->request->get['page'];
-		}
+		// if (isset($this->request->get['page'])) {
+		// 	$url .= '&page=' . $this->request->get['page'];
+		// }
 
 		$this->data['breadcrumbs'] = array();
 
@@ -934,7 +924,6 @@ class ControllerSaleExpense extends Controller {
 			'separator' => ' :: '
 		);
 
-		$this->load->test($this->request->post);
 		if (!isset($this->request->get['expense_id'])) {
 			$this->data['action'] = $this->url->link('sale/expense/insert', 'token=' . $this->session->data['token'] . $url, 'SSL');
 		} else {
@@ -969,6 +958,14 @@ class ControllerSaleExpense extends Controller {
 			$this->data['date_expensed'] = '';
 		}
 
+		if (isset($this->request->post['total'])) {
+			$this->data['total'] = $this->request->post['total'];
+		} elseif (!empty($expense_info)) {
+			$this->data['total'] = $expense_info['total'];
+		} else {
+			$this->data['total'] = '';
+		}
+
 		$this->load->model('setting/store');
 
 		$stores = $this->model_setting_store->getStores();
@@ -979,42 +976,43 @@ class ControllerSaleExpense extends Controller {
 
 		$this->data['users'] = $this->model_user_user->getUsers();
 
-		if (isset($this->request->server['HTTPS']) && (($this->request->server['HTTPS'] == 'on') || ($this->request->server['HTTPS'] == '1'))) {
-			$this->data['store_url'] = HTTPS_CATALOG;
-		} else {
-			$this->data['store_url'] = HTTP_CATALOG;
-		}
+		// if (isset($this->request->server['HTTPS']) && (($this->request->server['HTTPS'] == 'on') || ($this->request->server['HTTPS'] == '1'))) {
+		// 	$this->data['store_url'] = HTTPS_CATALOG;
+		// } else {
+		// 	$this->data['store_url'] = HTTP_CATALOG;
+		// }
 
 		$this->load->model('user/user');
 		$user = $this->model_user_user->getUser($this->user->getId());
 
+// $this->load->test($this->request->post);
 		if (isset($this->request->post['user_id'])) {
-			$this->data['user_id'] = $this->request->post['user_id'];
+			$this->data['defaultuser'] = $this->request->post['user_id'];
 		} elseif (!empty($expense_info)) {
-			$this->data['user_id'] = $expense_info['user_id'];
-			} else if (isset($user['user_id'])) {
-			$this->data['user_id'] = $user['user_id'];			
+			$this->data['defaultuser'] = $expense_info['user_id'];
+		// } else if (isset($user['user_id'])) {
+			// $this->data['defaultuser'] = $user['user_id'];			
 		} else {
-			$this->data['user_id'] = '';
+			$this->data['defaultuser'] = '';
 		}
 
 		if (isset($this->request->post['store_id'])) {
-			$this->data['store_id'] = $this->request->post['store_id'];
+			$this->data['defaultstore'] = $this->request->post['store_id'];
 		} elseif (!empty($expense_info)) {
-			$this->data['store_id'] = $expense_info['store_id'];
-			} else if (isset($user['store_id'])) {
-			$this->data['store_id'] = $user['store_id'];
+			$this->data['defaultstore'] = $expense_info['store_id'];
+			// } else if (isset($user['store_id'])) {
+			// $this->data['store_id'] = $user['store_id'];
 		} else {
-			$this->data['store_id'] = '';
+			$this->data['defaultstore'] = '';
 		}
 
-		if (isset($this->request->post['expense_status_id'])) {
-			$this->data['expense_status_id'] = $this->request->post['expense_status_id'];
-		} elseif (!empty($expense_info)) {
-			$this->data['expense_status_id'] = $expense_info['expense_status_id'];
-		} else {
-			$this->data['expense_status_id'] = '';
-		}
+		// if (isset($this->request->post['expense_status_id'])) {
+		// 	$this->data['expense_status_id'] = $this->request->post['expense_status_id'];
+		// } elseif (!empty($expense_info)) {
+		// 	$this->data['expense_status_id'] = $expense_info['expense_status_id'];
+		// } else {
+		// 	$this->data['expense_status_id'] = '';
+		// }
 
 		if (isset($this->request->post['message'])) {
 			$this->data['message'] = $this->request->post['message'];
@@ -1024,36 +1022,32 @@ class ControllerSaleExpense extends Controller {
 			$this->data['message'] = '';
 		}
 
-		// $this->load->model('localisation/expense_status');
-
-		// $this->data['expense_statuses'] = $this->model_localisation_expense_status->getExpensestatuses();
-
-		if (isset($this->request->post['comment'])) {
-			$this->data['comment'] = $this->request->post['comment'];
+		if (isset($this->request->post['date_expensed'])) {
+			$this->data['date_expensed'] = $this->request->post['date_expensed'];
 		} elseif (!empty($expense_info)) {
-			$this->data['comment'] = $expense_info['comment'];
+			$this->data['date_expensed'] = $expense_info['date_expensed'];
 		} else {
-			$this->data['comment'] = '';
+			$this->data['date_expensed'] = '';
 		}
 
-		$this->load->model('catalog/product');
+		// $this->load->model('catalog/product');
 
 		// $this->document->addScript('view/javascript/jquery/ajaxupload.js');
 
-		$this->data['expenses'] = array();
+		// $this->data['expenses'] = array();
 
-		if (isset($this->request->post['expense'])) {
-			$expense = $this->request->post['expense'];
-		} elseif (isset($this->request->get['expense_id'])) {
-			$expense = $this->model_sale_expense->getExpense($this->request->get['expense_id']);
-		} else {
-			$expense = array();
-		}
+		// if (isset($this->request->post['expense'])) {
+		// 	$expense = $this->request->post['expense'];
+		// } elseif (isset($this->request->get['expense_id'])) {
+		// 	$expense = $this->model_sale_expense->getExpense($this->request->get['expense_id']);
+		// } else {
+		// 	$expense = array();
+		// }
 
 
 		// foreach ($expenses as $expense) {
 
-			$this->data['expense'] = $expense;
+			// $this->data['expense'] = $expense;
 		// }
 
 		$this->template = 'sale/expense_form.tpl';
@@ -1077,6 +1071,7 @@ class ControllerSaleExpense extends Controller {
 		// 	if ($expense_product['quantity'] <= 0) $this->error['quantity'] = $this->language->get('error_warning');
 		// 	if ($expense_product['cost'] <= 0) $this->error['cost'] = $this->language->get('error_warning');
 		// }
+		$this->language->load('sale/customer');
 
 		if (!$this->user->hasPermission('modify', 'sale/expense')) {
 			$this->error['warning'] = $this->language->get('error_permission');

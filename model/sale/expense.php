@@ -119,7 +119,7 @@ class ModelSaleExpense extends Model {
 
 	// '2014-09-27 03:16'
 	public function addExpense($data) {
-
+// $this->load->Test($data);
 		$query = $this->db->query("INSERT INTO `" . DB_PREFIX . "expense` SET 
 			message = '" . $this->db->escape($data['message']) . "', 
 			store_id = '" . (int)$data['store_id'] . "', 
@@ -142,7 +142,7 @@ class ModelSaleExpense extends Model {
 		if (isset($data['date_added'])) $sql .= "date_added = '" . $this->db->escape($data['date_added']) . "',"; 
 		if (isset($data['store_id'])) $sql .= "store_id = '" . (int)$data['store_id'] . "',"; 
 		if (isset($data['user_id'])) $sql .= "user_id = '" . (int)$data['user_id'] . "',"; 
-		if (isset($data['expense'])) $sql .= "expense = '" . (float)$data['expense'] . "',"; 
+		if (isset($data['total'])) $sql .= "total = '" . (float)$data['total'] . "',"; 
 
 		$sql .= " date_modified = NOW() WHERE id = '" . (int)$expense_id . "'";
 
@@ -155,6 +155,8 @@ class ModelSaleExpense extends Model {
 	public function deleteExpense($expense_id, $remove_from_db = false) {
 
 		$query = $this->db->query("DELETE FROM oc_expense WHERE id = '" . (int)$expense_id . "' ");
+
+		return $this->db->countAffected();
 	}
 
 }	

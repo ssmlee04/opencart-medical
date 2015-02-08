@@ -156,6 +156,10 @@ $_['entry_consultant']         = '諮詢師';
 $_['entry_remove']         = '移除';
 $_['entry_date_processed']         = '療程日期';
 $_['entry_name']         = '姓名';
+$_['entry_date_expensed']         = '費用日期';
+$_['entry_message']         = '費用訊息';
+$_['entry_user']         = '費用發生人員';
+$_['entry_default_store']         = '商店';
 
 
 $_['entry_ssn']         = '身份證字號';
@@ -171,6 +175,8 @@ $_['entry_date_added']         = '增加日期';
 $_['entry_last_visit']         = '上次來店日期';
 
 // Error
+$_['entry_total']         = '金額';
+$_['error_message']         = '訊息太短';
 $_['error_warning']         = '警告發生錯誤，請再確認';
 $_['error_permission']     = '您沒有權限更改客戶的設置';
 $_['error_exists']          = '此信箱已經被註冊';
