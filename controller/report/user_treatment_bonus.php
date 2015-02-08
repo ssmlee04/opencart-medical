@@ -527,12 +527,18 @@ foreach ($trlist as $k => $tr) {
 		$trlist[$k]['date'] = 'purchase on '.  $tr['date_added'];
 	}
 
+		if ($trlist[$k]['bonus_doctor']==0) $trlist[$k]['bonus_doctor'] = ''; 
+		if ($trlist[$k]['bonus_outsource']==0) $trlist[$k]['bonus_outsource'] = ''; 
+		if ($trlist[$k]['bonus_consultant']==0) $trlist[$k]['bonus_consultant'] = ''; 
+		if ($trlist[$k]['bonus_beauty']==0) $trlist[$k]['bonus_beauty'] = ''; 
+	
+
 	if (!in_array($k, $mainarrs) && $trlist[$k]['product_type_id'] < 3)
 	{
-		$trlist[$k]['bonus_doctor'] .= '*';
-		$trlist[$k]['bonus_outsource'] .= '*';
-		$trlist[$k]['bonus_consultant'] .= '*';
-		$trlist[$k]['bonus_beauty'] .= '*';
+		if ($trlist[$k]['bonus_doctor'])  $trlist[$k]['bonus_doctor'] .= '*';
+		if ($trlist[$k]['bonus_outsource']) $trlist[$k]['bonus_outsource'] .= '*';
+		if ($trlist[$k]['bonus_consultant']) $trlist[$k]['bonus_consultant'] .= '*';
+		if ($trlist[$k]['bonus_doctor']) $trlist[$k]['bonus_beauty'] .= '*';
 	}
 }
 // $this->load->test($treatment_bonus);
