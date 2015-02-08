@@ -20,6 +20,11 @@ $_['entry_consultant']          = '諮詢師';
 $_['entry_outsource']          = '外務';
 
 
+$_['text_bonus_doctor']          = '醫師提成';
+$_['text_bonus_beauty']          = '美容師提成';
+$_['text_bonus_consultant']          = '諮詢師提成';
+$_['text_bonus_outsource']          = '外務提成';
+
 $_['text_etc']          = '.....等';
 $_['text_customer_id']          = '客戶代碼';
 $_['text_customer_fullname']          = '客戶';

@@ -118,7 +118,7 @@ class ControllerReportUserTreatmentBonus extends Controller {
 		$data['filter_date_start'] = $filter_date_start;
 		$data['filter_date_end'] = $filter_date_end;
 
-		// main case 
+		// main case (used or not)
 		$yy = "(DATE(ct.date_added) >= '" . $this->db->escape($data['filter_date_start']) . "'AND DATE(ct.date_added) <= '" . $this->db->escape($data['filter_date_end']) . "' AND total_amount > 0)";
 		
 
@@ -152,18 +152,41 @@ class ControllerReportUserTreatmentBonus extends Controller {
 				$treatment_usage_ids[] = $qq['treatment_usage_id'];
 			}
 		}
-
+// $this->load->test($q->rows);
 		// actual used ids
+
+		$mainarrs = [];
+
 		foreach ($treatment_usage_ids as $k => $treatment_usage_id) {
 			$is_main = false;
 			$main_total = 0;
+			$m = 0;
 
 			foreach ($q->rows as $qq) { 
 				if ($qq['total_amount'] > 0 && $qq['treatment_usage_id'] == $treatment_usage_id) {
 					$is_main = true;
 					$main_total += $qq['total_amount'];
+
+					if ($qq['date_added'] != $qq['date_modified'] && $treatment_usage_id>  0) {
+						$mainarrs[] = $treatment_usage_id;
+					}
 				}
 			}
+
+			// if ($m > 0) {
+			// $sql = "SELECT ct.*, p.*, ct.date_modified as tr_date_modified, ct.date_added as tr_date_added, pd.name as pname, u1.fullname as beauty_name, u2.fullname as consultant_name, u3.fullname as outsource_name, u4.fullname as doctor_name, u0.fullname as ufullname, c.fullname as cfullname FROM oc_customer_transaction ct LEFT JOIN oc_product p ON ct.product_id = p.product_id ";
+			// $sql .= " LEFT JOIN oc_customer c ON ct.customer_id = c.customer_id";
+			// $sql .= " LEFT JOIN oc_user u0 ON ct.user_id = u0.user_id";
+			// $sql .= " LEFT JOIN oc_user u1 ON ct.beauty_id = u1.user_id";
+			// $sql .= " LEFT JOIN oc_user u2 ON ct.consultant_id = u2.user_id";
+			// $sql .= " LEFT JOIN oc_user u3 ON ct.outsource_id = u3.user_id";
+			// $sql .= " LEFT JOIN oc_user u4 ON ct.doctor_id = u4.user_id";
+			// $sql .= " LEFT JOIN oc_product_description pd ON ct.product_id = pd.product_id ";
+			// $sql .= " WHERE treatment_usage_id = '$m' AND total_amount = 0 AND pd.language_id = '2'";
+			// $qqqqq = $this->db->query($sql);
+			// $q->rows = array_merge($q->rows, $qqqqq->rows);
+			// }
+			
 
 			$order_id = 0;
 			$product_id = 0;
@@ -177,10 +200,16 @@ class ControllerReportUserTreatmentBonus extends Controller {
 			$doctor_name = '';
 			$outsource_name = '';
 
+			$bonus_doctor = 0;
+			$bonus_consultant = 0;
+			$bonus_beauty = 0;
+			$bonus_outsource = 0;
+
 			foreach ($q->rows as $q2) {
 				if ($q2['treatment_usage_id'] == $treatment_usage_id) {
 					$ufullname = $q2['ufullname'];
 					$subquantity += $q2['subquantity'];
+					$product_type_id = $q2['product_type_id'];
 					// $treatment_usage_id = $q2['treatment_usage_id'];
 					$cfullname = $q2['cfullname'];
 					$order_id = $q2['order_id'];
@@ -189,6 +218,10 @@ class ControllerReportUserTreatmentBonus extends Controller {
 					$pname = $q2['pname'];
 					
 					$beauty_name = $q2['beauty_name'];
+					$bonus_beauty += $q2['bonus_beauty'] + $q2['bonus_beauty_fixed'];
+					$bonus_consultant += $q2['bonus_consultant'] + $q2['bonus_consultant_fixed'];
+					$bonus_outsource += $q2['bonus_outsource'] + $q2['bonus_outsource_fixed'];
+					$bonus_doctor += $q2['bonus_doctor'] + $q2['bonus_doctor_fixed'];
 					$consultant_name = $q2['consultant_name'];
 					$doctor_name = $q2['doctor_name'];
 					$outsource_name = $q2['outsource_name'];
@@ -204,6 +237,7 @@ class ControllerReportUserTreatmentBonus extends Controller {
 					'treatment_usage_id' => $treatment_usage_id,
 					'comment' => $qq['comment'],
 					'customer_id' => $cid,
+					'product_type_id' => $product_type_id,
 					'consultant_name' => $consultant_name,
 					'outsource_name' => $outsource_name,
 					'doctor_name' => $doctor_name,
@@ -215,7 +249,11 @@ class ControllerReportUserTreatmentBonus extends Controller {
 					'product_name' => $pname,
 					'order_id' => $order_id,
 
-					'subquantity' => -1* $subquantity,
+					'bonus_doctor' => $bonus_doctor,
+					'bonus_consultant' => $bonus_consultant,
+					'bonus_beauty' => $bonus_beauty,
+					'bonus_outsource' => $bonus_outsource,
+ 					'subquantity' => -1* $subquantity,
 					'total_amount' => round($main_total),
 					'color' => 'pink'
 					// 'total' => $order_info['total'], 
@@ -229,6 +267,7 @@ class ControllerReportUserTreatmentBonus extends Controller {
 					'ufullname' => $ufullname,
 					'cfullname' => $cfullname,
 					'treatment_usage_id' => $treatment_usage_id,
+					'product_type_id' => $product_type_id,
 					// 'customer_transaction_id' => $qq['customer_transaction_id'],
 					'comment' => $qq['comment'],
 					'customer_id' => $cid,
@@ -242,6 +281,10 @@ class ControllerReportUserTreatmentBonus extends Controller {
 					'product_id' => $product_id,
 					'product_name' => $pname,
 					'order_id' => $order_id,
+					'bonus_doctor' => $bonus_doctor,
+					'bonus_consultant' => $bonus_consultant,
+					'bonus_beauty' => $bonus_beauty,
+					'bonus_outsource' => $bonus_outsource,
 
 					'subquantity' => -1* $subquantity,
 					'total_amount' => 0,
@@ -255,6 +298,22 @@ class ControllerReportUserTreatmentBonus extends Controller {
 			}
 		} 
 
+		// foreach ($mainarrs as $m) {
+		// 	$sql = "SELECT ct.*, p.*, ct.date_modified as tr_date_modified, ct.date_added as tr_date_added, pd.name as pname, u1.fullname as beauty_name, u2.fullname as consultant_name, u3.fullname as outsource_name, u4.fullname as doctor_name, u0.fullname as ufullname, c.fullname as cfullname FROM oc_customer_transaction ct LEFT JOIN oc_product p ON ct.product_id = p.product_id ";
+		// $sql .= " LEFT JOIN oc_customer c ON ct.customer_id = c.customer_id";
+		// $sql .= " LEFT JOIN oc_user u0 ON ct.user_id = u0.user_id";
+		// $sql .= " LEFT JOIN oc_user u1 ON ct.beauty_id = u1.user_id";
+		// $sql .= " LEFT JOIN oc_user u2 ON ct.consultant_id = u2.user_id";
+		// $sql .= " LEFT JOIN oc_user u3 ON ct.outsource_id = u3.user_id";
+		// $sql .= " LEFT JOIN oc_user u4 ON ct.doctor_id = u4.user_id";
+		// $sql .= " LEFT JOIN oc_product_description pd ON ct.product_id = pd.product_id ";
+		// $sql .= " WHERE treatment_usage_id = '$m' AND total_amount = 0 AND pd.language_id = '2'";
+		// $qqqqq = $this->db->query($sql);
+		// }
+		// $q->rows = array_merge($q->rows, $qqqqq->rows);
+
+
+		// $this->load->Test($q->rows);
 		// record non-treatments here
 		// if main is not used add main
 		foreach ($q->rows as $qq) {
@@ -267,6 +326,7 @@ class ControllerReportUserTreatmentBonus extends Controller {
 					// 'customer_transaction_id' => $qq['customer_transaction_id'],
 					'comment' => $qq['comment'],
 					'customer_id' => $qq['customer_id'],
+					'product_type_id' => $qq['product_type_id'],
 					'consultant_name' => $qq['consultant_name'],
 					'outsource_name' => $qq['outsource_name'],
 					'doctor_name' => $qq['doctor_name'],
@@ -277,7 +337,10 @@ class ControllerReportUserTreatmentBonus extends Controller {
 					'product_id' => $qq['product_id'],
 					'product_name' => $qq['pname'],
 					'order_id' => $qq['order_id'],
-
+					'bonus_doctor' => 0,
+					'bonus_beauty' => 0,
+					'bonus_consultant' => 0,
+					'bonus_outsource' => 0,
 					'subquantity' => '',
 					'total_amount' => round($qq['total_amount']),
 					'color' => 'lightgreen'
@@ -302,6 +365,8 @@ class ControllerReportUserTreatmentBonus extends Controller {
 					// 'product_type_id' => $qq['product_type_id'],
 					'treatment_usage_id' => $qq['treatment_usage_id'],
 					// 'customer_transaction_id' => $qq['customer_transaction_id'],
+
+					'product_type_id' => $qq['product_type_id'],
 					'comment' => $qq['comment'],
 					'customer_id' => $qq['customer_id'],
 					'consultant_name' => $qq['consultant_name'],
@@ -314,7 +379,10 @@ class ControllerReportUserTreatmentBonus extends Controller {
 					'product_id' => $qq['product_id'],
 					'product_name' => $qq['pname'],
 					'order_id' => $qq['order_id'],
-
+					'bonus_beauty' => 0,
+					'bonus_doctor' => 0,
+					'bonus_consultant' => 0,
+					'bonus_outsource' => 0,
 					'subquantity' => '',
 					'total_amount' => round($pro['total']),
 					'color' => 'lightyellow'
@@ -354,7 +422,7 @@ class ControllerReportUserTreatmentBonus extends Controller {
 			$treatment_bonus[] = array(
 					'cfullname' => $qq['cfullname'],
 					'ufullname' => $qq['ufullname'],
-					// 'product_type_id' => $qq['product_type_id'],
+					'product_type_id' => $qq['product_type_id'],
 					'treatment_usage_id' => $qq['treatment_usage_id'],
 					// 'customer_transaction_id' => $qq['customer_transaction_id'],
 					'comment' => $qq['comment'],
@@ -374,6 +442,10 @@ class ControllerReportUserTreatmentBonus extends Controller {
 					'total_amount' => 0, 
 					'color' => 'red',
 					// 'total' => $order_info['total'], 
+					'bonus_doctor' => 0,
+					'bonus_consultant' => 0,
+					'bonus_outsource' => 0,
+					'bonus_beauty' => 0,
 					// 'payment_cash' => $payment_cash, 
 					// 'payment_visa' => $payment_visa, 
 					// 'payment_balance' => $payment_balance, 
@@ -398,11 +470,16 @@ foreach ($treatment_bonus as $ttr) {
 			'date_modified' => '9999-99-99',
 			'beauty_name' => '',
 			'doctor_name' => '',
+			'product_type_id' => 0,
 			'outsource_name' => '',
 			'consultant_name' => '',
 			'customer_id' => '',
 			'ufullname' => '',
 			'cfullname' => '',
+			'bonus_doctor' => 0,
+			'bonus_beauty' => 0,
+			'bonus_consultant' => 0,
+			'bonus_outsource' => 0,
 			'treatment_usage_id' => $ttr['treatment_usage_id'],
 		);
 	}
@@ -420,7 +497,12 @@ foreach ($treatment_bonus as $ttr) {
 	$trlist[$ttr['treatment_usage_id']]['consultant_name'] = $ttr['consultant_name'];
 	$trlist[$ttr['treatment_usage_id']]['product_name'] = $ttr['product_name'];
 	$trlist[$ttr['treatment_usage_id']]['customer_id'] = $ttr['customer_id'];
+	$trlist[$ttr['treatment_usage_id']]['product_type_id'] = $ttr['product_type_id'];
 	$trlist[$ttr['treatment_usage_id']]['subquantity'] = $ttr['subquantity'];
+	$trlist[$ttr['treatment_usage_id']]['bonus_doctor'] += $ttr['bonus_doctor'];
+	$trlist[$ttr['treatment_usage_id']]['bonus_consultant'] += $ttr['bonus_consultant'];
+	$trlist[$ttr['treatment_usage_id']]['bonus_beauty'] += $ttr['bonus_beauty'];
+	$trlist[$ttr['treatment_usage_id']]['bonus_outsource'] += $ttr['bonus_outsource'];
 		
 	} else {
 		$trlist[$minis--] = $ttr;
@@ -443,6 +525,14 @@ foreach ($trlist as $k => $tr) {
 	}
 	else if ($trlist[$k]['subquantity'] == '') {
 		$trlist[$k]['date'] = 'purchase on '.  $tr['date_added'];
+	}
+
+	if (!in_array($k, $mainarrs) && $trlist[$k]['product_type_id'] < 3)
+	{
+		$trlist[$k]['bonus_doctor'] .= '*';
+		$trlist[$k]['bonus_outsource'] .= '*';
+		$trlist[$k]['bonus_consultant'] .= '*';
+		$trlist[$k]['bonus_beauty'] .= '*';
 	}
 }
 // $this->load->test($treatment_bonus);
@@ -832,6 +922,10 @@ $this->data['treatment_bonus'] = $trlist;
 		$this->data['column_bonus'] = $this->language->get('column_bonus');
 		$this->data['text_no_results'] = $this->language->get('text_no_results');
 		$this->data['text_all_status'] = $this->language->get('text_all_status');
+		$this->data['text_bonus_doctor'] = $this->language->get('text_bonus_doctor');
+		$this->data['text_bonus_beauty'] = $this->language->get('text_bonus_beauty');
+		$this->data['text_bonus_consultant'] = $this->language->get('text_bonus_consultant');
+		$this->data['text_bonus_outsource'] = $this->language->get('text_bonus_outsource');
 
 		$this->data['column_customer'] = $this->language->get('column_customer');
 		$this->data['column_email'] = $this->language->get('column_email');

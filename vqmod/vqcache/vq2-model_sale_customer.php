@@ -1504,6 +1504,10 @@ $this->load->out($sql, false);
 
 		if (isset($data['filter_group_usage'])) {
 			$sql .= " , sum(ct.subquantity) as subquantity"; 
+			$sql .= " , sum(ct.bonus_beauty_fixed) as bonus_beauty_fixed"; 
+			$sql .= " , sum(ct.bonus_consultant_fixed) as bonus_consultant_fixed"; 
+			$sql .= " , sum(ct.bonus_outsource_fixed) as bonus_outsource_fixed"; 
+			$sql .= " , sum(ct.bonus_doctor_fixed) as bonus_doctor_fixed"; 
 		}
 
 		$sql .= " FROM oc_customer_transaction ct LEFT JOIN oc_customer c ON c.customer_id = ct.customer_id LEFT JOIN oc_product p ON p.product_id = ct.product_id LEFT JOIN oc_product_description pd ON pd.product_id = p.product_id  WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') ."' ";
@@ -1552,7 +1556,7 @@ $this->load->out($sql, false);
 			$limit = 10;
 		}	
 
-		$sql .= " ORDER BY ct.date_modified DESC, ct.customer_transaction_id LIMIT " . (int)$start . "," . (int)$limit; 
+		$sql .= " ORDER BY ct.date_modified DESC, ct.customer_transaction_id DESC LIMIT " . (int)$start . "," . (int)$limit; 
 
 		$query = $this->db->query($sql);
 

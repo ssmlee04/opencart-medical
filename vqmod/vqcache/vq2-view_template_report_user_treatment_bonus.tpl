@@ -56,12 +56,18 @@
               <td><?php echo $text_outsource_name; ?></td>
               <td><?php echo $text_consultant_name; ?></td>
               <td><?php echo $text_beauty_name; ?></td>
+
+              <td><?php echo $text_bonus_doctor; ?></td>
+              <td><?php echo $text_bonus_beauty; ?></td>
+              <td><?php echo $text_bonus_outsource; ?></td>
+              <td><?php echo $text_bonus_consultant; ?></td>
+
               <td><?php echo $text_total_amount; ?></td>
 <!--               <td><php echo $text_payment_cash; ?></td>
               <td><php echo $text_payment_visa; ?></td>
               <td><php echo $text_payment_balance; ?></td>
               <td><php echo $text_payment_final; ?></td> -->
-              <td><?php echo $text_user_fullname; ?></td>
+              <!-- <td><php echo $text_user_fullname; ?></td> -->
               
           </tr>
         </thead>
@@ -87,19 +93,24 @@
               <td><?php echo $result['outsource_name']; ?></td>
               <td><?php echo $result['consultant_name']; ?></td>
               <td><?php echo $result['beauty_name']; ?></td>
+
+              <td><?php echo $result['bonus_doctor']; ?></td>
+              <td><?php echo $result['bonus_beauty']; ?></td>
+              <td><?php echo $result['bonus_outsource']; ?></td>
+              <td><?php echo $result['bonus_consultant']; ?></td>
+
               <td><?php echo $result['total_amount']; ?></td>
 <!--               <td><php echo $result['payment_cash']; ?></td>
               <td><php echo $result['payment_visa']; ?></td>
               <td><php echo $result['payment_balance']; ?></td>
               <td><php echo $result['payment_final']; ?></td> -->
-              <td><?php echo $result['ufullname']; ?></td>
+              <!-- <td><php echo $result['ufullname']; ?></td> -->
               
             </tr>
           <?php } ?>
           <?php } ?>
             <tr>
-              <td colspan="11" style="text-align: right;"><?php echo $total; ?></td>
-              <td ></td>
+              <td colspan="15" style="text-align: right;"><?php echo $total; ?></td>
             </tr>
         </tbody>
       </table>
