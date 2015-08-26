@@ -219,6 +219,7 @@ class ControllerSaleFollowup extends Controller {
 					$status = $result2['name'];
 				}
 			}
+			$dmod = explode(' ', $result['date_modified']);
 			$this->data['messages'][] = array(
 				'status' => $status, 
 				'title' => $result['title'],
@@ -231,7 +232,7 @@ class ControllerSaleFollowup extends Controller {
 				'ufullname' => $result['ufullname'],
 				'cfullname' => $result['cfullname'],
 				'reminder_date' => $result['reminder_date'],
-				'date_modified' => ($result['date_modified'] ? explode(' ', $result['date_modified'])[0] : ''),
+				'date_modified' => ($result['date_modified'] ? $dmod[0] : ''),
 				'store_id' => $result['store_id'],
 			);
 		}

@@ -295,6 +295,7 @@ class ControllerImageImageManage extends Controller {
 // $this->load->test($customer);
 
 			if ($customer)
+				$cimage = explode(' ' ,$customer_image['date_added']);
 			$this->data['customer_images'][] = array(
 				'image'      => $image,
 				'product_name'      => (!empty($product) ? $product['name'] : ''),
@@ -302,7 +303,7 @@ class ControllerImageImageManage extends Controller {
 				'customer_name'      => $customer['fullname'],
 				'customer_image_id'      => $customer_image['customer_image_id'],
 				'customer_transaction_id'      => $customer_image['customer_transaction_id'],
-				'date_added'      =>  trim(explode(' ' ,$customer_image['date_added'])[0]),
+				'date_added'      =>  trim($cimage[0]),
 				'thumb'      => $this->model_tool_image->resize($image, 100, 100),
 				'bigimage'      => $this->model_tool_image->resize($image, 800, 800),
 				'sort_order' => $customer_image['sort_order']

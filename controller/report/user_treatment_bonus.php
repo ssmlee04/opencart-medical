@@ -230,6 +230,8 @@ class ControllerReportUserTreatmentBonus extends Controller {
 			};
 
 			if ($is_main) {
+				$tradtemod = explode(' ', $qq['tr_date_modified']);
+				$trdateadd = explode(' ', $qq['tr_date_added']);
 				$treatment_bonus[] = array(
 					'ufullname' => $ufullname,
 					'cfullname' => $cfullname,
@@ -243,8 +245,8 @@ class ControllerReportUserTreatmentBonus extends Controller {
 					'doctor_name' => $doctor_name,
 					'beauty_name' => $beauty_name,
 					// 'cfullname' => $qq['cfullname'],
-					'date_modified' => explode(' ', $qq['tr_date_modified'])[0],
-					'date_added' => explode(' ', $qq['tr_date_added'])[0],
+					'date_modified' => $tradtemod[0],
+					'date_added' => $trdateadd[0],
 					'product_id' => $product_id,
 					'product_name' => $pname,
 					'order_id' => $order_id,

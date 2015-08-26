@@ -594,6 +594,7 @@ class ControllerSaleCustomer extends Controller {
 			// $dobs = explode('-', $result['dob']);
 			// $dob = ((int)$dobs[0] - 1911) . '-' . $dobs[1] . '-' . $dobs[2];
 
+			$lvisit = explode(' ', $last_visit);
 			$this->data['customers'][] = array(
 				'customer_id'    => $result['customer_id'],
 				'fullname'           => $fullname,
@@ -607,7 +608,7 @@ class ControllerSaleCustomer extends Controller {
 				'date_added'     => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
 				'selected'       => isset($this->request->post['selected']) && in_array($result['customer_id'], $this->request->post['selected']),
 				'action'         => $action,
-				'last_visit' => explode(' ', $last_visit)[0],
+				'last_visit' => $lvisit[0],
 				'last_outsource' => $last_outsource,
 				'last_consultant' => $last_consultant,
 				'last_beauty' => $last_beauty,
@@ -1422,7 +1423,8 @@ class ControllerSaleCustomer extends Controller {
 			}
 		}
 
-		$this->data['last_visit'] = explode(' ',$last_visit)[0];
+		$lvisit = explode(' ',$last_visit);
+		$this->data['last_visit'] = $lvisit[0];
 		$this->data['last_doctor'] = $last_doctor;
 		$this->data['last_consultant'] = $last_consultant;
 		$this->data['last_beauty'] = $last_beauty;
@@ -1890,15 +1892,16 @@ class ControllerSaleCustomer extends Controller {
 					$product_name = $product['name'];
 				}
 			}
-
+			$dprocess = explode(' ' ,$customer_image['date_processed']);
+			$cimage = explode(' ' ,$customer_image['date_added']);
 			$this->data['customer_images'][] = array(
 				'image'      => $image,
 				'comment'      => $customer_image['comment'],
 				'product_name'      => $product_name,
 				'customer_image_id'      => $customer_image['customer_image_id'],
 				'customer_transaction_id'      => $customer_image['customer_transaction_id'],
-				'date_processed'      =>  explode(' ' ,$customer_image['date_processed'])[0],
-				'date_added'      =>  explode(' ' ,$customer_image['date_added'])[0],
+				'date_processed'      =>  $dprocess[0],
+				'date_added'      =>  $cimage[0],
 				'thumb'      => $this->model_tool_image->resize($image, 100, 100),
 				'bigimage'      => $this->model_tool_image->resize($image, 800, 800),
 				'sort_order' => $customer_image['sort_order']
@@ -2338,6 +2341,7 @@ class ControllerSaleCustomer extends Controller {
 			$unit = $this->model_catalog_product->getProductUnit($result['product_id']);
 			$product_description = $product_descriptions[(int)$this->config->get('config_language_id')]['name'];
 
+			$dadded = explode(' ', $result['date_added']);
 			$this->data['results'][] = array(
 				'customer_lending_id'     => $result['customer_lending_id'],
 				'borrower_id'     => $result['borrower_id'],
@@ -2355,7 +2359,7 @@ class ControllerSaleCustomer extends Controller {
 				'product_name'     => $product_description,
 				'unit'     => $unit['unit'],
 				'value'     => $unit['value'],
-				'date_added'     => explode(' ', $result['date_added'])[0]
+				'date_added'     => $dadded[0]
 			);
 		}
 
@@ -2467,6 +2471,7 @@ class ControllerSaleCustomer extends Controller {
 			$unit = $this->model_catalog_product->getProductUnit($result['product_id']);
 			$product_description = $product_descriptions[(int)$this->config->get('config_language_id')]['name'];
 
+			$dadded = explode(' ', $result['date_added']);
 			$this->data['results'][] = array(
 				'customer_lending_id'     => $result['customer_lending_id'],
 				'borrower_id'     => $result['borrower_id'],
@@ -2484,7 +2489,7 @@ class ControllerSaleCustomer extends Controller {
 				'product_name'     => $product_description,
 				'value'     => $unit['value'],
 				'unit'     => $unit['unit'],
-				'date_added'     => explode(' ', $result['date_added'])[0]
+				'date_added'     => $dadded[0]
 			);
 		}
 

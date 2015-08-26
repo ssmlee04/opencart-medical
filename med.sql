@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.0.10deb1
+-- version 4.2.11
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 10, 2014 at 08:08 PM
--- Server version: 5.5.38-0ubuntu0.14.04.1
--- PHP Version: 5.5.9-1ubuntu4.3
+-- Generation Time: Aug 26, 2015 at 04:54 PM
+-- Server version: 5.6.21
+-- PHP Version: 5.6.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `opencart`
+-- Database: `med`
 --
 
 -- --------------------------------------------------------
@@ -27,7 +27,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `oc_address` (
-  `address_id` int(11) NOT NULL AUTO_INCREMENT,
+`address_id` int(11) NOT NULL,
   `customer_id` int(11) NOT NULL,
   `firstname` varchar(32) NOT NULL,
   `lastname` varchar(32) NOT NULL,
@@ -39,10 +39,8 @@ CREATE TABLE IF NOT EXISTS `oc_address` (
   `city` varchar(128) NOT NULL,
   `postcode` varchar(10) NOT NULL,
   `country_id` int(11) NOT NULL DEFAULT '0',
-  `zone_id` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`address_id`),
-  KEY `customer_id` (`customer_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=146 ;
+  `zone_id` int(11) NOT NULL DEFAULT '0'
+) ENGINE=MyISAM AUTO_INCREMENT=150 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `oc_address`
@@ -72,8 +70,9 @@ INSERT INTO `oc_address` (`address_id`, `customer_id`, `firstname`, `lastname`, 
 (130, 37, '', '', '', '', '', '', '', '', '', 0, 0),
 (131, 38, '', '', '', '', '', '', '', '', '', 0, 0),
 (132, 39, '', '', '', '', '', '', '', '', '', 0, 0),
-(144, 40, '', '', '', '', '', '678', '789', '890', '100', 0, 0),
-(145, 41, '', '', '', '', '', '', '', '', '', 0, 0);
+(148, 40, '', '', '', '', '', '678', '789', '890', '100', 0, 0),
+(145, 41, '', '', '', '', '', '', '', '', '', 0, 0),
+(149, 42, '', '', '', '', '', '', '', '', '', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -82,7 +81,7 @@ INSERT INTO `oc_address` (`address_id`, `customer_id`, `firstname`, `lastname`, 
 --
 
 CREATE TABLE IF NOT EXISTS `oc_affiliate` (
-  `affiliate_id` int(11) NOT NULL AUTO_INCREMENT,
+`affiliate_id` int(11) NOT NULL,
   `firstname` varchar(32) NOT NULL,
   `lastname` varchar(32) NOT NULL,
   `email` varchar(96) NOT NULL,
@@ -112,9 +111,8 @@ CREATE TABLE IF NOT EXISTS `oc_affiliate` (
   `ip` varchar(40) NOT NULL,
   `status` tinyint(1) NOT NULL,
   `approved` tinyint(1) NOT NULL,
-  `date_added` datetime NOT NULL,
-  PRIMARY KEY (`affiliate_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `date_added` datetime NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -123,14 +121,13 @@ CREATE TABLE IF NOT EXISTS `oc_affiliate` (
 --
 
 CREATE TABLE IF NOT EXISTS `oc_affiliate_transaction` (
-  `affiliate_transaction_id` int(11) NOT NULL AUTO_INCREMENT,
+`affiliate_transaction_id` int(11) NOT NULL,
   `affiliate_id` int(11) NOT NULL,
   `order_id` int(11) NOT NULL,
   `description` text NOT NULL,
   `amount` decimal(15,4) NOT NULL,
-  `date_added` datetime NOT NULL,
-  PRIMARY KEY (`affiliate_transaction_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `date_added` datetime NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -139,11 +136,10 @@ CREATE TABLE IF NOT EXISTS `oc_affiliate_transaction` (
 --
 
 CREATE TABLE IF NOT EXISTS `oc_attribute` (
-  `attribute_id` int(11) NOT NULL AUTO_INCREMENT,
+`attribute_id` int(11) NOT NULL,
   `attribute_group_id` int(11) NOT NULL,
-  `sort_order` int(3) NOT NULL,
-  PRIMARY KEY (`attribute_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+  `sort_order` int(3) NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `oc_attribute`
@@ -171,8 +167,7 @@ INSERT INTO `oc_attribute` (`attribute_id`, `attribute_group_id`, `sort_order`) 
 CREATE TABLE IF NOT EXISTS `oc_attribute_description` (
   `attribute_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `name` varchar(64) NOT NULL,
-  PRIMARY KEY (`attribute_id`,`language_id`)
+  `name` varchar(64) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
@@ -199,10 +194,9 @@ INSERT INTO `oc_attribute_description` (`attribute_id`, `language_id`, `name`) V
 --
 
 CREATE TABLE IF NOT EXISTS `oc_attribute_group` (
-  `attribute_group_id` int(11) NOT NULL AUTO_INCREMENT,
-  `sort_order` int(3) NOT NULL,
-  PRIMARY KEY (`attribute_group_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+`attribute_group_id` int(11) NOT NULL,
+  `sort_order` int(3) NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `oc_attribute_group`
@@ -223,8 +217,7 @@ INSERT INTO `oc_attribute_group` (`attribute_group_id`, `sort_order`) VALUES
 CREATE TABLE IF NOT EXISTS `oc_attribute_group_description` (
   `attribute_group_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `name` varchar(64) NOT NULL,
-  PRIMARY KEY (`attribute_group_id`,`language_id`)
+  `name` varchar(64) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
@@ -244,11 +237,10 @@ INSERT INTO `oc_attribute_group_description` (`attribute_group_id`, `language_id
 --
 
 CREATE TABLE IF NOT EXISTS `oc_banner` (
-  `banner_id` int(11) NOT NULL AUTO_INCREMENT,
+`banner_id` int(11) NOT NULL,
   `name` varchar(64) NOT NULL,
-  `status` tinyint(1) NOT NULL,
-  PRIMARY KEY (`banner_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+  `status` tinyint(1) NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `oc_banner`
@@ -266,12 +258,11 @@ INSERT INTO `oc_banner` (`banner_id`, `name`, `status`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `oc_banner_image` (
-  `banner_image_id` int(11) NOT NULL AUTO_INCREMENT,
+`banner_image_id` int(11) NOT NULL,
   `banner_id` int(11) NOT NULL,
   `link` varchar(255) NOT NULL,
-  `image` varchar(255) NOT NULL,
-  PRIMARY KEY (`banner_image_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=78 ;
+  `image` varchar(255) NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=78 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `oc_banner_image`
@@ -297,8 +288,7 @@ CREATE TABLE IF NOT EXISTS `oc_banner_image_description` (
   `banner_image_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
   `banner_id` int(11) NOT NULL,
-  `title` varchar(64) NOT NULL,
-  PRIMARY KEY (`banner_image_id`,`language_id`)
+  `title` varchar(64) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
@@ -322,7 +312,7 @@ INSERT INTO `oc_banner_image_description` (`banner_image_id`, `language_id`, `ba
 --
 
 CREATE TABLE IF NOT EXISTS `oc_category` (
-  `category_id` int(11) NOT NULL AUTO_INCREMENT,
+`category_id` int(11) NOT NULL,
   `image` varchar(255) DEFAULT NULL,
   `parent_id` int(11) NOT NULL DEFAULT '0',
   `top` tinyint(1) NOT NULL,
@@ -330,9 +320,8 @@ CREATE TABLE IF NOT EXISTS `oc_category` (
   `sort_order` int(3) NOT NULL DEFAULT '0',
   `status` tinyint(1) NOT NULL,
   `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `date_modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  PRIMARY KEY (`category_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=59 ;
+  `date_modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=MyISAM AUTO_INCREMENT=59 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `oc_category`
@@ -390,9 +379,7 @@ CREATE TABLE IF NOT EXISTS `oc_category_description` (
   `name` varchar(255) NOT NULL,
   `description` text NOT NULL,
   `meta_description` varchar(255) NOT NULL,
-  `meta_keyword` varchar(255) NOT NULL,
-  PRIMARY KEY (`category_id`,`language_id`),
-  KEY `name` (`name`)
+  `meta_keyword` varchar(255) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
@@ -447,8 +434,7 @@ INSERT INTO `oc_category_description` (`category_id`, `language_id`, `name`, `de
 
 CREATE TABLE IF NOT EXISTS `oc_category_filter` (
   `category_id` int(11) NOT NULL,
-  `filter_id` int(11) NOT NULL,
-  PRIMARY KEY (`category_id`,`filter_id`)
+  `filter_id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -460,8 +446,7 @@ CREATE TABLE IF NOT EXISTS `oc_category_filter` (
 CREATE TABLE IF NOT EXISTS `oc_category_path` (
   `category_id` int(11) NOT NULL,
   `path_id` int(11) NOT NULL,
-  `level` int(11) NOT NULL,
-  PRIMARY KEY (`category_id`,`path_id`)
+  `level` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
@@ -550,8 +535,7 @@ INSERT INTO `oc_category_path` (`category_id`, `path_id`, `level`) VALUES
 CREATE TABLE IF NOT EXISTS `oc_category_to_layout` (
   `category_id` int(11) NOT NULL,
   `store_id` int(11) NOT NULL,
-  `layout_id` int(11) NOT NULL,
-  PRIMARY KEY (`category_id`,`store_id`)
+  `layout_id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -562,8 +546,7 @@ CREATE TABLE IF NOT EXISTS `oc_category_to_layout` (
 
 CREATE TABLE IF NOT EXISTS `oc_category_to_store` (
   `category_id` int(11) NOT NULL,
-  `store_id` int(11) NOT NULL,
-  PRIMARY KEY (`category_id`,`store_id`)
+  `store_id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
@@ -617,15 +600,14 @@ INSERT INTO `oc_category_to_store` (`category_id`, `store_id`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `oc_country` (
-  `country_id` int(11) NOT NULL AUTO_INCREMENT,
+`country_id` int(11) NOT NULL,
   `name` varchar(128) NOT NULL,
   `iso_code_2` varchar(2) NOT NULL,
   `iso_code_3` varchar(3) NOT NULL,
   `address_format` text NOT NULL,
   `postcode_required` tinyint(1) NOT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`country_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=252 ;
+  `status` tinyint(1) NOT NULL DEFAULT '1'
+) ENGINE=MyISAM AUTO_INCREMENT=252 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `oc_country`
@@ -889,7 +871,7 @@ INSERT INTO `oc_country` (`country_id`, `name`, `iso_code_2`, `iso_code_3`, `add
 --
 
 CREATE TABLE IF NOT EXISTS `oc_coupon` (
-  `coupon_id` int(11) NOT NULL AUTO_INCREMENT,
+`coupon_id` int(11) NOT NULL,
   `name` varchar(128) NOT NULL,
   `code` varchar(10) NOT NULL,
   `type` char(1) NOT NULL,
@@ -902,18 +884,17 @@ CREATE TABLE IF NOT EXISTS `oc_coupon` (
   `uses_total` int(11) NOT NULL,
   `uses_customer` varchar(11) NOT NULL,
   `status` tinyint(1) NOT NULL,
-  `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  PRIMARY KEY (`coupon_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+  `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `oc_coupon`
 --
 
 INSERT INTO `oc_coupon` (`coupon_id`, `name`, `code`, `type`, `discount`, `logged`, `shipping`, `total`, `date_start`, `date_end`, `uses_total`, `uses_customer`, `status`, `date_added`) VALUES
-(4, '-10% Discount', '2222', 'P', 10.0000, 0, 0, 0.0000, '2011-01-01', '2012-01-01', 10, '10', 1, '2009-01-27 13:55:03'),
-(5, 'Free Shipping', '3333', 'P', 0.0000, 0, 1, 100.0000, '2009-03-01', '2009-08-31', 10, '10', 1, '2009-03-14 21:13:53'),
-(6, '-10.00 Discount', '1111', 'F', 10.0000, 0, 0, 10.0000, '1970-11-01', '2020-11-01', 100000, '10000', 1, '2009-03-14 21:15:18');
+(4, '-10% Discount', '2222', 'P', '10.0000', 0, 0, '0.0000', '2011-01-01', '2012-01-01', 10, '10', 1, '2009-01-27 13:55:03'),
+(5, 'Free Shipping', '3333', 'P', '0.0000', 0, 1, '100.0000', '2009-03-01', '2009-08-31', 10, '10', 1, '2009-03-14 21:13:53'),
+(6, '-10.00 Discount', '1111', 'F', '10.0000', 0, 0, '10.0000', '1970-11-01', '2020-11-01', 100000, '10000', 1, '2009-03-14 21:15:18');
 
 -- --------------------------------------------------------
 
@@ -923,8 +904,7 @@ INSERT INTO `oc_coupon` (`coupon_id`, `name`, `code`, `type`, `discount`, `logge
 
 CREATE TABLE IF NOT EXISTS `oc_coupon_category` (
   `coupon_id` int(11) NOT NULL,
-  `category_id` int(11) NOT NULL,
-  PRIMARY KEY (`coupon_id`,`category_id`)
+  `category_id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -934,14 +914,13 @@ CREATE TABLE IF NOT EXISTS `oc_coupon_category` (
 --
 
 CREATE TABLE IF NOT EXISTS `oc_coupon_history` (
-  `coupon_history_id` int(11) NOT NULL AUTO_INCREMENT,
+`coupon_history_id` int(11) NOT NULL,
   `coupon_id` int(11) NOT NULL,
   `order_id` int(11) NOT NULL,
   `customer_id` int(11) NOT NULL,
   `amount` decimal(15,4) NOT NULL,
-  `date_added` datetime NOT NULL,
-  PRIMARY KEY (`coupon_history_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `date_added` datetime NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -950,11 +929,10 @@ CREATE TABLE IF NOT EXISTS `oc_coupon_history` (
 --
 
 CREATE TABLE IF NOT EXISTS `oc_coupon_product` (
-  `coupon_product_id` int(11) NOT NULL AUTO_INCREMENT,
+`coupon_product_id` int(11) NOT NULL,
   `coupon_id` int(11) NOT NULL,
-  `product_id` int(11) NOT NULL,
-  PRIMARY KEY (`coupon_product_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `product_id` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -963,7 +941,7 @@ CREATE TABLE IF NOT EXISTS `oc_coupon_product` (
 --
 
 CREATE TABLE IF NOT EXISTS `oc_currency` (
-  `currency_id` int(11) NOT NULL AUTO_INCREMENT,
+`currency_id` int(11) NOT NULL,
   `title` varchar(32) NOT NULL,
   `code` varchar(3) NOT NULL,
   `symbol_left` varchar(12) NOT NULL,
@@ -971,18 +949,17 @@ CREATE TABLE IF NOT EXISTS `oc_currency` (
   `decimal_place` char(1) NOT NULL,
   `value` float(15,8) NOT NULL,
   `status` tinyint(1) NOT NULL,
-  `date_modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  PRIMARY KEY (`currency_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+  `date_modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `oc_currency`
 --
 
 INSERT INTO `oc_currency` (`currency_id`, `title`, `code`, `symbol_left`, `symbol_right`, `decimal_place`, `value`, `status`, `date_modified`) VALUES
-(1, 'Pound Sterling', 'GBP', '£', '', '2', 0.63529998, 1, '2014-12-10 17:10:09'),
-(2, 'US Dollar', 'USD', '$', '', '2', 1.00000000, 1, '2014-12-10 19:10:19'),
-(3, 'Euro', 'EUR', '', '€', '2', 0.80140001, 1, '2014-12-10 17:10:09');
+(1, 'Pound Sterling', 'GBP', '£', '', '2', 0.66500002, 1, '2015-03-08 12:23:08'),
+(2, 'US Dollar', 'USD', '$', '', '2', 1.00000000, 1, '2015-03-08 12:24:21'),
+(3, 'Euro', 'EUR', '', '€', '2', 0.92220002, 1, '2015-03-08 12:23:08');
 
 -- --------------------------------------------------------
 
@@ -991,7 +968,7 @@ INSERT INTO `oc_currency` (`currency_id`, `title`, `code`, `symbol_left`, `symbo
 --
 
 CREATE TABLE IF NOT EXISTS `oc_customer` (
-  `customer_id` int(11) NOT NULL AUTO_INCREMENT,
+`customer_id` int(11) NOT NULL,
   `store_id` int(11) NOT NULL DEFAULT '0',
   `firstname` varchar(32) NOT NULL,
   `lastname` varchar(32) NOT NULL,
@@ -1000,6 +977,7 @@ CREATE TABLE IF NOT EXISTS `oc_customer` (
   `email` varchar(96) NOT NULL,
   `dob` date NOT NULL,
   `ssn` varchar(15) NOT NULL,
+  `sex` int(11) NOT NULL,
   `nickname` varchar(64) NOT NULL,
   `line_id` varchar(64) NOT NULL,
   `fb_id` varchar(64) NOT NULL,
@@ -1021,17 +999,17 @@ CREATE TABLE IF NOT EXISTS `oc_customer` (
   `approved` tinyint(1) NOT NULL,
   `token` varchar(255) NOT NULL,
   `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `balance` decimal(10,2) NOT NULL,
-  PRIMARY KEY (`customer_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=42 ;
+  `balance` decimal(10,2) NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=43 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `oc_customer`
 --
 
-INSERT INTO `oc_customer` (`customer_id`, `store_id`, `firstname`, `lastname`, `fullname`, `image`, `email`, `dob`, `ssn`, `nickname`, `line_id`, `fb_id`, `outsource`, `counselor_id`, `location`, `misc`, `telephone`, `mobile`, `password`, `salt`, `cart`, `wishlist`, `newsletter`, `address_id`, `customer_group_id`, `ip`, `status`, `approved`, `token`, `date_added`, `balance`) VALUES
-(40, 1, '', 'customer1', 'customer1', '', 'ssmlee@gmail.com', '1986-01-01', 'F126684241', '345', '456', '567', '', 0, '', '', '123', '234', '', '', 'a:0:{}', '', 0, 144, 4, '127.0.0.1', 1, 0, '', '2014-12-11 09:25:24', 0.00),
-(41, 2, '', 'customer2', 'customer2', '', '', '2014-12-31', 'F12', '', '', '', '', 0, '', '', '', '', '', '', 'a:1:{s:5:"112::";i:1;}', '', 0, 145, 4, '127.0.0.1', 1, 0, '', '2014-12-11 10:27:31', 0.00);
+INSERT INTO `oc_customer` (`customer_id`, `store_id`, `firstname`, `lastname`, `fullname`, `image`, `email`, `dob`, `ssn`, `sex`, `nickname`, `line_id`, `fb_id`, `outsource`, `counselor_id`, `location`, `misc`, `telephone`, `mobile`, `password`, `salt`, `cart`, `wishlist`, `newsletter`, `address_id`, `customer_group_id`, `ip`, `status`, `approved`, `token`, `date_added`, `balance`) VALUES
+(40, 1, '', 'customer1', 'customer1', '', 'ssmlee@gmail.com', '1986-01-01', 'F126684241', 2, '345', '456', '567', '', 0, '', '', '123', '234', '', '', 'a:1:{s:4:"80::";i:1;}', '', 0, 148, 4, '::1', 1, 0, '', '2014-12-11 09:25:24', '0.00'),
+(41, 2, '', 'customer2', 'customer2', '', '', '2014-12-31', 'F12', 0, '', '', '', '', 0, '', '', '', '', '', '', 'a:0:{}', '', 0, 145, 4, '::1', 1, 0, '', '2014-12-11 10:27:31', '0.00'),
+(42, 1, '', 'custome3', 'custome3', '', '123', '2014-12-31', '', 1, '', '', '', '', 0, '', '', '', '', '', '', 'a:0:{}', '', 0, 149, 4, '::1', 1, 0, '', '2015-02-06 10:29:37', '0.00');
 
 -- --------------------------------------------------------
 
@@ -1040,7 +1018,7 @@ INSERT INTO `oc_customer` (`customer_id`, `store_id`, `firstname`, `lastname`, `
 --
 
 CREATE TABLE IF NOT EXISTS `oc_customer_appointment` (
-  `customer_appointment_id` int(11) NOT NULL AUTO_INCREMENT,
+`customer_appointment_id` int(11) NOT NULL,
   `customer_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
@@ -1048,9 +1026,8 @@ CREATE TABLE IF NOT EXISTS `oc_customer_appointment` (
   `date_appointment` datetime NOT NULL,
   `doctor_id` int(11) NOT NULL,
   `consultant_id` int(11) NOT NULL,
-  `comment` varchar(120) NOT NULL,
-  PRIMARY KEY (`customer_appointment_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  `comment` varchar(120) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1059,11 +1036,9 @@ CREATE TABLE IF NOT EXISTS `oc_customer_appointment` (
 --
 
 CREATE TABLE IF NOT EXISTS `oc_customer_ban_ip` (
-  `customer_ban_ip_id` int(11) NOT NULL AUTO_INCREMENT,
-  `ip` varchar(40) NOT NULL,
-  PRIMARY KEY (`customer_ban_ip_id`),
-  KEY `ip` (`ip`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+`customer_ban_ip_id` int(11) NOT NULL,
+  `ip` varchar(40) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1072,14 +1047,13 @@ CREATE TABLE IF NOT EXISTS `oc_customer_ban_ip` (
 --
 
 CREATE TABLE IF NOT EXISTS `oc_customer_event` (
-  `customer_event_id` int(11) NOT NULL AUTO_INCREMENT,
+`customer_event_id` int(11) NOT NULL,
   `customer_id` int(11) NOT NULL,
   `title` varchar(64) NOT NULL,
   `date_start` datetime NOT NULL,
   `date_end` datetime NOT NULL,
-  `date_added` datetime NOT NULL,
-  PRIMARY KEY (`customer_event_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=21 ;
+  `date_added` datetime NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `oc_customer_event`
@@ -1105,7 +1079,12 @@ INSERT INTO `oc_customer_event` (`customer_event_id`, `customer_id`, `title`, `d
 (17, 3, '123123', '2014-11-26 13:00:00', '2014-11-26 15:30:00', '2014-11-25 01:29:57'),
 (18, 3, '--9-', '2014-11-24 12:30:00', '2014-11-24 14:30:00', '2014-11-25 01:30:31'),
 (19, 3, '123123', '2014-10-28 00:00:00', '2014-10-29 00:00:00', '2014-11-25 01:32:55'),
-(20, 3, '123', '2014-10-30 00:00:00', '2014-10-31 00:00:00', '2014-11-25 01:32:50');
+(20, 3, '123', '2014-10-30 00:00:00', '2014-10-31 00:00:00', '2014-11-25 01:32:50'),
+(33, 40, 'customer1->2222222222222', '2014-12-29 07:30:00', '2014-12-29 10:30:00', '2014-12-12 02:34:54'),
+(34, 3, 'l', '2014-12-30 07:00:00', '2014-12-30 07:30:00', '2014-12-12 02:37:45'),
+(35, 3, '12312312313', '2015-02-03 05:00:00', '2015-02-03 08:00:00', '2015-02-06 15:06:48'),
+(36, 3, 'asd', '2015-02-09 00:00:00', '2015-02-10 00:00:00', '2015-02-06 15:06:36'),
+(37, 3, 'asdasd', '2015-02-11 00:00:00', '2015-02-12 00:00:00', '2015-02-06 15:06:32');
 
 -- --------------------------------------------------------
 
@@ -1119,8 +1098,7 @@ CREATE TABLE IF NOT EXISTS `oc_customer_field` (
   `custom_field_value_id` int(11) NOT NULL,
   `name` int(128) NOT NULL,
   `value` text NOT NULL,
-  `sort_order` int(3) NOT NULL,
-  PRIMARY KEY (`customer_id`,`custom_field_id`,`custom_field_value_id`)
+  `sort_order` int(3) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -1130,15 +1108,14 @@ CREATE TABLE IF NOT EXISTS `oc_customer_field` (
 --
 
 CREATE TABLE IF NOT EXISTS `oc_customer_group` (
-  `customer_group_id` int(11) NOT NULL AUTO_INCREMENT,
+`customer_group_id` int(11) NOT NULL,
   `approval` int(1) NOT NULL,
   `company_id_display` int(1) NOT NULL,
   `company_id_required` int(1) NOT NULL,
   `tax_id_display` int(1) NOT NULL,
   `tax_id_required` int(1) NOT NULL,
-  `sort_order` int(3) NOT NULL,
-  PRIMARY KEY (`customer_group_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+  `sort_order` int(3) NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `oc_customer_group`
@@ -1157,8 +1134,7 @@ CREATE TABLE IF NOT EXISTS `oc_customer_group_description` (
   `customer_group_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
   `name` varchar(32) NOT NULL,
-  `description` text NOT NULL,
-  PRIMARY KEY (`customer_group_id`,`language_id`)
+  `description` text NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
@@ -1175,7 +1151,7 @@ INSERT INTO `oc_customer_group_description` (`customer_group_id`, `language_id`,
 --
 
 CREATE TABLE IF NOT EXISTS `oc_customer_history` (
-  `customer_history_id` int(11) NOT NULL AUTO_INCREMENT,
+`customer_history_id` int(11) NOT NULL,
   `customer_id` int(11) NOT NULL,
   `customer_transaction_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
@@ -1191,21 +1167,77 @@ CREATE TABLE IF NOT EXISTS `oc_customer_history` (
   `reply` varchar(64) NOT NULL,
   `date_added` datetime NOT NULL,
   `reminded_already` int(11) NOT NULL,
-  `date_modified` datetime NOT NULL,
-  PRIMARY KEY (`customer_history_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=109 ;
+  `date_modified` datetime NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=198 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `oc_customer_history`
 --
 
 INSERT INTO `oc_customer_history` (`customer_history_id`, `customer_id`, `customer_transaction_id`, `product_id`, `user_id`, `counselor_id`, `reminder`, `reminder_date`, `reminder_status`, `if_claim`, `if_treatment`, `comment`, `title`, `reply`, `date_added`, `reminded_already`, `date_modified`) VALUES
-(103, 40, 7239, 79, 1, 0, 1, '2015-01-10', 0, 0, 1, '療程提醒', '1玻尿酸  1cc', '', '2014-12-11 10:23:55', 0, '2014-12-11 10:23:55'),
-(104, 41, 7249, 79, 1, 0, 1, '2015-01-10', 0, 0, 1, '療程提醒', '1玻尿酸  1cc', '', '2014-12-11 10:33:12', 0, '2014-12-11 10:33:12'),
+(110, 40, 7478, 79, 1, 0, 1, '2015-01-11', 1, 0, 1, '療程提醒', '1玻尿酸  1cc', '123', '2014-12-12 02:49:44', 1, '2015-02-05 09:48:54'),
 (105, 40, 0, 0, 1, 0, 1, '2014-12-01', 1, 0, 0, 'followup1', '', 'need anoyher followup', '2014-12-11 11:08:59', 1, '2014-12-11 11:09:11'),
 (106, 40, 0, 0, 1, 0, 1, '2014-12-07', 1, 0, 0, 'need anoyher followup (再次提醒)', '', 'followup again, not reply', '2014-12-11 11:09:11', 1, '2014-12-11 11:11:11'),
 (107, 40, 0, 0, 1, 0, 1, '2015-03-11', 0, 0, 0, 'followup again, not reply (再次提醒)', '', '', '2014-12-11 11:11:11', 0, '2014-12-11 11:11:11'),
-(108, 40, 7254, 66, 1, 0, 1, '2014-12-21', 0, 0, 1, '療程提醒', '1膠囊 (5個裝)', '', '2014-12-11 11:56:41', 0, '2014-12-11 11:56:41');
+(111, 40, 7479, 79, 1, 0, 1, '2015-02-09', 0, 0, 1, '療程提醒', '1玻尿酸  1cc', '', '2015-01-10 17:03:41', 0, '2015-01-10 17:03:41'),
+(112, 40, 7485, 79, 1, 0, 1, '2015-02-09', 0, 0, 1, '療程提醒', '1玻尿酸  1cc', '', '2015-01-10 17:04:02', 0, '2015-01-10 17:04:02'),
+(113, 40, 7519, 79, 1, 0, 1, '2015-02-10', 0, 0, 1, '療程提醒', '1玻尿酸  1cc', '', '2015-01-11 18:38:42', 0, '2015-01-11 18:38:42'),
+(114, 40, 7527, 79, 1, 0, 1, '2015-02-10', 0, 0, 1, '療程提醒', '1玻尿酸  1cc', '', '2015-01-11 18:39:44', 0, '2015-01-11 18:39:44'),
+(115, 40, 7526, 79, 1, 0, 1, '2015-02-10', 0, 0, 1, '療程提醒', '1玻尿酸  1cc', '', '2015-01-11 18:40:38', 0, '2015-01-11 18:40:38'),
+(116, 40, 7530, 79, 1, 0, 1, '2015-02-11', 0, 0, 1, '療程提醒', '1玻尿酸  1cc', '', '2015-01-12 00:32:38', 0, '2015-01-12 00:32:38'),
+(117, 40, 7520, 79, 1, 0, 1, '2015-02-11', 0, 0, 1, '療程提醒', '1玻尿酸  1cc', '', '2015-01-12 00:43:56', 0, '2015-01-12 00:43:56'),
+(118, 40, 0, 0, 1, 0, 0, '0000-00-00', 1, 0, 0, '123123123321', '', '', '2015-02-03 10:29:02', 1, '2015-02-05 09:45:23'),
+(119, 40, 0, 0, 1, 0, 0, '0000-00-00', 1, 0, 0, '124124124', '', '121231231', '2015-02-03 10:29:05', 1, '2015-02-05 09:45:13'),
+(120, 40, 7697, 79, 1, 0, 1, '2015-03-05', 0, 0, 1, '療程提醒', '1玻尿酸  1cc', '', '2015-02-03 13:11:50', 0, '2015-02-03 13:11:50'),
+(121, 40, 7708, 79, 1, 0, 1, '2015-03-05', 0, 0, 1, '療程提醒', '1玻尿酸  1cc', '', '2015-02-03 13:12:41', 0, '2015-02-03 13:12:41'),
+(122, 41, 7754, 79, 1, 0, 1, '2015-03-05', 0, 0, 1, '療程提醒', '1玻尿酸  1cc', '', '2015-02-03 13:32:23', 0, '2015-02-03 13:32:23'),
+(123, 41, 7783, 79, 1, 0, 1, '2015-03-05', 0, 0, 1, '療程提醒', '1玻尿酸  1cc', '', '2015-02-03 13:32:32', 0, '2015-02-03 13:32:32'),
+(124, 40, 0, 0, 1, 0, 1, '2015-02-08', 0, 0, 0, '121231231 (再次提醒)', '', '', '2015-02-05 09:45:13', 0, '2015-02-05 09:45:13'),
+(125, 40, 0, 0, 1, 0, 1, '2015-02-10', 0, 0, 0, ' (再次提醒)', '', '', '2015-02-05 09:45:23', 0, '2015-02-05 09:45:23'),
+(126, 40, 7478, 79, 1, 0, 1, '2015-02-01', 2, 0, 1, '123 (再次提醒)', '1玻尿酸  1cc', 'done la', '2015-02-05 09:48:54', 1, '2015-02-05 09:49:30'),
+(127, 40, 7719, 79, 1, 0, 1, '2015-03-07', 0, 0, 1, '療程提醒', '1玻尿酸  1cc', '', '2015-02-05 10:42:06', 0, '2015-02-05 10:42:06'),
+(128, 40, 7752, 79, 1, 0, 1, '2015-03-07', 0, 0, 1, '療程提醒', '1玻尿酸  1cc', '', '2015-02-05 11:39:40', 0, '2015-02-05 11:39:40'),
+(129, 40, 7751, 79, 1, 0, 1, '2015-03-07', 0, 0, 1, '療程提醒', '1玻尿酸  1cc', '', '2015-02-05 11:48:41', 0, '2015-02-05 11:48:41'),
+(137, 41, 7967, 79, 1, 0, 1, '2015-03-07', 0, 0, 1, '療程提醒', '1玻尿酸  1cc', '', '2015-02-05 15:06:17', 0, '2015-02-05 15:06:17'),
+(131, 41, 7997, 79, 1, 0, 1, '2015-03-07', 0, 0, 1, '療程提醒', '1玻尿酸  1cc', '', '2015-02-05 14:11:51', 0, '2015-02-05 14:11:51'),
+(132, 41, 7996, 79, 1, 0, 1, '2015-03-07', 0, 0, 1, '療程提醒', '1玻尿酸  1cc', '', '2015-02-05 14:11:58', 0, '2015-02-05 14:11:58'),
+(152, 41, 7988, 79, 1, 0, 1, '2015-03-07', 0, 0, 1, '療程提醒', '1玻尿酸  1cc', '', '2015-02-05 15:46:24', 0, '2015-02-05 15:46:24'),
+(134, 41, 8008, 80, 1, 0, 1, '2015-03-17', 0, 0, 1, '療程提醒', '3雷瑟', '', '2015-02-05 14:12:46', 0, '2015-02-05 14:12:46'),
+(153, 42, 8462, 79, 1, 0, 1, '2015-03-08', 0, 0, 1, '療程提醒', '1玻尿酸  1cc', '', '2015-02-06 10:30:01', 0, '2015-02-06 10:30:01'),
+(136, 41, 8010, 88, 1, 0, 1, '2015-08-04', 0, 0, 1, '療程提醒', '按摩（7天回診）', '', '2015-02-05 15:00:53', 0, '2015-02-05 15:00:53'),
+(143, 41, 8012, 79, 1, 0, 1, '2015-03-07', 0, 0, 1, '療程提醒', '1玻尿酸  1cc', '', '2015-02-05 15:40:10', 0, '2015-02-05 15:40:10'),
+(150, 41, 7978, 79, 1, 0, 1, '2015-03-07', 0, 0, 1, '療程提醒', '1玻尿酸  1cc', '', '2015-02-05 15:40:37', 0, '2015-02-05 15:40:37'),
+(154, 40, 0, 0, 1, 0, 1, '2015-02-18', 0, 0, 0, '123132113', '', '', '2015-02-06 14:51:13', 0, '0000-00-00 00:00:00'),
+(157, 41, 61, 79, 1, 0, 1, '2015-03-09', 0, 0, 1, '療程提醒', '1玻尿酸  1cc', '', '2015-02-07 12:04:09', 0, '2015-02-07 12:04:09'),
+(191, 40, 60, 79, 1, 0, 1, '2015-03-10', 0, 0, 1, '療程提醒', '1玻尿酸  1cc', '', '2015-02-08 14:19:42', 0, '2015-02-08 14:19:42'),
+(174, 40, 676, 79, 1, 0, 1, '2015-03-09', 0, 0, 1, '療程提醒', '1玻尿酸  1cc', '', '2015-02-07 20:01:44', 0, '2015-02-07 20:01:44'),
+(160, 41, 209, 79, 1, 0, 1, '2015-03-09', 0, 0, 1, '療程提醒', '1玻尿酸  1cc', '', '2015-02-07 12:22:35', 0, '2015-02-07 12:22:35'),
+(173, 41, 435, 79, 1, 0, 1, '2015-03-09', 0, 0, 1, '療程提醒', '1玻尿酸  1cc', '', '2015-02-07 19:26:22', 0, '2015-02-07 19:26:22'),
+(163, 41, 349, 79, 1, 0, 1, '2015-03-09', 0, 0, 1, '療程提醒', '1玻尿酸  1cc', '', '2015-02-07 13:39:26', 0, '2015-02-07 13:39:26'),
+(169, 41, 360, 80, 1, 0, 1, '2015-03-19', 0, 0, 1, '療程提醒', '3雷瑟', '', '2015-02-07 14:02:35', 0, '2015-02-07 14:02:35'),
+(170, 41, 369, 80, 1, 0, 1, '2015-03-19', 0, 0, 1, '療程提醒', '3雷瑟', '', '2015-02-07 14:05:05', 0, '2015-02-07 14:05:05'),
+(171, 41, 368, 80, 1, 0, 1, '2015-03-19', 0, 0, 1, '療程提醒', '3雷瑟', '', '2015-02-07 14:05:10', 0, '2015-02-07 14:05:10'),
+(172, 41, 373, 79, 1, 0, 1, '2015-03-09', 0, 0, 1, '療程提醒', '1玻尿酸  1cc', '', '2015-02-07 14:39:56', 0, '2015-02-07 14:39:56'),
+(175, 40, 776, 79, 1, 0, 1, '2015-03-09', 0, 0, 1, '療程提醒', '1玻尿酸  1cc', '', '2015-02-07 20:03:19', 0, '2015-02-07 20:03:19'),
+(176, 40, 785, 79, 1, 0, 1, '2015-03-09', 0, 0, 1, '療程提醒', '1玻尿酸  1cc', '', '2015-02-07 20:04:17', 0, '2015-02-07 20:04:17'),
+(177, 42, 788, 89, 1, 0, 1, '2015-02-14', 0, 0, 1, '療程提醒', '5按摩 2', '', '2015-02-07 20:34:53', 0, '2015-02-07 20:34:53'),
+(178, 42, 793, 89, 1, 0, 1, '2015-02-15', 0, 0, 1, '療程提醒', '5按摩 2', '', '2015-02-08 20:35:26', 0, '2015-02-08 20:35:26'),
+(179, 41, 615, 79, 1, 0, 1, '2015-03-10', 0, 0, 1, '療程提醒', '1玻尿酸  1cc', '', '2015-02-08 20:36:24', 0, '2015-02-08 20:36:24'),
+(180, 41, 646, 79, 1, 0, 1, '2015-03-10', 0, 0, 1, '療程提醒', '1玻尿酸  1cc', '', '2015-02-08 20:36:34', 0, '2015-02-08 20:36:34'),
+(181, 41, 795, 86, 1, 0, 1, '2015-02-14', 0, 0, 1, '療程提醒', '諮詢 （7天回診）', '', '2015-02-07 21:07:58', 0, '2015-02-07 21:07:58'),
+(182, 41, 797, 79, 1, 0, 1, '2015-03-09', 0, 0, 1, '療程提醒', '1玻尿酸  1cc', '', '2015-02-07 21:08:55', 0, '2015-02-07 21:08:55'),
+(183, 40, 424, 68, 1, 0, 1, '2015-02-17', 0, 0, 1, '療程提醒', '2針灸 3', '', '2015-02-07 21:31:06', 0, '2015-02-07 21:31:06'),
+(184, 40, 425, 68, 1, 0, 1, '2015-02-17', 0, 0, 1, '療程提醒', '2針灸 3', '', '2015-02-07 21:31:11', 0, '2015-02-07 21:31:11'),
+(190, 40, 2, 79, 1, 0, 1, '2015-03-10', 0, 0, 1, '療程提醒', '1玻尿酸  1cc', '', '2015-02-08 14:17:50', 0, '2015-02-08 14:17:50'),
+(186, 42, 231, 79, 1, 0, 1, '2015-03-10', 0, 0, 1, '療程提醒', '1玻尿酸  1cc', '', '2015-02-08 01:45:24', 0, '2015-02-08 01:45:24'),
+(187, 42, 234, 79, 1, 0, 1, '2015-03-10', 0, 0, 1, '療程提醒', '1玻尿酸  1cc', '', '2015-02-08 13:58:44', 0, '2015-02-08 13:58:44'),
+(189, 42, 292, 79, 1, 0, 1, '2015-03-10', 0, 0, 1, '療程提醒', '1玻尿酸  1cc', '', '2015-02-08 14:12:37', 0, '2015-02-08 14:12:37'),
+(192, 40, 63, 79, 1, 0, 1, '2015-03-10', 0, 0, 1, '療程提醒', '1玻尿酸  1cc', '', '2015-02-08 14:26:31', 0, '2015-02-08 14:26:31'),
+(193, 40, 124, 80, 1, 0, 1, '2015-03-20', 0, 0, 1, '療程提醒', '3雷瑟', '', '2015-02-08 14:34:59', 0, '2015-02-08 14:34:59'),
+(194, 40, 125, 80, 1, 0, 1, '2015-03-20', 0, 0, 1, '療程提醒', '3雷瑟', '', '2015-02-08 14:50:31', 0, '2015-02-08 14:50:31'),
+(195, 40, 137, 80, 1, 0, 1, '2015-03-20', 0, 0, 1, '療程提醒', '3雷瑟', '', '2015-02-08 14:51:20', 0, '2015-02-08 14:51:20'),
+(196, 40, 198, 80, 1, 0, 1, '2015-03-20', 0, 0, 1, '療程提醒', '3雷瑟', '', '2015-02-08 14:56:40', 0, '2015-02-08 14:56:40'),
+(197, 40, 121, 79, 1, 0, 1, '2015-03-29', 0, 0, 1, '療程提醒', '1玻尿酸  1cc', '', '2015-02-27 12:46:33', 0, '2015-02-27 12:46:33');
 
 -- --------------------------------------------------------
 
@@ -1214,7 +1246,7 @@ INSERT INTO `oc_customer_history` (`customer_history_id`, `customer_id`, `custom
 --
 
 CREATE TABLE IF NOT EXISTS `oc_customer_image` (
-  `customer_image_id` int(11) NOT NULL AUTO_INCREMENT,
+`customer_image_id` int(11) NOT NULL,
   `customer_id` int(11) NOT NULL,
   `image` varchar(255) DEFAULT NULL,
   `sort_order` int(3) NOT NULL DEFAULT '0',
@@ -1222,9 +1254,20 @@ CREATE TABLE IF NOT EXISTS `oc_customer_image` (
   `date_added` datetime NOT NULL,
   `date_processed` datetime NOT NULL,
   `product_id` int(11) NOT NULL,
-  `comment` varchar(64) NOT NULL,
-  PRIMARY KEY (`customer_image_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=161 ;
+  `comment` varchar(64) NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=170 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `oc_customer_image`
+--
+
+INSERT INTO `oc_customer_image` (`customer_image_id`, `customer_id`, `image`, `sort_order`, `customer_transaction_id`, `date_added`, `date_processed`, `product_id`, `comment`) VALUES
+(165, 42, 'data/g大盤沒123/s大胖阿斯頓.jpg', 0, 0, '2015-02-07 02:22:31', '0000-00-00 00:00:00', 0, ''),
+(164, 40, 'data/吳局長.jpg', 0, 0, '2015-02-06 17:33:48', '0000-00-00 00:00:00', 0, ''),
+(166, 40, 'data/17-4163.jpg', 0, 451, '2015-02-07 17:24:16', '0000-00-00 00:00:00', 68, ''),
+(167, 40, 'data/17-4163.jpg', 0, 451, '2015-02-07 17:24:18', '0000-00-00 00:00:00', 68, ''),
+(168, 40, 'data/Pleiades_large.jpg', 0, 2, '2015-02-27 05:46:58', '0000-00-00 00:00:00', 79, ''),
+(169, 40, 'data/cart.png', 0, 2, '2015-02-27 05:47:06', '0000-00-00 00:00:00', 79, '');
 
 -- --------------------------------------------------------
 
@@ -1233,13 +1276,11 @@ CREATE TABLE IF NOT EXISTS `oc_customer_image` (
 --
 
 CREATE TABLE IF NOT EXISTS `oc_customer_ip` (
-  `customer_ip_id` int(11) NOT NULL AUTO_INCREMENT,
+`customer_ip_id` int(11) NOT NULL,
   `customer_id` int(11) NOT NULL,
   `ip` varchar(40) NOT NULL,
-  `date_added` datetime NOT NULL,
-  PRIMARY KEY (`customer_ip_id`),
-  KEY `ip` (`ip`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+  `date_added` datetime NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `oc_customer_ip`
@@ -1253,7 +1294,10 @@ INSERT INTO `oc_customer_ip` (`customer_ip_id`, `customer_id`, `ip`, `date_added
 (8, 13, '127.0.0.1', '2014-10-14 17:42:39'),
 (9, 34, '127.0.0.1', '2014-10-26 19:19:16'),
 (10, 40, '127.0.0.1', '2014-12-11 10:23:30'),
-(11, 41, '127.0.0.1', '2014-12-11 12:01:10');
+(11, 41, '127.0.0.1', '2014-12-11 12:01:10'),
+(12, 40, '::1', '2015-01-10 16:25:25'),
+(13, 41, '::1', '2015-02-03 13:30:43'),
+(14, 42, '::1', '2015-02-06 10:29:48');
 
 -- --------------------------------------------------------
 
@@ -1262,7 +1306,7 @@ INSERT INTO `oc_customer_ip` (`customer_ip_id`, `customer_id`, `ip`, `date_added
 --
 
 CREATE TABLE IF NOT EXISTS `oc_customer_lending` (
-  `customer_lending_id` int(11) NOT NULL AUTO_INCREMENT,
+`customer_lending_id` int(11) NOT NULL,
   `customer_transaction_id` int(11) NOT NULL,
   `borrower_id` int(11) NOT NULL,
   `lender_id` int(11) NOT NULL,
@@ -1270,16 +1314,8 @@ CREATE TABLE IF NOT EXISTS `oc_customer_lending` (
   `product_id` int(11) NOT NULL,
   `quantity` float NOT NULL,
   `subquantity` int(11) NOT NULL,
-  `date_added` datetime NOT NULL,
-  PRIMARY KEY (`customer_lending_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
-
---
--- Dumping data for table `oc_customer_lending`
---
-
-INSERT INTO `oc_customer_lending` (`customer_lending_id`, `customer_transaction_id`, `borrower_id`, `lender_id`, `user_id`, `product_id`, `quantity`, `subquantity`, `date_added`) VALUES
-(6, 0, 41, 40, 1, 79, 0.3, 3, '2014-12-11 10:31:48');
+  `date_added` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1292,8 +1328,7 @@ CREATE TABLE IF NOT EXISTS `oc_customer_online` (
   `customer_id` int(11) NOT NULL,
   `url` text NOT NULL,
   `referer` text NOT NULL,
-  `date_added` datetime NOT NULL,
-  PRIMARY KEY (`ip`)
+  `date_added` datetime NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -1303,14 +1338,13 @@ CREATE TABLE IF NOT EXISTS `oc_customer_online` (
 --
 
 CREATE TABLE IF NOT EXISTS `oc_customer_reward` (
-  `customer_reward_id` int(11) NOT NULL AUTO_INCREMENT,
+`customer_reward_id` int(11) NOT NULL,
   `customer_id` int(11) NOT NULL DEFAULT '0',
   `order_id` int(11) NOT NULL DEFAULT '0',
   `description` text NOT NULL,
   `points` int(8) NOT NULL DEFAULT '0',
-  `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  PRIMARY KEY (`customer_reward_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1319,7 +1353,7 @@ CREATE TABLE IF NOT EXISTS `oc_customer_reward` (
 --
 
 CREATE TABLE IF NOT EXISTS `oc_customer_transaction` (
-  `customer_transaction_id` int(11) NOT NULL AUTO_INCREMENT,
+`customer_transaction_id` int(11) NOT NULL,
   `type` int(11) NOT NULL,
   `ismain` int(11) NOT NULL,
   `status` int(11) NOT NULL COMMENT '-1 appointment, don''t calculate inventory ',
@@ -1343,8 +1377,8 @@ CREATE TABLE IF NOT EXISTS `oc_customer_transaction` (
   `total_balance` decimal(10,2) NOT NULL,
   `total_final` decimal(10,2) NOT NULL,
   `payment` decimal(15,2) NOT NULL,
-  `date_added` datetime NOT NULL,
-  `date_modified` datetime NOT NULL,
+  `date_added` date NOT NULL,
+  `date_modified` date NOT NULL,
   `comment` varchar(200) NOT NULL,
   `doctor_id` int(11) NOT NULL,
   `outsource_id` int(11) NOT NULL,
@@ -1358,51 +1392,217 @@ CREATE TABLE IF NOT EXISTS `oc_customer_transaction` (
   `bonus_consultant` decimal(10,2) NOT NULL,
   `bonus_outsource` decimal(10,2) NOT NULL,
   `bonus_beauty` decimal(10,2) NOT NULL,
-  PRIMARY KEY (`customer_transaction_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7275 ;
+  `bonus_beauty_fixed` decimal(10,2) NOT NULL,
+  `bonus_doctor_fixed` decimal(10,2) NOT NULL,
+  `bonus_consultant_fixed` decimal(10,2) NOT NULL,
+  `bonus_outsource_fixed` decimal(10,2) NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=208 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `oc_customer_transaction`
 --
 
-INSERT INTO `oc_customer_transaction` (`customer_transaction_id`, `type`, `ismain`, `status`, `customer_lending_id`, `treatment_usage_id`, `lender_id`, `customer_id`, `user_id`, `order_id`, `product_id`, `product_type_id`, `product_which`, `product_total_which`, `quantity`, `subquantity`, `unit_class_id`, `amount`, `total_amount`, `total_cash`, `total_visa`, `total_balance`, `total_final`, `payment`, `date_added`, `date_modified`, `comment`, `doctor_id`, `outsource_id`, `consultant_id`, `beauty_id`, `bonus_percent_doctor`, `bonus_percent_consultant`, `bonus_percent_outsource`, `bonus_percent_beauty`, `bonus_doctor`, `bonus_consultant`, `bonus_outsource`, `bonus_beauty`) VALUES
-(7238, 0, 1, 0, 0, 0, 0, 40, 1, 280, 79, 2, 0, 0, 1, 10, 8, 9000.00, 0, 0.00, 0.00, 0.00, 0.00, 0.00, '2014-12-11 10:23:35', '2014-12-11 10:23:35', '', 0, 0, 0, 0, 0, 0, 0, 0, 0.00, 0.00, 0.00, 0.00),
-(7239, 0, 0, 2, 0, 146, 0, 40, 1, 280, 79, 2, 1, 10, -0.1, -1, 8, -900.00, 9000, 0.00, 0.00, 0.00, 0.00, 0.00, '2014-12-11 10:23:35', '2014-12-11 10:23:55', 'first 0.4 cc of the world', 23, 0, 0, 0, 15, 10, 10, 10, 135.00, 90.00, 90.00, 90.00),
-(7240, 0, 0, -2, 0, 147, 0, 40, 1, 280, 79, 2, 2, 10, -0.1, -1, 8, -900.00, 0, 0.00, 0.00, 0.00, 0.00, 0.00, '2014-12-11 10:23:35', '2014-12-11 10:27:11', 'next 03.', 0, 0, 0, 0, 15, 10, 10, 10, 135.00, 90.00, 90.00, 90.00),
-(7241, 0, 0, -2, 0, 147, 0, 40, 1, 280, 79, 2, 3, 10, -0.1, -1, 8, -900.00, 0, 0.00, 0.00, 0.00, 0.00, 0.00, '2014-12-11 10:23:35', '2014-12-11 10:27:11', 'next 03.', 0, 0, 0, 0, 15, 10, 10, 10, 135.00, 90.00, 90.00, 90.00),
-(7242, 0, 0, -2, 0, 147, 0, 40, 1, 280, 79, 2, 4, 10, -0.1, -1, 8, -900.00, 0, 0.00, 0.00, 0.00, 0.00, 0.00, '2014-12-11 10:23:35', '2014-12-11 10:27:11', 'next 03.', 0, 0, 0, 0, 15, 10, 10, 10, 135.00, 90.00, 90.00, 90.00),
-(7243, 0, 0, 10, 6, 0, 0, 40, 1, 280, 79, 2, 5, 10, -0.1, -1, 8, -900.00, 0, 0.00, 0.00, 0.00, 0.00, 0.00, '2014-12-11 10:31:48', '2014-12-11 10:31:48', '', 0, 0, 0, 0, 15, 10, 10, 10, 135.00, 90.00, 90.00, 90.00),
-(7244, 0, 0, 10, 6, 0, 0, 40, 1, 280, 79, 2, 6, 10, -0.1, -1, 8, -900.00, 0, 0.00, 0.00, 0.00, 0.00, 0.00, '2014-12-11 10:31:48', '2014-12-11 10:31:48', '', 0, 0, 0, 0, 15, 10, 10, 10, 135.00, 90.00, 90.00, 90.00),
-(7245, 0, 0, 2, 0, 146, 0, 40, 1, 280, 79, 2, 7, 10, -0.1, -1, 8, -900.00, 0, 0.00, 0.00, 0.00, 0.00, 0.00, '2014-12-11 10:23:35', '2014-12-11 10:23:55', 'first 0.4 cc of the world', 23, 0, 0, 0, 15, 10, 10, 10, 135.00, 90.00, 90.00, 90.00),
-(7246, 0, 0, 2, 0, 146, 0, 40, 1, 280, 79, 2, 8, 10, -0.1, -1, 8, -900.00, 0, 0.00, 0.00, 0.00, 0.00, 0.00, '2014-12-11 10:23:35', '2014-12-11 10:23:55', 'first 0.4 cc of the world', 23, 0, 0, 0, 15, 10, 10, 10, 135.00, 90.00, 90.00, 90.00),
-(7247, 0, 0, 2, 0, 146, 0, 40, 1, 280, 79, 2, 9, 10, -0.1, -1, 8, -900.00, 0, 0.00, 0.00, 0.00, 0.00, 0.00, '2014-12-11 10:23:35', '2014-12-11 10:23:55', 'first 0.4 cc of the world', 23, 0, 0, 0, 15, 10, 10, 10, 135.00, 90.00, 90.00, 90.00),
-(7248, 0, 0, 10, 6, 0, 0, 40, 1, 280, 79, 2, 10, 10, -0.1, -1, 8, -900.00, 0, 0.00, 0.00, 0.00, 0.00, 0.00, '2014-12-11 10:31:48', '2014-12-11 10:31:48', '', 0, 0, 0, 0, 15, 10, 10, 10, 135.00, 90.00, 90.00, 90.00),
-(7249, 0, 0, 2, 6, 148, 0, 41, 1, 0, 79, 2, 0, 0, -0.1, -1, 8, -900.00, 0, 0.00, 0.00, 0.00, 0.00, 0.00, '2014-12-11 10:31:48', '2014-12-11 10:33:12', 'borrowed 0.2', 23, 0, 0, 0, 15, 10, 10, 10, 135.00, 90.00, 90.00, 90.00),
-(7250, 0, 0, 2, 6, 148, 0, 41, 1, 0, 79, 2, 0, 0, -0.1, -1, 8, -900.00, 0, 0.00, 0.00, 0.00, 0.00, 0.00, '2014-12-11 10:31:48', '2014-12-11 10:33:12', 'borrowed 0.2', 23, 0, 0, 0, 15, 10, 10, 10, 135.00, 90.00, 90.00, 90.00),
-(7251, 0, 0, -2, 6, 149, 0, 41, 1, 0, 79, 2, 0, 0, -0.1, -1, 8, -900.00, 0, 0.00, 0.00, 0.00, 0.00, 0.00, '2014-12-11 10:31:48', '2014-12-11 10:33:20', '', 0, 0, 0, 0, 15, 10, 10, 10, 135.00, 90.00, 90.00, 90.00),
-(7252, 0, 0, 9, 6, 0, 0, 41, 1, 0, 79, 2, 0, 0, 0.3, 3, 0, 900.00, 0, 0.00, 0.00, 0.00, 0.00, 0.00, '2014-12-11 10:31:48', '0000-00-00 00:00:00', '', 0, 0, 0, 0, 0, 0, 0, 0, 0.00, 0.00, 0.00, 0.00),
-(7253, 0, 1, 0, 0, 0, 0, 40, 1, 281, 66, 1, 0, 0, 1, 5, 3, 1800.00, 0, 0.00, 0.00, 0.00, 0.00, 0.00, '2014-12-11 11:48:52', '2014-12-11 11:48:52', '', 0, 0, 0, 0, 0, 0, 0, 0, 0.00, 0.00, 0.00, 0.00),
-(7254, 0, 0, 2, 0, 150, 0, 40, 1, 281, 66, 1, 1, 5, -0.2, -1, 3, -360.00, 1800, 0.00, 0.00, 0.00, 0.00, 0.00, '2014-12-11 11:48:52', '2014-12-11 11:56:41', '', 0, 0, 0, 0, 0, 0, 0, 0, 0.00, 0.00, 0.00, 0.00),
-(7255, 0, 0, 2, 0, 150, 0, 40, 1, 281, 66, 1, 2, 5, -0.2, -1, 3, -360.00, 0, 0.00, 0.00, 0.00, 0.00, 0.00, '2014-12-11 11:48:52', '2014-12-11 11:56:41', '', 0, 0, 0, 0, 0, 0, 0, 0, 0.00, 0.00, 0.00, 0.00),
-(7256, 0, 0, -1, 0, 0, 0, 40, 1, 281, 66, 1, 3, 5, -0.2, -1, 3, -360.00, 0, 0.00, 0.00, 0.00, 0.00, 0.00, '2014-12-11 11:48:52', '2014-12-11 11:48:52', '', 0, 0, 0, 0, 0, 0, 0, 0, 0.00, 0.00, 0.00, 0.00),
-(7257, 0, 0, -1, 0, 0, 0, 40, 1, 281, 66, 1, 4, 5, -0.2, -1, 3, -360.00, 0, 0.00, 0.00, 0.00, 0.00, 0.00, '2014-12-11 11:48:52', '2014-12-11 11:48:52', '', 0, 0, 0, 0, 0, 0, 0, 0, 0.00, 0.00, 0.00, 0.00),
-(7258, 0, 0, -1, 0, 0, 0, 40, 1, 281, 66, 1, 5, 5, -0.2, -1, 3, -360.00, 0, 0.00, 0.00, 0.00, 0.00, 0.00, '2014-12-11 11:48:52', '2014-12-11 11:48:52', '', 0, 0, 0, 0, 0, 0, 0, 0, 0.00, 0.00, 0.00, 0.00),
-(7259, 0, 1, 0, 0, 0, 0, 40, 1, 281, 79, 2, 0, 0, 1, 10, 8, 8000.00, 0, 0.00, 0.00, 0.00, 0.00, 0.00, '2014-12-11 11:48:52', '2014-12-11 11:48:52', '', 0, 0, 0, 0, 0, 0, 0, 0, 0.00, 0.00, 0.00, 0.00),
-(7260, 0, 0, -1, 0, 0, 0, 40, 1, 281, 79, 2, 1, 10, -0.1, -1, 8, -800.00, 8000, 0.00, 0.00, 0.00, 0.00, 0.00, '2014-12-11 11:48:52', '2014-12-11 11:48:52', '', 0, 0, 0, 0, 15, 10, 10, 10, 120.00, 80.00, 80.00, 80.00),
-(7261, 0, 0, -1, 0, 0, 0, 40, 1, 281, 79, 2, 2, 10, -0.1, -1, 8, -800.00, 0, 0.00, 0.00, 0.00, 0.00, 0.00, '2014-12-11 11:48:52', '2014-12-11 11:48:52', '', 0, 0, 0, 0, 15, 10, 10, 10, 120.00, 80.00, 80.00, 80.00),
-(7262, 0, 0, -1, 0, 0, 0, 40, 1, 281, 79, 2, 3, 10, -0.1, -1, 8, -800.00, 0, 0.00, 0.00, 0.00, 0.00, 0.00, '2014-12-11 11:48:52', '2014-12-11 11:48:52', '', 0, 0, 0, 0, 15, 10, 10, 10, 120.00, 80.00, 80.00, 80.00),
-(7263, 0, 0, -1, 0, 0, 0, 40, 1, 281, 79, 2, 4, 10, -0.1, -1, 8, -800.00, 0, 0.00, 0.00, 0.00, 0.00, 0.00, '2014-12-11 11:48:52', '2014-12-11 11:48:52', '', 0, 0, 0, 0, 15, 10, 10, 10, 120.00, 80.00, 80.00, 80.00),
-(7264, 0, 0, -1, 0, 0, 0, 40, 1, 281, 79, 2, 5, 10, -0.1, -1, 8, -800.00, 0, 0.00, 0.00, 0.00, 0.00, 0.00, '2014-12-11 11:48:52', '2014-12-11 11:48:52', '', 0, 0, 0, 0, 15, 10, 10, 10, 120.00, 80.00, 80.00, 80.00),
-(7265, 0, 0, -1, 0, 0, 0, 40, 1, 281, 79, 2, 6, 10, -0.1, -1, 8, -800.00, 0, 0.00, 0.00, 0.00, 0.00, 0.00, '2014-12-11 11:48:52', '2014-12-11 11:48:52', '', 0, 0, 0, 0, 15, 10, 10, 10, 120.00, 80.00, 80.00, 80.00),
-(7266, 0, 0, -1, 0, 0, 0, 40, 1, 281, 79, 2, 7, 10, -0.1, -1, 8, -800.00, 0, 0.00, 0.00, 0.00, 0.00, 0.00, '2014-12-11 11:48:52', '2014-12-11 11:48:52', '', 0, 0, 0, 0, 15, 10, 10, 10, 120.00, 80.00, 80.00, 80.00),
-(7267, 0, 0, -1, 0, 0, 0, 40, 1, 281, 79, 2, 8, 10, -0.1, -1, 8, -800.00, 0, 0.00, 0.00, 0.00, 0.00, 0.00, '2014-12-11 11:48:52', '2014-12-11 11:48:52', '', 0, 0, 0, 0, 15, 10, 10, 10, 120.00, 80.00, 80.00, 80.00),
-(7268, 0, 0, -1, 0, 0, 0, 40, 1, 281, 79, 2, 9, 10, -0.1, -1, 8, -800.00, 0, 0.00, 0.00, 0.00, 0.00, 0.00, '2014-12-11 11:48:52', '2014-12-11 11:48:52', '', 0, 0, 0, 0, 15, 10, 10, 10, 120.00, 80.00, 80.00, 80.00),
-(7269, 0, 0, -1, 0, 0, 0, 40, 1, 281, 79, 2, 10, 10, -0.1, -1, 8, -800.00, 0, 0.00, 0.00, 0.00, 0.00, 0.00, '2014-12-11 11:48:52', '2014-12-11 11:48:52', '', 0, 0, 0, 0, 15, 10, 10, 10, 120.00, 80.00, 80.00, 80.00),
-(7270, 0, 1, 0, 0, 0, 0, 41, 1, 282, 112, 1, 0, 0, 1, 4, 3, 120.00, 0, 0.00, 0.00, 0.00, 0.00, 0.00, '2014-12-11 12:01:20', '2014-12-11 12:01:20', '', 0, 0, 0, 0, 0, 0, 0, 0, 0.00, 0.00, 0.00, 0.00),
-(7271, 0, 0, 2, 0, 151, 0, 41, 1, 282, 112, 1, 1, 4, -0.25, -1, 3, -30.00, 120, 0.00, 0.00, 0.00, 0.00, 0.00, '2014-12-11 12:01:20', '2014-12-11 12:06:30', 'use 2', 23, 0, 0, 0, 0, 0, 0, 0, 0.00, 0.00, 0.00, 0.00),
-(7272, 0, 0, 2, 0, 151, 0, 41, 1, 282, 112, 1, 2, 4, -0.25, -1, 3, -30.00, 0, 0.00, 0.00, 0.00, 0.00, 0.00, '2014-12-11 12:01:20', '2014-12-11 12:06:30', 'use 2', 23, 0, 0, 0, 0, 0, 0, 0, 0.00, 0.00, 0.00, 0.00),
-(7273, 0, 0, -1, 0, 0, 0, 41, 1, 282, 112, 1, 3, 4, -0.25, -1, 3, -30.00, 0, 0.00, 0.00, 0.00, 0.00, 0.00, '2014-12-11 12:01:20', '2014-12-11 12:01:20', '', 0, 0, 0, 0, 0, 0, 0, 0, 0.00, 0.00, 0.00, 0.00),
-(7274, 0, 0, -1, 0, 0, 0, 41, 1, 282, 112, 1, 4, 4, -0.25, -1, 3, -30.00, 0, 0.00, 0.00, 0.00, 0.00, 0.00, '2014-12-11 12:01:20', '2014-12-11 12:01:20', '', 0, 0, 0, 0, 0, 0, 0, 0, 0.00, 0.00, 0.00, 0.00);
+INSERT INTO `oc_customer_transaction` (`customer_transaction_id`, `type`, `ismain`, `status`, `customer_lending_id`, `treatment_usage_id`, `lender_id`, `customer_id`, `user_id`, `order_id`, `product_id`, `product_type_id`, `product_which`, `product_total_which`, `quantity`, `subquantity`, `unit_class_id`, `amount`, `total_amount`, `total_cash`, `total_visa`, `total_balance`, `total_final`, `payment`, `date_added`, `date_modified`, `comment`, `doctor_id`, `outsource_id`, `consultant_id`, `beauty_id`, `bonus_percent_doctor`, `bonus_percent_consultant`, `bonus_percent_outsource`, `bonus_percent_beauty`, `bonus_doctor`, `bonus_consultant`, `bonus_outsource`, `bonus_beauty`, `bonus_beauty_fixed`, `bonus_doctor_fixed`, `bonus_consultant_fixed`, `bonus_outsource_fixed`) VALUES
+(1, 0, 1, 0, 0, 0, 0, 40, 1, 21, 79, 2, 0, 0, 6, 60, 8, '10000.02', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 0, 0, 0, 0, '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00'),
+(2, 0, 0, 2, 0, 39, 0, 40, 1, 21, 79, 2, 1, 60, -0.1, -1, 8, '-166.67', 10000, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 23, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '10000.00', '0.00', '0.00'),
+(3, 0, 0, -1, 0, 0, 0, 40, 1, 21, 79, 2, 2, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(4, 0, 0, 2, 0, 39, 0, 40, 1, 21, 79, 2, 3, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 23, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(5, 0, 0, 2, 0, 39, 0, 40, 1, 21, 79, 2, 4, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 23, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(6, 0, 0, 2, 0, 39, 0, 40, 1, 21, 79, 2, 5, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 23, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(7, 0, 0, 2, 0, 39, 0, 40, 1, 21, 79, 2, 6, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 23, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(8, 0, 0, 2, 0, 39, 0, 40, 1, 21, 79, 2, 7, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 23, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(9, 0, 0, 2, 0, 39, 0, 40, 1, 21, 79, 2, 8, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 23, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(10, 0, 0, 2, 0, 39, 0, 40, 1, 21, 79, 2, 9, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 23, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(11, 0, 0, 2, 0, 39, 0, 40, 1, 21, 79, 2, 10, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 23, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(12, 0, 0, 2, 0, 39, 0, 40, 1, 21, 79, 2, 11, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 23, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(13, 0, 0, 2, 0, 39, 0, 40, 1, 21, 79, 2, 12, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 23, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(14, 0, 0, 2, 0, 39, 0, 40, 1, 21, 79, 2, 13, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 23, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(15, 0, 0, 2, 0, 39, 0, 40, 1, 21, 79, 2, 14, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 23, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(16, 0, 0, 2, 0, 39, 0, 40, 1, 21, 79, 2, 15, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 23, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(17, 0, 0, 2, 0, 39, 0, 40, 1, 21, 79, 2, 16, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 23, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(18, 0, 0, 2, 0, 39, 0, 40, 1, 21, 79, 2, 17, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 23, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(19, 0, 0, 2, 0, 39, 0, 40, 1, 21, 79, 2, 18, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 23, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(20, 0, 0, 2, 0, 39, 0, 40, 1, 21, 79, 2, 19, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 23, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(21, 0, 0, 2, 0, 39, 0, 40, 1, 21, 79, 2, 20, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 23, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(27, 0, 0, 2, 0, 41, 0, 40, 1, 21, 79, 2, 26, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 28, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(28, 0, 0, 2, 0, 41, 0, 40, 1, 21, 79, 2, 27, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 28, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(29, 0, 0, 2, 0, 41, 0, 40, 1, 21, 79, 2, 28, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 28, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(30, 0, 0, 2, 0, 41, 0, 40, 1, 21, 79, 2, 29, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 28, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(31, 0, 0, 2, 0, 41, 0, 40, 1, 21, 79, 2, 30, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 28, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(32, 0, 0, 2, 0, 41, 0, 40, 1, 21, 79, 2, 31, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 28, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(33, 0, 0, 2, 0, 41, 0, 40, 1, 21, 79, 2, 32, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 28, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(34, 0, 0, 2, 0, 41, 0, 40, 1, 21, 79, 2, 33, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 28, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(35, 0, 0, 2, 0, 41, 0, 40, 1, 21, 79, 2, 34, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 28, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(36, 0, 0, 2, 0, 41, 0, 40, 1, 21, 79, 2, 35, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 28, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(37, 0, 0, 2, 0, 41, 0, 40, 1, 21, 79, 2, 36, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 28, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(38, 0, 0, 2, 0, 41, 0, 40, 1, 21, 79, 2, 37, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 28, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(39, 0, 0, 2, 0, 41, 0, 40, 1, 21, 79, 2, 38, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 28, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(40, 0, 0, 2, 0, 41, 0, 40, 1, 21, 79, 2, 39, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 28, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(41, 0, 0, 2, 0, 41, 0, 40, 1, 21, 79, 2, 40, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 28, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(42, 0, 0, 2, 0, 46, 0, 40, 1, 21, 79, 2, 41, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-27', '123123', 23, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(43, 0, 0, 2, 0, 46, 0, 40, 1, 21, 79, 2, 42, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-27', '123123', 23, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(44, 0, 0, -1, 0, 0, 0, 40, 1, 21, 79, 2, 43, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(45, 0, 0, -1, 0, 0, 0, 40, 1, 21, 79, 2, 44, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(46, 0, 0, -1, 0, 0, 0, 40, 1, 21, 79, 2, 45, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(47, 0, 0, -1, 0, 0, 0, 40, 1, 21, 79, 2, 46, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(48, 0, 0, -1, 0, 0, 0, 40, 1, 21, 79, 2, 47, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(49, 0, 0, -1, 0, 0, 0, 40, 1, 21, 79, 2, 48, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(50, 0, 0, -1, 0, 0, 0, 40, 1, 21, 79, 2, 49, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(51, 0, 0, -1, 0, 0, 0, 40, 1, 21, 79, 2, 50, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(52, 0, 0, -1, 0, 0, 0, 40, 1, 21, 79, 2, 51, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(53, 0, 0, -1, 0, 0, 0, 40, 1, 21, 79, 2, 52, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(54, 0, 0, -1, 0, 0, 0, 40, 1, 21, 79, 2, 53, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(55, 0, 0, -1, 0, 0, 0, 40, 1, 21, 79, 2, 54, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(56, 0, 0, -1, 0, 0, 0, 40, 1, 21, 79, 2, 55, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(57, 0, 0, -1, 0, 0, 0, 40, 1, 21, 79, 2, 56, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(58, 0, 0, -1, 0, 0, 0, 40, 1, 21, 79, 2, 57, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(59, 0, 0, -1, 0, 0, 0, 40, 1, 21, 79, 2, 58, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(60, 0, 0, -1, 0, 0, 0, 40, 1, 21, 79, 2, 59, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 23, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '20000.00', '0.00', '0.00'),
+(61, 0, 0, 2, 0, 39, 0, 40, 1, 21, 79, 2, 60, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 23, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(62, 0, 1, 0, 0, 0, 0, 40, 1, 22, 79, 2, 0, 0, 6, 60, 8, '10000.02', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 0, 0, 0, 0, '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00'),
+(123, 0, 1, 0, 0, 0, 0, 40, 1, 23, 80, 2, 0, 0, 1, 10, 4, '10000.00', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 0, 0, 0, 0, '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00'),
+(137, 0, 0, 2, 0, 44, 0, 40, 1, 25, 80, 2, 1, 60, -0.1, -1, 4, '-166.67', 10000, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 28, 27, 26, 24, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '10000.00', '10000.00', '10000.00', '10000.00'),
+(136, 0, 1, 0, 0, 0, 0, 40, 1, 25, 80, 2, 0, 0, 6, 60, 4, '10000.02', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 0, 0, 0, 0, '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00'),
+(197, 0, 1, 0, 0, 0, 0, 40, 1, 26, 80, 2, 0, 0, 1, 10, 4, '10000.00', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-05', '2015-02-08', '', 0, 0, 0, 0, 0, 0, 0, 0, '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00'),
+(63, 0, 0, 2, 0, 41, 0, 40, 1, 22, 79, 2, 1, 60, -0.1, -1, 8, '-166.67', 10000, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 28, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '20000.00', '0.00', '0.00'),
+(64, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 2, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(65, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 3, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(66, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 4, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(67, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 5, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(68, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 6, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(69, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 7, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(70, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 8, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(71, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 9, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(72, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 10, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(73, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 11, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(74, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 12, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(75, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 13, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(76, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 14, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(77, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 15, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(78, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 16, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(79, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 17, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(80, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 18, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(81, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 19, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(82, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 20, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(83, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 21, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(84, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 22, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(85, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 23, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(86, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 24, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(87, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 25, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(88, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 26, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(89, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 27, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(90, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 28, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(91, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 29, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(92, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 30, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(93, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 31, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(94, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 32, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(95, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 33, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(96, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 34, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(97, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 35, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(98, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 36, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(99, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 37, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(100, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 38, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(101, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 39, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(102, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 40, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(103, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 41, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(104, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 42, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(105, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 43, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(106, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 44, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(107, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 45, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(108, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 46, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(109, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 47, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(110, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 48, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(111, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 49, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(112, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 50, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(113, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 51, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(114, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 52, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(115, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 53, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(116, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 54, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(117, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 55, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(118, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 56, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(119, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 57, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(120, 0, 0, -1, 0, 0, 0, 40, 1, 22, 79, 2, 58, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 0, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(121, 0, 0, 2, 0, 46, 0, 40, 1, 22, 79, 2, 59, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-27', '123123', 23, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '35.00', '0.00', '0.00'),
+(122, 0, 0, 2, 0, 41, 0, 40, 1, 22, 79, 2, 60, 60, -0.1, -1, 8, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-06', '2015-02-08', '', 28, 0, 0, 0, 10, 0, 0, 5, '16.67', '0.00', '0.00', '8.33', '0.00', '0.00', '0.00', '0.00'),
+(124, 0, 0, 2, 0, 42, 0, 40, 1, 23, 80, 2, 1, 10, -0.1, -1, 4, '-1000.00', 10000, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 28, 27, 26, 24, 0, 0, 0, 0, '0.00', '0.00', '0.00', '0.00', '10000.00', '20000.00', '40000.00', '80000.00'),
+(125, 0, 0, 2, 0, 43, 0, 40, 1, 23, 80, 2, 2, 10, -0.1, -1, 4, '-1000.00', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 0, 0, 0, 0, '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00'),
+(126, 0, 0, 2, 0, 43, 0, 40, 1, 23, 80, 2, 3, 10, -0.1, -1, 4, '-1000.00', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 0, 0, 0, 0, '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00'),
+(127, 0, 0, 2, 0, 43, 0, 40, 1, 23, 80, 2, 4, 10, -0.1, -1, 4, '-1000.00', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 0, 0, 0, 0, '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00'),
+(128, 0, 0, 2, 0, 43, 0, 40, 1, 23, 80, 2, 5, 10, -0.1, -1, 4, '-1000.00', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 0, 0, 0, 0, '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00'),
+(129, 0, 0, 2, 0, 43, 0, 40, 1, 23, 80, 2, 6, 10, -0.1, -1, 4, '-1000.00', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 0, 0, 0, 0, '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00'),
+(130, 0, 0, 2, 0, 43, 0, 40, 1, 23, 80, 2, 7, 10, -0.1, -1, 4, '-1000.00', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 0, 0, 0, 0, '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00'),
+(131, 0, 0, 2, 0, 43, 0, 40, 1, 23, 80, 2, 8, 10, -0.1, -1, 4, '-1000.00', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 0, 0, 0, 0, '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00'),
+(132, 0, 0, 2, 0, 43, 0, 40, 1, 23, 80, 2, 9, 10, -0.1, -1, 4, '-1000.00', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 0, 0, 0, 0, '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00'),
+(133, 0, 0, 2, 0, 42, 0, 40, 1, 23, 80, 2, 10, 10, -0.1, -1, 4, '-1000.00', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 28, 27, 26, 24, 0, 0, 0, 0, '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00'),
+(138, 0, 0, -1, 0, 0, 0, 40, 1, 25, 80, 2, 2, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(139, 0, 0, 2, 0, 44, 0, 40, 1, 25, 80, 2, 3, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 28, 27, 26, 24, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(140, 0, 0, -1, 0, 0, 0, 40, 1, 25, 80, 2, 4, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(141, 0, 0, 2, 0, 45, 0, 40, 1, 25, 80, 2, 5, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '123', 23, 27, 26, 24, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(142, 0, 0, 2, 0, 45, 0, 40, 1, 25, 80, 2, 6, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '123', 23, 27, 26, 24, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(143, 0, 0, 2, 0, 45, 0, 40, 1, 25, 80, 2, 7, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '123', 23, 27, 26, 24, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(144, 0, 0, 2, 0, 45, 0, 40, 1, 25, 80, 2, 8, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '123', 23, 27, 26, 24, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(145, 0, 0, 2, 0, 45, 0, 40, 1, 25, 80, 2, 9, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '123', 23, 27, 26, 24, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(146, 0, 0, 2, 0, 45, 0, 40, 1, 25, 80, 2, 10, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '123', 23, 27, 26, 24, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(147, 0, 0, 2, 0, 45, 0, 40, 1, 25, 80, 2, 11, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '123', 23, 27, 26, 24, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(148, 0, 0, 2, 0, 45, 0, 40, 1, 25, 80, 2, 12, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '123', 23, 27, 26, 24, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(149, 0, 0, -1, 0, 0, 0, 40, 1, 25, 80, 2, 13, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(150, 0, 0, -1, 0, 0, 0, 40, 1, 25, 80, 2, 14, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(151, 0, 0, -1, 0, 0, 0, 40, 1, 25, 80, 2, 15, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(152, 0, 0, -1, 0, 0, 0, 40, 1, 25, 80, 2, 16, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(153, 0, 0, -1, 0, 0, 0, 40, 1, 25, 80, 2, 17, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(154, 0, 0, -1, 0, 0, 0, 40, 1, 25, 80, 2, 18, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(155, 0, 0, -1, 0, 0, 0, 40, 1, 25, 80, 2, 19, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(156, 0, 0, -1, 0, 0, 0, 40, 1, 25, 80, 2, 20, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(157, 0, 0, -1, 0, 0, 0, 40, 1, 25, 80, 2, 21, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(158, 0, 0, -1, 0, 0, 0, 40, 1, 25, 80, 2, 22, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(159, 0, 0, -1, 0, 0, 0, 40, 1, 25, 80, 2, 23, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(160, 0, 0, -1, 0, 0, 0, 40, 1, 25, 80, 2, 24, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(161, 0, 0, -1, 0, 0, 0, 40, 1, 25, 80, 2, 25, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(162, 0, 0, -1, 0, 0, 0, 40, 1, 25, 80, 2, 26, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(163, 0, 0, -1, 0, 0, 0, 40, 1, 25, 80, 2, 27, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(164, 0, 0, -1, 0, 0, 0, 40, 1, 25, 80, 2, 28, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(165, 0, 0, -1, 0, 0, 0, 40, 1, 25, 80, 2, 29, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(166, 0, 0, -1, 0, 0, 0, 40, 1, 25, 80, 2, 30, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(167, 0, 0, -1, 0, 0, 0, 40, 1, 25, 80, 2, 31, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(168, 0, 0, -1, 0, 0, 0, 40, 1, 25, 80, 2, 32, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(169, 0, 0, -1, 0, 0, 0, 40, 1, 25, 80, 2, 33, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(170, 0, 0, -1, 0, 0, 0, 40, 1, 25, 80, 2, 34, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(171, 0, 0, -1, 0, 0, 0, 40, 1, 25, 80, 2, 35, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(172, 0, 0, -1, 0, 0, 0, 40, 1, 25, 80, 2, 36, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(173, 0, 0, -1, 0, 0, 0, 40, 1, 25, 80, 2, 37, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(174, 0, 0, -1, 0, 0, 0, 40, 1, 25, 80, 2, 38, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(175, 0, 0, -1, 0, 0, 0, 40, 1, 25, 80, 2, 39, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(176, 0, 0, -1, 0, 0, 0, 40, 1, 25, 80, 2, 40, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(177, 0, 0, -1, 0, 0, 0, 40, 1, 25, 80, 2, 41, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(178, 0, 0, -1, 0, 0, 0, 40, 1, 25, 80, 2, 42, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(179, 0, 0, -1, 0, 0, 0, 40, 1, 25, 80, 2, 43, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(180, 0, 0, -1, 0, 0, 0, 40, 1, 25, 80, 2, 44, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(181, 0, 0, -1, 0, 0, 0, 40, 1, 25, 80, 2, 45, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(182, 0, 0, -1, 0, 0, 0, 40, 1, 25, 80, 2, 46, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(183, 0, 0, -1, 0, 0, 0, 40, 1, 25, 80, 2, 47, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(184, 0, 0, -1, 0, 0, 0, 40, 1, 25, 80, 2, 48, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(185, 0, 0, -1, 0, 0, 0, 40, 1, 25, 80, 2, 49, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(186, 0, 0, -1, 0, 0, 0, 40, 1, 25, 80, 2, 50, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(187, 0, 0, -1, 0, 0, 0, 40, 1, 25, 80, 2, 51, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(188, 0, 0, -1, 0, 0, 0, 40, 1, 25, 80, 2, 52, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(189, 0, 0, -1, 0, 0, 0, 40, 1, 25, 80, 2, 53, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(190, 0, 0, -1, 0, 0, 0, 40, 1, 25, 80, 2, 54, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(191, 0, 0, -1, 0, 0, 0, 40, 1, 25, 80, 2, 55, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(192, 0, 0, -1, 0, 0, 0, 40, 1, 25, 80, 2, 56, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(193, 0, 0, -1, 0, 0, 0, 40, 1, 25, 80, 2, 57, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(194, 0, 0, -1, 0, 0, 0, 40, 1, 25, 80, 2, 58, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(195, 0, 0, -1, 0, 0, 0, 40, 1, 25, 80, 2, 59, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(196, 0, 0, 2, 0, 44, 0, 40, 1, 25, 80, 2, 60, 60, -0.1, -1, 4, '-166.67', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-08', '2015-02-08', '', 28, 27, 26, 24, 10, 20, 30, 40, '16.67', '33.33', '50.00', '66.67', '0.00', '0.00', '0.00', '0.00'),
+(198, 0, 0, 2, 0, 45, 0, 40, 1, 26, 80, 2, 1, 10, -0.1, -1, 4, '-1000.00', 10000, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-05', '2015-02-08', '123', 23, 27, 26, 24, 10, 20, 30, 40, '100.00', '200.00', '300.00', '400.00', '1000.00', '2000.00', '3000.00', '4000.00'),
+(199, 0, 0, -1, 0, 0, 0, 40, 1, 26, 80, 2, 2, 10, -0.1, -1, 4, '-1000.00', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-05', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '100.00', '200.00', '300.00', '400.00', '0.00', '0.00', '0.00', '0.00'),
+(200, 0, 0, -1, 0, 0, 0, 40, 1, 26, 80, 2, 3, 10, -0.1, -1, 4, '-1000.00', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-05', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '100.00', '200.00', '300.00', '400.00', '0.00', '0.00', '0.00', '0.00'),
+(201, 0, 0, -1, 0, 0, 0, 40, 1, 26, 80, 2, 4, 10, -0.1, -1, 4, '-1000.00', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-05', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '100.00', '200.00', '300.00', '400.00', '0.00', '0.00', '0.00', '0.00'),
+(202, 0, 0, -1, 0, 0, 0, 40, 1, 26, 80, 2, 5, 10, -0.1, -1, 4, '-1000.00', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-05', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '100.00', '200.00', '300.00', '400.00', '0.00', '0.00', '0.00', '0.00'),
+(203, 0, 0, -1, 0, 0, 0, 40, 1, 26, 80, 2, 6, 10, -0.1, -1, 4, '-1000.00', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-05', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '100.00', '200.00', '300.00', '400.00', '0.00', '0.00', '0.00', '0.00'),
+(204, 0, 0, -1, 0, 0, 0, 40, 1, 26, 80, 2, 7, 10, -0.1, -1, 4, '-1000.00', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-05', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '100.00', '200.00', '300.00', '400.00', '0.00', '0.00', '0.00', '0.00'),
+(205, 0, 0, -1, 0, 0, 0, 40, 1, 26, 80, 2, 8, 10, -0.1, -1, 4, '-1000.00', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-05', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '100.00', '200.00', '300.00', '400.00', '0.00', '0.00', '0.00', '0.00'),
+(206, 0, 0, -1, 0, 0, 0, 40, 1, 26, 80, 2, 9, 10, -0.1, -1, 4, '-1000.00', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-05', '2015-02-08', '', 0, 0, 0, 0, 10, 20, 30, 40, '100.00', '200.00', '300.00', '400.00', '0.00', '0.00', '0.00', '0.00'),
+(207, 0, 0, 2, 0, 45, 0, 40, 1, 26, 80, 2, 10, 10, -0.1, -1, 4, '-1000.00', 0, '0.00', '0.00', '0.00', '0.00', '0.00', '2015-02-05', '2015-02-08', '123', 23, 27, 26, 24, 10, 20, 30, 40, '100.00', '200.00', '300.00', '400.00', '0.00', '0.00', '0.00', '0.00');
 
 -- --------------------------------------------------------
 
@@ -1411,24 +1611,63 @@ INSERT INTO `oc_customer_transaction` (`customer_transaction_id`, `type`, `ismai
 --
 
 CREATE TABLE IF NOT EXISTS `oc_customer_treatment_usage` (
-  `customer_treatment_usage_id` int(11) NOT NULL AUTO_INCREMENT,
+`customer_treatment_usage_id` int(11) NOT NULL,
   `subquantity` int(11) NOT NULL,
   `customer_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  PRIMARY KEY (`customer_treatment_usage_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=152 ;
+  `user_id` int(11) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `oc_customer_treatment_usage`
 --
 
 INSERT INTO `oc_customer_treatment_usage` (`customer_treatment_usage_id`, `subquantity`, `customer_id`, `user_id`) VALUES
-(146, 4, 40, 1),
-(147, 3, 40, 1),
-(148, 2, 41, 1),
-(149, 1, 41, 1),
-(150, 2, 40, 1),
-(151, 2, 41, 1);
+(1, 10, 41, 1),
+(2, 5, 41, 1),
+(3, 30, 41, 1),
+(4, 10, 41, 1),
+(5, 10, 41, 1),
+(6, 1, 41, 1),
+(7, 1, 41, 1),
+(8, 3, 41, 1),
+(9, 2, 41, 1),
+(10, 10, 41, 1),
+(11, 2, 41, 1),
+(12, 2, 41, 1),
+(13, 1, 41, 1),
+(14, 2, 41, 1),
+(15, 3, 41, 1),
+(16, 3, 41, 1),
+(17, 3, 41, 1),
+(18, 3, 41, 1),
+(19, 2, 41, 1),
+(20, 3, 41, 1),
+(21, 3, 41, 1),
+(22, 10, 40, 1),
+(23, 5, 40, 1),
+(24, 5, 40, 1),
+(25, 3, 42, 1),
+(26, 3, 42, 1),
+(27, 10, 41, 1),
+(28, 10, 41, 1),
+(29, 40, 41, 1),
+(30, 2, 40, 1),
+(31, 3, 40, 1),
+(32, 10, 40, 1),
+(33, 3, 41, 1),
+(34, 2, 41, 1),
+(35, 10, 42, 1),
+(36, 20, 42, 1),
+(37, 10, 40, 1),
+(38, 15, 42, 1),
+(39, 20, 40, 1),
+(40, 20, 40, 1),
+(41, 20, 40, 1),
+(42, 2, 40, 1),
+(43, 8, 40, 1),
+(44, 3, 40, 1),
+(45, 10, 40, 1),
+(46, 3, 40, 1);
 
 -- --------------------------------------------------------
 
@@ -1437,15 +1676,14 @@ INSERT INTO `oc_customer_treatment_usage` (`customer_treatment_usage_id`, `subqu
 --
 
 CREATE TABLE IF NOT EXISTS `oc_custom_field` (
-  `custom_field_id` int(11) NOT NULL AUTO_INCREMENT,
+`custom_field_id` int(11) NOT NULL,
   `type` varchar(32) NOT NULL,
   `value` text NOT NULL,
   `required` tinyint(1) NOT NULL,
   `location` varchar(32) NOT NULL,
   `position` int(3) NOT NULL,
-  `sort_order` int(3) NOT NULL,
-  PRIMARY KEY (`custom_field_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `sort_order` int(3) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1456,8 +1694,7 @@ CREATE TABLE IF NOT EXISTS `oc_custom_field` (
 CREATE TABLE IF NOT EXISTS `oc_custom_field_description` (
   `custom_field_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `name` varchar(128) NOT NULL,
-  PRIMARY KEY (`custom_field_id`,`language_id`)
+  `name` varchar(128) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -1468,8 +1705,7 @@ CREATE TABLE IF NOT EXISTS `oc_custom_field_description` (
 
 CREATE TABLE IF NOT EXISTS `oc_custom_field_to_customer_group` (
   `custom_field_id` int(11) NOT NULL,
-  `customer_group_id` int(11) NOT NULL,
-  PRIMARY KEY (`custom_field_id`,`customer_group_id`)
+  `customer_group_id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -1479,11 +1715,10 @@ CREATE TABLE IF NOT EXISTS `oc_custom_field_to_customer_group` (
 --
 
 CREATE TABLE IF NOT EXISTS `oc_custom_field_value` (
-  `custom_field_value_id` int(11) NOT NULL AUTO_INCREMENT,
+`custom_field_value_id` int(11) NOT NULL,
   `custom_field_id` int(11) NOT NULL,
-  `sort_order` int(3) NOT NULL,
-  PRIMARY KEY (`custom_field_value_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `sort_order` int(3) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1495,8 +1730,7 @@ CREATE TABLE IF NOT EXISTS `oc_custom_field_value_description` (
   `custom_field_value_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
   `custom_field_id` int(11) NOT NULL,
-  `name` varchar(128) NOT NULL,
-  PRIMARY KEY (`custom_field_value_id`,`language_id`)
+  `name` varchar(128) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -1506,13 +1740,12 @@ CREATE TABLE IF NOT EXISTS `oc_custom_field_value_description` (
 --
 
 CREATE TABLE IF NOT EXISTS `oc_download` (
-  `download_id` int(11) NOT NULL AUTO_INCREMENT,
+`download_id` int(11) NOT NULL,
   `filename` varchar(128) NOT NULL,
   `mask` varchar(128) NOT NULL,
   `remaining` int(11) NOT NULL DEFAULT '0',
-  `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  PRIMARY KEY (`download_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1523,9 +1756,32 @@ CREATE TABLE IF NOT EXISTS `oc_download` (
 CREATE TABLE IF NOT EXISTS `oc_download_description` (
   `download_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `name` varchar(64) NOT NULL,
-  PRIMARY KEY (`download_id`,`language_id`)
+  `name` varchar(64) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oc_expense`
+--
+
+CREATE TABLE IF NOT EXISTS `oc_expense` (
+`id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `store_id` int(11) NOT NULL,
+  `date_added` date NOT NULL,
+  `date_expensed` date NOT NULL,
+  `date_modified` date NOT NULL,
+  `message` varchar(60) NOT NULL,
+  `total` decimal(10,2) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `oc_expense`
+--
+
+INSERT INTO `oc_expense` (`id`, `user_id`, `store_id`, `date_added`, `date_expensed`, `date_modified`, `message`, `total`) VALUES
+(17, 24, 1, '2015-02-12', '2015-02-12', '2015-02-08', 'message', '123.00');
 
 -- --------------------------------------------------------
 
@@ -1534,11 +1790,10 @@ CREATE TABLE IF NOT EXISTS `oc_download_description` (
 --
 
 CREATE TABLE IF NOT EXISTS `oc_extension` (
-  `extension_id` int(11) NOT NULL AUTO_INCREMENT,
+`extension_id` int(11) NOT NULL,
   `type` varchar(32) NOT NULL,
-  `code` varchar(32) NOT NULL,
-  PRIMARY KEY (`extension_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=430 ;
+  `code` varchar(32) NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=430 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `oc_extension`
@@ -1568,11 +1823,10 @@ INSERT INTO `oc_extension` (`extension_id`, `type`, `code`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `oc_filter` (
-  `filter_id` int(11) NOT NULL AUTO_INCREMENT,
+`filter_id` int(11) NOT NULL,
   `filter_group_id` int(11) NOT NULL,
-  `sort_order` int(3) NOT NULL,
-  PRIMARY KEY (`filter_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `sort_order` int(3) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1584,8 +1838,7 @@ CREATE TABLE IF NOT EXISTS `oc_filter_description` (
   `filter_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
   `filter_group_id` int(11) NOT NULL,
-  `name` varchar(64) NOT NULL,
-  PRIMARY KEY (`filter_id`,`language_id`)
+  `name` varchar(64) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -1595,10 +1848,9 @@ CREATE TABLE IF NOT EXISTS `oc_filter_description` (
 --
 
 CREATE TABLE IF NOT EXISTS `oc_filter_group` (
-  `filter_group_id` int(11) NOT NULL AUTO_INCREMENT,
-  `sort_order` int(3) NOT NULL,
-  PRIMARY KEY (`filter_group_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+`filter_group_id` int(11) NOT NULL,
+  `sort_order` int(3) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1609,8 +1861,7 @@ CREATE TABLE IF NOT EXISTS `oc_filter_group` (
 CREATE TABLE IF NOT EXISTS `oc_filter_group_description` (
   `filter_group_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `name` varchar(64) NOT NULL,
-  PRIMARY KEY (`filter_group_id`,`language_id`)
+  `name` varchar(64) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -1620,13 +1871,12 @@ CREATE TABLE IF NOT EXISTS `oc_filter_group_description` (
 --
 
 CREATE TABLE IF NOT EXISTS `oc_geo_zone` (
-  `geo_zone_id` int(11) NOT NULL AUTO_INCREMENT,
+`geo_zone_id` int(11) NOT NULL,
   `name` varchar(32) NOT NULL,
   `description` varchar(255) NOT NULL,
   `date_modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  PRIMARY KEY (`geo_zone_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+  `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `oc_geo_zone`
@@ -1643,12 +1893,11 @@ INSERT INTO `oc_geo_zone` (`geo_zone_id`, `name`, `description`, `date_modified`
 --
 
 CREATE TABLE IF NOT EXISTS `oc_information` (
-  `information_id` int(11) NOT NULL AUTO_INCREMENT,
+`information_id` int(11) NOT NULL,
   `bottom` int(1) NOT NULL DEFAULT '0',
   `sort_order` int(3) NOT NULL DEFAULT '0',
-  `status` tinyint(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`information_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+  `status` tinyint(1) NOT NULL DEFAULT '1'
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `oc_information`
@@ -1670,8 +1919,7 @@ CREATE TABLE IF NOT EXISTS `oc_information_description` (
   `information_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
   `title` varchar(64) NOT NULL,
-  `description` text NOT NULL,
-  PRIMARY KEY (`information_id`,`language_id`)
+  `description` text NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
@@ -1693,8 +1941,7 @@ INSERT INTO `oc_information_description` (`information_id`, `language_id`, `titl
 CREATE TABLE IF NOT EXISTS `oc_information_to_layout` (
   `information_id` int(11) NOT NULL,
   `store_id` int(11) NOT NULL,
-  `layout_id` int(11) NOT NULL,
-  PRIMARY KEY (`information_id`,`store_id`)
+  `layout_id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -1705,8 +1952,7 @@ CREATE TABLE IF NOT EXISTS `oc_information_to_layout` (
 
 CREATE TABLE IF NOT EXISTS `oc_information_to_store` (
   `information_id` int(11) NOT NULL,
-  `store_id` int(11) NOT NULL,
-  PRIMARY KEY (`information_id`,`store_id`)
+  `store_id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
@@ -1726,7 +1972,7 @@ INSERT INTO `oc_information_to_store` (`information_id`, `store_id`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `oc_language` (
-  `language_id` int(11) NOT NULL AUTO_INCREMENT,
+`language_id` int(11) NOT NULL,
   `name` varchar(32) NOT NULL,
   `code` varchar(5) NOT NULL,
   `locale` varchar(255) NOT NULL,
@@ -1734,10 +1980,8 @@ CREATE TABLE IF NOT EXISTS `oc_language` (
   `directory` varchar(32) NOT NULL,
   `filename` varchar(64) NOT NULL,
   `sort_order` int(3) NOT NULL DEFAULT '0',
-  `status` tinyint(1) NOT NULL,
-  PRIMARY KEY (`language_id`),
-  KEY `name` (`name`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+  `status` tinyint(1) NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `oc_language`
@@ -1753,10 +1997,9 @@ INSERT INTO `oc_language` (`language_id`, `name`, `code`, `locale`, `image`, `di
 --
 
 CREATE TABLE IF NOT EXISTS `oc_layout` (
-  `layout_id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(64) NOT NULL,
-  PRIMARY KEY (`layout_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+`layout_id` int(11) NOT NULL,
+  `name` varchar(64) NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `oc_layout`
@@ -1782,12 +2025,11 @@ INSERT INTO `oc_layout` (`layout_id`, `name`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `oc_layout_route` (
-  `layout_route_id` int(11) NOT NULL AUTO_INCREMENT,
+`layout_route_id` int(11) NOT NULL,
   `layout_id` int(11) NOT NULL,
   `store_id` int(11) NOT NULL,
-  `route` varchar(255) NOT NULL,
-  PRIMARY KEY (`layout_route_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=33 ;
+  `route` varchar(255) NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `oc_layout_route`
@@ -1812,19 +2054,18 @@ INSERT INTO `oc_layout_route` (`layout_route_id`, `layout_id`, `store_id`, `rout
 --
 
 CREATE TABLE IF NOT EXISTS `oc_length_class` (
-  `length_class_id` int(11) NOT NULL AUTO_INCREMENT,
-  `value` decimal(15,8) NOT NULL,
-  PRIMARY KEY (`length_class_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+`length_class_id` int(11) NOT NULL,
+  `value` decimal(15,8) NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `oc_length_class`
 --
 
 INSERT INTO `oc_length_class` (`length_class_id`, `value`) VALUES
-(1, 1.00000000),
-(2, 10.00000000),
-(3, 0.39370000);
+(1, '1.00000000'),
+(2, '10.00000000'),
+(3, '0.39370000');
 
 -- --------------------------------------------------------
 
@@ -1833,12 +2074,11 @@ INSERT INTO `oc_length_class` (`length_class_id`, `value`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `oc_length_class_description` (
-  `length_class_id` int(11) NOT NULL AUTO_INCREMENT,
+`length_class_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
   `title` varchar(32) NOT NULL,
-  `unit` varchar(4) NOT NULL,
-  PRIMARY KEY (`length_class_id`,`language_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+  `unit` varchar(4) NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `oc_length_class_description`
@@ -1856,12 +2096,11 @@ INSERT INTO `oc_length_class_description` (`length_class_id`, `language_id`, `ti
 --
 
 CREATE TABLE IF NOT EXISTS `oc_manufacturer` (
-  `manufacturer_id` int(11) NOT NULL AUTO_INCREMENT,
+`manufacturer_id` int(11) NOT NULL,
   `name` varchar(64) NOT NULL,
   `image` varchar(255) DEFAULT NULL,
-  `sort_order` int(3) NOT NULL,
-  PRIMARY KEY (`manufacturer_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
+  `sort_order` int(3) NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `oc_manufacturer`
@@ -1883,8 +2122,7 @@ INSERT INTO `oc_manufacturer` (`manufacturer_id`, `name`, `image`, `sort_order`)
 
 CREATE TABLE IF NOT EXISTS `oc_manufacturer_to_store` (
   `manufacturer_id` int(11) NOT NULL,
-  `store_id` int(11) NOT NULL,
-  PRIMARY KEY (`manufacturer_id`,`store_id`)
+  `store_id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
@@ -1906,11 +2144,10 @@ INSERT INTO `oc_manufacturer_to_store` (`manufacturer_id`, `store_id`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `oc_option` (
-  `option_id` int(11) NOT NULL AUTO_INCREMENT,
+`option_id` int(11) NOT NULL,
   `type` varchar(32) NOT NULL,
-  `sort_order` int(3) NOT NULL,
-  PRIMARY KEY (`option_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
+  `sort_order` int(3) NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `oc_option`
@@ -1938,8 +2175,7 @@ INSERT INTO `oc_option` (`option_id`, `type`, `sort_order`) VALUES
 CREATE TABLE IF NOT EXISTS `oc_option_description` (
   `option_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `name` varchar(128) NOT NULL,
-  PRIMARY KEY (`option_id`,`language_id`)
+  `name` varchar(128) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
@@ -1966,12 +2202,11 @@ INSERT INTO `oc_option_description` (`option_id`, `language_id`, `name`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `oc_option_value` (
-  `option_value_id` int(11) NOT NULL AUTO_INCREMENT,
+`option_value_id` int(11) NOT NULL,
   `option_id` int(11) NOT NULL,
   `image` varchar(255) NOT NULL,
-  `sort_order` int(3) NOT NULL,
-  PRIMARY KEY (`option_value_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=49 ;
+  `sort_order` int(3) NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=49 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `oc_option_value`
@@ -2003,8 +2238,7 @@ CREATE TABLE IF NOT EXISTS `oc_option_value_description` (
   `option_value_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
   `option_id` int(11) NOT NULL,
-  `name` varchar(128) NOT NULL,
-  PRIMARY KEY (`option_value_id`,`language_id`)
+  `name` varchar(128) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
@@ -2034,13 +2268,14 @@ INSERT INTO `oc_option_value_description` (`option_value_id`, `language_id`, `op
 --
 
 CREATE TABLE IF NOT EXISTS `oc_order` (
-  `order_id` int(11) NOT NULL AUTO_INCREMENT,
+`order_id` int(11) NOT NULL,
   `invoice_no` int(11) NOT NULL DEFAULT '0',
   `invoice_prefix` varchar(26) NOT NULL,
   `store_id` int(11) NOT NULL DEFAULT '0',
   `store_name` varchar(64) NOT NULL,
   `store_url` varchar(255) NOT NULL,
   `customer_id` int(11) NOT NULL DEFAULT '0',
+  `user_id` int(11) NOT NULL,
   `customer_group_id` int(11) NOT NULL DEFAULT '0',
   `firstname` varchar(32) NOT NULL,
   `lastname` varchar(32) NOT NULL,
@@ -2090,24 +2325,25 @@ CREATE TABLE IF NOT EXISTS `oc_order` (
   `forwarded_ip` varchar(40) NOT NULL,
   `user_agent` varchar(255) NOT NULL,
   `accept_language` varchar(255) NOT NULL,
-  `date_added` datetime NOT NULL,
-  `date_modified` datetime NOT NULL,
+  `date_added` date NOT NULL,
+  `date_modified` date NOT NULL,
   `payment_cash` decimal(15,2) NOT NULL,
   `payment_visa` decimal(15,2) NOT NULL,
   `payment_final` decimal(15,2) NOT NULL,
   `payment_balance` decimal(15,2) NOT NULL,
-  `payment_discount` double(10,2) NOT NULL,
-  PRIMARY KEY (`order_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=283 ;
+  `payment_discount` double(10,2) NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `oc_order`
 --
 
-INSERT INTO `oc_order` (`order_id`, `invoice_no`, `invoice_prefix`, `store_id`, `store_name`, `store_url`, `customer_id`, `customer_group_id`, `firstname`, `lastname`, `email`, `telephone`, `fax`, `payment_firstname`, `payment_lastname`, `payment_company`, `payment_company_id`, `payment_tax_id`, `payment_address_1`, `payment_address_2`, `payment_city`, `payment_postcode`, `payment_country`, `payment_country_id`, `payment_zone`, `payment_zone_id`, `payment_address_format`, `payment_method`, `payment_code`, `shipping_firstname`, `shipping_lastname`, `shipping_company`, `shipping_address_1`, `shipping_address_2`, `shipping_city`, `shipping_postcode`, `shipping_country`, `shipping_country_id`, `shipping_zone`, `shipping_zone_id`, `shipping_address_format`, `shipping_method`, `shipping_code`, `comment`, `total`, `order_status_id`, `affiliate_id`, `commission`, `language_id`, `currency_id`, `currency_code`, `currency_value`, `ip`, `forwarded_ip`, `user_agent`, `accept_language`, `date_added`, `date_modified`, `payment_cash`, `payment_visa`, `payment_final`, `payment_balance`, `payment_discount`) VALUES
-(280, 0, '', 1, '', '', 40, 0, '', 'customer1', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', 0, '', '', '', '', '', '', '', '', '', '', '', 0, '', 0, '', '', '', '', 9000.00, 2, 0, 0.00, 0, 0, '', 1.00000000, '', '', '', '', '2014-12-11 10:23:35', '2014-12-11 10:23:35', 0.00, 9000.00, 0.00, 0.00, 0.00),
-(281, 0, '', 1, '', '', 40, 0, '', 'customer1', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', 0, '', '', '', '', '', '', '', '', '', '', '', 0, '', 0, '', '', '', '', 9800.00, 2, 0, 0.00, 0, 0, '', 1.00000000, '', '', '', '', '2014-12-11 11:48:52', '2014-12-11 11:48:52', 9000.00, 800.00, 0.00, 0.00, 0.00),
-(282, 0, '', 1, '', '', 41, 0, '', 'customer2', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', 0, '', '', '', '', '', '', '', '', '', '', '', 0, '', 0, '', '', '', '', 120.00, 2, 0, 0.00, 0, 0, '', 1.00000000, '', '', '', '', '2014-12-11 12:01:20', '2014-12-11 12:01:20', 120.00, 0.00, 0.00, 0.00, 0.00);
+INSERT INTO `oc_order` (`order_id`, `invoice_no`, `invoice_prefix`, `store_id`, `store_name`, `store_url`, `customer_id`, `user_id`, `customer_group_id`, `firstname`, `lastname`, `email`, `telephone`, `fax`, `payment_firstname`, `payment_lastname`, `payment_company`, `payment_company_id`, `payment_tax_id`, `payment_address_1`, `payment_address_2`, `payment_city`, `payment_postcode`, `payment_country`, `payment_country_id`, `payment_zone`, `payment_zone_id`, `payment_address_format`, `payment_method`, `payment_code`, `shipping_firstname`, `shipping_lastname`, `shipping_company`, `shipping_address_1`, `shipping_address_2`, `shipping_city`, `shipping_postcode`, `shipping_country`, `shipping_country_id`, `shipping_zone`, `shipping_zone_id`, `shipping_address_format`, `shipping_method`, `shipping_code`, `comment`, `total`, `order_status_id`, `affiliate_id`, `commission`, `language_id`, `currency_id`, `currency_code`, `currency_value`, `ip`, `forwarded_ip`, `user_agent`, `accept_language`, `date_added`, `date_modified`, `payment_cash`, `payment_visa`, `payment_final`, `payment_balance`, `payment_discount`) VALUES
+(26, 0, '', 1, '', '', 40, 0, 0, '', 'customer1', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', 0, '', '', '', '', '', '', '', '', '', '', '', 0, '', 0, '', '', '', '', '10000.00', 2, 0, '0.00', 0, 0, '', '1.00000000', '', '', '', '', '2015-02-05', '2015-02-08', '10000.00', '0.00', '0.00', '0.00', 0.00),
+(21, 0, '', 1, '', '', 40, 0, 0, '', 'customer1', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', 0, '', '', '', '', '', '', '', '', '', '', '', 0, '', 0, '', '', '', '', '10000.00', 2, 0, '0.00', 0, 0, '', '1.00000000', '', '', '', '', '2015-02-08', '2015-02-08', '10000.00', '0.00', '0.00', '0.00', 0.00),
+(22, 0, '', 1, '', '', 40, 0, 0, '', 'customer1', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', 0, '', '', '', '', '', '', '', '', '', '', '', 0, '', 0, '', '', '', '', '10000.00', 2, 0, '0.00', 0, 0, '', '1.00000000', '', '', '', '', '2015-02-06', '2015-02-08', '10000.00', '0.00', '0.00', '0.00', 0.00),
+(23, 0, '', 1, '', '', 40, 0, 0, '', 'customer1', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', 0, '', '', '', '', '', '', '', '', '', '', '', 0, '', 0, '', '', '', '', '10000.00', 2, 0, '0.00', 0, 0, '', '1.00000000', '', '', '', '', '2015-02-08', '2015-02-08', '10000.00', '0.00', '0.00', '0.00', 0.00),
+(25, 0, '', 1, '', '', 40, 0, 0, '', 'customer1', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', 0, '', '', '', '', '', '', '', '', '', '', '', 0, '', 0, '', '', '', '', '10000.00', 2, 0, '0.00', 0, 0, '', '1.00000000', '', '', '', '', '2015-02-08', '2015-02-08', '10000.00', '0.00', '0.00', '0.00', 0.00);
 
 -- --------------------------------------------------------
 
@@ -2116,15 +2352,14 @@ INSERT INTO `oc_order` (`order_id`, `invoice_no`, `invoice_prefix`, `store_id`, 
 --
 
 CREATE TABLE IF NOT EXISTS `oc_order_download` (
-  `order_download_id` int(11) NOT NULL AUTO_INCREMENT,
+`order_download_id` int(11) NOT NULL,
   `order_id` int(11) NOT NULL,
   `order_product_id` int(11) NOT NULL,
   `name` varchar(64) NOT NULL,
   `filename` varchar(128) NOT NULL,
   `mask` varchar(128) NOT NULL,
-  `remaining` int(3) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`order_download_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `remaining` int(3) NOT NULL DEFAULT '0'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2138,8 +2373,7 @@ CREATE TABLE IF NOT EXISTS `oc_order_field` (
   `custom_field_value_id` int(11) NOT NULL,
   `name` int(128) NOT NULL,
   `value` text NOT NULL,
-  `sort_order` int(3) NOT NULL,
-  PRIMARY KEY (`order_id`,`custom_field_id`,`custom_field_value_id`)
+  `sort_order` int(3) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2201,8 +2435,7 @@ CREATE TABLE IF NOT EXISTS `oc_order_fraud` (
   `queries_remaining` int(11) NOT NULL,
   `maxmind_id` varchar(8) NOT NULL,
   `error` text NOT NULL,
-  `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  PRIMARY KEY (`order_id`)
+  `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2212,14 +2445,13 @@ CREATE TABLE IF NOT EXISTS `oc_order_fraud` (
 --
 
 CREATE TABLE IF NOT EXISTS `oc_order_history` (
-  `order_history_id` int(11) NOT NULL AUTO_INCREMENT,
+`order_history_id` int(11) NOT NULL,
   `order_id` int(11) NOT NULL,
   `order_status_id` int(5) NOT NULL,
   `notify` tinyint(1) NOT NULL DEFAULT '0',
   `comment` text NOT NULL,
-  `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  PRIMARY KEY (`order_history_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+  `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2228,16 +2460,15 @@ CREATE TABLE IF NOT EXISTS `oc_order_history` (
 --
 
 CREATE TABLE IF NOT EXISTS `oc_order_option` (
-  `order_option_id` int(11) NOT NULL AUTO_INCREMENT,
+`order_option_id` int(11) NOT NULL,
   `order_id` int(11) NOT NULL,
   `order_product_id` int(11) NOT NULL,
   `product_option_id` int(11) NOT NULL,
   `product_option_value_id` int(11) NOT NULL DEFAULT '0',
   `name` varchar(255) NOT NULL,
   `value` text NOT NULL,
-  `type` varchar(32) NOT NULL,
-  PRIMARY KEY (`order_option_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `type` varchar(32) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2246,11 +2477,10 @@ CREATE TABLE IF NOT EXISTS `oc_order_option` (
 --
 
 CREATE TABLE IF NOT EXISTS `oc_order_picture` (
-  `order_picture_id` int(11) NOT NULL AUTO_INCREMENT,
+`order_picture_id` int(11) NOT NULL,
   `order_id` int(11) NOT NULL,
-  `image` varchar(64) NOT NULL,
-  PRIMARY KEY (`order_picture_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  `image` varchar(64) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -2259,7 +2489,7 @@ CREATE TABLE IF NOT EXISTS `oc_order_picture` (
 --
 
 CREATE TABLE IF NOT EXISTS `oc_order_product` (
-  `order_product_id` int(11) NOT NULL AUTO_INCREMENT,
+`order_product_id` int(11) NOT NULL,
   `order_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `customer_transaction_id` int(11) NOT NULL,
@@ -2273,19 +2503,19 @@ CREATE TABLE IF NOT EXISTS `oc_order_product` (
   `price` decimal(15,4) NOT NULL DEFAULT '0.0000',
   `total` decimal(15,4) NOT NULL DEFAULT '0.0000',
   `tax` decimal(15,4) NOT NULL DEFAULT '0.0000',
-  `bonus` decimal(10,2) NOT NULL,
-  PRIMARY KEY (`order_product_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=628 ;
+  `bonus` decimal(10,2) NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=53 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `oc_order_product`
 --
 
 INSERT INTO `oc_order_product` (`order_product_id`, `order_id`, `product_id`, `customer_transaction_id`, `prepaid`, `name`, `model`, `quantity`, `subquantity`, `unit_class_id`, `ref_price`, `price`, `total`, `tax`, `bonus`) VALUES
-(624, 280, 79, 0, 0, '1玻尿酸  1cc', '', 1, 10, 8, 9000, 9000.0000, 9000.0000, 0.0000, 0.00),
-(625, 281, 66, 0, 0, '1膠囊 (5個裝)', '', 1, 5, 3, 2000, 1800.0000, 1800.0000, 0.0000, 0.00),
-(626, 281, 79, 0, 0, '1玻尿酸  1cc', '', 1, 10, 8, 9000, 8000.0000, 8000.0000, 0.0000, 0.00),
-(627, 282, 112, 0, 0, '水優發泡定', '', 1, 4, 3, 120, 120.0000, 120.0000, 0.0000, 0.00);
+(52, 26, 80, 0, 0, '3雷瑟', '', 1, 10, 4, '30', '10000.0000', '10000.0000', '0.0000', '0.00'),
+(51, 25, 80, 0, 0, '3雷瑟', '', 6, 10, 4, '30', '1666.6700', '10000.0000', '0.0000', '0.00'),
+(49, 23, 80, 0, 0, '3雷瑟', '', 1, 10, 4, '30', '10000.0000', '10000.0000', '0.0000', '0.00'),
+(47, 21, 79, 0, 0, '1玻尿酸  1cc', '', 6, 10, 8, '9', '1666.6700', '10000.0000', '0.0000', '0.00'),
+(48, 22, 79, 0, 0, '1玻尿酸  1cc', '', 6, 10, 8, '9', '1666.6700', '10000.0000', '0.0000', '0.00');
 
 -- --------------------------------------------------------
 
@@ -2294,7 +2524,7 @@ INSERT INTO `oc_order_product` (`order_product_id`, `order_id`, `product_id`, `c
 --
 
 CREATE TABLE IF NOT EXISTS `oc_order_recurring` (
-  `order_recurring_id` int(11) NOT NULL AUTO_INCREMENT,
+`order_recurring_id` int(11) NOT NULL,
   `order_id` int(11) NOT NULL,
   `created` datetime NOT NULL,
   `status` tinyint(4) NOT NULL,
@@ -2313,9 +2543,8 @@ CREATE TABLE IF NOT EXISTS `oc_order_recurring` (
   `trial_cycle` smallint(6) NOT NULL,
   `trial_duration` smallint(6) NOT NULL,
   `trial_price` decimal(10,4) NOT NULL,
-  `profile_reference` varchar(255) NOT NULL,
-  PRIMARY KEY (`order_recurring_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `profile_reference` varchar(255) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2324,13 +2553,12 @@ CREATE TABLE IF NOT EXISTS `oc_order_recurring` (
 --
 
 CREATE TABLE IF NOT EXISTS `oc_order_recurring_transaction` (
-  `order_recurring_transaction_id` int(11) NOT NULL AUTO_INCREMENT,
+`order_recurring_transaction_id` int(11) NOT NULL,
   `order_recurring_id` int(11) NOT NULL,
   `created` datetime NOT NULL,
   `amount` decimal(10,4) NOT NULL,
-  `type` varchar(255) NOT NULL,
-  PRIMARY KEY (`order_recurring_transaction_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `type` varchar(255) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2339,11 +2567,10 @@ CREATE TABLE IF NOT EXISTS `oc_order_recurring_transaction` (
 --
 
 CREATE TABLE IF NOT EXISTS `oc_order_status` (
-  `order_status_id` int(11) NOT NULL AUTO_INCREMENT,
+`order_status_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `name` varchar(32) NOT NULL,
-  PRIMARY KEY (`order_status_id`,`language_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
+  `name` varchar(32) NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `oc_order_status`
@@ -2361,16 +2588,14 @@ INSERT INTO `oc_order_status` (`order_status_id`, `language_id`, `name`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `oc_order_total` (
-  `order_total_id` int(10) NOT NULL AUTO_INCREMENT,
+`order_total_id` int(10) NOT NULL,
   `order_id` int(11) NOT NULL,
   `code` varchar(32) NOT NULL,
   `title` varchar(255) NOT NULL,
   `text` varchar(255) NOT NULL,
   `value` decimal(15,4) NOT NULL DEFAULT '0.0000',
-  `sort_order` int(3) NOT NULL,
-  PRIMARY KEY (`order_total_id`),
-  KEY `idx_orders_total_orders_id` (`order_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=267 ;
+  `sort_order` int(3) NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=267 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2379,7 +2604,7 @@ CREATE TABLE IF NOT EXISTS `oc_order_total` (
 --
 
 CREATE TABLE IF NOT EXISTS `oc_order_voucher` (
-  `order_voucher_id` int(11) NOT NULL AUTO_INCREMENT,
+`order_voucher_id` int(11) NOT NULL,
   `order_id` int(11) NOT NULL,
   `voucher_id` int(11) NOT NULL,
   `description` varchar(255) NOT NULL,
@@ -2390,19 +2615,18 @@ CREATE TABLE IF NOT EXISTS `oc_order_voucher` (
   `to_email` varchar(96) NOT NULL,
   `voucher_theme_id` int(11) NOT NULL,
   `message` text NOT NULL,
-  `amount` decimal(15,4) NOT NULL,
-  PRIMARY KEY (`order_voucher_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+  `amount` decimal(15,4) NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `oc_order_voucher`
 --
 
 INSERT INTO `oc_order_voucher` (`order_voucher_id`, `order_id`, `voucher_id`, `description`, `code`, `from_name`, `from_email`, `to_name`, `to_email`, `voucher_theme_id`, `message`, `amount`) VALUES
-(1, 42, 13, '$25.00 Gift Certificate for ', '48c3c13b74', 'undefined', 'undefined', 'undefined', 'undefined', 6, '12123123', 25.0000),
-(2, 42, 14, '$25.00 Gift Certificate for ', '22a5059606', 'undefined', 'undefined', 'undefined', 'undefined', 6, '123123', 25.0000),
-(3, 41, 15, '$25.00 Gift Certificate for ', 'a255658a05', 'undefined', 'undefined', 'undefined', 'undefined', 7, '', 25.0000),
-(4, 41, 17, '$500.00 Gift Certificate for ', '93cbe2c116', 'undefined', 'undefined', 'undefined', 'undefined', 7, 'asdasd', 500.0000);
+(1, 42, 13, '$25.00 Gift Certificate for ', '48c3c13b74', 'undefined', 'undefined', 'undefined', 'undefined', 6, '12123123', '25.0000'),
+(2, 42, 14, '$25.00 Gift Certificate for ', '22a5059606', 'undefined', 'undefined', 'undefined', 'undefined', 6, '123123', '25.0000'),
+(3, 41, 15, '$25.00 Gift Certificate for ', 'a255658a05', 'undefined', 'undefined', 'undefined', 'undefined', 7, '', '25.0000'),
+(4, 41, 17, '$500.00 Gift Certificate for ', '93cbe2c116', 'undefined', 'undefined', 'undefined', 'undefined', 7, 'asdasd', '500.0000');
 
 -- --------------------------------------------------------
 
@@ -2411,7 +2635,7 @@ INSERT INTO `oc_order_voucher` (`order_voucher_id`, `order_id`, `voucher_id`, `d
 --
 
 CREATE TABLE IF NOT EXISTS `oc_product` (
-  `product_id` int(11) NOT NULL AUTO_INCREMENT,
+`product_id` int(11) NOT NULL,
   `model` varchar(64) NOT NULL,
   `sku` varchar(64) NOT NULL,
   `upc` varchar(12) NOT NULL,
@@ -2452,43 +2676,44 @@ CREATE TABLE IF NOT EXISTS `oc_product` (
   `bonus_percent_beauty` int(11) NOT NULL,
   `viewed` int(5) NOT NULL DEFAULT '0',
   `reminder` tinyint(4) NOT NULL,
-  `reminder_days` int(11) NOT NULL,
-  PRIMARY KEY (`product_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=113 ;
+  `reminder_days` int(11) NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=116 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `oc_product`
 --
 
 INSERT INTO `oc_product` (`product_id`, `model`, `sku`, `upc`, `ean`, `jan`, `isbn`, `mpn`, `location`, `quantity_x`, `stock_status_id`, `image`, `manufacturer_id`, `shipping`, `price`, `points`, `tax_class_id`, `date_available`, `weight`, `weight_class_id`, `length`, `width`, `height`, `length_class_id`, `unit_class_id`, `subtract`, `minimum`, `unit_quantity`, `sort_order`, `status`, `product_type_id`, `date_added`, `date_modified`, `bonus`, `bonus_percent`, `bonus_percent_doctor`, `bonus_percent_consultant`, `bonus_percent_outsource`, `bonus_percent_beauty`, `viewed`, `reminder`, `reminder_days`) VALUES
-(79, '', '', '', '', '', '', '', '', 0, 0, 'data/demo/diamond.jpg', 0, 0, 9000.0000, 0, 0, '2014-09-25', 0.00000000, 0, 0.00000000, 0.00000000, 0.00000000, 0, 8, 1, 0, 10, 0, 1, 2, '0000-00-00 00:00:00', '2014-12-11 09:56:37', 1, 30, 15, 10, 10, 10, 0, 1, 30),
-(80, '雷瑟', '', '', '', '', '', '', '', 0, 0, 'data/demo/laser1.jpg', 0, 0, 30000.0000, 0, 0, '2014-09-25', 0.00000000, 0, 0.00000000, 0.00000000, 0.00000000, 0, 4, 0, 0, 10, 1, 1, 2, '0000-00-00 00:00:00', '2014-10-08 00:30:13', 1, 30, 0, 0, 0, 0, 0, 1, 40),
-(81, '棉花棒5號', '', '', '', '', '', '', '', 0, 0, 'data/demo/qtip.jpg', 0, 0, 100.0000, 0, 0, '2014-09-25', 0.00000000, 0, 0.00000000, 0.00000000, 0.00000000, 0, 3, 1, 0, 500, 1, 1, 3, '0000-00-00 00:00:00', '2014-10-08 16:30:22', 1, 0, 1, 2, 3, 4, 0, 0, 0),
-(70, '大針桶', '', '', '', '', '', '', '', 0, 0, 'data/demo/syringe.jpg', 0, 0, 5.0000, 0, 0, '2014-09-25', 0.00000000, 0, 0.00000000, 0.00000000, 0.00000000, 0, 1, 1, 0, 1, 0, 1, 3, '0000-00-00 00:00:00', '2014-10-30 11:16:12', 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(68, '針灸 3', '', '', '', '', '', '', '', 0, 0, 'data/demo/accu.jpg', 0, 0, 20000.0000, 0, 0, '2014-09-01', 0.00000000, 0, 0.00000000, 0.00000000, 0.00000000, 0, 4, 0, 0, 5, 0, 1, 2, '0000-00-00 00:00:00', '2014-10-23 18:09:36', 1, 10, 10, 15, 20, 25, 0, 1, 10),
-(66, '', '', '', '', '', '', '', '', 0, 0, 'data/demo/pill.jpg', 0, 0, 2000.0000, 0, 0, '2014-09-16', 0.00000000, 0, 0.00000000, 0.00000000, 0.00000000, 0, 3, 1, 0, 5, 1, -1, 1, '0000-00-00 00:00:00', '2014-12-11 10:52:14', 0, 5, 0, 0, 0, 0, 0, 1, 10),
-(63, '1CC空針', '', '', '', '', '', '', '', 0, 0, 'data/demo/needle2.jpg', 0, 0, 5.0000, 0, 0, '2014-09-16', 0.00000000, 0, 0.00000000, 0.00000000, 0.00000000, 0, 3, 1, 0, 1, 1, 1, 3, '0000-00-00 00:00:00', '2014-09-27 01:28:38', 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(88, '', '', '', '', '', '', '', '', 0, 0, '', 0, 0, 1199.0000, 0, 0, '2014-10-19', 0.00000000, 0, 0.00000000, 0.00000000, 0.00000000, 0, 4, 0, 0, 1, 0, 1, 3, '0000-00-00 00:00:00', '2014-11-12 09:35:51', 0, 0, 0, 0, 0, 0, 0, 1, 180),
-(89, '5按摩 2', '', '', '', '', '', '', '', 0, 0, 'data/before-after-dot-face-4.jpg', 0, 0, 300.0000, 0, 0, '2014-10-19', 0.00000000, 0, 0.00000000, 0.00000000, 0.00000000, 0, 4, 0, 0, 1, 0, 1, 2, '0000-00-00 00:00:00', '2014-10-23 18:10:22', 1, 0, 0, 0, 10, 0, 0, 1, 7),
-(86, 'consult7', '', '', '', '', '', '', '', 0, 0, '', 0, 0, 0.0000, 0, 0, '2014-10-12', 0.00000000, 0, 0.00000000, 0.00000000, 0.00000000, 0, 1, 0, 0, 1, 0, 1, 3, '0000-00-00 00:00:00', '2014-10-14 15:07:12', 0, 0, 0, 0, 0, 0, 0, 1, 7),
-(112, '', '', '', '', '', '', '', '', 0, 0, '', 0, 1, 120.0000, 0, 0, '2014-12-09', 0.00000000, 0, 0.00000000, 0.00000000, 0.00000000, 0, 3, 1, 1, 4, 0, 1, 1, '0000-00-00 00:00:00', '2014-12-11 11:59:16', 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(92, '12312313', '', '', '', '', '', '', '', 0, 0, '', 0, 1, -150.0000, 0, 0, '2014-10-24', 0.00000000, 0, 0.00000000, 0.00000000, 0.00000000, 0, 4, 0, 1, 1, 0, 1, 2, '0000-00-00 00:00:00', '2014-10-25 23:31:37', 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(96, '', '', '', '', '', '', '', '', 0, 0, '', 0, 1, 25000.0000, 0, 0, '2014-11-23', 0.00000000, 0, 0.00000000, 0.00000000, 0.00000000, 0, 4, 0, 1, 5, 0, 1, 2, '0000-00-00 00:00:00', '2014-11-25 09:43:40', 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(97, '', '', '', '', '', '', '', '', 0, 0, '', 0, 1, 0.0000, 0, 0, '2014-11-23', 0.00000000, 0, 0.00000000, 0.00000000, 0.00000000, 0, 1, 1, 1, 1, 0, 1, 2, '0000-00-00 00:00:00', '2014-11-25 09:48:17', 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(98, '', '', '', '', '', '', '', '', 0, 0, '', 0, 1, 0.0000, 0, 0, '2014-11-23', 0.00000000, 0, 0.00000000, 0.00000000, 0.00000000, 0, 1, 1, 1, 1, 0, 1, 2, '0000-00-00 00:00:00', '2014-11-25 09:48:26', 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(99, '', '', '', '', '', '', '', '', 0, 0, '', 0, 1, 0.0000, 0, 0, '2014-11-23', 0.00000000, 0, 0.00000000, 0.00000000, 0.00000000, 0, 1, 1, 1, 1, 0, 1, 2, '0000-00-00 00:00:00', '2014-11-25 09:48:32', 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(100, '', '', '', '', '', '', '', '', 0, 0, '', 0, 1, 0.0000, 0, 0, '2014-11-23', 0.00000000, 0, 0.00000000, 0.00000000, 0.00000000, 0, 1, 1, 1, 1, 0, 1, 2, '0000-00-00 00:00:00', '2014-11-25 09:48:39', 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(101, '', '', '', '', '', '', '', '', 0, 0, '', 0, 1, 0.0000, 0, 0, '2014-11-23', 0.00000000, 0, 0.00000000, 0.00000000, 0.00000000, 0, 1, 1, 1, 1, 0, 1, 2, '0000-00-00 00:00:00', '2014-11-25 09:48:45', 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(102, '', '', '', '', '', '', '', '', 0, 0, '', 0, 1, 0.0000, 0, 0, '2014-11-23', 0.00000000, 0, 0.00000000, 0.00000000, 0.00000000, 0, 1, 1, 1, 1, 0, 1, 2, '0000-00-00 00:00:00', '2014-11-25 09:49:05', 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(103, '', '', '', '', '', '', '', '', 0, 0, '', 0, 1, 0.0000, 0, 0, '2014-11-23', 0.00000000, 0, 0.00000000, 0.00000000, 0.00000000, 0, 1, 1, 1, 1, 0, 1, 2, '0000-00-00 00:00:00', '2014-11-25 09:49:12', 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(104, '', '', '', '', '', '', '', '', 0, 0, '', 0, 1, 0.0000, 0, 0, '2014-11-23', 0.00000000, 0, 0.00000000, 0.00000000, 0.00000000, 0, 1, 1, 1, 1, 0, 1, 2, '0000-00-00 00:00:00', '2014-11-25 09:49:19', 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(105, '', '', '', '', '', '', '', '', 0, 0, '', 0, 1, 0.0000, 0, 0, '2014-11-23', 0.00000000, 0, 0.00000000, 0.00000000, 0.00000000, 0, 1, 1, 1, 1, 0, 1, 2, '0000-00-00 00:00:00', '2014-11-25 09:49:25', 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(106, '', '', '', '', '', '', '', '', 0, 0, '', 0, 1, 0.0000, 0, 0, '2014-11-23', 0.00000000, 0, 0.00000000, 0.00000000, 0.00000000, 0, 1, 1, 1, 1, 0, 1, 2, '0000-00-00 00:00:00', '2014-11-25 09:49:30', 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(107, '', '', '', '', '', '', '', '', 0, 0, '', 0, 1, 0.0000, 0, 0, '2014-11-23', 0.00000000, 0, 0.00000000, 0.00000000, 0.00000000, 0, 1, 1, 1, 1, 0, 1, 2, '0000-00-00 00:00:00', '2014-11-25 09:50:17', 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(108, '', '', '', '', '', '', '', '', 0, 0, '', 0, 1, 0.0000, 0, 0, '2014-11-23', 0.00000000, 0, 0.00000000, 0.00000000, 0.00000000, 0, 1, 1, 1, 1, 0, 1, 2, '0000-00-00 00:00:00', '2014-11-25 09:50:27', 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(109, '', '', '', '', '', '', '', '', 0, 0, '', 0, 1, 0.0000, 0, 0, '2014-11-23', 0.00000000, 0, 0.00000000, 0.00000000, 0.00000000, 0, 1, 1, 1, 1, 0, 1, 2, '0000-00-00 00:00:00', '2014-11-25 09:50:34', 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(110, '', '', '', '', '', '', '', '', 0, 0, '', 0, 1, 0.0000, 0, 0, '2014-11-23', 0.00000000, 0, 0.00000000, 0.00000000, 0.00000000, 0, 1, 1, 1, 1, 0, 1, 2, '0000-00-00 00:00:00', '2014-11-25 09:50:39', 0, 0, 0, 0, 0, 0, 0, 0, 0),
-(111, '', '', '', '', '', '', '', '', 0, 0, '', 0, 1, 0.0000, 0, 0, '2014-11-23', 0.00000000, 0, 0.00000000, 0.00000000, 0.00000000, 0, 1, 1, 1, 1, 0, 1, 2, '0000-00-00 00:00:00', '2014-11-25 09:50:44', 0, 0, 0, 0, 0, 0, 0, 0, 0);
+(79, '', '', '', '', '', '', '', '', 0, 0, 'data/demo/diamond.jpg', 0, 0, '9000.0000', 0, 0, '2014-09-25', '0.00000000', 0, '0.00000000', '0.00000000', '0.00000000', 0, 8, 1, 0, 10, 0, 1, 2, '0000-00-00 00:00:00', '2015-02-08 13:58:14', 1, 30, 10, 0, 0, 5, 0, 1, 30),
+(80, '', '', '', '', '', '', '', '', 0, 0, 'data/demo/laser1.jpg', 0, 0, '30000.0000', 0, 0, '2014-09-25', '0.00000000', 0, '0.00000000', '0.00000000', '0.00000000', 0, 4, 0, 0, 10, 1, 1, 2, '0000-00-00 00:00:00', '2015-02-08 14:50:15', 1, 30, 10, 20, 30, 40, 0, 1, 40),
+(81, '棉花棒5號', '', '', '', '', '', '', '', 0, 0, 'data/demo/qtip.jpg', 0, 0, '100.0000', 0, 0, '2014-09-25', '0.00000000', 0, '0.00000000', '0.00000000', '0.00000000', 0, 3, 1, 0, 500, 1, 1, 3, '0000-00-00 00:00:00', '2014-10-08 16:30:22', 1, 0, 1, 2, 3, 4, 0, 0, 0),
+(70, '', '', '', '', '', '', '', '', 0, 0, 'data/demo/syringe.jpg', 0, 0, '5.0000', 0, 0, '2014-09-25', '0.00000000', 0, '0.00000000', '0.00000000', '0.00000000', 0, 1, 0, 0, 5, 0, 1, 3, '0000-00-00 00:00:00', '2015-02-08 01:01:00', 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(68, '針灸 3', '', '', '', '', '', '', '', 0, 0, 'data/demo/accu.jpg', 0, 0, '20000.0000', 0, 0, '2014-09-01', '0.00000000', 0, '0.00000000', '0.00000000', '0.00000000', 0, 4, 0, 0, 5, 0, 1, 2, '0000-00-00 00:00:00', '2014-10-23 18:09:36', 1, 10, 10, 15, 20, 25, 0, 1, 10),
+(66, '', '', '', '', '', '', '', '', 0, 0, 'data/demo/pill.jpg', 0, 0, '2000.0000', 0, 0, '2014-09-16', '0.00000000', 0, '0.00000000', '0.00000000', '0.00000000', 0, 3, 1, 0, 5, 1, -1, 1, '0000-00-00 00:00:00', '2014-12-11 10:52:14', 0, 5, 0, 0, 0, 0, 0, 1, 10),
+(63, '1CC空針', '', '', '', '', '', '', '', 0, 0, 'data/demo/needle2.jpg', 0, 0, '5.0000', 0, 0, '2014-09-16', '0.00000000', 0, '0.00000000', '0.00000000', '0.00000000', 0, 3, 1, 0, 1, 1, 1, 3, '0000-00-00 00:00:00', '2014-09-27 01:28:38', 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(88, '', '', '', '', '', '', '', '', 0, 0, '', 0, 0, '1199.0000', 0, 0, '2014-10-19', '0.00000000', 0, '0.00000000', '0.00000000', '0.00000000', 0, 4, 0, 0, 1, 0, 1, 3, '0000-00-00 00:00:00', '2014-11-12 09:35:51', 0, 0, 0, 0, 0, 0, 0, 1, 180),
+(89, '5按摩 2', '', '', '', '', '', '', '', 0, 0, 'data/before-after-dot-face-4.jpg', 0, 0, '300.0000', 0, 0, '2014-10-19', '0.00000000', 0, '0.00000000', '0.00000000', '0.00000000', 0, 4, 0, 0, 1, 0, 1, 2, '0000-00-00 00:00:00', '2014-10-23 18:10:22', 1, 0, 0, 0, 10, 0, 0, 1, 7),
+(86, 'consult7', '', '', '', '', '', '', '', 0, 0, '', 0, 0, '0.0000', 0, 0, '2014-10-12', '0.00000000', 0, '0.00000000', '0.00000000', '0.00000000', 0, 1, 0, 0, 1, 0, 1, 3, '0000-00-00 00:00:00', '2014-10-14 15:07:12', 0, 0, 0, 0, 0, 0, 0, 1, 7),
+(112, '', '', '', '', '', '', '', '', 0, 0, '', 0, 1, '120.0000', 0, 0, '2014-12-09', '0.00000000', 0, '0.00000000', '0.00000000', '0.00000000', 0, 3, 1, 1, 4, 0, 1, 1, '0000-00-00 00:00:00', '2014-12-11 11:59:16', 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(92, '12312313', '', '', '', '', '', '', '', 0, 0, '', 0, 1, '-150.0000', 0, 0, '2014-10-24', '0.00000000', 0, '0.00000000', '0.00000000', '0.00000000', 0, 4, 0, 1, 1, 0, 1, 2, '0000-00-00 00:00:00', '2014-10-25 23:31:37', 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(96, '', '', '', '', '', '', '', '', 0, 0, '', 0, 1, '25000.0000', 0, 0, '2014-11-23', '0.00000000', 0, '0.00000000', '0.00000000', '0.00000000', 0, 4, 0, 1, 5, 0, 1, 2, '0000-00-00 00:00:00', '2014-11-25 09:43:40', 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(97, '', '', '', '', '', '', '', '', 0, 0, '', 0, 1, '0.0000', 0, 0, '2014-11-23', '0.00000000', 0, '0.00000000', '0.00000000', '0.00000000', 0, 1, 1, 1, 1, 0, 1, 2, '0000-00-00 00:00:00', '2014-11-25 09:48:17', 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(98, '', '', '', '', '', '', '', '', 0, 0, '', 0, 1, '0.0000', 0, 0, '2014-11-23', '0.00000000', 0, '0.00000000', '0.00000000', '0.00000000', 0, 1, 1, 1, 1, 0, 1, 2, '0000-00-00 00:00:00', '2014-11-25 09:48:26', 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(99, '', '', '', '', '', '', '', '', 0, 0, '', 0, 1, '0.0000', 0, 0, '2014-11-23', '0.00000000', 0, '0.00000000', '0.00000000', '0.00000000', 0, 1, 1, 1, 1, 0, 1, 2, '0000-00-00 00:00:00', '2014-11-25 09:48:32', 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(100, '', '', '', '', '', '', '', '', 0, 0, '', 0, 1, '0.0000', 0, 0, '2014-11-23', '0.00000000', 0, '0.00000000', '0.00000000', '0.00000000', 0, 1, 1, 1, 1, 0, 1, 2, '0000-00-00 00:00:00', '2014-11-25 09:48:39', 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(101, '', '', '', '', '', '', '', '', 0, 0, '', 0, 1, '0.0000', 0, 0, '2014-11-23', '0.00000000', 0, '0.00000000', '0.00000000', '0.00000000', 0, 1, 1, 1, 1, 0, 1, 2, '0000-00-00 00:00:00', '2014-11-25 09:48:45', 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(102, '', '', '', '', '', '', '', '', 0, 0, '', 0, 1, '0.0000', 0, 0, '2014-11-23', '0.00000000', 0, '0.00000000', '0.00000000', '0.00000000', 0, 1, 1, 1, 1, 0, 1, 2, '0000-00-00 00:00:00', '2014-11-25 09:49:05', 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(103, '', '', '', '', '', '', '', '', 0, 0, '', 0, 1, '0.0000', 0, 0, '2014-11-23', '0.00000000', 0, '0.00000000', '0.00000000', '0.00000000', 0, 1, 1, 1, 1, 0, 1, 2, '0000-00-00 00:00:00', '2014-11-25 09:49:12', 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(104, '', '', '', '', '', '', '', '', 0, 0, '', 0, 1, '0.0000', 0, 0, '2014-11-23', '0.00000000', 0, '0.00000000', '0.00000000', '0.00000000', 0, 1, 1, 1, 1, 0, 1, 2, '0000-00-00 00:00:00', '2014-11-25 09:49:19', 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(105, '', '', '', '', '', '', '', '', 0, 0, '', 0, 1, '0.0000', 0, 0, '2014-11-23', '0.00000000', 0, '0.00000000', '0.00000000', '0.00000000', 0, 1, 1, 1, 1, 0, 1, 2, '0000-00-00 00:00:00', '2014-11-25 09:49:25', 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(106, '', '', '', '', '', '', '', '', 0, 0, '', 0, 1, '0.0000', 0, 0, '2014-11-23', '0.00000000', 0, '0.00000000', '0.00000000', '0.00000000', 0, 1, 1, 1, 1, 0, 1, 2, '0000-00-00 00:00:00', '2014-11-25 09:49:30', 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(107, '', '', '', '', '', '', '', '', 0, 0, '', 0, 1, '0.0000', 0, 0, '2014-11-23', '0.00000000', 0, '0.00000000', '0.00000000', '0.00000000', 0, 1, 1, 1, 1, 0, 1, 2, '0000-00-00 00:00:00', '2014-11-25 09:50:17', 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(108, '', '', '', '', '', '', '', '', 0, 0, '', 0, 1, '0.0000', 0, 0, '2014-11-23', '0.00000000', 0, '0.00000000', '0.00000000', '0.00000000', 0, 1, 1, 1, 1, 0, 1, 2, '0000-00-00 00:00:00', '2014-11-25 09:50:27', 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(109, '', '', '', '', '', '', '', '', 0, 0, '', 0, 1, '0.0000', 0, 0, '2014-11-23', '0.00000000', 0, '0.00000000', '0.00000000', '0.00000000', 0, 1, 1, 1, 1, 0, 1, 2, '0000-00-00 00:00:00', '2014-11-25 09:50:34', 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(110, '', '', '', '', '', '', '', '', 0, 0, '', 0, 1, '0.0000', 0, 0, '2014-11-23', '0.00000000', 0, '0.00000000', '0.00000000', '0.00000000', 0, 1, 1, 1, 1, 0, 1, 2, '0000-00-00 00:00:00', '2014-11-25 09:50:39', 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(111, '', '', '', '', '', '', '', '', 0, 0, '', 0, 1, '0.0000', 0, 0, '2014-11-23', '0.00000000', 0, '0.00000000', '0.00000000', '0.00000000', 0, 1, 1, 1, 1, 0, 1, 2, '0000-00-00 00:00:00', '2014-11-25 09:50:44', 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(113, '', '', '', '', '', '', '', '', 0, 0, '', 0, 1, '1.0000', 0, 0, '2015-01-09', '0.00000000', 0, '0.00000000', '0.00000000', '0.00000000', 0, 1, 1, 1, 1, 0, 1, 1, '0000-00-00 00:00:00', '2015-01-10 16:33:21', 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(114, '', '', '', '', '', '', '', '', 0, 0, '', 0, 1, '123.0000', 0, 0, '2015-01-09', '0.00000000', 0, '0.00000000', '0.00000000', '0.00000000', 0, 3, 1, 1, 100, 0, 1, 3, '0000-00-00 00:00:00', '2015-01-10 17:12:43', 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -2500,8 +2725,7 @@ CREATE TABLE IF NOT EXISTS `oc_product_attribute` (
   `product_id` int(11) NOT NULL,
   `attribute_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `text` text NOT NULL,
-  PRIMARY KEY (`product_id`,`attribute_id`,`language_id`)
+  `text` text NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2517,9 +2741,7 @@ CREATE TABLE IF NOT EXISTS `oc_product_description` (
   `description` text NOT NULL,
   `meta_description` varchar(255) NOT NULL,
   `meta_keyword` varchar(255) NOT NULL,
-  `tag` text NOT NULL,
-  PRIMARY KEY (`product_id`,`language_id`),
-  KEY `name` (`name`)
+  `tag` text NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
@@ -2565,7 +2787,9 @@ INSERT INTO `oc_product_description` (`product_id`, `language_id`, `name`, `desc
 (108, 2, 'tu eres', '', '', '', ''),
 (109, 2, 'seaosn', '', '', '', ''),
 (110, 2, 'duolong', '', '', '', ''),
-(111, 2, 'filter', '', '', '', '');
+(111, 2, 'filter', '', '', '', ''),
+(113, 2, '維他命C+鋅', '', '', '', ''),
+(114, 2, '感冒藥丸', '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -2574,17 +2798,15 @@ INSERT INTO `oc_product_description` (`product_id`, `language_id`, `name`, `desc
 --
 
 CREATE TABLE IF NOT EXISTS `oc_product_discount` (
-  `product_discount_id` int(11) NOT NULL AUTO_INCREMENT,
+`product_discount_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `customer_group_id` int(11) NOT NULL,
   `quantity` int(4) NOT NULL DEFAULT '0',
   `priority` int(5) NOT NULL DEFAULT '1',
   `price` decimal(15,4) NOT NULL DEFAULT '0.0000',
   `date_start` date NOT NULL DEFAULT '0000-00-00',
-  `date_end` date NOT NULL DEFAULT '0000-00-00',
-  PRIMARY KEY (`product_discount_id`),
-  KEY `product_id` (`product_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=489 ;
+  `date_end` date NOT NULL DEFAULT '0000-00-00'
+) ENGINE=MyISAM AUTO_INCREMENT=489 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2594,8 +2816,7 @@ CREATE TABLE IF NOT EXISTS `oc_product_discount` (
 
 CREATE TABLE IF NOT EXISTS `oc_product_filter` (
   `product_id` int(11) NOT NULL,
-  `filter_id` int(11) NOT NULL,
-  PRIMARY KEY (`product_id`,`filter_id`)
+  `filter_id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2605,13 +2826,12 @@ CREATE TABLE IF NOT EXISTS `oc_product_filter` (
 --
 
 CREATE TABLE IF NOT EXISTS `oc_product_image` (
-  `product_image_id` int(11) NOT NULL AUTO_INCREMENT,
+`product_image_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `date_added` date NOT NULL,
   `image` varchar(255) DEFAULT NULL,
-  `sort_order` int(3) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`product_image_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2512 ;
+  `sort_order` int(3) NOT NULL DEFAULT '0'
+) ENGINE=MyISAM AUTO_INCREMENT=2512 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2620,13 +2840,12 @@ CREATE TABLE IF NOT EXISTS `oc_product_image` (
 --
 
 CREATE TABLE IF NOT EXISTS `oc_product_option` (
-  `product_option_id` int(11) NOT NULL AUTO_INCREMENT,
+`product_option_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `option_id` int(11) NOT NULL,
   `option_value` text NOT NULL,
-  `required` tinyint(1) NOT NULL,
-  PRIMARY KEY (`product_option_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=227 ;
+  `required` tinyint(1) NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=227 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2635,7 +2854,7 @@ CREATE TABLE IF NOT EXISTS `oc_product_option` (
 --
 
 CREATE TABLE IF NOT EXISTS `oc_product_option_value` (
-  `product_option_value_id` int(11) NOT NULL AUTO_INCREMENT,
+`product_option_value_id` int(11) NOT NULL,
   `product_option_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `option_id` int(11) NOT NULL,
@@ -2647,9 +2866,8 @@ CREATE TABLE IF NOT EXISTS `oc_product_option_value` (
   `points` int(8) NOT NULL,
   `points_prefix` varchar(1) NOT NULL,
   `weight` decimal(15,8) NOT NULL,
-  `weight_prefix` varchar(1) NOT NULL,
-  PRIMARY KEY (`product_option_value_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
+  `weight_prefix` varchar(1) NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2660,8 +2878,7 @@ CREATE TABLE IF NOT EXISTS `oc_product_option_value` (
 CREATE TABLE IF NOT EXISTS `oc_product_profile` (
   `product_id` int(11) NOT NULL,
   `profile_id` int(11) NOT NULL,
-  `customer_group_id` int(11) NOT NULL,
-  PRIMARY KEY (`product_id`,`profile_id`,`customer_group_id`)
+  `customer_group_id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2672,8 +2889,7 @@ CREATE TABLE IF NOT EXISTS `oc_product_profile` (
 
 CREATE TABLE IF NOT EXISTS `oc_product_recurring` (
   `product_id` int(11) NOT NULL,
-  `store_id` int(11) NOT NULL,
-  PRIMARY KEY (`product_id`,`store_id`)
+  `store_id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2684,8 +2900,7 @@ CREATE TABLE IF NOT EXISTS `oc_product_recurring` (
 
 CREATE TABLE IF NOT EXISTS `oc_product_related` (
   `product_id` int(11) NOT NULL,
-  `related_id` int(11) NOT NULL,
-  PRIMARY KEY (`product_id`,`related_id`)
+  `related_id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2695,12 +2910,11 @@ CREATE TABLE IF NOT EXISTS `oc_product_related` (
 --
 
 CREATE TABLE IF NOT EXISTS `oc_product_reward` (
-  `product_reward_id` int(11) NOT NULL AUTO_INCREMENT,
+`product_reward_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL DEFAULT '0',
   `customer_group_id` int(11) NOT NULL DEFAULT '0',
-  `points` int(8) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`product_reward_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=551 ;
+  `points` int(8) NOT NULL DEFAULT '0'
+) ENGINE=MyISAM AUTO_INCREMENT=551 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2709,16 +2923,14 @@ CREATE TABLE IF NOT EXISTS `oc_product_reward` (
 --
 
 CREATE TABLE IF NOT EXISTS `oc_product_special` (
-  `product_special_id` int(11) NOT NULL AUTO_INCREMENT,
+`product_special_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `customer_group_id` int(11) NOT NULL,
   `priority` int(5) NOT NULL DEFAULT '1',
   `price` decimal(15,4) NOT NULL DEFAULT '0.0000',
   `date_start` date NOT NULL DEFAULT '0000-00-00',
-  `date_end` date NOT NULL DEFAULT '0000-00-00',
-  PRIMARY KEY (`product_special_id`),
-  KEY `product_id` (`product_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=451 ;
+  `date_end` date NOT NULL DEFAULT '0000-00-00'
+) ENGINE=MyISAM AUTO_INCREMENT=451 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2728,8 +2940,7 @@ CREATE TABLE IF NOT EXISTS `oc_product_special` (
 
 CREATE TABLE IF NOT EXISTS `oc_product_to_category` (
   `product_id` int(11) NOT NULL,
-  `category_id` int(11) NOT NULL,
-  PRIMARY KEY (`product_id`,`category_id`)
+  `category_id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2740,8 +2951,7 @@ CREATE TABLE IF NOT EXISTS `oc_product_to_category` (
 
 CREATE TABLE IF NOT EXISTS `oc_product_to_download` (
   `product_id` int(11) NOT NULL,
-  `download_id` int(11) NOT NULL,
-  PRIMARY KEY (`product_id`,`download_id`)
+  `download_id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2753,8 +2963,7 @@ CREATE TABLE IF NOT EXISTS `oc_product_to_download` (
 CREATE TABLE IF NOT EXISTS `oc_product_to_layout` (
   `product_id` int(11) NOT NULL,
   `store_id` int(11) NOT NULL,
-  `layout_id` int(11) NOT NULL,
-  PRIMARY KEY (`product_id`,`store_id`)
+  `layout_id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2766,8 +2975,7 @@ CREATE TABLE IF NOT EXISTS `oc_product_to_layout` (
 CREATE TABLE IF NOT EXISTS `oc_product_to_store` (
   `product_id` int(11) NOT NULL,
   `store_id` int(11) NOT NULL DEFAULT '0',
-  `quantity` float NOT NULL,
-  PRIMARY KEY (`product_id`,`store_id`)
+  `quantity` float NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
@@ -2775,13 +2983,24 @@ CREATE TABLE IF NOT EXISTS `oc_product_to_store` (
 --
 
 INSERT INTO `oc_product_to_store` (`product_id`, `store_id`, `quantity`) VALUES
-(79, 1, 18),
-(0, 1, 10),
-(79, 0, 0),
-(66, 1, 9),
-(112, 5, 0),
-(112, 1, 49),
-(112, 2, 0);
+(66, 2, 0),
+(106, 2, 0),
+(106, 5, 0),
+(66, 1, 10),
+(107, 5, 10),
+(66, 5, 100),
+(79, 5, 10),
+(79, 1, 15),
+(106, 1, 100),
+(79, 2, 2),
+(113, 5, 0),
+(113, 1, 0),
+(113, 2, 0),
+(112, 1, 977),
+(114, 5, 0),
+(114, 1, 0),
+(114, 2, 0),
+(81, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -2790,9 +3009,8 @@ INSERT INTO `oc_product_to_store` (`product_id`, `store_id`, `quantity`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `oc_product_type_class` (
-  `product_type_class_id` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`product_type_class_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+`product_type_class_id` int(11) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `oc_product_type_class`
@@ -2812,8 +3030,7 @@ INSERT INTO `oc_product_type_class` (`product_type_class_id`) VALUES
 CREATE TABLE IF NOT EXISTS `oc_product_type_class_description` (
   `product_type_class_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `name` varchar(20) NOT NULL,
-  UNIQUE KEY `product_type_class_id` (`product_type_class_id`,`language_id`)
+  `name` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -2832,7 +3049,7 @@ INSERT INTO `oc_product_type_class_description` (`product_type_class_id`, `langu
 --
 
 CREATE TABLE IF NOT EXISTS `oc_profile` (
-  `profile_id` int(11) NOT NULL AUTO_INCREMENT,
+`profile_id` int(11) NOT NULL,
   `sort_order` int(11) NOT NULL,
   `status` tinyint(4) NOT NULL,
   `price` decimal(10,4) NOT NULL,
@@ -2843,9 +3060,8 @@ CREATE TABLE IF NOT EXISTS `oc_profile` (
   `trial_price` decimal(10,4) NOT NULL,
   `trial_frequency` enum('day','week','semi_month','month','year') NOT NULL,
   `trial_duration` int(10) unsigned NOT NULL,
-  `trial_cycle` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`profile_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `trial_cycle` int(10) unsigned NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2856,8 +3072,7 @@ CREATE TABLE IF NOT EXISTS `oc_profile` (
 CREATE TABLE IF NOT EXISTS `oc_profile_description` (
   `profile_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  PRIMARY KEY (`profile_id`,`language_id`)
+  `name` varchar(255) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2867,33 +3082,38 @@ CREATE TABLE IF NOT EXISTS `oc_profile_description` (
 --
 
 CREATE TABLE IF NOT EXISTS `oc_purchase` (
-  `purchase_id` int(11) NOT NULL AUTO_INCREMENT,
+`purchase_id` int(11) NOT NULL,
   `store_id` int(11) NOT NULL DEFAULT '0',
   `user_id` int(11) NOT NULL DEFAULT '0',
   `comment` text NOT NULL,
   `total` decimal(15,4) NOT NULL DEFAULT '0.0000',
   `ip` varchar(40) NOT NULL,
   `forwarded_ip` varchar(40) NOT NULL,
-  `date_added` date NOT NULL,
+  `date_added` datetime NOT NULL,
   `date_purchased` date NOT NULL,
   `date_modified` date NOT NULL,
   `purchase_status_id` int(11) NOT NULL COMMENT '1: complete, -1: deleted',
   `image1` varchar(64) NOT NULL,
   `image2` varchar(64) NOT NULL,
   `image3` varchar(64) NOT NULL,
-  `image4` varchar(64) NOT NULL,
-  PRIMARY KEY (`purchase_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=101 ;
+  `image4` varchar(64) NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=117 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `oc_purchase`
 --
 
 INSERT INTO `oc_purchase` (`purchase_id`, `store_id`, `user_id`, `comment`, `total`, `ip`, `forwarded_ip`, `date_added`, `date_purchased`, `date_modified`, `purchase_status_id`, `image1`, `image2`, `image3`, `image4`) VALUES
-(70, 1, 1, '', 4000.0000, '', '', '2014-12-11', '2014-12-11', '2014-12-11', 1, '', '', '', ''),
-(93, 1, 1, '', 4000.0000, '', '', '2014-12-11', '2014-12-11', '2014-12-11', 1, '', '', '', ''),
-(100, 1, 1, '', 3150.0000, '', '', '2014-12-11', '2014-01-01', '2014-12-11', 1, '', '', '', ''),
-(99, 1, 1, '', 1000.0000, '', '', '2014-12-11', '2014-12-11', '2014-12-11', 1, '', '', '', '');
+(107, 5, 1, '', '18100.0000', '', '', '2014-12-11 00:00:00', '2014-12-11', '2014-12-12', 1, '', '', '', ''),
+(108, 1, 1, '', '200.0000', '', '', '2014-12-11 00:00:00', '2014-12-11', '2014-12-12', 1, '', '', '', ''),
+(109, 1, 1, '', '2000.0000', '', '', '2014-12-11 00:00:00', '2014-12-11', '2014-12-11', 1, '', '', '', ''),
+(110, 1, 1, '', '4000.0000', '', '', '2014-12-12 00:00:00', '2014-12-12', '2014-12-12', 1, '', '', '', ''),
+(111, 2, 1, '', '4000.0000', '', '', '2014-12-12 00:00:00', '2014-12-12', '2014-12-12', 1, '', '', '', ''),
+(112, 1, 1, '', '10110.0000', '', '', '2015-01-10 00:00:00', '2015-01-10', '2015-01-12', 1, '', '', '', ''),
+(113, 1, 1, '', '1.0000', '', '', '2015-01-19 16:35:46', '2015-01-19', '2015-01-19', 1, '', '', '', ''),
+(114, 1, 1, '', '1.0000', '', '', '2015-01-19 16:36:34', '2015-01-19', '2015-01-19', 1, '', '', '', ''),
+(115, 1, 1, '', '100.0000', '', '', '2015-02-05 13:45:41', '2015-02-05', '2015-02-05', 1, '', '', '', ''),
+(116, 1, 1, '', '1000.0000', '', '', '2015-02-07 12:10:00', '2015-02-07', '2015-02-07', 1, '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -2902,24 +3122,34 @@ INSERT INTO `oc_purchase` (`purchase_id`, `store_id`, `user_id`, `comment`, `tot
 --
 
 CREATE TABLE IF NOT EXISTS `oc_purchase_product` (
-  `purchase_product_id` int(11) NOT NULL AUTO_INCREMENT,
+`purchase_product_id` int(11) NOT NULL,
   `purchase_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `quantity` int(4) NOT NULL,
   `cost` decimal(15,4) NOT NULL DEFAULT '0.0000',
-  `total` decimal(15,4) NOT NULL DEFAULT '0.0000',
-  PRIMARY KEY (`purchase_product_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=230 ;
+  `total` decimal(15,4) NOT NULL DEFAULT '0.0000'
+) ENGINE=MyISAM AUTO_INCREMENT=289 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `oc_purchase_product`
 --
 
 INSERT INTO `oc_purchase_product` (`purchase_product_id`, `purchase_id`, `product_id`, `quantity`, `cost`, `total`) VALUES
-(216, 70, 79, 10, 400.0000, 4000.0000),
-(224, 93, 79, 10, 400.0000, 4000.0000),
-(229, 100, 112, 50, 63.0000, 3150.0000),
-(228, 99, 66, 10, 100.0000, 1000.0000);
+(274, 108, 106, 100, '1.0000', '100.0000'),
+(272, 107, 66, 100, '100.0000', '10000.0000'),
+(273, 108, 66, 10, '10.0000', '100.0000'),
+(271, 107, 107, 10, '10.0000', '100.0000'),
+(270, 107, 79, 20, '400.0000', '8000.0000'),
+(266, 109, 79, 5, '400.0000', '2000.0000'),
+(275, 110, 79, 10, '400.0000', '4000.0000'),
+(276, 111, 79, 10, '400.0000', '4000.0000'),
+(283, 112, 113, 1, '1.0000', '1.0000'),
+(282, 112, 112, 3, '3.0000', '9.0000'),
+(284, 112, 79, 10, '1010.0000', '10100.0000'),
+(285, 113, 81, 1, '1.0000', '1.0000'),
+(286, 114, 79, 1, '1.0000', '1.0000'),
+(287, 115, 79, 100, '1.0000', '100.0000'),
+(288, 116, 112, 1000, '1.0000', '1000.0000');
 
 -- --------------------------------------------------------
 
@@ -2928,11 +3158,10 @@ INSERT INTO `oc_purchase_product` (`purchase_product_id`, `purchase_id`, `produc
 --
 
 CREATE TABLE IF NOT EXISTS `oc_purchase_status` (
-  `purchase_status_id` int(11) NOT NULL AUTO_INCREMENT,
+`purchase_status_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `name` varchar(32) NOT NULL,
-  PRIMARY KEY (`purchase_status_id`,`language_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+  `name` varchar(32) NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `oc_purchase_status`
@@ -2958,8 +3187,7 @@ CREATE TABLE IF NOT EXISTS `oc_reminder_status` (
   `is_main` tinyint(4) NOT NULL,
   `language_id` int(11) NOT NULL,
   `name` varchar(60) CHARACTER SET utf8 NOT NULL,
-  `additional_days` int(11) NOT NULL,
-  UNIQUE KEY `reminder_class_id` (`reminder_status_id`,`language_id`)
+  `additional_days` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -2983,7 +3211,7 @@ INSERT INTO `oc_reminder_status` (`reminder_status_id`, `reminder_change_status_
 --
 
 CREATE TABLE IF NOT EXISTS `oc_return` (
-  `return_id` int(11) NOT NULL AUTO_INCREMENT,
+`return_id` int(11) NOT NULL,
   `order_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `customer_id` int(11) NOT NULL,
@@ -3001,9 +3229,8 @@ CREATE TABLE IF NOT EXISTS `oc_return` (
   `comment` text,
   `date_ordered` date NOT NULL,
   `date_added` datetime NOT NULL,
-  `date_modified` datetime NOT NULL,
-  PRIMARY KEY (`return_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `date_modified` datetime NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -3012,11 +3239,10 @@ CREATE TABLE IF NOT EXISTS `oc_return` (
 --
 
 CREATE TABLE IF NOT EXISTS `oc_return_action` (
-  `return_action_id` int(11) NOT NULL AUTO_INCREMENT,
+`return_action_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL DEFAULT '0',
-  `name` varchar(64) NOT NULL,
-  PRIMARY KEY (`return_action_id`,`language_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+  `name` varchar(64) NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `oc_return_action`
@@ -3034,14 +3260,13 @@ INSERT INTO `oc_return_action` (`return_action_id`, `language_id`, `name`) VALUE
 --
 
 CREATE TABLE IF NOT EXISTS `oc_return_history` (
-  `return_history_id` int(11) NOT NULL AUTO_INCREMENT,
+`return_history_id` int(11) NOT NULL,
   `return_id` int(11) NOT NULL,
   `return_status_id` int(11) NOT NULL,
   `notify` tinyint(1) NOT NULL,
   `comment` text NOT NULL,
-  `date_added` datetime NOT NULL,
-  PRIMARY KEY (`return_history_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `date_added` datetime NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -3050,11 +3275,10 @@ CREATE TABLE IF NOT EXISTS `oc_return_history` (
 --
 
 CREATE TABLE IF NOT EXISTS `oc_return_reason` (
-  `return_reason_id` int(11) NOT NULL AUTO_INCREMENT,
+`return_reason_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL DEFAULT '0',
-  `name` varchar(128) NOT NULL,
-  PRIMARY KEY (`return_reason_id`,`language_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+  `name` varchar(128) NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `oc_return_reason`
@@ -3074,11 +3298,10 @@ INSERT INTO `oc_return_reason` (`return_reason_id`, `language_id`, `name`) VALUE
 --
 
 CREATE TABLE IF NOT EXISTS `oc_return_status` (
-  `return_status_id` int(11) NOT NULL AUTO_INCREMENT,
+`return_status_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL DEFAULT '0',
-  `name` varchar(32) NOT NULL,
-  PRIMARY KEY (`return_status_id`,`language_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+  `name` varchar(32) NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `oc_return_status`
@@ -3096,7 +3319,7 @@ INSERT INTO `oc_return_status` (`return_status_id`, `language_id`, `name`) VALUE
 --
 
 CREATE TABLE IF NOT EXISTS `oc_review` (
-  `review_id` int(11) NOT NULL AUTO_INCREMENT,
+`review_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `customer_id` int(11) NOT NULL,
   `author` varchar(64) NOT NULL,
@@ -3104,10 +3327,8 @@ CREATE TABLE IF NOT EXISTS `oc_review` (
   `rating` int(1) NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '0',
   `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `date_modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  PRIMARY KEY (`review_id`),
-  KEY `product_id` (`product_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `date_modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -3116,14 +3337,13 @@ CREATE TABLE IF NOT EXISTS `oc_review` (
 --
 
 CREATE TABLE IF NOT EXISTS `oc_setting` (
-  `setting_id` int(11) NOT NULL AUTO_INCREMENT,
+`setting_id` int(11) NOT NULL,
   `store_id` int(11) NOT NULL DEFAULT '0',
   `group` varchar(32) NOT NULL,
   `key` varchar(64) NOT NULL,
   `value` text NOT NULL,
-  `serialized` tinyint(1) NOT NULL,
-  PRIMARY KEY (`setting_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=919 ;
+  `serialized` tinyint(1) NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=975 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `oc_setting`
@@ -3157,13 +3377,11 @@ INSERT INTO `oc_setting` (`setting_id`, `store_id`, `group`, `key`, `value`, `se
 (56, 0, 'affiliate', 'affiliate_module', 'a:1:{i:0;a:4:{s:9:"layout_id";s:2:"10";s:8:"position";s:12:"column_right";s:6:"status";s:1:"1";s:10:"sort_order";s:1:"1";}}', 1),
 (57, 0, 'category', 'category_module', 'a:2:{i:0;a:5:{s:9:"layout_id";s:1:"3";s:8:"position";s:11:"column_left";s:5:"count";s:1:"0";s:6:"status";s:1:"1";s:10:"sort_order";s:1:"1";}i:1;a:5:{s:9:"layout_id";s:1:"2";s:8:"position";s:11:"column_left";s:5:"count";s:1:"0";s:6:"status";s:1:"1";s:10:"sort_order";s:1:"1";}}', 1),
 (60, 0, 'account', 'account_module', 'a:1:{i:0;a:4:{s:9:"layout_id";s:1:"6";s:8:"position";s:12:"column_right";s:6:"status";s:1:"1";s:10:"sort_order";s:1:"1";}}', 1),
-(916, 5, 'config', 'config_email', 'smallthree@gmail.com', 0),
-(917, 5, 'config', 'config_telephone', '12376543', 0),
-(918, 5, 'config', 'config_fax', '', 0),
+(945, 5, 'config', 'config_telephone', '12376543', 0),
 (902, 0, 'config', 'config_error_log', '1', 0),
 (903, 0, 'config', 'config_error_filename', 'error.txt', 0),
 (904, 0, 'config', 'config_google_analytics', '', 0),
-(915, 5, 'config', 'config_address', '12312312312312', 0),
+(943, 5, 'config', 'config_address', '12312312312312', 0),
 (901, 0, 'config', 'config_error_display', '1', 0),
 (900, 0, 'config', 'config_compression', '0', 0),
 (899, 0, 'config', 'config_encryption', '79bf84f1f29049f13d79b671dd74e062', 0),
@@ -3239,13 +3457,13 @@ INSERT INTO `oc_setting` (`setting_id`, `store_id`, `group`, `key`, `value`, `se
 (833, 0, 'config', 'config_customer_group_display', 'a:1:{i:0;s:1:"1";}', 1),
 (832, 0, 'config', 'config_customer_group_id', '1', 0),
 (831, 0, 'config', 'config_customer_online', '0', 0),
-(801, 2, 'config', 'config_fax', '', 0),
-(800, 2, 'config', 'config_telephone', '123123213', 0),
-(799, 2, 'config', 'config_email', 'sho22@c.com', 0),
-(798, 2, 'config', 'config_address', '12F no188', 0),
-(797, 2, 'config', 'config_url', 'www.store2.com', 0),
-(796, 2, 'config', 'config_owner', '大鵬鳥', 0),
-(795, 2, 'config', 'config_name', '厲害商店', 0),
+(939, 2, 'config', 'config_fax', '', 0),
+(938, 2, 'config', 'config_telephone', '123123213', 0),
+(937, 2, 'config', 'config_email', 'sho22@c.com', 0),
+(936, 2, 'config', 'config_address', '12F no188', 0),
+(935, 2, 'config', 'config_url', 'www.store2.com', 0),
+(934, 2, 'config', 'config_owner', '大鵬鳥', 0),
+(933, 2, 'config', 'config_name', '厲害商店', 0),
 (830, 0, 'config', 'config_tax_customer', 'shipping', 0),
 (829, 0, 'config', 'config_tax_default', 'shipping', 0),
 (828, 0, 'config', 'config_vat', '0', 0),
@@ -3273,18 +3491,27 @@ INSERT INTO `oc_setting` (`setting_id`, `store_id`, `group`, `key`, `value`, `se
 (807, 0, 'config', 'config_fax', '', 0),
 (808, 0, 'config', 'config_title', 'Your Store', 0),
 (809, 0, 'config', 'config_meta_description', 'My Store', 0),
-(913, 5, 'config', 'config_owner', '小三老闆', 0),
-(914, 5, 'config', 'config_url', 'smallthree@gmail.com', 0),
-(911, 1, 'config', 'config_fax', '123456789', 0),
-(912, 5, 'config', 'config_name', '小三美日', 0),
-(910, 1, 'config', 'config_telephone', '123456789', 0),
-(909, 1, 'config', 'config_email', 'store1@store.com', 0),
-(908, 1, 'config', 'config_address', '11F No187ss', 0),
-(905, 1, 'config', 'config_name', '信義醫療診所', 0),
-(906, 1, 'config', 'config_owner', '歷史alos', 0),
-(907, 1, 'config', 'config_url', 'www.store1.com', 0),
+(944, 5, 'config', 'config_email', 'smallthree@gmail.com', 0),
+(942, 5, 'config', 'config_url', 'smallthree@gmail.com', 0),
+(959, 1, 'config', 'config_telephone', '123456789', 0),
+(941, 5, 'config', 'config_owner', '小三老闆', 0),
+(958, 1, 'config', 'config_email', 'store1@store.com', 0),
+(957, 1, 'config', 'config_address', '11F No187ss', 0),
+(955, 1, 'config', 'config_owner', '歷史alos', 0),
+(956, 1, 'config', 'config_url', 'www.store1.com', 0),
 (802, 0, 'config', 'config_name', 'base', 0),
-(803, 0, 'config', 'config_owner', 'base', 0);
+(803, 0, 'config', 'config_owner', 'base', 0),
+(972, 6, 'config', 'config_email', '123@gmail.com', 0),
+(971, 6, 'config', 'config_address', '123', 0),
+(970, 6, 'config', 'config_url', '123', 0),
+(969, 6, 'config', 'config_owner', '123123', 0),
+(940, 5, 'config', 'config_name', '小三美日123', 0),
+(946, 5, 'config', 'config_fax', '', 0),
+(954, 1, 'config', 'config_name', '信義醫療診所', 0),
+(960, 1, 'config', 'config_fax', '123456789', 0),
+(973, 6, 'config', 'config_telephone', '123', 0),
+(968, 6, 'config', 'config_name', '123123', 0),
+(974, 6, 'config', 'config_fax', '', 0);
 
 -- --------------------------------------------------------
 
@@ -3293,11 +3520,10 @@ INSERT INTO `oc_setting` (`setting_id`, `store_id`, `group`, `key`, `value`, `se
 --
 
 CREATE TABLE IF NOT EXISTS `oc_stock_status` (
-  `stock_status_id` int(11) NOT NULL AUTO_INCREMENT,
+`stock_status_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `name` varchar(32) NOT NULL,
-  PRIMARY KEY (`stock_status_id`,`language_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+  `name` varchar(32) NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `oc_stock_status`
@@ -3314,13 +3540,12 @@ INSERT INTO `oc_stock_status` (`stock_status_id`, `language_id`, `name`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `oc_store` (
-  `store_id` int(11) NOT NULL AUTO_INCREMENT,
+`store_id` int(11) NOT NULL,
   `email` varchar(32) NOT NULL,
   `name` varchar(64) NOT NULL,
   `url` varchar(255) NOT NULL,
-  `ssl` varchar(255) NOT NULL,
-  PRIMARY KEY (`store_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+  `ssl` varchar(255) NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `oc_store`
@@ -3329,7 +3554,8 @@ CREATE TABLE IF NOT EXISTS `oc_store` (
 INSERT INTO `oc_store` (`store_id`, `email`, `name`, `url`, `ssl`) VALUES
 (1, '', '信義醫療診所', 'www.store1.com', ''),
 (2, '', '厲害商店', 'www.store2.com', ''),
-(5, '', '小三美日', 'smallthree@gmail.com', '');
+(5, '', '小三美日123', 'smallthree@gmail.com', ''),
+(6, '', '123123', '123', '');
 
 -- --------------------------------------------------------
 
@@ -3338,13 +3564,12 @@ INSERT INTO `oc_store` (`store_id`, `email`, `name`, `url`, `ssl`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `oc_tax_class` (
-  `tax_class_id` int(11) NOT NULL AUTO_INCREMENT,
+`tax_class_id` int(11) NOT NULL,
   `title` varchar(32) NOT NULL,
   `description` varchar(255) NOT NULL,
   `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `date_modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  PRIMARY KEY (`tax_class_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
+  `date_modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `oc_tax_class`
@@ -3360,15 +3585,14 @@ INSERT INTO `oc_tax_class` (`tax_class_id`, `title`, `description`, `date_added`
 --
 
 CREATE TABLE IF NOT EXISTS `oc_tax_rate` (
-  `tax_rate_id` int(11) NOT NULL AUTO_INCREMENT,
+`tax_rate_id` int(11) NOT NULL,
   `geo_zone_id` int(11) NOT NULL DEFAULT '0',
   `name` varchar(32) NOT NULL,
   `rate` decimal(15,4) NOT NULL DEFAULT '0.0000',
   `type` char(1) NOT NULL,
   `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `date_modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  PRIMARY KEY (`tax_rate_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=88 ;
+  `date_modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=MyISAM AUTO_INCREMENT=88 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -3378,8 +3602,7 @@ CREATE TABLE IF NOT EXISTS `oc_tax_rate` (
 
 CREATE TABLE IF NOT EXISTS `oc_tax_rate_to_customer_group` (
   `tax_rate_id` int(11) NOT NULL,
-  `customer_group_id` int(11) NOT NULL,
-  PRIMARY KEY (`tax_rate_id`,`customer_group_id`)
+  `customer_group_id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -3389,13 +3612,12 @@ CREATE TABLE IF NOT EXISTS `oc_tax_rate_to_customer_group` (
 --
 
 CREATE TABLE IF NOT EXISTS `oc_tax_rule` (
-  `tax_rule_id` int(11) NOT NULL AUTO_INCREMENT,
+`tax_rule_id` int(11) NOT NULL,
   `tax_class_id` int(11) NOT NULL,
   `tax_rate_id` int(11) NOT NULL,
   `based` varchar(10) NOT NULL,
-  `priority` int(5) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`tax_rule_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=129 ;
+  `priority` int(5) NOT NULL DEFAULT '1'
+) ENGINE=MyISAM AUTO_INCREMENT=129 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -3406,8 +3628,7 @@ CREATE TABLE IF NOT EXISTS `oc_tax_rule` (
 CREATE TABLE IF NOT EXISTS `oc_treatment_status` (
   `treatment_status_id` int(11) NOT NULL,
   `name` varchar(60) CHARACTER SET utf8 NOT NULL,
-  `ismain` tinyint(4) NOT NULL,
-  UNIQUE KEY `reminder_class_id` (`treatment_status_id`)
+  `ismain` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -3428,10 +3649,9 @@ INSERT INTO `oc_treatment_status` (`treatment_status_id`, `name`, `ismain`) VALU
 --
 
 CREATE TABLE IF NOT EXISTS `oc_unit_class` (
-  `unit_class_id` int(11) NOT NULL AUTO_INCREMENT,
-  `date_added` datetime NOT NULL,
-  PRIMARY KEY (`unit_class_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+`unit_class_id` int(11) NOT NULL,
+  `date_added` datetime NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `oc_unit_class`
@@ -3457,8 +3677,7 @@ CREATE TABLE IF NOT EXISTS `oc_unit_class_description` (
   `unit_class_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
   `unit` varchar(20) NOT NULL,
-  `value` float NOT NULL,
-  UNIQUE KEY `unit_class_id` (`unit_class_id`,`language_id`)
+  `value` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -3483,11 +3702,10 @@ INSERT INTO `oc_unit_class_description` (`unit_class_id`, `language_id`, `unit`,
 --
 
 CREATE TABLE IF NOT EXISTS `oc_url_alias` (
-  `url_alias_id` int(11) NOT NULL AUTO_INCREMENT,
+`url_alias_id` int(11) NOT NULL,
   `query` varchar(255) NOT NULL,
-  `keyword` varchar(255) NOT NULL,
-  PRIMARY KEY (`url_alias_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=794 ;
+  `keyword` varchar(255) NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=794 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `oc_url_alias`
@@ -3509,7 +3727,7 @@ INSERT INTO `oc_url_alias` (`url_alias_id`, `query`, `keyword`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `oc_user` (
-  `user_id` int(11) NOT NULL AUTO_INCREMENT,
+`user_id` int(11) NOT NULL,
   `store_id` int(11) NOT NULL,
   `user_group_id` int(11) NOT NULL,
   `username` varchar(20) NOT NULL,
@@ -3523,17 +3741,22 @@ CREATE TABLE IF NOT EXISTS `oc_user` (
   `ip` varchar(40) NOT NULL,
   `status` tinyint(1) NOT NULL,
   `store_permission` text NOT NULL,
-  `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  PRIMARY KEY (`user_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=24 ;
+  `product_permission` text NOT NULL,
+  `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=MyISAM AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `oc_user`
 --
 
-INSERT INTO `oc_user` (`user_id`, `store_id`, `user_group_id`, `username`, `password`, `salt`, `firstname`, `lastname`, `fullname`, `email`, `code`, `ip`, `status`, `store_permission`, `date_added`) VALUES
-(1, 1, 1, 'admin', '6d973c5d6499ef3b760a626038223d86ac20b2e9', '9ec25c59e', '', '老闆', '老闆', '', '', '127.0.0.1', 1, '[1,2,5]', '2014-08-31 15:23:42'),
-(23, 1, 2, 'doc1', '1e3e37ee4fc1d5a9f5aba7067ac54deaf0073c68', 'cb2fb3564', '', '醫師', '醫師', '', '', '', 1, '[1]', '2014-12-11 09:59:06');
+INSERT INTO `oc_user` (`user_id`, `store_id`, `user_group_id`, `username`, `password`, `salt`, `firstname`, `lastname`, `fullname`, `email`, `code`, `ip`, `status`, `store_permission`, `product_permission`, `date_added`) VALUES
+(1, 1, 1, 'admin', '6d973c5d6499ef3b760a626038223d86ac20b2e9', '9ec25c59e', '', '老闆', '老闆', '', '', '127.0.0.1', 1, '[1,5,2]', '', '2014-08-31 15:23:42'),
+(23, 1, 2, 'doc1', '1e3e37ee4fc1d5a9f5aba7067ac54deaf0073c68', 'cb2fb3564', '', '醫師', '醫師', '', '', '', 1, '[1]', '[]', '2014-12-11 09:59:06'),
+(24, 2, 5, 'beauty', '082fcb4da7677204888ff0322ab5bb5aa469f49f', '8c702ac05', '', 'beauty', 'beauty', '', '', '', 1, '[2]', '', '2015-01-10 17:03:22'),
+(25, 5, 13, 'uasidaduio', '57fb0b563277ae4882b3dce81f4a049648573707', '37ea0dba6', '', 'uasidaduio', 'uasidaduio', '', '', '', 1, '[5]', '[]', '2015-01-19 15:43:19'),
+(26, 1, 3, 'consultant', '0bf2a5581f1fe0bca1d1d38a8e75c54c6d3a3347', 'f2a633542', '', 'consultant', 'consultant', '', '', '', 1, '[1]', '[]', '2015-02-05 11:36:36'),
+(27, 1, 4, 'outsource', '240e3ca360c0707c25832c8fb8c17aed9f4487e1', 'b5730c7c8', '', 'outsource', 'outsource', '', '', '', 1, '[1]', '[]', '2015-02-05 11:36:53'),
+(28, 1, 2, 'doc2', 'c3f096f7e35de919abcbf35d9dfb6f21762b30ab', '8e4d2cdeb', '', 'doc2', 'doc2', '', '', '', 1, '[1]', '[]', '2015-02-05 15:39:45');
 
 -- --------------------------------------------------------
 
@@ -3542,26 +3765,26 @@ INSERT INTO `oc_user` (`user_id`, `store_id`, `user_group_id`, `username`, `pass
 --
 
 CREATE TABLE IF NOT EXISTS `oc_user_group` (
-  `user_group_id` int(11) NOT NULL AUTO_INCREMENT,
+`user_group_id` int(11) NOT NULL,
   `name` varchar(64) NOT NULL,
   `permission` text NOT NULL,
-  PRIMARY KEY (`user_group_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
+  `producttypepermission` text NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `oc_user_group`
 --
 
-INSERT INTO `oc_user_group` (`user_group_id`, `name`, `permission`) VALUES
-(1, '老闆', 'a:2:{s:6:"access";a:133:{i:0;s:17:"catalog/attribute";i:1;s:23:"catalog/attribute_group";i:2;s:16:"catalog/category";i:3;s:16:"catalog/download";i:4;s:14:"catalog/filter";i:5;s:19:"catalog/information";i:6;s:20:"catalog/manufacturer";i:7;s:14:"catalog/option";i:8;s:15:"catalog/product";i:9;s:15:"catalog/profile";i:10;s:16:"catalog/purchase";i:11;s:14:"catalog/review";i:12;s:13:"checkout/cart";i:13;s:17:"checkout/checkout";i:14;s:16:"checkout/confirm";i:15;s:14:"checkout/guest";i:16;s:23:"checkout/guest_shipping";i:17;s:14:"checkout/login";i:18;s:15:"checkout/manual";i:19;s:24:"checkout/payment_address";i:20;s:23:"checkout/payment_method";i:21;s:17:"checkout/register";i:22;s:25:"checkout/shipping_address";i:23;s:24:"checkout/shipping_method";i:24;s:16:"checkout/success";i:25;s:18:"common/filemanager";i:26;s:15:"common/register";i:27;s:13:"design/banner";i:28;s:19:"design/custom_field";i:29;s:13:"design/layout";i:30;s:14:"extension/feed";i:31;s:17:"extension/manager";i:32;s:16:"extension/module";i:33;s:17:"extension/payment";i:34;s:18:"extension/shipping";i:35;s:15:"extension/total";i:36;s:16:"feed/google_base";i:37;s:19:"feed/google_sitemap";i:38;s:17:"image/imagemanage";i:39;s:20:"localisation/country";i:40;s:21:"localisation/currency";i:41;s:21:"localisation/geo_zone";i:42;s:21:"localisation/language";i:43;s:25:"localisation/length_class";i:44;s:25:"localisation/order_status";i:45;s:26:"localisation/return_action";i:46;s:26:"localisation/return_reason";i:47;s:26:"localisation/return_status";i:48;s:25:"localisation/stock_status";i:49;s:22:"localisation/tax_class";i:50;s:21:"localisation/tax_rate";i:51;s:23:"localisation/unit_class";i:52;s:25:"localisation/weight_class";i:53;s:17:"localisation/zone";i:54;s:14:"module/account";i:55;s:16:"module/affiliate";i:56;s:29:"module/amazon_checkout_layout";i:57;s:13:"module/banner";i:58;s:17:"module/bestseller";i:59;s:15:"module/carousel";i:60;s:15:"module/category";i:61;s:18:"module/ebaydisplay";i:62;s:15:"module/featured";i:63;s:13:"module/filter";i:64;s:18:"module/google_talk";i:65;s:18:"module/information";i:66;s:13:"module/latest";i:67;s:17:"module/openbaypro";i:68;s:16:"module/pp_layout";i:69;s:16:"module/slideshow";i:70;s:14:"module/special";i:71;s:12:"module/store";i:72;s:14:"module/welcome";i:73;s:27:"report/affiliate_commission";i:74;s:22:"report/customer_credit";i:75;s:24:"report/customer_feedback";i:76;s:22:"report/customer_online";i:77;s:21:"report/customer_order";i:78;s:22:"report/customer_reward";i:79;s:24:"report/product_purchased";i:80;s:21:"report/product_viewed";i:81;s:18:"report/sale_coupon";i:82;s:17:"report/sale_order";i:83;s:18:"report/sale_return";i:84;s:20:"report/sale_shipping";i:85;s:15:"report/sale_tax";i:86;s:26:"report/treatment_purchased";i:87;s:17:"report/user_bonus";i:88;s:27:"report/user_treatment_bonus";i:89;s:16:"sale/appointment";i:90;s:12:"sale/contact";i:91;s:13:"sale/customer";i:92;s:20:"sale/customer_ban_ip";i:93;s:19:"sale/customer_group";i:94;s:13:"sale/followup";i:95;s:12:"sale/history";i:96;s:12:"sale/lending";i:97;s:10:"sale/order";i:98;s:14:"sale/recurring";i:99;s:11:"sale/return";i:100;s:16:"sale/transaction";i:101;s:14:"sale/treatment";i:102;s:12:"sale/voucher";i:103;s:18:"sale/voucher_theme";i:104;s:15:"setting/setting";i:105;s:13:"setting/store";i:106;s:16:"shipping/auspost";i:107;s:17:"shipping/citylink";i:108;s:14:"shipping/fedex";i:109;s:13:"shipping/flat";i:110;s:13:"shipping/free";i:111;s:13:"shipping/item";i:112;s:23:"shipping/parcelforce_48";i:113;s:15:"shipping/pickup";i:114;s:19:"shipping/royal_mail";i:115;s:12:"shipping/ups";i:116;s:13:"shipping/usps";i:117;s:15:"shipping/weight";i:118;s:11:"tool/backup";i:119;s:14:"tool/error_log";i:120;s:12:"total/coupon";i:121;s:12:"total/credit";i:122;s:14:"total/handling";i:123;s:16:"total/klarna_fee";i:124;s:19:"total/low_order_fee";i:125;s:12:"total/reward";i:126;s:14:"total/shipping";i:127;s:15:"total/sub_total";i:128;s:9:"total/tax";i:129;s:11:"total/total";i:130;s:13:"total/voucher";i:131;s:9:"user/user";i:132;s:20:"user/user_permission";}s:6:"modify";a:133:{i:0;s:17:"catalog/attribute";i:1;s:23:"catalog/attribute_group";i:2;s:16:"catalog/category";i:3;s:16:"catalog/download";i:4;s:14:"catalog/filter";i:5;s:19:"catalog/information";i:6;s:20:"catalog/manufacturer";i:7;s:14:"catalog/option";i:8;s:15:"catalog/product";i:9;s:15:"catalog/profile";i:10;s:16:"catalog/purchase";i:11;s:14:"catalog/review";i:12;s:13:"checkout/cart";i:13;s:17:"checkout/checkout";i:14;s:16:"checkout/confirm";i:15;s:14:"checkout/guest";i:16;s:23:"checkout/guest_shipping";i:17;s:14:"checkout/login";i:18;s:15:"checkout/manual";i:19;s:24:"checkout/payment_address";i:20;s:23:"checkout/payment_method";i:21;s:17:"checkout/register";i:22;s:25:"checkout/shipping_address";i:23;s:24:"checkout/shipping_method";i:24;s:16:"checkout/success";i:25;s:18:"common/filemanager";i:26;s:15:"common/register";i:27;s:13:"design/banner";i:28;s:19:"design/custom_field";i:29;s:13:"design/layout";i:30;s:14:"extension/feed";i:31;s:17:"extension/manager";i:32;s:16:"extension/module";i:33;s:17:"extension/payment";i:34;s:18:"extension/shipping";i:35;s:15:"extension/total";i:36;s:16:"feed/google_base";i:37;s:19:"feed/google_sitemap";i:38;s:17:"image/imagemanage";i:39;s:20:"localisation/country";i:40;s:21:"localisation/currency";i:41;s:21:"localisation/geo_zone";i:42;s:21:"localisation/language";i:43;s:25:"localisation/length_class";i:44;s:25:"localisation/order_status";i:45;s:26:"localisation/return_action";i:46;s:26:"localisation/return_reason";i:47;s:26:"localisation/return_status";i:48;s:25:"localisation/stock_status";i:49;s:22:"localisation/tax_class";i:50;s:21:"localisation/tax_rate";i:51;s:23:"localisation/unit_class";i:52;s:25:"localisation/weight_class";i:53;s:17:"localisation/zone";i:54;s:14:"module/account";i:55;s:16:"module/affiliate";i:56;s:29:"module/amazon_checkout_layout";i:57;s:13:"module/banner";i:58;s:17:"module/bestseller";i:59;s:15:"module/carousel";i:60;s:15:"module/category";i:61;s:18:"module/ebaydisplay";i:62;s:15:"module/featured";i:63;s:13:"module/filter";i:64;s:18:"module/google_talk";i:65;s:18:"module/information";i:66;s:13:"module/latest";i:67;s:17:"module/openbaypro";i:68;s:16:"module/pp_layout";i:69;s:16:"module/slideshow";i:70;s:14:"module/special";i:71;s:12:"module/store";i:72;s:14:"module/welcome";i:73;s:27:"report/affiliate_commission";i:74;s:22:"report/customer_credit";i:75;s:24:"report/customer_feedback";i:76;s:22:"report/customer_online";i:77;s:21:"report/customer_order";i:78;s:22:"report/customer_reward";i:79;s:24:"report/product_purchased";i:80;s:21:"report/product_viewed";i:81;s:18:"report/sale_coupon";i:82;s:17:"report/sale_order";i:83;s:18:"report/sale_return";i:84;s:20:"report/sale_shipping";i:85;s:15:"report/sale_tax";i:86;s:26:"report/treatment_purchased";i:87;s:17:"report/user_bonus";i:88;s:27:"report/user_treatment_bonus";i:89;s:16:"sale/appointment";i:90;s:12:"sale/contact";i:91;s:13:"sale/customer";i:92;s:20:"sale/customer_ban_ip";i:93;s:19:"sale/customer_group";i:94;s:13:"sale/followup";i:95;s:12:"sale/history";i:96;s:12:"sale/lending";i:97;s:10:"sale/order";i:98;s:14:"sale/recurring";i:99;s:11:"sale/return";i:100;s:16:"sale/transaction";i:101;s:14:"sale/treatment";i:102;s:12:"sale/voucher";i:103;s:18:"sale/voucher_theme";i:104;s:15:"setting/setting";i:105;s:13:"setting/store";i:106;s:16:"shipping/auspost";i:107;s:17:"shipping/citylink";i:108;s:14:"shipping/fedex";i:109;s:13:"shipping/flat";i:110;s:13:"shipping/free";i:111;s:13:"shipping/item";i:112;s:23:"shipping/parcelforce_48";i:113;s:15:"shipping/pickup";i:114;s:19:"shipping/royal_mail";i:115;s:12:"shipping/ups";i:116;s:13:"shipping/usps";i:117;s:15:"shipping/weight";i:118;s:11:"tool/backup";i:119;s:14:"tool/error_log";i:120;s:12:"total/coupon";i:121;s:12:"total/credit";i:122;s:14:"total/handling";i:123;s:16:"total/klarna_fee";i:124;s:19:"total/low_order_fee";i:125;s:12:"total/reward";i:126;s:14:"total/shipping";i:127;s:15:"total/sub_total";i:128;s:9:"total/tax";i:129;s:11:"total/total";i:130;s:13:"total/voucher";i:131;s:9:"user/user";i:132;s:20:"user/user_permission";}}'),
-(5, '美容師', 'a:1:{s:6:"access";a:130:{i:0;s:17:"catalog/attribute";i:1;s:23:"catalog/attribute_group";i:2;s:16:"catalog/category";i:3;s:16:"catalog/download";i:4;s:14:"catalog/filter";i:5;s:19:"catalog/information";i:6;s:20:"catalog/manufacturer";i:7;s:14:"catalog/option";i:8;s:15:"catalog/product";i:9;s:15:"catalog/profile";i:10;s:16:"catalog/purchase";i:11;s:14:"catalog/review";i:12;s:13:"checkout/cart";i:13;s:17:"checkout/checkout";i:14;s:16:"checkout/confirm";i:15;s:14:"checkout/guest";i:16;s:23:"checkout/guest_shipping";i:17;s:14:"checkout/login";i:18;s:15:"checkout/manual";i:19;s:24:"checkout/payment_address";i:20;s:23:"checkout/payment_method";i:21;s:17:"checkout/register";i:22;s:25:"checkout/shipping_address";i:23;s:24:"checkout/shipping_method";i:24;s:16:"checkout/success";i:25;s:18:"common/filemanager";i:26;s:15:"common/register";i:27;s:13:"design/banner";i:28;s:19:"design/custom_field";i:29;s:13:"design/layout";i:30;s:14:"extension/feed";i:31;s:17:"extension/manager";i:32;s:16:"extension/module";i:33;s:17:"extension/payment";i:34;s:18:"extension/shipping";i:35;s:15:"extension/total";i:36;s:16:"feed/google_base";i:37;s:19:"feed/google_sitemap";i:38;s:17:"image/imagemanage";i:39;s:20:"localisation/country";i:40;s:21:"localisation/currency";i:41;s:21:"localisation/geo_zone";i:42;s:21:"localisation/language";i:43;s:25:"localisation/length_class";i:44;s:25:"localisation/order_status";i:45;s:26:"localisation/return_action";i:46;s:26:"localisation/return_reason";i:47;s:26:"localisation/return_status";i:48;s:25:"localisation/stock_status";i:49;s:22:"localisation/tax_class";i:50;s:21:"localisation/tax_rate";i:51;s:23:"localisation/unit_class";i:52;s:25:"localisation/weight_class";i:53;s:17:"localisation/zone";i:54;s:14:"module/account";i:55;s:16:"module/affiliate";i:56;s:29:"module/amazon_checkout_layout";i:57;s:13:"module/banner";i:58;s:17:"module/bestseller";i:59;s:15:"module/carousel";i:60;s:15:"module/category";i:61;s:18:"module/ebaydisplay";i:62;s:15:"module/featured";i:63;s:13:"module/filter";i:64;s:18:"module/google_talk";i:65;s:18:"module/information";i:66;s:13:"module/latest";i:67;s:17:"module/openbaypro";i:68;s:16:"module/pp_layout";i:69;s:16:"module/slideshow";i:70;s:14:"module/special";i:71;s:12:"module/store";i:72;s:14:"module/welcome";i:73;s:27:"report/affiliate_commission";i:74;s:22:"report/customer_credit";i:75;s:24:"report/customer_feedback";i:76;s:22:"report/customer_online";i:77;s:21:"report/customer_order";i:78;s:22:"report/customer_reward";i:79;s:24:"report/product_purchased";i:80;s:21:"report/product_viewed";i:81;s:18:"report/sale_coupon";i:82;s:17:"report/sale_order";i:83;s:18:"report/sale_return";i:84;s:20:"report/sale_shipping";i:85;s:15:"report/sale_tax";i:86;s:26:"report/treatment_purchased";i:87;s:17:"report/user_bonus";i:88;s:16:"sale/appointment";i:89;s:12:"sale/contact";i:90;s:13:"sale/customer";i:91;s:20:"sale/customer_ban_ip";i:92;s:19:"sale/customer_group";i:93;s:13:"sale/followup";i:94;s:12:"sale/history";i:95;s:10:"sale/order";i:96;s:14:"sale/recurring";i:97;s:11:"sale/return";i:98;s:14:"sale/treatment";i:99;s:12:"sale/voucher";i:100;s:18:"sale/voucher_theme";i:101;s:15:"setting/setting";i:102;s:13:"setting/store";i:103;s:16:"shipping/auspost";i:104;s:17:"shipping/citylink";i:105;s:14:"shipping/fedex";i:106;s:13:"shipping/flat";i:107;s:13:"shipping/free";i:108;s:13:"shipping/item";i:109;s:23:"shipping/parcelforce_48";i:110;s:15:"shipping/pickup";i:111;s:19:"shipping/royal_mail";i:112;s:12:"shipping/ups";i:113;s:13:"shipping/usps";i:114;s:15:"shipping/weight";i:115;s:11:"tool/backup";i:116;s:14:"tool/error_log";i:117;s:12:"total/coupon";i:118;s:12:"total/credit";i:119;s:14:"total/handling";i:120;s:16:"total/klarna_fee";i:121;s:19:"total/low_order_fee";i:122;s:12:"total/reward";i:123;s:14:"total/shipping";i:124;s:15:"total/sub_total";i:125;s:9:"total/tax";i:126;s:11:"total/total";i:127;s:13:"total/voucher";i:128;s:9:"user/user";i:129;s:20:"user/user_permission";}}'),
-(11, '醫美店長', 'a:2:{s:6:"access";a:130:{i:0;s:17:"catalog/attribute";i:1;s:23:"catalog/attribute_group";i:2;s:16:"catalog/category";i:3;s:16:"catalog/download";i:4;s:14:"catalog/filter";i:5;s:19:"catalog/information";i:6;s:20:"catalog/manufacturer";i:7;s:14:"catalog/option";i:8;s:15:"catalog/product";i:9;s:15:"catalog/profile";i:10;s:16:"catalog/purchase";i:11;s:14:"catalog/review";i:12;s:13:"checkout/cart";i:13;s:17:"checkout/checkout";i:14;s:16:"checkout/confirm";i:15;s:14:"checkout/guest";i:16;s:23:"checkout/guest_shipping";i:17;s:14:"checkout/login";i:18;s:15:"checkout/manual";i:19;s:24:"checkout/payment_address";i:20;s:23:"checkout/payment_method";i:21;s:17:"checkout/register";i:22;s:25:"checkout/shipping_address";i:23;s:24:"checkout/shipping_method";i:24;s:16:"checkout/success";i:25;s:18:"common/filemanager";i:26;s:15:"common/register";i:27;s:13:"design/banner";i:28;s:19:"design/custom_field";i:29;s:13:"design/layout";i:30;s:14:"extension/feed";i:31;s:17:"extension/manager";i:32;s:16:"extension/module";i:33;s:17:"extension/payment";i:34;s:18:"extension/shipping";i:35;s:15:"extension/total";i:36;s:16:"feed/google_base";i:37;s:19:"feed/google_sitemap";i:38;s:17:"image/imagemanage";i:39;s:20:"localisation/country";i:40;s:21:"localisation/currency";i:41;s:21:"localisation/geo_zone";i:42;s:21:"localisation/language";i:43;s:25:"localisation/length_class";i:44;s:25:"localisation/order_status";i:45;s:26:"localisation/return_action";i:46;s:26:"localisation/return_reason";i:47;s:26:"localisation/return_status";i:48;s:25:"localisation/stock_status";i:49;s:22:"localisation/tax_class";i:50;s:21:"localisation/tax_rate";i:51;s:23:"localisation/unit_class";i:52;s:25:"localisation/weight_class";i:53;s:17:"localisation/zone";i:54;s:14:"module/account";i:55;s:16:"module/affiliate";i:56;s:29:"module/amazon_checkout_layout";i:57;s:13:"module/banner";i:58;s:17:"module/bestseller";i:59;s:15:"module/carousel";i:60;s:15:"module/category";i:61;s:18:"module/ebaydisplay";i:62;s:15:"module/featured";i:63;s:13:"module/filter";i:64;s:18:"module/google_talk";i:65;s:18:"module/information";i:66;s:13:"module/latest";i:67;s:17:"module/openbaypro";i:68;s:16:"module/pp_layout";i:69;s:16:"module/slideshow";i:70;s:14:"module/special";i:71;s:12:"module/store";i:72;s:14:"module/welcome";i:73;s:27:"report/affiliate_commission";i:74;s:22:"report/customer_credit";i:75;s:24:"report/customer_feedback";i:76;s:22:"report/customer_online";i:77;s:21:"report/customer_order";i:78;s:22:"report/customer_reward";i:79;s:24:"report/product_purchased";i:80;s:21:"report/product_viewed";i:81;s:18:"report/sale_coupon";i:82;s:17:"report/sale_order";i:83;s:18:"report/sale_return";i:84;s:20:"report/sale_shipping";i:85;s:15:"report/sale_tax";i:86;s:26:"report/treatment_purchased";i:87;s:17:"report/user_bonus";i:88;s:16:"sale/appointment";i:89;s:12:"sale/contact";i:90;s:13:"sale/customer";i:91;s:20:"sale/customer_ban_ip";i:92;s:19:"sale/customer_group";i:93;s:13:"sale/followup";i:94;s:12:"sale/history";i:95;s:10:"sale/order";i:96;s:14:"sale/recurring";i:97;s:11:"sale/return";i:98;s:14:"sale/treatment";i:99;s:12:"sale/voucher";i:100;s:18:"sale/voucher_theme";i:101;s:15:"setting/setting";i:102;s:13:"setting/store";i:103;s:16:"shipping/auspost";i:104;s:17:"shipping/citylink";i:105;s:14:"shipping/fedex";i:106;s:13:"shipping/flat";i:107;s:13:"shipping/free";i:108;s:13:"shipping/item";i:109;s:23:"shipping/parcelforce_48";i:110;s:15:"shipping/pickup";i:111;s:19:"shipping/royal_mail";i:112;s:12:"shipping/ups";i:113;s:13:"shipping/usps";i:114;s:15:"shipping/weight";i:115;s:11:"tool/backup";i:116;s:14:"tool/error_log";i:117;s:12:"total/coupon";i:118;s:12:"total/credit";i:119;s:14:"total/handling";i:120;s:16:"total/klarna_fee";i:121;s:19:"total/low_order_fee";i:122;s:12:"total/reward";i:123;s:14:"total/shipping";i:124;s:15:"total/sub_total";i:125;s:9:"total/tax";i:126;s:11:"total/total";i:127;s:13:"total/voucher";i:128;s:9:"user/user";i:129;s:20:"user/user_permission";}s:6:"modify";a:130:{i:0;s:17:"catalog/attribute";i:1;s:23:"catalog/attribute_group";i:2;s:16:"catalog/category";i:3;s:16:"catalog/download";i:4;s:14:"catalog/filter";i:5;s:19:"catalog/information";i:6;s:20:"catalog/manufacturer";i:7;s:14:"catalog/option";i:8;s:15:"catalog/product";i:9;s:15:"catalog/profile";i:10;s:16:"catalog/purchase";i:11;s:14:"catalog/review";i:12;s:13:"checkout/cart";i:13;s:17:"checkout/checkout";i:14;s:16:"checkout/confirm";i:15;s:14:"checkout/guest";i:16;s:23:"checkout/guest_shipping";i:17;s:14:"checkout/login";i:18;s:15:"checkout/manual";i:19;s:24:"checkout/payment_address";i:20;s:23:"checkout/payment_method";i:21;s:17:"checkout/register";i:22;s:25:"checkout/shipping_address";i:23;s:24:"checkout/shipping_method";i:24;s:16:"checkout/success";i:25;s:18:"common/filemanager";i:26;s:15:"common/register";i:27;s:13:"design/banner";i:28;s:19:"design/custom_field";i:29;s:13:"design/layout";i:30;s:14:"extension/feed";i:31;s:17:"extension/manager";i:32;s:16:"extension/module";i:33;s:17:"extension/payment";i:34;s:18:"extension/shipping";i:35;s:15:"extension/total";i:36;s:16:"feed/google_base";i:37;s:19:"feed/google_sitemap";i:38;s:17:"image/imagemanage";i:39;s:20:"localisation/country";i:40;s:21:"localisation/currency";i:41;s:21:"localisation/geo_zone";i:42;s:21:"localisation/language";i:43;s:25:"localisation/length_class";i:44;s:25:"localisation/order_status";i:45;s:26:"localisation/return_action";i:46;s:26:"localisation/return_reason";i:47;s:26:"localisation/return_status";i:48;s:25:"localisation/stock_status";i:49;s:22:"localisation/tax_class";i:50;s:21:"localisation/tax_rate";i:51;s:23:"localisation/unit_class";i:52;s:25:"localisation/weight_class";i:53;s:17:"localisation/zone";i:54;s:14:"module/account";i:55;s:16:"module/affiliate";i:56;s:29:"module/amazon_checkout_layout";i:57;s:13:"module/banner";i:58;s:17:"module/bestseller";i:59;s:15:"module/carousel";i:60;s:15:"module/category";i:61;s:18:"module/ebaydisplay";i:62;s:15:"module/featured";i:63;s:13:"module/filter";i:64;s:18:"module/google_talk";i:65;s:18:"module/information";i:66;s:13:"module/latest";i:67;s:17:"module/openbaypro";i:68;s:16:"module/pp_layout";i:69;s:16:"module/slideshow";i:70;s:14:"module/special";i:71;s:12:"module/store";i:72;s:14:"module/welcome";i:73;s:27:"report/affiliate_commission";i:74;s:22:"report/customer_credit";i:75;s:24:"report/customer_feedback";i:76;s:22:"report/customer_online";i:77;s:21:"report/customer_order";i:78;s:22:"report/customer_reward";i:79;s:24:"report/product_purchased";i:80;s:21:"report/product_viewed";i:81;s:18:"report/sale_coupon";i:82;s:17:"report/sale_order";i:83;s:18:"report/sale_return";i:84;s:20:"report/sale_shipping";i:85;s:15:"report/sale_tax";i:86;s:26:"report/treatment_purchased";i:87;s:17:"report/user_bonus";i:88;s:16:"sale/appointment";i:89;s:12:"sale/contact";i:90;s:13:"sale/customer";i:91;s:20:"sale/customer_ban_ip";i:92;s:19:"sale/customer_group";i:93;s:13:"sale/followup";i:94;s:12:"sale/history";i:95;s:10:"sale/order";i:96;s:14:"sale/recurring";i:97;s:11:"sale/return";i:98;s:14:"sale/treatment";i:99;s:12:"sale/voucher";i:100;s:18:"sale/voucher_theme";i:101;s:15:"setting/setting";i:102;s:13:"setting/store";i:103;s:16:"shipping/auspost";i:104;s:17:"shipping/citylink";i:105;s:14:"shipping/fedex";i:106;s:13:"shipping/flat";i:107;s:13:"shipping/free";i:108;s:13:"shipping/item";i:109;s:23:"shipping/parcelforce_48";i:110;s:15:"shipping/pickup";i:111;s:19:"shipping/royal_mail";i:112;s:12:"shipping/ups";i:113;s:13:"shipping/usps";i:114;s:15:"shipping/weight";i:115;s:11:"tool/backup";i:116;s:14:"tool/error_log";i:117;s:12:"total/coupon";i:118;s:12:"total/credit";i:119;s:14:"total/handling";i:120;s:16:"total/klarna_fee";i:121;s:19:"total/low_order_fee";i:122;s:12:"total/reward";i:123;s:14:"total/shipping";i:124;s:15:"total/sub_total";i:125;s:9:"total/tax";i:126;s:11:"total/total";i:127;s:13:"total/voucher";i:128;s:9:"user/user";i:129;s:20:"user/user_permission";}}'),
-(12, '諮詢師', 'a:1:{s:6:"access";a:130:{i:0;s:17:"catalog/attribute";i:1;s:23:"catalog/attribute_group";i:2;s:16:"catalog/category";i:3;s:16:"catalog/download";i:4;s:14:"catalog/filter";i:5;s:19:"catalog/information";i:6;s:20:"catalog/manufacturer";i:7;s:14:"catalog/option";i:8;s:15:"catalog/product";i:9;s:15:"catalog/profile";i:10;s:16:"catalog/purchase";i:11;s:14:"catalog/review";i:12;s:13:"checkout/cart";i:13;s:17:"checkout/checkout";i:14;s:16:"checkout/confirm";i:15;s:14:"checkout/guest";i:16;s:23:"checkout/guest_shipping";i:17;s:14:"checkout/login";i:18;s:15:"checkout/manual";i:19;s:24:"checkout/payment_address";i:20;s:23:"checkout/payment_method";i:21;s:17:"checkout/register";i:22;s:25:"checkout/shipping_address";i:23;s:24:"checkout/shipping_method";i:24;s:16:"checkout/success";i:25;s:18:"common/filemanager";i:26;s:15:"common/register";i:27;s:13:"design/banner";i:28;s:19:"design/custom_field";i:29;s:13:"design/layout";i:30;s:14:"extension/feed";i:31;s:17:"extension/manager";i:32;s:16:"extension/module";i:33;s:17:"extension/payment";i:34;s:18:"extension/shipping";i:35;s:15:"extension/total";i:36;s:16:"feed/google_base";i:37;s:19:"feed/google_sitemap";i:38;s:17:"image/imagemanage";i:39;s:20:"localisation/country";i:40;s:21:"localisation/currency";i:41;s:21:"localisation/geo_zone";i:42;s:21:"localisation/language";i:43;s:25:"localisation/length_class";i:44;s:25:"localisation/order_status";i:45;s:26:"localisation/return_action";i:46;s:26:"localisation/return_reason";i:47;s:26:"localisation/return_status";i:48;s:25:"localisation/stock_status";i:49;s:22:"localisation/tax_class";i:50;s:21:"localisation/tax_rate";i:51;s:23:"localisation/unit_class";i:52;s:25:"localisation/weight_class";i:53;s:17:"localisation/zone";i:54;s:14:"module/account";i:55;s:16:"module/affiliate";i:56;s:29:"module/amazon_checkout_layout";i:57;s:13:"module/banner";i:58;s:17:"module/bestseller";i:59;s:15:"module/carousel";i:60;s:15:"module/category";i:61;s:18:"module/ebaydisplay";i:62;s:15:"module/featured";i:63;s:13:"module/filter";i:64;s:18:"module/google_talk";i:65;s:18:"module/information";i:66;s:13:"module/latest";i:67;s:17:"module/openbaypro";i:68;s:16:"module/pp_layout";i:69;s:16:"module/slideshow";i:70;s:14:"module/special";i:71;s:12:"module/store";i:72;s:14:"module/welcome";i:73;s:27:"report/affiliate_commission";i:74;s:22:"report/customer_credit";i:75;s:24:"report/customer_feedback";i:76;s:22:"report/customer_online";i:77;s:21:"report/customer_order";i:78;s:22:"report/customer_reward";i:79;s:24:"report/product_purchased";i:80;s:21:"report/product_viewed";i:81;s:18:"report/sale_coupon";i:82;s:17:"report/sale_order";i:83;s:18:"report/sale_return";i:84;s:20:"report/sale_shipping";i:85;s:15:"report/sale_tax";i:86;s:26:"report/treatment_purchased";i:87;s:17:"report/user_bonus";i:88;s:16:"sale/appointment";i:89;s:12:"sale/contact";i:90;s:13:"sale/customer";i:91;s:20:"sale/customer_ban_ip";i:92;s:19:"sale/customer_group";i:93;s:13:"sale/followup";i:94;s:12:"sale/history";i:95;s:10:"sale/order";i:96;s:14:"sale/recurring";i:97;s:11:"sale/return";i:98;s:14:"sale/treatment";i:99;s:12:"sale/voucher";i:100;s:18:"sale/voucher_theme";i:101;s:15:"setting/setting";i:102;s:13:"setting/store";i:103;s:16:"shipping/auspost";i:104;s:17:"shipping/citylink";i:105;s:14:"shipping/fedex";i:106;s:13:"shipping/flat";i:107;s:13:"shipping/free";i:108;s:13:"shipping/item";i:109;s:23:"shipping/parcelforce_48";i:110;s:15:"shipping/pickup";i:111;s:19:"shipping/royal_mail";i:112;s:12:"shipping/ups";i:113;s:13:"shipping/usps";i:114;s:15:"shipping/weight";i:115;s:11:"tool/backup";i:116;s:14:"tool/error_log";i:117;s:12:"total/coupon";i:118;s:12:"total/credit";i:119;s:14:"total/handling";i:120;s:16:"total/klarna_fee";i:121;s:19:"total/low_order_fee";i:122;s:12:"total/reward";i:123;s:14:"total/shipping";i:124;s:15:"total/sub_total";i:125;s:9:"total/tax";i:126;s:11:"total/total";i:127;s:13:"total/voucher";i:128;s:9:"user/user";i:129;s:20:"user/user_permission";}}'),
-(13, '工讀生', 'a:2:{s:6:"access";a:130:{i:0;s:17:"catalog/attribute";i:1;s:23:"catalog/attribute_group";i:2;s:16:"catalog/category";i:3;s:16:"catalog/download";i:4;s:14:"catalog/filter";i:5;s:19:"catalog/information";i:6;s:20:"catalog/manufacturer";i:7;s:14:"catalog/option";i:8;s:15:"catalog/product";i:9;s:15:"catalog/profile";i:10;s:16:"catalog/purchase";i:11;s:14:"catalog/review";i:12;s:13:"checkout/cart";i:13;s:17:"checkout/checkout";i:14;s:16:"checkout/confirm";i:15;s:14:"checkout/guest";i:16;s:23:"checkout/guest_shipping";i:17;s:14:"checkout/login";i:18;s:15:"checkout/manual";i:19;s:24:"checkout/payment_address";i:20;s:23:"checkout/payment_method";i:21;s:17:"checkout/register";i:22;s:25:"checkout/shipping_address";i:23;s:24:"checkout/shipping_method";i:24;s:16:"checkout/success";i:25;s:18:"common/filemanager";i:26;s:15:"common/register";i:27;s:13:"design/banner";i:28;s:19:"design/custom_field";i:29;s:13:"design/layout";i:30;s:14:"extension/feed";i:31;s:17:"extension/manager";i:32;s:16:"extension/module";i:33;s:17:"extension/payment";i:34;s:18:"extension/shipping";i:35;s:15:"extension/total";i:36;s:16:"feed/google_base";i:37;s:19:"feed/google_sitemap";i:38;s:17:"image/imagemanage";i:39;s:20:"localisation/country";i:40;s:21:"localisation/currency";i:41;s:21:"localisation/geo_zone";i:42;s:21:"localisation/language";i:43;s:25:"localisation/length_class";i:44;s:25:"localisation/order_status";i:45;s:26:"localisation/return_action";i:46;s:26:"localisation/return_reason";i:47;s:26:"localisation/return_status";i:48;s:25:"localisation/stock_status";i:49;s:22:"localisation/tax_class";i:50;s:21:"localisation/tax_rate";i:51;s:23:"localisation/unit_class";i:52;s:25:"localisation/weight_class";i:53;s:17:"localisation/zone";i:54;s:14:"module/account";i:55;s:16:"module/affiliate";i:56;s:29:"module/amazon_checkout_layout";i:57;s:13:"module/banner";i:58;s:17:"module/bestseller";i:59;s:15:"module/carousel";i:60;s:15:"module/category";i:61;s:18:"module/ebaydisplay";i:62;s:15:"module/featured";i:63;s:13:"module/filter";i:64;s:18:"module/google_talk";i:65;s:18:"module/information";i:66;s:13:"module/latest";i:67;s:17:"module/openbaypro";i:68;s:16:"module/pp_layout";i:69;s:16:"module/slideshow";i:70;s:14:"module/special";i:71;s:12:"module/store";i:72;s:14:"module/welcome";i:73;s:27:"report/affiliate_commission";i:74;s:22:"report/customer_credit";i:75;s:24:"report/customer_feedback";i:76;s:22:"report/customer_online";i:77;s:21:"report/customer_order";i:78;s:22:"report/customer_reward";i:79;s:24:"report/product_purchased";i:80;s:21:"report/product_viewed";i:81;s:18:"report/sale_coupon";i:82;s:17:"report/sale_order";i:83;s:18:"report/sale_return";i:84;s:20:"report/sale_shipping";i:85;s:15:"report/sale_tax";i:86;s:26:"report/treatment_purchased";i:87;s:17:"report/user_bonus";i:88;s:16:"sale/appointment";i:89;s:12:"sale/contact";i:90;s:13:"sale/customer";i:91;s:20:"sale/customer_ban_ip";i:92;s:19:"sale/customer_group";i:93;s:13:"sale/followup";i:94;s:12:"sale/history";i:95;s:10:"sale/order";i:96;s:14:"sale/recurring";i:97;s:11:"sale/return";i:98;s:14:"sale/treatment";i:99;s:12:"sale/voucher";i:100;s:18:"sale/voucher_theme";i:101;s:15:"setting/setting";i:102;s:13:"setting/store";i:103;s:16:"shipping/auspost";i:104;s:17:"shipping/citylink";i:105;s:14:"shipping/fedex";i:106;s:13:"shipping/flat";i:107;s:13:"shipping/free";i:108;s:13:"shipping/item";i:109;s:23:"shipping/parcelforce_48";i:110;s:15:"shipping/pickup";i:111;s:19:"shipping/royal_mail";i:112;s:12:"shipping/ups";i:113;s:13:"shipping/usps";i:114;s:15:"shipping/weight";i:115;s:11:"tool/backup";i:116;s:14:"tool/error_log";i:117;s:12:"total/coupon";i:118;s:12:"total/credit";i:119;s:14:"total/handling";i:120;s:16:"total/klarna_fee";i:121;s:19:"total/low_order_fee";i:122;s:12:"total/reward";i:123;s:14:"total/shipping";i:124;s:15:"total/sub_total";i:125;s:9:"total/tax";i:126;s:11:"total/total";i:127;s:13:"total/voucher";i:128;s:9:"user/user";i:129;s:20:"user/user_permission";}s:6:"modify";a:9:{i:0;s:16:"catalog/purchase";i:1;s:18:"common/filemanager";i:2;s:13:"sale/followup";i:3;s:12:"sale/history";i:4;s:12:"sale/lending";i:5;s:10:"sale/order";i:6;s:16:"sale/transaction";i:7;s:11:"tool/backup";i:8;s:14:"tool/error_log";}}'),
-(14, '業務', 'a:2:{s:6:"access";a:130:{i:0;s:17:"catalog/attribute";i:1;s:23:"catalog/attribute_group";i:2;s:16:"catalog/category";i:3;s:16:"catalog/download";i:4;s:14:"catalog/filter";i:5;s:19:"catalog/information";i:6;s:20:"catalog/manufacturer";i:7;s:14:"catalog/option";i:8;s:15:"catalog/product";i:9;s:15:"catalog/profile";i:10;s:16:"catalog/purchase";i:11;s:14:"catalog/review";i:12;s:13:"checkout/cart";i:13;s:17:"checkout/checkout";i:14;s:16:"checkout/confirm";i:15;s:14:"checkout/guest";i:16;s:23:"checkout/guest_shipping";i:17;s:14:"checkout/login";i:18;s:15:"checkout/manual";i:19;s:24:"checkout/payment_address";i:20;s:23:"checkout/payment_method";i:21;s:17:"checkout/register";i:22;s:25:"checkout/shipping_address";i:23;s:24:"checkout/shipping_method";i:24;s:16:"checkout/success";i:25;s:18:"common/filemanager";i:26;s:15:"common/register";i:27;s:13:"design/banner";i:28;s:19:"design/custom_field";i:29;s:13:"design/layout";i:30;s:14:"extension/feed";i:31;s:17:"extension/manager";i:32;s:16:"extension/module";i:33;s:17:"extension/payment";i:34;s:18:"extension/shipping";i:35;s:15:"extension/total";i:36;s:16:"feed/google_base";i:37;s:19:"feed/google_sitemap";i:38;s:17:"image/imagemanage";i:39;s:20:"localisation/country";i:40;s:21:"localisation/currency";i:41;s:21:"localisation/geo_zone";i:42;s:21:"localisation/language";i:43;s:25:"localisation/length_class";i:44;s:25:"localisation/order_status";i:45;s:26:"localisation/return_action";i:46;s:26:"localisation/return_reason";i:47;s:26:"localisation/return_status";i:48;s:25:"localisation/stock_status";i:49;s:22:"localisation/tax_class";i:50;s:21:"localisation/tax_rate";i:51;s:23:"localisation/unit_class";i:52;s:25:"localisation/weight_class";i:53;s:17:"localisation/zone";i:54;s:14:"module/account";i:55;s:16:"module/affiliate";i:56;s:29:"module/amazon_checkout_layout";i:57;s:13:"module/banner";i:58;s:17:"module/bestseller";i:59;s:15:"module/carousel";i:60;s:15:"module/category";i:61;s:18:"module/ebaydisplay";i:62;s:15:"module/featured";i:63;s:13:"module/filter";i:64;s:18:"module/google_talk";i:65;s:18:"module/information";i:66;s:13:"module/latest";i:67;s:17:"module/openbaypro";i:68;s:16:"module/pp_layout";i:69;s:16:"module/slideshow";i:70;s:14:"module/special";i:71;s:12:"module/store";i:72;s:14:"module/welcome";i:73;s:27:"report/affiliate_commission";i:74;s:22:"report/customer_credit";i:75;s:24:"report/customer_feedback";i:76;s:22:"report/customer_online";i:77;s:21:"report/customer_order";i:78;s:22:"report/customer_reward";i:79;s:24:"report/product_purchased";i:80;s:21:"report/product_viewed";i:81;s:18:"report/sale_coupon";i:82;s:17:"report/sale_order";i:83;s:18:"report/sale_return";i:84;s:20:"report/sale_shipping";i:85;s:15:"report/sale_tax";i:86;s:26:"report/treatment_purchased";i:87;s:17:"report/user_bonus";i:88;s:16:"sale/appointment";i:89;s:12:"sale/contact";i:90;s:13:"sale/customer";i:91;s:20:"sale/customer_ban_ip";i:92;s:19:"sale/customer_group";i:93;s:13:"sale/followup";i:94;s:12:"sale/history";i:95;s:10:"sale/order";i:96;s:14:"sale/recurring";i:97;s:11:"sale/return";i:98;s:14:"sale/treatment";i:99;s:12:"sale/voucher";i:100;s:18:"sale/voucher_theme";i:101;s:15:"setting/setting";i:102;s:13:"setting/store";i:103;s:16:"shipping/auspost";i:104;s:17:"shipping/citylink";i:105;s:14:"shipping/fedex";i:106;s:13:"shipping/flat";i:107;s:13:"shipping/free";i:108;s:13:"shipping/item";i:109;s:23:"shipping/parcelforce_48";i:110;s:15:"shipping/pickup";i:111;s:19:"shipping/royal_mail";i:112;s:12:"shipping/ups";i:113;s:13:"shipping/usps";i:114;s:15:"shipping/weight";i:115;s:11:"tool/backup";i:116;s:14:"tool/error_log";i:117;s:12:"total/coupon";i:118;s:12:"total/credit";i:119;s:14:"total/handling";i:120;s:16:"total/klarna_fee";i:121;s:19:"total/low_order_fee";i:122;s:12:"total/reward";i:123;s:14:"total/shipping";i:124;s:15:"total/sub_total";i:125;s:9:"total/tax";i:126;s:11:"total/total";i:127;s:13:"total/voucher";i:128;s:9:"user/user";i:129;s:20:"user/user_permission";}s:6:"modify";a:1:{i:0;s:18:"common/filemanager";}}'),
-(2, '醫師', 'a:1:{s:6:"access";a:130:{i:0;s:17:"catalog/attribute";i:1;s:23:"catalog/attribute_group";i:2;s:16:"catalog/category";i:3;s:16:"catalog/download";i:4;s:14:"catalog/filter";i:5;s:19:"catalog/information";i:6;s:20:"catalog/manufacturer";i:7;s:14:"catalog/option";i:8;s:15:"catalog/product";i:9;s:15:"catalog/profile";i:10;s:16:"catalog/purchase";i:11;s:14:"catalog/review";i:12;s:13:"checkout/cart";i:13;s:17:"checkout/checkout";i:14;s:16:"checkout/confirm";i:15;s:14:"checkout/guest";i:16;s:23:"checkout/guest_shipping";i:17;s:14:"checkout/login";i:18;s:15:"checkout/manual";i:19;s:24:"checkout/payment_address";i:20;s:23:"checkout/payment_method";i:21;s:17:"checkout/register";i:22;s:25:"checkout/shipping_address";i:23;s:24:"checkout/shipping_method";i:24;s:16:"checkout/success";i:25;s:18:"common/filemanager";i:26;s:15:"common/register";i:27;s:13:"design/banner";i:28;s:19:"design/custom_field";i:29;s:13:"design/layout";i:30;s:14:"extension/feed";i:31;s:17:"extension/manager";i:32;s:16:"extension/module";i:33;s:17:"extension/payment";i:34;s:18:"extension/shipping";i:35;s:15:"extension/total";i:36;s:16:"feed/google_base";i:37;s:19:"feed/google_sitemap";i:38;s:17:"image/imagemanage";i:39;s:20:"localisation/country";i:40;s:21:"localisation/currency";i:41;s:21:"localisation/geo_zone";i:42;s:21:"localisation/language";i:43;s:25:"localisation/length_class";i:44;s:25:"localisation/order_status";i:45;s:26:"localisation/return_action";i:46;s:26:"localisation/return_reason";i:47;s:26:"localisation/return_status";i:48;s:25:"localisation/stock_status";i:49;s:22:"localisation/tax_class";i:50;s:21:"localisation/tax_rate";i:51;s:23:"localisation/unit_class";i:52;s:25:"localisation/weight_class";i:53;s:17:"localisation/zone";i:54;s:14:"module/account";i:55;s:16:"module/affiliate";i:56;s:29:"module/amazon_checkout_layout";i:57;s:13:"module/banner";i:58;s:17:"module/bestseller";i:59;s:15:"module/carousel";i:60;s:15:"module/category";i:61;s:18:"module/ebaydisplay";i:62;s:15:"module/featured";i:63;s:13:"module/filter";i:64;s:18:"module/google_talk";i:65;s:18:"module/information";i:66;s:13:"module/latest";i:67;s:17:"module/openbaypro";i:68;s:16:"module/pp_layout";i:69;s:16:"module/slideshow";i:70;s:14:"module/special";i:71;s:12:"module/store";i:72;s:14:"module/welcome";i:73;s:27:"report/affiliate_commission";i:74;s:22:"report/customer_credit";i:75;s:24:"report/customer_feedback";i:76;s:22:"report/customer_online";i:77;s:21:"report/customer_order";i:78;s:22:"report/customer_reward";i:79;s:24:"report/product_purchased";i:80;s:21:"report/product_viewed";i:81;s:18:"report/sale_coupon";i:82;s:17:"report/sale_order";i:83;s:18:"report/sale_return";i:84;s:20:"report/sale_shipping";i:85;s:15:"report/sale_tax";i:86;s:26:"report/treatment_purchased";i:87;s:17:"report/user_bonus";i:88;s:16:"sale/appointment";i:89;s:12:"sale/contact";i:90;s:13:"sale/customer";i:91;s:20:"sale/customer_ban_ip";i:92;s:19:"sale/customer_group";i:93;s:13:"sale/followup";i:94;s:12:"sale/history";i:95;s:10:"sale/order";i:96;s:14:"sale/recurring";i:97;s:11:"sale/return";i:98;s:14:"sale/treatment";i:99;s:12:"sale/voucher";i:100;s:18:"sale/voucher_theme";i:101;s:15:"setting/setting";i:102;s:13:"setting/store";i:103;s:16:"shipping/auspost";i:104;s:17:"shipping/citylink";i:105;s:14:"shipping/fedex";i:106;s:13:"shipping/flat";i:107;s:13:"shipping/free";i:108;s:13:"shipping/item";i:109;s:23:"shipping/parcelforce_48";i:110;s:15:"shipping/pickup";i:111;s:19:"shipping/royal_mail";i:112;s:12:"shipping/ups";i:113;s:13:"shipping/usps";i:114;s:15:"shipping/weight";i:115;s:11:"tool/backup";i:116;s:14:"tool/error_log";i:117;s:12:"total/coupon";i:118;s:12:"total/credit";i:119;s:14:"total/handling";i:120;s:16:"total/klarna_fee";i:121;s:19:"total/low_order_fee";i:122;s:12:"total/reward";i:123;s:14:"total/shipping";i:124;s:15:"total/sub_total";i:125;s:9:"total/tax";i:126;s:11:"total/total";i:127;s:13:"total/voucher";i:128;s:9:"user/user";i:129;s:20:"user/user_permission";}}'),
-(3, '顧問', 'a:1:{s:6:"access";a:130:{i:0;s:17:"catalog/attribute";i:1;s:23:"catalog/attribute_group";i:2;s:16:"catalog/category";i:3;s:16:"catalog/download";i:4;s:14:"catalog/filter";i:5;s:19:"catalog/information";i:6;s:20:"catalog/manufacturer";i:7;s:14:"catalog/option";i:8;s:15:"catalog/product";i:9;s:15:"catalog/profile";i:10;s:16:"catalog/purchase";i:11;s:14:"catalog/review";i:12;s:13:"checkout/cart";i:13;s:17:"checkout/checkout";i:14;s:16:"checkout/confirm";i:15;s:14:"checkout/guest";i:16;s:23:"checkout/guest_shipping";i:17;s:14:"checkout/login";i:18;s:15:"checkout/manual";i:19;s:24:"checkout/payment_address";i:20;s:23:"checkout/payment_method";i:21;s:17:"checkout/register";i:22;s:25:"checkout/shipping_address";i:23;s:24:"checkout/shipping_method";i:24;s:16:"checkout/success";i:25;s:18:"common/filemanager";i:26;s:15:"common/register";i:27;s:13:"design/banner";i:28;s:19:"design/custom_field";i:29;s:13:"design/layout";i:30;s:14:"extension/feed";i:31;s:17:"extension/manager";i:32;s:16:"extension/module";i:33;s:17:"extension/payment";i:34;s:18:"extension/shipping";i:35;s:15:"extension/total";i:36;s:16:"feed/google_base";i:37;s:19:"feed/google_sitemap";i:38;s:17:"image/imagemanage";i:39;s:20:"localisation/country";i:40;s:21:"localisation/currency";i:41;s:21:"localisation/geo_zone";i:42;s:21:"localisation/language";i:43;s:25:"localisation/length_class";i:44;s:25:"localisation/order_status";i:45;s:26:"localisation/return_action";i:46;s:26:"localisation/return_reason";i:47;s:26:"localisation/return_status";i:48;s:25:"localisation/stock_status";i:49;s:22:"localisation/tax_class";i:50;s:21:"localisation/tax_rate";i:51;s:23:"localisation/unit_class";i:52;s:25:"localisation/weight_class";i:53;s:17:"localisation/zone";i:54;s:14:"module/account";i:55;s:16:"module/affiliate";i:56;s:29:"module/amazon_checkout_layout";i:57;s:13:"module/banner";i:58;s:17:"module/bestseller";i:59;s:15:"module/carousel";i:60;s:15:"module/category";i:61;s:18:"module/ebaydisplay";i:62;s:15:"module/featured";i:63;s:13:"module/filter";i:64;s:18:"module/google_talk";i:65;s:18:"module/information";i:66;s:13:"module/latest";i:67;s:17:"module/openbaypro";i:68;s:16:"module/pp_layout";i:69;s:16:"module/slideshow";i:70;s:14:"module/special";i:71;s:12:"module/store";i:72;s:14:"module/welcome";i:73;s:27:"report/affiliate_commission";i:74;s:22:"report/customer_credit";i:75;s:24:"report/customer_feedback";i:76;s:22:"report/customer_online";i:77;s:21:"report/customer_order";i:78;s:22:"report/customer_reward";i:79;s:24:"report/product_purchased";i:80;s:21:"report/product_viewed";i:81;s:18:"report/sale_coupon";i:82;s:17:"report/sale_order";i:83;s:18:"report/sale_return";i:84;s:20:"report/sale_shipping";i:85;s:15:"report/sale_tax";i:86;s:26:"report/treatment_purchased";i:87;s:17:"report/user_bonus";i:88;s:16:"sale/appointment";i:89;s:12:"sale/contact";i:90;s:13:"sale/customer";i:91;s:20:"sale/customer_ban_ip";i:92;s:19:"sale/customer_group";i:93;s:13:"sale/followup";i:94;s:12:"sale/history";i:95;s:10:"sale/order";i:96;s:14:"sale/recurring";i:97;s:11:"sale/return";i:98;s:14:"sale/treatment";i:99;s:12:"sale/voucher";i:100;s:18:"sale/voucher_theme";i:101;s:15:"setting/setting";i:102;s:13:"setting/store";i:103;s:16:"shipping/auspost";i:104;s:17:"shipping/citylink";i:105;s:14:"shipping/fedex";i:106;s:13:"shipping/flat";i:107;s:13:"shipping/free";i:108;s:13:"shipping/item";i:109;s:23:"shipping/parcelforce_48";i:110;s:15:"shipping/pickup";i:111;s:19:"shipping/royal_mail";i:112;s:12:"shipping/ups";i:113;s:13:"shipping/usps";i:114;s:15:"shipping/weight";i:115;s:11:"tool/backup";i:116;s:14:"tool/error_log";i:117;s:12:"total/coupon";i:118;s:12:"total/credit";i:119;s:14:"total/handling";i:120;s:16:"total/klarna_fee";i:121;s:19:"total/low_order_fee";i:122;s:12:"total/reward";i:123;s:14:"total/shipping";i:124;s:15:"total/sub_total";i:125;s:9:"total/tax";i:126;s:11:"total/total";i:127;s:13:"total/voucher";i:128;s:9:"user/user";i:129;s:20:"user/user_permission";}}'),
-(4, '外包', 'a:1:{s:6:"access";a:130:{i:0;s:17:"catalog/attribute";i:1;s:23:"catalog/attribute_group";i:2;s:16:"catalog/category";i:3;s:16:"catalog/download";i:4;s:14:"catalog/filter";i:5;s:19:"catalog/information";i:6;s:20:"catalog/manufacturer";i:7;s:14:"catalog/option";i:8;s:15:"catalog/product";i:9;s:15:"catalog/profile";i:10;s:16:"catalog/purchase";i:11;s:14:"catalog/review";i:12;s:13:"checkout/cart";i:13;s:17:"checkout/checkout";i:14;s:16:"checkout/confirm";i:15;s:14:"checkout/guest";i:16;s:23:"checkout/guest_shipping";i:17;s:14:"checkout/login";i:18;s:15:"checkout/manual";i:19;s:24:"checkout/payment_address";i:20;s:23:"checkout/payment_method";i:21;s:17:"checkout/register";i:22;s:25:"checkout/shipping_address";i:23;s:24:"checkout/shipping_method";i:24;s:16:"checkout/success";i:25;s:18:"common/filemanager";i:26;s:15:"common/register";i:27;s:13:"design/banner";i:28;s:19:"design/custom_field";i:29;s:13:"design/layout";i:30;s:14:"extension/feed";i:31;s:17:"extension/manager";i:32;s:16:"extension/module";i:33;s:17:"extension/payment";i:34;s:18:"extension/shipping";i:35;s:15:"extension/total";i:36;s:16:"feed/google_base";i:37;s:19:"feed/google_sitemap";i:38;s:17:"image/imagemanage";i:39;s:20:"localisation/country";i:40;s:21:"localisation/currency";i:41;s:21:"localisation/geo_zone";i:42;s:21:"localisation/language";i:43;s:25:"localisation/length_class";i:44;s:25:"localisation/order_status";i:45;s:26:"localisation/return_action";i:46;s:26:"localisation/return_reason";i:47;s:26:"localisation/return_status";i:48;s:25:"localisation/stock_status";i:49;s:22:"localisation/tax_class";i:50;s:21:"localisation/tax_rate";i:51;s:23:"localisation/unit_class";i:52;s:25:"localisation/weight_class";i:53;s:17:"localisation/zone";i:54;s:14:"module/account";i:55;s:16:"module/affiliate";i:56;s:29:"module/amazon_checkout_layout";i:57;s:13:"module/banner";i:58;s:17:"module/bestseller";i:59;s:15:"module/carousel";i:60;s:15:"module/category";i:61;s:18:"module/ebaydisplay";i:62;s:15:"module/featured";i:63;s:13:"module/filter";i:64;s:18:"module/google_talk";i:65;s:18:"module/information";i:66;s:13:"module/latest";i:67;s:17:"module/openbaypro";i:68;s:16:"module/pp_layout";i:69;s:16:"module/slideshow";i:70;s:14:"module/special";i:71;s:12:"module/store";i:72;s:14:"module/welcome";i:73;s:27:"report/affiliate_commission";i:74;s:22:"report/customer_credit";i:75;s:24:"report/customer_feedback";i:76;s:22:"report/customer_online";i:77;s:21:"report/customer_order";i:78;s:22:"report/customer_reward";i:79;s:24:"report/product_purchased";i:80;s:21:"report/product_viewed";i:81;s:18:"report/sale_coupon";i:82;s:17:"report/sale_order";i:83;s:18:"report/sale_return";i:84;s:20:"report/sale_shipping";i:85;s:15:"report/sale_tax";i:86;s:26:"report/treatment_purchased";i:87;s:17:"report/user_bonus";i:88;s:16:"sale/appointment";i:89;s:12:"sale/contact";i:90;s:13:"sale/customer";i:91;s:20:"sale/customer_ban_ip";i:92;s:19:"sale/customer_group";i:93;s:13:"sale/followup";i:94;s:12:"sale/history";i:95;s:10:"sale/order";i:96;s:14:"sale/recurring";i:97;s:11:"sale/return";i:98;s:14:"sale/treatment";i:99;s:12:"sale/voucher";i:100;s:18:"sale/voucher_theme";i:101;s:15:"setting/setting";i:102;s:13:"setting/store";i:103;s:16:"shipping/auspost";i:104;s:17:"shipping/citylink";i:105;s:14:"shipping/fedex";i:106;s:13:"shipping/flat";i:107;s:13:"shipping/free";i:108;s:13:"shipping/item";i:109;s:23:"shipping/parcelforce_48";i:110;s:15:"shipping/pickup";i:111;s:19:"shipping/royal_mail";i:112;s:12:"shipping/ups";i:113;s:13:"shipping/usps";i:114;s:15:"shipping/weight";i:115;s:11:"tool/backup";i:116;s:14:"tool/error_log";i:117;s:12:"total/coupon";i:118;s:12:"total/credit";i:119;s:14:"total/handling";i:120;s:16:"total/klarna_fee";i:121;s:19:"total/low_order_fee";i:122;s:12:"total/reward";i:123;s:14:"total/shipping";i:124;s:15:"total/sub_total";i:125;s:9:"total/tax";i:126;s:11:"total/total";i:127;s:13:"total/voucher";i:128;s:9:"user/user";i:129;s:20:"user/user_permission";}}');
+INSERT INTO `oc_user_group` (`user_group_id`, `name`, `permission`, `producttypepermission`) VALUES
+(1, '老闆', 'a:2:{s:6:"access";a:27:{i:0;s:15:"catalog/product";i:1;s:16:"catalog/purchase";i:2;s:18:"common/filemanager";i:3;s:17:"image/imagemanage";i:4;s:23:"localisation/unit_class";i:5;s:24:"report/customer_feedback";i:6;s:21:"report/customer_order";i:7;s:21:"report/sale_inventory";i:8;s:17:"report/sale_order";i:9;s:17:"report/user_bonus";i:10;s:27:"report/user_treatment_bonus";i:11;s:16:"sale/appointment";i:12;s:13:"sale/customer";i:13;s:19:"sale/customer_group";i:14;s:12:"sale/expense";i:15;s:13:"sale/followup";i:16;s:12:"sale/history";i:17;s:12:"sale/lending";i:18;s:10:"sale/order";i:19;s:12:"sale/payment";i:20;s:13:"setting/store";i:21;s:11:"tool/backup";i:22;s:14:"tool/error_log";i:23;s:9:"user/user";i:24;s:20:"user/user_permission";i:25;s:20:"user/user_permission";i:26;s:15:"checkout/manual";}s:6:"modify";a:27:{i:0;s:15:"catalog/product";i:1;s:16:"catalog/purchase";i:2;s:18:"common/filemanager";i:3;s:17:"image/imagemanage";i:4;s:23:"localisation/unit_class";i:5;s:24:"report/customer_feedback";i:6;s:21:"report/customer_order";i:7;s:21:"report/sale_inventory";i:8;s:17:"report/sale_order";i:9;s:17:"report/user_bonus";i:10;s:27:"report/user_treatment_bonus";i:11;s:16:"sale/appointment";i:12;s:13:"sale/customer";i:13;s:19:"sale/customer_group";i:14;s:12:"sale/expense";i:15;s:13:"sale/followup";i:16;s:12:"sale/history";i:17;s:12:"sale/lending";i:18;s:10:"sale/order";i:19;s:12:"sale/payment";i:20;s:13:"setting/store";i:21;s:11:"tool/backup";i:22;s:14:"tool/error_log";i:23;s:9:"user/user";i:24;s:20:"user/user_permission";i:25;s:20:"user/user_permission";i:26;s:15:"checkout/manual";}}', ''),
+(5, '美容師', 'a:1:{s:6:"access";a:62:{i:0;s:16:"catalog/category";i:1;s:15:"catalog/product";i:2;s:16:"catalog/purchase";i:3;s:13:"checkout/cart";i:4;s:17:"checkout/checkout";i:5;s:16:"checkout/confirm";i:6;s:14:"checkout/login";i:7;s:15:"checkout/manual";i:8;s:17:"checkout/register";i:9;s:16:"checkout/success";i:10;s:18:"common/filemanager";i:11;s:15:"common/register";i:12;s:14:"extension/feed";i:13;s:17:"extension/manager";i:14;s:16:"extension/module";i:15;s:17:"extension/payment";i:16;s:18:"extension/shipping";i:17;s:15:"extension/total";i:18;s:17:"image/imagemanage";i:19;s:21:"localisation/currency";i:20;s:21:"localisation/geo_zone";i:21;s:21:"localisation/language";i:22;s:25:"localisation/length_class";i:23;s:25:"localisation/order_status";i:24;s:25:"localisation/stock_status";i:25;s:23:"localisation/unit_class";i:26;s:25:"localisation/weight_class";i:27;s:17:"localisation/zone";i:28;s:27:"report/affiliate_commission";i:29;s:22:"report/customer_credit";i:30;s:24:"report/customer_feedback";i:31;s:22:"report/customer_online";i:32;s:21:"report/customer_order";i:33;s:22:"report/customer_reward";i:34;s:24:"report/product_purchased";i:35;s:21:"report/product_viewed";i:36;s:18:"report/sale_coupon";i:37;s:17:"report/sale_order";i:38;s:18:"report/sale_return";i:39;s:20:"report/sale_shipping";i:40;s:15:"report/sale_tax";i:41;s:26:"report/treatment_purchased";i:42;s:17:"report/user_bonus";i:43;s:16:"sale/appointment";i:44;s:12:"sale/contact";i:45;s:13:"sale/customer";i:46;s:20:"sale/customer_ban_ip";i:47;s:19:"sale/customer_group";i:48;s:13:"sale/followup";i:49;s:12:"sale/history";i:50;s:10:"sale/order";i:51;s:14:"sale/recurring";i:52;s:11:"sale/return";i:53;s:14:"sale/treatment";i:54;s:12:"sale/voucher";i:55;s:18:"sale/voucher_theme";i:56;s:15:"setting/setting";i:57;s:13:"setting/store";i:58;s:11:"tool/backup";i:59;s:14:"tool/error_log";i:60;s:9:"user/user";i:61;s:20:"user/user_permission";}}', 'a:1:{s:11:"producttype";a:1:{i:0;s:9:"treatment";}}'),
+(11, '醫美店長', 'a:2:{s:6:"access";a:130:{i:0;s:17:"catalog/attribute";i:1;s:23:"catalog/attribute_group";i:2;s:16:"catalog/category";i:3;s:16:"catalog/download";i:4;s:14:"catalog/filter";i:5;s:19:"catalog/information";i:6;s:20:"catalog/manufacturer";i:7;s:14:"catalog/option";i:8;s:15:"catalog/product";i:9;s:15:"catalog/profile";i:10;s:16:"catalog/purchase";i:11;s:14:"catalog/review";i:12;s:13:"checkout/cart";i:13;s:17:"checkout/checkout";i:14;s:16:"checkout/confirm";i:15;s:14:"checkout/guest";i:16;s:23:"checkout/guest_shipping";i:17;s:14:"checkout/login";i:18;s:15:"checkout/manual";i:19;s:24:"checkout/payment_address";i:20;s:23:"checkout/payment_method";i:21;s:17:"checkout/register";i:22;s:25:"checkout/shipping_address";i:23;s:24:"checkout/shipping_method";i:24;s:16:"checkout/success";i:25;s:18:"common/filemanager";i:26;s:15:"common/register";i:27;s:13:"design/banner";i:28;s:19:"design/custom_field";i:29;s:13:"design/layout";i:30;s:14:"extension/feed";i:31;s:17:"extension/manager";i:32;s:16:"extension/module";i:33;s:17:"extension/payment";i:34;s:18:"extension/shipping";i:35;s:15:"extension/total";i:36;s:16:"feed/google_base";i:37;s:19:"feed/google_sitemap";i:38;s:17:"image/imagemanage";i:39;s:20:"localisation/country";i:40;s:21:"localisation/currency";i:41;s:21:"localisation/geo_zone";i:42;s:21:"localisation/language";i:43;s:25:"localisation/length_class";i:44;s:25:"localisation/order_status";i:45;s:26:"localisation/return_action";i:46;s:26:"localisation/return_reason";i:47;s:26:"localisation/return_status";i:48;s:25:"localisation/stock_status";i:49;s:22:"localisation/tax_class";i:50;s:21:"localisation/tax_rate";i:51;s:23:"localisation/unit_class";i:52;s:25:"localisation/weight_class";i:53;s:17:"localisation/zone";i:54;s:14:"module/account";i:55;s:16:"module/affiliate";i:56;s:29:"module/amazon_checkout_layout";i:57;s:13:"module/banner";i:58;s:17:"module/bestseller";i:59;s:15:"module/carousel";i:60;s:15:"module/category";i:61;s:18:"module/ebaydisplay";i:62;s:15:"module/featured";i:63;s:13:"module/filter";i:64;s:18:"module/google_talk";i:65;s:18:"module/information";i:66;s:13:"module/latest";i:67;s:17:"module/openbaypro";i:68;s:16:"module/pp_layout";i:69;s:16:"module/slideshow";i:70;s:14:"module/special";i:71;s:12:"module/store";i:72;s:14:"module/welcome";i:73;s:27:"report/affiliate_commission";i:74;s:22:"report/customer_credit";i:75;s:24:"report/customer_feedback";i:76;s:22:"report/customer_online";i:77;s:21:"report/customer_order";i:78;s:22:"report/customer_reward";i:79;s:24:"report/product_purchased";i:80;s:21:"report/product_viewed";i:81;s:18:"report/sale_coupon";i:82;s:17:"report/sale_order";i:83;s:18:"report/sale_return";i:84;s:20:"report/sale_shipping";i:85;s:15:"report/sale_tax";i:86;s:26:"report/treatment_purchased";i:87;s:17:"report/user_bonus";i:88;s:16:"sale/appointment";i:89;s:12:"sale/contact";i:90;s:13:"sale/customer";i:91;s:20:"sale/customer_ban_ip";i:92;s:19:"sale/customer_group";i:93;s:13:"sale/followup";i:94;s:12:"sale/history";i:95;s:10:"sale/order";i:96;s:14:"sale/recurring";i:97;s:11:"sale/return";i:98;s:14:"sale/treatment";i:99;s:12:"sale/voucher";i:100;s:18:"sale/voucher_theme";i:101;s:15:"setting/setting";i:102;s:13:"setting/store";i:103;s:16:"shipping/auspost";i:104;s:17:"shipping/citylink";i:105;s:14:"shipping/fedex";i:106;s:13:"shipping/flat";i:107;s:13:"shipping/free";i:108;s:13:"shipping/item";i:109;s:23:"shipping/parcelforce_48";i:110;s:15:"shipping/pickup";i:111;s:19:"shipping/royal_mail";i:112;s:12:"shipping/ups";i:113;s:13:"shipping/usps";i:114;s:15:"shipping/weight";i:115;s:11:"tool/backup";i:116;s:14:"tool/error_log";i:117;s:12:"total/coupon";i:118;s:12:"total/credit";i:119;s:14:"total/handling";i:120;s:16:"total/klarna_fee";i:121;s:19:"total/low_order_fee";i:122;s:12:"total/reward";i:123;s:14:"total/shipping";i:124;s:15:"total/sub_total";i:125;s:9:"total/tax";i:126;s:11:"total/total";i:127;s:13:"total/voucher";i:128;s:9:"user/user";i:129;s:20:"user/user_permission";}s:6:"modify";a:130:{i:0;s:17:"catalog/attribute";i:1;s:23:"catalog/attribute_group";i:2;s:16:"catalog/category";i:3;s:16:"catalog/download";i:4;s:14:"catalog/filter";i:5;s:19:"catalog/information";i:6;s:20:"catalog/manufacturer";i:7;s:14:"catalog/option";i:8;s:15:"catalog/product";i:9;s:15:"catalog/profile";i:10;s:16:"catalog/purchase";i:11;s:14:"catalog/review";i:12;s:13:"checkout/cart";i:13;s:17:"checkout/checkout";i:14;s:16:"checkout/confirm";i:15;s:14:"checkout/guest";i:16;s:23:"checkout/guest_shipping";i:17;s:14:"checkout/login";i:18;s:15:"checkout/manual";i:19;s:24:"checkout/payment_address";i:20;s:23:"checkout/payment_method";i:21;s:17:"checkout/register";i:22;s:25:"checkout/shipping_address";i:23;s:24:"checkout/shipping_method";i:24;s:16:"checkout/success";i:25;s:18:"common/filemanager";i:26;s:15:"common/register";i:27;s:13:"design/banner";i:28;s:19:"design/custom_field";i:29;s:13:"design/layout";i:30;s:14:"extension/feed";i:31;s:17:"extension/manager";i:32;s:16:"extension/module";i:33;s:17:"extension/payment";i:34;s:18:"extension/shipping";i:35;s:15:"extension/total";i:36;s:16:"feed/google_base";i:37;s:19:"feed/google_sitemap";i:38;s:17:"image/imagemanage";i:39;s:20:"localisation/country";i:40;s:21:"localisation/currency";i:41;s:21:"localisation/geo_zone";i:42;s:21:"localisation/language";i:43;s:25:"localisation/length_class";i:44;s:25:"localisation/order_status";i:45;s:26:"localisation/return_action";i:46;s:26:"localisation/return_reason";i:47;s:26:"localisation/return_status";i:48;s:25:"localisation/stock_status";i:49;s:22:"localisation/tax_class";i:50;s:21:"localisation/tax_rate";i:51;s:23:"localisation/unit_class";i:52;s:25:"localisation/weight_class";i:53;s:17:"localisation/zone";i:54;s:14:"module/account";i:55;s:16:"module/affiliate";i:56;s:29:"module/amazon_checkout_layout";i:57;s:13:"module/banner";i:58;s:17:"module/bestseller";i:59;s:15:"module/carousel";i:60;s:15:"module/category";i:61;s:18:"module/ebaydisplay";i:62;s:15:"module/featured";i:63;s:13:"module/filter";i:64;s:18:"module/google_talk";i:65;s:18:"module/information";i:66;s:13:"module/latest";i:67;s:17:"module/openbaypro";i:68;s:16:"module/pp_layout";i:69;s:16:"module/slideshow";i:70;s:14:"module/special";i:71;s:12:"module/store";i:72;s:14:"module/welcome";i:73;s:27:"report/affiliate_commission";i:74;s:22:"report/customer_credit";i:75;s:24:"report/customer_feedback";i:76;s:22:"report/customer_online";i:77;s:21:"report/customer_order";i:78;s:22:"report/customer_reward";i:79;s:24:"report/product_purchased";i:80;s:21:"report/product_viewed";i:81;s:18:"report/sale_coupon";i:82;s:17:"report/sale_order";i:83;s:18:"report/sale_return";i:84;s:20:"report/sale_shipping";i:85;s:15:"report/sale_tax";i:86;s:26:"report/treatment_purchased";i:87;s:17:"report/user_bonus";i:88;s:16:"sale/appointment";i:89;s:12:"sale/contact";i:90;s:13:"sale/customer";i:91;s:20:"sale/customer_ban_ip";i:92;s:19:"sale/customer_group";i:93;s:13:"sale/followup";i:94;s:12:"sale/history";i:95;s:10:"sale/order";i:96;s:14:"sale/recurring";i:97;s:11:"sale/return";i:98;s:14:"sale/treatment";i:99;s:12:"sale/voucher";i:100;s:18:"sale/voucher_theme";i:101;s:15:"setting/setting";i:102;s:13:"setting/store";i:103;s:16:"shipping/auspost";i:104;s:17:"shipping/citylink";i:105;s:14:"shipping/fedex";i:106;s:13:"shipping/flat";i:107;s:13:"shipping/free";i:108;s:13:"shipping/item";i:109;s:23:"shipping/parcelforce_48";i:110;s:15:"shipping/pickup";i:111;s:19:"shipping/royal_mail";i:112;s:12:"shipping/ups";i:113;s:13:"shipping/usps";i:114;s:15:"shipping/weight";i:115;s:11:"tool/backup";i:116;s:14:"tool/error_log";i:117;s:12:"total/coupon";i:118;s:12:"total/credit";i:119;s:14:"total/handling";i:120;s:16:"total/klarna_fee";i:121;s:19:"total/low_order_fee";i:122;s:12:"total/reward";i:123;s:14:"total/shipping";i:124;s:15:"total/sub_total";i:125;s:9:"total/tax";i:126;s:11:"total/total";i:127;s:13:"total/voucher";i:128;s:9:"user/user";i:129;s:20:"user/user_permission";}}', ''),
+(12, '諮詢師', 'a:1:{s:6:"access";a:130:{i:0;s:17:"catalog/attribute";i:1;s:23:"catalog/attribute_group";i:2;s:16:"catalog/category";i:3;s:16:"catalog/download";i:4;s:14:"catalog/filter";i:5;s:19:"catalog/information";i:6;s:20:"catalog/manufacturer";i:7;s:14:"catalog/option";i:8;s:15:"catalog/product";i:9;s:15:"catalog/profile";i:10;s:16:"catalog/purchase";i:11;s:14:"catalog/review";i:12;s:13:"checkout/cart";i:13;s:17:"checkout/checkout";i:14;s:16:"checkout/confirm";i:15;s:14:"checkout/guest";i:16;s:23:"checkout/guest_shipping";i:17;s:14:"checkout/login";i:18;s:15:"checkout/manual";i:19;s:24:"checkout/payment_address";i:20;s:23:"checkout/payment_method";i:21;s:17:"checkout/register";i:22;s:25:"checkout/shipping_address";i:23;s:24:"checkout/shipping_method";i:24;s:16:"checkout/success";i:25;s:18:"common/filemanager";i:26;s:15:"common/register";i:27;s:13:"design/banner";i:28;s:19:"design/custom_field";i:29;s:13:"design/layout";i:30;s:14:"extension/feed";i:31;s:17:"extension/manager";i:32;s:16:"extension/module";i:33;s:17:"extension/payment";i:34;s:18:"extension/shipping";i:35;s:15:"extension/total";i:36;s:16:"feed/google_base";i:37;s:19:"feed/google_sitemap";i:38;s:17:"image/imagemanage";i:39;s:20:"localisation/country";i:40;s:21:"localisation/currency";i:41;s:21:"localisation/geo_zone";i:42;s:21:"localisation/language";i:43;s:25:"localisation/length_class";i:44;s:25:"localisation/order_status";i:45;s:26:"localisation/return_action";i:46;s:26:"localisation/return_reason";i:47;s:26:"localisation/return_status";i:48;s:25:"localisation/stock_status";i:49;s:22:"localisation/tax_class";i:50;s:21:"localisation/tax_rate";i:51;s:23:"localisation/unit_class";i:52;s:25:"localisation/weight_class";i:53;s:17:"localisation/zone";i:54;s:14:"module/account";i:55;s:16:"module/affiliate";i:56;s:29:"module/amazon_checkout_layout";i:57;s:13:"module/banner";i:58;s:17:"module/bestseller";i:59;s:15:"module/carousel";i:60;s:15:"module/category";i:61;s:18:"module/ebaydisplay";i:62;s:15:"module/featured";i:63;s:13:"module/filter";i:64;s:18:"module/google_talk";i:65;s:18:"module/information";i:66;s:13:"module/latest";i:67;s:17:"module/openbaypro";i:68;s:16:"module/pp_layout";i:69;s:16:"module/slideshow";i:70;s:14:"module/special";i:71;s:12:"module/store";i:72;s:14:"module/welcome";i:73;s:27:"report/affiliate_commission";i:74;s:22:"report/customer_credit";i:75;s:24:"report/customer_feedback";i:76;s:22:"report/customer_online";i:77;s:21:"report/customer_order";i:78;s:22:"report/customer_reward";i:79;s:24:"report/product_purchased";i:80;s:21:"report/product_viewed";i:81;s:18:"report/sale_coupon";i:82;s:17:"report/sale_order";i:83;s:18:"report/sale_return";i:84;s:20:"report/sale_shipping";i:85;s:15:"report/sale_tax";i:86;s:26:"report/treatment_purchased";i:87;s:17:"report/user_bonus";i:88;s:16:"sale/appointment";i:89;s:12:"sale/contact";i:90;s:13:"sale/customer";i:91;s:20:"sale/customer_ban_ip";i:92;s:19:"sale/customer_group";i:93;s:13:"sale/followup";i:94;s:12:"sale/history";i:95;s:10:"sale/order";i:96;s:14:"sale/recurring";i:97;s:11:"sale/return";i:98;s:14:"sale/treatment";i:99;s:12:"sale/voucher";i:100;s:18:"sale/voucher_theme";i:101;s:15:"setting/setting";i:102;s:13:"setting/store";i:103;s:16:"shipping/auspost";i:104;s:17:"shipping/citylink";i:105;s:14:"shipping/fedex";i:106;s:13:"shipping/flat";i:107;s:13:"shipping/free";i:108;s:13:"shipping/item";i:109;s:23:"shipping/parcelforce_48";i:110;s:15:"shipping/pickup";i:111;s:19:"shipping/royal_mail";i:112;s:12:"shipping/ups";i:113;s:13:"shipping/usps";i:114;s:15:"shipping/weight";i:115;s:11:"tool/backup";i:116;s:14:"tool/error_log";i:117;s:12:"total/coupon";i:118;s:12:"total/credit";i:119;s:14:"total/handling";i:120;s:16:"total/klarna_fee";i:121;s:19:"total/low_order_fee";i:122;s:12:"total/reward";i:123;s:14:"total/shipping";i:124;s:15:"total/sub_total";i:125;s:9:"total/tax";i:126;s:11:"total/total";i:127;s:13:"total/voucher";i:128;s:9:"user/user";i:129;s:20:"user/user_permission";}}', ''),
+(13, '工讀生', 'a:2:{s:6:"access";a:130:{i:0;s:17:"catalog/attribute";i:1;s:23:"catalog/attribute_group";i:2;s:16:"catalog/category";i:3;s:16:"catalog/download";i:4;s:14:"catalog/filter";i:5;s:19:"catalog/information";i:6;s:20:"catalog/manufacturer";i:7;s:14:"catalog/option";i:8;s:15:"catalog/product";i:9;s:15:"catalog/profile";i:10;s:16:"catalog/purchase";i:11;s:14:"catalog/review";i:12;s:13:"checkout/cart";i:13;s:17:"checkout/checkout";i:14;s:16:"checkout/confirm";i:15;s:14:"checkout/guest";i:16;s:23:"checkout/guest_shipping";i:17;s:14:"checkout/login";i:18;s:15:"checkout/manual";i:19;s:24:"checkout/payment_address";i:20;s:23:"checkout/payment_method";i:21;s:17:"checkout/register";i:22;s:25:"checkout/shipping_address";i:23;s:24:"checkout/shipping_method";i:24;s:16:"checkout/success";i:25;s:18:"common/filemanager";i:26;s:15:"common/register";i:27;s:13:"design/banner";i:28;s:19:"design/custom_field";i:29;s:13:"design/layout";i:30;s:14:"extension/feed";i:31;s:17:"extension/manager";i:32;s:16:"extension/module";i:33;s:17:"extension/payment";i:34;s:18:"extension/shipping";i:35;s:15:"extension/total";i:36;s:16:"feed/google_base";i:37;s:19:"feed/google_sitemap";i:38;s:17:"image/imagemanage";i:39;s:20:"localisation/country";i:40;s:21:"localisation/currency";i:41;s:21:"localisation/geo_zone";i:42;s:21:"localisation/language";i:43;s:25:"localisation/length_class";i:44;s:25:"localisation/order_status";i:45;s:26:"localisation/return_action";i:46;s:26:"localisation/return_reason";i:47;s:26:"localisation/return_status";i:48;s:25:"localisation/stock_status";i:49;s:22:"localisation/tax_class";i:50;s:21:"localisation/tax_rate";i:51;s:23:"localisation/unit_class";i:52;s:25:"localisation/weight_class";i:53;s:17:"localisation/zone";i:54;s:14:"module/account";i:55;s:16:"module/affiliate";i:56;s:29:"module/amazon_checkout_layout";i:57;s:13:"module/banner";i:58;s:17:"module/bestseller";i:59;s:15:"module/carousel";i:60;s:15:"module/category";i:61;s:18:"module/ebaydisplay";i:62;s:15:"module/featured";i:63;s:13:"module/filter";i:64;s:18:"module/google_talk";i:65;s:18:"module/information";i:66;s:13:"module/latest";i:67;s:17:"module/openbaypro";i:68;s:16:"module/pp_layout";i:69;s:16:"module/slideshow";i:70;s:14:"module/special";i:71;s:12:"module/store";i:72;s:14:"module/welcome";i:73;s:27:"report/affiliate_commission";i:74;s:22:"report/customer_credit";i:75;s:24:"report/customer_feedback";i:76;s:22:"report/customer_online";i:77;s:21:"report/customer_order";i:78;s:22:"report/customer_reward";i:79;s:24:"report/product_purchased";i:80;s:21:"report/product_viewed";i:81;s:18:"report/sale_coupon";i:82;s:17:"report/sale_order";i:83;s:18:"report/sale_return";i:84;s:20:"report/sale_shipping";i:85;s:15:"report/sale_tax";i:86;s:26:"report/treatment_purchased";i:87;s:17:"report/user_bonus";i:88;s:16:"sale/appointment";i:89;s:12:"sale/contact";i:90;s:13:"sale/customer";i:91;s:20:"sale/customer_ban_ip";i:92;s:19:"sale/customer_group";i:93;s:13:"sale/followup";i:94;s:12:"sale/history";i:95;s:10:"sale/order";i:96;s:14:"sale/recurring";i:97;s:11:"sale/return";i:98;s:14:"sale/treatment";i:99;s:12:"sale/voucher";i:100;s:18:"sale/voucher_theme";i:101;s:15:"setting/setting";i:102;s:13:"setting/store";i:103;s:16:"shipping/auspost";i:104;s:17:"shipping/citylink";i:105;s:14:"shipping/fedex";i:106;s:13:"shipping/flat";i:107;s:13:"shipping/free";i:108;s:13:"shipping/item";i:109;s:23:"shipping/parcelforce_48";i:110;s:15:"shipping/pickup";i:111;s:19:"shipping/royal_mail";i:112;s:12:"shipping/ups";i:113;s:13:"shipping/usps";i:114;s:15:"shipping/weight";i:115;s:11:"tool/backup";i:116;s:14:"tool/error_log";i:117;s:12:"total/coupon";i:118;s:12:"total/credit";i:119;s:14:"total/handling";i:120;s:16:"total/klarna_fee";i:121;s:19:"total/low_order_fee";i:122;s:12:"total/reward";i:123;s:14:"total/shipping";i:124;s:15:"total/sub_total";i:125;s:9:"total/tax";i:126;s:11:"total/total";i:127;s:13:"total/voucher";i:128;s:9:"user/user";i:129;s:20:"user/user_permission";}s:6:"modify";a:9:{i:0;s:16:"catalog/purchase";i:1;s:18:"common/filemanager";i:2;s:13:"sale/followup";i:3;s:12:"sale/history";i:4;s:12:"sale/lending";i:5;s:10:"sale/order";i:6;s:16:"sale/transaction";i:7;s:11:"tool/backup";i:8;s:14:"tool/error_log";}}', ''),
+(14, '業務', 'a:2:{s:6:"access";a:130:{i:0;s:17:"catalog/attribute";i:1;s:23:"catalog/attribute_group";i:2;s:16:"catalog/category";i:3;s:16:"catalog/download";i:4;s:14:"catalog/filter";i:5;s:19:"catalog/information";i:6;s:20:"catalog/manufacturer";i:7;s:14:"catalog/option";i:8;s:15:"catalog/product";i:9;s:15:"catalog/profile";i:10;s:16:"catalog/purchase";i:11;s:14:"catalog/review";i:12;s:13:"checkout/cart";i:13;s:17:"checkout/checkout";i:14;s:16:"checkout/confirm";i:15;s:14:"checkout/guest";i:16;s:23:"checkout/guest_shipping";i:17;s:14:"checkout/login";i:18;s:15:"checkout/manual";i:19;s:24:"checkout/payment_address";i:20;s:23:"checkout/payment_method";i:21;s:17:"checkout/register";i:22;s:25:"checkout/shipping_address";i:23;s:24:"checkout/shipping_method";i:24;s:16:"checkout/success";i:25;s:18:"common/filemanager";i:26;s:15:"common/register";i:27;s:13:"design/banner";i:28;s:19:"design/custom_field";i:29;s:13:"design/layout";i:30;s:14:"extension/feed";i:31;s:17:"extension/manager";i:32;s:16:"extension/module";i:33;s:17:"extension/payment";i:34;s:18:"extension/shipping";i:35;s:15:"extension/total";i:36;s:16:"feed/google_base";i:37;s:19:"feed/google_sitemap";i:38;s:17:"image/imagemanage";i:39;s:20:"localisation/country";i:40;s:21:"localisation/currency";i:41;s:21:"localisation/geo_zone";i:42;s:21:"localisation/language";i:43;s:25:"localisation/length_class";i:44;s:25:"localisation/order_status";i:45;s:26:"localisation/return_action";i:46;s:26:"localisation/return_reason";i:47;s:26:"localisation/return_status";i:48;s:25:"localisation/stock_status";i:49;s:22:"localisation/tax_class";i:50;s:21:"localisation/tax_rate";i:51;s:23:"localisation/unit_class";i:52;s:25:"localisation/weight_class";i:53;s:17:"localisation/zone";i:54;s:14:"module/account";i:55;s:16:"module/affiliate";i:56;s:29:"module/amazon_checkout_layout";i:57;s:13:"module/banner";i:58;s:17:"module/bestseller";i:59;s:15:"module/carousel";i:60;s:15:"module/category";i:61;s:18:"module/ebaydisplay";i:62;s:15:"module/featured";i:63;s:13:"module/filter";i:64;s:18:"module/google_talk";i:65;s:18:"module/information";i:66;s:13:"module/latest";i:67;s:17:"module/openbaypro";i:68;s:16:"module/pp_layout";i:69;s:16:"module/slideshow";i:70;s:14:"module/special";i:71;s:12:"module/store";i:72;s:14:"module/welcome";i:73;s:27:"report/affiliate_commission";i:74;s:22:"report/customer_credit";i:75;s:24:"report/customer_feedback";i:76;s:22:"report/customer_online";i:77;s:21:"report/customer_order";i:78;s:22:"report/customer_reward";i:79;s:24:"report/product_purchased";i:80;s:21:"report/product_viewed";i:81;s:18:"report/sale_coupon";i:82;s:17:"report/sale_order";i:83;s:18:"report/sale_return";i:84;s:20:"report/sale_shipping";i:85;s:15:"report/sale_tax";i:86;s:26:"report/treatment_purchased";i:87;s:17:"report/user_bonus";i:88;s:16:"sale/appointment";i:89;s:12:"sale/contact";i:90;s:13:"sale/customer";i:91;s:20:"sale/customer_ban_ip";i:92;s:19:"sale/customer_group";i:93;s:13:"sale/followup";i:94;s:12:"sale/history";i:95;s:10:"sale/order";i:96;s:14:"sale/recurring";i:97;s:11:"sale/return";i:98;s:14:"sale/treatment";i:99;s:12:"sale/voucher";i:100;s:18:"sale/voucher_theme";i:101;s:15:"setting/setting";i:102;s:13:"setting/store";i:103;s:16:"shipping/auspost";i:104;s:17:"shipping/citylink";i:105;s:14:"shipping/fedex";i:106;s:13:"shipping/flat";i:107;s:13:"shipping/free";i:108;s:13:"shipping/item";i:109;s:23:"shipping/parcelforce_48";i:110;s:15:"shipping/pickup";i:111;s:19:"shipping/royal_mail";i:112;s:12:"shipping/ups";i:113;s:13:"shipping/usps";i:114;s:15:"shipping/weight";i:115;s:11:"tool/backup";i:116;s:14:"tool/error_log";i:117;s:12:"total/coupon";i:118;s:12:"total/credit";i:119;s:14:"total/handling";i:120;s:16:"total/klarna_fee";i:121;s:19:"total/low_order_fee";i:122;s:12:"total/reward";i:123;s:14:"total/shipping";i:124;s:15:"total/sub_total";i:125;s:9:"total/tax";i:126;s:11:"total/total";i:127;s:13:"total/voucher";i:128;s:9:"user/user";i:129;s:20:"user/user_permission";}s:6:"modify";a:1:{i:0;s:18:"common/filemanager";}}', ''),
+(2, '醫師', 'a:1:{s:6:"access";a:130:{i:0;s:17:"catalog/attribute";i:1;s:23:"catalog/attribute_group";i:2;s:16:"catalog/category";i:3;s:16:"catalog/download";i:4;s:14:"catalog/filter";i:5;s:19:"catalog/information";i:6;s:20:"catalog/manufacturer";i:7;s:14:"catalog/option";i:8;s:15:"catalog/product";i:9;s:15:"catalog/profile";i:10;s:16:"catalog/purchase";i:11;s:14:"catalog/review";i:12;s:13:"checkout/cart";i:13;s:17:"checkout/checkout";i:14;s:16:"checkout/confirm";i:15;s:14:"checkout/guest";i:16;s:23:"checkout/guest_shipping";i:17;s:14:"checkout/login";i:18;s:15:"checkout/manual";i:19;s:24:"checkout/payment_address";i:20;s:23:"checkout/payment_method";i:21;s:17:"checkout/register";i:22;s:25:"checkout/shipping_address";i:23;s:24:"checkout/shipping_method";i:24;s:16:"checkout/success";i:25;s:18:"common/filemanager";i:26;s:15:"common/register";i:27;s:13:"design/banner";i:28;s:19:"design/custom_field";i:29;s:13:"design/layout";i:30;s:14:"extension/feed";i:31;s:17:"extension/manager";i:32;s:16:"extension/module";i:33;s:17:"extension/payment";i:34;s:18:"extension/shipping";i:35;s:15:"extension/total";i:36;s:16:"feed/google_base";i:37;s:19:"feed/google_sitemap";i:38;s:17:"image/imagemanage";i:39;s:20:"localisation/country";i:40;s:21:"localisation/currency";i:41;s:21:"localisation/geo_zone";i:42;s:21:"localisation/language";i:43;s:25:"localisation/length_class";i:44;s:25:"localisation/order_status";i:45;s:26:"localisation/return_action";i:46;s:26:"localisation/return_reason";i:47;s:26:"localisation/return_status";i:48;s:25:"localisation/stock_status";i:49;s:22:"localisation/tax_class";i:50;s:21:"localisation/tax_rate";i:51;s:23:"localisation/unit_class";i:52;s:25:"localisation/weight_class";i:53;s:17:"localisation/zone";i:54;s:14:"module/account";i:55;s:16:"module/affiliate";i:56;s:29:"module/amazon_checkout_layout";i:57;s:13:"module/banner";i:58;s:17:"module/bestseller";i:59;s:15:"module/carousel";i:60;s:15:"module/category";i:61;s:18:"module/ebaydisplay";i:62;s:15:"module/featured";i:63;s:13:"module/filter";i:64;s:18:"module/google_talk";i:65;s:18:"module/information";i:66;s:13:"module/latest";i:67;s:17:"module/openbaypro";i:68;s:16:"module/pp_layout";i:69;s:16:"module/slideshow";i:70;s:14:"module/special";i:71;s:12:"module/store";i:72;s:14:"module/welcome";i:73;s:27:"report/affiliate_commission";i:74;s:22:"report/customer_credit";i:75;s:24:"report/customer_feedback";i:76;s:22:"report/customer_online";i:77;s:21:"report/customer_order";i:78;s:22:"report/customer_reward";i:79;s:24:"report/product_purchased";i:80;s:21:"report/product_viewed";i:81;s:18:"report/sale_coupon";i:82;s:17:"report/sale_order";i:83;s:18:"report/sale_return";i:84;s:20:"report/sale_shipping";i:85;s:15:"report/sale_tax";i:86;s:26:"report/treatment_purchased";i:87;s:17:"report/user_bonus";i:88;s:16:"sale/appointment";i:89;s:12:"sale/contact";i:90;s:13:"sale/customer";i:91;s:20:"sale/customer_ban_ip";i:92;s:19:"sale/customer_group";i:93;s:13:"sale/followup";i:94;s:12:"sale/history";i:95;s:10:"sale/order";i:96;s:14:"sale/recurring";i:97;s:11:"sale/return";i:98;s:14:"sale/treatment";i:99;s:12:"sale/voucher";i:100;s:18:"sale/voucher_theme";i:101;s:15:"setting/setting";i:102;s:13:"setting/store";i:103;s:16:"shipping/auspost";i:104;s:17:"shipping/citylink";i:105;s:14:"shipping/fedex";i:106;s:13:"shipping/flat";i:107;s:13:"shipping/free";i:108;s:13:"shipping/item";i:109;s:23:"shipping/parcelforce_48";i:110;s:15:"shipping/pickup";i:111;s:19:"shipping/royal_mail";i:112;s:12:"shipping/ups";i:113;s:13:"shipping/usps";i:114;s:15:"shipping/weight";i:115;s:11:"tool/backup";i:116;s:14:"tool/error_log";i:117;s:12:"total/coupon";i:118;s:12:"total/credit";i:119;s:14:"total/handling";i:120;s:16:"total/klarna_fee";i:121;s:19:"total/low_order_fee";i:122;s:12:"total/reward";i:123;s:14:"total/shipping";i:124;s:15:"total/sub_total";i:125;s:9:"total/tax";i:126;s:11:"total/total";i:127;s:13:"total/voucher";i:128;s:9:"user/user";i:129;s:20:"user/user_permission";}}', ''),
+(3, '顧問', 'a:1:{s:6:"access";a:130:{i:0;s:17:"catalog/attribute";i:1;s:23:"catalog/attribute_group";i:2;s:16:"catalog/category";i:3;s:16:"catalog/download";i:4;s:14:"catalog/filter";i:5;s:19:"catalog/information";i:6;s:20:"catalog/manufacturer";i:7;s:14:"catalog/option";i:8;s:15:"catalog/product";i:9;s:15:"catalog/profile";i:10;s:16:"catalog/purchase";i:11;s:14:"catalog/review";i:12;s:13:"checkout/cart";i:13;s:17:"checkout/checkout";i:14;s:16:"checkout/confirm";i:15;s:14:"checkout/guest";i:16;s:23:"checkout/guest_shipping";i:17;s:14:"checkout/login";i:18;s:15:"checkout/manual";i:19;s:24:"checkout/payment_address";i:20;s:23:"checkout/payment_method";i:21;s:17:"checkout/register";i:22;s:25:"checkout/shipping_address";i:23;s:24:"checkout/shipping_method";i:24;s:16:"checkout/success";i:25;s:18:"common/filemanager";i:26;s:15:"common/register";i:27;s:13:"design/banner";i:28;s:19:"design/custom_field";i:29;s:13:"design/layout";i:30;s:14:"extension/feed";i:31;s:17:"extension/manager";i:32;s:16:"extension/module";i:33;s:17:"extension/payment";i:34;s:18:"extension/shipping";i:35;s:15:"extension/total";i:36;s:16:"feed/google_base";i:37;s:19:"feed/google_sitemap";i:38;s:17:"image/imagemanage";i:39;s:20:"localisation/country";i:40;s:21:"localisation/currency";i:41;s:21:"localisation/geo_zone";i:42;s:21:"localisation/language";i:43;s:25:"localisation/length_class";i:44;s:25:"localisation/order_status";i:45;s:26:"localisation/return_action";i:46;s:26:"localisation/return_reason";i:47;s:26:"localisation/return_status";i:48;s:25:"localisation/stock_status";i:49;s:22:"localisation/tax_class";i:50;s:21:"localisation/tax_rate";i:51;s:23:"localisation/unit_class";i:52;s:25:"localisation/weight_class";i:53;s:17:"localisation/zone";i:54;s:14:"module/account";i:55;s:16:"module/affiliate";i:56;s:29:"module/amazon_checkout_layout";i:57;s:13:"module/banner";i:58;s:17:"module/bestseller";i:59;s:15:"module/carousel";i:60;s:15:"module/category";i:61;s:18:"module/ebaydisplay";i:62;s:15:"module/featured";i:63;s:13:"module/filter";i:64;s:18:"module/google_talk";i:65;s:18:"module/information";i:66;s:13:"module/latest";i:67;s:17:"module/openbaypro";i:68;s:16:"module/pp_layout";i:69;s:16:"module/slideshow";i:70;s:14:"module/special";i:71;s:12:"module/store";i:72;s:14:"module/welcome";i:73;s:27:"report/affiliate_commission";i:74;s:22:"report/customer_credit";i:75;s:24:"report/customer_feedback";i:76;s:22:"report/customer_online";i:77;s:21:"report/customer_order";i:78;s:22:"report/customer_reward";i:79;s:24:"report/product_purchased";i:80;s:21:"report/product_viewed";i:81;s:18:"report/sale_coupon";i:82;s:17:"report/sale_order";i:83;s:18:"report/sale_return";i:84;s:20:"report/sale_shipping";i:85;s:15:"report/sale_tax";i:86;s:26:"report/treatment_purchased";i:87;s:17:"report/user_bonus";i:88;s:16:"sale/appointment";i:89;s:12:"sale/contact";i:90;s:13:"sale/customer";i:91;s:20:"sale/customer_ban_ip";i:92;s:19:"sale/customer_group";i:93;s:13:"sale/followup";i:94;s:12:"sale/history";i:95;s:10:"sale/order";i:96;s:14:"sale/recurring";i:97;s:11:"sale/return";i:98;s:14:"sale/treatment";i:99;s:12:"sale/voucher";i:100;s:18:"sale/voucher_theme";i:101;s:15:"setting/setting";i:102;s:13:"setting/store";i:103;s:16:"shipping/auspost";i:104;s:17:"shipping/citylink";i:105;s:14:"shipping/fedex";i:106;s:13:"shipping/flat";i:107;s:13:"shipping/free";i:108;s:13:"shipping/item";i:109;s:23:"shipping/parcelforce_48";i:110;s:15:"shipping/pickup";i:111;s:19:"shipping/royal_mail";i:112;s:12:"shipping/ups";i:113;s:13:"shipping/usps";i:114;s:15:"shipping/weight";i:115;s:11:"tool/backup";i:116;s:14:"tool/error_log";i:117;s:12:"total/coupon";i:118;s:12:"total/credit";i:119;s:14:"total/handling";i:120;s:16:"total/klarna_fee";i:121;s:19:"total/low_order_fee";i:122;s:12:"total/reward";i:123;s:14:"total/shipping";i:124;s:15:"total/sub_total";i:125;s:9:"total/tax";i:126;s:11:"total/total";i:127;s:13:"total/voucher";i:128;s:9:"user/user";i:129;s:20:"user/user_permission";}}', ''),
+(4, '外包', 'a:2:{s:6:"access";a:62:{i:0;s:16:"catalog/category";i:1;s:15:"catalog/product";i:2;s:16:"catalog/purchase";i:3;s:13:"checkout/cart";i:4;s:17:"checkout/checkout";i:5;s:16:"checkout/confirm";i:6;s:14:"checkout/login";i:7;s:15:"checkout/manual";i:8;s:17:"checkout/register";i:9;s:16:"checkout/success";i:10;s:18:"common/filemanager";i:11;s:15:"common/register";i:12;s:14:"extension/feed";i:13;s:17:"extension/manager";i:14;s:16:"extension/module";i:15;s:17:"extension/payment";i:16;s:18:"extension/shipping";i:17;s:15:"extension/total";i:18;s:17:"image/imagemanage";i:19;s:21:"localisation/currency";i:20;s:21:"localisation/geo_zone";i:21;s:21:"localisation/language";i:22;s:25:"localisation/length_class";i:23;s:25:"localisation/order_status";i:24;s:25:"localisation/stock_status";i:25;s:23:"localisation/unit_class";i:26;s:25:"localisation/weight_class";i:27;s:17:"localisation/zone";i:28;s:27:"report/affiliate_commission";i:29;s:22:"report/customer_credit";i:30;s:24:"report/customer_feedback";i:31;s:22:"report/customer_online";i:32;s:21:"report/customer_order";i:33;s:22:"report/customer_reward";i:34;s:24:"report/product_purchased";i:35;s:21:"report/product_viewed";i:36;s:18:"report/sale_coupon";i:37;s:17:"report/sale_order";i:38;s:18:"report/sale_return";i:39;s:20:"report/sale_shipping";i:40;s:15:"report/sale_tax";i:41;s:26:"report/treatment_purchased";i:42;s:17:"report/user_bonus";i:43;s:16:"sale/appointment";i:44;s:12:"sale/contact";i:45;s:13:"sale/customer";i:46;s:20:"sale/customer_ban_ip";i:47;s:19:"sale/customer_group";i:48;s:13:"sale/followup";i:49;s:12:"sale/history";i:50;s:10:"sale/order";i:51;s:14:"sale/recurring";i:52;s:11:"sale/return";i:53;s:14:"sale/treatment";i:54;s:12:"sale/voucher";i:55;s:18:"sale/voucher_theme";i:56;s:15:"setting/setting";i:57;s:13:"setting/store";i:58;s:11:"tool/backup";i:59;s:14:"tool/error_log";i:60;s:9:"user/user";i:61;s:20:"user/user_permission";}s:6:"modify";a:1:{i:0;s:16:"checkout/success";}}', 'a:1:{s:11:"producttype";a:2:{i:0;s:7:"product";i:1;s:5:"waste";}}');
 
 -- --------------------------------------------------------
 
@@ -3570,7 +3793,7 @@ INSERT INTO `oc_user_group` (`user_group_id`, `name`, `permission`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `oc_voucher` (
-  `voucher_id` int(11) NOT NULL AUTO_INCREMENT,
+`voucher_id` int(11) NOT NULL,
   `order_id` int(11) NOT NULL,
   `code` varchar(10) NOT NULL,
   `from_name` varchar(64) NOT NULL,
@@ -3581,32 +3804,31 @@ CREATE TABLE IF NOT EXISTS `oc_voucher` (
   `message` text NOT NULL,
   `amount` decimal(15,4) NOT NULL,
   `status` tinyint(1) NOT NULL,
-  `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  PRIMARY KEY (`voucher_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=18 ;
+  `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `oc_voucher`
 --
 
 INSERT INTO `oc_voucher` (`voucher_id`, `order_id`, `code`, `from_name`, `from_email`, `to_name`, `to_email`, `voucher_theme_id`, `message`, `amount`, `status`, `date_added`) VALUES
-(1, 0, '6c58fe5a3a', '', '', '', '', 7, '', 25.0000, 1, '2014-09-13 00:38:20'),
-(2, 0, '4d8bab085a', '', '', '', '', 7, '', 25.0000, 1, '2014-09-13 00:38:30'),
-(3, 0, '742db7ddaa', '', '', '', '', 7, '', 25.0000, 1, '2014-09-13 00:38:37'),
-(4, 0, 'db8da10645', '', '', '', '', 7, '', 25.0000, 1, '2014-09-13 00:39:25'),
-(5, 0, 'd68e14b500', '', '', '', '', 8, 'asdad', 25.0000, 1, '2014-09-13 00:39:33'),
-(6, 0, '4345e3b775', '', '', '', '', 8, 'asdad', 25.0000, 1, '2014-09-13 00:40:01'),
-(7, 0, '1d0bc3fbd9', '', '', '', '', 8, 'asdad', 25.0000, 1, '2014-09-13 00:40:03'),
-(8, 0, '73f47e70ed', '', '', '', '', 8, 'asdad', 25.0000, 1, '2014-09-13 00:40:03'),
-(9, 0, '6ef8a6bdac', '', '', '', '', 6, '12123123', 25.0000, 1, '2014-09-13 00:40:21'),
-(10, 0, '5ddf2d8c85', '', '', '', '', 6, '12123123', 25.0000, 1, '2014-09-13 00:41:42'),
-(11, 0, '3fd6089670', '', '', '', '', 6, '12123123', 25.0000, 1, '2014-09-13 00:41:50'),
-(12, 0, 'bbc849097b', '', '', '', '', 6, '12123123', 25.0000, 1, '2014-09-13 00:43:39'),
-(13, 42, '2e8e4daad2', '', '', '', '', 6, '12123123', 25.0000, 1, '2014-09-13 00:44:22'),
-(14, 42, '66b79b6a68', '', '', '', '', 6, '123123', 25.0000, 1, '2014-09-13 00:47:21'),
-(15, 41, '612dd3a8b3', '', '', '', '', 7, '', 25.0000, 1, '2014-09-13 01:04:30'),
-(16, 0, '060be7ac42', '', '', '', '', 7, 'asdasd', 500.0000, 1, '2014-09-13 01:08:21'),
-(17, 41, 'c9150da20b', '', '', '', '', 7, 'asdasd', 500.0000, 1, '2014-09-13 01:08:52');
+(1, 0, '6c58fe5a3a', '', '', '', '', 7, '', '25.0000', 1, '2014-09-13 00:38:20'),
+(2, 0, '4d8bab085a', '', '', '', '', 7, '', '25.0000', 1, '2014-09-13 00:38:30'),
+(3, 0, '742db7ddaa', '', '', '', '', 7, '', '25.0000', 1, '2014-09-13 00:38:37'),
+(4, 0, 'db8da10645', '', '', '', '', 7, '', '25.0000', 1, '2014-09-13 00:39:25'),
+(5, 0, 'd68e14b500', '', '', '', '', 8, 'asdad', '25.0000', 1, '2014-09-13 00:39:33'),
+(6, 0, '4345e3b775', '', '', '', '', 8, 'asdad', '25.0000', 1, '2014-09-13 00:40:01'),
+(7, 0, '1d0bc3fbd9', '', '', '', '', 8, 'asdad', '25.0000', 1, '2014-09-13 00:40:03'),
+(8, 0, '73f47e70ed', '', '', '', '', 8, 'asdad', '25.0000', 1, '2014-09-13 00:40:03'),
+(9, 0, '6ef8a6bdac', '', '', '', '', 6, '12123123', '25.0000', 1, '2014-09-13 00:40:21'),
+(10, 0, '5ddf2d8c85', '', '', '', '', 6, '12123123', '25.0000', 1, '2014-09-13 00:41:42'),
+(11, 0, '3fd6089670', '', '', '', '', 6, '12123123', '25.0000', 1, '2014-09-13 00:41:50'),
+(12, 0, 'bbc849097b', '', '', '', '', 6, '12123123', '25.0000', 1, '2014-09-13 00:43:39'),
+(13, 42, '2e8e4daad2', '', '', '', '', 6, '12123123', '25.0000', 1, '2014-09-13 00:44:22'),
+(14, 42, '66b79b6a68', '', '', '', '', 6, '123123', '25.0000', 1, '2014-09-13 00:47:21'),
+(15, 41, '612dd3a8b3', '', '', '', '', 7, '', '25.0000', 1, '2014-09-13 01:04:30'),
+(16, 0, '060be7ac42', '', '', '', '', 7, 'asdasd', '500.0000', 1, '2014-09-13 01:08:21'),
+(17, 41, 'c9150da20b', '', '', '', '', 7, 'asdasd', '500.0000', 1, '2014-09-13 01:08:52');
 
 -- --------------------------------------------------------
 
@@ -3615,13 +3837,12 @@ INSERT INTO `oc_voucher` (`voucher_id`, `order_id`, `code`, `from_name`, `from_e
 --
 
 CREATE TABLE IF NOT EXISTS `oc_voucher_history` (
-  `voucher_history_id` int(11) NOT NULL AUTO_INCREMENT,
+`voucher_history_id` int(11) NOT NULL,
   `voucher_id` int(11) NOT NULL,
   `order_id` int(11) NOT NULL,
   `amount` decimal(15,4) NOT NULL,
-  `date_added` datetime NOT NULL,
-  PRIMARY KEY (`voucher_history_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `date_added` datetime NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -3630,10 +3851,9 @@ CREATE TABLE IF NOT EXISTS `oc_voucher_history` (
 --
 
 CREATE TABLE IF NOT EXISTS `oc_voucher_theme` (
-  `voucher_theme_id` int(11) NOT NULL AUTO_INCREMENT,
-  `image` varchar(255) NOT NULL,
-  PRIMARY KEY (`voucher_theme_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+`voucher_theme_id` int(11) NOT NULL,
+  `image` varchar(255) NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `oc_voucher_theme`
@@ -3653,8 +3873,7 @@ INSERT INTO `oc_voucher_theme` (`voucher_theme_id`, `image`) VALUES
 CREATE TABLE IF NOT EXISTS `oc_voucher_theme_description` (
   `voucher_theme_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `name` varchar(32) NOT NULL,
-  PRIMARY KEY (`voucher_theme_id`,`language_id`)
+  `name` varchar(32) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
@@ -3673,20 +3892,19 @@ INSERT INTO `oc_voucher_theme_description` (`voucher_theme_id`, `language_id`, `
 --
 
 CREATE TABLE IF NOT EXISTS `oc_weight_class` (
-  `weight_class_id` int(11) NOT NULL AUTO_INCREMENT,
-  `value` decimal(15,8) NOT NULL DEFAULT '0.00000000',
-  PRIMARY KEY (`weight_class_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+`weight_class_id` int(11) NOT NULL,
+  `value` decimal(15,8) NOT NULL DEFAULT '0.00000000'
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `oc_weight_class`
 --
 
 INSERT INTO `oc_weight_class` (`weight_class_id`, `value`) VALUES
-(1, 1.00000000),
-(2, 1000.00000000),
-(5, 2.20460000),
-(6, 35.27400000);
+(1, '1.00000000'),
+(2, '1000.00000000'),
+(5, '2.20460000'),
+(6, '35.27400000');
 
 -- --------------------------------------------------------
 
@@ -3695,12 +3913,11 @@ INSERT INTO `oc_weight_class` (`weight_class_id`, `value`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `oc_weight_class_description` (
-  `weight_class_id` int(11) NOT NULL AUTO_INCREMENT,
+`weight_class_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
   `title` varchar(32) NOT NULL,
-  `unit` varchar(4) NOT NULL,
-  PRIMARY KEY (`weight_class_id`,`language_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+  `unit` varchar(4) NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `oc_weight_class_description`
@@ -3719,13 +3936,12 @@ INSERT INTO `oc_weight_class_description` (`weight_class_id`, `language_id`, `ti
 --
 
 CREATE TABLE IF NOT EXISTS `oc_zone` (
-  `zone_id` int(11) NOT NULL AUTO_INCREMENT,
+`zone_id` int(11) NOT NULL,
   `country_id` int(11) NOT NULL,
   `name` varchar(128) NOT NULL,
   `code` varchar(32) NOT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`zone_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4033 ;
+  `status` tinyint(1) NOT NULL DEFAULT '1'
+) ENGINE=MyISAM AUTO_INCREMENT=4033 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `oc_zone`
@@ -7727,14 +7943,13 @@ INSERT INTO `oc_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `oc_zone_to_geo_zone` (
-  `zone_to_geo_zone_id` int(11) NOT NULL AUTO_INCREMENT,
+`zone_to_geo_zone_id` int(11) NOT NULL,
   `country_id` int(11) NOT NULL,
   `zone_id` int(11) NOT NULL DEFAULT '0',
   `geo_zone_id` int(11) NOT NULL,
   `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `date_modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  PRIMARY KEY (`zone_to_geo_zone_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=66 ;
+  `date_modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=MyISAM AUTO_INCREMENT=66 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `oc_zone_to_geo_zone`
@@ -7744,6 +7959,1240 @@ INSERT INTO `oc_zone_to_geo_zone` (`zone_to_geo_zone_id`, `country_id`, `zone_id
 (57, 222, 0, 3, '2010-02-26 22:33:24', '0000-00-00 00:00:00'),
 (65, 222, 0, 4, '2010-12-15 15:18:13', '0000-00-00 00:00:00');
 
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `oc_address`
+--
+ALTER TABLE `oc_address`
+ ADD PRIMARY KEY (`address_id`), ADD KEY `customer_id` (`customer_id`);
+
+--
+-- Indexes for table `oc_affiliate`
+--
+ALTER TABLE `oc_affiliate`
+ ADD PRIMARY KEY (`affiliate_id`);
+
+--
+-- Indexes for table `oc_affiliate_transaction`
+--
+ALTER TABLE `oc_affiliate_transaction`
+ ADD PRIMARY KEY (`affiliate_transaction_id`);
+
+--
+-- Indexes for table `oc_attribute`
+--
+ALTER TABLE `oc_attribute`
+ ADD PRIMARY KEY (`attribute_id`);
+
+--
+-- Indexes for table `oc_attribute_description`
+--
+ALTER TABLE `oc_attribute_description`
+ ADD PRIMARY KEY (`attribute_id`,`language_id`);
+
+--
+-- Indexes for table `oc_attribute_group`
+--
+ALTER TABLE `oc_attribute_group`
+ ADD PRIMARY KEY (`attribute_group_id`);
+
+--
+-- Indexes for table `oc_attribute_group_description`
+--
+ALTER TABLE `oc_attribute_group_description`
+ ADD PRIMARY KEY (`attribute_group_id`,`language_id`);
+
+--
+-- Indexes for table `oc_banner`
+--
+ALTER TABLE `oc_banner`
+ ADD PRIMARY KEY (`banner_id`);
+
+--
+-- Indexes for table `oc_banner_image`
+--
+ALTER TABLE `oc_banner_image`
+ ADD PRIMARY KEY (`banner_image_id`);
+
+--
+-- Indexes for table `oc_banner_image_description`
+--
+ALTER TABLE `oc_banner_image_description`
+ ADD PRIMARY KEY (`banner_image_id`,`language_id`);
+
+--
+-- Indexes for table `oc_category`
+--
+ALTER TABLE `oc_category`
+ ADD PRIMARY KEY (`category_id`);
+
+--
+-- Indexes for table `oc_category_description`
+--
+ALTER TABLE `oc_category_description`
+ ADD PRIMARY KEY (`category_id`,`language_id`), ADD KEY `name` (`name`);
+
+--
+-- Indexes for table `oc_category_filter`
+--
+ALTER TABLE `oc_category_filter`
+ ADD PRIMARY KEY (`category_id`,`filter_id`);
+
+--
+-- Indexes for table `oc_category_path`
+--
+ALTER TABLE `oc_category_path`
+ ADD PRIMARY KEY (`category_id`,`path_id`);
+
+--
+-- Indexes for table `oc_category_to_layout`
+--
+ALTER TABLE `oc_category_to_layout`
+ ADD PRIMARY KEY (`category_id`,`store_id`);
+
+--
+-- Indexes for table `oc_category_to_store`
+--
+ALTER TABLE `oc_category_to_store`
+ ADD PRIMARY KEY (`category_id`,`store_id`);
+
+--
+-- Indexes for table `oc_country`
+--
+ALTER TABLE `oc_country`
+ ADD PRIMARY KEY (`country_id`);
+
+--
+-- Indexes for table `oc_coupon`
+--
+ALTER TABLE `oc_coupon`
+ ADD PRIMARY KEY (`coupon_id`);
+
+--
+-- Indexes for table `oc_coupon_category`
+--
+ALTER TABLE `oc_coupon_category`
+ ADD PRIMARY KEY (`coupon_id`,`category_id`);
+
+--
+-- Indexes for table `oc_coupon_history`
+--
+ALTER TABLE `oc_coupon_history`
+ ADD PRIMARY KEY (`coupon_history_id`);
+
+--
+-- Indexes for table `oc_coupon_product`
+--
+ALTER TABLE `oc_coupon_product`
+ ADD PRIMARY KEY (`coupon_product_id`);
+
+--
+-- Indexes for table `oc_currency`
+--
+ALTER TABLE `oc_currency`
+ ADD PRIMARY KEY (`currency_id`);
+
+--
+-- Indexes for table `oc_customer`
+--
+ALTER TABLE `oc_customer`
+ ADD PRIMARY KEY (`customer_id`);
+
+--
+-- Indexes for table `oc_customer_appointment`
+--
+ALTER TABLE `oc_customer_appointment`
+ ADD PRIMARY KEY (`customer_appointment_id`);
+
+--
+-- Indexes for table `oc_customer_ban_ip`
+--
+ALTER TABLE `oc_customer_ban_ip`
+ ADD PRIMARY KEY (`customer_ban_ip_id`), ADD KEY `ip` (`ip`);
+
+--
+-- Indexes for table `oc_customer_event`
+--
+ALTER TABLE `oc_customer_event`
+ ADD PRIMARY KEY (`customer_event_id`);
+
+--
+-- Indexes for table `oc_customer_field`
+--
+ALTER TABLE `oc_customer_field`
+ ADD PRIMARY KEY (`customer_id`,`custom_field_id`,`custom_field_value_id`);
+
+--
+-- Indexes for table `oc_customer_group`
+--
+ALTER TABLE `oc_customer_group`
+ ADD PRIMARY KEY (`customer_group_id`);
+
+--
+-- Indexes for table `oc_customer_group_description`
+--
+ALTER TABLE `oc_customer_group_description`
+ ADD PRIMARY KEY (`customer_group_id`,`language_id`);
+
+--
+-- Indexes for table `oc_customer_history`
+--
+ALTER TABLE `oc_customer_history`
+ ADD PRIMARY KEY (`customer_history_id`);
+
+--
+-- Indexes for table `oc_customer_image`
+--
+ALTER TABLE `oc_customer_image`
+ ADD PRIMARY KEY (`customer_image_id`);
+
+--
+-- Indexes for table `oc_customer_ip`
+--
+ALTER TABLE `oc_customer_ip`
+ ADD PRIMARY KEY (`customer_ip_id`), ADD KEY `ip` (`ip`);
+
+--
+-- Indexes for table `oc_customer_lending`
+--
+ALTER TABLE `oc_customer_lending`
+ ADD PRIMARY KEY (`customer_lending_id`);
+
+--
+-- Indexes for table `oc_customer_online`
+--
+ALTER TABLE `oc_customer_online`
+ ADD PRIMARY KEY (`ip`);
+
+--
+-- Indexes for table `oc_customer_reward`
+--
+ALTER TABLE `oc_customer_reward`
+ ADD PRIMARY KEY (`customer_reward_id`);
+
+--
+-- Indexes for table `oc_customer_transaction`
+--
+ALTER TABLE `oc_customer_transaction`
+ ADD PRIMARY KEY (`customer_transaction_id`);
+
+--
+-- Indexes for table `oc_customer_treatment_usage`
+--
+ALTER TABLE `oc_customer_treatment_usage`
+ ADD PRIMARY KEY (`customer_treatment_usage_id`);
+
+--
+-- Indexes for table `oc_custom_field`
+--
+ALTER TABLE `oc_custom_field`
+ ADD PRIMARY KEY (`custom_field_id`);
+
+--
+-- Indexes for table `oc_custom_field_description`
+--
+ALTER TABLE `oc_custom_field_description`
+ ADD PRIMARY KEY (`custom_field_id`,`language_id`);
+
+--
+-- Indexes for table `oc_custom_field_to_customer_group`
+--
+ALTER TABLE `oc_custom_field_to_customer_group`
+ ADD PRIMARY KEY (`custom_field_id`,`customer_group_id`);
+
+--
+-- Indexes for table `oc_custom_field_value`
+--
+ALTER TABLE `oc_custom_field_value`
+ ADD PRIMARY KEY (`custom_field_value_id`);
+
+--
+-- Indexes for table `oc_custom_field_value_description`
+--
+ALTER TABLE `oc_custom_field_value_description`
+ ADD PRIMARY KEY (`custom_field_value_id`,`language_id`);
+
+--
+-- Indexes for table `oc_download`
+--
+ALTER TABLE `oc_download`
+ ADD PRIMARY KEY (`download_id`);
+
+--
+-- Indexes for table `oc_download_description`
+--
+ALTER TABLE `oc_download_description`
+ ADD PRIMARY KEY (`download_id`,`language_id`);
+
+--
+-- Indexes for table `oc_expense`
+--
+ALTER TABLE `oc_expense`
+ ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `oc_extension`
+--
+ALTER TABLE `oc_extension`
+ ADD PRIMARY KEY (`extension_id`);
+
+--
+-- Indexes for table `oc_filter`
+--
+ALTER TABLE `oc_filter`
+ ADD PRIMARY KEY (`filter_id`);
+
+--
+-- Indexes for table `oc_filter_description`
+--
+ALTER TABLE `oc_filter_description`
+ ADD PRIMARY KEY (`filter_id`,`language_id`);
+
+--
+-- Indexes for table `oc_filter_group`
+--
+ALTER TABLE `oc_filter_group`
+ ADD PRIMARY KEY (`filter_group_id`);
+
+--
+-- Indexes for table `oc_filter_group_description`
+--
+ALTER TABLE `oc_filter_group_description`
+ ADD PRIMARY KEY (`filter_group_id`,`language_id`);
+
+--
+-- Indexes for table `oc_geo_zone`
+--
+ALTER TABLE `oc_geo_zone`
+ ADD PRIMARY KEY (`geo_zone_id`);
+
+--
+-- Indexes for table `oc_information`
+--
+ALTER TABLE `oc_information`
+ ADD PRIMARY KEY (`information_id`);
+
+--
+-- Indexes for table `oc_information_description`
+--
+ALTER TABLE `oc_information_description`
+ ADD PRIMARY KEY (`information_id`,`language_id`);
+
+--
+-- Indexes for table `oc_information_to_layout`
+--
+ALTER TABLE `oc_information_to_layout`
+ ADD PRIMARY KEY (`information_id`,`store_id`);
+
+--
+-- Indexes for table `oc_information_to_store`
+--
+ALTER TABLE `oc_information_to_store`
+ ADD PRIMARY KEY (`information_id`,`store_id`);
+
+--
+-- Indexes for table `oc_language`
+--
+ALTER TABLE `oc_language`
+ ADD PRIMARY KEY (`language_id`), ADD KEY `name` (`name`);
+
+--
+-- Indexes for table `oc_layout`
+--
+ALTER TABLE `oc_layout`
+ ADD PRIMARY KEY (`layout_id`);
+
+--
+-- Indexes for table `oc_layout_route`
+--
+ALTER TABLE `oc_layout_route`
+ ADD PRIMARY KEY (`layout_route_id`);
+
+--
+-- Indexes for table `oc_length_class`
+--
+ALTER TABLE `oc_length_class`
+ ADD PRIMARY KEY (`length_class_id`);
+
+--
+-- Indexes for table `oc_length_class_description`
+--
+ALTER TABLE `oc_length_class_description`
+ ADD PRIMARY KEY (`length_class_id`,`language_id`);
+
+--
+-- Indexes for table `oc_manufacturer`
+--
+ALTER TABLE `oc_manufacturer`
+ ADD PRIMARY KEY (`manufacturer_id`);
+
+--
+-- Indexes for table `oc_manufacturer_to_store`
+--
+ALTER TABLE `oc_manufacturer_to_store`
+ ADD PRIMARY KEY (`manufacturer_id`,`store_id`);
+
+--
+-- Indexes for table `oc_option`
+--
+ALTER TABLE `oc_option`
+ ADD PRIMARY KEY (`option_id`);
+
+--
+-- Indexes for table `oc_option_description`
+--
+ALTER TABLE `oc_option_description`
+ ADD PRIMARY KEY (`option_id`,`language_id`);
+
+--
+-- Indexes for table `oc_option_value`
+--
+ALTER TABLE `oc_option_value`
+ ADD PRIMARY KEY (`option_value_id`);
+
+--
+-- Indexes for table `oc_option_value_description`
+--
+ALTER TABLE `oc_option_value_description`
+ ADD PRIMARY KEY (`option_value_id`,`language_id`);
+
+--
+-- Indexes for table `oc_order`
+--
+ALTER TABLE `oc_order`
+ ADD PRIMARY KEY (`order_id`);
+
+--
+-- Indexes for table `oc_order_download`
+--
+ALTER TABLE `oc_order_download`
+ ADD PRIMARY KEY (`order_download_id`);
+
+--
+-- Indexes for table `oc_order_field`
+--
+ALTER TABLE `oc_order_field`
+ ADD PRIMARY KEY (`order_id`,`custom_field_id`,`custom_field_value_id`);
+
+--
+-- Indexes for table `oc_order_fraud`
+--
+ALTER TABLE `oc_order_fraud`
+ ADD PRIMARY KEY (`order_id`);
+
+--
+-- Indexes for table `oc_order_history`
+--
+ALTER TABLE `oc_order_history`
+ ADD PRIMARY KEY (`order_history_id`);
+
+--
+-- Indexes for table `oc_order_option`
+--
+ALTER TABLE `oc_order_option`
+ ADD PRIMARY KEY (`order_option_id`);
+
+--
+-- Indexes for table `oc_order_picture`
+--
+ALTER TABLE `oc_order_picture`
+ ADD PRIMARY KEY (`order_picture_id`);
+
+--
+-- Indexes for table `oc_order_product`
+--
+ALTER TABLE `oc_order_product`
+ ADD PRIMARY KEY (`order_product_id`);
+
+--
+-- Indexes for table `oc_order_recurring`
+--
+ALTER TABLE `oc_order_recurring`
+ ADD PRIMARY KEY (`order_recurring_id`);
+
+--
+-- Indexes for table `oc_order_recurring_transaction`
+--
+ALTER TABLE `oc_order_recurring_transaction`
+ ADD PRIMARY KEY (`order_recurring_transaction_id`);
+
+--
+-- Indexes for table `oc_order_status`
+--
+ALTER TABLE `oc_order_status`
+ ADD PRIMARY KEY (`order_status_id`,`language_id`);
+
+--
+-- Indexes for table `oc_order_total`
+--
+ALTER TABLE `oc_order_total`
+ ADD PRIMARY KEY (`order_total_id`), ADD KEY `idx_orders_total_orders_id` (`order_id`);
+
+--
+-- Indexes for table `oc_order_voucher`
+--
+ALTER TABLE `oc_order_voucher`
+ ADD PRIMARY KEY (`order_voucher_id`);
+
+--
+-- Indexes for table `oc_product`
+--
+ALTER TABLE `oc_product`
+ ADD PRIMARY KEY (`product_id`);
+
+--
+-- Indexes for table `oc_product_attribute`
+--
+ALTER TABLE `oc_product_attribute`
+ ADD PRIMARY KEY (`product_id`,`attribute_id`,`language_id`);
+
+--
+-- Indexes for table `oc_product_description`
+--
+ALTER TABLE `oc_product_description`
+ ADD PRIMARY KEY (`product_id`,`language_id`), ADD KEY `name` (`name`);
+
+--
+-- Indexes for table `oc_product_discount`
+--
+ALTER TABLE `oc_product_discount`
+ ADD PRIMARY KEY (`product_discount_id`), ADD KEY `product_id` (`product_id`);
+
+--
+-- Indexes for table `oc_product_filter`
+--
+ALTER TABLE `oc_product_filter`
+ ADD PRIMARY KEY (`product_id`,`filter_id`);
+
+--
+-- Indexes for table `oc_product_image`
+--
+ALTER TABLE `oc_product_image`
+ ADD PRIMARY KEY (`product_image_id`);
+
+--
+-- Indexes for table `oc_product_option`
+--
+ALTER TABLE `oc_product_option`
+ ADD PRIMARY KEY (`product_option_id`);
+
+--
+-- Indexes for table `oc_product_option_value`
+--
+ALTER TABLE `oc_product_option_value`
+ ADD PRIMARY KEY (`product_option_value_id`);
+
+--
+-- Indexes for table `oc_product_profile`
+--
+ALTER TABLE `oc_product_profile`
+ ADD PRIMARY KEY (`product_id`,`profile_id`,`customer_group_id`);
+
+--
+-- Indexes for table `oc_product_recurring`
+--
+ALTER TABLE `oc_product_recurring`
+ ADD PRIMARY KEY (`product_id`,`store_id`);
+
+--
+-- Indexes for table `oc_product_related`
+--
+ALTER TABLE `oc_product_related`
+ ADD PRIMARY KEY (`product_id`,`related_id`);
+
+--
+-- Indexes for table `oc_product_reward`
+--
+ALTER TABLE `oc_product_reward`
+ ADD PRIMARY KEY (`product_reward_id`);
+
+--
+-- Indexes for table `oc_product_special`
+--
+ALTER TABLE `oc_product_special`
+ ADD PRIMARY KEY (`product_special_id`), ADD KEY `product_id` (`product_id`);
+
+--
+-- Indexes for table `oc_product_to_category`
+--
+ALTER TABLE `oc_product_to_category`
+ ADD PRIMARY KEY (`product_id`,`category_id`);
+
+--
+-- Indexes for table `oc_product_to_download`
+--
+ALTER TABLE `oc_product_to_download`
+ ADD PRIMARY KEY (`product_id`,`download_id`);
+
+--
+-- Indexes for table `oc_product_to_layout`
+--
+ALTER TABLE `oc_product_to_layout`
+ ADD PRIMARY KEY (`product_id`,`store_id`);
+
+--
+-- Indexes for table `oc_product_to_store`
+--
+ALTER TABLE `oc_product_to_store`
+ ADD PRIMARY KEY (`product_id`,`store_id`);
+
+--
+-- Indexes for table `oc_product_type_class`
+--
+ALTER TABLE `oc_product_type_class`
+ ADD PRIMARY KEY (`product_type_class_id`);
+
+--
+-- Indexes for table `oc_product_type_class_description`
+--
+ALTER TABLE `oc_product_type_class_description`
+ ADD UNIQUE KEY `product_type_class_id` (`product_type_class_id`,`language_id`);
+
+--
+-- Indexes for table `oc_profile`
+--
+ALTER TABLE `oc_profile`
+ ADD PRIMARY KEY (`profile_id`);
+
+--
+-- Indexes for table `oc_profile_description`
+--
+ALTER TABLE `oc_profile_description`
+ ADD PRIMARY KEY (`profile_id`,`language_id`);
+
+--
+-- Indexes for table `oc_purchase`
+--
+ALTER TABLE `oc_purchase`
+ ADD PRIMARY KEY (`purchase_id`);
+
+--
+-- Indexes for table `oc_purchase_product`
+--
+ALTER TABLE `oc_purchase_product`
+ ADD PRIMARY KEY (`purchase_product_id`);
+
+--
+-- Indexes for table `oc_purchase_status`
+--
+ALTER TABLE `oc_purchase_status`
+ ADD PRIMARY KEY (`purchase_status_id`,`language_id`);
+
+--
+-- Indexes for table `oc_reminder_status`
+--
+ALTER TABLE `oc_reminder_status`
+ ADD UNIQUE KEY `reminder_class_id` (`reminder_status_id`,`language_id`);
+
+--
+-- Indexes for table `oc_return`
+--
+ALTER TABLE `oc_return`
+ ADD PRIMARY KEY (`return_id`);
+
+--
+-- Indexes for table `oc_return_action`
+--
+ALTER TABLE `oc_return_action`
+ ADD PRIMARY KEY (`return_action_id`,`language_id`);
+
+--
+-- Indexes for table `oc_return_history`
+--
+ALTER TABLE `oc_return_history`
+ ADD PRIMARY KEY (`return_history_id`);
+
+--
+-- Indexes for table `oc_return_reason`
+--
+ALTER TABLE `oc_return_reason`
+ ADD PRIMARY KEY (`return_reason_id`,`language_id`);
+
+--
+-- Indexes for table `oc_return_status`
+--
+ALTER TABLE `oc_return_status`
+ ADD PRIMARY KEY (`return_status_id`,`language_id`);
+
+--
+-- Indexes for table `oc_review`
+--
+ALTER TABLE `oc_review`
+ ADD PRIMARY KEY (`review_id`), ADD KEY `product_id` (`product_id`);
+
+--
+-- Indexes for table `oc_setting`
+--
+ALTER TABLE `oc_setting`
+ ADD PRIMARY KEY (`setting_id`);
+
+--
+-- Indexes for table `oc_stock_status`
+--
+ALTER TABLE `oc_stock_status`
+ ADD PRIMARY KEY (`stock_status_id`,`language_id`);
+
+--
+-- Indexes for table `oc_store`
+--
+ALTER TABLE `oc_store`
+ ADD PRIMARY KEY (`store_id`);
+
+--
+-- Indexes for table `oc_tax_class`
+--
+ALTER TABLE `oc_tax_class`
+ ADD PRIMARY KEY (`tax_class_id`);
+
+--
+-- Indexes for table `oc_tax_rate`
+--
+ALTER TABLE `oc_tax_rate`
+ ADD PRIMARY KEY (`tax_rate_id`);
+
+--
+-- Indexes for table `oc_tax_rate_to_customer_group`
+--
+ALTER TABLE `oc_tax_rate_to_customer_group`
+ ADD PRIMARY KEY (`tax_rate_id`,`customer_group_id`);
+
+--
+-- Indexes for table `oc_tax_rule`
+--
+ALTER TABLE `oc_tax_rule`
+ ADD PRIMARY KEY (`tax_rule_id`);
+
+--
+-- Indexes for table `oc_treatment_status`
+--
+ALTER TABLE `oc_treatment_status`
+ ADD UNIQUE KEY `reminder_class_id` (`treatment_status_id`);
+
+--
+-- Indexes for table `oc_unit_class`
+--
+ALTER TABLE `oc_unit_class`
+ ADD PRIMARY KEY (`unit_class_id`);
+
+--
+-- Indexes for table `oc_unit_class_description`
+--
+ALTER TABLE `oc_unit_class_description`
+ ADD UNIQUE KEY `unit_class_id` (`unit_class_id`,`language_id`);
+
+--
+-- Indexes for table `oc_url_alias`
+--
+ALTER TABLE `oc_url_alias`
+ ADD PRIMARY KEY (`url_alias_id`);
+
+--
+-- Indexes for table `oc_user`
+--
+ALTER TABLE `oc_user`
+ ADD PRIMARY KEY (`user_id`);
+
+--
+-- Indexes for table `oc_user_group`
+--
+ALTER TABLE `oc_user_group`
+ ADD PRIMARY KEY (`user_group_id`);
+
+--
+-- Indexes for table `oc_voucher`
+--
+ALTER TABLE `oc_voucher`
+ ADD PRIMARY KEY (`voucher_id`);
+
+--
+-- Indexes for table `oc_voucher_history`
+--
+ALTER TABLE `oc_voucher_history`
+ ADD PRIMARY KEY (`voucher_history_id`);
+
+--
+-- Indexes for table `oc_voucher_theme`
+--
+ALTER TABLE `oc_voucher_theme`
+ ADD PRIMARY KEY (`voucher_theme_id`);
+
+--
+-- Indexes for table `oc_voucher_theme_description`
+--
+ALTER TABLE `oc_voucher_theme_description`
+ ADD PRIMARY KEY (`voucher_theme_id`,`language_id`);
+
+--
+-- Indexes for table `oc_weight_class`
+--
+ALTER TABLE `oc_weight_class`
+ ADD PRIMARY KEY (`weight_class_id`);
+
+--
+-- Indexes for table `oc_weight_class_description`
+--
+ALTER TABLE `oc_weight_class_description`
+ ADD PRIMARY KEY (`weight_class_id`,`language_id`);
+
+--
+-- Indexes for table `oc_zone`
+--
+ALTER TABLE `oc_zone`
+ ADD PRIMARY KEY (`zone_id`);
+
+--
+-- Indexes for table `oc_zone_to_geo_zone`
+--
+ALTER TABLE `oc_zone_to_geo_zone`
+ ADD PRIMARY KEY (`zone_to_geo_zone_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `oc_address`
+--
+ALTER TABLE `oc_address`
+MODIFY `address_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=150;
+--
+-- AUTO_INCREMENT for table `oc_affiliate`
+--
+ALTER TABLE `oc_affiliate`
+MODIFY `affiliate_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `oc_affiliate_transaction`
+--
+ALTER TABLE `oc_affiliate_transaction`
+MODIFY `affiliate_transaction_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `oc_attribute`
+--
+ALTER TABLE `oc_attribute`
+MODIFY `attribute_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
+--
+-- AUTO_INCREMENT for table `oc_attribute_group`
+--
+ALTER TABLE `oc_attribute_group`
+MODIFY `attribute_group_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+--
+-- AUTO_INCREMENT for table `oc_banner`
+--
+ALTER TABLE `oc_banner`
+MODIFY `banner_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
+--
+-- AUTO_INCREMENT for table `oc_banner_image`
+--
+ALTER TABLE `oc_banner_image`
+MODIFY `banner_image_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=78;
+--
+-- AUTO_INCREMENT for table `oc_category`
+--
+ALTER TABLE `oc_category`
+MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=59;
+--
+-- AUTO_INCREMENT for table `oc_country`
+--
+ALTER TABLE `oc_country`
+MODIFY `country_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=252;
+--
+-- AUTO_INCREMENT for table `oc_coupon`
+--
+ALTER TABLE `oc_coupon`
+MODIFY `coupon_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+--
+-- AUTO_INCREMENT for table `oc_coupon_history`
+--
+ALTER TABLE `oc_coupon_history`
+MODIFY `coupon_history_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `oc_coupon_product`
+--
+ALTER TABLE `oc_coupon_product`
+MODIFY `coupon_product_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `oc_currency`
+--
+ALTER TABLE `oc_currency`
+MODIFY `currency_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `oc_customer`
+--
+ALTER TABLE `oc_customer`
+MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=43;
+--
+-- AUTO_INCREMENT for table `oc_customer_appointment`
+--
+ALTER TABLE `oc_customer_appointment`
+MODIFY `customer_appointment_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `oc_customer_ban_ip`
+--
+ALTER TABLE `oc_customer_ban_ip`
+MODIFY `customer_ban_ip_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `oc_customer_event`
+--
+ALTER TABLE `oc_customer_event`
+MODIFY `customer_event_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=38;
+--
+-- AUTO_INCREMENT for table `oc_customer_group`
+--
+ALTER TABLE `oc_customer_group`
+MODIFY `customer_group_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT for table `oc_customer_history`
+--
+ALTER TABLE `oc_customer_history`
+MODIFY `customer_history_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=198;
+--
+-- AUTO_INCREMENT for table `oc_customer_image`
+--
+ALTER TABLE `oc_customer_image`
+MODIFY `customer_image_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=170;
+--
+-- AUTO_INCREMENT for table `oc_customer_ip`
+--
+ALTER TABLE `oc_customer_ip`
+MODIFY `customer_ip_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=15;
+--
+-- AUTO_INCREMENT for table `oc_customer_lending`
+--
+ALTER TABLE `oc_customer_lending`
+MODIFY `customer_lending_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `oc_customer_reward`
+--
+ALTER TABLE `oc_customer_reward`
+MODIFY `customer_reward_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `oc_customer_transaction`
+--
+ALTER TABLE `oc_customer_transaction`
+MODIFY `customer_transaction_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=208;
+--
+-- AUTO_INCREMENT for table `oc_customer_treatment_usage`
+--
+ALTER TABLE `oc_customer_treatment_usage`
+MODIFY `customer_treatment_usage_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=47;
+--
+-- AUTO_INCREMENT for table `oc_custom_field`
+--
+ALTER TABLE `oc_custom_field`
+MODIFY `custom_field_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `oc_custom_field_value`
+--
+ALTER TABLE `oc_custom_field_value`
+MODIFY `custom_field_value_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `oc_download`
+--
+ALTER TABLE `oc_download`
+MODIFY `download_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `oc_expense`
+--
+ALTER TABLE `oc_expense`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=18;
+--
+-- AUTO_INCREMENT for table `oc_extension`
+--
+ALTER TABLE `oc_extension`
+MODIFY `extension_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=430;
+--
+-- AUTO_INCREMENT for table `oc_filter`
+--
+ALTER TABLE `oc_filter`
+MODIFY `filter_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `oc_filter_group`
+--
+ALTER TABLE `oc_filter_group`
+MODIFY `filter_group_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `oc_geo_zone`
+--
+ALTER TABLE `oc_geo_zone`
+MODIFY `geo_zone_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT for table `oc_information`
+--
+ALTER TABLE `oc_information`
+MODIFY `information_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+--
+-- AUTO_INCREMENT for table `oc_language`
+--
+ALTER TABLE `oc_language`
+MODIFY `language_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `oc_layout`
+--
+ALTER TABLE `oc_layout`
+MODIFY `layout_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
+--
+-- AUTO_INCREMENT for table `oc_layout_route`
+--
+ALTER TABLE `oc_layout_route`
+MODIFY `layout_route_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=33;
+--
+-- AUTO_INCREMENT for table `oc_length_class`
+--
+ALTER TABLE `oc_length_class`
+MODIFY `length_class_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `oc_length_class_description`
+--
+ALTER TABLE `oc_length_class_description`
+MODIFY `length_class_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `oc_manufacturer`
+--
+ALTER TABLE `oc_manufacturer`
+MODIFY `manufacturer_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
+--
+-- AUTO_INCREMENT for table `oc_option`
+--
+ALTER TABLE `oc_option`
+MODIFY `option_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
+--
+-- AUTO_INCREMENT for table `oc_option_value`
+--
+ALTER TABLE `oc_option_value`
+MODIFY `option_value_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=49;
+--
+-- AUTO_INCREMENT for table `oc_order`
+--
+ALTER TABLE `oc_order`
+MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=27;
+--
+-- AUTO_INCREMENT for table `oc_order_download`
+--
+ALTER TABLE `oc_order_download`
+MODIFY `order_download_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `oc_order_history`
+--
+ALTER TABLE `oc_order_history`
+MODIFY `order_history_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `oc_order_option`
+--
+ALTER TABLE `oc_order_option`
+MODIFY `order_option_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `oc_order_picture`
+--
+ALTER TABLE `oc_order_picture`
+MODIFY `order_picture_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `oc_order_product`
+--
+ALTER TABLE `oc_order_product`
+MODIFY `order_product_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=53;
+--
+-- AUTO_INCREMENT for table `oc_order_recurring`
+--
+ALTER TABLE `oc_order_recurring`
+MODIFY `order_recurring_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `oc_order_recurring_transaction`
+--
+ALTER TABLE `oc_order_recurring_transaction`
+MODIFY `order_recurring_transaction_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `oc_order_status`
+--
+ALTER TABLE `oc_order_status`
+MODIFY `order_status_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=17;
+--
+-- AUTO_INCREMENT for table `oc_order_total`
+--
+ALTER TABLE `oc_order_total`
+MODIFY `order_total_id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=267;
+--
+-- AUTO_INCREMENT for table `oc_order_voucher`
+--
+ALTER TABLE `oc_order_voucher`
+MODIFY `order_voucher_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT for table `oc_product`
+--
+ALTER TABLE `oc_product`
+MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=116;
+--
+-- AUTO_INCREMENT for table `oc_product_discount`
+--
+ALTER TABLE `oc_product_discount`
+MODIFY `product_discount_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=489;
+--
+-- AUTO_INCREMENT for table `oc_product_image`
+--
+ALTER TABLE `oc_product_image`
+MODIFY `product_image_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2512;
+--
+-- AUTO_INCREMENT for table `oc_product_option`
+--
+ALTER TABLE `oc_product_option`
+MODIFY `product_option_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=227;
+--
+-- AUTO_INCREMENT for table `oc_product_option_value`
+--
+ALTER TABLE `oc_product_option_value`
+MODIFY `product_option_value_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=17;
+--
+-- AUTO_INCREMENT for table `oc_product_reward`
+--
+ALTER TABLE `oc_product_reward`
+MODIFY `product_reward_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=551;
+--
+-- AUTO_INCREMENT for table `oc_product_special`
+--
+ALTER TABLE `oc_product_special`
+MODIFY `product_special_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=451;
+--
+-- AUTO_INCREMENT for table `oc_product_type_class`
+--
+ALTER TABLE `oc_product_type_class`
+MODIFY `product_type_class_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `oc_profile`
+--
+ALTER TABLE `oc_profile`
+MODIFY `profile_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `oc_purchase`
+--
+ALTER TABLE `oc_purchase`
+MODIFY `purchase_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=117;
+--
+-- AUTO_INCREMENT for table `oc_purchase_product`
+--
+ALTER TABLE `oc_purchase_product`
+MODIFY `purchase_product_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=289;
+--
+-- AUTO_INCREMENT for table `oc_purchase_status`
+--
+ALTER TABLE `oc_purchase_status`
+MODIFY `purchase_status_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `oc_return`
+--
+ALTER TABLE `oc_return`
+MODIFY `return_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `oc_return_action`
+--
+ALTER TABLE `oc_return_action`
+MODIFY `return_action_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `oc_return_history`
+--
+ALTER TABLE `oc_return_history`
+MODIFY `return_history_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `oc_return_reason`
+--
+ALTER TABLE `oc_return_reason`
+MODIFY `return_reason_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT for table `oc_return_status`
+--
+ALTER TABLE `oc_return_status`
+MODIFY `return_status_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `oc_review`
+--
+ALTER TABLE `oc_review`
+MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `oc_setting`
+--
+ALTER TABLE `oc_setting`
+MODIFY `setting_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=975;
+--
+-- AUTO_INCREMENT for table `oc_stock_status`
+--
+ALTER TABLE `oc_stock_status`
+MODIFY `stock_status_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
+--
+-- AUTO_INCREMENT for table `oc_store`
+--
+ALTER TABLE `oc_store`
+MODIFY `store_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+--
+-- AUTO_INCREMENT for table `oc_tax_class`
+--
+ALTER TABLE `oc_tax_class`
+MODIFY `tax_class_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
+--
+-- AUTO_INCREMENT for table `oc_tax_rate`
+--
+ALTER TABLE `oc_tax_rate`
+MODIFY `tax_rate_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=88;
+--
+-- AUTO_INCREMENT for table `oc_tax_rule`
+--
+ALTER TABLE `oc_tax_rule`
+MODIFY `tax_rule_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=129;
+--
+-- AUTO_INCREMENT for table `oc_unit_class`
+--
+ALTER TABLE `oc_unit_class`
+MODIFY `unit_class_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
+--
+-- AUTO_INCREMENT for table `oc_url_alias`
+--
+ALTER TABLE `oc_url_alias`
+MODIFY `url_alias_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=794;
+--
+-- AUTO_INCREMENT for table `oc_user`
+--
+ALTER TABLE `oc_user`
+MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=29;
+--
+-- AUTO_INCREMENT for table `oc_user_group`
+--
+ALTER TABLE `oc_user_group`
+MODIFY `user_group_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=15;
+--
+-- AUTO_INCREMENT for table `oc_voucher`
+--
+ALTER TABLE `oc_voucher`
+MODIFY `voucher_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=18;
+--
+-- AUTO_INCREMENT for table `oc_voucher_history`
+--
+ALTER TABLE `oc_voucher_history`
+MODIFY `voucher_history_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `oc_voucher_theme`
+--
+ALTER TABLE `oc_voucher_theme`
+MODIFY `voucher_theme_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
+--
+-- AUTO_INCREMENT for table `oc_weight_class`
+--
+ALTER TABLE `oc_weight_class`
+MODIFY `weight_class_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+--
+-- AUTO_INCREMENT for table `oc_weight_class_description`
+--
+ALTER TABLE `oc_weight_class_description`
+MODIFY `weight_class_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+--
+-- AUTO_INCREMENT for table `oc_zone`
+--
+ALTER TABLE `oc_zone`
+MODIFY `zone_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4033;
+--
+-- AUTO_INCREMENT for table `oc_zone_to_geo_zone`
+--
+ALTER TABLE `oc_zone_to_geo_zone`
+MODIFY `zone_to_geo_zone_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=66;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

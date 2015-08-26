@@ -3,7 +3,7 @@
 	<br><br><br>
 	<div id="logo">
 		<a href="./">
-			<img src="view/image/admin_theme/base5builder_impulsepro/123.png">
+			<img src="view/image/admin_theme/base5builder_impulsepro/logo.png">
 		</a>
 	</div>
 	<br>

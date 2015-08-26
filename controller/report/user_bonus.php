@@ -175,7 +175,8 @@ class ControllerReportUserBonus extends Controller {
 				$customer = $this->model_sale_customer->getCustomer($result['customer_id']);
 				$product = $this->model_catalog_product->getProduct($result['product_id']);
 
-				$date_modified = explode(' ', $result['date_modified'])[0];
+				$dmod = explode(' ', $result['date_modified']);
+				$date_modified = $dmod[0];
 
 				$used_unit = $product['value'] * $result['subquantity'] . ' ' . $product['unit'];
 				// $this->load->test($used_unit);

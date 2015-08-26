@@ -594,6 +594,7 @@ class ControllerSaleCustomer extends Controller {
 			// $dobs = explode('-', $result['dob']);
 			// $dob = ((int)$dobs[0] - 1911) . '-' . $dobs[1] . '-' . $dobs[2];
 
+			$lvisit = explode(' ', $last_visit);
 			$this->data['customers'][] = array(
 				'customer_id'    => $result['customer_id'],
 				'fullname'           => $fullname,
@@ -607,7 +608,7 @@ class ControllerSaleCustomer extends Controller {
 				'date_added'     => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
 				'selected'       => isset($this->request->post['selected']) && in_array($result['customer_id'], $this->request->post['selected']),
 				'action'         => $action,
-				'last_visit' => explode(' ', $last_visit)[0],
+				'last_visit' => $lvisit[0],
 				'last_outsource' => $last_outsource,
 				'last_consultant' => $last_consultant,
 				'last_beauty' => $last_beauty,
