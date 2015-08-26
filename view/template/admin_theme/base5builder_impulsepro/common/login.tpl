@@ -3,7 +3,7 @@
 	<br><br><br>
 	<div id="logo">
 		<a href="./">
-			<img src="view/image/admin_theme/base5builder_impulsepro/logo.png">
+			<img src="view/image/admin_theme/base5builder_impulsepro/123.png">
 		</a>
 	</div>
 	<br>
@@ -36,7 +36,7 @@
                 <option value="<?php echo $store['store_id']; ?>"><?php echo $store['name']; ?></option>
                 <?php } ?>
               <?php } ?>
-              </select> 
+              </select>
               <br />
               <br />
 				<label for="username"><?php echo $entry_username; ?></label>

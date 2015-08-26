@@ -1,5 +1,5 @@
-<?php   
-class ControllerCommonHome extends Controller {   
+<?php
+class ControllerCommonHome extends Controller {
 	public function index() {
 		$this->language->load('common/home');
 
@@ -25,7 +25,7 @@ class ControllerCommonHome extends Controller {
 		$this->data['text_year'] = $this->language->get('text_year');
 		$this->data['text_no_results'] = $this->language->get('text_no_results');
 		$this->data['text_change_status_success'] = $this->language->get('text_change_status_success');
-		
+
 		$this->data['button_record_history'] = $this->language->get('button_record_history');
 
 		$this->data['column_user'] = $this->language->get('column_user');
@@ -51,11 +51,11 @@ class ControllerCommonHome extends Controller {
 		// Check image directory is writable
 		$file = DIR_IMAGE . 'test';
 
-		$handle = fopen($file, 'a+'); 
+		$handle = fopen($file, 'a+');
 
 		fwrite($handle, '');
 
-		fclose($handle); 		
+		fclose($handle);
 
 		if (!file_exists($file)) {
 			$this->data['error_image'] = sprintf($this->language->get('error_image'), DIR_IMAGE);
@@ -68,11 +68,11 @@ class ControllerCommonHome extends Controller {
 		// Check image cache directory is writable
 		$file = DIR_IMAGE . 'cache/test';
 
-		$handle = fopen($file, 'a+'); 
+		$handle = fopen($file, 'a+');
 
 		fwrite($handle, '');
 
-		fclose($handle); 		
+		fclose($handle);
 
 		if (!file_exists($file)) {
 			$this->data['error_image_cache'] = sprintf($this->language->get('error_image_cache'), DIR_IMAGE . 'cache/');
@@ -85,11 +85,11 @@ class ControllerCommonHome extends Controller {
 		// Check cache directory is writable
 		$file = DIR_CACHE . 'test';
 
-		$handle = fopen($file, 'a+'); 
+		$handle = fopen($file, 'a+');
 
 		fwrite($handle, '');
 
-		fclose($handle); 		
+		fclose($handle);
 
 		if (!file_exists($file)) {
 			$this->data['error_cache'] = sprintf($this->language->get('error_image_cache'), DIR_CACHE);
@@ -102,11 +102,11 @@ class ControllerCommonHome extends Controller {
 		// Check download directory is writable
 		// $file = DIR_DOWNLOAD . 'test';
 
-		// $handle = fopen($file, 'a+'); 
+		// $handle = fopen($file, 'a+');
 
 		// fwrite($handle, '');
 
-		// fclose($handle); 		
+		// fclose($handle);
 
 		// if (!file_exists($file)) {
 		// 	$this->data['error_download'] = sprintf($this->language->get('error_download'), DIR_DOWNLOAD);
@@ -116,15 +116,15 @@ class ControllerCommonHome extends Controller {
 		// 	unlink($file);
 		// }
 		$this->data['error_download'] = '';
-		
+
 		// Check logs directory is writable
 		$file = DIR_LOGS . 'test';
 
-		$handle = fopen($file, 'a+'); 
+		$handle = fopen($file, 'a+');
 
 		fwrite($handle, '');
 
-		fclose($handle); 		
+		fclose($handle);
 
 		if (!file_exists($file)) {
 			$this->data['error_logs'] = sprintf($this->language->get('error_logs'), DIR_LOGS);
@@ -176,7 +176,7 @@ class ControllerCommonHome extends Controller {
 		// $this->data['total_affiliate'] = $this->model_sale_affiliate->getTotalAffiliates();
 		// $this->data['total_affiliate_approval'] = $this->model_sale_affiliate->getTotalAffiliatesAwaitingApproval();
 
-		$this->data['orders'] = array(); 
+		$this->data['orders'] = array();
 
 		$data = array(
 			'sort'  => 'o.date_added',
@@ -187,9 +187,9 @@ class ControllerCommonHome extends Controller {
 
 		$this->data['user_group_id'] = 2; //$this->user->getUserGroupId();
 		$this->data['user_id'] = $this->user->getId();
-		
+
 		// $this->load->test($this->data['reminder_classes']);
-		
+
 		$results = $this->model_sale_order->getOrders($data);
 
 		foreach ($results as $result) {
@@ -213,7 +213,7 @@ class ControllerCommonHome extends Controller {
 		if ($this->config->get('config_currency_auto')) {
 			$this->load->model('localisation/currency');
 
-			$this->model_localisation_currency->updateCurrencies();
+			// $this->model_localisation_currency->updateCurrencies();
 		}
 
 		$this->template = 'common/home.tpl';
@@ -263,10 +263,10 @@ class ControllerCommonHome extends Controller {
 					}
 
 					$data['xaxis'][] = array($i, date('H', mktime($i, 0, 0, date('n'), date('j'), date('Y'))));
-				}					
+				}
 				break;
 			case 'week':
-				$date_start = strtotime('-' . date('w') . ' days'); 
+				$date_start = strtotime('-' . date('w') . ' days');
 
 				for ($i = 0; $i < 7; $i++) {
 					$date = date('Y-m-d', $date_start + ($i * 86400));
@@ -302,7 +302,7 @@ class ControllerCommonHome extends Controller {
 						$data['order']['data'][] = array($i, (int)$query->row['total']);
 					} else {
 						$data['order']['data'][] = array($i, 0);
-					}	
+					}
 
 					$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "customer WHERE DATE(date_added) = '" . $this->db->escape($date) . "' GROUP BY DAY(date_added)");
 
@@ -310,7 +310,7 @@ class ControllerCommonHome extends Controller {
 						$data['customer']['data'][] = array($i, (int)$query->row['total']);
 					} else {
 						$data['customer']['data'][] = array($i, 0);
-					}	
+					}
 
 					$data['xaxis'][] = array($i, date('j', strtotime($date)));
 				}
@@ -327,16 +327,16 @@ class ControllerCommonHome extends Controller {
 
 					$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "customer WHERE YEAR(date_added) = '" . date('Y') . "' AND MONTH(date_added) = '" . $i . "' GROUP BY MONTH(date_added)");
 
-					if ($query->num_rows) { 
+					if ($query->num_rows) {
 						$data['customer']['data'][] = array($i, (int)$query->row['total']);
 					} else {
 						$data['customer']['data'][] = array($i, 0);
 					}
 
 					$data['xaxis'][] = array($i, date('M', mktime(0, 0, 0, $i, 1, date('Y'))));
-				}			
-				break;	
-		} 
+				}
+				break;
+		}
 
 		$this->response->setOutput(json_encode($data));
 	}
@@ -360,7 +360,7 @@ class ControllerCommonHome extends Controller {
 			'common/login',
 			'common/forgotten',
 			'common/reset'
-		);	
+		);
 
 		if (!$this->user->isLogged() && !in_array($route, $ignore)) {
 			return $this->forward('common/login');
@@ -415,13 +415,13 @@ class ControllerCommonHome extends Controller {
 				'common/forgotten',
 				'common/reset',
 				'error/not_found',
-				'error/permission'		
-			);			
+				'error/permission'
+			);
 
 			if (!in_array($route, $ignore) && !$this->user->hasPermission('access', $route)) {
 				return $this->forward('error/permission');
 			}
 		}
-	}	
+	}
 }
 ?>
